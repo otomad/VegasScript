@@ -6,7 +6,7 @@ export /* @internal */ const tempoUsings = [
 	{ id: "project", name: t.score.tempo.project, icon: "document_vegas" },
 	{ id: "custom", name: t.custom, icon: "edit" },
 ] as const;
-export /* @internal */ const constraintNoteLengthTypes = [
+export /* @internal */ const constrainNoteLengthTypes = [
 	{ id: "none", icon: "prohibited" },
 	{ id: "max", icon: "less_or_equal" },
 	{ id: "fixed", icon: "equal" },
@@ -103,7 +103,7 @@ const MultipleSelectTrackItemsContainer = styled.div`
 
 export default function Score() {
 	const {
-		format, encoding, constraintNoteLengthType, constraintNoteLengthValue, trimStart, trimEnd, tempoUsing, customTempo,
+		format, encoding, constrainNoteLengthType, constrainNoteLengthValue, trimStart, trimEnd, tempoUsing, customTempo,
 		timeSignature: [timeSignature],
 		selectedTrack: [selectedTrack, setSelectedTrack], multipleSelectTrackItems: [selectTrackItems, _setSelectTrackItems],
 	} = selectConfig(c => c.score);
@@ -226,18 +226,18 @@ export default function Score() {
 			</ExpanderRadio>
 			<SettingsCard title={t.score.timeSignature} icon="health">{timeSignature}</SettingsCard>
 			<ExpanderRadio
-				title={t.score.constraint}
-				details={t.descriptions.score.constraint}
+				title={t.score.constrain}
+				details={t.descriptions.score.constrain}
 				icon="constraint"
-				items={constraintNoteLengthTypes}
-				value={constraintNoteLengthType}
+				items={constrainNoteLengthTypes}
+				value={constrainNoteLengthType}
 				view="tile"
 				idField="id"
-				nameField={t.score.constraint}
+				nameField={t.score.constrain}
 				iconField="icon"
 			>
 				<Expander.ChildWrapper>
-					<TimecodeBox timecode={constraintNoteLengthValue} />
+					<TimecodeBox timecode={constrainNoteLengthValue} />
 				</Expander.ChildWrapper>
 			</ExpanderRadio>
 

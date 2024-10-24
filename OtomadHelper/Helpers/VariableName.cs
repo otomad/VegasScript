@@ -6,9 +6,11 @@ namespace OtomadHelper.Helpers;
 /// </summary>
 public class VariableName {
 	private string[] words = null!;
+	public bool KeepCase { get; set; } = false;
 
-	public VariableName(string value) {
+	public VariableName(string value, bool keepCase = false) {
 		Value = value;
+		KeepCase = keepCase;
 	}
 
 	/// <summary>
@@ -21,9 +23,10 @@ public class VariableName {
 				value.Contains("_") ? value.Split('_') :
 				value.Contains('-') ? value.Split('-') :
 				value
-					.Replace(new Regex(@"(?!^)([A-Z])"), " $1")
 					.Replace(new Regex(@"(\d+)"), " $1 ")
-					.Replace(new Regex(@"\s+(?=\s)|^\s+|\s+$"), "")
+					.Replace(new Regex(@"([A-Z]+)"), " $1")
+					.Replace(new Regex(@"([A-Z][a-z])"), " $1")
+					.Replace(new Regex(@"^\s+|\s+$|\s+(?=\s)"), "")
 					.Split(' ');
 		}
 	}
@@ -31,61 +34,79 @@ public class VariableName {
 	/// <summary>
 	/// Convert to kebab-case.
 	/// </summary>
-	public string Kebab => string.Join("-", words).ToLowerInvariant();
+	public string Kebab => ToLowerIfNotKeepCase(words.Join("-"));
 
 	/// <summary>
 	/// Convert to snake_case.
 	/// </summary>
-	public string Snake => string.Join("_", words).ToLowerInvariant();
+	public string Snake => ToLowerIfNotKeepCase(words.Join("_"));
 
 	/// <summary>
 	/// Convert to CONSTANT_CASE.
 	/// </summary>
-	public string Const => string.Join("_", words).ToUpperInvariant();
+	public string Const => words.Join("_").ToUpperInvariant();
 
 	/// <summary>
 	/// Convert to PascalCase.
 	/// </summary>
-	public string Pascal => string.Join("", words.Select(Capitalize));
+	public string Pascal => words.Select(Capitalize).Join("");
 
 	/// <summary>
 	/// Convert to camelCase.
 	/// </summary>
-	public string Camel => string.Join("", words.Select((word, i) => i == 0 ? word.ToLowerInvariant() : Capitalize(word)));
+	public string Camel =>
+		words.Select((word, i) =>
+			i != 0 ? Capitalize(word) :
+			KeepCase ?
+				AreAllUpper(word) ? word : word.ToLowerInvariant() :
+				word.ToLowerInvariant()
+		).Join("");
 
 	/// <summary>
 	/// Convert to lowercase without any separators.
 	/// </summary>
-	public string Lower => string.Join("", words).ToLowerInvariant();
+	public string Lower => words.Join("").ToLowerInvariant();
 
 	/// <summary>
 	/// Convert to UPPERCASE without any separators.
 	/// </summary>
-	public string Upper => string.Join("", words).ToUpperInvariant();
+	public string Upper => words.Join("").ToUpperInvariant();
 
 	/// <summary>
 	/// Convert to word case, separated by spaces, all in lowercase.
 	/// </summary>
-	public string Words => string.Join(" ", words).ToLowerInvariant();
+	public string Words => ToLowerIfNotKeepCase(words.Join(" "));
 
 	/// <summary>
 	/// Convert to Sentence case, separated by spaces, with only the first letter of the sentence capitalized.
 	/// </summary>
-	public string Sentence => string.Join(" ", words.Select((word, i) => i != 0 ? word.ToLowerInvariant() : Capitalize(word)));
+	public string Sentence => words.Select((word, i) => i == 0 ? Capitalize(word) : ToLowerIfNotKeepCase(word)).Join(" ");
 
 	/// <summary>
 	/// Convert to Title Case, separated by spaces, with all first letters of words capitalized.
 	/// </summary>
-	public string Title => string.Join(" ", words.Select(Capitalize));
+	public string Title => words.Select(Capitalize).Join(" ");
 
 	/// <summary>
 	/// Convert a word to uppercase the first letter and lowercase other letters.
 	/// </summary>
 	/// <param name="str">Word.</param>
+	/// <param name="keepCase">Do not modify other letters case?</param>
 	/// <returns>Capitalize the first letter and lowercase other letters.</returns>
-	private static string Capitalize(string str) =>
+	private string Capitalize(string str) =>
 		string.IsNullOrEmpty(str) ? "" :
-			char.ToUpperInvariant(str[0]) + str.Substring(1).ToLowerInvariant();
+			char.ToUpperInvariant(str[0]) + ToLowerIfNotKeepCase(str.Substring(1));
+
+	/// <summary>
+	/// Check if all letters in the string are uppercase (ignoring numbers, punctuation, etc.).
+	/// </summary>
+	/// <param name="str">String.</param>
+	/// <returns>Are all letters uppercase?</returns>
+	private static bool AreAllUpper(string str) =>
+		str.ToUpperInvariant() == str;
+
+	private string ToLowerIfNotKeepCase(string str) =>
+		KeepCase ? str : str.ToLowerInvariant();
 
 	public override string ToString() => string.Join(" ", words);
 

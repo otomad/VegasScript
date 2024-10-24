@@ -80,22 +80,11 @@
 		<Page Remove="%2a%2a/%2a.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Update="Properties\Settings.Designer.cs">
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Settings.settings</DependentUpon>
-		</Compile>
-		<Compile Update="Module\Host.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-			<SubType>Designer</SubType>
-		</EmbeddedResource>
 		<Resource Include="Resources\*" />
 		<None Include="Test\app.manifest" />
 		<EmbeddedResource Include="Assets\**" />
+		<Compile Include="Assets\**\*.cs" />
+		<Content Include="Assets\ToolbarIcons\**" />
 		<Content Include="Icons\**" />
 		<EmbeddedResource Include="Web\dist\**" />
 		<EmbeddedResource Include="Strings\**" />
@@ -120,6 +109,40 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Assets\ToolbarIcons.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ToolbarIcons.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Module\Host.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Assets\ToolbarIcons.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ToolbarIcons.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Assets\ToolbarIcons.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>ToolbarIcons.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Web\**" />

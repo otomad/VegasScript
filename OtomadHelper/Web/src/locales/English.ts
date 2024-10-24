@@ -167,8 +167,8 @@ export default {
 				project: "Project tempo",
 			},
 			timeSignature: "Time signature",
-			constraint: {
-				_: "Constraint note length",
+			constrain: {
+				_: "Constrain note length",
 				none: "Unconstrained",
 				max: "Max length",
 				fixed: "Fixed length",
@@ -359,7 +359,7 @@ export default {
 			keyMappingZones: "Key mapping zones",
 		},
 		ytp: {
-			constraint: "Constraint length",
+			constrain: "Constrain length",
 			clips: "Clips",
 			effects: "YTP Effects",
 		},
@@ -557,7 +557,7 @@ export default {
 			score: {
 				trim: "Intercepts the generation time range of the score",
 				tempo: "Specifies the beats per minute",
-				constraint: "Controls the output length of notes from the score",
+				constrain: "Controls the output length of notes from the score",
 				encoding: "Specifies the text encoding to use when reading the file",
 				ytpEnabled: "YTP feature is enabled, it does not depend on the score, so all settings here have no effect.",
 			},
@@ -664,7 +664,7 @@ export default {
 			},
 			ytp: {
 				_: "YouTube Poop (YTP) is used to create nonsensical videos using various effects known in the YTP genre. YTP supports multisource.\nYTP is a Neo-Dada art form that consists of absurd remixes that imitate and mock the lowest technical and aesthetic standards of remix culture in order to comment on remix culture itself. It consists of video remixes edited from a variety of video clips to confuse, stun, or amuse the viewer. The sources can be mashed all together into a nonsensical crossover story, or simply repeated footage of the characters gesticulating oddly.",
-				constraint: "Controls the length of the clips to be generated",
+				constrain: "Controls the length of the clips to be generated",
 				clips: "Sets the number of the clips to generate",
 				effects: "Specifies the effects for YTP",
 			},

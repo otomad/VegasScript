@@ -1,8 +1,12 @@
+using OtomadHelper.Assets;
+
 using ScriptPortal.Vegas;
 
 namespace OtomadHelper.Module;
 
-public class Keybindings {
+public class Keybindings(Module module) {
+	private Module Module => module;
+
 	internal CustomCommand Parent { get; } = new(Module.COMMAND_CATEGORY, $"{Module.DisplayName}.Commands");
 	internal readonly Dictionary<VegasKeybindingEventType, CustomCommand> Commands = [];
 
@@ -17,10 +21,13 @@ public class Keybindings {
 
 	private void AddKeybinding(VegasKeybindingEventType type) {
 		string typeName = type.ToString();
+		string? iconName = GetIconName(type);
 		CustomCommand command = new(Module.COMMAND_CATEGORY, $"{Module.DisplayName}.{typeName}") {
 			//CanAddToMenu = false, // TODO: Uncomment it after debug.
 			Enabled = false,
 		};
+		if (iconName is not null)
+			command.IconFile = Module.SaveAndGetIconPath(iconName);
 		SetCommandName(command, () => t.Keybindings.Commands[typeName]);
 		command.Invoked += (sender, e) => TriggerKeybinding?.Invoke(command, new(type));
 		Parent.AddChild(command);
@@ -40,6 +47,14 @@ public class Keybindings {
 	public bool YtpEnabled {
 		set => SetCommandName(Commands[VegasKeybindingEventType.EnableYtp], () => t.Keybindings.Commands[value ? "DisableYtp" : "EnableYtp"], false);
 	}
+
+	private static string? GetIconName(VegasKeybindingEventType type) => type switch {
+		VegasKeybindingEventType.UseTrackEventAsSource => nameof(ToolbarIcons.TrackEvent),
+		VegasKeybindingEventType.UseProjectMediaAsSource => nameof(ToolbarIcons.Media),
+		VegasKeybindingEventType.EnableYtp => nameof(ToolbarIcons.YTP),
+		VegasKeybindingEventType.StartGenerating => nameof(ToolbarIcons.CheckmarkCircle),
+		_ => null,
+	};
 }
 
 public class VegasKeybindingEventArgs(VegasKeybindingEventType type) : EventArgs {

@@ -6,7 +6,7 @@ const formatInterpolation: FormatFunction = function format(value, format, lng) 
 		value = value.toString();
 	switch (typeof value) {
 		case "string":
-			if (value.match(/[a-z]/)) // If the letters are all capital, treated them as abbreviations without case conversion.
+			if (!VariableName.areAllUpper(value)) // If the letters are all capital, treated them as abbreviations without case conversion.
 				switch (format) {
 					case "uppercase": return value.toUpperCase();
 					case "lowercase": return value.toLowerCase();

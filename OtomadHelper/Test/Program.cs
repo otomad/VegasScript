@@ -26,7 +26,7 @@ internal static class Program {
 #endif
 #if TEST3
 		try {
-			WPF.Controls.ContentDialog.errorFooter = "VEGAS Pro: v21.0; Otomad Helper: v8.0.0";
+			WPF.Controls.ContentDialog.errorFooter = "VEGAS Pro: v21.0;\nOtomad Helper: v8.0.0";
 			TestError();
 		} catch (Exception e) {
 			WPF.Controls.ContentDialog.ShowError(e);

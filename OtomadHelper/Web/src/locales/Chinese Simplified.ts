@@ -164,7 +164,7 @@ export default {
 				project: "项目速度",
 			},
 			timeSignature: "节拍",
-			constraint: {
+			constrain: {
 				_: "限制音符长度",
 				none: "不限制",
 				max: "最大长度",
@@ -355,7 +355,7 @@ export default {
 			keyMappingZones: "音调映射区域",
 		},
 		ytp: {
-			constraint: "限制长度",
+			constrain: "限制长度",
 			clips: "剪辑数目",
 			effects: "YTP效果",
 		},
@@ -545,7 +545,7 @@ export default {
 			score: {
 				trim: "截取乐曲生成的时间范围",
 				tempo: "指定每分钟多少拍",
-				constraint: "控制乐曲中的音符输出长度",
+				constrain: "控制乐曲中的音符输出长度",
 				encoding: "指定在读取文件时要使用的文本编码",
 				ytpEnabled: "YTP功能已启用，但它不依赖于乐曲，因此该处的所有设置均不起任何作用。",
 			},
@@ -650,7 +650,7 @@ export default {
 			},
 			ytp: {
 				_: "YouTube Poop(YTP)是使用其类型中已知的各种效果来创作荒谬的视频。YTP支持多素材。\nYTP是一种新达达主义的艺术形式，是一种通过模仿和嘲弄低级的视频技术和审美观念以实现对视频文化本身的评价的荒诞派艺术。它由大量视频剪辑而成的视频混剪组成，目的是迷惑、震惊或娱乐观众。这些素材可以全部混合在一起形成一则无厘头的交叉故事，也可以只是重复播放人物古怪的手势的片段。",
-				constraint: "控制要生成的剪辑的长度",
+				constrain: "控制要生成的剪辑的长度",
 				clips: "设定要生成的剪辑的数目",
 				effects: "指定YTP的效果",
 			},

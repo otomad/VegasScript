@@ -91,7 +91,7 @@ export default {
 		score: {
 			midi: "MIDI",
 			tempo: {},
-			constraint: {},
+			constrain: {},
 			pan: {},
 			musicalTrack: "Các track",
 		},

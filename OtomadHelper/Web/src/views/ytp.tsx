@@ -16,7 +16,7 @@ export default function Ytp() {
 
 			<EmptyMessage.Typical icon="ytp" title="ytp" enabled={enabled}>
 				<Subheader>{t.subheaders.parameters}</Subheader>
-				<Expander title={t.ytp.constraint} details={t.descriptions.ytp.constraint} icon="constraint">
+				<Expander title={t.ytp.constrain} details={t.descriptions.ytp.constrain} icon="constraint">
 					<ExpanderChildTrim.Value start={constraintStart} end={constraintEnd} min={1} decimalPlaces={0} spinnerStep={100} />
 				</Expander>
 				<SettingsCard title={t.ytp.clips} details={t.descriptions.ytp.clips} icon="number">

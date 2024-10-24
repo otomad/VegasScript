@@ -6,7 +6,7 @@
 export default class VariableName {
 	#words: string[] = [];
 
-	constructor(str: string) {
+	constructor(str: string, public keepCase: boolean = false) {
 		this.value = str;
 	}
 
@@ -16,28 +16,29 @@ export default class VariableName {
 	 */
 	set value(str: string) {
 		str = str.trim();
-		if (str.includes("_"))
-			this.#words = str.split("_");
-		else if (str.includes("-"))
-			this.#words = str.split("-");
-		else {
-			const splitted = str.replaceAll(/(?!^)([A-Z])/g, " $1").replaceAll(/(\d+)/g, " $1 ").replaceAll(/\s+(?=\s)|^\s+|\s+$/g, "");
-			this.#words = splitted.split(" ");
-		}
+		this.#words =
+			str.includes("_") ? str.split("_") :
+			str.includes("-") ? str.split("-") :
+			str
+				.replaceAll(/(\d+)/g, " $1 ")
+				.replaceAll(/([A-Z]+)/g, " $1")
+				.replaceAll(/([A-Z][a-z])/g, " $1")
+				.replaceAll(/^\s+|\s+$|\s+(?=\s)/g, "")
+				.split(" ");
 	}
 
 	/**
 	 * Convert to kebab-case.
 	 */
 	get kebab() {
-		return this.#words.join("-").toLowerCase();
+		return this.#toLowerIfNotKeepCase(this.#words.join("-"));
 	}
 
 	/**
 	 * Convert to snake_case.
 	 */
 	get snake() {
-		return this.#words.join("_").toLowerCase();
+		return this.#toLowerIfNotKeepCase(this.#words.join("_"));
 	}
 
 	/**
@@ -51,14 +52,19 @@ export default class VariableName {
 	 * Convert to PascalCase.
 	 */
 	get pascal() {
-		return this.#words.map(word => capitalize(word)).join("");
+		return this.#words.map(word => this.#capitalize(word)).join("");
 	}
 
 	/**
 	 * Convert to camelCase.
 	 */
 	get camel() {
-		return this.#words.map((word, i) => i !== 0 ? capitalize(word) : word.toLowerCase()).join("");
+		return this.#words.map((word, i) =>
+			i !== 0 ? this.#capitalize(word) :
+			this.keepCase ?
+				VariableName.areAllUpper(word) ? word : word.toLowerCase() :
+				word.toLowerCase(),
+		).join("");
 	}
 
 	/**
@@ -79,21 +85,21 @@ export default class VariableName {
 	 * Convert to word case, separated by spaces, all in lowercase.
 	 */
 	get words() {
-		return this.#words.join(" ").toLowerCase();
+		return this.#toLowerIfNotKeepCase(this.#words.join(" "));
 	}
 
 	/**
 	 * Convert to Sentence case, separated by spaces, with only the first letter of the sentence capitalized.
 	 */
 	get sentence() {
-		return this.#words.map((word, i) => i === 0 ? capitalize(word) : word.toLowerCase()).join(" ");
+		return this.#words.map((word, i) => i === 0 ? this.#capitalize(word) : this.#toLowerIfNotKeepCase(word)).join(" ");
 	}
 
 	/**
 	 * Convert to Title Case, separated by spaces, with all first letters of words capitalized.
 	 */
 	get title() {
-		return this.#words.map(word => capitalize(word)).join(" ");
+		return this.#words.map(word => this.#capitalize(word)).join(" ");
 	}
 
 	/**
@@ -111,13 +117,34 @@ export default class VariableName {
 		const prefix = ["webkit", "moz", "ms", "o"].includes(this.#words[0]) ? "-" : "";
 		return prefix + this.kebab;
 	}
-}
 
-/**
- * Convert a word to uppercase the first letter and lowercase other letters.
- * @param str - Word.
- * @returns Capitalize the first letter and lowercase other letters.
- */
-function capitalize(str: string) {
-	return str[0].toUpperCase() + str.slice(1).toLowerCase();
+	/**
+	 * Convert a word to uppercase the first letter and lowercase other letters.
+	 * @param str - Word.
+	 * @param keepCase - Do not modify other letters case?
+	 * @returns Capitalize the first letter and lowercase other letters.
+	 */
+	#capitalize(str: string) {
+		return str[0].toUpperCase() + this.#toLowerIfNotKeepCase(str.slice(1));
+	}
+
+	/**
+	 * Check if all letters in the string are uppercase (ignoring numbers, punctuation, etc.).
+	 * @param str - String.
+	 * @returns Are all letters uppercase?
+	 */
+	static areAllUpper(str: string) {
+		return str.toUpperCase() === str;
+	}
+
+	/**
+	 * Converts all the alphabetic characters in a string to lowercase if not keep the case.
+	 * @param str - String.
+	 */
+	#toLowerIfNotKeepCase(str: string) {
+		return this.keepCase ? str : str.toLowerCase();
+	}
+
+	toString() { return this.#words.join(" "); }
+	toJSON() { return this.camel; }
 }

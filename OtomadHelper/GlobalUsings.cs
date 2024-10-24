@@ -35,6 +35,7 @@ global using static OtomadHelper.Helpers.Extensions;
 global using static OtomadHelper.Helpers.I18n;
 global using static OtomadHelper.Helpers.Misc;
 global using static OtomadHelper.Interop.PInvoke;
+global using static OtomadHelper.Services.ErrorHandleService;
 global using static OtomadHelper.Services.MessageSender;
 
 global using DialogResult = System.Windows.Forms.DialogResult;

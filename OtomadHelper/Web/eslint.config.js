@@ -162,6 +162,7 @@ export default [
 				"varsIgnorePattern": "^_",
 				"caughtErrorsIgnorePattern": "^_",
 			}],
+			"no-unused-private-class-members": "warn",
 			"@typescript-eslint/no-inferrable-types": ["error", { ignoreParameters: true, ignoreProperties: true }],
 			"@typescript-eslint/no-non-null-assertion": "off",
 			"@typescript-eslint/triple-slash-reference": "off",

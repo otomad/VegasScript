@@ -6,7 +6,6 @@ namespace OtomadHelper.Module;
 [DesignerCategory("Code")]
 public class Dockable : DockableControl {
 	private Host? host;
-	internal Vegas Vegas => myVegas;
 	internal Module Module { get; }
 
 	public Dockable(Module module) : base(Module.InternalName) {
@@ -28,8 +27,8 @@ public class Dockable : DockableControl {
 		Reload();
 		Shown = true;
 
-		//Vegas.TrackEventStateChanged += HandleTrackEventChanged;
-		//Vegas.TrackEventCountChanged += HandleTrackEventChanged;
+		//vegas.TrackEventStateChanged += HandleTrackEventChanged;
+		//vegas.TrackEventCountChanged += HandleTrackEventChanged;
 
 		base.OnLoad(e);
 	}
