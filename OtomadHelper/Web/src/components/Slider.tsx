@@ -173,7 +173,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 		const thumbSize = thumb.offsetWidth;
 		const track = thumb.parentElement!.querySelector(".track")!;
 		const { left, width } = track.getBoundingClientRect();
-		const x = triggerByTrack ? thumbSize / 2 : e.clientX - left - thumb.offsetLeft;
+		const x = triggerByTrack ? thumbSize / 2 : e.clientX - left - thumb.offsetLeft * configStore.settings.uiScale1;
 		const pointerMove = lodash.debounce((e: PointerEvent) => {
 			const position = clamp(e.clientX - left - x, 0, width - thumbSize);
 			let value = clampValue(map(position, 0, width - thumbSize, min, max));

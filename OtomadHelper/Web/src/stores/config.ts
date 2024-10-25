@@ -223,6 +223,7 @@ export const configStore = createStore({
 		uiScale: 100,
 		get uiScale1() { return this.uiScale / 100; },
 		hideUseTips: false,
+		autoSwitchSourceFrom: true,
 	},
 	// If named toJSON, it will conflict to the JSON built-in parameter, causing a recursion error.
 	toJson() { return JSON.stringify(this); },

@@ -516,6 +516,10 @@ export default {
 					blur: "Blur intensity",
 				},
 			},
+			preference: {
+				_: "Preference",
+				autoSwitchSourceFrom: "Auto switch source from",
+			},
 			config: {
 				hideUsageTips: "Hide usage tips",
 			},
@@ -723,6 +727,9 @@ export default {
 			settings: {
 				about: "Otomad Helper is a YTPMV/YTP extension for VEGAS Pro that enables VEGAS to accept scores such as MIDI sequence files as input and automatically generate YTPMV tracks.",
 				translation: "If you would like to participate in the translation, you are welcome to join as well.",
+				preference: {
+					autoSwitchSourceFrom: "Automatically change the source from based on the last selected content",
+				},
 			},
 		},
 		empty: {
