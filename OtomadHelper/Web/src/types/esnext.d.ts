@@ -69,6 +69,11 @@ declare global {
 		 */
 		startViewTransition(updateCallback: () => Promise<void | unknown> | void | unknown): ViewTransition;
 	}
+
+	interface CSSStyleDeclaration {
+		viewTransitionName: string;
+		interpolateSize: string;
+	}
 }
 
 interface ViewTransition {
@@ -76,10 +81,6 @@ interface ViewTransition {
 	ready: Promise<void>;
 	updateCallbackDone: Promise<void>;
 	skipTransition(): void;
-}
-
-interface CSSStyleDeclaration {
-	viewTransitionName: string;
 }
 // #endregion
 

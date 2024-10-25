@@ -116,6 +116,11 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 			${styles.effects.focus(true)};
 		}
 	}
+
+	> .base > .text {
+		overflow: hidden;
+		transition: ${fallbackTransitions}, height ${eases.easeInOutMaterialEmphasized} 500ms;
+	}
 `);
 
 export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, className, tabIndex, ...htmlAttrs }: FCP<{
@@ -165,11 +170,13 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 					</>
 				)}
 				{typeof icon === "object" ? icon : <Icon name={icon} />}
-				<div className="text">
-					<p className="title"><Preserves>{title}</Preserves></p>
-					<p className="details"><Preserves>{details}</Preserves></p>
-					<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
-				</div>
+				<Transitions.DynamicAutoSize specified="height">
+					<div className="text">
+						<p className="title"><Preserves>{title}</Preserves></p>
+						<p className="details"><Preserves>{details}</Preserves></p>
+						<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
+					</div>
+				</Transitions.DynamicAutoSize>
 				<div className="trailing">
 					{React.Children.map(children, child => !React.isValidElement(child) ? child : React.cloneElement(child, {
 						disabled: disabled ?? false,

@@ -58,6 +58,7 @@ export default {
 				ordinal: "Below the {{count, ordinal}} track",
 				belowAdjustmentTracks: "If one or more adjustment tracks are below this track, select the next track that none of them",
 				newTrack: "New track",
+				quicklySelect: "Quickly select the current track",
 			},
 			trackGroup: {
 				_: "Grouping tracks",

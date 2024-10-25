@@ -1,6 +1,6 @@
 export default function QuicklySelectCurrentTrack() {
 	return (
-		<Tooltip title="Quickly select the current track" placement="y">
+		<Tooltip title={t.source.preferredTrack.quicklySelect} placement="y">
 			<Button icon="flash" minWidthUnbounded />
 		</Tooltip>
 	);

@@ -38,6 +38,10 @@ const PrelistenActions = styled(Disabled).attrs({
 	display: flex;
 	align-items: stretch;
 
+	* {
+		transition-behavior: allow-discrete;
+	}
+
 	:has(~ .stop.shown) {
 		opacity: 0;
 		visibility: hidden;
@@ -51,7 +55,6 @@ const PrelistenActions = styled(Disabled).attrs({
 		&:not(.shown) {
 			display: none;
 			opacity: 0;
-			transition-behavior: allow-discrete;
 		}
 	}
 `;

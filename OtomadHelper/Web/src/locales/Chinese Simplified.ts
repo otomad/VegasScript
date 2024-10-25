@@ -57,6 +57,7 @@ export default {
 				ordinal: "在{{count, ordinal}}条轨道下方",
 				belowAdjustmentTracks: "如果该轨道下方有一条或多条调整轨道，则选择下一条不是调整轨道的轨道",
 				newTrack: "新增轨道",
+				quicklySelect: "快速选择当前轨道",
 			},
 			trackGroup: {
 				_: "轨道组",

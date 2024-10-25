@@ -57,6 +57,7 @@ export default {
 				ordinal: "{{count, ordinal}}トラックの下",
 				belowAdjustmentTracks: "1つ以上の調整トラックがこのトラックの下にある場合は、次のトラックを選択してください。",
 				newTrack: "新しいトラック",
+				quicklySelect: "現在のトラックをすばやく選択",
 			},
 			trackGroup: {
 				_: "トラックのグループ化",

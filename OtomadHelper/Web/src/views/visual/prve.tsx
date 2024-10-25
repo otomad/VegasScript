@@ -1,7 +1,7 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
 const controlModes = ["general", "samePitch", "differentSyllables"] as const;
-const getControlModeIcon = (mode: string) => `prve_control_${new VariableName(mode).snake}`;
+const getControlModeIcon = (mode: string) => `prve_control_${new VariableName(mode).snake}` as DeclaredIcons;
 const prveEffect = (fx: string, initial: number = 0) => ({ fx, initial });
 const DEFAULT_EFFECT = "normal";
 const STEP_CHANGE_HUE = "stepChangeHue";
