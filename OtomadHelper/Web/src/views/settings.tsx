@@ -126,7 +126,7 @@ export default function Settings() {
 			</Expander>
 
 			<Subheader>{t.settings.preference}</Subheader>
-			<SettingsCardToggleSwitch title={t.settings.preference.autoSwitchSourceFrom} icon="arrow_swap" on={autoSwitchSourceFrom} />
+			<SettingsCardToggleSwitch title={t.settings.preference.autoSwitchSourceFrom} details={t.descriptions.settings.preference.autoSwitchSourceFrom} icon="arrow_swap" on={autoSwitchSourceFrom} />
 
 			<Subheader>{t.subheaders.config}</Subheader>
 			<SettingsCardToggleSwitch title={t.settings.config.hideUsageTips} icon="chat_help_off" on={hideUseTips} />

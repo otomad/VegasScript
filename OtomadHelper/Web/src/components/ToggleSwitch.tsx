@@ -16,6 +16,7 @@ const StyledToggleSwitchLabel = styled.button`
 	gap: ${TOGGLE_SWITCH_LABEL_GAP}px;
 	justify-content: space-between;
 	align-items: center;
+	overflow-x: clip;
 	text-align: start;
 
 	:where(&) {
@@ -57,7 +58,6 @@ const StyledToggleSwitchLabel = styled.button`
 		${styles.mixins.oval()};
 		width: 40px;
 		height: 20px;
-		overflow: clip;
 		border: 1px solid ${c("stroke-color-control-strong-stroke-default")};
 	}
 
@@ -65,6 +65,7 @@ const StyledToggleSwitchLabel = styled.button`
 		${styles.mixins.square("100%")};
 		position: relative;
 		background-color: ${c("fill-color-control-alt-secondary")};
+		border-radius: inherit;
 	}
 
 	.thumb {
@@ -75,6 +76,14 @@ const StyledToggleSwitchLabel = styled.button`
 		background-color: ${c("fill-color-text-secondary")};
 		scale: calc(12 / ${THUMB_SIZE});
 		touch-action: pinch-zoom;
+
+		&::after { // Enlarge the drag area.
+			${styles.mixins.square("100%")};
+			content: "";
+			display: block;
+			background-color: transparent;
+			scale: 10 3;
+		}
 	}
 
 	${isHoverPseudo} {
@@ -249,8 +258,9 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			prevE = e;
 		};
 		const pointerUp = (e: PointerEvent) => {
-			document.removeEventListener("pointermove", pointerMove);
-			document.removeEventListener("pointerup", pointerUp);
+			thumb.removeEventListener("pointermove", pointerMove);
+			thumb.removeEventListener("pointerup", pointerUp);
+			thumb.releasePointerCapture(e.pointerId);
 			if (!(e instanceof MouseEvent) && prevE) e = prevE;
 			let isOn = e.pageX - x > left + max / 2;
 			if (isRtl()) isOn = !isOn;
@@ -262,8 +272,9 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 				setIsPressing?.(false);
 			});
 		};
-		document.addEventListener("pointermove", pointerMove);
-		document.addEventListener("pointerup", pointerUp);
+		thumb.setPointerCapture(e.pointerId);
+		thumb.addEventListener("pointermove", pointerMove);
+		thumb.addEventListener("pointerup", pointerUp);
 	}, []);
 
 	return (

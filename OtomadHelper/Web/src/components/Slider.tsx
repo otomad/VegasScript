@@ -182,15 +182,17 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 			onChanging?.(value);
 		});
 		const pointerUp = () => {
-			document.removeEventListener("pointermove", pointerMove);
-			document.removeEventListener("pointerup", pointerUp);
+			thumb.removeEventListener("pointermove", pointerMove);
+			thumb.removeEventListener("pointerup", pointerUp);
+			thumb.releasePointerCapture(e.pointerId);
 			onChanged?.(value!);
 			nextAnimationTick().then(() => {
 				setPressed(false);
 			});
 		};
-		document.addEventListener("pointermove", pointerMove);
-		document.addEventListener("pointerup", pointerUp);
+		thumb.setPointerCapture(e.pointerId);
+		thumb.addEventListener("pointermove", pointerMove);
+		thumb.addEventListener("pointerup", pointerUp);
 	}
 
 	const onTrackDown = useCallback<PointerEventHandler>(e => {
