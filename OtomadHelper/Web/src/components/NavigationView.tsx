@@ -260,6 +260,10 @@ const StyledNavigationView = styled.div<{
 				translate: 0 ${TITLE_LINE_HEIGHT}px;
 			}
 
+			&.exit:has(+ .title.exit) {
+				transition-duration: 1s;
+			}
+
 			> div {
 				display: contents;
 
@@ -661,7 +665,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 				<div className="title-wrapper">
 					<div>
 						<div>
-							<SwitchTransition mode="default">
+							<TransitionGroup>
 								<CssTransition key={pageTitleKey.join()}>
 									<h1 className="title">
 										<TransitionGroup>
@@ -684,7 +688,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 										</TransitionGroup>
 									</h1>
 								</CssTransition>
-							</SwitchTransition>
+							</TransitionGroup>
 						</div>
 						<section className="command-bar">
 							{commandBar}

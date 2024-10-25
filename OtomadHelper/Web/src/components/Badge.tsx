@@ -70,8 +70,8 @@ export default forwardRef(function Badge({ children, status = "info", hidden, tr
 	/** Play transition when the badge is appeared? */
 	transitionOnAppear?: boolean;
 }, "div">, ref: ForwardedRef<"div">) {
-	const iconName = `badge/${status.in("neutual", "accent") ? "info" : status}` as const;
 	if (children === false) hidden = true;
+	const iconName = `badge/${status.in("neutual", "accent") ? "info" : status}` as const;
 	const beacon = typeof children === "boolean";
 	return (
 		<CssTransition in={!hidden} unmountOnExit appear={transitionOnAppear}>
