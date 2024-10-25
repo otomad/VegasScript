@@ -1,6 +1,12 @@
+import { backgroundColors as foregroundColors } from "./Badge";
+import { backgroundColors } from "./InfoBar";
+
 const HEIGHT = 50;
 
-const StyledToast = styled.div`
+const StyledToast = styled.div<{
+	/** The state of the badge, that is, the color. */
+	$status: Status;
+}>`
 	position: fixed;
 	inset-block-end: min(100px, 10dvh);
 	inset-inline-start: min(100px, 20dvw);
@@ -71,6 +77,14 @@ const StyledToast = styled.div`
 		background-color: ${c("accent-color")};
 	}
 
+	${({ $status }) => css`
+		background-color: ${c(backgroundColors[$status])};
+
+		.progress {
+			background-color: ${c(foregroundColors[$status])};
+		}
+	`}
+
 	&.hidden {
 		animation:
 			${keyframes`
@@ -110,7 +124,10 @@ const StyledToast = styled.div`
 	}
 `;
 
+const DEFAULT_STATUS = "accent" satisfies Status;
+
 export default function Toast() {
+	const [status, setStatus] = useState<Status>(DEFAULT_STATUS);
 	const [text, setText] = useState("");
 	const [shown, setShown] = useState(false);
 	const [timestamp, setTimestamp] = useState(0);
@@ -128,10 +145,11 @@ export default function Toast() {
 		}
 	}, UPDATE_COOLDOWN_INTERVAL);
 
-	useListen("app:toast", text => {
+	useListen("app:toast", (text, status) => {
 		setIsInitialed(true);
 		setDisableLetterByLetter(shown);
 		setText(text);
+		setStatus(status ?? DEFAULT_STATUS);
 		setCooldown(0);
 		setShown(true);
 		setTimestamp(Date.now());
@@ -141,10 +159,10 @@ export default function Toast() {
 
 	return (
 		<Portal>
-			<StyledToast className={{ hidden: !shown }} style={{ "--progress": cooldown }} onPointerMove={() => setCooldown(100)}>
+			<StyledToast $status={status} className={{ hidden: !shown }} style={{ "--progress": cooldown }} onPointerMove={() => setCooldown(100)}>
 				<div className="progress" />
 				<div className="base">
-					<Badge status="info" />
+					<Badge status={status} />
 					<LetterByLetter key={timestamp} className={{ disabled: disableLetterByLetter }}>{text}</LetterByLetter>
 				</div>
 			</StyledToast>

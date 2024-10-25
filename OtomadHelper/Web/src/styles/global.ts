@@ -71,6 +71,13 @@ const GlobalStyle = createGlobalStyle<{
 		}
 	}
 
+	math {
+		&,
+		* {
+			font-family: math;
+		}
+	}
+
 	:focus,
 	:focus-visible {
 		outline: none;

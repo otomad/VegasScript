@@ -6,14 +6,15 @@ export /* @internal */ const tuningMethods = [
 	{ id: "noTuning", icon: "prohibited" },
 	{ id: "pitchShift", icon: "plugin" },
 	{ id: "elastic", icon: "plus_minus" },
-	{ id: "classic", icon: "hourglass" },
+	{ id: "classic", icon: "history" },
 	{ id: "scaleless", icon: "scaleless" },
 ] as const;
 
 export /* @internal */ const exceeds = [
 	{ id: "plugin", icon: "plugin_multiple" },
 	{ id: "octave", icon: "octave" },
-	{ id: "dock", icon: "abs_leq" },
+	{ id: "octaveExp", icon: "octave_beaker" },
+	{ id: "wrap", icon: "abs_leq" },
 	{ id: "silent", icon: "speaker_mute" },
 ] as const;
 const getExceedsName = (id: string | undefined, tuningMethod: string) => !id ? "" : t.stream.tuning.alternativeForExceedsTheRange[
@@ -192,6 +193,13 @@ export default function Audio() {
 							idField="id"
 							iconField="icon"
 							nameField={item => getExceedsName(item.id, tuningMethod[0])}
+							detailsField={item => (
+								<TransInterpolation
+									i18nKey={t => t.descriptions.stream.tuning.alternativeForExceedsTheRange[item.id]}
+									formulaFor39={<MathFormulaFor39 />}
+									formulaFor24={<MathFormulaFor24 />}
+								/>
+							)}
 							checkInfoCondition={id => getExceedsName(id, tuningMethod[0])}
 						/>
 						<SettingsCardToggleSwitch title={t.stream.tuning.resample} details={t.descriptions.stream.tuning.resample} icon="lock" on={resample} />

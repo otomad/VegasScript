@@ -17,6 +17,7 @@ words:
   - booleanish
   - bouncized
   - calaboca
+  - camelcase
   - ccw
   - classname
   - classnames
@@ -66,6 +67,7 @@ words:
   - lengthenable
   - lengthenings
   - lightningcss
+  - linebreak
   - lotties
   - ltr
   - lumin
@@ -83,6 +85,7 @@ words:
   - neutual
   - numberish
   - nums
+  - nuxt
   - ofx
   - oklab
   - ol
@@ -117,6 +120,7 @@ words:
   - singthesis
   - solfeggios
   - spherize
+  - splitted
   - spn
   - styl
   - stylelint

@@ -1,5 +1,5 @@
 import type { ColorNames } from "styles/colors";
-const backgroundColors: Record<Status, ColorNames> = {
+export /* @internal */ const backgroundColors: Record<Status, ColorNames> = {
 	neutual: "fill-color-system-neutral-background",
 	accent: "background-fill-color-card-background-secondary",
 	info: "background-fill-color-card-background-secondary",
@@ -21,6 +21,10 @@ const StyledInfoBar = styled.div<{
 	background-color: ${c("background-fill-color-card-background-secondary")};
 	border: 1px solid ${c("stroke-color-card-stroke-default")};
 	border-radius: 3px;
+
+	${({ $status }) => css`
+		background-color: ${c(backgroundColors[$status])};
+	`}
 
 	.title {
 		${styles.effects.text.bodyStrong};
@@ -78,10 +82,6 @@ const StyledInfoBar = styled.div<{
 		${styles.mixins.square("16px")};
 		margin-top: ${(20 - 16) / 2}px;
 	}
-
-	${({ $status }) => css`
-		background-color: ${c(backgroundColors[$status])};
-	`}
 `;
 
 export default function InfoBar({ status, title, children, button, className, ...htmlAttrs }: FCP<{

@@ -114,7 +114,7 @@ const StyledTabItem = styled.button`
 	}
 `;
 
-const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [] }: { hidden?: boolean; badge?: BadgeArgs }) =>
+const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [false] }: { hidden?: boolean; badge?: BadgeArgs }) =>
 	<Badge status={status ?? "accent"} hidden={hidden || layoutHidden}>{badge}</Badge>;
 
 export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, _vertical: vertical, ...htmlAttrs }: FCP<{

@@ -148,7 +148,7 @@ export default [
 			"no-useless-constructor": "off", // private constructor() { } 你跟我说无用？
 			"@stylistic/no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0, maxBOF: 0 }],
 			"@stylistic/max-statements-per-line": "off",
-			// "no-useless-assignment": "error", // TODO: ESLint 9.0 及其之后才开始支持
+			"no-useless-assignment": "error",
 			"import/order": "off", // 与 VSCode 内置导入排序特性打架。
 			"import/first": "off", // 与 Vue 特性冲突。
 			"import/named": "off", // 与 TypeScript 特性冲突。
@@ -233,6 +233,7 @@ export default [
 			"react/jsx-boolean-value": ["error", "never"],
 			"react/jsx-key": "error",
 			"react/jsx-fragments": ["error", "syntax"],
+			"react/no-unknown-property": "off", // 正在使用 TypeScript，不需要你瞎操心。（指不支持 MathML 属性）
 			"@stylistic/jsx-closing-bracket-location": ["error", "tag-aligned"],
 			"@stylistic/jsx-closing-tag-location": "error",
 			"@stylistic/jsx-curly-spacing": ["error", { "when": "never", "children": true }],

@@ -1,5 +1,5 @@
 import type { ColorNames } from "styles/colors";
-const backgroundColors: Record<Status, ColorNames> = {
+export /* @internal */ const backgroundColors: Record<Status, ColorNames> = {
 	neutual: "fill-color-system-solid-neutral-background",
 	accent: "accent-color",
 	info: "fill-color-system-solid-neutral",
@@ -71,7 +71,7 @@ export default forwardRef(function Badge({ children, status = "info", hidden, tr
 	transitionOnAppear?: boolean;
 }, "div">, ref: ForwardedRef<"div">) {
 	const iconName = `badge/${status.in("neutual", "accent") ? "info" : status}` as const;
-	if (children === undefined || children === false) hidden = true;
+	if (children === false) hidden = true;
 	const beacon = typeof children === "boolean";
 	return (
 		<CssTransition in={!hidden} unmountOnExit appear={transitionOnAppear}>

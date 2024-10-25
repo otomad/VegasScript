@@ -61,7 +61,7 @@ declare interface Array<T> {
 	 * @param callbackFn - Generate key value tuples as objects.
 	 * @returns The mapped object.
 	 */
-	mapObject<K extends PropertyKey, U>(callbackFn: (value: T, index: number, array: T[]) => [K, U]): Record<T, U>;
+	mapObject<K extends PropertyKey, U>(callbackFn: (value: T, index: number, array: T[]) => Readonly<[K, U]>): Record<T, U>;
 
 	/**
 	 * Array deduplication. This will return a new array.
