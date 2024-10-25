@@ -61,6 +61,7 @@
 		<Reference Include="SwfDataObjectExtensions">
 			<HintPath>Libraries\ShellDragDrop\SwfDataObjectExtensions.dll</HintPath>
 		</Reference>
+		<Reference Include="System.ServiceProcess" />
 		<Reference Include="System.Web" />
 		<Reference Include="System.Xaml" />
 		<Reference Include="System.Data.DataSetExtensions" />
@@ -112,9 +113,9 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Assets\ToolbarIcons.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>ToolbarIcons.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ToolbarIcons.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Module\Host.cs">
 			<SubType>UserControl</SubType>

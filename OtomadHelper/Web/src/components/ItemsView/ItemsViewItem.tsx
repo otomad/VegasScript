@@ -216,9 +216,9 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
 	_multiple?: boolean;
-	/** Fired when the selection changed. */
+	/** Occurs when the selection changed. */
 	onSelectedChange?(id: PropertyKey, selected: CheckState): void;
-	/** Fired when user click it. */
+	/** Occurs when user click it. */
 	onClick?: OnItemsViewItemClickEventHandler;
 }, "button">) {
 	const textPart = (children || details) && (

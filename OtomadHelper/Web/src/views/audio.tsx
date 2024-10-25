@@ -36,7 +36,6 @@ const PrelistenActions = styled(Disabled).attrs({
 })`
 	position: relative;
 	display: flex;
-	gap: 8px;
 	align-items: stretch;
 
 	:has(~ .stop.shown) {
@@ -98,6 +97,7 @@ export default function Audio() {
 			<EmptyMessage.Typical icon="volume" title="audio" enabled={enabled}>
 				<SettingsCard title={t.source.preferredTrack} details={t.descriptions.source.preferredTrack} icon="preferred_track">
 					<ComboBox current={preferredTrackIndex} ids={[...tracks.keys()]} options={tracks} />
+					<QuicklySelectCurrentTrack />
 				</SettingsCard>
 				<SettingsCardToggleSwitch title={t.stream.createGroups} details={t.descriptions.stream.createGroups} icon="group" on={createGroups} />
 				<EmptyMessage.YtpDisabled>

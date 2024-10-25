@@ -56,19 +56,29 @@ export /* @internal */ const styledExpanderItemContent = css`
 
 	.trailing {
 		display: flex;
-		gap: 1rem;
+		gap: 8px;
 		align-items: center;
 		margin-inline-start: auto;
+
+		> * {
+			@layer layout {
+				gap: inherit;
+			}
+		}
 
 		.trailing-icon {
 			${styles.mixins.square("30px")};
 			${styles.mixins.flexCenter()};
 			flex-shrink: 0;
-			margin-right: -7px;
+			margin-inline-end: -7px;
 			border-radius: 3px;
 
 			.icon {
 				font-size: 16px;
+			}
+
+			&:last-child:not(:first-child) {
+				margin-inline-start: calc(1rem - 8px);
 			}
 		}
 	}

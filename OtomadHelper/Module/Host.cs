@@ -1,6 +1,8 @@
 using System.Drawing;
+using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 using APNGLib;
@@ -17,7 +19,7 @@ using ScriptPortal.Vegas;
 
 using BackdropWindow = OtomadHelper.WPF.Controls.BackdropWindow;
 using ContextMenu = OtomadHelper.Models.ContextMenu;
-using Timer = System.Windows.Forms.Timer;
+using Timer = System.Timers.Timer;
 
 namespace OtomadHelper.Module;
 
@@ -40,15 +42,6 @@ public partial class Host : UserControl {
 		DragLeave += (sender, e) => Host_DragLeave(isDrop: false);
 
 		SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-
-		//MainWindow window = new();
-		//new TestControls().Show();
-		//window.Show();
-		/*_ = WPF.Controls.ContentDialog.ShowDialog<string>("幸福倒计时", "即将升级 Windows 到最新版本！", [
-			new("草", DialogResult.Abort),
-			new("走", DialogResult.Retry),
-			new("忽略", DialogResult.Ignore, true),
-		]);*/
 
 #if VEGAS_ENV
 		BackColor = Skins.Colors.ButtonFace;
@@ -318,26 +311,26 @@ public partial class Host : UserControl {
 
 	private void Module_TriggerKeybinding(object sender, VegasKeybindingEventArgs e) {
 		if (!Dockable.Shown) return;
-		PostWebMessage(new TriggerKeybinding { @event = e.Type });
+		PostWebMessage(new VegasCommandEvent { @event = e.Type });
 	}
 
 	protected void Dockable_Closed(object sender, EventArgs e) {
 		Keybindings.TriggerKeybinding -= Module_TriggerKeybinding;
 		Keybindings.Enabled = false;
-		fpsTimer.Tick -= FpsTimer_Tick;
+		fpsTimer.Elapsed -= FpsTimer_Elapsed;
 		fpsTimer.Stop();
 	}
 #endif
 
-	private readonly Timer fpsTimer = new() { Interval = 100 };
+	private readonly Timer fpsTimer = new() { Interval = 1000 };
 	internal uint Fps { get; private set; } = 60;
 
 	private void StartUpdateFps() {
-		fpsTimer.Tick += FpsTimer_Tick;
+		fpsTimer.Elapsed += FpsTimer_Elapsed;
 		fpsTimer.Start();
 	}
 
-	private void FpsTimer_Tick(object sender, EventArgs e) {
+	private void FpsTimer_Elapsed(object sender, ElapsedEventArgs e) {
 		MonitorInfo? monitorInfo = GetMonitorInfo(Handle);
 		if (monitorInfo.HasValue) {
 			uint newFps = monitorInfo.Value.Frequency;

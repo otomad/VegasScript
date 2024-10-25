@@ -259,9 +259,9 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 	_spinner?(inputId: string): ReactNode;
 	/** @private Show the positive sign? */
 	_showPositiveSign?: boolean;
-	/** Text change event. Only fired after pasting text or after the input box is out of focus. */
+	/** Text change event. Only occurs after pasting text or after the input box is out of focus. */
 	onChange?: BaseEventHandler<HTMLInputElement>;
-	/** Text changing event. Fired any time the text changes. */
+	/** Text changing event. Occurs any time the text changes. */
 	onChanging?: BaseEventHandler<HTMLInputElement>;
 	/** Text keyboard input event. */
 	onInput?(newText: string, el: HTMLInputElement, ...event: Parameters<FormEventHandler<HTMLInputElement>>): boolean | string | void;
@@ -494,7 +494,6 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 
 const StyledNumberUnitTextBox = styled.div`
 	display: flex;
-	gap: 8px;
 	align-items: center;
 
 	.combo-box {

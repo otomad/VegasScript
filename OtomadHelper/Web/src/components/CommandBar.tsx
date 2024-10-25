@@ -19,8 +19,12 @@ const StyledCommandBar = styled.div`
 	}
 
 	.command-bar-item {
-		overflow: hidden;
 		transition: all ${eases.easeInOutFluent} 650ms;
+
+		&.enter,
+		&.exit {
+			overflow: hidden;
+		}
 
 		${tgs()} {
 			inline-size: 0;

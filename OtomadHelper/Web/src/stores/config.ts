@@ -1,7 +1,7 @@
 import type { beepEngines } from "views/audio";
 import type { pitchNotations } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings } from "views/score";
-import type { barOrBeatUnits, selectGeneratedClipsType, startTimes, trackNames } from "views/source";
+import type { barOrBeatUnits, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
 
 type StartTime = typeof startTimes[number]["id"];
@@ -19,31 +19,32 @@ type SelectGeneratedClips = typeof selectGeneratedClipsType[number]["id"];
 type BeepEngine = typeof beepEngines[number];
 type TrackNameType = typeof trackNames[number]["id"];
 type BarOrBeatUnit = typeof barOrBeatUnits[number]["id"];
+type SourceFrom = typeof sourceFromEnums[number];
 
 const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 
 export const configStore = createStore({
 	source: {
-		source: "trackEvent",
+		sourceFrom: "trackEvent" as SourceFrom,
 		trimStart: EMPTY_TIMECODE,
 		trimEnd: EMPTY_TIMECODE,
 		startTime: "projectStart" as StartTime,
 		customStartTime: EMPTY_TIMECODE,
-		preferredTrack: 0,
-		belowAdjustmentTracks: true,
 		afterCompletion: {
 			removeSourceClips: false,
 			selectSourceClips: true,
 			selectGeneratedClips: [] as true | SelectGeneratedClips[],
 		},
+		preferredTrack: 0,
+		belowAdjustmentTracks: true,
+		trackGroup: true,
+		collapseTrackGroup: true,
+		trackName: "track" as TrackNameType,
 		blindBoxForTrack: false,
 		blindBoxForMarker: false,
 		blindBoxForBarOrBeat: false,
 		blindBoxForBarOrBeatPeriod: [4, "bar"] as Unit<BarOrBeatUnit>,
 		blindBoxForBarOrBeatPreparation: [0, "bar"] as Unit<BarOrBeatUnit>,
-		trackGroup: true,
-		collapseTrackGroup: true,
-		trackName: "track" as TrackNameType,
 	},
 	score: {
 		format: "midi",
@@ -232,6 +233,6 @@ export const selectConfigArray = <T extends object>(path: (state: typeof configS
 globals.config = configStore;
 
 // If declare these
-useListenKeybinding("useTrackEventAsSource", () => configStore.source.source = "trackEvent");
-useListenKeybinding("useProjectMediaAsSource", () => configStore.source.source = "projectMedia");
+useListenKeybinding("useTrackEventAsSource", () => configStore.source.sourceFrom = "trackEvent");
+useListenKeybinding("useProjectMediaAsSource", () => configStore.source.sourceFrom = "projectMedia");
 useListenKeybinding("enableYtp", () => configStore.ytp.enabled = !configStore.ytp.enabled);

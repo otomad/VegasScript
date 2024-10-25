@@ -55,7 +55,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	hideCustom?: boolean | string;
 	/** The children before its items. */
 	before?: ReactNode;
-	/** Fired when the item is clicked. */
+	/** Occurs when the item clicked. */
 	onItemClick?: MouseEventHandler<HTMLElement>;
 	onItemContextMenu?(item: TItem, event: React.MouseEvent<HTMLElement>): void;
 }>>) {

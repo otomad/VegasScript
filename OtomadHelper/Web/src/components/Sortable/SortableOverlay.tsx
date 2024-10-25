@@ -59,11 +59,11 @@ const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => ({
 });
 
 export interface SortableOverlayEmits {
-	/** Fired when the user release their pointer, the drag overlay started to move to the correct place. */
+	/** Occurs when user release their pointer, the drag overlay started to move to the correct place. */
 	onDrop?: DropAnimationSideEffects;
-	/** Fired when the drag overlay moved to the correct place. */
+	/** Occurs when the drag overlay moved to the correct place. */
 	onDropped?: DropAnimationSideEffects;
-	/** Fired after the drag overlay moved to the correct place. */
+	/** Occurs after the drag overlay moved to the correct place. */
 	onDropEnd?: DropAnimationSideEffects;
 }
 

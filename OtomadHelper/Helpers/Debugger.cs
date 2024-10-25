@@ -1,5 +1,7 @@
 using System.Windows;
 
+using OtomadHelper.Models;
+
 namespace OtomadHelper.Helpers;
 
 internal static class Debugger {
@@ -17,7 +19,8 @@ internal static class Debugger {
 #if !VEGAS_ENV
 			Debug.WriteLine(nullableValue);
 #else
-			MessageBox.Show(nullableValue.ToString());
+			//MessageBox.Show(nullableValue.ToString());
+			PostWebMessage(new ConsoleLog(nullableValue.ToString()));
 #endif
 		}
 	}

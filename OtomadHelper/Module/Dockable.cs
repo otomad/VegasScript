@@ -1,4 +1,8 @@
 using System.Drawing;
+
+using OtomadHelper.Models;
+using OtomadHelper.Services;
+
 using ScriptPortal.Vegas;
 
 namespace OtomadHelper.Module;
@@ -16,6 +20,7 @@ public class Dockable : DockableControl {
 	public override DockWindowStyle DefaultDockWindowStyle => DockWindowStyle.Docked;
 	public override Size DefaultFloatingSize => new(800, 480);
 	public bool Shown { get; private set; } = false;
+	VegasMediaSelectedChangeObserver? MediaSelectedChange;
 
 	public void Reload() {
 		DisposeHost();
@@ -27,8 +32,11 @@ public class Dockable : DockableControl {
 		Reload();
 		Shown = true;
 
-		//vegas.TrackEventStateChanged += HandleTrackEventChanged;
-		//vegas.TrackEventCountChanged += HandleTrackEventChanged;
+		vegas.TrackEventStateChanged += OnTrackEventChanged;
+		vegas.TrackEventCountChanged += OnTrackEventChanged;
+		MediaSelectedChange = new(myVegas);
+		MediaSelectedChange.MediaSelectedChanged += OnMediaChanged;
+		vegas.TrackSelectionChanged += OnTrackChanged;
 
 		base.OnLoad(e);
 	}
@@ -38,26 +46,31 @@ public class Dockable : DockableControl {
 			Controls.Remove(host);
 			host.Dispose();
 			host = null;
+			MessageSender.Host = null!;
 		}
 	}
 
 	protected override void OnClosed(EventArgs e) {
 		DisposeHost();
 		Shown = false;
+
+		vegas.TrackEventStateChanged -= OnTrackEventChanged;
+		vegas.TrackEventCountChanged -= OnTrackEventChanged;
+		MediaSelectedChange?.Dispose();
+		vegas.TrackSelectionChanged -= OnTrackChanged;
+
 		base.OnClosed(e);
 	}
 
-	private void HandleTrackEventChanged(object sender, EventArgs e) {
-		//myForm.SelectBtn_Click(null, null);
+	private void OnTrackEventChanged(object sender, EventArgs e) {
+		PostWebMessage(new ConsoleLog("TrackEventChanged"));
 	}
 
-	/*protected override void OnClosed(EventArgs e) {
-		base.OnClosed(e);
+	private void OnMediaChanged(object sender, EventArgs e) {
+		PostWebMessage(new ConsoleLog($"MediaChanged: {vegas.Project.MediaPool.GetSelectedMedia().Length}"));
 	}
 
-	protected override void WndProc(ref Message m) {
-		bool handled = false;
-		windowHelper.WndProc(m.HWnd, m.Msg, m.WParam, m.LParam, ref handled);
-		if (!handled) base.WndProc(ref m);
-	}*/
+	private void OnTrackChanged(object sender, EventArgs e) {
+		PostWebMessage(new ConsoleLog("TrackChanged"));
+	}
 }

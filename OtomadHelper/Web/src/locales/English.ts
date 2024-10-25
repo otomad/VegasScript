@@ -45,6 +45,12 @@ export default {
 				projectStart: "Project start",
 				cursor: "Cursor",
 			},
+			afterCompletion: {
+				_: "After completion",
+				removeSourceClips: "Remove source track clips",
+				selectSourceClips: "Select source track clips",
+				selectGeneratedClips: "Select all clips generated",
+			},
 			preferredTrack: {
 				_: "Preferred track",
 				index: "Preferred track index",
@@ -52,22 +58,6 @@ export default {
 				ordinal: "Below the {{count, ordinal}} track",
 				belowAdjustmentTracks: "If one or more adjustment tracks are below this track, select the next track that none of them",
 				newTrack: "New track",
-			},
-			afterCompletion: {
-				_: "After completion",
-				removeSourceClips: "Remove source track clips",
-				selectSourceClips: "Select source track clips",
-				selectGeneratedClips: "Select all clips generated",
-			},
-			blindBox: {
-				_: "Blind box",
-				track: "For each track or channel",
-				marker: "Switch once per marker",
-				barOrBeat: {
-					_: "Switch once per bar or beat",
-					period: "Period",
-					preparation: "Preparation",
-				},
 			},
 			trackGroup: {
 				_: "Grouping tracks",
@@ -83,6 +73,16 @@ export default {
 				media: "Source media name",
 				score: "Score file name",
 				unnamed: "Unnamed",
+			},
+			blindBox: {
+				_: "Blind box",
+				track: "For each track or channel",
+				marker: "Switch once per marker",
+				barOrBeat: {
+					_: "Switch once per bar or beat",
+					period: "Period",
+					preparation: "Preparation",
+				},
 			},
 		},
 		on: "On",

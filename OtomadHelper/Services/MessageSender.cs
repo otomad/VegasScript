@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 using OtomadHelper.Models;
 using OtomadHelper.Module;
 
@@ -32,10 +34,16 @@ public static class MessageSender {
 	/// Must be a subclass of <see cref="BaseWebMessageEvent"/>.</typeparam>
 	/// <param name="message">The message to be posted.</param>
 	public static void PostWebMessage<T>(T message) where T : BaseWebMessageEvent =>
-		Host.Browser.CoreWebView2.PostWebMessageAsJson(JsonSerializer.Serialize(message, jsonOptions));
+		PostWebMessageAsJson(JsonSerializer.Serialize(message, jsonOptions));
 
 	private static void PostWebMessageFromJsonObject(JsonObject jsonObject) =>
-		Host.Browser.CoreWebView2.PostWebMessageAsJson(jsonObject.ToJsonString(jsonOptions));
+		PostWebMessageAsJson(jsonObject.ToJsonString(jsonOptions));
+
+	private static void PostWebMessageAsJson(dynamic obj) {
+		try {
+			Host?.Browser?.Invoke((MethodInvoker)delegate { Host?.Browser?.CoreWebView2?.PostWebMessageAsJson(obj); });
+		} catch (Exception) { }
+	}
 
 	private static readonly Dictionary<DateTime, TaskCompletionSource<JsonElement>> taskList = [];
 	/// <summary>

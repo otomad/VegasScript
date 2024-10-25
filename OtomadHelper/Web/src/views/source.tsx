@@ -1,3 +1,4 @@
+export /* @internal */ const sourceFromEnums = ["trackEvent", "projectMedia", "browseFile"] as const;
 export /* @internal */ const startTimes = [
 	{ id: "projectStart", name: t.source.startTime.projectStart, icon: "arrow_export" },
 	{ id: "cursor", name: t.source.startTime.cursor, icon: "text_cursor" },
@@ -33,7 +34,7 @@ const isUnderVegas16 = true;
 
 export default function Source() {
 	const {
-		source, trimStart, trimEnd, startTime, customStartTime,
+		sourceFrom, trimStart, trimEnd, startTime, customStartTime,
 		belowAdjustmentTracks, preferredTrack: [preferredTrack, setPreferredTrack],
 		trackGroup, collapseTrackGroup, trackName,
 		blindBoxForTrack, blindBoxForMarker, blindBoxForBarOrBeat, blindBoxForBarOrBeatPeriod, blindBoxForBarOrBeatPreparation,
@@ -49,6 +50,8 @@ export default function Source() {
 		{ processPrevStateInSetterWithGetter: true },
 	);
 
+	const lockRemoveOrSelectSourceClips = sourceFrom[0] !== "trackEvent" ? false : null;
+
 	const underVegas16 = isUnderVegas16 ?
 		<p style={{ color: c("fill-color-system-critical") }}>{t.descriptions.source.preferredTrack.belowAdjustmentTracks.versionRequest({ version: 16 })}</p> :
 		undefined;
@@ -56,7 +59,7 @@ export default function Source() {
 	return (
 		<div className="container">
 			<Card className="media-pool">
-				<TabBar current={source}>
+				<TabBar current={sourceFrom}>
 					<TabBar.Item id="trackEvent" icon="track_event">{t.source.trackEvent}</TabBar.Item>
 					<TabBar.Item id="projectMedia" icon="media">{t.source.projectMedia}</TabBar.Item>
 					<TabBar.Item id="browseFile" icon="open_file">{t.source.browseFile}</TabBar.Item>
@@ -84,6 +87,16 @@ export default function Source() {
 			</ExpanderRadio>
 
 			<Subheader>{t.subheaders.advanced}</Subheader>
+			<Expander title={t.source.afterCompletion} icon="post_processing">
+				<ToggleSwitch on={removeSourceClips} lock={lockRemoveOrSelectSourceClips}>{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
+				<ToggleSwitch on={selectSourceClips} lock={lockRemoveOrSelectSourceClips}>{t.source.afterCompletion.selectSourceClips}</ToggleSwitch>
+				<SelectAll value={selectGeneratedClips} all={getAllSelectGeneratedClips()} title={t.source.afterCompletion.selectGeneratedClips} />
+				<ItemsView view="tile" multiple current={selectGeneratedClips}>
+					{selectGeneratedClipsType.map(({ id, name, icon }) =>
+						<ItemsView.Item id={id} key={id} icon={icon}>{name}</ItemsView.Item>)}
+				</ItemsView>
+			</Expander>
+
 			<Expander
 				title={t.source.preferredTrack}
 				selectInfo={preferredTrack === 0 ? t.source.preferredTrack.top : t(preferredTrack).source.preferredTrack.ordinal}
@@ -91,6 +104,7 @@ export default function Source() {
 			>
 				<Expander.Item title={t.source.preferredTrack.index} details={t.descriptions.source.preferredTrack.fillingInstructions}>
 					<TextBox.Number value={[preferredTrack, setPreferredTrack]} decimalPlaces={0} />
+					<QuicklySelectCurrentTrack />
 				</Expander.Item>
 				<ToggleSwitch
 					on={belowAdjustmentTracks}
@@ -99,28 +113,6 @@ export default function Source() {
 				>
 					{t.source.preferredTrack.belowAdjustmentTracks}
 				</ToggleSwitch>
-			</Expander>
-			<Expander title={t.source.afterCompletion} icon="post_processing">
-				<ToggleSwitch on={removeSourceClips}>{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
-				<ToggleSwitch on={selectSourceClips}>{t.source.afterCompletion.selectSourceClips}</ToggleSwitch>
-				<SelectAll value={selectGeneratedClips} all={getAllSelectGeneratedClips()} title={t.source.afterCompletion.selectGeneratedClips} />
-				<ItemsView view="tile" multiple current={selectGeneratedClips}>
-					{selectGeneratedClipsType.map(({ id, name, icon }) =>
-						<ItemsView.Item id={id} key={id} icon={icon}>{name}</ItemsView.Item>)}
-				</ItemsView>
-			</Expander>
-			<Expander title={t.source.blindBox} details={t.descriptions.source.blindBox} icon="dice">
-				<ToggleSwitch on={blindBoxForTrack} details={t.descriptions.source.blindBox.track} icon="layer">{t.source.blindBox.track}</ToggleSwitch>
-				<ToggleSwitch on={blindBoxForMarker} details={t.descriptions.source.blindBox.marker} icon="marker">{t.source.blindBox.marker}</ToggleSwitch>
-				<ToggleSwitch on={blindBoxForBarOrBeat} details={t.descriptions.source.blindBox.barOrBeat} icon="music_bar">{t.source.blindBox.barOrBeat}</ToggleSwitch>
-				<Disabled disabled={!blindBoxForBarOrBeat[0]}>
-					<Expander.Item title={t.source.blindBox.barOrBeat.period} details={t.descriptions.source.blindBox.barOrBeat.period} icon="timer">
-						<TextBox.NumberUnit value={blindBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={barOrBeatUnitNames} decimalPlaces={0} min={1} />
-					</Expander.Item>
-					<Expander.Item title={t.source.blindBox.barOrBeat.preparation} details={t.descriptions.source.blindBox.barOrBeat.preparation} icon="hourglass">
-						<TextBox.NumberUnit value={blindBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={barOrBeatUnitNames} decimalPlaces={0} min={0} />
-					</Expander.Item>
-				</Disabled>
 			</Expander>
 			<SettingsCardToggleSwitch title={t.source.trackGroup} details={t.descriptions.source.trackGroup} icon="group" on={trackGroup}>
 				<ToggleSwitch on={collapseTrackGroup} icon="arrow_minimize">{t.source.trackGroup.collapse}</ToggleSwitch>
@@ -136,6 +128,20 @@ export default function Source() {
 				nameField={t.source.trackName}
 				iconField="icon"
 			/>
+
+			<Expander title={t.source.blindBox} details={t.descriptions.source.blindBox} icon="dice">
+				<ToggleSwitch on={blindBoxForTrack} details={t.descriptions.source.blindBox.track} icon="layer">{t.source.blindBox.track}</ToggleSwitch>
+				<ToggleSwitch on={blindBoxForMarker} details={t.descriptions.source.blindBox.marker} icon="marker">{t.source.blindBox.marker}</ToggleSwitch>
+				<ToggleSwitch on={blindBoxForBarOrBeat} details={t.descriptions.source.blindBox.barOrBeat} icon="music_bar">{t.source.blindBox.barOrBeat}</ToggleSwitch>
+				<Disabled disabled={!blindBoxForBarOrBeat[0]}>
+					<Expander.Item title={t.source.blindBox.barOrBeat.period} details={t.descriptions.source.blindBox.barOrBeat.period} icon="timer">
+						<TextBox.NumberUnit value={blindBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={barOrBeatUnitNames} decimalPlaces={0} min={1} />
+					</Expander.Item>
+					<Expander.Item title={t.source.blindBox.barOrBeat.preparation} details={t.descriptions.source.blindBox.barOrBeat.preparation} icon="hourglass">
+						<TextBox.NumberUnit value={blindBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={barOrBeatUnitNames} decimalPlaces={0} min={0} />
+					</Expander.Item>
+				</Disabled>
+			</Expander>
 
 			<DragToImport>{t.titles.source}</DragToImport>
 		</div>

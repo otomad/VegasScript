@@ -132,7 +132,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 	onChanging?(value: number): void;
 	/** The slider is lifted after being dragged event. */
 	onChanged?(value: number): void;
-	/** Fired when you want to get the display value. */
+	/** Occurs when you want to get the display value. */
 	onDisplayValueChanged?(value: Readable | undefined): void;
 }>) {
 	const errorInfo = `The value range should be between [${min} ~ ${max}], with the current value being ${value}.`;

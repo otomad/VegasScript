@@ -37,7 +37,7 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 			IList<string> hexes = ToHex(color);
 			if (!hexes.Contains(Hex)) Hex = hexes[0];
 			UpdateSourcesBehavior behavior = UpdateSourcesBehavior.UpdateBoth;
-			if (prevColor is not null && isInit) {
+			if (prevColor is not null && initialized) {
 				(ColourSpace model, int axis) = ModelAxis;
 				int z = GetPointXyz(2);
 				double[] prevTriplet = ToTriplet(prevColor, model).ToArray<double>(), triplet = ToTriplet(color, model).ToArray<double>();
@@ -46,11 +46,11 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 			}
 			UpdateSources(behavior);
 			View?.SetAccentColor(Color.ToMediaColor());
-			isInit = true;
+			initialized = true;
 			isColorChanging = false;
 		}
 	}
-	private bool isInit = false;
+	private bool initialized = false;
 
 	partial void OnModelAxisChanged(ColorPickerModelAxis value) {
 		UpdateSources();

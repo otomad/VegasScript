@@ -22,11 +22,15 @@ internal static class Program {
 		Application.Run(new TestControlsWinForm());
 #endif
 #if TEST2
-		s = WPF.Controls.ContentDialog.ShowDialog<string>("幸福倒计时", "Windows 11 即将更新！", [new(t.ContentDialog.Button.Ok, "ok", true), new(t.ContentDialog.Button.Cancel, "cancel")]);
+		s = WPF.Controls.ContentDialog.ShowDialog<DialogResult>("幸福倒计时", "即将更新 Windows 11 到最新版本！", [
+			new("草", DialogResult.Abort),
+			new("走", DialogResult.Retry),
+			new("忽略", DialogResult.Ignore, true),
+		]);
 #endif
 #if TEST3
 		try {
-			WPF.Controls.ContentDialog.errorFooter = "VEGAS Pro: v21.0;\nOtomad Helper: v8.0.0";
+			WPF.Controls.ContentDialog.errorFooter = "VEGAS Pro: v21.0\nOtomad Helper: v8.0.0";
 			TestError();
 		} catch (Exception e) {
 			WPF.Controls.ContentDialog.ShowError(e);

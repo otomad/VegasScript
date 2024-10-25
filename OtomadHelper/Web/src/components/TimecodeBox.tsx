@@ -97,7 +97,7 @@ const StyledTimecodeBox = styled.div`
 export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus, ...htmlAttrs }: FCP<{
 	/** The current time code or time span. */
 	timecode: StateProperty<string>;
-	/** Fired when the component is focused or changed. */
+	/** Occurs when the component is focused or changed. */
 	onFocus?: PartialArgsFunc<BaseEventHandler>;
 }, "div">) {
 	const timecodeBoxEl = useDomRef<"div">();
@@ -235,11 +235,11 @@ function TimecodeItemValue({ lastIndex, children, onChange, onFinishInput, onReq
 	lastIndex: number;
 	/** The value of the item. */
 	children: string;
-	/** Fired when the item blurred and the value has changed. */
+	/** Occurs when the item blurred and the value has changed. */
 	onChange?: TimecodeItemValueChangeEventHandler;
-	/** Fired when user finishes editing the value of this item. */
+	/** Occurs when user finishes editing the value of this item. */
 	onFinishInput?: TimecodeItemValueChangeEventHandler;
-	/** Fired when user press BackSpace key and want to move focus to the left. */
+	/** Occurs when user press BackSpace key and want to move focus to the left. */
 	onRequestFocusLeft?: TimecodeItemValueChangeEventHandler;
 }, "div">) {
 	const [userInput, setUserInput] = useState<string>();

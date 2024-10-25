@@ -5,6 +5,7 @@
 /// <see href="https://www.stum.de/2009/01/14/const-strings-a-very-convenient-way-to-shoot-yourself-in-the-foot/" />
 
 using System.Drawing;
+using System.Drawing.Imaging;
 
 using OtomadHelper.Assets;
 
@@ -35,7 +36,7 @@ public class Module : ICustomCommandModule {
 	/// <param name="myVegas">The Vegas application object.</param>
 	public void InitializeModule(Vegas myVegas) {
 		vegas = myVegas;
-		WPF.Controls.ContentDialog.errorFooter = $"VEGAS Pro: ${vegas.Version};\nOtomad Helper: ${OtomadHelperVersionTag}";
+		WPF.Controls.ContentDialog.errorFooter = $"VEGAS Pro: ${vegas.Version}\nOtomad Helper: ${OtomadHelperVersionTag}";
 		customCommandModule.MenuItemName = DisplayName;
 		customCommandModule.IconFile = SaveAndGetIconPath(nameof(ToolbarIcons.OtomadHelper));
 		Keybindings.Initialize();
@@ -90,7 +91,7 @@ public class Module : ICustomCommandModule {
 		string localIconPath = new Path(ToolbarIconsLocalPath, fileName + ".png");
 		if (Undoable(delegate {
 			Directory.CreateDirectory(ToolbarIconsLocalPath);
-			bitmap.Save(localIconPath);
+			bitmap.Save(localIconPath, ImageFormat.Png);
 		}) is Exception e) throw e;
 		return localIconPath;
 	}

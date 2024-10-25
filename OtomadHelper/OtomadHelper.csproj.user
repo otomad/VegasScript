@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
-		<ActiveDebugProfile>Run in Vegas</ActiveDebugProfile>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
-		<ActiveDebugProfile>OtomadHelper</ActiveDebugProfile>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Update="Module\Host.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
-		<Compile Update="Test\TestControlsWinForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Update="Test\AppDebugForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Update="Test\TestControlsWPF.xaml.cs">
-			<SubType>Code</SubType>
-		</Compile>
-		<Compile Update="WPF\Controls\ColorPicker\ColorPicker.xaml.cs">
-			<SubType>Code</SubType>
-		</Compile>
-		<Compile Update="WPF\Controls\ColorPicker\EyeDropperPreview.xaml.cs">
-			<SubType>Code</SubType>
-		</Compile>
-		<Compile Update="WPF\Controls\ConfirmDeleteFlyout\ConfirmDeleteFlyout.xaml.cs">
-			<SubType>Code</SubType>
-		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="WPF\Controls\ColorPicker\CheckerBoardBrush.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ColorPicker\ColorPicker.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ColorPicker\EyeDropperPreview.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ComboBox\ComboBoxFlyout.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ConfirmDeleteFlyout\ConfirmDeleteFlyout.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ContentDialog\ShadingIcon.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ContextMenu\ContextMenu.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ExpandButton\ExpandButton.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\PitchPicker\PitchPickerFlyout.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\RadioButton\RadioButton.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\ScrollBar\ScrollBar.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Test\TestControlsWPF.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Controls\TextBox\TextBox.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="WPF\Themes\Menus.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-	</ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+    <ActiveDebugProfile>Run in Vegas</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+    <ActiveDebugProfile>OtomadHelper</ActiveDebugProfile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Module\Host.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Test\TestControlsWinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Test\AppDebugForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Test\TestControlsWPF.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="WPF\Controls\ColorPicker\ColorPicker.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="WPF\Controls\ColorPicker\EyeDropperPreview.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="WPF\Controls\ConfirmDeleteFlyout\ConfirmDeleteFlyout.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="WPF\Controls\ColorPicker\CheckerBoardBrush.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ColorPicker\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ColorPicker\EyeDropperPreview.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ComboBox\ComboBoxFlyout.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ConfirmDeleteFlyout\ConfirmDeleteFlyout.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ContentDialog\ShadingIcon.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ContextMenu\ContextMenu.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ExpandButton\ExpandButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\PitchPicker\PitchPickerFlyout.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\RadioButton\RadioButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\ScrollBar\ScrollBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Test\TestControlsWPF.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Controls\TextBox\TextBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WPF\Themes\Menus.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

@@ -61,6 +61,6 @@ window.chrome ??= new VirtualObject();
 window.chrome.webview ??= new VirtualObject();
 window.chrome.webview.addEventListener("message", e => {
 	const { type, ...data } = e.data;
-	console.log(type, data);
+	if (type !== "consoleLog") console.log(type, data); // WARN: Remove this for performance.
 	useEvent(`host:${type}`, data);
 });

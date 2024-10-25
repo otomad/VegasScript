@@ -12,11 +12,11 @@ public class EntryPoint {
 		vegas = myVegas;
 
 		if (await WPF.Controls.ContentDialog.ShowDialog<string>(
-			"嘿，你把该扩展程序放错地方了！",
-			"新版 Otomad Helper 是一个扩展程序，与旧版不同，它不是一个脚本。\n\n请将该扩展程序移动到 VEGAS 的扩展程序目录，而不是脚本目录。\n\n位置：\nC:\\ProgramData\\VEGAS Pro\\Application Extensions",
+			(string)t.WrongOpeningMethod.Script.Title,
+			(string)t.WrongOpeningMethod.Script.Content + "\nC:\\ProgramData\\VEGAS Pro\\Application Extensions",
 			[
 				new(t.ContentDialog.Button.Ok, "ok"),
-				new("了解更多", "learnMore", true),
+				new(t.ContentDialog.Button.LearnMore, "learnMore", true),
 			]
 		) == "learnMore")
 			OpenLink("https://otomad.github.io/otomad/link/OtomadHelper.html#documentation");

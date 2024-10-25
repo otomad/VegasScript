@@ -1,5 +1,4 @@
 // TODO: "PInvoke.cs" rename to "PInvoke_Win32.cs" and "PInvoke_DotNet.cs".
-using System.Threading;
 
 namespace OtomadHelper.Interop;
 
