@@ -44,6 +44,12 @@ export default {
 				projectStart: "プロジェクトの開始",
 				cursor: "カーソル",
 			},
+			afterCompletion: {
+				_: "完了後",
+				removeSourceClips: "ソーストラッククリップを削除",
+				selectSourceClips: "ソーストラッククリップを選択",
+				selectGeneratedClips: "生成されたすべてのクリップを選択",
+			},
 			preferredTrack: {
 				_: "優先トラック",
 				index: "トラックの優先インデックス",
@@ -51,22 +57,6 @@ export default {
 				ordinal: "{{count, ordinal}}トラックの下",
 				belowAdjustmentTracks: "1つ以上の調整トラックがこのトラックの下にある場合は、次のトラックを選択してください。",
 				newTrack: "新しいトラック",
-			},
-			afterCompletion: {
-				_: "完了後",
-				removeSourceClips: "ソーストラッククリップを削除",
-				selectSourceClips: "ソーストラッククリップを選択",
-				selectGeneratedClips: "生成されたすべてのクリップを選択",
-			},
-			blindBox: {
-				_: "素材盲の箱",
-				track: "各トラックまたはチャンネルに対して",
-				marker: "マーカーごとに1回ずつ切り替える",
-				barOrBeat: {
-					_: "1小節あたり1回またはビートを切り替える",
-					period: "期間",
-					preparation: "準備",
-				},
 			},
 			trackGroup: {
 				_: "トラックのグループ化",
@@ -82,6 +72,16 @@ export default {
 				media: "ソースメディア名",
 				score: "スコアファイル名",
 				unnamed: "名前なし",
+			},
+			blindBox: {
+				_: "素材盲の箱",
+				track: "各トラックまたはチャンネルに対して",
+				marker: "マーカーごとに1回ずつ切り替える",
+				barOrBeat: {
+					_: "1小節あたり1回またはビートを切り替える",
+					period: "期間",
+					preparation: "準備",
+				},
 			},
 		},
 		on: "オン",
@@ -252,10 +252,11 @@ export default {
 				},
 				alternativeForExceedsTheRange: {
 					_: "範囲を超えた場合",
-					multiple: "複数のオーディオエフェクトプラグインを使用",
+					multiple: "複数のオーディオエフェクトプラグインを使用する",
 					plugin: "ピッチシフトオーディオエフェクトプラグインに切り替える",
-					octave: "高オクターブまたは低オクターブです",
-					dock: "端にドックする",
+					octave: "高いオクターブ/低いオクターブ",
+					octaveExp: "高オクターブ/低オクターブ（実験的）",
+					wrap: "上/下に折り返す",
 					silent: "サイレントモード",
 				},
 				resample: "リサンプ",
@@ -503,6 +504,10 @@ export default {
 					blur: "ぼかしの強さ",
 				},
 			},
+			preference: {
+				_: "設定",
+				autoSwitchSourceFrom: "ソースの自動切り替え",
+			},
 			config: {
 				hideUsageTips: "使用ヒントを非表示",
 			},
@@ -525,12 +530,15 @@ export default {
 					},
 				},
 				blindBox: {
-					_: "ソースのポイントでランダムに使用します。\nこれは、ランダムに選択されたソースクリップが異なるベースピッチを持つ可能性があります。 娯楽用の面白い動画の作成にのみ役立ちますし、高度な動画の作成にはほとんど使用されません。",
+					_: "ソースのポイントをランダム化します。\nこれは、ランダムに選択されたソースクリップが異なるベースピッチを持つ可能性があります。 娯楽用の面白い動画の作成にのみ役立ちますし、高度な動画の作成にはほとんど使用されません。",
 					track: "トラックまたはチャンネルがスコアに依存するかどうか",
 					marker: "スコアにマーカーがある場合、ソースのインポイントは一度変更されます。 複数のマーカーに同じ名前が空でない場合、ソースのポイントで同じ名前が使用されます。",
 					barOrBeat: {
+						_: "スコアに従って、ソースのポイントを一定期間で手動で変更します。",
 						period: "変更する期間を指定",
+						preparation: "最初の実行までの遅延",
 					},
+					ytpEnabled: "YTP機能が有効になっており、既にランダム化に対応しているため、ここで設定する必要はありません。",
 				},
 				trackGroup: {
 					_: "スコアトラックごとのグループトラック",
@@ -579,13 +587,20 @@ export default {
 				tuning: {
 					tuningMethod: {
 						noTuning: "ピッチエフェクトなし",
-						pitchShift: "ピッチオーディオエフェクトプラグインを使用します。ピッチオーディオエフェクトは低速で、再生レートを変更する際には効果がありません。 しかし、範囲外で動作することができ、VEGAS Pro 15でスクリプトAPIにアクセスできる唯一の方法です。",
-						elastic: "Elastic Pitch Change メソッドを使用します。+/- キーを直接押すデフォルトのメソッドです。範囲外では動作しません。",
-						classic: "範囲外では動作しないクラシックピッチ変更メソッドを使用します。VEGAS Pro 8で利用可能な唯一の方法です。",
-						scaleless: "ストレッチとピッチをロックし、ストレッチを変更してノートピッチに関係なく対応するピッチを取得します。",
+						pitchShift: "ピッチオーディオエフェクトプラグインを使用します。再生速度の変化では遅く、効果はありませんが、範囲を超えることができます。",
+						elastic: "Elastic Pitch Change メソッドを使用します。ただ、+/- キーを直接押すデフォルトのメソッドです。動作範囲を超えることはできません。",
+						classic: "範囲を超えることはできませんが、VEGAS Pro 8で利用可能な唯一の方法であるClassic Pitch Change Methodを使用します",
+						scaleless: "ストレッチとピッチをロックし、ストレッチを変更して、実際のノートピッチに関係なく対応するピッチを取得します。",
 					},
 					stretchAttributes: "選択したチューニング方法の詳細設定",
-					alternativeForExceedsTheRange: "別の方法で範囲外のメモを処理",
+					alternativeForExceedsTheRange: {
+						_: "別の方法で範囲外のメモを処理",
+						plugin: "ピッチシフトオーディオエフェクトプラグインを繰り返し使用して任意のピッチに到達します。",
+						octave: "オクターブ音量を {{formulaFor24}}の範囲まで上げたり下げたりすることによって、少なくとも不協和音の間隔を避けてください。",
+						octaveExp: "VEGASは実際には、さまざまな {{formulaFor39}} を内部でサポートしています。VEGASがクラッシュする可能性があるため、注意して使用してください。",
+						wrap: "{{formulaFor24}} の範囲内の最も高いキーまたは最も低いキーに戻ります。",
+						silent: "これらのメモをミュート",
+					},
 					resample: "ストレッチとピッチをロックし、ストレッチを調整してピッチを変更します",
 					preserveFormant: "チューニング中は音声音の特性を維持します",
 					basePitch: "オーディオクリップのベースピッチを指定します",
@@ -697,6 +712,9 @@ export default {
 			settings: {
 				about: "音MADヘルパー、VEGAS Pro用の音MADエクステンションVEGASがMIDIシーケンスファイルのようなスコアを入力として受け入れ、音MADトラックを自動的に生成できるように設計されています。",
 				translation: "翻訳に参加したい場合は、ぜひ参加してください。",
+				preference: {
+					autoSwitchSourceFrom: "最後に選択した内容に基づいてソースを自動的に変更します",
+				},
 			},
 		},
 		empty: {

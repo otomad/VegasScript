@@ -44,6 +44,12 @@ export default {
 				projectStart: "项目开始处",
 				cursor: "光标处",
 			},
+			afterCompletion: {
+				_: "完成后",
+				removeSourceClips: "删除源轨道剪辑",
+				selectSourceClips: "选中源轨道剪辑",
+				selectGeneratedClips: "选中生成的所有剪辑",
+			},
 			preferredTrack: {
 				_: "首选轨道",
 				index: "首选轨道序号",
@@ -51,22 +57,6 @@ export default {
 				ordinal: "在{{count, ordinal}}条轨道下方",
 				belowAdjustmentTracks: "如果该轨道下方有一条或多条调整轨道，则选择下一条不是调整轨道的轨道",
 				newTrack: "新增轨道",
-			},
-			afterCompletion: {
-				_: "完成后",
-				removeSourceClips: "删除源轨道剪辑",
-				selectSourceClips: "选中源轨道剪辑",
-				selectGeneratedClips: "选中生成的所有剪辑",
-			},
-			blindBox: {
-				_: "素材盲盒",
-				track: "为每个音轨或通道",
-				marker: "每个标记切换一次",
-				barOrBeat: {
-					_: "每小节或每拍切换一次",
-					period: "周期",
-					preparation: "预备",
-				},
 			},
 			trackGroup: {
 				_: "轨道组",
@@ -82,6 +72,16 @@ export default {
 				media: "素材媒体名",
 				score: "乐曲文件名",
 				unnamed: "未命名",
+			},
+			blindBox: {
+				_: "素材盲盒",
+				track: "为每个音轨或通道",
+				marker: "每个标记切换一次",
+				barOrBeat: {
+					_: "每小节或每拍切换一次",
+					period: "周期",
+					preparation: "预备",
+				},
 			},
 		},
 		on: "开",
@@ -255,7 +255,8 @@ export default {
 					multiple: "使用多次音效插件",
 					plugin: "切换到移调音效插件",
 					octave: "高/低八度",
-					dock: "停靠在边缘",
+					octaveExp: "高/低八度（实验性）",
+					wrap: "停靠在边缘",
 					silent: "不发声",
 				},
 				resample: "重采样音频",
@@ -503,6 +504,10 @@ export default {
 					blur: "模糊强度",
 				},
 			},
+			preference: {
+				_: "偏好",
+				autoSwitchSourceFrom: "自动切换素材来源",
+			},
 			config: {
 				hideUsageTips: "隐藏使用小贴士",
 			},
@@ -526,7 +531,7 @@ export default {
 					},
 				},
 				blindBox: {
-					_: "为素材使用随机入点。\n这可能会导致随机选择的素材片段具有不同的原始音高，因此只能用来做成搞笑视频供娱乐，几乎不能做成高品质视频。",
+					_: "随机化素材入点。\n这可能会导致随机选择的素材片段具有不同的原始音高，因此只能用来做成搞笑视频供娱乐，几乎不能做成高品质视频。",
 					track: "究竟是音轨还是通道取决于乐曲配置",
 					marker: "当在乐曲中遇到标记时，就会变更一次素材入点。如果某些标记具有相同的非空名称，它们将会使用相同的素材入点。",
 					barOrBeat: {
@@ -534,6 +539,7 @@ export default {
 						period: "指定变更的周期",
 						preparation: "初次执行前的延迟",
 					},
+					ytpEnabled: "YTP功能已启用且已经支持随机化，不需要在此处设置。",
 				},
 				trackGroup: {
 					_: "依照乐曲音轨为轨道分组",
@@ -582,13 +588,20 @@ export default {
 				tuning: {
 					tuningMethod: {
 						noTuning: "无变调效果",
-						pitchShift: "使用移调音频效果插件，它很慢，且在改变回放速率时失效，但可以超出音域，并且是唯一一种可以在VEGAS Pro ≤ 15中访问脚本API的方法",
+						pitchShift: "使用移调音频效果插件，它生成得很慢，且在改变回放速率时失效，但可以超出音域",
 						elastic: "使用弹性音调更改方法，也就是加减键调音的默认方法，它无法超出音域",
 						classic: "使用古典音调更改方法，它无法超出音域，是VEGAS Pro ≤ 8所使用的唯一方法",
-						scaleless: "锁定伸缩与音调，完全通过改变拉伸值来获取相应的音调，而不考虑音符的音高，仅供娱乐",
+						scaleless: "锁定伸缩与音调，完全通过改变拉伸值来获取相应的音调，而不考虑音符的实际音高，仅供娱乐",
 					},
 					stretchAttributes: "有关所选调音方法的更多配置",
-					alternativeForExceedsTheRange: "使用另一种平替方法来处理超出音域之外的音符",
+					alternativeForExceedsTheRange: {
+						_: "使用另一种平替方法来处理超出音域范围之外的音符",
+						plugin: "通过反复使用移调音频效果插件从而达到任意音高",
+						octave: "通过升高或降低八度到 {{formulaFor24}} 的音域范围内来至少避免不协和音程",
+						octaveExp: "VEGAS实际上内部支持 {{formulaFor39}} 的音域范围，请谨慎使用，有可能会导致VEGAS崩溃",
+						wrap: "返回到 {{formulaFor24}} 音域范围内的最高或最低音调",
+						silent: "将那些音符静音",
+					},
 					resample: "锁定伸缩与音调，调整伸缩以改变音调",
 					preserveFormant: "调音时保持语音音色特征不变",
 					basePitch: "指定音频剪辑的原始音高",
@@ -700,6 +713,9 @@ export default {
 			settings: {
 				about: "音MAD助手是VEGAS Pro的音MAD扩展程序，旨在使VEGAS能够接受如MIDI序列文件等乐谱作为输入并自动生成音MAD的轨道。",
 				translation: "如果你想要参与翻译，欢迎你的加入。",
+				preference: {
+					autoSwitchSourceFrom: "根据最后所选的内容自动更改素材来源",
+				},
 			},
 		},
 		empty: {

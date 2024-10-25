@@ -14,11 +14,11 @@ export function MathFormulaFor39() {
 					</mrow>
 				</mfrac>
 				<mspace width="0.75ch" />
-				<mo form="prefix" stretchy={false}>(</mo>
+				<mo form="prefix" stretchy="false">(</mo>
 				<mo>≈</mo>
-				<mo form="prefix" stretchy={false}>±</mo>
+				<mo form="prefix" stretchy="false">±</mo>
 				<mn>39.863137</mn>
-				<mo form="postfix" stretchy={false}>)</mo>
+				<mo form="postfix" stretchy="false">)</mo>
 			</mrow>
 		</math>
 	);

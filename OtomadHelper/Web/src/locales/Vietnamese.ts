@@ -40,13 +40,13 @@ export default {
 				projectStart: "Bắt đầu dự án",
 				cursor: "Con trỏ",
 			},
-			preferredTrack: {},
 			afterCompletion: {},
+			preferredTrack: {},
+			trackGroup: {},
+			trackName: {},
 			blindBox: {
 				barOrBeat: {},
 			},
-			trackGroup: {},
-			trackName: {},
 		},
 		on: "Bật",
 		off: "Tắt",
@@ -161,6 +161,7 @@ export default {
 				},
 				backgroundImage: {},
 			},
+			preference: {},
 			config: {},
 			dev: {},
 		},
@@ -185,6 +186,7 @@ export default {
 				},
 				tuning: {
 					tuningMethod: {},
+					alternativeForExceedsTheRange: {},
 					prelisten: {},
 				},
 				effects: {},
@@ -213,7 +215,9 @@ export default {
 				control: {},
 			},
 			pixelScaling: {},
-			settings: {},
+			settings: {
+				preference: {},
+			},
 		},
 		empty: {
 			disabled: {},

@@ -86,7 +86,7 @@ declare global {
 			movablelimits?: boolean | undefined;
 			rspace?: string | undefined;
 			separator?: boolean | undefined;
-			stretchy?: boolean | undefined;
+			stretchy?: Booleanish | undefined;
 			symmetric?: boolean | undefined;
 		}
 		interface MathMLMoverAttributes extends MathMLAttributes<MathMLElement> {
