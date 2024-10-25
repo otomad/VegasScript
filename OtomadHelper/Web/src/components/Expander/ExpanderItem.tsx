@@ -40,11 +40,6 @@ export /* @internal */ const styledExpanderItemText = css`
 export /* @internal */ const styledExpanderItemContent = css`
 	${styledExpanderItemText};
 
-	&[disabled],
-	&[disabled] .text .details {
-		color: ${c("fill-color-text-disabled")};
-	}
-
 	.text {
 		flex: 1;
 		width: 100%;
@@ -94,6 +89,10 @@ const StyledExpanderItem = styled.div<{
 	padding-inline-start: ${expanderItemWithIconPaddingInlineStart}px;
 
 	${styledExpanderItemContent};
+
+	&[disabled] > :is(.text, .icon) {
+		opacity: var(--disabled-text-opacity);
+	}
 
 	${ifProp("$clickable", css`
 		:not(.sortable-item) > &:hover,

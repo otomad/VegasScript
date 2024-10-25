@@ -117,7 +117,7 @@ export default function InfoBar({ status, title, children, button, className, ..
 			{status && <Badge status={status} />}
 			<div className="text-part">
 				{title && <div className="title">{title}</div>}
-				{children && <div className="text">{children}</div>}
+				{(children || button) && <div className="text">{children}</div>}
 				{button && <div className="buttons">{button}</div>}
 			</div>
 		</StyledInfoBar>

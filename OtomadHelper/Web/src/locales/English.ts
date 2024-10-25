@@ -543,7 +543,7 @@ export default {
 					},
 				},
 				blindBox: {
-					_: "Uses random in points for the source.\nThis can result in randomly selected source clips having different base pitches, making it useful only for creating funny videos for entertainment purposes, and barely used for creating high-caliber videos.",
+					_: "Randomizes in points for the source.\nThis can result in randomly selected source clips having different base pitches, making it useful only for creating funny videos for entertainment purposes, and barely used for creating high-caliber videos.",
 					track: "Whether track or channel depends on the Score",
 					marker: "When a marker is encountered in the score, the in point of the source will be changed once. If several markers have the same non-empty name, they will use the same in point of the source.",
 					barOrBeat: {
@@ -551,6 +551,7 @@ export default {
 						period: "Specified the periods to change",
 						preparation: "Delay before first execution",
 					},
+					ytpEnabled: "YTP feature is enabled and it already supports randomization, it is unnecessary to set it here.",
 				},
 				trackGroup: {
 					_: "Groups tracks by score track",

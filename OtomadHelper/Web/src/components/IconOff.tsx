@@ -47,6 +47,7 @@ export default function IconOff({ name }: FCP<{
 							values={`${STROKE_DASHARRAY}; 0`}
 							calcMode="spline"
 							keySplines="0.5 0 0 1"
+							begin="250ms"
 						/>
 					</g>
 				</mask>

@@ -40,6 +40,7 @@ export default function Source() {
 		blindBoxForTrack, blindBoxForMarker, blindBoxForBarOrBeat, blindBoxForBarOrBeatPeriod, blindBoxForBarOrBeatPreparation,
 	} = selectConfig(c => c.source);
 	const { removeSourceClips, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = selectConfig(c => c.source.afterCompletion);
+	const { enabled: [ytpEnabled] } = selectConfig(c => c.ytp);
 
 	mutexSwitches(removeSourceClips, selectSourceClips);
 
@@ -129,7 +130,7 @@ export default function Source() {
 				iconField="icon"
 			/>
 
-			<Expander title={t.source.blindBox} details={t.descriptions.source.blindBox} icon="dice">
+			<Expander title={t.source.blindBox} details={t.descriptions.source.blindBox} selectInfo={ytpEnabled && t.descriptions.source.blindBox.ytpEnabled} disabled={ytpEnabled} icon="dice">
 				<ToggleSwitch on={blindBoxForTrack} details={t.descriptions.source.blindBox.track} icon="layer">{t.source.blindBox.track}</ToggleSwitch>
 				<ToggleSwitch on={blindBoxForMarker} details={t.descriptions.source.blindBox.marker} icon="marker">{t.source.blindBox.marker}</ToggleSwitch>
 				<ToggleSwitch on={blindBoxForBarOrBeat} details={t.descriptions.source.blindBox.barOrBeat} icon="music_bar">{t.source.blindBox.barOrBeat}</ToggleSwitch>
