@@ -119,7 +119,7 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 
 	> .base > .text {
 		overflow: hidden;
-		transition: ${fallbackTransitions}, height ${eases.easeInOutMaterialEmphasized} 500ms;
+		transition: ${fallbackTransitions}, height ${eases.easeOutMaterialEmphasized} 250ms;
 	}
 `);
 

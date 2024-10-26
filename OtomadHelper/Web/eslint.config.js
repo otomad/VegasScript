@@ -17,7 +17,6 @@ export default [
 		quotes: "double",
 		semi: true,
 	}),
-	// plugin:react-hooks/recommended
 	{
 		languageOptions: {
 			parserOptions: {
@@ -226,6 +225,7 @@ export default [
 			}],
 			"react-hooks/exhaustive-deps": "off",
 			"react-hooks/rules-of-hooks": "off",
+			"react/jsx-uses-vars": "error",
 			"react/react-in-jsx-scope": "off",
 			"react/prop-types": "off",
 			"react/jsx-no-undef": "off",

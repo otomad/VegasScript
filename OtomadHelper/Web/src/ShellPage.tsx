@@ -23,7 +23,7 @@ export function redirectIcon(name: string): DeclaredIcons & DeclaredLotties {
 	return hasOwn(redirects, name) ? redirects[name] : name as DeclaredIcons & DeclaredLotties;
 }
 
-const isCompleteAvailable = (page: string[]) => !["mosh", "tools", "settings"].includes(page[0]);
+const isCompleteAvailable = (page: string[]) => !["management", "mosh", "tools", "settings"].includes(page[0]);
 const isAutoLayoutTracks = (page: string[]) => page.length >= 2 && page[0] === "track";
 
 const getTitle = (viewName: string, full: boolean = false, plural?: number) => {
