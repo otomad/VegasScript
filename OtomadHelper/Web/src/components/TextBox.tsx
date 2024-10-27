@@ -97,6 +97,7 @@ function Spinner({ disabled, step = 1, onSpin, onRelease }: FCP<{
 export /* @internal */ const inSettingsCardTrailing = ":where(.settings-card > .base, .expander-item) > .trailing";
 
 export /* @internal */ const inputInSettingsCardStyle = css`
+	${inSettingsCardTrailing} > .stack-panel > :where(&),
 	${inSettingsCardTrailing} > :where(&) {
 		inline-size: 200px;
 		max-inline-size: calc(50cqw - 13px);

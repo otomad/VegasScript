@@ -206,3 +206,16 @@ export function createImageFromUrl(url: string) {
 	image.src = url;
 	return image.waitForLoaded();
 }
+
+type WithAttrsProps<TTag> = Partial<(TTag extends keyof ElementTagNameMap ? FCP<{}, TTag> : PropsOf<TTag>)>;
+/**
+ * You can reuse the component with some same props or attrs.
+ * @note You have to declare it at the top level of a module. You should not declare it in a function or component,
+ * otherwise every time that component changes, this entire component will be rerendered.
+ * @param tag - HTML element tag (like `"div"`) or React component constructor (like `MyComponent`).
+ * @param withProps - Part of the props or attrs of the element.
+ * @returns A new component containing the partial props or attrs.
+ */
+export function withAttrs<TTag extends keyof ElementTagNameMap | React.FC>(tag: TTag, withProps: WithAttrsProps<TTag>) {
+	return (props: WithAttrsProps<TTag>) => React.createElement(tag, { ...withProps, ...props }) as unknown as TTag;
+}

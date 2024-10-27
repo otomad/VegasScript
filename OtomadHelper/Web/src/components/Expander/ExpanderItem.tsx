@@ -40,6 +40,15 @@ export /* @internal */ const styledExpanderItemText = css`
 export /* @internal */ const styledExpanderItemContent = css`
 	${styledExpanderItemText};
 
+	.leading {
+		display: flex;
+		flex-wrap: nowrap;
+		gap: inherit;
+		align-items: center;
+		min-width: fit-content;
+		max-width: 100%;
+	}
+
 	.text {
 		flex: 1;
 		width: 100%;
@@ -57,7 +66,7 @@ export /* @internal */ const styledExpanderItemContent = css`
 
 		> * {
 			@layer layout {
-				gap: inherit;
+				gap: 8px;
 			}
 		}
 
@@ -75,17 +84,7 @@ export /* @internal */ const styledExpanderItemContent = css`
 			&:last-child:not(:first-child) {
 				margin-inline-start: -3px;
 			}
-
-			/* &:last-child:not(:first-child) {
-				margin-inline-start: calc(1rem - 8px);
-			} */
 		}
-
-		/* .toggle-switch-label {
-			&:first-child:not(:last-child):has(+ .button:not(.subtle)) {
-				margin-inline-end: calc(1rem - 8px - 5px);
-			}
-		} */
 	}
 `;
 
@@ -100,7 +99,7 @@ const StyledExpanderItem = styled.div<{
 
 	${styledExpanderItemContent};
 
-	&[disabled] > :is(.text, .icon) {
+	&[disabled] > .leading > :is(.text, .icon) {
 		opacity: var(--disabled-text-opacity);
 	}
 
@@ -144,14 +143,20 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 }, "div">) {
 	return (
 		<StyledExpanderItem $clickable={clickable} $asSubtitle={asSubtitle} disabled={disabled} {...htmlAttrs}>
-			{icon ? typeof icon === "string" ? <Icon name={icon} /> : icon : <Icon shadow />}
-			<div className="text">
-				<p className="title"><Preserves>{title}</Preserves></p>
-				<p className="details"><Preserves>{details}</Preserves></p>
-			</div>
-			<div className="trailing">
-				{children}
-			</div>
+			<SettingsCard.Base>
+				{{
+					leading: (
+						<>
+							{icon ? typeof icon === "string" ? <Icon name={icon} /> : icon : <Icon shadow />}
+							<div className="text">
+								<p className="title"><Preserves>{title}</Preserves></p>
+								<p className="details"><Preserves>{details}</Preserves></p>
+							</div>
+						</>
+					),
+					trailing: children,
+				}}
+			</SettingsCard.Base>
 		</StyledExpanderItem>
 	);
 }

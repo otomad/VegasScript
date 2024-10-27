@@ -65,10 +65,13 @@ const ExpanderParent = styled(SettingsCard)<{
 
 const ExpanderChild = styled.div`
 	inline-size: 100%;
-	overflow: clip;
 	border: 1px solid ${c("stroke-color-card-stroke-default")};
 	border-top-width: 0;
 	border-radius: 0 0 3px 3px;
+
+	&:not(.enter-done) {
+		overflow: clip;
+	}
 
 	.expander-child-items {
 		background-color: ${c("background-fill-color-card-background-secondary")};

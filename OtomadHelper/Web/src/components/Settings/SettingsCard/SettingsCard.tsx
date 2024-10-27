@@ -56,8 +56,8 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 				background-color: ${c("fill-color-control-tertiary")};
 			}
 
-			> .base > .icon,
-			> .base > .text,
+			> .base > .leading > .icon,
+			> .base > .leading > .text,
 			> .base > .trailing > .check-info,
 			&.button > .base > .trailing > .trailing-icon {
 				opacity: ${c("pressed-text-opacity")};
@@ -117,7 +117,7 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 		}
 	}
 
-	> .base > .text {
+	> .base > .leading > .text {
 		overflow: hidden;
 		transition: ${fallbackTransitions}, height ${eases.easeOutMaterialEmphasized} 250ms;
 	}
@@ -163,35 +163,75 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 			{...htmlAttrs}
 		>
 			<div className="base">
-				{dragHandle && (
-					<>
-						<div className="drag-handle-shadow" ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
-						<Icon name="reorder_dots" className="drag-handle-icon" />
-					</>
-				)}
-				{typeof icon === "object" ? icon : <Icon name={icon} />}
-				<Transitions.DynamicAutoSize specified="height">
-					<div className="text">
-						<p className="title"><Preserves>{title}</Preserves></p>
-						<p className="details"><Preserves>{details}</Preserves></p>
-						<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
-					</div>
-				</Transitions.DynamicAutoSize>
-				<div className="trailing">
-					{React.Children.map(children, child => {
-						const propsWithDisabled = {
-							disabled: disabled ?? false,
-							"aria-disabled": disabled || undefined,
-						} as object;
-						return !React.isValidElement(child) ? !child ? child : <p {...propsWithDisabled}>{child}</p> : React.cloneElement(child, propsWithDisabled);
-					})}
-					{trailingIcon && typeof trailingIcon === "string" && (
-						<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>
-							<Icon name={trailingIcon} />
-						</div>
-					)}
-				</div>
+				<SettingsCardBase>
+					{{
+						leading: (
+							<>
+								{dragHandle && (
+									<>
+										<div className="drag-handle-shadow" ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
+										<Icon name="reorder_dots" className="drag-handle-icon" />
+									</>
+								)}
+								{typeof icon === "object" ? icon : <Icon name={icon} />}
+								<Transitions.DynamicAutoSize specified="height">
+									<div className="text">
+										<p className="title"><Preserves>{title}</Preserves></p>
+										<p className="details"><Preserves>{details}</Preserves></p>
+										<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
+									</div>
+								</Transitions.DynamicAutoSize>
+							</>
+						),
+						trailing: (
+							<>
+								{React.Children.map(children, child => {
+									const propsWithDisabled = {
+										disabled: disabled ?? false,
+										"aria-disabled": disabled || undefined,
+									} as object;
+									return !React.isValidElement(child) ? !child ? child : <p {...propsWithDisabled}>{child}</p> : React.cloneElement(child, propsWithDisabled);
+								})}
+								{trailingIcon && typeof trailingIcon === "string" && (
+									<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>
+										<Icon name={trailingIcon} />
+									</div>
+								)}
+							</>
+						),
+					}}
+				</SettingsCardBase>
 			</div>
 		</StyledSettingsCard>
 	);
 }
+
+const SETTINGS_CARD_TRAILING_MAX_WIDTH = 200;
+
+function SettingsCardBase({ threshold = SETTINGS_CARD_TRAILING_MAX_WIDTH, children: { leading, trailing } }: FCP<{
+	/** Specified the min width threshold, if the trailing part is wider then it, the settings card base will be wrapped. */
+	threshold?: number;
+	/** The children contains the leading part and the trailing part. */
+	children: { leading?: ReactNode; trailing?: ReactNode };
+}, "div">) {
+	const [wrapped, setWrapped] = useState(false);
+	const trailingEl = useDomRef<"div">();
+
+	useMountEffect(() => {
+		if (!trailingEl.current) return;
+		const observer = new ResizeObserver(([{ borderBoxSize: [{ inlineSize }] }]) => {
+			setWrapped(inlineSize > threshold);
+		});
+		observer.observe(trailingEl.current);
+		return () => observer.disconnect();
+	});
+
+	return (
+		<>
+			<div className="leading" style={{ display: wrapped ? undefined : "contents" }}>{leading}</div>
+			{trailing && <div ref={trailingEl} className="trailing">{trailing}</div>}
+		</>
+	);
+}
+
+SettingsCard.Base = SettingsCardBase;
