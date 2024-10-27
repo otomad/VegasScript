@@ -50,13 +50,16 @@ export /* @internal */ const StyledButton = styled.button<{
 		}
 	}
 
-	&:focus-visible::after {
+	&::after {
 		${styles.mixins.square("100%")};
-		${styles.effects.focus()};
 		content: "";
 		position: absolute;
 		inset: 0;
 		border-radius: inherit;
+	}
+
+	&:focus-visible::after {
+		${styles.effects.focus()};
 	}
 
 	&.subtle,

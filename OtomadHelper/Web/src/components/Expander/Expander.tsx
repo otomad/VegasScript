@@ -110,7 +110,7 @@ const ExpanderChildWrapper = styled.div`
 	}
 `;
 
-export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, selectInfo, selectValid, disabled }: FCP<PropsOf<typeof SettingsCard> & {
+export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, selectInfo, selectValid, disabled, className, onClickWhenChildrenDisabled }: FCP<PropsOf<typeof SettingsCard> & {
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/** Expanded initially? */
@@ -123,10 +123,12 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	clipChildren?: boolean;
 	/** Make expander child items disabled. */
 	childrenDisabled?: boolean;
+	/** Occurs when the expander parent has been clicked where the child items disabled. */
+	onClickWhenChildrenDisabled?(): void;
 }>) {
-	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled };
+	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className };
 	const [internalExpanded, setInternalExpanded] = useState(expanded);
-	const handleClick = useOnNestedButtonClick(() => !childrenDisabled && setInternalExpanded(expanded => !expanded));
+	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useEffect(() => setInternalExpanded(expanded), [expanded]);
 	useEffect(() => { if (disabled || childrenDisabled) setInternalExpanded(false); }, [disabled, childrenDisabled]);
 
@@ -134,7 +136,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 		<div className="expander">
 			<ExpanderParent
 				{...settingsCardProps}
-				type={childrenDisabled ? "container-but-button" : "expander"}
+				type={childrenDisabled ? onClickWhenChildrenDisabled ? "button" : "container-but-button" : "expander"}
 				trailingIcon="chevron_down"
 				onClick={handleClick}
 				$expanded={internalExpanded}

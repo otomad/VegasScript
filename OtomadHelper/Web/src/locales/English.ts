@@ -232,6 +232,8 @@ export default {
 				glissando: {
 					_: "Glissando",
 					swirl: "Swirl",
+					wave: "Wave",
+					tv: "TV",
 					pingpong: "Ping-Pong",
 					swirlAmount: "Swirl amount",
 				},

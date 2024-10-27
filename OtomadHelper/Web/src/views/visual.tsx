@@ -136,12 +136,8 @@ export default function Visual() {
 					/>
 					<SettingsCard
 						title={t.stream.resampleImitatively}
-						details={(
-							<>
-								{t.descriptions.stream.resampleImitatively}<br />
-								{resampleImitatively[0] === "auto" && t.descriptions.stream.resampleImitatively.auto}
-							</>
-						)}
+						details={t.descriptions.stream.resampleImitatively}
+						selectInfo={resampleImitatively[0] === "auto" && t.descriptions.stream.resampleImitatively.auto}
 						icon="lock"
 					>
 						<ThreeStageSwitch current={resampleImitatively} />
@@ -194,6 +190,8 @@ export default function Visual() {
 						<Expander.Item icon="sparkle" title={t.titles.effect}>
 							<Segmented current={glissandoEffect}>
 								<Segmented.Item icon="swirl" id="swirl">{t.stream.playingTechniques.glissando.swirl}</Segmented.Item>
+								<Segmented.Item icon="wave" id="wave">{t.stream.playingTechniques.glissando.wave}</Segmented.Item>
+								<Segmented.Item icon="tv" id="tv">{t.stream.playingTechniques.glissando.tv}</Segmented.Item>
 								<Segmented.Item icon="pingpong" id="pingpong">{t.stream.playingTechniques.glissando.pingpong}</Segmented.Item>
 							</Segmented>
 						</Expander.Item>

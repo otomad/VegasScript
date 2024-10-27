@@ -6,8 +6,8 @@ const THUMB_PRESSED_WIDTH = 22;
 // const isHoverPseudo = ":is(&:hover, .settings-card:hover .trailing &)";
 // const isPressedPseudo = ":is(&:active, .settings-card:active .trailing &)";
 // WARN: styled components bug: https://github.com/styled-components/styled-components/issues/4279
-const isHoverPseudo = "&:hover, .settings-card-toggle-switch:hover .trailing:not(:has(:hover)) &";
-const isPressedPseudo = "&:active, &.pressed, .settings-card-toggle-switch:active .trailing:not(:has(:active)) &";
+const isHoverPseudo = "&:hover, .settings-card-toggle-switch.toggle-switch-hoverable:hover .trailing:not(:has(:hover)) &";
+const isPressedPseudo = "&:active, &.pressed, .settings-card-toggle-switch.toggle-switch-hoverable:active .trailing:not(:has(:active)) &";
 
 const TOGGLE_SWITCH_LABEL_GAP = 12;
 
@@ -52,6 +52,11 @@ const StyledToggleSwitchLabel = styled.button`
 		&:last-child {
 			border-radius: inherit;
 		}
+	}
+
+	&:not(.expander-child-items &) {
+		margin-inline-end: -5px;
+		padding-inline-end: 5px;
 	}
 
 	.stroke {

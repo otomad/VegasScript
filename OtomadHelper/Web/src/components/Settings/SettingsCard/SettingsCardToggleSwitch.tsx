@@ -23,7 +23,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 			type="button"
 			disabled={disabled}
 			trailingIcon={trailingIcon}
-			className={[className, nameof({ SettingsCardToggleSwitch })]}
+			className={[className, nameof({ SettingsCardToggleSwitch }), { toggleSwitchHoverable: !isExpander || !on }]}
 			onClick={onClick}
 			actions={(
 				<>
@@ -40,6 +40,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 				</>
 			)}
 			childrenDisabled={isExpander ? !on : undefined}
+			onClickWhenChildrenDisabled={isExpander && setOn ? () => setOn(true) : undefined}
 			{...settingsCardProps}
 		>
 			{children}

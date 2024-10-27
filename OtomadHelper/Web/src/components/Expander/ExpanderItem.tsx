@@ -78,12 +78,8 @@ export /* @internal */ const styledExpanderItemContent = css`
 		}
 
 		.toggle-switch-label {
-			&:first-child:not(:last-child, :has(+ .trailing-icon)) {
-				margin-inline-end: calc(1rem - 8px);
-			}
-
-			+ .trailing-icon${important()} {
-				margin-inline-start: 0;
+			&:first-child:not(:last-child):has(+ .button:not(.subtle)) {
+				margin-inline-end: calc(1rem - 8px - 5px);
 			}
 		}
 	}
