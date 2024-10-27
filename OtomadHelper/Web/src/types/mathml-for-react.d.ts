@@ -44,7 +44,7 @@ declare global {
 
 		// https://developer.mozilla.org/en-US/docs/Web/MathML/Global_attributes
 		interface MathMLAttributes<T> extends React.DOMAttributes<T> {
-			className?: string | undefined;
+			className?: React.HTMLAttributes<T>["className"] | undefined;
 			dir?: "ltr" | "rtl" | undefined;
 			displaystyle?: boolean | undefined;
 			href?: string | undefined;

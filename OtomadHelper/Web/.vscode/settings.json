@@ -22,4 +22,6 @@
 	],
 	"cSpell.language": "en,vi",
 	"cSpell.minWordLength": 1,
+	"javascript.preferences.useAliasesForRenames": false,
+	"typescript.preferences.useAliasesForRenames": false,
 }

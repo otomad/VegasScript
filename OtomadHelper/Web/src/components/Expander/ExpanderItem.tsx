@@ -76,6 +76,16 @@ export /* @internal */ const styledExpanderItemContent = css`
 				margin-inline-start: calc(1rem - 8px);
 			}
 		}
+
+		.toggle-switch-label {
+			&:first-child:not(:last-child, :has(+ .trailing-icon)) {
+				margin-inline-end: calc(1rem - 8px);
+			}
+
+			+ .trailing-icon${important()} {
+				margin-inline-start: 0;
+			}
+		}
 	}
 `;
 

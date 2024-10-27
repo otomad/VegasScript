@@ -23,7 +23,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 			type="button"
 			disabled={disabled}
 			trailingIcon={trailingIcon}
-			className={[className, "settings-card-toggle-switch"]}
+			className={[className, nameof({ SettingsCardToggleSwitch })]}
 			onClick={onClick}
 			actions={(
 				<>

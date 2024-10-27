@@ -43,7 +43,10 @@ export const ifColorScheme = {
  * Make your selector higher in priority.
  * @param priority - The priority, the bigger the number, the higher it is. Less than or equal to zero has no effect.
  * @returns
- * ```css
+ * ```less
+ * // before
+ * .your-selector${important(5)} { }
+ * // after
  * .your-selector:not[#\#]:not[#\#]:not[#\#]:not[#\#]:not[#\#] { }
  * ```
  */
