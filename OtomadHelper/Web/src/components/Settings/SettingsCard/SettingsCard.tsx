@@ -163,44 +163,42 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 			{...htmlAttrs}
 		>
 			<div className="base">
-				<SettingsCardBase>
-					{{
-						leading: (
-							<>
-								{dragHandle && (
-									<>
-										<div className="drag-handle-shadow" ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
-										<Icon name="reorder_dots" className="drag-handle-icon" />
-									</>
-								)}
-								{typeof icon === "object" ? icon : <Icon name={icon} />}
-								<Transitions.DynamicAutoSize specified="height">
-									<div className="text">
-										<p className="title"><Preserves>{title}</Preserves></p>
-										<p className="details"><Preserves>{details}</Preserves></p>
-										<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
-									</div>
-								</Transitions.DynamicAutoSize>
-							</>
-						),
-						trailing: (
-							<>
-								{React.Children.map(children, child => {
-									const propsWithDisabled = {
-										disabled: disabled ?? false,
-										"aria-disabled": disabled || undefined,
-									} as object;
-									return !React.isValidElement(child) ? !child ? child : <p {...propsWithDisabled}>{child}</p> : React.cloneElement(child, propsWithDisabled);
-								})}
-								{trailingIcon && typeof trailingIcon === "string" && (
-									<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>
-										<Icon name={trailingIcon} />
-									</div>
-								)}
-							</>
-						),
-					}}
-				</SettingsCardBase>
+				<SettingsCardBase
+					leading={(
+						<>
+							{dragHandle && (
+								<>
+									<div className="drag-handle-shadow" ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
+									<Icon name="reorder_dots" className="drag-handle-icon" />
+								</>
+							)}
+							{typeof icon === "object" ? icon : <Icon name={icon} />}
+							<Transitions.DynamicAutoSize specified="height">
+								<div className="text">
+									<p className="title"><Preserves>{title}</Preserves></p>
+									<p className="details"><Preserves>{details}</Preserves></p>
+									<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
+								</div>
+							</Transitions.DynamicAutoSize>
+						</>
+					)}
+					trailing={(
+						<>
+							{React.Children.map(children, child => {
+								const propsWithDisabled = {
+									disabled: disabled ?? false,
+									"aria-disabled": disabled || undefined,
+								} as object;
+								return !React.isValidElement(child) ? !child ? child : <p {...propsWithDisabled}>{child}</p> : React.cloneElement(child, propsWithDisabled);
+							})}
+							{trailingIcon && typeof trailingIcon === "string" && (
+								<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>
+									<Icon name={trailingIcon} />
+								</div>
+							)}
+						</>
+					)}
+				/>
 			</div>
 		</StyledSettingsCard>
 	);
@@ -208,11 +206,14 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 
 const SETTINGS_CARD_TRAILING_MAX_WIDTH = 200;
 
-function SettingsCardBase({ threshold = SETTINGS_CARD_TRAILING_MAX_WIDTH, children: { leading, trailing } }: FCP<{
+function SettingsCardBase({ threshold = SETTINGS_CARD_TRAILING_MAX_WIDTH, leading, trailing }: FCP<{
 	/** Specified the min width threshold, if the trailing part is wider then it, the settings card base will be wrapped. */
 	threshold?: number;
-	/** The children contains the leading part and the trailing part. */
-	children: { leading?: ReactNode; trailing?: ReactNode };
+	/** Leading part. */
+	leading?: ReactNode;
+	/** Trailing part. */
+	trailing?: ReactNode;
+	children?: never;
 }, "div">) {
 	const [wrapped, setWrapped] = useState(false);
 	const trailingEl = useDomRef<"div">();

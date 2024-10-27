@@ -143,20 +143,18 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 }, "div">) {
 	return (
 		<StyledExpanderItem $clickable={clickable} $asSubtitle={asSubtitle} disabled={disabled} {...htmlAttrs}>
-			<SettingsCard.Base>
-				{{
-					leading: (
-						<>
-							{icon ? typeof icon === "string" ? <Icon name={icon} /> : icon : <Icon shadow />}
-							<div className="text">
-								<p className="title"><Preserves>{title}</Preserves></p>
-								<p className="details"><Preserves>{details}</Preserves></p>
-							</div>
-						</>
-					),
-					trailing: children,
-				}}
-			</SettingsCard.Base>
+			<SettingsCard.Base
+				leading={(
+					<>
+						{icon ? typeof icon === "string" ? <Icon name={icon} /> : icon : <Icon shadow />}
+						<div className="text">
+							<p className="title"><Preserves>{title}</Preserves></p>
+							<p className="details"><Preserves>{details}</Preserves></p>
+						</div>
+					</>
+				)}
+				trailing={children}
+			/>
 		</StyledExpanderItem>
 	);
 }
