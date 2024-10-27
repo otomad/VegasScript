@@ -104,8 +104,10 @@ export default function Source() {
 				icon="preferred_track"
 			>
 				<Expander.Item title={t.source.preferredTrack.index} details={t.descriptions.source.preferredTrack.fillingInstructions}>
-					<TextBox.Number value={[preferredTrack, setPreferredTrack]} decimalPlaces={0} />
-					<QuicklySelectCurrentTrack />
+					<StackPanel>
+						<TextBox.Number value={[preferredTrack, setPreferredTrack]} decimalPlaces={0} />
+						<QuicklySelectCurrentTrack />
+					</StackPanel>
 				</Expander.Item>
 				<ToggleSwitch
 					on={belowAdjustmentTracks}

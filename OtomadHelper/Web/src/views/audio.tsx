@@ -32,7 +32,7 @@ const buildInPresets = ["normal", "fadeOut"];
 const TooltipPartial = Tooltip.with({ placement: "y" });
 
 const PrelistenActions = styled(Disabled).attrs({
-	container: "div",
+	container: StackPanel,
 })`
 	position: relative;
 	display: flex;
@@ -44,8 +44,8 @@ const PrelistenActions = styled(Disabled).attrs({
 
 	:has(~ .stop.shown) {
 		opacity: 0;
-		visibility: hidden;
 		pointer-events: none;
+		// Do not use \`visibility: hidden;\`, it has a bad behavior.
 	}
 
 	.stop {
@@ -53,8 +53,8 @@ const PrelistenActions = styled(Disabled).attrs({
 		inset: 0;
 
 		&:not(.shown) {
-			display: none;
 			opacity: 0;
+			pointer-events: none;
 		}
 	}
 `;
@@ -99,8 +99,10 @@ export default function Audio() {
 
 			<EmptyMessage.Typical icon="volume" title="audio" enabled={enabled}>
 				<SettingsCard title={t.source.preferredTrack} details={t.descriptions.source.preferredTrack} icon="preferred_track">
-					<ComboBox current={preferredTrackIndex} ids={[...tracks.keys()]} options={tracks} />
-					<QuicklySelectCurrentTrack />
+					<StackPanel>
+						<ComboBox current={preferredTrackIndex} ids={[...tracks.keys()]} options={tracks} />
+						<QuicklySelectCurrentTrack />
+					</StackPanel>
 				</SettingsCard>
 				<SettingsCardToggleSwitch title={t.stream.createGroups} details={t.descriptions.stream.createGroups} icon="group" on={createGroups} />
 				<EmptyMessage.YtpDisabled>

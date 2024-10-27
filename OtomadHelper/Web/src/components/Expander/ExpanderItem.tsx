@@ -51,7 +51,7 @@ export /* @internal */ const styledExpanderItemContent = css`
 
 	.trailing {
 		display: flex;
-		gap: 8px;
+		gap: 16px;
 		align-items: center;
 		margin-inline-start: auto;
 
@@ -73,15 +73,19 @@ export /* @internal */ const styledExpanderItemContent = css`
 			}
 
 			&:last-child:not(:first-child) {
-				margin-inline-start: calc(1rem - 8px);
+				margin-inline-start: -3px;
 			}
+
+			/* &:last-child:not(:first-child) {
+				margin-inline-start: calc(1rem - 8px);
+			} */
 		}
 
-		.toggle-switch-label {
+		/* .toggle-switch-label {
 			&:first-child:not(:last-child):has(+ .button:not(.subtle)) {
 				margin-inline-end: calc(1rem - 8px - 5px);
 			}
-		}
+		} */
 	}
 `;
 

@@ -70,8 +70,10 @@ export default function Visual() {
 
 			<EmptyMessage.Typical icon="image" title="visual" enabled={enabled}>
 				<SettingsCard title={t.source.preferredTrack} details={t.descriptions.source.preferredTrack} icon="preferred_track">
-					<ComboBox current={preferredTrackIndex} ids={[...tracks.keys()]} options={tracks} />
-					<QuicklySelectCurrentTrack />
+					<StackPanel>
+						<ComboBox current={preferredTrackIndex} ids={[...tracks.keys()]} options={tracks} />
+						<QuicklySelectCurrentTrack />
+					</StackPanel>
 				</SettingsCard>
 				<SettingsCardToggleSwitch title={t.stream.createGroups} details={t.descriptions.stream.createGroups} icon="group" on={createGroups} />
 				<EmptyMessage.YtpDisabled>
