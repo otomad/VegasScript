@@ -74,24 +74,9 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 	buttons?: ReactNode | ((close: () => void) => ReactNode);
 }, "div">) {
 	const close = (): void => void setShown?.(false);
+	const closeWhenNonStatic = (): void => void (!isStatic && close());
 
-	const maskEl = useDomRef<"div">();
-
-	const handleMaskPointerDown: PointerEventHandler<HTMLDivElement> = e => {
-		if (!isStatic && e.currentTarget === e.target)
-			maskEl.current = e.currentTarget;
-	};
-
-	useEventListener(document, "pointerup", e => {
-		if (!isStatic && maskEl.current && maskEl.current === e.target)
-			close();
-		maskEl.current = null;
-	});
-
-	useEventListener(window, "keydown", e => {
-		if (!isStatic && e.code === "Escape")
-			close();
-	});
+	useEventListener(window, "keydown", e => e.code === "Escape" && closeWhenNonStatic());
 
 	const setRootInert = (inert: boolean) => {
 		const root = document.getElementById("root");
@@ -108,17 +93,19 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 	return (
 		<Portal>
 			<CssTransition in={shown} unmountOnExit appear>
-				<Mask onPointerDown={handleMaskPointerDown}>
-					<StyledContentDialog {...htmlAttrs}>
-						<div className="content">
-							<div className="title">{title}</div>
-							<div className="body">{children}</div>
-						</div>
-						<div className="button-grid">
-							{typeof buttons === "function" ? buttons(close) : buttons}
-						</div>
-					</StyledContentDialog>
-				</Mask>
+				<ClickOnSameElement onClick={closeWhenNonStatic}>
+					<Mask>
+						<StyledContentDialog onClick={e => e.stopPropagation()} {...htmlAttrs}>
+							<div className="content">
+								<div className="title">{title}</div>
+								<div className="body">{children}</div>
+							</div>
+							<div className="button-grid">
+								{typeof buttons === "function" ? buttons(close) : buttons}
+							</div>
+						</StyledContentDialog>
+					</Mask>
+				</ClickOnSameElement>
 			</CssTransition>
 		</Portal>
 	);

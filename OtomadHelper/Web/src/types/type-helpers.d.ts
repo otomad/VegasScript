@@ -209,4 +209,11 @@ declare global {
 	type OmitPrivates<T> = OmitNevers<{
 		[key in keyof T]: key extends `_${string}` ? never : T[key];
 	}>;
+
+	/**
+	 * Make all properties in T required and exclude null and undefined from them.
+	 */
+	type RequiredNonNullable<T> = {
+		[P in keyof T]-?: T[P] & {};
+	};
 }

@@ -153,5 +153,15 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 		define: {
 			// SC_DISABLE_SPEEDY: false, // Enable to speed up styled component, but make debugging more difficult;
 		},
+		server: {
+			proxy: {
+				"/api/crowdin": {
+					target: "https://badges.awesome-crowdin.com/stats-16002405-661336.json",
+					changeOrigin: true,
+					secure: false,
+					rewrite: () => "",
+				},
+			},
+		},
 	};
 });

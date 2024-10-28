@@ -73,6 +73,12 @@ export default [
 			"useSetAtom",
 			["createStore", "createJotaiStore"],
 		],
+		"jotai-valtio": [
+			"atomWithProxy",
+		],
+		"jotai-immer": [
+			"atomWithImmer",
+		],
 	},
 	/* {
 		from: "react",

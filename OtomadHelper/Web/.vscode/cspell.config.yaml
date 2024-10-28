@@ -62,6 +62,7 @@ words:
   - jsdoc
   - jsdocs
   - kbd
+  - kebabcase
   - keyframes
   - klass
   - languagedetector
@@ -86,8 +87,10 @@ words:
   - netaed
   - neutual
   - numberish
+  - numpad
   - nums
   - nuxt
+  - oem
   - ofx
   - oklab
   - ol

@@ -1,3 +1,5 @@
+using System.IO;
+
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 
@@ -128,5 +130,18 @@ internal class ManagedStream(Stream s) : Stream {
 		ManagedStream managedStream = new(memoryStream);
 		string headers = "image/png";
 		args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(managedStream, 200, "OK", headers);
+	}
+
+	private static void Handler_Api(WebView2 webView, CoreWebView2WebResourceRequestedEventArgs args, string apiPath) {
+		switch (apiPath) {
+			case "crowdin":
+				CoreWebView2WebResourceRequest request = webView.CoreWebView2.Environment.CreateWebResourceRequest(
+					"https://badges.awesome-crowdin.com/stats-16002405-661336.json", "GET", null, "Content-Type: application/json");
+				webView.CoreWebView2.NavigateWithWebResourceRequest(request);
+				break;
+			default:
+				args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(null, 404, "Not Found", "");
+				break;
+		}
 	}
 }

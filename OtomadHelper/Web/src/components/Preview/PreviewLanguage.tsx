@@ -81,7 +81,7 @@ const StyledPreviewLanguage = styled.div`
 	},
 })); */
 
-const approvalProgresses = createStore({
+/* const approvalProgresses = createStore({
 	proofreading: proxyMap<string, number>(),
 	initial(language: string) {
 		const { proofreading } = approvalProgresses;
@@ -94,7 +94,20 @@ const approvalProgresses = createStore({
 		}
 		return useSnapshot(approvalProgresses).proofreading.get(language) ?? -1;
 	},
-});
+}); */
+const approvalProgresses = atomWithImmer(new Map<string, number>());
+approvalProgresses.onMount = setProgress => {
+	fetch("/api/crowdin")
+		.then(response => response.json())
+		.then(data => {
+			setProgress(draft => draft.set("en", 100));
+			(data.progress as AnyObject[]).forEach(({ data }) => {
+				const { id } = data.language;
+				const progress = parseFloat(data.approvalProgress);
+				setProgress(draft => draft.set(id, progress));
+			});
+		}).catch(noop);
+};
 
 export default function PreviewLanguage({ language }: FCP<{
 	/** The ISO language code. */
@@ -102,8 +115,8 @@ export default function PreviewLanguage({ language }: FCP<{
 	children?: never;
 }>) {
 	const languageName = t({ lng: language }).metadata.name;
-	const { initial: useProgress } = approvalProgresses;
-	const progress = useProgress(language);
+	const [progresses] = useAtom(approvalProgresses);
+	const progress = progresses.get(language) ?? -1;
 	const showProgressPercentage = progress >= 0 && progress < 100;
 
 	return (

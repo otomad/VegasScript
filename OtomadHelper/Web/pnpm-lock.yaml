@@ -79,6 +79,9 @@ importers:
       immer:
         specifier: ^10.0.4
         version: 10.0.4
+      jotai-immer:
+        specifier: ^0.4.1
+        version: 0.4.1(immer@10.0.4)(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
       jotai-valtio:
         specifier: ^0.5.0
         version: 0.5.0(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
@@ -2863,6 +2866,12 @@ packages:
   jiti@1.21.6:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
+
+  jotai-immer@0.4.1:
+    resolution: {integrity: sha512-nQTt1HBKie/5OJDck1qLpV1PeBA6bjJLAczEYAx70PD8R4Mbu7gtexfBUCzJh6W6ecsOfwHksAYAesVth6SN9A==}
+    peerDependencies:
+      immer: '>=9.0.0'
+      jotai: '>=2.0.0'
 
   jotai-valtio@0.5.0:
     resolution: {integrity: sha512-4XVKGhPe3/XFkMwuYLGk8CkWISsog5KRnHtB3bSo0cr7+xb5wm0uJl142pe+Kbls7dQGrYXLt1eurYdibfalnQ==}
@@ -7410,6 +7419,11 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jiti@1.21.6: {}
+
+  jotai-immer@0.4.1(immer@10.0.4)(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
+    dependencies:
+      immer: 10.0.4
+      jotai: 2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
 
   jotai-valtio@0.5.0(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
     dependencies:
