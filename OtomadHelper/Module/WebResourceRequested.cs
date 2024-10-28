@@ -1,4 +1,5 @@
 using System.IO;
+using System.IO.Pipes;
 
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
@@ -70,38 +71,16 @@ internal class ManagedStream(Stream s) : Stream {
 						case "fileicon":
 							Handler_Thumbnail(webView, args, path, true);
 							return;
+						case "api":
+							Handler_Api(webView, args, path);
+							return;
 						default:
 							break;
 					}
 				}
 				Stream fileStream = ResourceHelper.GetEmbeddedResource(assetsFilePath);
 				ManagedStream managedStream = new(fileStream);
-				string contentType = new Path(file).Extension switch {
-					"html" => "text/html",
-					"js" => "text/javascript",
-					"css" => "text/css",
-					"appcache" => "text/cache-manifest",
-					"jpg" => "image/jpeg",
-					"png" => "image/png",
-					"gif" => "image/gif",
-					"svg" => "image/svg+xml",
-					"webp" => "image/webp",
-					"apng" => "image/apng",
-					"ico" => "image/vnd.microsoft.icon",
-					"cur" => "image/x-win-bitmap",
-					"bmp" => "image/bmp",
-					"woff" => "font/woff",
-					"woff2" => "font/woff2",
-					"ttf" => "font/ttf",
-					"json" => "application/json",
-					"xml" => "application/xml",
-					"manifest" => "application/manifest+json",
-					"ani" => "application/x-navi-animation",
-					"frag" => "x-shader/x-fragment",
-					"vert" => "x-shader/x-vertex",
-					"glsl" => "x-shader/x-glsl",
-					_ => "application/octet-stream",
-				};
+				string contentType = GetContentType(new Path(file).Extension);
 				const int AGE = 1200;
 				string headers = $"""
 					HTTP/1.1 200 OK
@@ -120,6 +99,33 @@ internal class ManagedStream(Stream s) : Stream {
 		};
 	}
 
+	public static string GetContentType(string extension) => extension switch {
+		"html" => "text/html",
+		"js" => "text/javascript",
+		"css" => "text/css",
+		"appcache" => "text/cache-manifest",
+		"jpg" => "image/jpeg",
+		"png" => "image/png",
+		"gif" => "image/gif",
+		"svg" => "image/svg+xml",
+		"webp" => "image/webp",
+		"apng" => "image/apng",
+		"ico" => "image/vnd.microsoft.icon",
+		"cur" => "image/x-win-bitmap",
+		"bmp" => "image/bmp",
+		"woff" => "font/woff",
+		"woff2" => "font/woff2",
+		"ttf" => "font/ttf",
+		"json" => "application/json",
+		"xml" => "application/xml",
+		"manifest" => "application/manifest+json",
+		"ani" => "application/x-navi-animation",
+		"frag" => "x-shader/x-fragment",
+		"vert" => "x-shader/x-vertex",
+		"glsl" => "x-shader/x-glsl",
+		_ => "application/octet-stream",
+	};
+
 	private static void Handler_Thumbnail(WebView2 webView, CoreWebView2WebResourceRequestedEventArgs args, string filePath, bool allowIcon = false) {
 		filePath = filePath.Replace("/", "\\");
 		BitmapSource thumb = ResourceHelper.GetFileThumbnail(filePath, allowIcon);
@@ -128,16 +134,18 @@ internal class ManagedStream(Stream s) : Stream {
 		encoder.Frames.Add(BitmapFrame.Create(thumb));
 		encoder.Save(memoryStream);
 		ManagedStream managedStream = new(memoryStream);
-		string headers = "image/png";
-		args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(managedStream, 200, "OK", headers);
+		args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(managedStream, 200, "OK", GetContentType("png"));
 	}
+
+	private const string CROWDIN_API_URL = "https://badges.awesome-crowdin.com/stats-16002405-661336.json";
 
 	private static void Handler_Api(WebView2 webView, CoreWebView2WebResourceRequestedEventArgs args, string apiPath) {
 		switch (apiPath) {
 			case "crowdin":
-				CoreWebView2WebResourceRequest request = webView.CoreWebView2.Environment.CreateWebResourceRequest(
-					"https://badges.awesome-crowdin.com/stats-16002405-661336.json", "GET", null, "Content-Type: application/json");
-				webView.CoreWebView2.NavigateWithWebResourceRequest(request);
+				if (GetHtmlBytes(CROWDIN_API_URL, webView.CoreWebView2.Settings.UserAgent) is not byte[] json) goto default;
+				MemoryStream memoryStream = new(json);
+				ManagedStream managedStream = new(memoryStream);
+				args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(managedStream, 200, "OK", GetContentType("json"));
 				break;
 			default:
 				args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(null, 404, "Not Found", "");

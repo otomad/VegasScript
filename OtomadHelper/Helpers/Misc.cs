@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace OtomadHelper.Helpers;
 
 public static class Misc {
@@ -34,5 +36,41 @@ public static class Misc {
 		if (!typeof(TEnum).IsEnum)
 			throw new ArgumentException($"{type} must be an enumerated type");
 		return (TEnum[])Enum.GetValues(type);
+	}
+
+	private const string DEFAULT_USER_AGENT =
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0";
+
+	/// <summary>
+	/// Get the web page source code.
+	/// </summary>
+	/// <param name="url">URL link.</param>
+	/// <param name="userAgent">Custom the navigator user agent.</param>
+	/// <returns>Web page source code content.</returns>
+	public static string? GetHtml(string url, string userAgent = DEFAULT_USER_AGENT) {
+		try {
+			byte[]? text = GetHtmlBytes(url, userAgent); // Get the web page source code.
+			return text is null ? null : Encoding.GetEncoding("UTF-8").GetString(text); // Convert the encoding.
+		} catch (Exception) {
+			return null;
+		}
+	}
+
+	public static byte[]? GetHtmlBytes(string url, string userAgent = DEFAULT_USER_AGENT) {
+		try {
+			if (url.StartsWith("https")) { // Resolve an issue of WebClient cannot download content via HTTPS
+				ServicePointManager.ServerCertificateValidationCallback += (
+					object sender,
+					System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+					System.Security.Cryptography.X509Certificates.X509Chain chain,
+					System.Net.Security.SslPolicyErrors sslPolicyErrors
+				) => true; // Always accept.
+			}
+			WebClient webClient = new();
+			webClient.Headers.Add("user-agent", userAgent);
+			return webClient.DownloadData(url); // Get the web page source code.
+		} catch (Exception) {
+			return null;
+		}
 	}
 }
