@@ -228,6 +228,8 @@ export default {
 				glissando: {
 					_: "Glissando",
 					swirl: "渦巻き",
+					wave: "ウェーブ",
+					tv: "テレビ",
 					pingpong: "ピンポン",
 					swirlAmount: "渦巻きの量",
 				},

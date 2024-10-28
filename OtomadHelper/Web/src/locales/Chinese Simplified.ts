@@ -228,6 +228,8 @@ export default {
 				glissando: {
 					_: "滑音",
 					swirl: "漩涡",
+					wave: "波浪",
+					tv: "电视",
 					pingpong: "来回",
 					swirlAmount: "漩涡大小",
 				},
