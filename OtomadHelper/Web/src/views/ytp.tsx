@@ -1,4 +1,4 @@
-import cursor from "assets/cursors/poo.cur";
+import cursor from "assets/cursors/poo.svg?cursor";
 import tipsImage from "assets/images/tips/yoooo_a_boom.png";
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
