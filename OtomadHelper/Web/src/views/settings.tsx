@@ -1,3 +1,5 @@
+import NoBackground from "assets/icons/colored/prohibited.svg?react";
+
 export default function Settings() {
 	const [language, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
@@ -16,7 +18,7 @@ export default function Settings() {
 
 	async function addBackgroundImage() {
 		const file = await openFile({ accept: "image/*" });
-		if (file) backgroundImages.add(file);
+		if (file) await backgroundImages.add(file);
 	}
 
 	return (
@@ -44,7 +46,7 @@ export default function Settings() {
 				view="grid"
 				value={backgroundImages.backgroundImage}
 				idField="key"
-				imageField="url"
+				imageField={item => item.key === -1 ? <NoBackground /> : item.url}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([

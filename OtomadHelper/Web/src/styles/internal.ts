@@ -25,7 +25,7 @@ export function setBorderRadius(radius: string, position: BorderRadiusPosition) 
 		"sharp-left-bottom": `${radius} ${radius} ${radius} 0`,
 		"nwse": `${radius} 0`, // I really don't know what word to use to refer to this situation, use this instead.
 		"nesw": `0 ${radius} 0`, // I really don't know what word to use to refer to this situation, use this instead.
-		"full": `${radius}`,
+		"full": radius,
 		/* eslint-enable @stylistic/quote-props */
 	};
 	return css`

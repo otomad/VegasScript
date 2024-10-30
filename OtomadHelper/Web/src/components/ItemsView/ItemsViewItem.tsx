@@ -201,7 +201,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
-	icon?: DeclaredIcons | ReactNode;
+	icon?: DeclaredIcons | Exclude<ReactNode, Iterable<ReactNode>>;
 	/** Identifier. */
 	id: PropertyKey;
 	/** Selected? */
