@@ -61,40 +61,6 @@ const StyledPreviewLanguage = styled.div`
 	}
 `;
 
-/* const useApprovalProgresses = createStore<{
-	proofreading: Map<string, number>;
-	initial(language: string): void;
-	set(language: string, progress: number): void;
-}>()((set, get) => ({
-	proofreading: new Map<string, number>(),
-	initial(language) {
-		const { proofreading, set: update } = get();
-		if (proofreading.has(language)) return;
-		update(language, -1);
-		fetch(`https://img.shields.io/badge/dynamic/json?color=green&label=${language}&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27${language}%27)].data.approvalProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16002405-661336.json`)
-			.then(response => response.xml())
-			.then(xml => xml.querySelector("title")?.textContent?.match(/\d+(\.\d+)?/)?.[0])
-			.then(progress => update(language, progress != null ? +progress : 100));
-	},
-	set(language, progress) {
-		set(prev => ({ proofreading: new Map(prev.proofreading).set(language, progress) }));
-	},
-})); */
-
-/* const approvalProgresses = createStore({
-	proofreading: proxyMap<string, number>(),
-	initial(language: string) {
-		const { proofreading } = approvalProgresses;
-		if (!proofreading.has(language)) {
-			proofreading.set(language, -1);
-			fetch(`https://img.shields.io/badge/dynamic/json?color=green&label=${language}&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27${language}%27)].data.approvalProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16002405-661336.json`)
-				.then(response => response.xml())
-				.then(xml => xml.querySelector("title")?.textContent?.match(/\d+(\.\d+)?/)?.[0])
-				.then(progress => proofreading.set(language, progress != null ? +progress : 100));
-		}
-		return useSnapshot(approvalProgresses).proofreading.get(language) ?? -1;
-	},
-}); */
 const approvalProgresses = atomWithImmer(new Map<string, number>());
 approvalProgresses.onMount = setProgress => {
 	fetch("/api/crowdin")

@@ -18,7 +18,7 @@ import { author, displayName, github, homepage, project, version } from "./packa
 import fragmentFiltersVirtualFile from "./src/plugins/vite/fragment-filters";
 import globalized from "./src/plugins/vite/globalized";
 import midiKeyframes from "./src/plugins/vite/midi";
-import svgCursor from "./src/plugins/vite/svg-cursor";
+import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
 
 const ENABLE_MINIFY = true;
 
@@ -94,6 +94,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			}),
 			fragmentFiltersVirtualFile(),
 			svgCursor(),
+			svgDataset(),
 			/* compression({
 				skipIfLargerOrEqual: true,
 				deleteOriginalAssets: true,

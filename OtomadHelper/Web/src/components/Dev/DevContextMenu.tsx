@@ -7,7 +7,7 @@ const StyledContextMenu = styled.menu`
 	z-index: 70;
 	margin: 0;
 	padding: 2px;
-	background-color: ${c("background-fill-color-acrylic-background-default")};
+	background-color: ${c("background-fill-color-acrylic-background-command-bar")};
 	border: 1px solid ${c("stroke-color-surface-stroke-flyout")};
 	border-radius: 8px;
 	box-shadow: 0 8px 16px ${c("shadows-flyout")};

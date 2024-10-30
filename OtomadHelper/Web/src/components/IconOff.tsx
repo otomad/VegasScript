@@ -25,12 +25,11 @@ export default function IconOff({ name }: FCP<{
 
 	useEffect(() => {
 		const path = document.querySelector(symbolId)?.innerHTML;
-		if (!path) return;
-		setSvgPath(path);
+		if (path) setSvgPath(path);
 	}, [name]);
 
 	return (
-		<StyledIconOff>
+		<StyledIconOff role="img">
 			<svg width={ICON_INITIAL_SIZE} height={ICON_INITIAL_SIZE} viewBox={`0 0 ${ICON_INITIAL_SIZE} ${ICON_INITIAL_SIZE}`} xmlns="http://www.w3.org/2000/svg">
 				<mask id={maskId}>
 					<g fill="white" dangerouslySetInnerHTML={{ __html: svgPath }} />

@@ -108,6 +108,7 @@ const GlobalStyle = createGlobalStyle<{
 		background-color: var(--background-color);
 		transition: ${fallbackTransitions}, width 0s, height 0s;
 		color-scheme: dark;
+		accent-color: var(--accent-color);
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 

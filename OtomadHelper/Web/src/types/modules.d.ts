@@ -8,6 +8,10 @@ declare module "*.ani" {
 	export default src;
 }
 declare module "*.svg?cursor" {
-	const svg: string;
-	export default svg;
+	const cssCursorValue: string;
+	export default cssCursorValue;
+}
+declare module "*.svg?dataset" {
+	const dataset: DOMStringMap;
+	export default dataset;
 }

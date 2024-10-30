@@ -33,10 +33,12 @@ function Icon(props: FCP<{
 	name: DeclaredIcons | "" | boolean;
 	/** Keep the color of the icon itself? */
 	filled?: boolean;
+	children?: never;
 }, "i">, ref: ForwardedRef<"i">): JSX.Element;
 function Icon(props: FCP<{
 	/** Hold the place, but nothing shown? */
 	shadow: boolean;
+	children?: never;
 }, "i">, ref: ForwardedRef<"i">): JSX.Element;
 function Icon({ name, filled, shadow, className, ...htmlAttrs }: FCP<{
 	/**

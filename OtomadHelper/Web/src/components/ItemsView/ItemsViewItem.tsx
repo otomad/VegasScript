@@ -66,6 +66,10 @@ const StyledItemsViewItem = styled.button<{
 			`}
 		}
 
+		&:not(.selected):has(.image-wrapper .no-border) .selection {
+			box-shadow: none;
+		}
+
 		&${isPressed} .selection {
 			background-color: ${c("fill-color-subtle-tertiary")};
 		}

@@ -1,5 +1,3 @@
-import NoBackground from "assets/icons/colored/prohibited.svg?react";
-
 export default function Settings() {
 	const [language, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
@@ -46,7 +44,7 @@ export default function Settings() {
 				view="grid"
 				value={backgroundImages.backgroundImage}
 				idField="key"
-				imageField={item => item.key === -1 ? <NoBackground /> : item.url}
+				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([

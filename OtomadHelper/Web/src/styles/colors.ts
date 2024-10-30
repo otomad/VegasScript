@@ -49,6 +49,7 @@ const colors = {
 	"fill-color-system-solid-neutral": ["rgb(138, 138, 138)", "rgb(157, 157, 157)", "ButtonFace"],
 	"fill-color-system-solid-attention-background": ["rgb(247, 247, 247)", "rgb(46, 46, 46)", "InfoBackground"],
 	"fill-color-system-solid-neutral-background": ["rgb(243, 243, 243)", "rgb(46, 46, 46)", "InfoBackground"],
+	"fill-color-control-icon-tile-secondary": ["rgba(184, 184, 184, 0.2)", "rgba(71, 71, 71, 0.2)", "ButtonFace"],
 	"fill-color-control-on-image-default": ["rgba(255, 255, 255, 0.79)", "rgba(28, 28, 28, 0.7)", "HighlightText"],
 	"fill-color-control-on-image-secondary": ["rgb(243, 243, 243)", "rgb(26, 26, 26)", "HighlightText"],
 	"fill-color-control-on-image-tertiary": ["rgb(235, 235, 235)", "rgb(19, 19, 19)", "HighlightText"],
@@ -116,6 +117,7 @@ export function globalColors() {
 	}
 	return css;
 }
+// TODO: `light-dark`, `prefers-color-scheme`.
 
 type SystemColors =
 	"ActiveText" | "ButtonFace" | "ButtonText" | "Canvas" | "CanvasText" | "Field" | "FieldText" | "GrayText" | "Highlight" | "HighlightText" | "LinkText" | "VisitedText" | // Standard
