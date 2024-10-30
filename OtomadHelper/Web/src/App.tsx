@@ -25,7 +25,7 @@ export default function App() {
 			<BackgroundImage />
 			<GlobalStyle $ready={ready} />
 			<DynamicAccentColor />
-			<InfoBar status="error" title="您的浏览器版本过低！" />
+			{/* <InfoBar status="error" title="We do not support your legacy browser!" /> */}
 			<ShellPage />
 			<DevContextMenu />
 			<Toast />
