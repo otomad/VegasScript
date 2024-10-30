@@ -34,6 +34,10 @@ export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alph
 		`rgb(from var(--${cssVarName}) r g b / calc(alpha * ${alpha}%))`;
 }
 
+/**
+ * @deprecated Respects color-scheme inherited from parent\
+ * https://developer.mozilla.org/docs/Web/CSS/@media/prefers-color-scheme
+ */
 export const ifColorScheme = {
 	light: '[data-scheme="light"]',
 	dark: '[data-scheme="dark"]',

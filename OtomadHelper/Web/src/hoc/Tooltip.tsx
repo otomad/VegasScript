@@ -149,7 +149,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 			{!disabled && (
 				<Portal>
 					<CssTransition in={shown} unmountOnExit>
-						<StyledTooltip $offset={offset} className={actualPlacement} style={position}>
+						<StyledTooltip role="tooltip" $offset={offset} className={actualPlacement} style={position}>
 							<div className="base" ref={tooltipEl}>
 								{title}
 							</div>

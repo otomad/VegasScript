@@ -116,7 +116,7 @@ const GlobalStyle = createGlobalStyle<{
 		}
 
 		${ifColorScheme.light} & {
-			color-scheme: light;
+			color-scheme: only light;
 		}
 
 		${({ $ready }) => !$ready && css`
