@@ -34,6 +34,9 @@
 		"prepare": "husky",
 		"commit": "git-cz -a"
 	},
+	"overrides": {
+		"postcss": "^8.4.38"
+	},
 	"dependencies": {
 		"@dnd-kit/core": "^6.1.0",
 		"@dnd-kit/modifiers": "^7.0.0",
@@ -67,8 +70,8 @@
 		"@commitlint/types": "^19.0.3",
 		"@crowdin/crowdin-api-client": "^1.33.1",
 		"@styled/typescript-styled-plugin": "^1.0.1",
-		"@stylistic/eslint-plugin": "^1.7.0",
-		"@stylistic/stylelint-plugin": "^2.1.1",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@stylistic/stylelint-plugin": "^3.1.1",
 		"@tonejs/midi": "^2.0.28",
 		"@types/jsdom": "^21.1.7",
 		"@types/license-checker": "^25.0.6",
@@ -80,6 +83,7 @@
 		"@vitejs/plugin-react": "^4.2.1",
 		"babel-plugin-styled-components": "^2.1.4",
 		"babel-plugin-transform-jsx-classnames": "^1.2.2",
+		"browserslist-useragent-regexp": "^4.1.3",
 		"click-to-react-component": "^1.1.0",
 		"commitizen": "^4.3.0",
 		"eslint": "^9.13.0",
@@ -113,9 +117,6 @@
 		"vite-tsconfig-paths": "^4.3.2",
 		"xmlbuilder2": "^3.1.1"
 	},
-	"resolutions": {
-		"postcss": "^8.4.38"
-	},
 	"pnpm": {
 		"patchedDependencies": {
 			"babel-plugin-styled-components@2.1.4": "patches/babel-plugin-styled-components@2.1.4.patch",
@@ -127,10 +128,10 @@
 			"react-dom@18.2.0": "patches/react-dom@18.2.0.patch",
 			"react-flip-move@3.0.5": "patches/react-flip-move@3.0.5.patch",
 			"@types/react@18.2.78": "patches/@types__react@18.2.78.patch",
-			"postcss-selector-parser@6.0.16": "patches/postcss-selector-parser@6.0.16.patch",
 			"postcss@8.4.38": "patches/postcss@8.4.38.patch",
 			"styled-components@6.1.8": "patches/styled-components@6.1.8.patch",
-			"click-to-react-component@1.1.0": "patches/click-to-react-component@1.1.0.patch"
+			"click-to-react-component@1.1.0": "patches/click-to-react-component@1.1.0.patch",
+			"postcss-selector-parser@6.1.2": "patches/postcss-selector-parser@6.1.2.patch"
 		},
 		"allowNonAppliedPatches": false
 	},
