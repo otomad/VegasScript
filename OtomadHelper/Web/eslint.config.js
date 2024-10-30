@@ -354,6 +354,7 @@ export default [
 			"node_modules/*",
 			"**/dist/*",
 			"**/.auto-import/*",
+			"**/supportedBrowsers.[jt]s",
 		],
 	},
 ];

@@ -25,6 +25,7 @@ export default function App() {
 			<BackgroundImage />
 			<GlobalStyle $ready={ready} />
 			<DynamicAccentColor />
+			<InfoBar status="error" title="您的浏览器版本过低！" />
 			<ShellPage />
 			<DevContextMenu />
 			<Toast />

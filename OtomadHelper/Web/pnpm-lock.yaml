@@ -23,12 +23,15 @@ patchedDependencies:
   pangu@4.0.7:
     hash: kommaei6mdnwkhfyu555is7zfe
     path: patches/pangu@4.0.7.patch
+  postcss-selector-parser@6.1.2:
+    hash: c6pvggwplewue4bpxp74ftgq5u
+    path: patches/postcss-selector-parser@6.1.2.patch
   postcss-styled-syntax@0.6.4:
     hash: rn4setm5xqloprsbfimt6gdcgu
     path: patches/postcss-styled-syntax@0.6.4.patch
-  postcss@8.4.38:
-    hash: j3huwleoxa33x74crzni4usqeq
-    path: patches/postcss@8.4.38.patch
+  postcss@8.4.47:
+    hash: 5ekgxqzkzchng7x6j4g2ebxymi
+    path: patches/postcss@8.4.47.patch
   react-dom@18.2.0:
     hash: 6kd4d66wteippoxmqcrx452jem
     path: patches/react-dom@18.2.0.patch
@@ -212,9 +215,12 @@ importers:
       lightningcss:
         specifier: ^1.24.1
         version: 1.24.1
+      postcss:
+        specifier: ^8.4.47
+        version: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
       postcss-styled-syntax:
         specifier: ^0.6.4
-        version: 0.6.4(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@5.2.18)
+        version: 0.6.4(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi))
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -1331,6 +1337,9 @@ packages:
   ajv@8.12.0:
     resolution: {integrity: sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==}
 
+  ajv@8.17.1:
+    resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
+
   ani-cursor@0.0.5:
     resolution: {integrity: sha512-gGxst72lG9TOwEfbVpX9vHhzUGw+4Ee2XB6AfYq5JP+bxBtpAjgnTBepCVxYF5t1TPrWHN23nWqLTflJOA3/ag==}
 
@@ -1582,8 +1591,8 @@ packages:
   camelize@1.0.1:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
 
-  caniuse-lite@1.0.30001609:
-    resolution: {integrity: sha512-JFPQs34lHKx1B5t1EpQpWH4c+29zIyn/haGsbpfq3suuV9v56enjFt23zqijxGTMwy1p/4H2tjnQMY+p1WoAyA==}
+  caniuse-lite@1.0.30001675:
+    resolution: {integrity: sha512-/wV1bQwPrkLiQMjaJF5yUMVM/VdRPOCU8QZ+PmG6uW6DvYSrNY1bpwHI/3mOcUosLaJCzYDi5o91IQB51ft6cg==}
 
   chalk@1.1.3:
     resolution: {integrity: sha512-U3lRVLMSlsCfjqYPbLyVv11M9CPW4I728d6TCKMAOJueEeB9/8o+eSsMnxPJD+Q+K909sdESg7C+tIkoH6on1A==}
@@ -2250,6 +2259,9 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
+  fast-uri@3.0.3:
+    resolution: {integrity: sha512-aLrHthzCjH5He4Z2H9YZ+v6Ujb9ocRuW6ZzkJQOrTxleEijANq4v1TsaPaVG1PZcuurEzrLcWRyYBYXD5cEiaw==}
+
   fastest-levenshtein@1.0.16:
     resolution: {integrity: sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==}
     engines: {node: '>= 4.9.1'}
@@ -2613,6 +2625,10 @@ packages:
 
   ignore@5.3.1:
     resolution: {integrity: sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==}
+    engines: {node: '>= 4'}
+
+  ignore@5.3.2:
+    resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
   ignore@6.0.2:
@@ -3565,10 +3581,6 @@ packages:
 
   postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
-    engines: {node: ^10 || ^12 || >=14}
-
-  postcss@8.4.38:
-    resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.4.47:
@@ -4648,7 +4660,7 @@ snapshots:
   '@babel/code-frame@7.24.2':
     dependencies:
       '@babel/highlight': 7.24.2
-      picocolors: 1.0.0
+      picocolors: 1.1.1
 
   '@babel/compat-data@7.24.4': {}
 
@@ -4748,7 +4760,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.22.20
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.0
+      picocolors: 1.1.1
 
   '@babel/parser@7.24.4':
     dependencies:
@@ -4998,9 +5010,9 @@ snapshots:
       '@csstools/css-parser-algorithms': 3.0.3(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-tokenizer': 3.0.3
 
-  '@csstools/selector-specificity@4.0.0(postcss-selector-parser@6.1.2)':
+  '@csstools/selector-specificity@4.0.0(postcss-selector-parser@6.1.2(patch_hash=c6pvggwplewue4bpxp74ftgq5u))':
     dependencies:
-      postcss-selector-parser: 6.1.2
+      postcss-selector-parser: 6.1.2(patch_hash=c6pvggwplewue4bpxp74ftgq5u)
 
   '@dnd-kit/accessibility@3.1.0(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
     dependencies:
@@ -5423,7 +5435,7 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.3
       '@csstools/media-query-list-parser': 3.0.1(@csstools/css-parser-algorithms@3.0.3(@csstools/css-tokenizer@3.0.3))(@csstools/css-tokenizer@3.0.3)
       is-plain-object: 5.0.0
-      postcss-selector-parser: 6.1.2
+      postcss-selector-parser: 6.1.2(patch_hash=c6pvggwplewue4bpxp74ftgq5u)
       postcss-value-parser: 4.2.0
       style-search: 0.1.0
       stylelint: 16.10.0(typescript@5.4.5)
@@ -5721,6 +5733,13 @@ snapshots:
       require-from-string: 2.0.2
       uri-js: 4.4.1
 
+  ajv@8.17.1:
+    dependencies:
+      fast-deep-equal: 3.1.3
+      fast-uri: 3.0.3
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
+
   ani-cursor@0.0.5:
     dependencies:
       byte-data: 18.1.1
@@ -5951,7 +5970,7 @@ snapshots:
 
   browserslist@4.23.0:
     dependencies:
-      caniuse-lite: 1.0.30001609
+      caniuse-lite: 1.0.30001675
       electron-to-chromium: 1.4.736
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
@@ -6004,7 +6023,7 @@ snapshots:
 
   camelize@1.0.1: {}
 
-  caniuse-lite@1.0.30001609: {}
+  caniuse-lite@1.0.30001675: {}
 
   chalk@1.1.3:
     dependencies:
@@ -6239,7 +6258,7 @@ snapshots:
   css-tree@2.2.1:
     dependencies:
       mdn-data: 2.0.28
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   css-tree@2.3.1:
     dependencies:
@@ -6249,7 +6268,7 @@ snapshots:
   css-tree@3.0.0:
     dependencies:
       mdn-data: 2.10.0
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   css-what@6.1.0: {}
 
@@ -6816,6 +6835,8 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
+  fast-uri@3.0.3: {}
+
   fastest-levenshtein@1.0.16: {}
 
   fastq@1.17.1:
@@ -7052,7 +7073,7 @@ snapshots:
       array-union: 2.1.0
       dir-glob: 3.0.1
       fast-glob: 3.3.2
-      ignore: 5.3.1
+      ignore: 5.3.2
       merge2: 1.4.1
       slash: 3.0.0
 
@@ -7208,6 +7229,8 @@ snapshots:
   ieee754@1.2.1: {}
 
   ignore@5.3.1: {}
+
+  ignore@5.3.2: {}
 
   ignore@6.0.2: {}
 
@@ -8076,22 +8099,22 @@ snapshots:
 
   postcss-resolve-nested-selector@0.1.6: {}
 
-  postcss-safe-parser@7.0.1(postcss@8.4.47):
+  postcss-safe-parser@7.0.1(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)):
     dependencies:
-      postcss: 8.4.47
+      postcss: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
 
-  postcss-selector-parser@6.1.2:
+  postcss-selector-parser@6.1.2(patch_hash=c6pvggwplewue4bpxp74ftgq5u):
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-sorting@8.0.2(postcss@8.4.38(patch_hash=j3huwleoxa33x74crzni4usqeq)):
+  postcss-sorting@8.0.2(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)):
     dependencies:
-      postcss: 8.4.38(patch_hash=j3huwleoxa33x74crzni4usqeq)
+      postcss: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
 
-  postcss-styled-syntax@0.6.4(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@5.2.18):
+  postcss-styled-syntax@0.6.4(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)):
     dependencies:
-      postcss: 5.2.18
+      postcss: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
       typescript: 5.4.5
 
   postcss-value-parser@4.2.0: {}
@@ -8109,13 +8132,7 @@ snapshots:
       picocolors: 1.0.0
       source-map-js: 1.2.0
 
-  postcss@8.4.38(patch_hash=j3huwleoxa33x74crzni4usqeq):
-    dependencies:
-      nanoid: 3.3.7
-      picocolors: 1.0.0
-      source-map-js: 1.2.0
-
-  postcss@8.4.47:
+  postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi):
     dependencies:
       nanoid: 3.3.7
       picocolors: 1.1.1
@@ -8711,8 +8728,8 @@ snapshots:
 
   stylelint-order@6.0.4(stylelint@16.10.0(typescript@5.4.5)):
     dependencies:
-      postcss: 8.4.38(patch_hash=j3huwleoxa33x74crzni4usqeq)
-      postcss-sorting: 8.0.2(postcss@8.4.38(patch_hash=j3huwleoxa33x74crzni4usqeq))
+      postcss: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
+      postcss-sorting: 8.0.2(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi))
       stylelint: 16.10.0(typescript@5.4.5)
 
   stylelint@16.10.0(typescript@5.4.5):
@@ -8720,7 +8737,7 @@ snapshots:
       '@csstools/css-parser-algorithms': 3.0.3(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-tokenizer': 3.0.3
       '@csstools/media-query-list-parser': 3.0.1(@csstools/css-parser-algorithms@3.0.3(@csstools/css-tokenizer@3.0.3))(@csstools/css-tokenizer@3.0.3)
-      '@csstools/selector-specificity': 4.0.0(postcss-selector-parser@6.1.2)
+      '@csstools/selector-specificity': 4.0.0(postcss-selector-parser@6.1.2(patch_hash=c6pvggwplewue4bpxp74ftgq5u))
       '@dual-bundle/import-meta-resolve': 4.1.0
       balanced-match: 2.0.0
       colord: 2.9.3
@@ -8744,10 +8761,10 @@ snapshots:
       micromatch: 4.0.8
       normalize-path: 3.0.0
       picocolors: 1.1.1
-      postcss: 8.4.47
+      postcss: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
       postcss-resolve-nested-selector: 0.1.6
-      postcss-safe-parser: 7.0.1(postcss@8.4.47)
-      postcss-selector-parser: 6.1.2
+      postcss-safe-parser: 7.0.1(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi))
+      postcss-selector-parser: 6.1.2(patch_hash=c6pvggwplewue4bpxp74ftgq5u)
       postcss-value-parser: 4.2.0
       resolve-from: 5.0.0
       string-width: 4.2.3
@@ -8828,7 +8845,7 @@ snapshots:
 
   table@6.8.2:
     dependencies:
-      ajv: 8.12.0
+      ajv: 8.17.1
       lodash.truncate: 4.4.2
       slice-ansi: 4.0.0
       string-width: 4.2.3
@@ -9070,7 +9087,7 @@ snapshots:
     dependencies:
       browserslist: 4.23.0
       escalade: 3.1.2
-      picocolors: 1.0.0
+      picocolors: 1.1.1
 
   uri-js@4.4.1:
     dependencies:
@@ -9179,7 +9196,7 @@ snapshots:
   vite@5.2.8(@types/node@20.12.7)(lightningcss@1.24.1)(terser@5.30.3):
     dependencies:
       esbuild: 0.20.2
-      postcss: 8.4.38(patch_hash=j3huwleoxa33x74crzni4usqeq)
+      postcss: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
       rollup: 4.14.2
     optionalDependencies:
       '@types/node': 20.12.7

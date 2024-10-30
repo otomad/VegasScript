@@ -32,11 +32,13 @@
 		"crowdin:download": "tsx scripts/crowdin/download.ts",
 		"list-credit-licenses": "tsx scripts/list-credit-licenses.ts",
 		"prepare": "husky",
-		"commit": "git-cz -a"
+		"commit": "git-cz -a",
+		"supportedBrowsers": "(echo export default && browserslist-useragent-regexp --allowHigherVersions) > src/supportedBrowsers.ts"
 	},
-	"overrides": {
-		"postcss": "^8.4.38"
-	},
+	"browserslist": [
+		"Edge >= 129",
+		"Chrome >= 129"
+	],
 	"dependencies": {
 		"@dnd-kit/core": "^6.1.0",
 		"@dnd-kit/modifiers": "^7.0.0",
@@ -95,11 +97,12 @@
 		"jsdom": "^24.1.1",
 		"license-checker": "^25.0.1",
 		"lightningcss": "^1.24.1",
+		"postcss": "^8.4.47",
 		"postcss-styled-syntax": "^0.6.4",
 		"rimraf": "^6.0.1",
 		"rollup-plugin-license": "^3.5.3",
 		"sharp": "^0.33.5",
-		"stylelint": "^16.3.1",
+		"stylelint": "^16.10.0",
 		"stylelint-config-standard": "^36.0.0",
 		"stylelint-order": "^6.0.4",
 		"svgo": "^3.3.2",
@@ -128,10 +131,10 @@
 			"react-dom@18.2.0": "patches/react-dom@18.2.0.patch",
 			"react-flip-move@3.0.5": "patches/react-flip-move@3.0.5.patch",
 			"@types/react@18.2.78": "patches/@types__react@18.2.78.patch",
-			"postcss@8.4.38": "patches/postcss@8.4.38.patch",
 			"styled-components@6.1.8": "patches/styled-components@6.1.8.patch",
 			"click-to-react-component@1.1.0": "patches/click-to-react-component@1.1.0.patch",
-			"postcss-selector-parser@6.1.2": "patches/postcss-selector-parser@6.1.2.patch"
+			"postcss-selector-parser@6.1.2": "patches/postcss-selector-parser@6.1.2.patch",
+			"postcss@8.4.47": "patches/postcss@8.4.47.patch"
 		},
 		"allowNonAppliedPatches": false
 	},

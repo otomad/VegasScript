@@ -1,8 +1,8 @@
 diff --git a/lib/container.js b/lib/container.js
-index 462e3f0d3944ed56d37403d95b229c2942f9e731..f43b141639c0c929d4fb236d3cc794689c867821 100644
+index 8b9e1ef8425805e186575c71d518ff4682788b65..db03aea08838651194a8b0622379b01f59fb3e1f 100644
 --- a/lib/container.js
 +++ b/lib/container.js
-@@ -298,7 +298,6 @@ class Container extends Node {
+@@ -304,7 +304,6 @@ class Container extends Node {
        try {
          result = callback(child, i)
        } catch (e) {
@@ -11,7 +11,7 @@ index 462e3f0d3944ed56d37403d95b229c2942f9e731..f43b141639c0c929d4fb236d3cc79468
        if (result !== false && child.walk) {
          result = child.walk(callback)
 diff --git a/lib/node.js b/lib/node.js
-index 9e747ca7d40b5684895fb0d3c8a70fa8a75e6281..609b85c9b4a367d84d4e132a6442f3114da8abbd 100644
+index 88f382a1c90f59117bd75dfba156dfbb47909dc2..c6bc83584598dd5a2537dcfff90e61339f77c3c8 100644
 --- a/lib/node.js
 +++ b/lib/node.js
 @@ -55,7 +55,6 @@ class Node {
