@@ -56,15 +56,15 @@ const StyledToast = styled.div<{
 		p {
 			white-space: nowrap;
 		}
+	}
 
-		.letter-by-letter:not(.disabled) span {
-			animation: ${keyframes`
-				from {
-					opacity: 0;
-					translate: 25px;
-				}
-			`} 500ms ${eases.easeOutMax} calc(var(--i, 0) * (100ms / var(--length, 7) * 7)) backwards;
-		}
+	&:not(.hidden) .base .letter-by-letter:not(.disabled) span {
+		animation: ${keyframes`
+			from {
+				opacity: 0;
+				translate: 25px;
+			}
+		`} 500ms ${eases.easeOutMax} calc(var(--i, 0) * (100ms / var(--length, 7) * 7)) backwards;
 	}
 
 	.progress {

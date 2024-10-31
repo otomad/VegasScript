@@ -39,9 +39,14 @@ export const useListen: {
 	<Key extends keyof ApplicationEvents>(type: Key, handler: (...args: ApplicationEvents[Key]) => void): void;
 	(type: "*", handler: (type: keyof ApplicationEvents, ...args: ApplicationEvents[keyof ApplicationEvents]) => void): void;
 } = (type: string, handler: Function) => {
-	(emitter.on as Function)(type as keyof ApplicationEvents, (typeOrArgs: string | unknown[], args: unknown[]) => {
+	const callback = (typeOrArgs: string | unknown[], args: unknown[]) => {
 		if (type === "*") handler(typeOrArgs, ...args);
 		else handler(...typeOrArgs);
+	};
+	if (!canUseHook()) (emitter.on as Function)(type as keyof ApplicationEvents, callback);
+	else useEffect(() => {
+		(emitter.on as Function)(type as keyof ApplicationEvents, callback);
+		return () => (emitter.off as Function)(type as keyof ApplicationEvents, callback);
 	});
 };
 

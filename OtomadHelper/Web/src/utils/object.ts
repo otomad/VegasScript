@@ -582,6 +582,13 @@ export function clearObject(object: AnyObject) {
 		delete object[prop];
 }
 
+export function canUseHook() {
+	// @ts-expect-error
+	const internal = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+	// React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE in 2024/04/10 react update.
+	return !!internal.ReactCurrentDispatcher.current;
+}
+
 /**
  * @deprecated
  */
