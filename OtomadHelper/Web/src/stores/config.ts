@@ -1,6 +1,6 @@
 import type { beepEngines } from "views/audio";
 import type { pitchNotations } from "views/lyrics";
-import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings } from "views/score";
+import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
 import type { barOrBeatUnits, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
 
@@ -20,6 +20,7 @@ type BeepEngine = typeof beepEngines[number];
 type TrackNameType = typeof trackNames[number]["id"];
 type BarOrBeatUnit = typeof barOrBeatUnits[number]["id"];
 type SourceFrom = typeof sourceFromEnums[number];
+type TrackOrChannel = typeof trackAndChannel[number];
 
 const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 
@@ -57,6 +58,7 @@ export const configStore = createStore({
 		timeSignature: "4/4",
 		constrainNoteLengthType: "none" as ConstrainNoteLengthType,
 		constrainNoteLengthValue: EMPTY_TIMECODE,
+		trackOrChannel: "track" as TrackOrChannel,
 		selectedTrack: 0 as number | number[],
 		multipleSelectTrackItems: {} as Record<number, Set<MultipleSelectTrackItem>>,
 	},

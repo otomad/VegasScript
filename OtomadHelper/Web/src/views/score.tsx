@@ -14,6 +14,7 @@ export /* @internal */ const constrainNoteLengthTypes = [
 export /* @internal */ const multipleSelectTrackItems = Object.freeze(["audio", "visual", "sonar", "lyrics"] as const);
 const allMultipleSelectTrackItemSet = new Set(multipleSelectTrackItems);
 export /* @internal */ const encodings = ["ANSI", "UTF-8", "Shift_JIS", "GBK", "Big5", "KS_C_5601-1987", "Windows-1252", "Macintosh"] as const;
+export /* @internal */ const trackAndChannel = ["track", "channel"] as const;
 /** @deprecated Test only! */
 const tracks = [
 	{ channel: 1, name: "Lead", noteCount: 100, beginNote: "C5", pan: t.variableBeginWith({ first: t.score.pan.left }), isDrumKit: false, inst: "Sawtooth" },
@@ -23,7 +24,7 @@ const tracks = [
 
 const TrackToolbar = styled.div`
 	justify-content: space-between;
-	margin-inline-start: 3px;
+	margin-inline: 16px;
 
 	&,
 	.left .content {
@@ -104,7 +105,7 @@ const MultipleSelectTrackItemsContainer = styled.div`
 export default function Score() {
 	const {
 		format, encoding, constrainNoteLengthType, constrainNoteLengthValue, trimStart, trimEnd, tempoUsing, customTempo,
-		timeSignature: [timeSignature],
+		timeSignature: [timeSignature], trackOrChannel,
 		selectedTrack: [selectedTrack, setSelectedTrack], multipleSelectTrackItems: [selectTrackItems, _setSelectTrackItems],
 	} = selectConfig(c => c.score);
 	const { enabled: [ytpEnabled] } = selectConfig(c => c.ytp);
@@ -240,10 +241,24 @@ export default function Score() {
 					<TimecodeBox timecode={constrainNoteLengthValue} />
 				</Expander.ChildWrapper>
 			</ExpanderRadio>
+			<SettingsCard
+				title={t.score.trackOrChannel}
+				details={t.descriptions.score.trackOrChannel}
+				icon="midi"
+				disabled={format[0] !== "midi"}
+			>
+				<Segmented current={trackOrChannel}>
+					{trackAndChannel.map(option => {
+						const icon: DeclaredIcons = option === "channel" ? "launchpad" : "layer";
+						const label = option === "channel" ? t.score.channel : t.score.musicalTrack;
+						return <Segmented.Item id={option} key={option} icon={icon}>{label}</Segmented.Item>;
+					})}
+				</Segmented>
+			</SettingsCard>
 
 			{!!tracks.length && (
 				<>
-					<Subheader>{t(tracks.length).score.musicalTrack}</Subheader>
+					<Subheader>{withObject(t(tracks.length).score, t => trackOrChannel[0] === "channel" ? t.channel : t.musicalTrack)}</Subheader>
 					<TrackToolbar>
 						<div className="left">
 							<CssTransition in={isMultiple} unmountOnExit>

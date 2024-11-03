@@ -202,11 +202,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 		background-color: ${c("fill-color-control-disabled")};
 		cursor: not-allowed;
 
-		/* .wrapper {
-			opacity: ${c("disabled-text-opacity")};
-		} */
-
-		.stripes .focus-stripe {
+		.stripes * {
 			scale: 0;
 		}
 	}

@@ -134,6 +134,13 @@ const StyledSegmented = styled.div<{
 		}
 	}
 
+	&[disabled],
+	[disabled] & {
+		.thumb::after {
+			background-color: ${c("fill-color-accent-disabled")};
+		}
+	}
+
 	.thumb-content {
 		position: absolute;
 		top: 0;

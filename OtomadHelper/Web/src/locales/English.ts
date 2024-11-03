@@ -179,6 +179,7 @@ export default {
 			musicalTrack: "Track",
 			musicalTrack_other: "Tracks",
 			channel: "Channel",
+			channel_other: "Channels",
 			noteCount: "Note count",
 			beginNote: "Begin note",
 			pan: {
