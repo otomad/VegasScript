@@ -23,11 +23,13 @@ const StyledItemsView = styled.div<{
 	}
 
 	&.grid {
+		--grid-view-item-width: ${({ $itemWidth = 200 }) => styles.toValue($itemWidth)};
 		display: grid;
-		grid-template-columns: repeat(auto-fill, ${({ $itemWidth = 200 }) => styles.toValue($itemWidth)});
+		grid-template-columns: repeat(auto-fill, var(--grid-view-item-width));
 		gap: 4px;
 		justify-content: center;
 		align-items: start;
+		transition: ${fallbackTransitions}, --grid-view-item-width ${eases.easeOutMax} 250ms;
 	}
 
 	&:empty {

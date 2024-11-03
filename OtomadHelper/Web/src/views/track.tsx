@@ -27,7 +27,7 @@ export default function Track() {
 
 			<Subheader>{t.track.layout}</Subheader>
 			<SettingsCard
-				title={t.track.grid}
+				title={t.titles.grid}
 				type="button"
 				icon="grid"
 				onClick={() => pushPage("home")}
@@ -35,17 +35,18 @@ export default function Track() {
 				<DeactivateButton deactivated={layoutEnabled.grid} />
 			</SettingsCard>
 			<SettingsCard
-				title={t.track.box3d}
+				title={t.titles.box3d}
 				type="button"
 				icon="cube"
 			>
 				<DeactivateButton deactivated={layoutEnabled.box3d} />
 			</SettingsCard>
 			<SettingsCard
-				title={t.track.gradient}
+				title={t.titles.gradient}
 				details={t.descriptions.track.gradient}
 				type="button"
 				icon="highlight"
+				onClick={() => pushPage("gradient")}
 			>
 				<DeactivateButton deactivated={layoutEnabled.gradient} />
 			</SettingsCard>

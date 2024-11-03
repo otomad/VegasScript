@@ -17,3 +17,13 @@ CSS.registerProperty({
 	inherits: false,
 	initialValue: "0",
 });
+
+/**
+ * Items View Item (Grid) width.
+ */
+CSS.registerProperty({
+	name: "--grid-view-item-width",
+	syntax: "<length>",
+	inherits: true,
+	initialValue: "200px",
+});

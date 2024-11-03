@@ -24,6 +24,10 @@ const StyledCommandBar = styled.div`
 		&.enter,
 		&.exit {
 			overflow: hidden;
+
+			.badge {
+				scale: 0;
+			}
 		}
 
 		${tgs()} {

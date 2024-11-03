@@ -66,7 +66,7 @@ export default function Settings() {
 								max={1}
 								step={0.01}
 								defaultValue={0.2}
-								displayValue
+								displayValue={i => (i * 100 | 0) + "%"}
 							/>
 						</Expander.Item>
 						<Expander.Item title={t.settings.appearance.backgroundImage.tint} icon="saturation">
@@ -76,7 +76,7 @@ export default function Settings() {
 								max={1}
 								step={0.01}
 								defaultValue={0}
-								displayValue
+								displayValue={i => (i * 100 | 0) + "%"}
 							/>
 						</Expander.Item>
 						<Expander.Item title={t.settings.appearance.backgroundImage.blur} icon="blur">

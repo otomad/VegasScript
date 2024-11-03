@@ -30,6 +30,7 @@ const StyledItemsViewItem = styled.button<{
 		}
 
 		> .base {
+			container: grid-view-item-image / inline-size;
 			position: relative;
 			overflow: clip;
 			border-radius: 4px;

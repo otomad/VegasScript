@@ -25,6 +25,7 @@ export default {
 			mosh_other: "Moshes",
 			mosh_full: "Datamoshes",
 			tools: "Tools",
+			management: "Management",
 			settings: "Settings",
 			effect: "Effect",
 			effect_other: "Effects",
@@ -33,7 +34,9 @@ export default {
 			staff_full: "Staff Visualizer",
 			pixelScaling: "Pixel Scaling",
 			parameters: "Parameters",
-			management: "Management",
+			grid: "Grid Layout",
+			box3d: "3D Box Layout",
+			gradient: "Gradient Tracks",
 		},
 		source: {
 			trackEvent: "Track event",
@@ -117,6 +120,10 @@ export default {
 		topPriority: "{{item, capitalize}} first",
 		browse: "Browse",
 		ok: "OK",
+		descending: "Descending",
+		ascending: "Ascending",
+		view: "View",
+		size: "Size",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -310,9 +317,23 @@ export default {
 		},
 		track: {
 			layout: "Layout",
-			grid: "Grid Layout",
-			box3d: "3D Box Layout",
-			gradient: "Gradient Tracks",
+			grid: {
+				square: "Square",
+				mirrorEdges: "Mirror edges",
+			},
+			gradient: {
+				effects: {
+					rainbow: "Rainbow Colors",
+					graduallySaturated: "Gradually Saturated",
+					graduallyContrasted: "Gradually Contrasted",
+					threshold: "Threshold Variation",
+					alternatelyChromatic: "Alternately Chromatic",
+					alternatelyNegative: "Alternate Negative",
+				},
+				view: {
+					overlay: "Overlay",
+				},
+			},
 			applyToSelectedTracks: "Apply to selected tracks",
 			deactivate: "Deactivate",
 			deactivateAll: "Deactivate all",

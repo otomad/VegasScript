@@ -25,6 +25,8 @@ interface PageState {
 	pageContentId?: string;
 	setPageContentId(value: string): void;
 	editingObject: unknown;
+	onSave?: () => void;
+	useOnSave(handler: () => void): void;
 }
 
 const NAME = "page";
@@ -147,5 +149,12 @@ export const pageStore: PageState = createPersistStore("page", (() => {
 		pageContentId: undefined,
 		setPageContentId(pageContentId) { if (pageStore.pageContentId !== pageContentId) pageStore.pageContentId = pageContentId; },
 		editingObject: undefined,
+		onSave: undefined,
+		useOnSave(handler) {
+			useEffect(() => {
+				pageStore.onSave = handler;
+				return () => pageStore.onSave = undefined;
+			}, []);
+		},
 	} satisfies PageState;
 })(), { partialize: ["page"] });

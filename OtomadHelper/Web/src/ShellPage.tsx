@@ -34,7 +34,7 @@ const getTitle = (viewName: string, full: boolean = false, plural?: number) => {
 };
 
 export default function ShellPage() {
-	const { page, changePage, pagePath, transition, canBack, back, reset, setPageContentId, poppedScroll } = useSnapshot(pageStore);
+	const { page, changePage, pagePath, transition, canBack, back, onSave, reset, setPageContentId, poppedScroll } = useSnapshot(pageStore);
 	const pageTitles = page.map((crumb, i, { length }) => {
 		try {
 			return {
@@ -89,7 +89,7 @@ export default function ShellPage() {
 				<CommandBar>
 					{
 						...(autoLayoutTracksMode ? [
-							<CommandBar.Item key="save" icon="save" onClick={back}>{t.save}</CommandBar.Item>,
+							<CommandBar.Item key="save" icon="save" onClick={() => { onSave?.(); back(); }}>{t.save}</CommandBar.Item>,
 							<CommandBar.Item key="applyToSelectedTracks" icon="arrow_sync_checkmark">{t.track.applyToSelectedTracks}</CommandBar.Item>,
 						] : [
 							<CommandBar.Item key="complete" icon="checkmark" disabled={completeDisabled} canBeDisabled onClick={() => completeDisabled && alert("Cannot complete!")}>{t.complete}</CommandBar.Item>,

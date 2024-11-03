@@ -73,9 +73,9 @@ export function assign<TTarget extends object>(target: TTarget, ...sources: Part
  * @param flat - Flatten the array?
  * @returns An array of objects repeated a specified number of times.
  */
-export function forMap<T>(length: number, callback: (index: number) => T, startIndex: number = 0, flat: boolean = false) {
+export function forMap<T>(length: number, callback: (index: number, length: number) => T, startIndex: number = 0, flat: boolean = false) {
 	const mapAction = (flat ? "flatMap" : "map") as "map";
-	return Array<void>(length).fill(undefined)[mapAction]((_, index) => callback(index + startIndex));
+	return Array<void>(length).fill(undefined)[mapAction]((_, index) => callback(index + startIndex, length));
 }
 
 /**

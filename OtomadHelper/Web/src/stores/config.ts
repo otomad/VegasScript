@@ -166,6 +166,12 @@ export const configStore = createStore({
 		},
 		gradient: {
 			enabled: true,
+			effect: "rainbow",
+			descending: false,
+			viewOverlay: false,
+			viewSquare: false,
+			viewMirrorEdges: false,
+			viewSize: 325,
 		},
 	},
 	sonar: {
