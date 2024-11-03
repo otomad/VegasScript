@@ -74,6 +74,7 @@ export /* @internal */ const styledExpanderItemContent = css`
 			${styles.mixins.square("30px")};
 			${styles.mixins.flexCenter()};
 			flex-shrink: 0;
+			margin-block: -4px;
 			margin-inline-end: -7px;
 			border-radius: 3px;
 

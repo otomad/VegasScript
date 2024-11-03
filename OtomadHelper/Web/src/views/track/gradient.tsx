@@ -42,6 +42,8 @@ export default function Gradient() {
 								square={viewSquare[0]}
 								mirrorEdges={viewMirrorEdges[0]}
 								overlay={viewOverlay[0]}
+								effect={id}
+								descending={descending[0]}
 							/>
 						)}
 					>
