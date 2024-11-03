@@ -38,7 +38,7 @@ public static class Misc {
 		return (TEnum[])Enum.GetValues(type);
 	}
 
-	private const string DEFAULT_USER_AGENT =
+	private static readonly string DEFAULT_USER_AGENT =
 		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0";
 
 	/// <summary>
@@ -47,7 +47,7 @@ public static class Misc {
 	/// <param name="url">URL link.</param>
 	/// <param name="userAgent">Custom the navigator user agent.</param>
 	/// <returns>Web page source code content.</returns>
-	public static string? GetHtml(string url, string userAgent = DEFAULT_USER_AGENT) {
+	public static string? GetHtml(string url, string? userAgent = null) {
 		try {
 			byte[]? text = GetHtmlBytes(url, userAgent); // Get the web page source code.
 			return text is null ? null : Encoding.GetEncoding("UTF-8").GetString(text); // Convert the encoding.
@@ -56,7 +56,8 @@ public static class Misc {
 		}
 	}
 
-	public static byte[]? GetHtmlBytes(string url, string userAgent = DEFAULT_USER_AGENT) {
+	public static byte[]? GetHtmlBytes(string url, string? userAgent = null) {
+		userAgent ??= DEFAULT_USER_AGENT;
 		try {
 			if (url.StartsWith("https")) { // Resolve an issue of WebClient cannot download content via HTTPS
 				ServicePointManager.ServerCertificateValidationCallback += (

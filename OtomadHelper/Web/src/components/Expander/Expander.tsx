@@ -97,7 +97,7 @@ const ExpanderChild = styled.div`
 
 	&,
 	.expander-child-items {
-		transition: ${fallbackTransitions}, block-size ${eases.easeOutSmooth} 350ms, translate ${eases.easeOutSmooth} 350ms;
+		transition: ${fallbackTransitions}, block-size ${eases.easeInOutMaterialEmphasized} 350ms, translate ${eases.easeInOutMaterialEmphasized} 350ms;
 	}
 `;
 
