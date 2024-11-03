@@ -45,6 +45,7 @@ export const configStore = createStore({
 		blindBoxForBarOrBeat: false,
 		blindBoxForBarOrBeatPeriod: [4, "bar"] as Unit<BarOrBeatUnit>,
 		blindBoxForBarOrBeatPreparation: [0, "bar"] as Unit<BarOrBeatUnit>,
+		consonant: false,
 	},
 	score: {
 		format: "midi",

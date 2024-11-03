@@ -1,4 +1,4 @@
-export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, $color, actions, onClick, ...settingsCardProps }: FCP<PropsOf<typeof SettingsCard> & {
+export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, $color, actions, lock, onClick, ...settingsCardProps }: FCP<PropsOf<typeof SettingsCard> & {
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled? */
@@ -12,6 +12,14 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 	$color?: string;
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
+	/**
+	 * Sets the displayed value of the toggle switch and disables it.
+	 *
+	 * This only changes its appearance, not its internal data.
+	 *
+	 * Useful when you need to disable user input without affecting configuration saving.
+	 */
+	lock?: boolean | null;
 }>) {
 	const [isToggleSwitchPressing, setIsToggleSwitchPressing] = useState(false);
 	trailingIcon ||= "";
@@ -21,7 +29,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 	return (
 		<SettingsCardOrExpander
 			type="button"
-			disabled={disabled}
+			disabled={disabled || lock != null}
 			trailingIcon={trailingIcon}
 			className={[className, nameof({ SettingsCardToggleSwitch }), { toggleSwitchHoverable: !isExpander || !on }]}
 			onClick={onClick}
@@ -31,6 +39,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 						as={isExpander ? undefined : "label"}
 						$color={$color}
 						on={[on, setOn]}
+						lock={lock}
 						isPressing={[isToggleSwitchPressing, setIsToggleSwitchPressing]}
 						tabIndex={isExpander ? undefined : -1}
 						disabled={disabled}

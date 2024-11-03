@@ -85,6 +85,7 @@ export default {
 					preparation: "Preparation",
 				},
 			},
+			consonant: "Contain consonant",
 		},
 		on: "On",
 		off: "Off",
@@ -174,8 +175,10 @@ export default {
 				max: "Max length",
 				fixed: "Fixed length",
 			},
+			trackOrChannel: "Track / Channel",
 			musicalTrack: "Track",
 			musicalTrack_other: "Tracks",
+			channel: "Channel",
 			noteCount: "Note count",
 			beginNote: "Begin note",
 			pan: {
@@ -218,6 +221,7 @@ export default {
 			multitrackForChords: "Multitrack for chords",
 			createGroups: "Create groups",
 			autoPan: "Auto pan",
+			stack: "Stack",
 			timeUnremapping: "Time unremapping",
 			resampleImitatively: "Resample imitatively",
 			transformMethod: {
@@ -545,6 +549,12 @@ export default {
 						versionRequest: "Note: This feature requires VEGAS Pro ≥ 19. The current version is {{version}}.",
 					},
 				},
+				trackGroup: {
+					_: "Groups tracks by score track",
+				},
+				trackName: {
+					_: "Specifies the name for the generated tracks or track groups",
+				},
 				blindBox: {
 					_: "Randomizes in points for the source.\nThis can result in randomly selected source clips having different base pitches, making it useful only for creating funny videos for entertainment purposes, and barely used for creating high-caliber videos.",
 					track: "Whether track or channel depends on the Score",
@@ -556,18 +566,19 @@ export default {
 					},
 					ytpEnabled: "YTP feature is enabled and it already supports randomization, it is unnecessary to set it here.",
 				},
-				trackGroup: {
-					_: "Groups tracks by score track",
-				},
-				trackName: {
-					_: "Specifies the name for the generated tracks or track groups",
+				consonant: {
+					_: "You can separate the consonant and vowel parts of the same audio or video source so that special optimization can be applied to the consonant part of the source.\nIf at least two audio or video clips are selected, the first clip is considered the consonant part and the second clip is considered the vowel part.",
+					ytpEnabled: "YTP feature is enabled and this feature is currently unavailable.",
+					blindBoxEnabled: "Blind box feature is enabled and this feature is currently unavailable.",
+					manualEnabled: "In Sentence Mixing mode, this feature is enabled automatically.",
 				},
 			},
 			score: {
 				trim: "Intercepts the generation time range of the score",
+				encoding: "Specifies the text encoding to use when reading the file",
 				tempo: "Specifies the beats per minute",
 				constrain: "Controls the output length of notes from the score",
-				encoding: "Specifies the text encoding to use when reading the file",
+				trackOrChannel: "Choose between using MIDI tracks or MIDI channels",
 				ytpEnabled: "YTP feature is enabled, it does not depend on the score, so all settings here have no effect.",
 			},
 			stream: {
@@ -581,6 +592,7 @@ export default {
 				multitrackForChords: "Creates multiple tracks for chords",
 				createGroups: "Creates groups for video and audio clips represented by one note",
 				autoPan: "Pans the audio using envelope automation",
+				stack: "Stacks the clips as tightly as possible on one track, rather than placing the results on separate tracks according to the score track",
 				timeUnremapping: "The clips will not reset their in point time when note on occurs, but will continue playing, useful if you want to apply the effects to the source only",
 				resampleImitatively: {
 					_: "Imitate the resampling behavior in the Visual, causing the stretching to flexing as the pitch increases",

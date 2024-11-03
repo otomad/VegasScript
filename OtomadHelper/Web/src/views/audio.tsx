@@ -143,7 +143,7 @@ export default function Audio() {
 						imageField="image"
 						$itemWidth={566 / 196 * GRID_VIEW_ITEM_HEIGHT}
 					/>
-					{!hideUseTips && <InfoBar status="warning" title={t.descriptions.stream.unlengthenAndLegatoConflictInAudio} />}
+					{!hideUseTips && <InfoBar status="accent" title={t.descriptions.stream.unlengthenAndLegatoConflictInAudio} />}
 					<SettingsCardToggleSwitch
 						title={t.stream.multitrackForChords}
 						details={t.descriptions.stream.multitrackForChords}

@@ -36,11 +36,13 @@ export default function Source() {
 	const {
 		sourceFrom, trimStart, trimEnd, startTime, customStartTime,
 		belowAdjustmentTracks, preferredTrack: [preferredTrack, setPreferredTrack],
-		trackGroup, collapseTrackGroup, trackName,
+		trackGroup, collapseTrackGroup, trackName, consonant,
 		blindBoxForTrack, blindBoxForMarker, blindBoxForBarOrBeat, blindBoxForBarOrBeatPeriod, blindBoxForBarOrBeatPreparation,
 	} = selectConfig(c => c.source);
 	const { removeSourceClips, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = selectConfig(c => c.source.afterCompletion);
 	const { enabled: [ytpEnabled] } = selectConfig(c => c.ytp);
+	const blindBoxEnabled = blindBoxForTrack[0] || blindBoxForMarker[0] || blindBoxForBarOrBeat[0];
+	/** @deprecated */ const manualEnabled = false;
 
 	mutexSwitches(removeSourceClips, selectSourceClips);
 
@@ -145,6 +147,16 @@ export default function Source() {
 					</Expander.Item>
 				</Disabled>
 			</Expander>
+
+			<SettingsCardToggleSwitch
+				title={t.source.consonant}
+				details={t.descriptions.source.consonant}
+				icon="consonant"
+				on={consonant}
+				lock={ytpEnabled || blindBoxEnabled ? false : manualEnabled ? true : null}
+				selectInfo={withObject(t.descriptions.source.consonant, t => ytpEnabled ? t.ytpEnabled : blindBoxEnabled ? t.blindBoxEnabled : manualEnabled ? t.manualEnabled : undefined)}
+				selectValid={!(ytpEnabled || blindBoxEnabled)}
+			/>
 
 			<DragToImport>{t.titles.source}</DragToImport>
 		</div>
