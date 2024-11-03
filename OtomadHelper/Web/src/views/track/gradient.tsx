@@ -14,11 +14,11 @@ export default function Gradient() {
 
 	return (
 		<div className="container">
-			<Expander title={t.view} icon="grid">
-				<ToggleSwitch on={viewOverlay}>{t.track.gradient.view.overlay}</ToggleSwitch>
-				<ToggleSwitch on={viewSquare}>{t.track.grid.square}</ToggleSwitch>
-				<ToggleSwitch on={viewMirrorEdges} lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
-				<Expander.Item title={t.size}>
+			<Expander title={t.view} icon="grid" details={t.descriptions.track.view}>
+				<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
+				<ToggleSwitch on={viewSquare} icon="square">{t.track.grid.square}</ToggleSwitch>
+				<ToggleSwitch on={viewMirrorEdges} icon="image_reflection" lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
+				<Expander.Item title={t.size} icon="resize">
 					<Slider
 						value={viewSize}
 						min={200}
@@ -29,7 +29,7 @@ export default function Gradient() {
 					/>
 				</Expander.Item>
 			</Expander>
-			<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" />
+			<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} />
 
 			<ItemsView view="grid" current={effect} $itemWidth={viewSize[0]}>
 				{gradients.map(id => (

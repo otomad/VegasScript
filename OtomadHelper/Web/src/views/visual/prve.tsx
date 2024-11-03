@@ -18,7 +18,7 @@ class PrveClass {
 		new PrveClass("flip", "flip", [...$s(2, "hFlip", "vFlip"), ...$s(4, "ccwFlip", "cwFlip")]),
 		new PrveClass("rotation", "rotate", [...$s(4, "ccwRotate", "cwRotate"), ...$s(2, "turned")]),
 		new PrveClass("scale", "resize_image", $s(1, "zoomOutIn")),
-		new PrveClass("mirror", "dual_screen_mirror", [...$s(2, "hMirror", "vMirror"), ...$s(4, "ccwMirror", "cwMirror")]),
+		new PrveClass("mirror", "image_reflection", [...$s(2, "hMirror", "vMirror"), ...$s(4, "ccwMirror", "cwMirror")]),
 		new PrveClass("invert", "invert_color", [...$s(2, "negative", "luminInvert", "negativeBlur", "negativeThreshold")]),
 		new PrveClass("hue", "hue", [...$s(2, "hueInvert"), ...forMapFromTo(3, 8, frames => ({ effect: STEP_CHANGE_HUE + frames, frames }))]),
 		new PrveClass("chromatic", "black_and_white", $s(2, "chromatic", "chromaticBlur")),

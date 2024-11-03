@@ -127,6 +127,8 @@ const StyledToggleSwitchLabel = styled.button`
 			background-color: ${c("fill-color-text-disabled")};
 		}
 
+
+		.icon,
 		.text {
 			color: ${c("fill-color-text-disabled")};
 		}

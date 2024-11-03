@@ -676,6 +676,8 @@ export default {
 				gradient: "Gives the video tracks a gradient color effect in your layout",
 				legato: "Fills in the gaps between the track clips",
 				deactivate: "Reset the status of this layout to deactivate it",
+				view: "Changes the preview only, without affecting the results",
+				descending: "Reverses the order in which the tracks are applied",
 			},
 			sonar: {
 				_: "Sonar is a visual effect that utilizes Cookie Cutter shapes to create beat-style visual motion graphics. This feature allows you to assign different shapes or effects to various percussion instruments of a drum kit (channel 10) in the score.\nA common Otomad genre is to create Motion Graphics (Mograph) by adding various shapes, such as diffuse circles, to the visual based on the beats. Mograph is a product between graphic design and animation design, a form of visual expression based on the flow of time, and a kind of video art. The term “motion graphics” refers to graphics that are deformed by the flow of time. A single Otomad video containing only mographs is often titled “Graphs” or “Shapes”.",
