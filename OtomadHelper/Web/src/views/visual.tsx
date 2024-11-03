@@ -43,7 +43,7 @@ const TooltipPartial = Tooltip.with({ placement: "y" });
 export default function Visual() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, staticVisual, unlengthen, legato, multitrackForChords, enableStaffVisualizer, transformMethod, currentPreset, timeUnremapping, resampleImitatively,
+		stretch, loop, staticVisual, unlengthen, legato, multitrackForChords, enableStaffVisualizer, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
 		glissando, glissandoEffect, glissandoAmount, appoggiatura, arpeggio, arpeggioNegative, activeParameterScheme,
 	} = selectConfig(c => c.visual);
 	// const activeParameterScheme = selectConfigArray(c => c.visual.activeParameterScheme);
@@ -129,6 +129,12 @@ export default function Visual() {
 						details={t.descriptions.stream.multitrackForChords}
 						icon="chords"
 						on={multitrackForChords}
+					/>
+					<SettingsCardToggleSwitch
+						title={t.stream.stack}
+						details={t.descriptions.stream.stack}
+						icon="database_stack"
+						on={stack}
 					/>
 					<SettingsCardToggleSwitch
 						title={t.stream.timeUnremapping}

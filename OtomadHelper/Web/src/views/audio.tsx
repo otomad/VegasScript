@@ -62,7 +62,7 @@ const PrelistenActions = styled(Disabled).attrs({
 export default function Audio() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, normalize, unlengthen, legato, multitrackForChords, timeUnremapping, autoPan, autoPanCurve,
+		stretch, loop, normalize, unlengthen, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
 		tuningMethod, stretchAttribute, alternativeForExceedsTheRange, resample, preserveFormant, basePitch, currentPreset,
 	} = selectConfig(c => c.audio);
 	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = selectConfig(c => c.audio.prelistenAttributes);
@@ -149,6 +149,12 @@ export default function Audio() {
 						details={t.descriptions.stream.multitrackForChords}
 						icon="chords"
 						on={multitrackForChords}
+					/>
+					<SettingsCardToggleSwitch
+						title={t.stream.stack}
+						details={t.descriptions.stream.stack}
+						icon="database_stack"
+						on={stack}
 					/>
 					<SettingsCardToggleSwitch
 						title={t.stream.timeUnremapping}
