@@ -1,0 +1,17 @@
+name: "\U0001F3E3 Contribute Translations (English)"
+description: Correct translation of scripts or README, or provide a new language support.
+# title: "[TRANSLATION] "
+labels: translation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If you want to correct the English translation, please select this.
+  - type: textarea
+    id: description
+    attributes:
+      label: Translations
+      description: Please fill in all translation entries that need to be corrected here.
+      placeholder: Translations
+    validations:
+      required: true

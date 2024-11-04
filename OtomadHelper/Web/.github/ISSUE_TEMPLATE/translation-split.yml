@@ -1,0 +1,22 @@
+name: "\U0001F3E3 Split Strings"
+description: Provide a new language support.
+# title: "[TRANSLATION] "
+labels: translation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Provide a new language support.
+  - type: input
+    id: new-language-name
+    attributes:
+      label: New language name
+      description: Input the new language name.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Translations
+      description: Please fill in all translation entries that need to be corrected here.
+      placeholder: Translations

@@ -8,7 +8,7 @@ body:
       value: |
         Please note that you are using the latest version of the script. Click the following link to view the latest version and download it.
         👉 https://github.com/otomad/OtomadHelper/releases/latest
-      
+
         Please carefully read the common questions before creating a bug report, if it can solve your problem.
         👉 https://github.com/otomad/OtomadHelper/issues/25
 
@@ -20,6 +20,7 @@ body:
       label: Vegas Pro Version
       description: What version of Vegas Pro are you using?
       options:
+        - Vegas Pro 22
         - Vegas Pro 21
         - Vegas Pro 20
         - Vegas Pro 19
@@ -57,7 +58,7 @@ body:
       label: Screenshot or screencast
       description: If possible, provide screenshots or screencasts (preferably) here.
   - type: textarea
-    id: additonal
+    id: additional
     attributes:
       label: Additional
       description: If applicable, add any other context about the problem here.

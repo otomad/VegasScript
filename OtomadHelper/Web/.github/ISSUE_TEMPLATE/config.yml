@@ -6,3 +6,6 @@ contact_links:
   - name: 💬 Question
     url: https://github.com/otomad/OtomadHelper/discussions/new?category=q-a&labels=question
     about: Please ask and answer questions here.
+  - name: 🏣 Contribute Translations
+    url: https://crowdin.com/project/otomadhelper
+    about: If you would like to participate in the translation, you are welcome to join as well.

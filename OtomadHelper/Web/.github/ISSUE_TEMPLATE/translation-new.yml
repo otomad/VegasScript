@@ -1,14 +1,12 @@
-name: "\U0001F3E3 Translation correction"
-description: Correct translation of scripts or README, or provide a new language support.
+name: "\U0001F3E3 New Language To Translate"
+description: The string cannot be reasonably adapted to the language and needs to be split into existing strings.
 # title: "[TRANSLATION] "
 labels: translation
 body:
   - type: markdown
     attributes:
       value: |
-        We are gladly accepting contributions or translations for this project.
-        
-        If you want to provide a new language support, please submit a pull request or directly contact me if you don't know how to use git or GitHub.
+        The string cannot be reasonably adapted to the language and needs to be split into existing strings.
   - type: dropdown
     id: language
     attributes:
