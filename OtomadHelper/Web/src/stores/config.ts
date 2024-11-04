@@ -2,6 +2,7 @@ import type { beepEngines } from "views/audio";
 import type { pitchNotations } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
 import type { barOrBeatUnits, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
+import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
 import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
 
 type StartTime = typeof startTimes[number]["id"];
@@ -21,6 +22,9 @@ type TrackNameType = typeof trackNames[number]["id"];
 type BarOrBeatUnit = typeof barOrBeatUnits[number]["id"];
 type SourceFrom = typeof sourceFromEnums[number];
 type TrackOrChannel = typeof trackAndChannel[number];
+type GridArrayType = typeof arrayTypes[number];
+type GridFitType = typeof fitTypes[number];
+type GridParityType = typeof parityTypes[number];
 
 const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 
@@ -160,6 +164,13 @@ export const configStore = createStore({
 	track: {
 		grid: {
 			enabled: true,
+			columns: 5,
+			array: "square" as GridArrayType,
+			fit: "cover" as GridFitType,
+			mirrorEdgesHFlip: "disabled" as GridParityType,
+			mirrorEdgesVFlip: "disabled" as GridParityType,
+			descending: false,
+			padding: 0,
 		},
 		box3d: {
 			enabled: true,

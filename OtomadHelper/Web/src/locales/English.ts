@@ -124,6 +124,7 @@ export default {
 		ascending: "Ascending",
 		view: "View",
 		size: "Size",
+		disabled: "Disabled",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -318,8 +319,29 @@ export default {
 		track: {
 			layout: "Layout",
 			grid: {
+				array: "Array",
 				square: "Square",
-				mirrorEdges: "Mirror edges",
+				column: "Column",
+				column_other: "Columns",
+				row: "Row",
+				row_other: "Rows",
+				fit: {
+					_: "Fit",
+					cover: "Cover",
+					contain: "Contain",
+				},
+				mirrorEdges: {
+					_: "Mirror edges",
+					hFlip: {
+						even: "Even columns",
+						odd: "Odd columns",
+					},
+					vFlip: {
+						even: "Even rows",
+						odd: "Odd rows",
+					},
+				},
+				padding: "Padding",
 			},
 			gradient: {
 				effects: {

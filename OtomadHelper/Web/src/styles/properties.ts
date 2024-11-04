@@ -22,8 +22,18 @@ CSS.registerProperty({
  * Items View Item (Grid) width.
  */
 CSS.registerProperty({
-	name: "--grid-view-item-width",
+	name: "--grid-template-width",
 	syntax: "<length>",
 	inherits: true,
 	initialValue: "200px",
+});
+
+/**
+ * Grid template item count.
+ */
+CSS.registerProperty({
+	name: "--grid-template-count",
+	syntax: "<integer>",
+	inherits: true,
+	initialValue: "1",
 });

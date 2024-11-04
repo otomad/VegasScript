@@ -30,7 +30,7 @@ export default function Track() {
 				title={t.titles.grid}
 				type="button"
 				icon="grid"
-				onClick={() => pushPage("home")}
+				onClick={() => pushPage("grid")}
 			>
 				<DeactivateButton deactivated={layoutEnabled.grid} />
 			</SettingsCard>
@@ -38,6 +38,7 @@ export default function Track() {
 				title={t.titles.box3d}
 				type="button"
 				icon="cube"
+				onClick={() => pushPage("box3d")}
 			>
 				<DeactivateButton deactivated={layoutEnabled.box3d} />
 			</SettingsCard>
