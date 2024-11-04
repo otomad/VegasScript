@@ -4,6 +4,9 @@ using IView = System.Windows.FrameworkElement;
 
 namespace OtomadHelper.WPF.Common;
 
+/// <summary>
+/// Allows access to the View from the ViewModel.
+/// </summary>
 public interface IViewAccessibleViewModel {
 	public IView? View { get; internal set; }
 }

@@ -12,7 +12,7 @@
 	<m:BackgroundToForegroundColorConverter x:Key="BgToFg" />
 
 	<Style x:Key="DefaultColorTrackThumbStyle" TargetType="c:ColorTrackThumb">
-		<Setter Property="SnapsToDevicePixels" Value="True" />
+		<Setter Property="SnapsToDevicePixels" Value="False" />
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="IsTabStop" Value="false" />
 		<Setter Property="Focusable" Value="false" />

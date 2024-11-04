@@ -14,7 +14,7 @@
 	<m:BackgroundToForegroundColorConverter x:Key="BgToFg" />
 
 	<Style x:Key="DefaultRadioButtonStyle" TargetType="RadioButton">
-		<Setter Property="SnapsToDevicePixels" Value="True" />
+		<Setter Property="SnapsToDevicePixels" Value="False" />
 		<Setter Property="OverridesDefaultStyle" Value="True" />
 		<Setter Property="FocusVisualStyle">
 			<Setter.Value>
