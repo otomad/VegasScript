@@ -28,10 +28,14 @@ const StyledCube = styled.div`
 				position: absolute;
 				align-content: center;
 				text-align: center;
-				background: blue;
+				background-color: blue;
 				border: 2px solid black;
 				border-radius: 8px;
-				opacity: 0.5;
+				opacity: 0.875;
+
+				&:hover {
+					background-color: skyblue;
+				}
 
 				&.front {
 					transform: translateZ(${SIDE_LENGTH / 2}px);
@@ -76,11 +80,11 @@ export default function Box3d() {
 
 	const onDrag: PointerEventHandler<HTMLDivElement> = e => {
 		if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
-		const ry = Math.abs(rotation.y % 360),
-			rxDir = ry > 90 && ry < 270 ? 1 : -1;
+		const rx = PNMod(rotation.x, 360),
+			ryDir = rx > 90 && rx < 270 ? 1 : -1;
 		setRotation(({ x, y }) => ({
-			x: x + rxDir * (Math.round(e.clientY) - position.y),
-			y: y + (Math.round(e.clientX) - position.x) % 360,
+			x: x - (Math.round(e.clientY) - position.y),
+			y: y - ryDir * (Math.round(e.clientX) - position.x) % 360,
 		}));
 		setPosition({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
 	};
