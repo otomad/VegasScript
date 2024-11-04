@@ -57,11 +57,12 @@ export function useAsyncMountEffect(effect: EffectCallbackWithAsync) {
  * @returns The previous value of the state variable, or `undefined` if it has not been set yet.
  */
 export function usePrevious<T>(value: T): T | undefined {
-	const ref = useRef<T>();
+	const prevRef = useRef<T>(), curRef = useRef<T>();
 	useEffect(() => {
-		ref.current = value;
-	});
-	return ref.current;
+		if (curRef.current !== value) prevRef.current = curRef.current;
+		curRef.current = value;
+	}, [value]);
+	return prevRef.current;
 }
 
 const usePreviousDeps = (deps: ChangeEffectDeps): ChangeEffectDeps => {

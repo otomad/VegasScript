@@ -582,10 +582,15 @@ export function clearObject(object: AnyObject) {
 		delete object[prop];
 }
 
+/**
+ * Determine whether the current context is in the top layer of a component or a hook function.
+ * If so, it means that the "use" hooks can be called now.
+ *
+ * @warn This function use an unstable API, which may become invalid after a React update in the future.
+ */
 export function canUseHook() {
 	// @ts-expect-error
-	const internal = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-	// React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE in 2024/04/10 react update.
+	const internal = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE ?? React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 	return !!internal.ReactCurrentDispatcher.current;
 }
 
