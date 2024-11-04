@@ -572,4 +572,7 @@ public static class PInvoke {
 			Frequency = devMode.dmDisplayFrequency,
 		};
 	}
+
+	[DllImport("user32.dll")]
+	public static extern bool SetProcessDPIAware();
 }

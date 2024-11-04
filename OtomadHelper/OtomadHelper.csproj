@@ -32,6 +32,9 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Platforms>AnyCPU;x64</Platforms>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<EnableDefaultCompileItems>False</EnableDefaultCompileItems>
+		<EnableDefaultPageItems>False</EnableDefaultPageItems>
+		<EnableDefaultEmbeddedResourceItems>False</EnableDefaultEmbeddedResourceItems>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<OutputType>WinExe</OutputType>
@@ -51,16 +54,17 @@
 		<Reference Include="PresentationCore" />
 		<Reference Include="PresentationFramework" />
 		<Reference Include="ScriptPortal.MediaSoftware.Skins">
-			<HintPath>D:\Program Files\VEGAS\VEGAS Pro 22.0\ScriptPortal.MediaSoftware.Skins.dll</HintPath>
+			<HintPath>D:\Program Files\VEGAS\VEGAS Pro 20.0\ScriptPortal.MediaSoftware.Skins.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="ScriptPortal.Vegas">
-			<HintPath>D:\Program Files\VEGAS\VEGAS Pro 22.0\ScriptPortal.Vegas.dll</HintPath>
+			<HintPath>D:\Program Files\VEGAS\VEGAS Pro 20.0\ScriptPortal.Vegas.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="SwfDataObjectExtensions">
 			<HintPath>Libraries\ShellDragDrop\SwfDataObjectExtensions.dll</HintPath>
 		</Reference>
+		<Reference Include="System.Configuration" />
 		<Reference Include="System.ServiceProcess" />
 		<Reference Include="System.Web" />
 		<Reference Include="System.Xaml" />

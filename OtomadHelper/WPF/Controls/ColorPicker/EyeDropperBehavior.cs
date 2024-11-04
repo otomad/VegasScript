@@ -8,6 +8,7 @@ using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using DrawingColor = System.Drawing.Color;
 using DrawingPoint = System.Drawing.Point;
+using System.Windows.Media;
 
 namespace OtomadHelper.WPF.Controls;
 
@@ -44,7 +45,7 @@ public class EyeDropperBehavior : Behavior<Button> {
 		}
 		AssociatedObject.CaptureMouse();
 		CurrentWindowLeft = Window.Left;
-		Window.Left = InvisibleWindowLeft;
+		Window.Left += InvisibleWindowLeft;
 		Mouse.OverrideCursor = Cursors.Cross;
 		Preview.Show();
 		Button_MouseMove(sender, e);
@@ -53,7 +54,12 @@ public class EyeDropperBehavior : Behavior<Button> {
 	private void Button_MouseMove(object sender, MouseEventArgs e) {
 		if (!AssociatedObject.IsMouseCaptured) return;
 		Point position = GetPoint(e);
-		Preview.MoveToMouse(position, Window.GetDpi());
+		Visual source = PresentationSource.FromVisual(Preview) is not null ? Preview : Window;
+		Preview.MoveToMouse(position, source.GetDpi());
+		s = ("Effective", Screen.AllScreens.Select(screen => screen.GetDpi(DpiType.Effective).DpiX.ToString()).Join(","));
+		s = ("Angular", Screen.AllScreens.Select(screen => screen.GetDpi(DpiType.Angular).DpiX.ToString()).Join(","));
+		s = ("Raw", Screen.AllScreens.Select(screen => screen.GetDpi(DpiType.Raw).DpiX.ToString()).Join(","));
+		//s = VisualTreeHelper.GetDpi(Preview).DpiScaleX;
 		Color color = GetColorAt(position);
 		Preview.PointColor = color;
 	}

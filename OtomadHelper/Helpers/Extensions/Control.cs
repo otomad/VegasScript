@@ -45,11 +45,11 @@ public static partial class Extensions {
 	/// </summary>
 	/// <param name="form">A WinForm <see cref="Form"/>.</param>
 	/// <returns>The screen DPI in two dimension.</returns>
-	public static (double dpiX, double dpiY) GetDpi(this Control form) {
+	public static (double DpiX, double DpiY) GetDpi(this Control form) {
 		Graphics graphics = form.CreateGraphics();
 		try {
 			return (graphics.DpiX / DPI_DIVISOR, graphics.DpiY / DPI_DIVISOR);
-		} catch {
+		} catch (Exception) {
 			return (1, 1);
 		} finally {
 			graphics.Dispose();
@@ -61,11 +61,11 @@ public static partial class Extensions {
 	/// </summary>
 	/// <param name="window">A WPF <see cref="Window"/>.</param>
 	/// <returns>The screen DPI in two dimension.</returns>
-	public static (double dpiX, double dpiY) GetDpi(this Visual window) {
+	public static (double DpiX, double DpiY) GetDpi(this Visual window) {
 		PresentationSource source = PresentationSource.FromVisual(window);
 		try {
 			return (source.CompositionTarget.TransformToDevice.M11, source.CompositionTarget.TransformToDevice.M22);
-		} catch {
+		} catch (Exception) {
 			return (1, 1);
 		}
 	}
