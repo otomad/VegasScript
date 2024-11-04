@@ -143,6 +143,7 @@ export const pageStore: PageState = createPersistStore("page", (() => {
 				alert("404 Not Found!");
 			pageStore.isAlerted404 = true;
 			localStorage.removeItem(NAME);
+			pageStore.page = page;
 			location.reload();
 		},
 		isAlerted404: false,

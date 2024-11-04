@@ -38,7 +38,7 @@ export default function Track() {
 				title={t.titles.box3d}
 				type="button"
 				icon="cube"
-				onClick={() => pushPage("box3d")}
+				onClick={() => pushPage("box-3d")}
 			>
 				<DeactivateButton deactivated={layoutEnabled.box3d} />
 			</SettingsCard>
