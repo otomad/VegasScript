@@ -8,6 +8,7 @@ using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using DrawingColor = System.Drawing.Color;
 using DrawingPoint = System.Drawing.Point;
+using System.Windows.Media;
 
 namespace OtomadHelper.WPF.Controls;
 
@@ -44,7 +45,7 @@ public class EyeDropperBehavior : Behavior<Button> {
 		}
 		AssociatedObject.CaptureMouse();
 		CurrentWindowLeft = Window.Left;
-		Window.Left = InvisibleWindowLeft;
+		Window.Left += InvisibleWindowLeft;
 		Mouse.OverrideCursor = Cursors.Cross;
 		Preview.Show();
 		Button_MouseMove(sender, e);
@@ -53,7 +54,8 @@ public class EyeDropperBehavior : Behavior<Button> {
 	private void Button_MouseMove(object sender, MouseEventArgs e) {
 		if (!AssociatedObject.IsMouseCaptured) return;
 		Point position = GetPoint(e);
-		Preview.MoveToMouse(position, Window.GetDpi());
+		Visual source = PresentationSource.FromVisual(Preview) is not null ? Preview : Window;
+		Preview.MoveToMouse(position, source.GetDpi());
 		Color color = GetColorAt(position);
 		Preview.PointColor = color;
 	}
@@ -85,7 +87,8 @@ public class EyeDropperBehavior : Behavior<Button> {
 	private static Color GetColorAt(Point point) =>
 		GetColorAt((int)point.X, (int)point.Y).ToMediaColor();
 
-	private static DrawingColor GetColorAt(int x, int y) {
+	private static DrawingColor GetColorAt(int x, int y) { // FIXME: In multi screen, the non primary screen will get wrong color because of different DPI.
+		s = (x, y);
 		Bitmap bmp = new(1, 1);
 		Rectangle bounds = new(x, y, 1, 1);
 		using (Graphics g = Graphics.FromImage(bmp))

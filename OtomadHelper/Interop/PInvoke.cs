@@ -501,7 +501,7 @@ public static class PInvoke {
 	private static extern bool EnumDisplaySettingsW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, uint iModeNum, out DevModeW lpDevMode);
 
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-	private struct DevModeW {
+	internal struct DevModeW {
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 		public string dmDeviceName;
 
@@ -572,4 +572,7 @@ public static class PInvoke {
 			Frequency = devMode.dmDisplayFrequency,
 		};
 	}
+
+	[DllImport("user32.dll")]
+	public static extern bool SetProcessDPIAware();
 }

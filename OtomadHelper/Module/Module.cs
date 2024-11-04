@@ -4,6 +4,7 @@
 /// <see href="https://stackoverflow.com/a/756010/19553213" />
 /// <see href="https://www.stum.de/2009/01/14/const-strings-a-very-convenient-way-to-shoot-yourself-in-the-foot/" />
 
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 
