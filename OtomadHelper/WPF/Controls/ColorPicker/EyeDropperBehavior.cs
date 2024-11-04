@@ -56,10 +56,9 @@ public class EyeDropperBehavior : Behavior<Button> {
 		Point position = GetPoint(e);
 		Visual source = PresentationSource.FromVisual(Preview) is not null ? Preview : Window;
 		Preview.MoveToMouse(position, source.GetDpi());
-		s = ("Effective", Screen.AllScreens.Select(screen => screen.GetDpi(DpiType.Effective).DpiX.ToString()).Join(","));
-		s = ("Angular", Screen.AllScreens.Select(screen => screen.GetDpi(DpiType.Angular).DpiX.ToString()).Join(","));
-		s = ("Raw", Screen.AllScreens.Select(screen => screen.GetDpi(DpiType.Raw).DpiX.ToString()).Join(","));
-		//s = VisualTreeHelper.GetDpi(Preview).DpiScaleX;
+		Screen screen = Screen.FromHandle(Preview.Handle);
+		s = screen.GetScalingFactor();
+		s = VisualTreeHelper.GetDpi(Preview).DpiScaleX;
 		Color color = GetColorAt(position);
 		Preview.PointColor = color;
 	}
