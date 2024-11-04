@@ -56,9 +56,6 @@ public class EyeDropperBehavior : Behavior<Button> {
 		Point position = GetPoint(e);
 		Visual source = PresentationSource.FromVisual(Preview) is not null ? Preview : Window;
 		Preview.MoveToMouse(position, source.GetDpi());
-		Screen screen = Screen.FromHandle(Preview.Handle);
-		s = screen.GetScalingFactor();
-		s = VisualTreeHelper.GetDpi(Preview).DpiScaleX;
 		Color color = GetColorAt(position);
 		Preview.PointColor = color;
 	}
@@ -90,7 +87,8 @@ public class EyeDropperBehavior : Behavior<Button> {
 	private static Color GetColorAt(Point point) =>
 		GetColorAt((int)point.X, (int)point.Y).ToMediaColor();
 
-	private static DrawingColor GetColorAt(int x, int y) {
+	private static DrawingColor GetColorAt(int x, int y) { // FIXME: In multi screen, the non primary screen will get wrong color because of different DPI.
+		s = (x, y);
 		Bitmap bmp = new(1, 1);
 		Rectangle bounds = new(x, y, 1, 1);
 		using (Graphics g = Graphics.FromImage(bmp))
