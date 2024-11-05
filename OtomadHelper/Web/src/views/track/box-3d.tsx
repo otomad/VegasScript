@@ -1,6 +1,8 @@
+import Point from "classes/Point"; // FIXME: Expect auto import, but won't work now.
+
 const faces = ["front", "back", "left", "right", "top", "bottom"] as const;
 const SIDE_LENGTH = 200;
-const DEFAULT_ROTATION = [-27, -36] as TwoD;
+const DEFAULT_ROTATION = Object.freeze(new Point(-27, -36));
 
 const StyledCube = styled.div`
 	${styles.mixins.flexCenter()};
@@ -10,7 +12,7 @@ const StyledCube = styled.div`
 		cursor: grabbing;
 	}
 
-	.container-2 {
+	.container-outer {
 		align-content: center;
 		align-self: center;
 		block-size: 400px;
@@ -19,7 +21,7 @@ const StyledCube = styled.div`
 		.container {
 			${styles.mixins.square(SIDE_LENGTH + "px")};
 			position: relative;
-			transform: rotateX(var(--rotate-x, ${DEFAULT_ROTATION[0]})) rotateY(var(--rotate-y, ${DEFAULT_ROTATION[1]}));
+			transform: rotateX(var(--rotate-x, ${DEFAULT_ROTATION.x})) rotateY(var(--rotate-y, ${DEFAULT_ROTATION.y}));
 			transform-style: preserve-3d;
 			user-select: none;
 
@@ -68,13 +70,12 @@ const StyledCube = styled.div`
 export default function Box3d() {
 	pageStore.useOnSave(() => configStore.track.box3d.enabled = true);
 
-	const defaultRotation = { x: DEFAULT_ROTATION[0], y: DEFAULT_ROTATION[1] };
-	const [position, setPosition] = useState({ x: 0, y: 0 });
-	const [rotation, setRotation] = useState(defaultRotation);
+	const [position, setPosition] = useState(Point.zero);
+	const [rotation, setRotation] = useState<Point>(DEFAULT_ROTATION);
 	const rotationCss = useMemo(() => ({ "--rotate-x": rotation.x + "deg", "--rotate-y": rotation.y + "deg" }), [rotation]);
 
 	const onDragStart: PointerEventHandler<HTMLDivElement> = e => {
-		setPosition({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
+		setPosition(new Point(Math.round(e.clientX), Math.round(e.clientY)));
 		e.currentTarget.setPointerCapture(e.pointerId);
 	};
 
@@ -82,27 +83,27 @@ export default function Box3d() {
 		if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
 		const rx = PNMod(rotation.x, 360),
 			ryDir = rx > 90 && rx < 270 ? 1 : -1;
-		setRotation(({ x, y }) => ({
-			x: x - (Math.round(e.clientY) - position.y),
-			y: y - ryDir * (Math.round(e.clientX) - position.x) % 360,
-		}));
-		setPosition({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
+		setRotation(({ x, y }) => new Point(
+			x - (Math.round(e.clientY) - position.y),
+			y - ryDir * (Math.round(e.clientX) - position.x) % 360,
+		));
+		setPosition(new Point(Math.round(e.clientX), Math.round(e.clientY)));
 	};
 
 	const onDragEnd: PointerEventHandler<HTMLDivElement> = e => {
-		setPosition({ x: 0, y: 0 });
+		setPosition(Point.zero);
 		e.currentTarget.releasePointerCapture(e.pointerId);
 	};
 
 	const reset = () => {
-		setPosition({ x: 0, y: 0 });
-		setRotation(defaultRotation);
+		setPosition(Point.zero);
+		setRotation(DEFAULT_ROTATION);
 	};
 
 	return (
 		<div className="container">
 			<StyledCube onPointerDown={onDragStart} onPointerMove={onDrag} onPointerUp={onDragEnd} onAuxClick={reset}>
-				<div className="container-2">
+				<div className="container-outer">
 					<div className="container" style={rotationCss}>
 						{faces.map(face => <div key={face} className={face}>{face}</div>)}
 					</div>

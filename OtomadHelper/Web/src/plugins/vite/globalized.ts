@@ -51,7 +51,7 @@ export default (): Plugin => {
 		`)()); // | (string & {})
 	};
 
-	const initClasses = async (path?: string[]) => {
+	const initClasses = async (path?: string[]) => { // FIXME: Won't work now.
 		if (path)
 			if (path[1] === "classes") {
 				if (path.length > 3) return;
@@ -78,7 +78,7 @@ export default (): Plugin => {
 				result += `import type _${i} from "classes/${klass}.ts";\n`;
 			result += "\ndeclare global {\n";
 			for (const klass of classes)
-				result += `\texport { default as ${klass} } from "classes/${klass}.ts";\n`;
+				result += `\texport type * from "classes/${klass}.ts";\n`;
 			result += "}\n\nexport { };\n";
 			return result;
 		})());

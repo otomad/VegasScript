@@ -33,6 +33,13 @@ declare global {
 		 */
 		[Symbol.toPrimitive](hint: "number" | "string" | "default"): any;
 	}
+
+	/**
+	 * > Type 'Buffer' is not assignable to type 'Uint8Array'.\
+	 * >   The types of 'entries()' are incompatible between these types.\
+	 * >     Type 'IterableIterator<[number, number]>' is missing the following properties from type 'ArrayIterator<[number, number]>': map, filter, take, drop, and 9 more.
+	 */
+	interface IterableIterator<T, U> extends ArrayIterator<T> { }
 }
 // #endregion
 

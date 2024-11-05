@@ -223,6 +223,8 @@ export default [
 				allowTernary: true,
 				enforceForJSX: true,
 			}],
+			// "@typescript-eslint/prefer-readonly-parameter-types": "error",
+			"@typescript-eslint/prefer-reduce-type-parameter": "error",
 			"react-hooks/exhaustive-deps": "off",
 			"react-hooks/rules-of-hooks": "off",
 			"react/jsx-uses-vars": "error",

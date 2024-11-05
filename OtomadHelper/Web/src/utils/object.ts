@@ -595,6 +595,19 @@ export function canUseHook() {
 }
 
 /**
+ * The ultimate method for determining the type of an element.
+ * @param object - The element to be determined.
+ * @param lowerCase - Should convert to all lowercase automatically? If false, preserve the case of the original name. Defaults to false.
+ * @returns The type name of this element, which is case preserved by default, and custom types can also support type names instead of returning "Object".
+ * @note This function does not support type guarding in TypeScript, it is recommended to use it only in the JavaScript level.
+ */
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
+export function type(object: Object | undefined | null, lowerCase: boolean = false) {
+	const type = object != null ? object.constructor.name : Object.prototype.toString.call(object).slice(8, -1);
+	return lowerCase ? type.toLowerCase() : type;
+}
+
+/**
  * @deprecated
  */
 export function getCurrentState<T>(setter: SetState<T>) {
