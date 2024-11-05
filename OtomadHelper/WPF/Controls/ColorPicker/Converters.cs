@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -71,12 +70,20 @@ public class TextBoxNameToRangeConverter : ValueConverter<string, Range?> {
 	}
 }
 
+[ValueConversion(typeof(int), typeof(int))]
 public class Alpha255ToAlpha100Converter : ValueConverter<int, int> {
 	public override int Convert(int value, Type targetType, object parameter, CultureInfo culture) =>
 		(int)Math.Round((double)value / 255 * 100);
 }
 
-public class ColorPickerIsNotSpecialColorTextBox : ValueConverter<string, bool> {
+[ValueConversion(typeof(string), typeof(bool))]
+public class ColorPickerIsNotSpecialColorTextBoxConverter : ValueConverter<string, bool> {
 	public override bool Convert(string name, Type targetType, object parameter, CultureInfo culture) =>
 		name.Contains(".");
+}
+
+[ValueConversion(typeof(string), typeof(string))]
+public class ColorAxisKeyToTranslationConverter : ValueConverter<string, string> {
+	public override string Convert(string value, Type targetType, object parameter, CultureInfo culture) =>
+		t.ColorPicker.AxisAbbrs[value];
 }

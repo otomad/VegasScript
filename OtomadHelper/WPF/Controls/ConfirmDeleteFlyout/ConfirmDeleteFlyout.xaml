@@ -51,18 +51,18 @@
 		</Canvas>
 		<Border Padding="16,14" BorderThickness="0">
 			<StackPanel Orientation="Vertical">
-				<TextBlock Style="{StaticResource Title}" Text="{m:Translate Flyout.ConfirmDelete.Title}" />
+				<TextBlock Style="{StaticResource Title}" Text="{m:Trans Flyout.ConfirmDelete.Title}" />
 				<TextBlock d:Text="Are you sure you want to delete it?" Text="{Binding Message}" />
 				<c:ContentDialogButtonPanel>
 					<c:Button
 						Command="{Binding SetDialogResultCommand}"
 						CommandParameter="{m:Bool True}"
-						Content="{m:Translate ContentDialog.Button.Ok}"
+						Content="{m:Trans ContentDialog.Button.Ok}"
 						/>
 					<c:Button
 						Command="{Binding SetDialogResultCommand}"
 						CommandParameter="{m:Bool False}"
-						Content="{m:Translate ContentDialog.Button.Cancel}"
+						Content="{m:Trans ContentDialog.Button.Cancel}"
 						IsDefault="True"
 						/>
 				</c:ContentDialogButtonPanel>

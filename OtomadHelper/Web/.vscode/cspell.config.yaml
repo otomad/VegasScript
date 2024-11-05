@@ -7,6 +7,7 @@ language: en,vi
 includeRegExpList:
   - /[\p{Script_Extensions=Latin}\p{ASCII}]+/gu
 words:
+  - abbrs
   - ack
   - ani
   - apng
@@ -54,9 +55,11 @@ words:
   - highp
   - hotspot
   - hoverable
+  - hsb
   - hsl
   - hsv
   - hta
+  - hwb
   - idb
   - immer
   - jsdoc
@@ -66,8 +69,11 @@ words:
   - keyframes
   - klass
   - languagedetector
+  - lch
   - lengthenable
   - lengthenings
+  - letterboxed
+  - letterboxing
   - lightningcss
   - linebreak
   - lotties
@@ -93,6 +99,7 @@ words:
   - oem
   - ofx
   - oklab
+  - oklch
   - ol
   - otf
   - otomad
@@ -102,6 +109,9 @@ words:
   - pangu
   - parameterless
   - partialize
+  - pillarbox
+  - pillarboxed
+  - pillarboxing
   - pingpong
   - pixi
   - portato
@@ -143,6 +153,7 @@ words:
   - ttc
   - tts
   - ultrabold
+  - unflipped
   - unhover
   - unlengthen
   - unlengthening

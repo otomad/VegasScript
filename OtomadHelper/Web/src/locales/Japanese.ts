@@ -23,13 +23,16 @@ export default {
 			ytp_full: "YouTube Poop",
 			mosh_full: "データモッシュ",
 			tools: "ツール",
+			management: "管理",
 			settings: "設定",
 			prve: "映像リズム視覚効果",
 			staff: "スタッフ",
 			staff_full: "スタッフビジュアライザー",
 			pixelScaling: "ピクセルスケーリング",
 			parameters: "パラメータ",
-			management: "管理",
+			grid: "グリッドレイアウト",
+			box3d: "3D ボックスレイアウト",
+			gradient: "グラデーショントラック",
 			track: "トラック",
 			mosh: "モッシュ",
 			effect: "効果",
@@ -84,6 +87,7 @@ export default {
 					preparation: "準備",
 				},
 			},
+			consonant: "子音を含む。",
 		},
 		on: "オン",
 		off: "オフ",
@@ -113,6 +117,11 @@ export default {
 		topPriority: "最初に {{item, capitalize}}",
 		browse: "検索",
 		ok: "OK",
+		descending: "降順",
+		ascending: "昇順",
+		view: "表示",
+		size: "サイズ",
+		disabled: "無効",
 		infoBar: {
 			warning: "警告",
 		},
@@ -171,6 +180,7 @@ export default {
 				max: "最大長さ",
 				fixed: "固定長さ",
 			},
+			trackOrChannel: "トラック / チャンネル",
 			noteCount: "ノート数",
 			beginNote: "ノートの開始",
 			pan: {
@@ -182,6 +192,7 @@ export default {
 			instrument: "機器",
 			drumKit: "ドラムキット",
 			musicalTrack: "トラック",
+			channel: "チャンネル",
 		},
 		stream: {
 			preview: "プレビュー",
@@ -214,6 +225,7 @@ export default {
 			multitrackForChords: "コードのマルチラック",
 			createGroups: "グループを作成",
 			autoPan: "オート パン",
+			stack: "スタック",
 			timeUnremapping: "時間のマッピングを解除",
 			resampleImitatively: "模倣して再サンプルする",
 			transformMethod: {
@@ -301,9 +313,45 @@ export default {
 		},
 		track: {
 			layout: "レイアウト",
-			grid: "グリッドレイアウト",
-			box3d: "3D ボックスレイアウト",
-			gradient: "グラデーショントラック",
+			grid: {
+				array: "行列",
+				square: "正方形（正方形）",
+				min: "MIN",
+				max: "MAX",
+				fit: {
+					_: "合わせる",
+					cover: "カバー",
+					contain: "含まれている",
+				},
+				mirrorEdges: {
+					_: "鏡像エッジ",
+					unflipped: "反転しない",
+					hFlip: {
+						even: "偶数",
+						odd: "奇数列",
+					},
+					vFlip: {
+						even: "偶数",
+						odd: "奇数行",
+					},
+				},
+				padding: "Padding",
+				column: "列",
+				row: "行",
+			},
+			gradient: {
+				effects: {
+					rainbow: "虹の色",
+					graduallySaturated: "徐々に飽和する",
+					graduallyContrasted: "徐々に比較",
+					threshold: "しきい値バリエーション",
+					alternatelyChromatic: "代わりにクロマティック",
+					alternatelyNegative: "代替の負の値",
+				},
+				view: {
+					overlay: "Overlay",
+				},
+			},
 			applyToSelectedTracks: "選択したトラックに適用",
 			deactivate: "無効にする",
 			deactivateAll: "すべて無効にする",
@@ -532,6 +580,12 @@ export default {
 						versionRequest: "注意: この機能はVEGAS Pro 19以上が必要です。現在のバージョンは {{version}}です。",
 					},
 				},
+				trackGroup: {
+					_: "スコアトラックごとのグループトラック",
+				},
+				trackName: {
+					_: "生成されたトラックまたはトラック グループの名前を指定します",
+				},
 				blindBox: {
 					_: "ソースのポイントをランダム化します。\nこれは、ランダムに選択されたソースクリップが異なるベースピッチを持つ可能性があります。 娯楽用の面白い動画の作成にのみ役立ちますし、高度な動画の作成にはほとんど使用されません。",
 					track: "トラックまたはチャンネルがスコアに依存するかどうか",
@@ -543,18 +597,19 @@ export default {
 					},
 					ytpEnabled: "YTP機能が有効になっており、既にランダム化に対応しているため、ここで設定する必要はありません。",
 				},
-				trackGroup: {
-					_: "スコアトラックごとのグループトラック",
-				},
-				trackName: {
-					_: "生成されたトラックまたはトラック グループの名前を指定します",
+				consonant: {
+					_: "同じオーディオまたはビデオソースの子音と母音部分を分離して、ソースの子音部分に特別な最適化を適用することができます。\n少なくとも2つのオーディオクリップまたはビデオクリップを選択している場合。 最初のクリップは子音部分で2つ目のクリップは母音部分と見なされています",
+					ytpEnabled: "YTP機能は有効であり、この機能は現在利用できません。",
+					blindBoxEnabled: "ブラインドボックス機能が有効になっており、この機能は現在利用できません。",
+					manualEnabled: "format@@0 モードでは、この機能は自動的に有効になります。",
 				},
 			},
 			score: {
 				trim: "スコアの生成時間範囲をインターセプトします",
+				encoding: "ファイルの読み込み時に使用するテキストエンコーディングを指定します",
 				tempo: "分あたりの拍数を指定します",
 				constrain: "スコアからのノートの出力長さを制御します",
-				encoding: "ファイルの読み込み時に使用するテキストエンコーディングを指定します",
+				trackOrChannel: "MIDI トラックまたは MIDI チャンネルを使用するかどうかを選択します",
 				ytpEnabled: "YTP機能が有効になっているため、スコアに依存しないので、ここでのすべての設定は効果がありません。",
 			},
 			stream: {
@@ -568,6 +623,7 @@ export default {
 				multitrackForChords: "コード用に複数のトラックを作成",
 				createGroups: "ビデオクリップとオーディオクリップのグループを1つのノートで表します。",
 				autoPan: "エンベロープオートメーションを使用してオーディオをパンする",
+				stack: "楽譜に応じて結果を別々のトラックに配置するのではなく、1つのトラックで可能な限り緊密にクリップをスタックします。",
 				timeUnremapping: "ノートが発生した場合、クリップはポイント時間をリセットしません。 再生を続けますソースにエフェクトを適用する場合に便利です",
 				resampleImitatively: {
 					_: "Visualでリサンプリング動作を模倣し、ピッチが大きくなるとストレッチが屈曲します",
@@ -626,9 +682,23 @@ export default {
 			},
 			track: {
 				_: "レイアウトは、YTPMVのビジュアル制作プロセスにおけるコアポイントの一つです。 コンポジションについて学ぶ YTPMVのために良い視覚的なレイアウトを作る方法を知ることは、あなたが期待するよりもはるかに楽しいものになります。\n基本的に、ビジュアルでメロディのサンプルが最も顕著なものであることを確認してください。",
+				grid: {
+					square: "トラック数に応じて、2×2、3×3などの標準グリッドレイアウトを作成します。",
+					custom: "グリッドレイアウトの列と行をカスタマイズします。行は列に自動的に適応し、その逆も同様です。",
+					fit: {
+						_: "トラックボックス内にフィットしながら、アスペクト比を維持するようにクリップのサイズを変更します",
+					},
+					mirrorEdges: {
+						hFlip: "パリティパターンの列を反転させてトラックをミラーする",
+						vFlip: "パリティパターンの行を反転させてトラックをミラーする",
+					},
+					padding: "トラック ボックスの内側の余白を他のボックスとあまり混雑しないように調整します。",
+				},
 				gradient: "レイアウトにグラデーションカラー効果を与えます。",
 				legato: "トラッククリップ間のギャップを埋めます",
 				deactivate: "このレイアウトの状態をリセットして無効にします",
+				view: "結果に影響を与えずにプレビューのみを変更します",
+				descending: "トラックが適用される順序を反転します。",
 			},
 			sonar: {
 				_: "ソナーは、クッキーカッターの形を利用してビートスタイルのモーショングラフィックスを作成する視覚効果です。この機能を使用すると、スコア内のドラムキット（チャンネル10）のさまざまなパーカッションインストゥルメントに異なるシェイプやエフェクトをディスパッチできます。\n音MADの一般的なジャンルは、さまざまな形状を加えてモーショングラフィックス(MG)を作成することです。拡散した円やビートに基づいて視覚化することができますモーショングラフィックスは、グラフィックデザインとアニメーションデザインの間の製品です時間の流れに基づいた視覚的表現とビデオアートの一種ですモーショングラフィックスという用語は、時間の流れによって変形するグラフィックスを指します。モーグラフのみを含む単一の音MADビデオは、しばしば「グラフ」または「形」と題されます。",
@@ -778,6 +848,26 @@ export default {
 		colorPicker: {
 			title: "色を選択",
 			eyeDropper: "スポイト",
+			axisAbbrs: {
+				red: "R",
+				green: "G",
+				blue: "B",
+				hue: "H",
+				saturation: "S",
+				lightness: "L",
+				brightness: "B",
+				white: "W",
+				blackInHwb: "B",
+				cyan: "C",
+				magenta: "M",
+				yellow: "Y",
+				blackInCmyk: "K",
+				luminance: "L",
+				aAxisInLab: "a",
+				bAxisInLab: "b",
+				chroma: "C",
+				alpha: "Α",
+			},
 		},
 		flyout: {
 			confirmDelete: {

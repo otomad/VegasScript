@@ -325,6 +325,8 @@ export default {
 				column_other: "Columns",
 				row: "Row",
 				row_other: "Rows",
+				min: "MIN",
+				max: "MAX",
 				fit: {
 					_: "Fit",
 					cover: "Cover",
@@ -332,6 +334,7 @@ export default {
 				},
 				mirrorEdges: {
 					_: "Mirror edges",
+					unflipped: "Unflipped",
 					hFlip: {
 						even: "Even columns",
 						odd: "Odd columns",
@@ -695,6 +698,20 @@ export default {
 			},
 			track: {
 				_: "Layout is one of the core points in the visual production process of YTPMV. Learn about composition, knowing how to make a good visual layout for a YTPMV will make it much more enjoyable to watch than you would expect.\nBasically, make sure your melody sample is the most prominent thing in the visuals.",
+				grid: {
+					square: "Creates a standard grid layout such as 2×2, 3×3, etc. based on the number of tracks.",
+					custom: "Customizes the columns and rows of the grid layout. The rows will automatically adapt to the columns and vice versa.",
+					fit: {
+						_: "Resizes clips to maintain aspect ratio while fitting within the track box",
+						cover: "Crops off both sides to fill the entire track box so there are no gaps, but it will make both sides disappear from view\n(aka “Pan and Scan” in Video Framing and “Fill” in Windows Background Settings)",
+						contain: "Adds mattes of blank space around to fit the entire clip into the track box so you can see it all, but the gaps become too conspicuous when the aspect ratio differences are significant\n(aka “Letterboxing” or “Pillarboxing” in Video Framing and “Fit” in Windows Background Settings)",
+					},
+					mirrorEdges: {
+						hFlip: "Mirrors the tracks by flipping the columns in a parity pattern",
+						vFlip: "Mirrors the tracks by flipping the rows in a parity pattern",
+					},
+					padding: "Adjusts the inner margins of track boxes to be less cluttered with other boxes",
+				},
 				gradient: "Gives the video tracks a gradient color effect in your layout",
 				legato: "Fills in the gaps between the track clips",
 				deactivate: "Reset the status of this layout to deactivate it",
@@ -851,6 +868,26 @@ export default {
 		colorPicker: {
 			title: "Select a Color",
 			eyeDropper: "Eye dropper",
+			axisAbbrs: {
+				red: "R",
+				green: "G",
+				blue: "B",
+				hue: "H",
+				saturation: "S",
+				lightness: "L",
+				brightness: "B",
+				white: "W",
+				blackInHwb: "B",
+				cyan: "C",
+				magenta: "M",
+				yellow: "Y",
+				blackInCmyk: "K",
+				luminance: "L",
+				aAxisInLab: "a",
+				bAxisInLab: "b",
+				chroma: "C",
+				alpha: "Α",
+			},
 		},
 		flyout: {
 			confirmDelete: {

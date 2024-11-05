@@ -32,6 +32,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Strings\en-US.resw">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="WPF\Controls\ColorPicker\CheckerBoardBrush.xaml">
       <SubType>Designer</SubType>
     </Page>

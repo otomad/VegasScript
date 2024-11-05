@@ -11,6 +11,8 @@ const StyledPreviewGradient = styled.div<{
 	$descending: boolean;
 }>`
 	${styles.mixins.square("100%")};
+	direction: ltr;
+	writing-mode: horizontal-tb;
 
 	.image-wrapper:has(&) {
 		height: calc(100cqw / 16 * 9);

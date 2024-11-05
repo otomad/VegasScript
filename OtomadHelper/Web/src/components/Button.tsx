@@ -145,7 +145,7 @@ export /* @internal */ const StyledButton = styled.button<{
 			background-color: ${c("fill-color", 80)};
 		}
 
-		&[disabled] {
+		&:not(.subtle)[disabled] {
 			--border-accent-color: ${c("fill-color-accent-disabled")};
 			background-color: ${c("fill-color-accent-disabled")};
 

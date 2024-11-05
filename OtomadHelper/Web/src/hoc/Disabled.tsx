@@ -1,7 +1,7 @@
 export default function Disabled({ children, disabled = true as boolean | undefined, as = Fragment, container, ...htmlAttrs }: FCP<{
 	/** Disable all children controls? */
 	disabled?: boolean;
-	/** Modify the container type. Defaults to `React.Fragment` (a.k.a. nothing). */
+	/** Modify the container type. Defaults to `React.Fragment` (aka nothing). */
 	as?: AsTarget;
 	/** Same as `as`, but compatible with Styled Components. */
 	container?: AsTarget;

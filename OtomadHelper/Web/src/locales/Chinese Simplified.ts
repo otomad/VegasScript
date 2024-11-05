@@ -23,13 +23,16 @@ export default {
 			ytp_full: "YouTube Poop",
 			mosh_full: "数据抹失",
 			tools: "工具",
+			management: "管理",
 			settings: "设置",
 			prve: "画面节奏视觉效果",
 			staff: "五线谱",
 			staff_full: "五线谱可视化",
 			pixelScaling: "像素硬边缘放大",
 			parameters: "参数",
-			management: "管理",
+			grid: "网格布局",
+			box3d: "三维方盒布局",
+			gradient: "渐变轨道",
 			track: "轨道",
 			mosh: "抹失",
 			effect: "效果",
@@ -84,6 +87,7 @@ export default {
 					preparation: "预备",
 				},
 			},
+			consonant: "包含辅音",
 		},
 		on: "开",
 		off: "关",
@@ -113,6 +117,11 @@ export default {
 		topPriority: "{{item, capitalize}} 最优先",
 		browse: "浏览",
 		ok: "确定",
+		descending: "递减",
+		ascending: "递增",
+		view: "视图",
+		size: "大小",
+		disabled: "禁用",
 		infoBar: {
 			warning: "警告",
 		},
@@ -171,6 +180,7 @@ export default {
 				max: "最大长度",
 				fixed: "固定长度",
 			},
+			trackOrChannel: "音轨/通道",
 			noteCount: "音符数",
 			beginNote: "起音",
 			pan: {
@@ -182,6 +192,7 @@ export default {
 			instrument: "乐器",
 			drumKit: "鼓组",
 			musicalTrack: "音轨",
+			channel: "通道",
 		},
 		stream: {
 			preview: "预览",
@@ -214,6 +225,7 @@ export default {
 			multitrackForChords: "复音多轨",
 			createGroups: "创建分组",
 			autoPan: "自动声像",
+			stack: "堆积",
 			timeUnremapping: "时间解除重映射",
 			resampleImitatively: "模拟重采样音频",
 			transformMethod: {
@@ -301,9 +313,45 @@ export default {
 		},
 		track: {
 			layout: "布局",
-			grid: "网格布局",
-			box3d: "三维方盒布局",
-			gradient: "渐变轨道",
+			grid: {
+				array: "阵列",
+				square: "平方",
+				min: "最小值",
+				max: "最大值",
+				fit: {
+					_: "取景",
+					cover: "裁切",
+					contain: "遮幅",
+				},
+				mirrorEdges: {
+					_: "镜像边缘",
+					unflipped: "不翻转",
+					hFlip: {
+						even: "偶数列",
+						odd: "奇数列",
+					},
+					vFlip: {
+						even: "偶数行",
+						odd: "奇数行",
+					},
+				},
+				padding: "边距",
+				column: "列数",
+				row: "行数",
+			},
+			gradient: {
+				effects: {
+					rainbow: "彩虹色",
+					graduallySaturated: "逐渐饱和",
+					graduallyContrasted: "逐渐对比",
+					threshold: "阈值变化",
+					alternatelyChromatic: "彩灰交替",
+					alternatelyNegative: "正负交替",
+				},
+				view: {
+					overlay: "叠加",
+				},
+			},
 			applyToSelectedTracks: "应用于所选轨道",
 			deactivate: "停用",
 			deactivateAll: "全部停用",
@@ -533,8 +581,14 @@ export default {
 						versionRequest: "注意：此功能要求至少为VEGAS Pro 19。当前版本为 {{version}}。",
 					},
 				},
+				trackGroup: {
+					_: "依照乐曲音轨为轨道分组",
+				},
+				trackName: {
+					_: "为生成的轨道或轨道组命名",
+				},
 				blindBox: {
-					_: "随机化素材入点。\n这可能会导致随机选择的素材片段具有不同的原始音高，因此只能用来做成搞笑视频供娱乐，几乎不能做成高品质视频。",
+					_: "随机化素材入点。\n这可能会导致随机选取的素材片段具有不同的原始音高，因此只能用来做成搞笑视频供娱乐，几乎不能做成高品质视频。",
 					track: "究竟是音轨还是通道取决于乐曲配置",
 					marker: "当在乐曲中遇到标记时，就会变更一次素材入点。如果某些标记具有相同的非空名称，它们将会使用相同的素材入点。",
 					barOrBeat: {
@@ -544,18 +598,19 @@ export default {
 					},
 					ytpEnabled: "YTP功能已启用且已经支持随机化，不需要在此处设置。",
 				},
-				trackGroup: {
-					_: "依照乐曲音轨为轨道分组",
-				},
-				trackName: {
-					_: "为生成的轨道或轨道组命名",
+				consonant: {
+					_: "可以将同一音视频素材的辅音与元音部分分割开，以便于为素材的辅音部分应用特殊优化。\n若至少选中两段音频剪辑或视频剪辑，则第一段被视为辅音部分，而第二段被视为元音部分。",
+					ytpEnabled: "YTP功能启用时不支持本功能。",
+					blindBoxEnabled: "盲盒功能启用时不支持本功能。",
+					manualEnabled: "人力模式下已自动启用本功能。",
 				},
 			},
 			score: {
 				trim: "截取乐曲生成的时间范围",
+				encoding: "指定在读取文件时要使用的文本编码",
 				tempo: "指定每分钟多少拍",
 				constrain: "控制乐曲中的音符输出长度",
-				encoding: "指定在读取文件时要使用的文本编码",
+				trackOrChannel: "选择使用MIDI音轨还是MIDI通道",
 				ytpEnabled: "YTP功能已启用，但它不依赖于乐曲，因此该处的所有设置均不起任何作用。",
 			},
 			stream: {
@@ -569,6 +624,7 @@ export default {
 				multitrackForChords: "为和弦创建多条轨道",
 				createGroups: "将一个音符所表示的视频与音频剪辑创建分组",
 				autoPan: "自动化控制音频的声像包络",
+				stack: "将片段尽可能紧密地堆积在一条轨道上，而不根据乐曲的音轨分轨放置",
 				timeUnremapping: "音符开时将不会重置剪辑的入点时间，而是继续播放，适用于如仅对素材应用效果",
 				resampleImitatively: {
 					_: "在画面中模仿重采样音频的行为，使拉伸值随着音高的升高而缩短",
@@ -627,9 +683,25 @@ export default {
 			},
 			track: {
 				_: "布局是YTPMV画面制作过程中的核心要点之一。了解版式，知道如何为YTPMV制作一个良好的画面布局，会让它比你想象的更有趣。\n基本上，确保你的主旋律采样是画面中最突出的部分。",
+				grid: {
+					square: "根据轨道数目创建标准网格布局，如2×2、3×3等。",
+					custom: "自定义网格布局中的行列数。行数会自动适应列数，反之亦然。",
+					fit: {
+						_: "缩放剪辑以保持宽高比并适应轨道框",
+						cover: "裁切两边以填充整个轨道框，这样就没有间隙，但这会使其两边消失在视线之外\n（在Windows背景设置中也被称为“填充”，在CSS取值中也被称为“覆盖”）",
+						contain: "在两边添加遮幅，以将整个剪辑装进轨道框中，这样就可以看到整个画面，但当纵横比差异过大时，间隙就会变得太显眼\n（在Windows背景设置中也被称为“适应”，在CSS取值中也被称为“包含”）",
+					},
+					mirrorEdges: {
+						hFlip: "以奇偶性翻转列来镜像轨道",
+						vFlip: "以奇偶性翻转行来镜像轨道",
+					},
+					padding: "调整轨道框的内边距，使之与其它轨道框不那么紧凑。",
+				},
 				gradient: "使视频轨道在布局中具有渐变样式的颜色效果",
 				legato: "填补轨道剪辑中的间隙",
 				deactivate: "重置此布局的状态以停用它",
+				view: "仅更改预览，不影响结果",
+				descending: "反转轨道的应用顺序",
 			},
 			sonar: {
 				_: "声呐是利用区域裁切的形状创建节拍风格动态图形的视觉效果。本功能可利用乐曲中的鼓组乐器（通道10）为其各种打击乐器分配不同的形状或效果。\n一种常见的音MAD流派是根据节奏在画面中加入例如扩散的圆圈等各种图形来制作动态图形（MG动画）。MG动画是介于平面设计与动画设计之间的一种产物，是基于时间流动而设计的视觉表现形式，是影像艺术的一种。其中“动态图形”指的是会随时间流动而改变形态的图形。仅包含MG动画的单件音MAD视频通常以《图形》《形状》等视频标题命名。",
@@ -779,6 +851,26 @@ export default {
 		colorPicker: {
 			title: "选择颜色",
 			eyeDropper: "取色",
+			axisAbbrs: {
+				red: "红(R)",
+				green: "绿(G)",
+				blue: "蓝(B)",
+				hue: "色(H)",
+				saturation: "饱(S)",
+				lightness: "亮(L)",
+				brightness: "明(B)",
+				white: "白(W)",
+				blackInHwb: "黑(B)",
+				cyan: "青(C)",
+				magenta: "品(M)",
+				yellow: "黄(Y)",
+				blackInCmyk: "黑(K)",
+				luminance: "辉(L)",
+				aAxisInLab: "纟(a)",
+				bAxisInLab: "艹(b)",
+				chroma: "彩(C)",
+				alpha: "透(A)",
+			},
 		},
 		flyout: {
 			confirmDelete: {

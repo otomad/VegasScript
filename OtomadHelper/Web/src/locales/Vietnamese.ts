@@ -118,6 +118,17 @@ export default {
 			parameters: {},
 		},
 		track: {
+			grid: {
+				fit: {},
+				mirrorEdges: {
+					hFlip: {},
+					vFlip: {},
+				},
+			},
+			gradient: {
+				effects: {},
+				view: {},
+			},
 			legato: {},
 			clear: {},
 		},
@@ -170,11 +181,12 @@ export default {
 				preferredTrack: {
 					belowAdjustmentTracks: {},
 				},
+				trackGroup: {},
+				trackName: {},
 				blindBox: {
 					barOrBeat: {},
 				},
-				trackGroup: {},
-				trackName: {},
+				consonant: {},
 			},
 			score: {},
 			stream: {
@@ -193,7 +205,12 @@ export default {
 				mapping: {},
 				preset: {},
 			},
-			track: {},
+			track: {
+				grid: {
+					fit: {},
+					mirrorEdges: {},
+				},
+			},
 			sonar: {},
 			lyrics: {
 				karaoke: {},
@@ -252,7 +269,9 @@ export default {
 		textBox: {
 			menu: {},
 		},
-		colorPicker: {},
+		colorPicker: {
+			axisAbbrs: {},
+		},
 		flyout: {
 			confirmDelete: {},
 		},

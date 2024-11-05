@@ -2,10 +2,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:c="clr-namespace:OtomadHelper.WPF.Controls"
-	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	xmlns:m="clr-namespace:OtomadHelper.WPF.Common"
+	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	>
-	<m:AccessKeyAmpersandToUnderscoreConverter x:Key="AmpToUnder" />
 	<m:BooleanTruthyConverter x:Key="BoolTruthy" />
 	<m:BackgroundToForegroundColorConverter x:Key="BgToFg" />
 	<m:ObjectToTypeNameConverter x:Key="TypeOf" />
@@ -16,18 +15,6 @@
 		<Setter Property="HorizontalAlignment" Value="Center" />
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="RecognizesAccessKey" Value="True" />
-		<Setter Property="ContentTemplate" Value="{Binding}" />
-		<Style.Triggers>
-			<DataTrigger Binding="{Binding Content, Converter={StaticResource TypeOf}, RelativeSource={RelativeSource AncestorType=Button}}" Value="String">
-				<Setter Property="ContentTemplate">
-					<Setter.Value>
-						<DataTemplate>
-							<AccessText Text="{Binding Converter={StaticResource AmpToUnder}}"/>
-						</DataTemplate>
-					</Setter.Value>
-				</Setter>
-			</DataTrigger>
-		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="DefaultButtonStyle" TargetType="c:Button">
@@ -49,7 +36,13 @@
 						BorderThickness="{TemplateBinding BorderThickness}"
 						CornerRadius="{StaticResource ButtonCornerRadius}"
 						>
-						<ContentPresenter Style="{StaticResource ButtonContentPresenter}" />
+						<ContentPresenter Style="{StaticResource ButtonContentPresenter}">
+							<ContentPresenter.ContentTemplate>
+								<DataTemplate>
+									<c:ButtonContentTemplate Text="{Binding}" />
+								</DataTemplate>
+							</ContentPresenter.ContentTemplate>
+						</ContentPresenter>
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>
@@ -89,7 +82,13 @@
 									Background="{TemplateBinding Background}"
 									CornerRadius="{StaticResource ButtonCornerRadius}"
 									>
-									<ContentPresenter Style="{StaticResource ButtonContentPresenter}" />
+									<ContentPresenter Style="{StaticResource ButtonContentPresenter}">
+										<ContentPresenter.ContentTemplate>
+											<DataTemplate>
+												<c:ButtonContentTemplate Text="{Binding}" />
+											</DataTemplate>
+										</ContentPresenter.ContentTemplate>
+									</ContentPresenter>
 								</Border>
 								<Border
 									Padding="{TemplateBinding Padding}"

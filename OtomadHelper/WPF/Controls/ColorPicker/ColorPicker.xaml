@@ -8,7 +8,7 @@
 	xmlns:m="clr-namespace:OtomadHelper.WPF.Common"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:s="clr-namespace:System;assembly=mscorlib"
-	Width="760"
+	MinWidth="760"
 	Loaded="OnLoaded"
 	d:DesignWidth="760"
 	d:DesignHeight="450"
@@ -33,7 +33,8 @@
 			<c:UnicolourToMediaColorConverter x:Key="UniToMediaColor" />
 			<c:TextBoxNameToRangeConverter x:Key="NameToRange" />
 			<c:Alpha255ToAlpha100Converter x:Key="A255ToA100" />
-			<c:ColorPickerIsNotSpecialColorTextBox x:Key="NotSpecialColor" />
+			<c:ColorPickerIsNotSpecialColorTextBoxConverter x:Key="NotSpecialColor" />
+			<c:ColorAxisKeyToTranslationConverter x:Key="AxisKeyToTrans" />
 
 			<Style BasedOn="{StaticResource DefaultRadioButtonStyle}" TargetType="RadioButton">
 				<Setter Property="FontFamily" Value="{Binding MonoFont, RelativeSource={RelativeSource AncestorType=c:BackdropWindow}}" />
@@ -42,6 +43,13 @@
 				<Setter Property="IsChecked" Value="{m:Binding ModelAxis, Converter={StaticResource ModelAxisToChecked}, ConverterParameter={Binding Tag, RelativeSource= {RelativeSource Self}}, Mode=OneWay}" />
 				<Setter Property="Command" Value="{Binding CheckModelAxisCommand}" />
 				<Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+			</Style>
+
+			<Style TargetType="Label">
+				<Setter Property="Content" Value="{Binding Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource AxisKeyToTrans}}" />
+				<Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+				<Setter Property="FontSize" Value="{StaticResource BodyFontSize}" />
+				<Setter Property="Padding" Value="0" />
 			</Style>
 
 			<Style x:Key="Unit" TargetType="TextBlock">
@@ -171,26 +179,26 @@
 		</Grid>
 
 		<Grid x:Name="Form" Grid.Column="6" m:GridDef.Column="Auto,65,Auto,10,Auto,65,Auto,10,Auto,65,Auto" m:GridDef.Row="*,*,*,8,*,*,*,8,*,*">
-			<RadioButton Tag="HSL.0" Grid.Column="0" Grid.Row="0">H</RadioButton>
-			<RadioButton Tag="HSL.1" Grid.Column="0" Grid.Row="1">S</RadioButton>
-			<RadioButton Tag="HSL.2" Grid.Column="0" Grid.Row="2">L</RadioButton>
-			<RadioButton Tag="RGB.0" Grid.Column="0" Grid.Row="4">R</RadioButton>
-			<RadioButton Tag="RGB.1" Grid.Column="0" Grid.Row="5">G</RadioButton>
-			<RadioButton Tag="RGB.2" Grid.Column="0" Grid.Row="6">B</RadioButton>
-			<RadioButton Tag="HSB.0" Grid.Column="4" Grid.Row="0">H</RadioButton>
-			<RadioButton Tag="HSB.1" Grid.Column="4" Grid.Row="1">S</RadioButton>
-			<RadioButton Tag="HSB.2" Grid.Column="4" Grid.Row="2">B</RadioButton>
-			<RadioButton Tag="HWB.0" Grid.Column="4" Grid.Row="4">H</RadioButton>
-			<RadioButton Tag="HWB.1" Grid.Column="4" Grid.Row="5">W</RadioButton>
-			<RadioButton Tag="HWB.2" Grid.Column="4" Grid.Row="6">B</RadioButton>
-			<RadioButton Tag="OKLAB.0" Grid.Column="8" Grid.Row="0">L</RadioButton>
-			<RadioButton Tag="OKLAB.1" Grid.Column="8" Grid.Row="1">a</RadioButton>
-			<RadioButton Tag="OKLAB.2" Grid.Column="8" Grid.Row="2">b</RadioButton>
-			<RadioButton Tag="OKLCH.0" Grid.Column="8" Grid.Row="4">L</RadioButton>
-			<RadioButton Tag="OKLCH.1" Grid.Column="8" Grid.Row="5">C</RadioButton>
-			<RadioButton Tag="OKLCH.2" Grid.Column="8" Grid.Row="6">H</RadioButton>
-			<TextBlock Grid.Column="0" Grid.Row="8" Style="{StaticResource RadioLessLabel}">A</TextBlock>
-			<TextBlock Grid.Column="0" Grid.Row="9" Style="{StaticResource RadioLessLabel}">A</TextBlock>
+			<RadioButton Tag="HSL.0" Grid.Column="0" Grid.Row="0"><Label Tag="Hue" /></RadioButton>
+			<RadioButton Tag="HSL.1" Grid.Column="0" Grid.Row="1"><Label Tag="Saturation" /></RadioButton>
+			<RadioButton Tag="HSL.2" Grid.Column="0" Grid.Row="2"><Label Tag="Lightness" /></RadioButton>
+			<RadioButton Tag="RGB.0" Grid.Column="0" Grid.Row="4"><Label Tag="Red" /></RadioButton>
+			<RadioButton Tag="RGB.1" Grid.Column="0" Grid.Row="5"><Label Tag="Green" /></RadioButton>
+			<RadioButton Tag="RGB.2" Grid.Column="0" Grid.Row="6"><Label Tag="Blue" /></RadioButton>
+			<RadioButton Tag="HSB.0" Grid.Column="4" Grid.Row="0"><Label Tag="Hue" /></RadioButton>
+			<RadioButton Tag="HSB.1" Grid.Column="4" Grid.Row="1"><Label Tag="Saturation" /></RadioButton>
+			<RadioButton Tag="HSB.2" Grid.Column="4" Grid.Row="2"><Label Tag="Brightness" /></RadioButton>
+			<RadioButton Tag="HWB.0" Grid.Column="4" Grid.Row="4"><Label Tag="Hue" /></RadioButton>
+			<RadioButton Tag="HWB.1" Grid.Column="4" Grid.Row="5"><Label Tag="White" /></RadioButton>
+			<RadioButton Tag="HWB.2" Grid.Column="4" Grid.Row="6"><Label Tag="BlackInHwb" /></RadioButton>
+			<RadioButton Tag="OKLAB.0" Grid.Column="8" Grid.Row="0"><Label Tag="Luminance" /></RadioButton>
+			<RadioButton Tag="OKLAB.1" Grid.Column="8" Grid.Row="1"><Label Tag="AAxisInLab" /></RadioButton>
+			<RadioButton Tag="OKLAB.2" Grid.Column="8" Grid.Row="2"><Label Tag="BAxisInLab" /></RadioButton>
+			<RadioButton Tag="OKLCH.0" Grid.Column="8" Grid.Row="4"><Label Tag="Luminance" /></RadioButton>
+			<RadioButton Tag="OKLCH.1" Grid.Column="8" Grid.Row="5"><Label Tag="Chroma" /></RadioButton>
+			<RadioButton Tag="OKLCH.2" Grid.Column="8" Grid.Row="6"><Label Tag="Hue" /></RadioButton>
+			<TextBlock Grid.Column="0" Grid.Row="8" Style="{StaticResource RadioLessLabel}"><Label Tag="Alpha" /></TextBlock>
+			<TextBlock Grid.Column="0" Grid.Row="9" Style="{StaticResource RadioLessLabel}"><Label Tag="Alpha" /></TextBlock>
 			<TextBlock Grid.Column="4" Grid.Row="8" Style="{StaticResource RadioLessLabel}">#</TextBlock>
 
 			<TextBox Tag="HSL.0" Grid.Column="1" Grid.Row="0" />
@@ -228,7 +236,7 @@
 			<c:Button Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,2,5,0" Padding="2">
 				<StackPanel Orientation="Horizontal">
 					<c:Icon IconName="EyeDropper" Margin="0,0,7,0" />
-					<TextBlock Text="{m:Translate ColorPicker.EyeDropper}" />
+					<TextBlock Text="{m:Trans ColorPicker.EyeDropper}" />
 				</StackPanel>
 				<i:Interaction.Behaviors>
 					<c:EyeDropperBehavior />

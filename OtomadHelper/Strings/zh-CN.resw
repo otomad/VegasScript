@@ -101,6 +101,60 @@
 	<data name="ColorPicker.EyeDropper" xml:space="preserve">
 		<value>取色</value>
 	</data>
+	<data name="ColorPicker.AxisAbbrs.Red" xml:space="preserve">
+		<value>红(R)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Green" xml:space="preserve">
+		<value>绿(G)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Blue" xml:space="preserve">
+		<value>蓝(B)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Hue" xml:space="preserve">
+		<value>色(H)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Saturation" xml:space="preserve">
+		<value>饱(S)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Lightness" xml:space="preserve">
+		<value>亮(L)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Brightness" xml:space="preserve">
+		<value>明(B)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.White" xml:space="preserve">
+		<value>白(W)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.BlackInHwb" xml:space="preserve">
+		<value>黑(B)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Cyan" xml:space="preserve">
+		<value>青(C)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Magenta" xml:space="preserve">
+		<value>品(M)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Yellow" xml:space="preserve">
+		<value>黄(Y)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.BlackInCmyk" xml:space="preserve">
+		<value>黑(K)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Luminance" xml:space="preserve">
+		<value>辉(L)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.AAxisInLab" xml:space="preserve">
+		<value>纟(a)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.BAxisInLab" xml:space="preserve">
+		<value>艹(b)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Chroma" xml:space="preserve">
+		<value>彩(C)</value>
+	</data>
+	<data name="ColorPicker.AxisAbbrs.Alpha" xml:space="preserve">
+		<value>透(A)</value>
+	</data>
 	<data name="Flyout.ConfirmDelete.Title" xml:space="preserve">
 		<value>确认删除？</value>
 	</data>
