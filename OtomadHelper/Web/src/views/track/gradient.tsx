@@ -16,7 +16,7 @@ export default function Gradient() {
 		<div className="container">
 			<Expander title={t.view} icon="grid" details={t.descriptions.track.view}>
 				<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
-				<ToggleSwitch on={viewSquare} icon="square">{t.track.grid.square}</ToggleSwitch>
+				<ToggleSwitch on={viewSquare} icon="grid">{t.track.grid.square}</ToggleSwitch>
 				<ToggleSwitch on={viewMirrorEdges} icon="image_reflection" lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
 				<Expander.Item title={t.size} icon="resize">
 					<Slider

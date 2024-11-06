@@ -70,7 +70,7 @@ export default function Source() {
 				<TestThumbnail />
 			</Card>
 
-			<Expander title={t.source.trim} details={t.descriptions.source.trim} icon="trim">
+			<Expander title={t.source.trim} details={t.descriptions.source.trim} icon="aspect_ratio">
 				<ExpanderChildTrim.Timecode start={trimStart} end={trimEnd} />
 			</Expander>
 			<ExpanderRadio

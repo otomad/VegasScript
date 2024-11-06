@@ -4,6 +4,8 @@ export /* @internal */ const arrayTypes = ["square", "custom"] as const;
 export /* @internal */ const fitTypes = ["cover", "contain"] as const;
 export /* @internal */ const parityTypes = ["unflipped", "odd", "even"] as const;
 
+type GridParityType = typeof parityTypes[number];
+
 const SPINNER_COVER_MINMAX = 41;
 
 const PreviewGrid = styled.div<{
@@ -61,10 +63,10 @@ const PreviewGrid = styled.div<{
 		}
 
 		.text-box {
-			inline-size: calc-size(auto, max(250px, size));
+			min-inline-size: 250px;
 		}
 
-		&:has(.text-box:not([disabled]):focus-within) .columns .right {
+		&:has(.text-box:not([disabled], [aria-readonly]):focus-within) .columns .right {
 			margin-inline: 0 ${SPINNER_COVER_MINMAX}px;
 		}
 	}
@@ -79,15 +81,17 @@ export default function Grid() {
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
 
-	const getMirrorEdgesText = (option: typeof parityTypes[number], direction: "hFlip" | "vFlip") =>
-		option === "unflipped" ? t.track.grid.mirrorEdges.unflipped : t.track.grid.mirrorEdges[direction][option];
+	const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
+		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped : t.track.grid.mirrorEdges[direction][parity];
+	const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
+		parity === "unflipped" ? "prohibited" : `parity_${parity}_${field}s`;
 
 	return (
 		<div className="container">
 			<PreviewGrid
 				$fit={fit[0]}
 				style={{
-					"--grid-template-count": square ? radicand : columns,
+					"--grid-template-count": Math.min(square ? radicand : columns, count),
 					"--padding": padding[0] + "px",
 				}}
 			>
@@ -119,35 +123,51 @@ export default function Grid() {
 				</div>
 				<p />
 				<p>{t(square ? radicand : rows).track.grid.row}</p>
-				<TextBox.Number value={square ? [radicand] : [columns, setColumns]} min={1} max={100} disabled={square} aria-readonly={square} />
+				<TextBox.Number value={square ? [radicand] : [columns, setColumns]} min={1} max={100} readOnly={square} />
 				<p className="multiply">×</p>
-				<TextBox.Number value={[rows]} min={1} max={100} disabled aria-readonly />
+				<TextBox.Number value={[rows]} min={1} max={100} readOnly />
 			</div>
 
-			<SettingsCard title={t.track.grid.array} selectInfo={t.descriptions.track.grid[array[0]]}>
+			<SettingsCard title={t.track.grid.array} icon="grid_kanban_vertical" selectInfo={t.descriptions.track.grid[array[0]]}>
 				<Segmented current={array}>
-					{arrayTypes.map(option => <Segmented.Item id={option} key={option}>{option === "square" ? t.track.grid.square : t.custom}</Segmented.Item>)}
+					{arrayTypes.map(option => (
+						<Segmented.Item
+							id={option}
+							key={option}
+							icon={option === "square" ? "grid" : "grid_kanban_vertical"}
+						>
+							{option === "square" ? t.track.grid.square : t.custom}
+						</Segmented.Item>
+					))}
 				</Segmented>
 			</SettingsCard>
-			<SettingsCard title={t.track.grid.fit} details={t.descriptions.track.grid.fit} selectInfo={t.descriptions.track.grid.fit[fit[0]]}>
+			<SettingsCard title={t.track.grid.fit} icon="aspect_ratio" details={t.descriptions.track.grid.fit} selectInfo={t.descriptions.track.grid.fit[fit[0]]}>
 				<Segmented current={fit}>
-					{fitTypes.map(option => <Segmented.Item id={option} key={option}>{t.track.grid.fit[option]}</Segmented.Item>)}
+					{fitTypes.map(option => (
+						<Segmented.Item
+							id={option}
+							key={option}
+							icon={option === "contain" ? "letterbox" : "aspect_ratio"}
+						>
+							{t.track.grid.fit[option]}
+						</Segmented.Item>
+					))}
 				</Segmented>
 			</SettingsCard>
-			<SettingsCard title={t.track.grid.padding} details={t.descriptions.track.grid.padding}>
-				<TextBox.Number value={padding} min={0} max={50} defaultValue={0} />
+			<SettingsCard title={t.track.grid.padding} icon="image_border" details={t.descriptions.track.grid.padding}>
+				<TextBox.Number value={padding} min={0} max={50} defaultValue={0} suffix={t.units.pixels} />
 			</SettingsCard>
 			<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} />
 
 			<Subheader>{t.track.grid.mirrorEdges}</Subheader>
-			<SettingsCard title={t.prve.effects.hFlip} details={t.descriptions.track.grid.mirrorEdges.hFlip}>
+			<SettingsCard title={t.prve.effects.hFlip} icon="flip_h" details={t.descriptions.track.grid.mirrorEdges.hFlip}>
 				<Segmented current={mirrorEdgesHFlip}>
-					{parityTypes.map(option => <Segmented.Item id={option} key={option}>{getMirrorEdgesText(option, "hFlip")}</Segmented.Item>)}
+					{parityTypes.map(option => <Segmented.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "column")}>{getMirrorEdgesText(option, "hFlip")}</Segmented.Item>)}
 				</Segmented>
 			</SettingsCard>
-			<SettingsCard title={t.prve.effects.vFlip} details={t.descriptions.track.grid.mirrorEdges.vFlip}>
+			<SettingsCard title={t.prve.effects.vFlip} icon="flip_v" details={t.descriptions.track.grid.mirrorEdges.vFlip}>
 				<Segmented current={mirrorEdgesVFlip}>
-					{parityTypes.map(option => <Segmented.Item id={option} key={option}>{getMirrorEdgesText(option, "vFlip")}</Segmented.Item>)}
+					{parityTypes.map(option => <Segmented.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "row")}>{getMirrorEdgesText(option, "vFlip")}</Segmented.Item>)}
 				</Segmented>
 			</SettingsCard>
 		</div>

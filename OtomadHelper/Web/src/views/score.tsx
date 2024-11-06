@@ -197,7 +197,7 @@ export default function Score() {
 			</Card>
 
 			<Subheader>{t.subheaders.config}</Subheader>{/* TODO: This line should be deleted. */}
-			<Expander title={t.source.trim} details={t.descriptions.source.trim} icon="trim">
+			<Expander title={t.source.trim} details={t.descriptions.source.trim} icon="aspect_ratio">
 				<ExpanderChildTrim.Timecode start={trimStart} end={trimEnd} />
 			</Expander>
 			<ExpanderRadio

@@ -15,7 +15,7 @@ type PrveClassEffect = {
 };
 class PrveClass {
 	public static readonly all = [
-		new PrveClass("flip", "flip", [...$s(2, "hFlip", "vFlip"), ...$s(4, "ccwFlip", "cwFlip")]),
+		new PrveClass("flip", "flip_h", [...$s(2, "hFlip", "vFlip"), ...$s(4, "ccwFlip", "cwFlip")]),
 		new PrveClass("rotation", "rotate", [...$s(4, "ccwRotate", "cwRotate"), ...$s(2, "turned")]),
 		new PrveClass("scale", "resize_image", $s(1, "zoomOutIn")),
 		new PrveClass("mirror", "image_reflection", [...$s(2, "hMirror", "vMirror"), ...$s(4, "ccwMirror", "cwMirror")]),

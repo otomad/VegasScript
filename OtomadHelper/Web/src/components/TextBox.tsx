@@ -53,7 +53,7 @@ const StyledSpinner = styled.div`
 type SpinValue = 1 | -1;
 
 function Spinner({ disabled, step = 1, onSpin, onRelease }: FCP<{
-	/** Disabled */
+	/** Disabled? */
 	disabled?: boolean;
 	/** The value to increase or decrease each time the knob of numeric up down box is clicked. Defaults to 1. */
 	step?: NumberLike;
@@ -142,7 +142,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 			background-color: ${c("accent-color")};
 		}
 
-		&[disabled]::selection { // Fixed the issue where text can still be selected even though the input box is disabled.
+		&:disabled::selection { // Have fixed the issue where text can still be selected even though the input box is disabled.
 			color: inherit;
 			background-color: transparent;
 		}
@@ -197,13 +197,27 @@ export /* @internal */ const StyledTextBox = styled.div`
 	}
 
 	[disabled] &,
-	&:has(input[disabled]) {
+	[aria-disabled="true"] &,
+	&:has(input:disabled) {
 		color: ${c("fill-color-text-disabled")};
 		background-color: ${c("fill-color-control-disabled")};
 		cursor: not-allowed;
 
 		.stripes * {
 			scale: 0;
+		}
+	}
+
+	[aria-readonly="true"] &,
+	&:has(input:read-only) {
+		background-color: ${c("fill-color-control-disabled")};
+
+		.stripes * {
+			scale: 0;
+		}
+
+		.spinner-icon {
+			color: ${c("fill-color-text-disabled")};
 		}
 	}
 
@@ -243,11 +257,13 @@ export /* @internal */ const StyledTextBox = styled.div`
 	}
 `;
 
-const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeholder, disabled, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, onChange, onChanging, onInput, onKeyDown, ...htmlAttrs }: FCP<{
+const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, onChange, onChanging, onInput, onKeyDown, ...htmlAttrs }: FCP<{
 	/** The value of the input box. */
 	value: StateProperty<string>;
 	/** Content placeholder. */
 	placeholder?: string;
+	/** Read-only? */
+	readOnly?: boolean;
 	/** Prefix. */
 	prefix?: string;
 	/** Suffix. */
@@ -264,6 +280,8 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 	onInput?(newText: string, el: HTMLInputElement, ...event: Parameters<FormEventHandler<HTMLInputElement>>): boolean | string | void;
 	/** Keyboard press event. */
 	onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+	"aria-disabled"?: never;
+	"aria-readonly"?: never;
 }, "div">, ref: ForwardedRef<"input">) {
 	const inputId = useId();
 	const inputEl = useDomRef<"input">();
@@ -300,7 +318,12 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 	}, [onKeyDown]);
 
 	return (
-		<StyledTextBox disabled={disabled} {...htmlAttrs}>
+		<StyledTextBox
+			disabled={disabled}
+			aria-disabled={disabled || undefined}
+			aria-readonly={readOnly || undefined}
+			{...htmlAttrs}
+		>
 			<div className="wrapper">
 				<label className="prefix" htmlFor={inputId}>{prefix}</label>
 				{showPositiveSign && <label className="positive-sign" htmlFor={inputId}>+</label>}
@@ -310,7 +333,10 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 					type="text"
 					value={value}
 					placeholder={placeholder}
-					disabled={disabled}
+					disabled={disabled || undefined}
+					aria-disabled={disabled || undefined}
+					readOnly={readOnly}
+					aria-readonly={readOnly}
 					autoComplete="off"
 					onInput={handleInput}
 					onPaste={handleChange}
@@ -329,7 +355,7 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 });
 
 type NumberLike = number | bigint;
-function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, decimalPlaces, keepTrailing0, min, max, spinnerStep, positiveSign, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
+function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, positiveSign, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
 	/** The value of the number, which can be number or bigint type. */
 	value: StateProperty<TNumber>;
 	/** The number of decimal places, leaving blank means no limit. */
@@ -471,6 +497,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 		<TextBox
 			{...textBoxProps}
 			disabled={disabled}
+			readOnly={readOnly}
 			value={[displayValue ?? "", setValueFromTextBox]}
 			ref={inputEl}
 			_showPositiveSign={positiveSign && value! > 0}
@@ -482,7 +509,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 					<label className="spinner-icon" htmlFor={inputId}>
 						<Icon name="scroll_up_down" />
 					</label>
-					<Spinner onSpin={handlePressSpin} onRelease={handleReleaseSpin} disabled={disabled} step={spinnerStep} />
+					{!readOnly && <Spinner onSpin={handlePressSpin} onRelease={handleReleaseSpin} disabled={disabled} step={spinnerStep} />}
 				</>
 			)}
 		/>
