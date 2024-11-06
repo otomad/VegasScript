@@ -5,7 +5,7 @@ export default function Disabled({ children, disabled = true as boolean | undefi
 	as?: AsTarget;
 	/** Same as `as`, but compatible with Styled Components. */
 	container?: AsTarget;
-}>) {
+}> & Record<string, unknown>) {
 	disabled ||= undefined;
 	const Container = container ?? as;
 	if (Container === Fragment) htmlAttrs = {};

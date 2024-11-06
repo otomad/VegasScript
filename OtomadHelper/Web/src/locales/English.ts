@@ -325,8 +325,11 @@ export default {
 				column_other: "Columns",
 				row: "Row",
 				row_other: "Rows",
-				min: "MIN",
-				max: "MAX",
+				min: "Minimum",
+				max: "Maximum",
+				transpose: "Transpose",
+				numberOfSelectedTracks: "Number of selected tracks",
+				fastFill: "Fast fill",
 				fit: {
 					_: "Fit",
 					cover: "Cover",

@@ -1,3 +1,5 @@
+import grab from "assets/cursors/grab.svg?cursor";
+import grabbing from "assets/cursors/grabbing.svg?cursor";
 import Point from "classes/Point"; // FIXME: Expect auto import, but won't work now.
 
 const faces = ["front", "back", "left", "right", "top", "bottom"] as const;
@@ -6,10 +8,10 @@ const DEFAULT_ROTATION = Object.freeze(new Point(-27, -36));
 
 const StyledCube = styled.div`
 	${styles.mixins.flexCenter()};
-	cursor: grab;
+	cursor: ${grab};
 
 	&:active {
-		cursor: grabbing;
+		cursor: ${grabbing};
 	}
 
 	.container-outer {
@@ -24,6 +26,10 @@ const StyledCube = styled.div`
 			transform: rotateX(var(--rotate-x, ${DEFAULT_ROTATION.x})) rotateY(var(--rotate-y, ${DEFAULT_ROTATION.y}));
 			transform-style: preserve-3d;
 			user-select: none;
+
+			@starting-style {
+				transform: none;
+			}
 
 			* {
 				${styles.mixins.square(SIDE_LENGTH + "px")};

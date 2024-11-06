@@ -318,6 +318,9 @@ export default {
 				square: "平方",
 				min: "最小值",
 				max: "最大值",
+				transpose: "转置",
+				numberOfSelectedTracks: "所选轨道数",
+				fastFill: "快速填写",
 				fit: {
 					_: "取景",
 					cover: "裁切",

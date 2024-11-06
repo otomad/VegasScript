@@ -13,7 +13,7 @@ export default function TransInterpolation({ i18nKey, children: _children, ..._i
 } & Record<string, ReactNode | ValueOf<KnownProps>>) {
 	const interpolations = _interpolations as Record<string, ReactNode>;
 	const keys = Object.keys(interpolations);
-	const internalInterpolations = keys.mapObject((key, index) => [key, encodeKeyToTag(index)]);
+	const internalInterpolations = keys.mapObject((key, index) => [key, encodeKeyToTag(index)] as const);
 	const withInterpolations = t(internalInterpolations);
 	const translatedString = i18nKey(withInterpolations).toString();
 	const splitted = translatedString

@@ -316,8 +316,10 @@ export default {
 			grid: {
 				array: "行列",
 				square: "正方形（正方形）",
-				min: "MIN",
-				max: "MAX",
+				min: "最小",
+				max: "最大値",
+				transpose: "入れ替え",
+				numberOfSelectedTracks: "選択したトラックの数",
 				fit: {
 					_: "合わせる",
 					cover: "カバー",

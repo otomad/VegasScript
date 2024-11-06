@@ -121,9 +121,17 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 		overflow: hidden;
 		transition: ${fallbackTransitions}, height ${eases.easeOutMaterialEmphasized} 250ms;
 	}
+
+	&.secondary {
+		border: 1px solid ${c("stroke-color-card-stroke-default")};
+
+		> .base {
+			background-color: ${c("background-fill-color-card-background-secondary")};
+		}
+	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, className, tabIndex, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", className, tabIndex, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -147,6 +155,8 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	type?: "container" | "button" | "expander" | "container-but-button";
 	/** Show the drag handle to represent that it is sortable? */
 	dragHandle?: boolean;
+	/** Appearance preference. */
+	appearance?: "primary" | "secondary";
 }, "div">) {
 	trailingIcon ??= type === "button" ? "chevron_right" :
 		type === "expander" ? "chevron_down" : undefined;
@@ -156,7 +166,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	return (
 		<StyledSettingsCard
 			as={type === "container" ? "div" : "button"}
-			className={[className, type === "container-but-button" ? "container" : type]}
+			className={[className, type === "container-but-button" ? "container" : type, { secondary: appearance === "secondary" }]}
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
 			tabIndex={tabIndex ?? type.in("container", "container-but-button") ? -1 : 0}
