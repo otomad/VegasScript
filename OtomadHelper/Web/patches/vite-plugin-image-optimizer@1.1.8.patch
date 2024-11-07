@@ -1,0 +1,26 @@
+diff --git a/dist/index.js b/dist/index.js
+index ec83da949efe8493a4672ee5bf0cd2383278fc5f..b713297268cac1cc520aa90134d76079b800d7cb 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -228,7 +228,7 @@ function ViteImageOptimizer(optionsParam = {}) {
+   const applySharp = async (filePath, buffer) => {
+     const sharp = (await import("sharp")).default;
+     const extName = pathe.extname(filePath).replace(".", "").toLowerCase();
+-    return await sharp(buffer, { animated: extName === "gif" }).toFormat(extName, options[extName]).toBuffer();
++    return await sharp(buffer, { animated: extName === "gif" || extName === "webp" }).toFormat(extName, options[extName]).toBuffer();
+   };
+   const processFile = async (filePath, buffer) => {
+     try {
+diff --git a/dist/index.mjs b/dist/index.mjs
+index c95621aa364123f53d4c1512ae0b28053b14b2de..127c3e35a5037614c4cd9d28ac40d5a5f92209a4 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -204,7 +204,7 @@ function ViteImageOptimizer(optionsParam = {}) {
+   const applySharp = async (filePath, buffer) => {
+     const sharp = (await import("sharp")).default;
+     const extName = extname(filePath).replace(".", "").toLowerCase();
+-    return await sharp(buffer, { animated: extName === "gif" }).toFormat(extName, options[extName]).toBuffer();
++    return await sharp(buffer, { animated: extName === "gif" || extName === "webp" }).toFormat(extName, options[extName]).toBuffer();
+   };
+   const processFile = async (filePath, buffer) => {
+     try {

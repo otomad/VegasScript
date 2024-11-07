@@ -134,7 +134,8 @@
 			"@types/react@18.2.78": "patches/@types__react@18.2.78.patch",
 			"styled-components@6.1.8": "patches/styled-components@6.1.8.patch",
 			"postcss-selector-parser@6.1.2": "patches/postcss-selector-parser@6.1.2.patch",
-			"postcss@8.4.47": "patches/postcss@8.4.47.patch"
+			"postcss@8.4.47": "patches/postcss@8.4.47.patch",
+			"vite-plugin-image-optimizer@1.1.8": "patches/vite-plugin-image-optimizer@1.1.8.patch"
 		},
 		"allowNonAppliedPatches": false
 	},

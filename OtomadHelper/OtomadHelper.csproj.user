@@ -37,6 +37,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Update="FodyWeavers.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="WPF\Controls\ColorPicker\CheckerBoardBrush.xaml">
       <SubType>Designer</SubType>
     </Page>

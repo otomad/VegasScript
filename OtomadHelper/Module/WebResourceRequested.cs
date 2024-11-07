@@ -120,6 +120,7 @@ internal class ManagedStream(Stream s) : Stream {
 		"xml" => "application/xml",
 		"manifest" => "application/manifest+json",
 		"ani" => "application/x-navi-animation",
+		"lottie" => "application/zip+dotlottie",
 		"frag" => "x-shader/x-fragment",
 		"vert" => "x-shader/x-vertex",
 		"glsl" => "x-shader/x-glsl",

@@ -31,6 +31,11 @@ const StyledCube = styled.div`
 				transform: none;
 			}
 
+			main.page.exit-done &,
+			main.page.enter:not(.enter-active) & {
+				transform: none;
+			}
+
 			* {
 				${styles.mixins.square(SIDE_LENGTH + "px")};
 				position: absolute;
