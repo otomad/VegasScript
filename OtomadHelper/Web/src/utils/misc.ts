@@ -35,3 +35,10 @@
 
 	makePrototypeKeysNonEnumerable(Element);
 }
+{
+	DOMTokenList.prototype.containsAny = function (...tokens) {
+		return tokens.some(token => this.contains(token));
+	};
+
+	makePrototypeKeysNonEnumerable(DOMTokenList);
+}

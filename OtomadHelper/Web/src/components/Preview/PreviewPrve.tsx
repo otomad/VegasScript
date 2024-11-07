@@ -1,9 +1,9 @@
 import prvePingpongImage from "assets/images/effects/prve_pingpong.gif";
-import prveWhirlImage from "assets/images/effects/prve_whirl.gif";
+import prveWhirlImage from "assets/images/effects/prve_whirl.apng";
 import { freezeframes } from "helpers/freezeframe";
 import { getStepChangeHueStep } from "views/visual/prve";
 const prvePingpongStaticImage = freezeframes["effects/prve_pingpong.gif"];
-const prveWhirlStaticImage = freezeframes["effects/prve_whirl.gif"];
+const prveWhirlStaticImage = freezeframes["effects/prve_whirl.apng"];
 
 export /* @internal */ const MILLISECONDS_PER_FRAME = 375;
 

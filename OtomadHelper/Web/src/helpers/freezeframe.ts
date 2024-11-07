@@ -1,6 +1,9 @@
 export const freezeframes = {} as Record<string, string>;
 
-const images = import.meta.glob<string>("/src/assets/images/**/*.gif", { import: "default", eager: true });
+const images = {
+	...import.meta.glob<string>("/src/assets/images/**/*.gif", { import: "default", eager: true }),
+	...import.meta.glob<string>("/src/assets/images/**/*.apng", { import: "default", eager: true }),
+};
 const canvas = document.createElement("canvas");
 const context = canvas.getContext("2d")!;
 for (const [key, imageSrc] of Object.entries(images)) {

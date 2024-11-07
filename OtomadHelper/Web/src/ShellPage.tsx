@@ -19,7 +19,6 @@ export function redirectIcon(name: string): DeclaredIcons & DeclaredLotties {
 		tools: "apps",
 		management: "library",
 	} as const;
-	// @ts-expect-error
 	return hasOwn(redirects, name) ? redirects[name] : name as DeclaredIcons & DeclaredLotties;
 }
 

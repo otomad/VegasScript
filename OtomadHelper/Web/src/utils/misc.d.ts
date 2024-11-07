@@ -30,3 +30,17 @@ declare interface Element {
 	 */
 	readonly path: Element[];
 }
+
+declare interface DOMTokenList {
+	/**
+	 * Returns true if any of tokens are present, and false for none of them.
+	 *
+	 * @example
+	 * ```typescript
+	 * el.classList.containsAny("foo", "bar");
+	 * // Equivalent to
+	 * (el.classList.contains("foo") || el.classList.contains("bar"));
+	 * ```
+	 */
+	containsAny(...tokens: string[]): boolean;
+}

@@ -15,21 +15,44 @@ const StyledIconOff = styled.div`
 	}
 `;
 
-export default function IconOff({ name }: FCP<{
+export default function IconOff({ name: _name }: FCP<{
 	/** Icon. */
 	name: DeclaredIcons;
 }>) {
+	const name = redirectIcon(_name);
+	const comp = useDomRef<"div">();
 	const [svgPath, setSvgPath] = useState("");
 	const symbolId = getIconSymbolId(name);
 	const maskId = useId();
+	const [shouldDelayToShow, setShouldDelayToShow] = useState(false);
 
 	useEffect(() => {
 		const path = document.querySelector(symbolId)?.innerHTML;
 		if (path) setSvgPath(path);
 	}, [name]);
 
+	useEffect(() => {
+		// Delay the slash animation if SwitchTransition hasn't translate to this page yet.
+		const page = comp.current?.closest("main.page");
+		if (!page) return;
+		const isEntered = () => page.classList.containsAny("enter", "enter-active", "enter-done");
+		if (isEntered()) return;
+		// This will only trigger if the page transition is "forward" or "backward".
+		setShouldDelayToShow(true);
+		const observer = new MutationObserver(() => {
+			if (isEntered()) {
+				setShouldDelayToShow(false);
+				observer.disconnect();
+			}
+		});
+		observer.observe(page, { attributeFilter: ["class"] });
+		return () => observer.disconnect();
+	}, []);
+
+	if (shouldDelayToShow) return;
+
 	return (
-		<StyledIconOff role="img">
+		<StyledIconOff ref={comp} role="img">
 			<svg width={ICON_INITIAL_SIZE} height={ICON_INITIAL_SIZE} viewBox={`0 0 ${ICON_INITIAL_SIZE} ${ICON_INITIAL_SIZE}`} xmlns="http://www.w3.org/2000/svg">
 				<mask id={maskId}>
 					<g fill="white" dangerouslySetInnerHTML={{ __html: svgPath }} />
@@ -46,7 +69,7 @@ export default function IconOff({ name }: FCP<{
 							values={`${STROKE_DASHARRAY}; 0`}
 							calcMode="spline"
 							keySplines="0.5 0 0 1"
-							begin="250ms"
+							begin="100ms"
 						/>
 					</g>
 				</mask>
@@ -54,4 +77,15 @@ export default function IconOff({ name }: FCP<{
 			</svg>
 		</StyledIconOff>
 	);
+}
+
+/**
+ * Some icons will become strange while the off slash shown,
+ * so correcting these special icons.
+ */
+function redirectIcon(name: string): DeclaredIcons {
+	const redirects = {
+		slice: "slice_off_slash_correction",
+	} as const;
+	return hasOwn(redirects, name) ? redirects[name] : name as DeclaredIcons;
 }
