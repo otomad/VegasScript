@@ -32,9 +32,9 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Platforms>AnyCPU;x64</Platforms>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<EnableDefaultCompileItems>False</EnableDefaultCompileItems>
-		<EnableDefaultPageItems>False</EnableDefaultPageItems>
-		<EnableDefaultEmbeddedResourceItems>False</EnableDefaultEmbeddedResourceItems>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+		<EnableDefaultPageItems>false</EnableDefaultPageItems>
+		<EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<OutputType>WinExe</OutputType>
@@ -74,15 +74,6 @@
 		<Reference Include="System.Net.Http" />
 		<Reference Include="System.Windows.Forms" />
 		<Reference Include="WindowsBase" />
-	</ItemGroup>
-	<ItemGroup>
-		<!--<None Remove="%2a%2a\**" />
-		<Compile Remove="%2a%2a\**" />
-		<EmbeddedResource Remove="%2a%2a\**" />
-		<Page Remove="%2a%2a\**" />-->
-		<Compile Remove="%2a%2a/%2a.cs" />
-		<EmbeddedResource Remove="%2a%2a/%2a.resx" />
-		<Page Remove="%2a%2a/%2a.xaml" />
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="Resources\*" />

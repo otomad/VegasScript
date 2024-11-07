@@ -1,7 +1,7 @@
 import { STATUS_PREFIX } from "styles/fake-animations";
 
 const StyledAnimatedIcon = styled.div<{
-	/** Is `overflow: clip`? */
+	/** Should `overflow: clip`? */
 	$clipped?: boolean;
 }>`
 	@layer props {
@@ -152,7 +152,7 @@ function useLottieSequence(animationItem: MutableRefObject<AnimationItem | undef
 	return { sequence, findMarker, push, clearAll, shift, goToAndStop, onAnimationComplete };
 }
 
-const iconsImport = import.meta.glob<string>("/src/assets/lotties/**/*.json", { query: "?raw", import: "default", eager: true });
+const iconsImport = import.meta.glob<AnyObject>("/src/assets/lotties/**/*.json", { import: "default", eager: true });
 
 export default forwardRef(function AnimatedIcon({
 	loop = false,
@@ -161,7 +161,7 @@ export default forwardRef(function AnimatedIcon({
 	hidden = false,
 	speed = 1,
 	filled = false,
-	showFallbackIcon = true, // WARN: 动态图标补齐后将其更改为 false。
+	showFallbackIcon = false,
 	onInit,
 	onClick,
 	...htmlAttrs
@@ -189,6 +189,7 @@ export default forwardRef(function AnimatedIcon({
 	onInit?(anim?: AnimationItem): void;
 	/** Click event. */
 	onClick?(anim?: AnimationItem): void;
+	children?: never;
 }, "div">, ref: ForwardedRef<{
 	play(): void;
 	pause(): void;
@@ -205,11 +206,11 @@ export default forwardRef(function AnimatedIcon({
 			return name;
 		try {
 			const rawIcon = iconsImport[`/src/assets/lotties/${name}.json`];
-			return JSON.parse(rawIcon);
+			return rawIcon;
 		} catch (e) {
 			if (!showFallbackIcon)
 				console.error(`Lottie file "${name}" doesn't exist in "assets/lotties"`, e);
-			return null;
+			return null!;
 		}
 	}, [name]);
 

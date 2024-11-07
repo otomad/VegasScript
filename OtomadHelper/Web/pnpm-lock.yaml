@@ -14,9 +14,6 @@ patchedDependencies:
   babel-plugin-transform-jsx-classnames@1.2.2:
     hash: ie37eryichha676pwommzoc6ja
     path: patches/babel-plugin-transform-jsx-classnames@1.2.2.patch
-  click-to-react-component@1.1.0:
-    hash: gxi75ehq7v4voj7sxqne7mjgoi
-    path: patches/click-to-react-component@1.1.0.patch
   lottie-web@5.12.2:
     hash: urdo465qcktf5jshudaoriujbq
     path: patches/lottie-web@5.12.2.patch
@@ -68,20 +65,23 @@ importers:
         specifier: ^1.5.3
         version: 1.5.3
       i18next:
-        specifier: ^23.11.1
-        version: 23.11.1
+        specifier: ^23.16.4
+        version: 23.16.4
       i18next-browser-languagedetector:
-        specifier: ^7.2.1
-        version: 7.2.1
+        specifier: ^8.0.0
+        version: 8.0.0
       immer:
-        specifier: ^10.0.4
-        version: 10.0.4
+        specifier: ^10.1.1
+        version: 10.1.1
+      jotai:
+        specifier: ^2.10.1
+        version: 2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
       jotai-immer:
         specifier: ^0.4.1
-        version: 0.4.1(immer@10.0.4)(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
+        version: 0.4.1(immer@10.1.1)(jotai@2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
       jotai-valtio:
         specifier: ^0.5.0
-        version: 0.5.0(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
+        version: 0.5.0(jotai@2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -104,8 +104,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5(patch_hash=mgjzmccyt7p4vdkyyzygxjdjwq)(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
       react-i18next:
-        specifier: ^13.5.0
-        version: 13.5.0(i18next@23.11.1)(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        specifier: ^15.1.0
+        version: 15.1.0(i18next@23.16.4)(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
       react-transition-group:
         specifier: file:/react-transition-group/
         version: file:../../../../../../react-transition-group(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
@@ -116,11 +116,11 @@ importers:
         specifier: ^1.7.2
         version: 1.7.2
       use-immer:
-        specifier: ^0.9.0
-        version: 0.9.0(immer@10.0.4)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        specifier: ^0.10.0
+        version: 0.10.0(immer@10.1.1)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
       valtio:
-        specifier: ^1.13.2
-        version: 1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        specifier: ^2.1.2
+        version: 2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.4.1
@@ -183,8 +183,8 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2(patch_hash=ie37eryichha676pwommzoc6ja)
       click-to-react-component:
-        specifier: ^1.1.0
-        version: 1.1.0(patch_hash=gxi75ehq7v4voj7sxqne7mjgoi)(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        specifier: ^1.1.2
+        version: 1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
       commitizen:
         specifier: ^4.3.0
         version: 4.3.0(@types/node@22.9.0)(typescript@5.6.3)
@@ -411,6 +411,10 @@ packages:
 
   '@babel/runtime@7.24.4':
     resolution: {integrity: sha512-dkxf7+hn8mFBwKjs9bvBlArzLVxVbS8usaPUDd5p2a9JCL9tB8OaOVN1isD4+Xyk4ns89/xeOmbQvgdK7IIVdA==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.26.0':
+    resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.24.0':
@@ -1625,8 +1629,8 @@ packages:
     resolution: {integrity: sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==}
     engines: {node: '>= 10'}
 
-  click-to-react-component@1.1.0:
-    resolution: {integrity: sha512-/DjZemufS1BkxyRgZL3r7HXVVOFRWVQi5Xd4EBnjxZMwrHEh0OlUVA2N9CjXkZ0x8zMf8dL1cKnnx+xUWUg4VA==}
+  click-to-react-component@1.1.2:
+    resolution: {integrity: sha512-8e9xU2MTubMwrtqu66/FtVHnv4TD94svOwMLRhza54OsmZqwMsLkscnl6ecJ3GgJ8Rk74jbLHCxpoSaZrdClGw==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -1948,11 +1952,6 @@ packages:
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
-
-  derive-valtio@0.1.0:
-    resolution: {integrity: sha512-OCg2UsLbXK7GmmpzMXhYkdO64vhJ1ROUUGaTFyHjVwEdMEcTTRj7W1TxLbSBxdY8QLBPCcp66MTyaSy0RpO17A==}
-    peerDependencies:
-      valtio: '*'
 
   destr@2.0.3:
     resolution: {integrity: sha512-2N3BOUU4gYMpTP24s5rF5iP7BDr7uNTCs4ozw3kf/eKfvWSIu93GEBi5m427YoyJoeOzQ5smuu4nNAPGb8idSQ==}
@@ -2592,11 +2591,11 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next-browser-languagedetector@7.2.1:
-    resolution: {integrity: sha512-h/pM34bcH6tbz8WgGXcmWauNpQupCGr25XPp9cZwZInR9XHSjIFDYp1SIok7zSPsTOMxdvuLyu86V+g2Kycnfw==}
+  i18next-browser-languagedetector@8.0.0:
+    resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
 
-  i18next@23.11.1:
-    resolution: {integrity: sha512-mXw4A24BiPZKRsbb9ewgSvjYd6fxFCNwJyfK6nYfSTIAX2GkCWcb598m3DFkDZmqADatvuASrKo6qwORz3VwTQ==}
+  i18next@23.16.4:
+    resolution: {integrity: sha512-9NIYBVy9cs4wIqzurf7nLXPyf3R78xYbxExVqHLK9od3038rjpyOEzW+XB130kZ1N4PZ9inTtJ471CRJ4Ituyg==}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -2630,8 +2629,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  immer@10.0.4:
-    resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
+  immer@10.1.1:
+    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
 
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -2889,8 +2888,8 @@ packages:
       jotai: '>=2.0.0'
       valtio: '>=1.0.0'
 
-  jotai@2.9.3:
-    resolution: {integrity: sha512-IqMWKoXuEzWSShjd9UhalNsRGbdju5G2FrqNLQJT+Ih6p41VNYe2sav5hnwQx4HJr25jq9wRqvGSWGviGG6Gjw==}
+  jotai@2.10.1:
+    resolution: {integrity: sha512-4FycO+BOTl2auLyF2Chvi6KTDqdsdDDtpaL/WHQMs8f3KS1E3loiUShQzAzFA/sMU5cJ0hz/RT1xum9YbG/zaA==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=17.0.0'
@@ -3601,8 +3600,8 @@ packages:
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
 
-  proxy-compare@2.6.0:
-    resolution: {integrity: sha512-8xuCeM3l8yqdmbPoYeLbrAXCBWu19XEYc5/F28f5qOaoAIMyfmBUkl5axiK+x9olUvRlcekvnm98AP9RDngOIw==}
+  proxy-compare@3.0.0:
+    resolution: {integrity: sha512-y44MCkgtZUCT9tZGuE278fB7PWVf7fRYy0vbRXAts2o5F0EfC4fIQrvQQGBJo1WJbFcVLXzApOscyJuZqHQc1w==}
 
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
@@ -3641,8 +3640,8 @@ packages:
       react: '>=16.3.x'
       react-dom: '>=16.3.x'
 
-  react-i18next@13.5.0:
-    resolution: {integrity: sha512-CFJ5NDGJ2MUyBohEHxljOq/39NQ972rh1ajnadG9BjTk+UXbHLq4z5DKEbEQBDoIhUmmbuS/fIMJKo6VOax1HA==}
+  react-i18next@15.1.0:
+    resolution: {integrity: sha512-zj3nJynMnZsy2gPZiOTC7XctCY5eQGqT3tcKMmfJWC9FMvgd+960w/adq61j8iPzpwmsXejqID9qC3Mqu1Xu2Q==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
@@ -4368,10 +4367,10 @@ packages:
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
-  use-immer@0.9.0:
-    resolution: {integrity: sha512-/L+enLi0nvuZ6j4WlyK0US9/ECUtV5v9RUbtxnn5+WbtaXYUaOBoKHDNL9I5AETdurQ4rIFIj/s+Z5X80ATyKw==}
+  use-immer@0.10.0:
+    resolution: {integrity: sha512-/eVwNR4TG9Tm/dd+aHYLLaI0FLfYKlkTqKMkn78Ah/EYVzWd/zJIgpkdoFEKbhQJOGo8XN7/mWrTx0exp1c+Ug==}
     peerDependencies:
-      immer: '>=2.0.0'
+      immer: '>=8.0.0'
       react: ^16.8.0 || ^17.0.1 || ^18.0.0
 
   use-isomorphic-layout-effect@1.1.2:
@@ -4382,11 +4381,6 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
-
-  use-sync-external-store@1.2.0:
-    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
   use@3.1.1:
     resolution: {integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==}
@@ -4405,12 +4399,12 @@ packages:
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
-  valtio@1.13.2:
-    resolution: {integrity: sha512-Qik0o+DSy741TmkqmRfjq+0xpZBXi/Y6+fXZLn0xNF1z/waFMbE3rkivv5Zcf9RrMUp6zswf2J7sbh2KBlba5A==}
+  valtio@2.1.2:
+    resolution: {integrity: sha512-fhekN5Rq7dvHULHHBlJeXHrQDl0Jj9GXfNavCm3gkD06crGchaG1nf/J7gSlfZU2wPcRdVS5jBKWHtE2NNz97A==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
-      '@types/react': '>=16.8'
-      react: '>=16.8'
+      '@types/react': '>=18.0.0'
+      react: '>=18.0.0'
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -4768,6 +4762,10 @@ snapshots:
       '@babel/helper-plugin-utils': 7.24.0
 
   '@babel/runtime@7.24.4':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
+  '@babel/runtime@7.26.0':
     dependencies:
       regenerator-runtime: 0.14.1
 
@@ -6040,7 +6038,7 @@ snapshots:
 
   cli-width@3.0.0: {}
 
-  click-to-react-component@1.1.0(patch_hash=gxi75ehq7v4voj7sxqne7mjgoi)(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  click-to-react-component@1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
     dependencies:
       '@floating-ui/react-dom-interactions': 0.3.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
       htm: 3.1.1
@@ -6360,10 +6358,6 @@ snapshots:
   defu@6.1.4: {}
 
   delayed-stream@1.0.0: {}
-
-  derive-valtio@0.1.0(valtio@1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
-    dependencies:
-      valtio: 1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
 
   destr@2.0.3: {}
 
@@ -7175,11 +7169,11 @@ snapshots:
 
   husky@9.1.5: {}
 
-  i18next-browser-languagedetector@7.2.1:
+  i18next-browser-languagedetector@8.0.0:
     dependencies:
       '@babel/runtime': 7.24.4
 
-  i18next@23.11.1:
+  i18next@23.16.4:
     dependencies:
       '@babel/runtime': 7.24.4
 
@@ -7203,7 +7197,7 @@ snapshots:
 
   image-size@0.5.5: {}
 
-  immer@10.0.4: {}
+  immer@10.1.1: {}
 
   import-fresh@3.3.0:
     dependencies:
@@ -7431,17 +7425,17 @@ snapshots:
 
   jiti@1.21.6: {}
 
-  jotai-immer@0.4.1(immer@10.0.4)(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
+  jotai-immer@0.4.1(immer@10.1.1)(jotai@2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
     dependencies:
-      immer: 10.0.4
-      jotai: 2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      immer: 10.1.1
+      jotai: 2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
 
-  jotai-valtio@0.5.0(jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
+  jotai-valtio@0.5.0(jotai@2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
     dependencies:
-      jotai: 2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      valtio: 1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      jotai: 2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      valtio: 2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
 
-  jotai@2.9.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  jotai@2.10.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
     optionalDependencies:
       '@types/react': 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
       react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
@@ -8136,7 +8130,7 @@ snapshots:
       object-assign: 4.1.1
       react-is: 16.13.1
 
-  proxy-compare@2.6.0: {}
+  proxy-compare@3.0.0: {}
 
   proxy-from-env@1.1.0: {}
 
@@ -8171,11 +8165,11 @@ snapshots:
       react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
       react-dom: 18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
 
-  react-i18next@13.5.0(i18next@23.11.1)(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  react-i18next@15.1.0(i18next@23.16.4)(react-dom@18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.26.0
       html-parse-stringify: 3.0.1
-      i18next: 23.11.1
+      i18next: 23.16.4
       react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
     optionalDependencies:
       react-dom: 18.2.0(patch_hash=6kd4d66wteippoxmqcrx452jem)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
@@ -9063,9 +9057,9 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
-  use-immer@0.9.0(immer@10.0.4)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  use-immer@0.10.0(immer@10.1.1)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
     dependencies:
-      immer: 10.0.4
+      immer: 10.1.1
       react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
 
   use-isomorphic-layout-effect@1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
@@ -9073,10 +9067,6 @@ snapshots:
       react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
     optionalDependencies:
       '@types/react': 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
-
-  use-sync-external-store@1.2.0(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
-    dependencies:
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
 
   use@3.1.1: {}
 
@@ -9091,11 +9081,9 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  valtio@1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  valtio@2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
     dependencies:
-      derive-valtio: 0.1.0(valtio@1.13.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
-      proxy-compare: 2.6.0
-      use-sync-external-store: 1.2.0(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      proxy-compare: 3.0.0
     optionalDependencies:
       '@types/react': 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
       react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)

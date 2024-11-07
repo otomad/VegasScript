@@ -19,7 +19,7 @@ export default function Lottie({ loop = false, autoplay = false, animationData, 
 	/** Animation creation completion event. */
 	onAnimCreated?(anim: AnimationItem): void;
 }, "div">) {
-	const [_anim, setAnim] = useState<AnimationItem>();
+	const [, setAnim] = useState<AnimationItem>();
 	const lavContainerEl = useDomRef<"div">();
 
 	useEffect(() => {
@@ -52,7 +52,5 @@ export default function Lottie({ loop = false, autoplay = false, animationData, 
 		};
 	}, []);
 
-	return (
-		<LavContainer ref={lavContainerEl} {...htmlAttrs} />
-	);
+	return <LavContainer ref={lavContainerEl} {...htmlAttrs} />;
 }
