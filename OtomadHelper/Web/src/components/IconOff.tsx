@@ -23,6 +23,7 @@ export default function IconOff({ name: _name }: FCP<{
 	const comp = useDomRef<"div">();
 	const [svgPath, setSvgPath] = useState("");
 	const symbolId = getIconSymbolId(name);
+	const ariaDescription = getIconAriaDescription(name) + " off";
 	const maskId = useId();
 	const [shouldDelayToShow, setShouldDelayToShow] = useState(false);
 
@@ -52,7 +53,7 @@ export default function IconOff({ name: _name }: FCP<{
 	if (shouldDelayToShow) return;
 
 	return (
-		<StyledIconOff ref={comp} role="img">
+		<StyledIconOff ref={comp} role="img" aria-description={ariaDescription}>
 			<svg width={ICON_INITIAL_SIZE} height={ICON_INITIAL_SIZE} viewBox={`0 0 ${ICON_INITIAL_SIZE} ${ICON_INITIAL_SIZE}`} xmlns="http://www.w3.org/2000/svg">
 				<mask id={maskId}>
 					<g fill="white" dangerouslySetInnerHTML={{ __html: svgPath }} />
@@ -79,13 +80,13 @@ export default function IconOff({ name: _name }: FCP<{
 	);
 }
 
+const corrections = Object.keys(import.meta.glob("/src/assets/icons/off_slash_correction/**/*"))
+	.map(path => path.match(new RegExp("/src/assets/icons/off_slash_correction/(.*).svg"))?.[1]).toRemoveFalsy();
+
 /**
  * Some icons will become strange while the off slash shown,
  * so correcting these special icons.
  */
 function redirectIcon(name: string): DeclaredIcons {
-	const redirects = {
-		slice: "slice_off_slash_correction",
-	} as const;
-	return hasOwn(redirects, name) ? redirects[name] : name as DeclaredIcons;
+	return (corrections.includes(name) ? `off_slash_correction/${name}` : name) as DeclaredIcons;
 }

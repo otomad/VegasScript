@@ -131,6 +131,9 @@ export const configStore = createStore({
 				effects: [{ fx: "normal", initial: 0 }],
 			},
 		},
+		staff: {
+			enabled: false,
+		},
 		pixelScaling: {
 			enabled: false,
 			scaleFactor: 100,
@@ -143,7 +146,6 @@ export const configStore = createStore({
 		appoggiatura: false,
 		arpeggio: false,
 		arpeggioNegative: true,
-		enableStaffVisualizer: false,
 		currentPreset: "enter",
 		activeParameterScheme: [
 			{

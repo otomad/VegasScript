@@ -86,7 +86,7 @@ function ExpanderChildTrimValue({ start, end, unit = t.units.milliseconds, decim
  * @returns The minimum number from the input array, excluding undefined values.
  */
 function minWithUndefined(...values: (number | undefined)[]) {
-	return Math.min(...(values.filter(value => !isUndefinedNullNaN(value)) as number[]));
+	return Math.min(...values.toTrimmed());
 }
 /**
  * Calculates the maximum value from an array of numbers, excluding any undefined values.
@@ -94,7 +94,7 @@ function minWithUndefined(...values: (number | undefined)[]) {
  * @returns The maximum number from the input array, excluding undefined values.
  */
 function maxWithUndefined(...values: (number | undefined)[]) {
-	return Math.max(...(values.filter(value => !isUndefinedNullNaN(value)) as number[]));
+	return Math.max(...values.toTrimmed());
 }
 
 const ExpanderChildTrim = {

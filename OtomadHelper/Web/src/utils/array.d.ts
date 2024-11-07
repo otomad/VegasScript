@@ -96,7 +96,7 @@ declare interface Array<T> {
 	/**
 	 * Remove undefined, null, NaN, and strings containing only white space characters from the array. This will return a new array.
 	 */
-	toTrimmed(): T[];
+	toTrimmed(): NonNullable<T>[];
 
 	/**
 	 * Remove undefined, null, NaN, and strings containing only white space characters from the array. This will modify the original array.

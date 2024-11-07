@@ -24,9 +24,8 @@ const StyledIcon = styled.i.attrs({
 	}
 `;
 
-export function getIconSymbolId(name: string) {
-	return "#icon-" + name.replaceAll("/", "-");
-}
+export const getIconSymbolId = (name: string) => "#icon-" + name.replaceAll("/", "-");
+export const getIconAriaDescription = (name: string) => name.replace(/^off_slash_correction\//, "").replaceAll("_", " ").replaceAll("/", ": ");
 
 function Icon(props: FCP<{
 	/** Icon file name. */
@@ -58,7 +57,7 @@ function Icon({ name, filled, shadow, className, ...htmlAttrs }: FCP<{
 	if (!name) return;
 
 	const symbolId = getIconSymbolId(name);
-	const ariaDescription = name.replaceAll("_", " ").replaceAll("/", ": ");
+	const ariaDescription = getIconAriaDescription(name);
 
 	return (
 		<StyledIcon

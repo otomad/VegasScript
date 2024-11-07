@@ -43,11 +43,12 @@ const TooltipPartial = Tooltip.with({ placement: "y" });
 export default function Visual() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, staticVisual, unlengthen, legato, multitrackForChords, enableStaffVisualizer, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
+		stretch, loop, staticVisual, unlengthen, legato, multitrackForChords, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
 		glissando, glissandoEffect, glissandoAmount, appoggiatura, arpeggio, arpeggioNegative, activeParameterScheme,
 	} = selectConfig(c => c.visual);
 	// const activeParameterScheme = selectConfigArray(c => c.visual.activeParameterScheme);
 	const { enabled: enablePixelScaling } = selectConfig(c => c.visual.pixelScaling);
+	const { enabled: enableStaffVisualizer } = selectConfig(c => c.visual.staff);
 	const { createGroups } = selectConfig(c => c);
 	const prveCheckInfo = usePrveCheckInfo();
 	const isForceStretch = useIsForceStretch();

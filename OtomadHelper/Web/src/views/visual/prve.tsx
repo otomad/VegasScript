@@ -51,6 +51,7 @@ export default function Prve() {
 	const isGeneralCurrent = useMemo(() => controlMode === "general", [controlMode]);
 	const { control, isMultiple, effects } = selectConfig(c => c.visual.prve[controlMode]);
 	const selectionMode = useSelectionMode(isMultiple);
+	const effectLength = effects[0].length;
 	const selectPrve = (klass: string) => {
 		const classEffects = PrveClass.findClassEffects(klass);
 		const flipEffects = PrveClass.findClassEffects("flip");
@@ -111,7 +112,10 @@ export default function Prve() {
 				title={t({ context: "full" }).prve.control[controlMode]}
 				details={t.descriptions.prve.control[controlMode]}
 			/>
-			<Subheader>{t.prve.classes}</Subheader>
+			<Subheader>
+				{t.prve.classes}
+				<Badge style={{ marginInlineStart: "12px" }} hidden={effectLength <= 1}>{effectLength}</Badge>
+			</Subheader>
 
 			{PrveClass.all.map(({ class: klass, icon, effectIds, findEffectFrames }) => {
 				const currentEffectState = selectPrve(klass), currentEffect = currentEffectState[0]!;

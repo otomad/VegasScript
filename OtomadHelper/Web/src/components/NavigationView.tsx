@@ -604,7 +604,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 			let child = container.children[poppedScroll.elementIndex] as HTMLElement | undefined;
 			while (isElementContents(child))
 				child = child!.firstElementChild as HTMLElement;
-			if (isElementHidden(child)) break;
+			if (isElementHidden(child) || !child) break;
 			let { offsetY } = poppedScroll;
 			if (child.offsetHeight < offsetY) offsetY = child.offsetHeight;
 			child.scrollIntoView({ behavior: "instant" });
