@@ -80,6 +80,7 @@
 		<Resource Include="Resources\*" />
 		<None Include="app.config" />
 		<None Include="FodyWeavers.xsd" />
+		<None Include="FodyWeavers.xml" />
 		<None Include="ILRepack.targets" />
 		<None Include="Properties\Settings.settings" />
 		<None Include="Settings.XamlStyler" />
@@ -128,11 +129,6 @@
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Properties\Settings.Designer.cs">
-		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Settings.settings</DependentUpon>
-		</Compile>
-		<Compile Update="Properties\Settings.Designer.cs">
 			<DesignTimeSharedInput>True</DesignTimeSharedInput>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Settings.settings</DependentUpon>
@@ -157,10 +153,9 @@
 		<None Remove="API\**" />
 		<Compile Remove="obj\**" />
 		<Compile Remove="Helpers\DebounceThrottle.cs" />
+		<EmbeddedResource Remove="Assets\LoadingAnimation.webp" />
 		<EmbeddedResource Remove="Assets\LoadingAnimation_v4.apng" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Content Include="FodyWeavers.xml" />
+		<EmbeddedResource Remove="Properties\Module\*.resx" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Properties\Settings.settings">
