@@ -9,10 +9,12 @@ const StyledExpanderChildTrim = styled(Expander.ChildWrapper)`
 		align-items: center;
 	}
 
-	.timecodes.has-child-wrapped .tilde {
+	.timecodes.has-child-wrapped .range-dash {
 		writing-mode: vertical-rl;
 	}
 `;
+
+const RangeDash = () => <div className="range-dash">{t.rangeDash}</div>;
 
 function ExpanderChildTrimTimecode({ start, end }: FCP<{
 	children?: never;
@@ -30,7 +32,7 @@ function ExpanderChildTrimTimecode({ start, end }: FCP<{
 		<StyledExpanderChildTrim>
 			<VerticalIfFlexWrap className="timecodes">
 				<TimecodeBox timecode={start} />
-				<div className="tilde">~</div>
+				<RangeDash />
 				<TimecodeBox timecode={end} />
 			</VerticalIfFlexWrap>
 			<Button icon="arrow_reset" accent="critical" subtle extruded onClick={reset}>{t.reset}</Button>
@@ -66,7 +68,7 @@ function ExpanderChildTrimValue({ start, end, unit = t.units.milliseconds, decim
 					max={minWithUndefined(max, end[0])}
 					spinnerStep={spinnerStep}
 				/>
-				<div className="tilde">~</div>
+				<RangeDash />
 				<TextBox.Number
 					value={end}
 					suffix={unit}

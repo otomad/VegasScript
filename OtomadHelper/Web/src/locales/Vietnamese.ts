@@ -9,6 +9,7 @@ export default {
 		},
 		colon: ": ",
 		semicolon: "; ",
+		caesura: ", ",
 		titles: {
 			home: "Trang chủ",
 			source: "Nguồn",
@@ -270,6 +271,7 @@ export default {
 			menu: {},
 		},
 		colorPicker: {
+			axis: {},
 			axisAbbrs: {},
 		},
 		flyout: {
@@ -277,6 +279,9 @@ export default {
 		},
 		keybindings: {
 			commands: {},
+		},
+		descriptions: {
+			colorPicker: {},
 		},
 	},
 } as const satisfies LocaleIdentifiers;

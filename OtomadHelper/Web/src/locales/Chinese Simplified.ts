@@ -9,6 +9,8 @@ export default {
 		},
 		colon: "：",
 		semicolon: "；",
+		caesura: "、",
+		rangeDash: "~",
 		titles: {
 			home: "主页",
 			source: "素材",
@@ -146,6 +148,7 @@ export default {
 			degrees: "°",
 			bar: "小节",
 			beat: "拍",
+			densityIndependentPixels: "逻辑像素",
 		},
 		confirm: {
 			delete: {
@@ -846,7 +849,7 @@ export default {
 		wrongOpeningMethod: {
 			script: {
 				title: "嘿，你把该扩展程序放错了位置！",
-				content: "新版的Otomad Helper是一个扩展程序。与旧版不同，它不是一个脚本。\n\n请将该扩展移动到VEGAS的Application Extensions目录，而不是Script Menu目录。\n\n位置：",
+				content: "新版的 Otomad Helper 是一个扩展程序。与旧版不同，它不是一个脚本。\n\n请将该扩展移动到 VEGAS 的 Application Extensions 目录，而不是 Script Menu 目录。\n\n位置：",
 			},
 		},
 		textBox: {
@@ -857,6 +860,27 @@ export default {
 		colorPicker: {
 			title: "选择颜色",
 			eyeDropper: "取色",
+			axis: {
+				red: "红",
+				green: "绿",
+				blue: "蓝",
+				hue: "色相",
+				saturation: "饱和度",
+				lightness: "亮度",
+				brightness: "明度",
+				white: "白",
+				black: "黑",
+				cyan: "青",
+				magenta: "品红",
+				yellow: "黄",
+				key: "黑",
+				luminance: "辉度",
+				aAxisInLab: "a 轴（−绿 ↔ +红）",
+				bAxisInLab: "b 轴（−蓝 ↔ +黄）",
+				chroma: "彩度",
+				alpha: "不透明度",
+				hex: "十六进制色码",
+			},
 			axisAbbrs: {
 				red: "红(R)",
 				green: "绿(G)",
@@ -866,11 +890,11 @@ export default {
 				lightness: "亮(L)",
 				brightness: "明(B)",
 				white: "白(W)",
-				blackInHwb: "黑(B)",
+				black: "黑(B)",
 				cyan: "青(C)",
 				magenta: "品(M)",
 				yellow: "黄(Y)",
-				blackInCmyk: "黑(K)",
+				key: "黑(K)",
 				luminance: "辉(L)",
 				aAxisInLab: "纟(a)",
 				bAxisInLab: "艹(b)",
@@ -890,6 +914,11 @@ export default {
 				enableYtp: "启用YTP功能",
 				disableYtp: "禁用YTP功能",
 				startGenerating: "开始生成",
+			},
+		},
+		descriptions: {
+			colorPicker: {
+				eyeDropper: "从屏幕上拾取颜色",
 			},
 		},
 	},

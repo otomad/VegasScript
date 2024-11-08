@@ -46,7 +46,8 @@
 			</Style>
 
 			<Style TargetType="Label">
-				<Setter Property="Content" Value="{Binding Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource AxisKeyToTrans}}" />
+				<Setter Property="Content" Value="{Binding Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource AxisKeyToTrans}, ConverterParameter={m:Bool False}}" />
+				<Setter Property="ToolTip" Value="{Binding Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource AxisKeyToTrans}, ConverterParameter={m:Bool True}}" />
 				<Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
 				<Setter Property="FontSize" Value="{StaticResource BodyFontSize}" />
 				<Setter Property="Padding" Value="0" />
@@ -190,7 +191,7 @@
 			<RadioButton Tag="HSB.2" Grid.Column="4" Grid.Row="2"><Label Tag="Brightness" /></RadioButton>
 			<RadioButton Tag="HWB.0" Grid.Column="4" Grid.Row="4"><Label Tag="Hue" /></RadioButton>
 			<RadioButton Tag="HWB.1" Grid.Column="4" Grid.Row="5"><Label Tag="White" /></RadioButton>
-			<RadioButton Tag="HWB.2" Grid.Column="4" Grid.Row="6"><Label Tag="BlackInHwb" /></RadioButton>
+			<RadioButton Tag="HWB.2" Grid.Column="4" Grid.Row="6"><Label Tag="Black" /></RadioButton>
 			<RadioButton Tag="OKLAB.0" Grid.Column="8" Grid.Row="0"><Label Tag="Luminance" /></RadioButton>
 			<RadioButton Tag="OKLAB.1" Grid.Column="8" Grid.Row="1"><Label Tag="AAxisInLab" /></RadioButton>
 			<RadioButton Tag="OKLAB.2" Grid.Column="8" Grid.Row="2"><Label Tag="BAxisInLab" /></RadioButton>
@@ -199,7 +200,7 @@
 			<RadioButton Tag="OKLCH.2" Grid.Column="8" Grid.Row="6"><Label Tag="Hue" /></RadioButton>
 			<TextBlock Grid.Column="0" Grid.Row="8" Style="{StaticResource RadioLessLabel}"><Label Tag="Alpha" /></TextBlock>
 			<TextBlock Grid.Column="0" Grid.Row="9" Style="{StaticResource RadioLessLabel}"><Label Tag="Alpha" /></TextBlock>
-			<TextBlock Grid.Column="4" Grid.Row="8" Style="{StaticResource RadioLessLabel}">#</TextBlock>
+			<TextBlock Grid.Column="4" Grid.Row="8" Style="{StaticResource RadioLessLabel}" ToolTip="{m:Trans ColorPicker.Axis.Hex}">#</TextBlock>
 
 			<TextBox Tag="HSL.0" Grid.Column="1" Grid.Row="0" />
 			<TextBox Tag="HSL.1" Grid.Column="1" Grid.Row="1" />
@@ -233,9 +234,9 @@
 				Text="{Binding Hex, Mode=OneWay}"
 				/>
 
-			<c:Button Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,2,5,0" Padding="2">
+			<c:Button Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,2,5,0" Padding="2" ToolTip="{m:Trans Descriptions.ColorPicker.EyeDropper}">
 				<StackPanel Orientation="Horizontal">
-					<c:Icon IconName="EyeDropper" Margin="0,0,7,0" />
+					<c:Icon IconName="EyeDropper" Margin="0,0,10,0" />
 					<TextBlock Text="{m:Trans ColorPicker.EyeDropper}" />
 				</StackPanel>
 				<i:Interaction.Behaviors>

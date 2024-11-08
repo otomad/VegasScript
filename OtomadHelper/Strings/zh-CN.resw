@@ -86,9 +86,9 @@
 		<value>嘿，你把该扩展程序放错了位置！</value>
 	</data>
 	<data name="WrongOpeningMethod.Script.Content" xml:space="preserve">
-		<value>新版的Otomad Helper是一个扩展程序。与旧版不同，它不是一个脚本。
+		<value>新版的 Otomad Helper 是一个扩展程序。与旧版不同，它不是一个脚本。
 
-请将该扩展移动到VEGAS的Application Extensions目录，而不是Script Menu目录。
+请将该扩展移动到 VEGAS 的 Application Extensions 目录，而不是 Script Menu 目录。
 
 位置：</value>
 	</data>
@@ -100,6 +100,63 @@
 	</data>
 	<data name="ColorPicker.EyeDropper" xml:space="preserve">
 		<value>取色</value>
+	</data>
+	<data name="ColorPicker.Axis.Red" xml:space="preserve">
+		<value>红</value>
+	</data>
+	<data name="ColorPicker.Axis.Green" xml:space="preserve">
+		<value>绿</value>
+	</data>
+	<data name="ColorPicker.Axis.Blue" xml:space="preserve">
+		<value>蓝</value>
+	</data>
+	<data name="ColorPicker.Axis.Hue" xml:space="preserve">
+		<value>色相</value>
+	</data>
+	<data name="ColorPicker.Axis.Saturation" xml:space="preserve">
+		<value>饱和度</value>
+	</data>
+	<data name="ColorPicker.Axis.Lightness" xml:space="preserve">
+		<value>亮度</value>
+	</data>
+	<data name="ColorPicker.Axis.Brightness" xml:space="preserve">
+		<value>明度</value>
+	</data>
+	<data name="ColorPicker.Axis.White" xml:space="preserve">
+		<value>白</value>
+	</data>
+	<data name="ColorPicker.Axis.Black" xml:space="preserve">
+		<value>黑</value>
+	</data>
+	<data name="ColorPicker.Axis.Cyan" xml:space="preserve">
+		<value>青</value>
+	</data>
+	<data name="ColorPicker.Axis.Magenta" xml:space="preserve">
+		<value>品红</value>
+	</data>
+	<data name="ColorPicker.Axis.Yellow" xml:space="preserve">
+		<value>黄</value>
+	</data>
+	<data name="ColorPicker.Axis.Key" xml:space="preserve">
+		<value>黑</value>
+	</data>
+	<data name="ColorPicker.Axis.Luminance" xml:space="preserve">
+		<value>辉度</value>
+	</data>
+	<data name="ColorPicker.Axis.AAxisInLab" xml:space="preserve">
+		<value>a 轴（−绿 ↔ +红）</value>
+	</data>
+	<data name="ColorPicker.Axis.BAxisInLab" xml:space="preserve">
+		<value>b 轴（−蓝 ↔ +黄）</value>
+	</data>
+	<data name="ColorPicker.Axis.Chroma" xml:space="preserve">
+		<value>彩度</value>
+	</data>
+	<data name="ColorPicker.Axis.Alpha" xml:space="preserve">
+		<value>不透明度</value>
+	</data>
+	<data name="ColorPicker.Axis.Hex" xml:space="preserve">
+		<value>十六进制色码</value>
 	</data>
 	<data name="ColorPicker.AxisAbbrs.Red" xml:space="preserve">
 		<value>红(R)</value>
@@ -125,7 +182,7 @@
 	<data name="ColorPicker.AxisAbbrs.White" xml:space="preserve">
 		<value>白(W)</value>
 	</data>
-	<data name="ColorPicker.AxisAbbrs.BlackInHwb" xml:space="preserve">
+	<data name="ColorPicker.AxisAbbrs.Black" xml:space="preserve">
 		<value>黑(B)</value>
 	</data>
 	<data name="ColorPicker.AxisAbbrs.Cyan" xml:space="preserve">
@@ -137,7 +194,7 @@
 	<data name="ColorPicker.AxisAbbrs.Yellow" xml:space="preserve">
 		<value>黄(Y)</value>
 	</data>
-	<data name="ColorPicker.AxisAbbrs.BlackInCmyk" xml:space="preserve">
+	<data name="ColorPicker.AxisAbbrs.Key" xml:space="preserve">
 		<value>黑(K)</value>
 	</data>
 	<data name="ColorPicker.AxisAbbrs.Luminance" xml:space="preserve">
@@ -172,5 +229,8 @@
 	</data>
 	<data name="Keybindings.Commands.StartGenerating" xml:space="preserve">
 		<value>开始生成</value>
+	</data>
+	<data name="Descriptions.ColorPicker.EyeDropper" xml:space="preserve">
+		<value>从屏幕上拾取颜色</value>
 	</data>
 </root>

@@ -81,6 +81,9 @@
     <Page Update="WPF\Controls\TextBox\TextBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="WPF\Controls\ToolTip\ToolTip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="WPF\Themes\Menus.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -101,6 +101,63 @@ Location:</value>
 	<data name="ColorPicker.EyeDropper" xml:space="preserve">
 		<value>Eye dropper</value>
 	</data>
+	<data name="ColorPicker.Axis.Red" xml:space="preserve">
+		<value>Red</value>
+	</data>
+	<data name="ColorPicker.Axis.Green" xml:space="preserve">
+		<value>Green</value>
+	</data>
+	<data name="ColorPicker.Axis.Blue" xml:space="preserve">
+		<value>Blue</value>
+	</data>
+	<data name="ColorPicker.Axis.Hue" xml:space="preserve">
+		<value>Hue</value>
+	</data>
+	<data name="ColorPicker.Axis.Saturation" xml:space="preserve">
+		<value>Saturation</value>
+	</data>
+	<data name="ColorPicker.Axis.Lightness" xml:space="preserve">
+		<value>Lightness</value>
+	</data>
+	<data name="ColorPicker.Axis.Brightness" xml:space="preserve">
+		<value>Brightness</value>
+	</data>
+	<data name="ColorPicker.Axis.White" xml:space="preserve">
+		<value>White</value>
+	</data>
+	<data name="ColorPicker.Axis.Black" xml:space="preserve">
+		<value>Black</value>
+	</data>
+	<data name="ColorPicker.Axis.Cyan" xml:space="preserve">
+		<value>Cyan</value>
+	</data>
+	<data name="ColorPicker.Axis.Magenta" xml:space="preserve">
+		<value>Magenta</value>
+	</data>
+	<data name="ColorPicker.Axis.Yellow" xml:space="preserve">
+		<value>Yellow</value>
+	</data>
+	<data name="ColorPicker.Axis.Key" xml:space="preserve">
+		<value>Key / Black</value>
+	</data>
+	<data name="ColorPicker.Axis.Luminance" xml:space="preserve">
+		<value>Luminance</value>
+	</data>
+	<data name="ColorPicker.Axis.AAxisInLab" xml:space="preserve">
+		<value>a-Axis (−Green ↔ +Red)</value>
+	</data>
+	<data name="ColorPicker.Axis.BAxisInLab" xml:space="preserve">
+		<value>b-Axis (−Blue ↔ +Yellow)</value>
+	</data>
+	<data name="ColorPicker.Axis.Chroma" xml:space="preserve">
+		<value>Chroma</value>
+	</data>
+	<data name="ColorPicker.Axis.Alpha" xml:space="preserve">
+		<value>Alpha / Opacity</value>
+	</data>
+	<data name="ColorPicker.Axis.Hex" xml:space="preserve">
+		<value>Hexadecimal</value>
+	</data>
 	<data name="ColorPicker.AxisAbbrs.Red" xml:space="preserve">
 		<value>R</value>
 	</data>
@@ -125,7 +182,7 @@ Location:</value>
 	<data name="ColorPicker.AxisAbbrs.White" xml:space="preserve">
 		<value>W</value>
 	</data>
-	<data name="ColorPicker.AxisAbbrs.BlackInHwb" xml:space="preserve">
+	<data name="ColorPicker.AxisAbbrs.Black" xml:space="preserve">
 		<value>B</value>
 	</data>
 	<data name="ColorPicker.AxisAbbrs.Cyan" xml:space="preserve">
@@ -137,7 +194,7 @@ Location:</value>
 	<data name="ColorPicker.AxisAbbrs.Yellow" xml:space="preserve">
 		<value>Y</value>
 	</data>
-	<data name="ColorPicker.AxisAbbrs.BlackInCmyk" xml:space="preserve">
+	<data name="ColorPicker.AxisAbbrs.Key" xml:space="preserve">
 		<value>K</value>
 	</data>
 	<data name="ColorPicker.AxisAbbrs.Luminance" xml:space="preserve">
@@ -172,5 +229,8 @@ Location:</value>
 	</data>
 	<data name="Keybindings.Commands.StartGenerating" xml:space="preserve">
 		<value>Start Generating</value>
+	</data>
+	<data name="Descriptions.ColorPicker.EyeDropper" xml:space="preserve">
+		<value>Pick a color from the screen</value>
 	</data>
 </root>
