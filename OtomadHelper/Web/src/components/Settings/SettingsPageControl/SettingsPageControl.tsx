@@ -57,7 +57,7 @@ export default forwardRef(function SettingsPageControl({ image, imageOverlay, le
 	const { hideUseTips } = useSnapshot(configStore.settings);
 	if (hideUseTips) return;
 
-	const LearnMore = learnMoreLink ? OpenLink : "a";
+	const LearnMore = learnMoreLink ? Link : "a";
 	const paragraphEl = useDomRef<"p">();
 	const [isWidow, setIsWidow] = useState(true);
 

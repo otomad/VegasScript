@@ -20,7 +20,9 @@ const StyledItemsViewItem = styled.button<{
 
 		.image-wrapper {
 			position: relative;
+			contain: paint;
 			border-radius: inherit;
+			isolation: isolate;
 
 			.checkbox-label {
 				position: absolute;

@@ -9,8 +9,10 @@ const StyledSettingsPageControlPreviewImage = styled.div<{
 	flex-shrink: 0;
 	max-width: 280px;
 	height: ${PREVIEW_IMAGE_HEIGHT}px;
+	contain: paint;
 	overflow: clip;
 	border-radius: 3px;
+	isolation: isolate;
 
 	${ifProp("$customImage", css`
 		width: ${PREVIEW_IMAGE_HEIGHT / 9 * 16}px;

@@ -247,7 +247,7 @@ const StyledPreviewPrve = styled.div<{
 						`};
 					}
 				`,
-				negativeBlur: css`
+				negativeFade: css`
 					--frames: 1;
 					img:nth-child(1) {
 						opacity: 0;
@@ -285,7 +285,7 @@ const StyledPreviewPrve = styled.div<{
 						`};
 					}
 				`,
-				chromaticBlur: css`
+				chromaticFade: css`
 					img {
 						filter: grayscale(1);
 						animation: ${keyframes`
@@ -471,7 +471,7 @@ export default function PreviewPrve({ thumbnail, effect, frames, ...htmlAttrs }:
 		ccwMirror: 4,
 		cwMirror: 4,
 		radialBlur: 2,
-		negativeBlur: 2,
+		negativeFade: 2,
 	}[effect] ?? 1;
 
 	// const canvasFilters = useCanvasFilters(thumbnail);
