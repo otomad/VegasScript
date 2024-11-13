@@ -42,6 +42,7 @@ const StyledSegmented = styled.div<{
 
 			p {
 				${styles.effects.text.body};
+				flex-shrink: 0;
 				text-align: center;
 			}
 

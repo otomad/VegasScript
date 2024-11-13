@@ -256,9 +256,10 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		const controlRect = control.getBoundingClientRect();
 		const left = controlRect.left, max = controlRect.width - THUMB_PRESSED_WIDTH;
 		const x = e.pageX - left - thumb.offsetLeft;
+		const { clientX } = e;
 		let isMoved = false, prevE: PointerEvent | undefined;
 		const pointerMove = (e: PointerEvent) => {
-			isMoved = true;
+			if (Math.abs(e.clientX - clientX) > 2) isMoved = true; // anti-shake
 			let value = clamp(e.pageX - left - x, 0, max);
 			if (isRtl()) value = max - value;
 			setThumbLeft(value);
