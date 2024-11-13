@@ -216,4 +216,56 @@ declare global {
 	type RequiredNonNullable<T> = {
 		[P in keyof T]-?: T[P] & {};
 	};
+
+	/**
+	 * Assign all custom properties to a specific default type except for known properties.
+	 *
+	 * @remarks
+	 * If we want to declare a type where the value of `foo` is `() => void`, the value of `bar` is optional `number`,
+	 * and all any other values are the types of string.
+	 *
+	 * We can easily write the following definition:
+	 * ```typescript
+	 * type Foo = {
+	 *     foo: () => void;
+	 *     bar?: number;
+	 *     [x: string]: string;
+	 * };
+	 * ```
+	 * However, this would result in an error. It says that the type `() => void` of `foo` and the type `number` of `bar`
+	 * cannot be assigned to `string`.
+	 *
+	 * This requires us to change it to:
+	 * ```typescript
+	 * type Foo = {
+	 *     foo: () => void;
+	 *     bar?: number;
+	 *     [x: string]: (() => void) | number | string;
+	 * };
+	 * ```
+	 * This way, there will be no errors, but the type of any other properties has also been loosed from `string` to
+	 * `(() => void) | number | string`, which is not what we want.
+	 *
+	 * Now we can use this type helper to solve this problem.
+	 * ```typescript
+	 * type Foo<T> = WithOtherProperties<{
+	 *     foo: () => void;
+	 *     bar?: number;
+	 * }, string, T>;
+	 * ```
+	 * Applied to function or component parameters:
+	 * ```typescript
+	 * declare function MyComponent<T>({ foo, bar, ...otherProps }: WithOtherProperties<{
+	 *     foo: () => void;
+	 *     bar?: number;
+	 * }, string, T>): JSX.Element;
+	 * ```
+	 *
+	 * @template KnownProps - All known fixed properties types.
+	 * @template DefaultValue - All any other properties values type.
+	 * @template TProps - Pass the generic parameter of the function.
+	 */
+	type WithOtherProperties<KnownProps, DefaultValue, TProps> = KnownProps & {
+		[key in keyof TProps]: key extends keyof KnownProps ? KnownProps[key] : DefaultValue;
+	};
 }

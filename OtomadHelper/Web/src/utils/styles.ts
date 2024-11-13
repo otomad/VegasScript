@@ -317,5 +317,5 @@ export function zoomDomRect(rect: DOMRect, zoom: number) {
  */
 export function getClearColorFromBackgroundColor(colorVar: string, alpha: number = 1) {
 	if (!colorVar.startsWith("--")) colorVar = "--" + colorVar;
-	return `oklab(from var(${colorVar}) calc(1 - ((L - 0.65) * 10000 + 0.5)) 0 0 / ${alpha})`;
+	return `oklab(from var(${colorVar}) calc(1 - ((L - 0.65) * infinity + 0.5)) 0 0 / ${alpha})`;
 }

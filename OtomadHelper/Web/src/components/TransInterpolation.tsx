@@ -2,15 +2,10 @@ import type { LocaleWithDefaultValue } from "locales/types";
 
 const tagStart = String.fromCodePoint(0xe0000), tagCancel = String.fromCodePoint(0xe007f);
 
-type KnownProps = {
+export default function TransInterpolation<TInterpolations>({ i18nKey, children: _children, ..._interpolations }: WithOtherProperties<{
 	i18nKey(trans: LocaleWithDefaultValue): string;
 	children?: never;
-};
-
-export default function TransInterpolation({ i18nKey, children: _children, ..._interpolations }: {
-	i18nKey(trans: LocaleWithDefaultValue): string;
-	children?: never;
-} & Record<string, ReactNode | ValueOf<KnownProps>>) {
+}, ReactNode, TInterpolations>) {
 	const interpolations = _interpolations as Record<string, ReactNode>;
 	const keys = Object.keys(interpolations);
 	const internalInterpolations = keys.mapObject((key, index) => [key, encodeKeyToTag(index)] as const);

@@ -129,7 +129,7 @@ type Options = Partial<{
  * @example
  * ```typescript
  * useEventListener(myDivElRef, "keydown", event => {
- * 	console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -148,7 +148,7 @@ export function useEventListener<K extends keyof WindowEventMap>(target: Window,
  * @example
  * ```typescript
  * useEventListener(myDivElRef, "keydown", event => {
- * 	console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -167,7 +167,7 @@ export function useEventListener<K extends keyof DocumentEventMap>(target: Docum
  * @example
  * ```typescript
  * useEventListener(myDivElRef, "keydown", event => {
- * 	console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -186,7 +186,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * @example
  * ```typescript
  * useEventListener(myDivElRef, "keydown", event => {
- * 	console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -205,7 +205,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * @example
  * ```typescript
  * useEventListener(myDivElRef, "keydown", event => {
- * 	console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -232,7 +232,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * @example
  * ```typescript
  * addEventListeners(document.body, "click", "keydown", (event: Event) => {
- *   console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -249,7 +249,7 @@ export function addEventListeners<K extends keyof WindowEventMap>(...args: [elem
  * @example
  * ```typescript
  * addEventListeners(document.body, "click", "keydown", (event: Event) => {
- *   console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -267,7 +267,7 @@ export function addEventListeners<K extends keyof DocumentEventMap>(...args: [el
  * @example
  * ```typescript
  * addEventListeners(document.body, "click", "keydown", (event: Event) => {
- * 	console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
@@ -285,7 +285,7 @@ export function addEventListeners<K extends keyof HTMLElementEventMap, E extends
  * @example
  * ```typescript
  * addEventListeners(document.body, "click", "keydown", (event: Event) => {
- *   console.log(`Event type: ${event.type}`);
+ *     console.log(`Event type: ${event.type}`);
  * });
  * ```
  */
