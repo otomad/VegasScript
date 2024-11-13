@@ -18,6 +18,7 @@ import { author, displayName, github, homepage, project, version } from "./packa
 import fragmentFiltersVirtualFile from "./src/plugins/vite/fragment-filters";
 import globalized from "./src/plugins/vite/globalized";
 import midiKeyframes from "./src/plugins/vite/midi";
+import queryNothing from "./src/plugins/vite/query-nothing";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
 
 const ENABLE_MINIFY = true;
@@ -102,6 +103,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			}), */
 			turboConsole(),
 			midiKeyframes(),
+			queryNothing(),
 			ViteImageOptimizer(), // test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
 			license({
 				banner: {

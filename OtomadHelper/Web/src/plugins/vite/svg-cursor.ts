@@ -1,3 +1,5 @@
+/// <reference path="./svg-cursor.d.ts" />
+
 import { readFile } from "fs/promises";
 import { JSDOM } from "jsdom";
 import type { Plugin } from "vite";

@@ -80,7 +80,7 @@ export default function IconOff({ name: _name }: FCP<{
 	);
 }
 
-const corrections = Object.keys(import.meta.glob("/src/assets/icons/off_slash_correction/**/*"))
+const corrections = Object.keys(import.meta.glob("/src/assets/icons/off_slash_correction/**/*", { eager: true, query: "?nothing" }))
 	.map(path => path.match(new RegExp("/src/assets/icons/off_slash_correction/(.*).svg"))?.[1]).toRemoveFalsy();
 
 /**

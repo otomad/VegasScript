@@ -23,7 +23,7 @@ const StyledCustomItem = styled.div`
 
 export default function CustomItem<T extends string = "custom">({ icon = "edit", title = t.custom, details, id = "custom" as T, current: [current, setCurrent], children, ...htmlAttrs }: FCP<{
 	/** Icon. */
-	icon?: DeclaredIcons | ReactNode;
+	icon?: DeclaredIcons | Exclude<ReactNode, Iterable<ReactNode>>;
 	/** Title. */
 	title?: ReactNode;
 	/** Detailed description. */

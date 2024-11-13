@@ -29,6 +29,7 @@ export default function App() {
 			<ShellPage />
 			<DevContextMenu />
 			<Toast />
+			<DefineSvgFilter.Portal />
 			<div id="portals" />
 		</>
 	);

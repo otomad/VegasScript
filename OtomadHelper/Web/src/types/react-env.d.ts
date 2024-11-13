@@ -56,7 +56,7 @@ declare global {
 	 * @template TTagName - Inherit all Attrs from a native HTML element.
 	 */
 	export type FCP<TProps = {}, TTagName extends string | Element | null = null> = Override<
-		TTagName extends null ? { children?: ReactNode } :
+		TTagName extends null ? PropsWithChildren :
 		TTagName extends string ? GetAttributesFromTag<TTagName> : GetAttributesFromElement<TTagName>, TProps>;
 
 	/**
@@ -120,7 +120,7 @@ declare global {
 	export type TagNameToElement<TTagName extends keyof ElementTagNameMap | Element> =
 		TTagName extends keyof ElementTagNameMap ? ElementTagNameMap[TTagName] : TTagName;
 	export type ForwardedRef<T> = T extends keyof ElementTagNameMap ? React.ForwardedRef<ElementTagNameMap[T]> : React.ForwardedRef<T>;
-	export type AsTarget = keyof JSX.IntrinsicElements | React.ComponentType<{ children?: ReactNode }>; // keyof JSX.IntrinsicElements ?≠ keyof ElementTagNameMap
+	export type AsTarget = keyof JSX.IntrinsicElements | React.ComponentType<PropsWithChildren>; // keyof JSX.IntrinsicElements ?≠ keyof ElementTagNameMap
 
 	export type CSSTransitionProps = Partial<ReactTransitionGroupCssTransition.CSSTransitionProps>;
 	export type TransitionProps = Partial<ReactTransitionGroupTransition.TransitionProps>;
@@ -129,7 +129,7 @@ declare global {
 	export type { Property as CSSProperty } from "csstype";
 	export type { Draft } from "immer";
 	export type { AnimationItem } from "lottie-web";
-	export type { AnimationEventHandler, ChangeEventHandler, CSSProperties, DependencyList, DragEventHandler, EventHandler, FocusEventHandler, FormEventHandler, KeyboardEventHandler, MouseEventHandler, MutableRefObject, PointerEventHandler, default as React, ReactElement, ReactNode, RefObject, SyntheticEvent, UIEventHandler, WheelEventHandler } from "react";
+	export type { AnimationEventHandler, ChangeEventHandler, CSSProperties, DependencyList, DragEventHandler, EventHandler, FocusEventHandler, FormEventHandler, KeyboardEventHandler, MouseEventHandler, MutableRefObject, PointerEventHandler, PropsWithChildren, default as React, ReactElement, ReactNode, RefObject, SyntheticEvent, UIEventHandler, WheelEventHandler } from "react";
 	export type { CssTransition, SwitchTransition, TransitionGroup } from "react-transition-group"; // CSSTransition has the same name as a native class.
 	export type { WebTarget } from "styled-components";
 }
