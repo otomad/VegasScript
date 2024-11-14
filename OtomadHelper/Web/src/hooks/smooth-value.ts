@@ -3,13 +3,13 @@ import Point from "classes/Point";
 type SmoothValueAcceptType = number | number[] | Point;
 type SmoothValueChangeHandler<T extends SmoothValueAcceptType> = (current: T, previous: T) => void;
 interface SmoothValueOptions<T extends SmoothValueAcceptType> {
+	staticInterval?: number;
 	onChange?: SmoothValueChangeHandler<T>;
 	onStopChange?: SmoothValueChangeHandler<T>;
 }
 
 const EPSILON = 0.01; // Number.EPSILON
 const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < EPSILON;
-const DEFAULT_FPS = 60;
 
 /**
  * Create a smooth responsive reference variable based on a numerical value, array, or point.
@@ -48,11 +48,10 @@ export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, spee
 			}
 		}
 	});
-	const fps = useMonitorFps();
 	useEffect(() => {
 		const animation = () => {
-			const value = current;
-			const getNewValue = (cur: number, prev: number) => +(prev + (cur - prev) * (speed / fps * DEFAULT_FPS)).toFixed(FRACTION_DIGITS);
+			const value = current, interval = options.staticInterval ?? getFrameInterval60();
+			const getNewValue = (cur: number, prev: number) => +(prev + (cur - prev) * (speed * interval)).toFixed(FRACTION_DIGITS);
 			if (typeof value === "number")
 				(setSmoothValue as SetStateNarrow<number>)(prev => getNewValue(value, prev));
 			else if (value instanceof Point)

@@ -111,7 +111,7 @@ const StyledSliderWrapper = styled.div`
 	}
 `;
 
-export default function Slider({ value: [value, setValue], min = 0, max = 100, defaultValue, step, keyStep = 1, disabled = false, displayValue: _displayValue = false, onChanging, onChanged, onDisplayValueChanged }: FCP<{
+export default function Slider({ value: [value, setValue], min = 0, max = 100, defaultValue, step, keyStep = 1, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChanged, onDisplayValueChanged }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
 	/** Slider minimum value. */
@@ -128,6 +128,12 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 	disabled?: boolean;
 	/** Show the text indicates the value? Or get the display text from the value. */
 	displayValue?: boolean | ((value: number) => Readable) | Readable;
+	/**
+	 * Use a static smooth value speed interval instead of automatically detect by screen refresh rate,
+	 * useful when performing high-performance calculations.\
+	 * If set to 0, the smooth value will be disabled.
+	 */
+	staticSmoothInterval?: number;
 	/** The slider is dragging event. */
 	onChanging?(value: number): void;
 	/** The slider is lifted after being dragged event. */
@@ -147,7 +153,8 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 
 	const restrict = (n: number | undefined, nanValue: number) => Number.isFinite(n) ? clamp(map(n!, min, max, 0, 1), 0, 1) : nanValue;
 	const sharpValue = useMemo(() => restrict(value, 0), [value, min, max]);
-	const smoothValue = useSmoothValue(sharpValue, 0.5); // Modify this parameter to adjust the smooth movement value of the slider.
+	const smoothValue = staticInterval === 0 ? sharpValue : useSmoothValue(sharpValue, 0.5, { staticInterval });
+	// Modify this parameter to adjust the smooth movement value of the slider.
 	const [pressed, setPressed] = useState(false);
 
 	function resetToDefault(e: MouseEvent) {

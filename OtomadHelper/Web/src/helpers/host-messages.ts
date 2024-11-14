@@ -8,7 +8,6 @@ export type ApplicationEvents = {
 	"host:contextMenuItemClickEventArgs": [WebMessageEvents.ContextMenuItemClickEventArgs];
 	"host:accentPalette": [WebMessageEvents.AccentPalette];
 	"host:triggerKeybinding": [WebMessageEvents.TriggerKeybinding];
-	"host:fpsUpdated": [WebMessageEvents.FpsUpdated];
 	"dev:showContextMenu": [e: MouseEvent, menu: typeof window["contextMenu"] & {}];
 	"app:toast": [message: string, status?: Status];
 };

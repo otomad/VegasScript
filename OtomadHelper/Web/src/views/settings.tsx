@@ -119,6 +119,7 @@ export default function Settings() {
 						max={200}
 						defaultValue={100}
 						step={1}
+						staticSmoothInterval={0}
 						displayValue
 						onDisplayValueChanged={setDisplayUiScale}
 					/>
