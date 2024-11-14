@@ -1,5 +1,5 @@
 import cursor from "assets/cursors/poo.svg?cursor";
-import tipsImage from "assets/images/tips/yoooo_a_boom.png";
+import tipsImage from "assets/images/tips/yoooo_a_boom.jpg";
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
 const effects = ["chorus", "delay", "changePitch", "reverse", "changeSpeed", "vibrato", "changeHue", "rotateHue", "monochrome", "negative", "repeatRapidly", "randomTuning", "upsize", "spherize", "mirror", "highContrast", "oversaturation", "emphasizeThrice", "twist", "mosaic", "rainbow", "emboss", "bump", "edge"];

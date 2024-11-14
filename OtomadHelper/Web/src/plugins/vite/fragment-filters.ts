@@ -22,7 +22,7 @@ export default (): Plugin => {
 	// @ts-ignore
 	let config: Parameters<Plugin["configResolved"]>[0];
 
-	const excludes = ["main", "bgr", "chromatic-aberration"];
+	const excludes = ["main", "bgr", "chromatic-aberration", "rainbow", "emboss", "bump", "edge"];
 
 	const getFragments = async (path: string) => {
 		const fragments = new Map<string, string>();

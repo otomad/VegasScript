@@ -15,12 +15,12 @@ import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 import autoImportConfig from "./auto-import.config";
 import { author, displayName, github, homepage, project, version } from "./package.json";
+import minifySvgMatrix from "./src/plugins/babel/minify-svg-matrix";
 import fragmentFiltersVirtualFile from "./src/plugins/vite/fragment-filters";
 import globalized from "./src/plugins/vite/globalized";
 import midiKeyframes from "./src/plugins/vite/midi";
 import queryNothing from "./src/plugins/vite/query-nothing";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
-import minifySvgMatrix from "./src/plugins/babel/minify-svg-matrix";
 
 const ENABLE_MINIFY = true;
 
@@ -107,7 +107,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			midiKeyframes(),
 			queryNothing(),
 			ViteImageOptimizer({
-				test: /\.(jpe?g|png|gif|tiff|svg|avif)$/i, // test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
+				test: /\.(svg|gif)$/i, // test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
 			}),
 			license({
 				banner: {

@@ -93,11 +93,15 @@ const GlobalStyle = createGlobalStyle<{
 		interpolate-size: allow-keywords;
 	}
 
+	html,
+	body {
+		overflow: clip;
+	}
+
 	body {
 		height: 100dvh;
 		margin: 0;
 		padding: 0;
-		overflow: clip;
 		color: var(--foreground-color);
 		font-kerning: normal;
 		font-synthesis: none;
