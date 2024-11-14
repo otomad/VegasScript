@@ -186,9 +186,11 @@ function InitialValue({ klass, effect, initialValue }: FCP<{
 					return (
 						<ItemsView.Item
 							image={(
-								<PreviewPrve thumbnail={exampleThumbnail} effect={effect} frames={frames} style={{ "--i": i }} />
+								<PreviewPrve thumbnail={exampleThumbnail} effect={effect} frames={frames} step={j} style={{ "--i": i }} />
 							)}
-							key={j} id={j} className="initial-value-item"
+							key={j}
+							id={j}
+							className="initial-value-item"
 						/>
 					);
 				})}

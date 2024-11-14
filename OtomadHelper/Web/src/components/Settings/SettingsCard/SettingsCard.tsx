@@ -31,6 +31,10 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 
 		> :not(.trailing) {
 			opacity: ${c("disabled-text-opacity")};
+
+			&.contents > * {
+				opacity: inherit;
+			}
 		}
 
 		> .trailing {
@@ -216,6 +220,12 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 
 const SETTINGS_CARD_TRAILING_MAX_WIDTH = 200;
 
+const StyledLeading = styled.div`
+	&.contents {
+		display: contents;
+	}
+`;
+
 function SettingsCardBase({ threshold = SETTINGS_CARD_TRAILING_MAX_WIDTH, leading, trailing }: FCP<{
 	/** Specified the min width threshold, if the trailing part is wider then it, the settings card base will be wrapped. */
 	threshold?: number;
@@ -239,7 +249,7 @@ function SettingsCardBase({ threshold = SETTINGS_CARD_TRAILING_MAX_WIDTH, leadin
 
 	return (
 		<>
-			<div className="leading" style={{ display: wrapped ? undefined : "contents" }}>{leading}</div>
+			<StyledLeading className={wrapped && "contents"}>{leading}</StyledLeading>
 			{trailing && <div ref={trailingEl} className="trailing">{trailing}</div>}
 		</>
 	);

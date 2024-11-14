@@ -165,6 +165,7 @@ function convertMidiToKeyframes(mid: typeof import("*.mid?keyframes").default.tr
 
 			${toPercents(notes[1])} {
 				scale: 1;
+				animation-timing-function: step-start;
 			}
 
 			${toPercents(notes[2])} {
@@ -173,6 +174,7 @@ function convertMidiToKeyframes(mid: typeof import("*.mid?keyframes").default.tr
 
 			${toPercents(notes[3])} {
 				scale: -1 1;
+				animation-timing-function: step-start;
 			}
 		`;
 	return result;

@@ -12,6 +12,10 @@ const StyledItemsViewItem = styled.button<{
 }>`
 	${styles.mixins.forwardFocusRing()};
 
+	&:hover {
+		${useLottieStatus.animation("Hover")};
+	}
+
 	${({ $view, $withBorder }) => $view === "grid" ? css`
 		:where(.image-wrapper) {
 			width: 100%;
@@ -202,6 +206,12 @@ const DefaultImage = styled.img`
 	object-fit: cover;
 `;
 
+const ItemsViewItemStateContext = createContext<{
+	hover: boolean;
+}>({
+	hover: false,
+});
+
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
 export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, $withBorder = false, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
@@ -244,45 +254,57 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	);
 	const iconOrElement = typeof icon === "string" ? <Icon name={icon} /> : icon;
 
+	const [hover, setHover] = useState(false);
+	const handleAnimation = useCallback((e: AnimationEvent, isAnimationStart: boolean) => {
+		if (e.animationName !== getLottieStatusName("Hover")) return;
+		setHover(isAnimationStart);
+	}, []);
+
 	useEffect(() => onSelectedChange?.(id, selected), [selected]);
 
 	return (
-		<StyledItemsViewItem
-			$view={view!}
-			$withBorder={$withBorder}
-			className={[className, view, { selected: selected !== "unchecked" }]}
-			tabIndex={0}
-			onClick={e => onClick?.(id, selected, e)}
-			{...htmlAttrs}
-		>
-			<div className="base">
-				{view === "grid" ? (
-					<>
-						<div className="image-wrapper">
-							{typeof image === "string" ? <DefaultImage src={image} /> : image}
-							{checkbox}
-						</div>
-						<div className="selection" />
-					</>
-				) : (
-					<>
-						{checkbox}
-						{(image || icon) && (
-							<div className="image-wrapper">
-								{typeof image === "string" ? <img src={image} /> : iconOrElement}
-							</div>
+		<ItemsViewItemStateContext.Provider value={{ hover }}>
+			<EventInjector onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
+				<StyledItemsViewItem
+					$view={view!}
+					$withBorder={$withBorder}
+					className={[className, view, { selected: selected !== "unchecked" }]}
+					tabIndex={0}
+					onClick={e => onClick?.(id, selected, e)}
+					{...htmlAttrs}
+				>
+					<div className="base">
+						{view === "grid" ? (
+							<>
+								<div className="image-wrapper">
+									{typeof image === "string" ? <DefaultImage src={image} /> : image}
+									{checkbox}
+								</div>
+								<div className="selection" />
+							</>
+						) : (
+							<>
+								{checkbox}
+								{(image || icon) && (
+									<div className="image-wrapper">
+										{typeof image === "string" ? <img src={image} /> : iconOrElement}
+									</div>
+								)}
+								{textPart}
+								{actions}
+							</>
 						)}
-						{textPart}
-						{actions}
-					</>
-				)}
-			</div>
-			{view === "grid" && (iconOrElement || textPart) && (
-				<div className="text-part">
-					{iconOrElement}
-					{textPart}
-				</div>
-			)}
-		</StyledItemsViewItem>
+					</div>
+					{view === "grid" && (iconOrElement || textPart) && (
+						<div className="text-part">
+							{iconOrElement}
+							{textPart}
+						</div>
+					)}
+				</StyledItemsViewItem>
+			</EventInjector>
+		</ItemsViewItemStateContext.Provider>
 	);
 }
+
+ItemsViewItem.StateContext = ItemsViewItemStateContext;

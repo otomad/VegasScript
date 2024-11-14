@@ -81,9 +81,11 @@ export const styles = {
 	toValue: toValue_css,
 };
 
+export const getLottieStatusName = (status: AvailableLottieStatus) => `${STATUS_PREFIX}${status}`;
+
 export const useLottieStatus = {
-	name: (status: AvailableLottieStatus) => css`animation-name: ${STATUS_PREFIX}${status};`,
-	animation: (status: AvailableLottieStatus) => css`animation: ${STATUS_PREFIX}${status} 1s infinite;`,
+	name: (status: AvailableLottieStatus) => css`animation-name: ${getLottieStatusName(status)};`,
+	animation: (status: AvailableLottieStatus) => css`animation: ${getLottieStatusName(status)} 1s infinite;`,
 };
 
 enum TransitionGroupState {

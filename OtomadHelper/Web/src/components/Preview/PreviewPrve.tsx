@@ -41,10 +41,6 @@ const StyledPreviewPrve = styled.div<{
 		}
 	}
 
-	.animated-image {
-		${useLottieStatus.animation("Hover")};
-	}
-
 	.items-view-item:not(:hover, :focus-visible, .initial-value-item) & img {
 		animation: none;
 	}
@@ -412,7 +408,7 @@ const StyledPreviewPrve = styled.div<{
 							from { filter: blur(5px); scale: 1.05; }
 							to { filter: blur(0); }
 						`};
-						animation-timing-function: ${eases.easeOutMax} !important;
+						animation-timing-function: ${eases.easeOutQuad} !important;
 					}
 				`,
 				wipeRight: css`
@@ -454,13 +450,15 @@ const StyledPreviewPrve = styled.div<{
 	}
 `;
 
-export default function PreviewPrve({ thumbnail, effect, frames, ...htmlAttrs }: FCP<{
+export default function PreviewPrve({ thumbnail, effect, frames, step, ...htmlAttrs }: FCP<{
 	/** Thumbnail. */
 	thumbnail: string;
 	/** Effect identifier. */
 	effect: string;
 	/** Frame count. */
 	frames?: number;
+	/** The step for displaying initial value. */
+	step?: number;
 }, "div">) {
 	const imageCount = {
 		hMirror: 2,
@@ -488,7 +486,7 @@ export default function PreviewPrve({ thumbnail, effect, frames, ...htmlAttrs }:
 
 	return (
 		<StyledPreviewPrve $effect={effect} $frames={frames} {...htmlAttrs}>
-			{webglFilters.includes(effect) ? <WebglFilter src={thumbnail} effect={effect} /> :
+			{webglFilters.includes(effect) ? <WebglFilter src={thumbnail} effect={effect} step={step} /> :
 			forMap(imageCount, i => animatedImage !== undefined ?
 				<HoverToChangeImg key={i} animatedSrc={animatedImage[0]} staticSrc={animatedImage[1]} /> :
 				<img key={i} src={thumbnail} />)}
@@ -502,26 +500,32 @@ function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
 	/** Animated picture source path. */
 	animatedSrc: string;
 }>) {
-	const [isHovered, setIsHovered] = useState(false);
+	const { hover } = useContext(ItemsView.Item.StateContext);
 
-	return (
-		<EventInjector onAnimationStart={() => setIsHovered(true)} onAnimationCancel={() => setIsHovered(false)}>
-			<img src={isHovered ? animatedSrc : staticSrc} className="animated-image" />
-		</EventInjector>
-	);
+	return <img src={hover ? animatedSrc : staticSrc} />;
 }
 
-function WebglFilter({ src, effect }: {
+function WebglFilter({ src, effect, step }: {
 	/** Image source path. */
 	src: string;
 	/** Effect identifier. */
 	effect: string;
+	/** The step for displaying initial value. */
+	step?: number;
 }) {
 	const canvas = useDomRef<"canvas">();
 	const filter = useRef<WebGLFilter>();
-	const [isHovered, setIsHovered] = useState(false);
+	const { hover } = useContext(ItemsView.Item.StateContext);
 	const [isMounted, setIsMounted] = useState(false);
-	const [uniform, setUniform] = useState<Parameters<WebGLFilter["uniform"]>>();
+	const [uniformName, setUniformName] = useState<string>();
+	const [staticUniformValue, setStaticUniformValue] = useState(0);
+	const [uniformValue, setUniformValue] = useState(0);
+	const [uniformKeyframes, setUniformKeyframes] = useState<[number, number][]>([]);
+	const currentKeyframe = useRef(0);
+	const lastTime = useRef(0);
+	const animationId = useRef<number>();
+	const usingStaticUniformValue = !hover && step === undefined;
+	const displayUniformValue = usingStaticUniformValue ? staticUniformValue : uniformValue;
 
 	useAsyncMountEffect(async () => {
 		if (!canvas.current) return;
@@ -536,21 +540,55 @@ function WebglFilter({ src, effect }: {
 		if (!isMounted) return;
 		switch (effect) {
 			case "radialBlur":
-				setUniform(["1f", "strength", 0.15]);
+				setUniformName("strength");
+				setStaticUniformValue(0.25);
+				setUniformKeyframes([[0.25, 0]]);
 				break;
 			case "negativeLuma":
-				setUniform(["1f", "progress", 0.5]);
+				setUniformName("progress");
+				setStaticUniformValue(-0.5);
+				setUniformKeyframes([[0, 1], [-1, 0]]);
 				break;
 			default:
 				break;
 		}
-	}, [isMounted, isHovered]);
+	}, [isMounted]);
 
 	useEffect(() => {
-		if (!isMounted || !filter.current || !uniform) return;
-		filter.current.uniform(...uniform);
-		filter.current.apply();
-	}, [uniform]);
+		const animation = () => {
+			if (usingStaticUniformValue) {
+				lastTime.current = 0;
+				currentKeyframe.current = 0;
+				return;
+			}
+			const keyframeLength = uniformKeyframes.length ?? 0;
+			if (keyframeLength === 0) return;
+			const keyframe = uniformKeyframes[step ?? currentKeyframe.current];
+			if (step !== undefined) {
+				setUniformValue(keyframe[0]);
+				return;
+			}
+			const nowTime = performance.now();
+			if (lastTime.current === 0 || nowTime - lastTime.current >= MILLISECONDS_PER_FRAME) {
+				lastTime.current = nowTime;
+				currentKeyframe.current = (currentKeyframe.current + 1) % keyframeLength;
+			}
+			let progress = (nowTime - lastTime.current) / MILLISECONDS_PER_FRAME;
+			// progress = 3 * progress ** (2 / 3) - 2 * progress; // eases.easeOutMax
+			progress = Math.sqrt(progress); // eases.easeOutQuad
+			const value = map(progress, 0, 1, keyframe[0], keyframe[1]);
+			setUniformValue(value);
+			animationId.current = requestAnimationFrame(animation);
+		};
+		animation();
+		return () => cancelAnimationFrame(animationId.current!);
+	}, [usingStaticUniformValue, uniformKeyframes, step]);
 
-	return <canvas ref={canvas} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} />;
+	useEffect(() => {
+		if (!isMounted || !filter.current || !uniformName) return;
+		filter.current.uniform("1f", `${effect}_${uniformName}`, displayUniformValue);
+		filter.current.apply();
+	}, [isMounted, effect, uniformName, displayUniformValue]);
+
+	return <canvas ref={canvas} />;
 }
