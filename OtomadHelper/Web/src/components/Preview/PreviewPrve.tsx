@@ -1,6 +1,7 @@
 import prvePingpongImage from "assets/images/effects/prve_pingpong.gif";
 import prveWhirlImage from "assets/images/effects/prve_whirl.webp";
 import { freezeframes } from "helpers/freezeframe";
+import { initWebgl2, type WebGLFilter } from "hooks/webgl/render";
 import { getStepChangeHueStep } from "views/visual/prve";
 const prvePingpongStaticImage = freezeframes["effects/prve_pingpong.gif"];
 const prveWhirlStaticImage = freezeframes["effects/prve_whirl.webp"];
@@ -22,6 +23,11 @@ const StyledPreviewPrve = styled.div<{
 		animation-duration: calc(var(--frames) * ${MILLISECONDS_PER_FRAME}ms);
 		animation-timing-function: step-start;
 		animation-iteration-count: infinite;
+	}
+
+	canvas {
+		${styles.mixins.square("100%")};
+		object-fit: cover;
 	}
 
 	@layer base {
@@ -409,15 +415,6 @@ const StyledPreviewPrve = styled.div<{
 						animation-timing-function: ${eases.easeOutMax} !important;
 					}
 				`,
-				radialBlur: css`
-					img:nth-child(2) {
-						animation: ${keyframes`
-							from { opacity: 1; }
-							to { opacity: 0; }
-						`};
-						animation-timing-function: linear !important;
-					}
-				`,
 				wipeRight: css`
 					--adjust-order: 1;
 					img {
@@ -475,11 +472,14 @@ export default function PreviewPrve({ thumbnail, effect, frames, ...htmlAttrs }:
 	}[effect] ?? 1;
 
 	// const canvasFilters = useCanvasFilters(thumbnail);
-	const webglFilters = useWebglFilters(thumbnail);
+	// const webglFilters = useWebglFilters(thumbnail);
 
-	const alterImage = {
+	/* const alterImage = {
+		negativeLuma: webglFilters?.negativeLuma,
 		radialBlur: webglFilters?.radialBlur,
-	}[effect];
+	}[effect]; */
+
+	const webglFilters = ["negativeLuma", "radialBlur"];
 
 	const animatedImage = {
 		pingpong: Tuple(prvePingpongImage, prvePingpongStaticImage),
@@ -488,17 +488,18 @@ export default function PreviewPrve({ thumbnail, effect, frames, ...htmlAttrs }:
 
 	return (
 		<StyledPreviewPrve $effect={effect} $frames={frames} {...htmlAttrs}>
-			{forMap(imageCount, i => animatedImage !== undefined ?
+			{webglFilters.includes(effect) ? <WebglFilter src={thumbnail} effect={effect} /> :
+			forMap(imageCount, i => animatedImage !== undefined ?
 				<HoverToChangeImg key={i} animatedSrc={animatedImage[0]} staticSrc={animatedImage[1]} /> :
-				<img key={i} src={effect === "radialBlur" && i > 0 ? alterImage! : thumbnail} />)}
+				<img key={i} src={thumbnail} />)}
 		</StyledPreviewPrve>
 	);
 }
 
 function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
-	/** Static image address. */
+	/** Static image source path. */
 	staticSrc: string;
-	/** Animated picture address. */
+	/** Animated picture source path. */
 	animatedSrc: string;
 }>) {
 	const [isHovered, setIsHovered] = useState(false);
@@ -508,4 +509,48 @@ function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
 			<img src={isHovered ? animatedSrc : staticSrc} className="animated-image" />
 		</EventInjector>
 	);
+}
+
+function WebglFilter({ src, effect }: {
+	/** Image source path. */
+	src: string;
+	/** Effect identifier. */
+	effect: string;
+}) {
+	const canvas = useDomRef<"canvas">();
+	const filter = useRef<WebGLFilter>();
+	const [isHovered, setIsHovered] = useState(false);
+	const [isMounted, setIsMounted] = useState(false);
+	const [uniform, setUniform] = useState<Parameters<WebGLFilter["uniform"]>>();
+
+	useAsyncMountEffect(async () => {
+		if (!canvas.current) return;
+		filter.current = initWebgl2(canvas.current);
+		const image = await createImageFromUrl(src);
+		filter.current.changeImage(image);
+		filter.current.changeFilter(effect);
+		setIsMounted(true);
+	});
+
+	useEffect(() => {
+		if (!isMounted) return;
+		switch (effect) {
+			case "radialBlur":
+				setUniform(["1f", "strength", 0.15]);
+				break;
+			case "negativeLuma":
+				setUniform(["1f", "progress", 0.5]);
+				break;
+			default:
+				break;
+		}
+	}, [isMounted, isHovered]);
+
+	useEffect(() => {
+		if (!isMounted || !filter.current || !uniform) return;
+		filter.current.uniform(...uniform);
+		filter.current.apply();
+	}, [uniform]);
+
+	return <canvas ref={canvas} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} />;
 }

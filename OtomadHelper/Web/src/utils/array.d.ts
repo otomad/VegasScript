@@ -187,4 +187,10 @@ declare interface Map<K, V> {
 	 * @returns The value associated with the specified key. If the key does not exist, the default value is returned.
 	 */
 	getOrInit(key: K, defaultValue: () => MaybeRef<V>): V;
+
+	/**
+	 * Calls a defined callback function on each key value pair of a map, and returns an array that contains the results.
+	 * @param callbackfn - A function that accepts up to four arguments. The map method calls the callbackfn function one time for each element in the array.
+	 */
+	map(callbackfn: (key: K, value: V, index: number, map: Map<K, V>) => U): U[];
 }

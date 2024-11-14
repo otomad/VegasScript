@@ -20,6 +20,7 @@ import globalized from "./src/plugins/vite/globalized";
 import midiKeyframes from "./src/plugins/vite/midi";
 import queryNothing from "./src/plugins/vite/query-nothing";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
+import minifySvgMatrix from "./src/plugins/babel/minify-svg-matrix";
 
 const ENABLE_MINIFY = true;
 
@@ -44,6 +45,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 							},
 						],
 						"babel-plugin-transform-jsx-classnames",
+						minifySvgMatrix,
 					],
 				},
 			}),
@@ -104,7 +106,9 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			turboConsole(),
 			midiKeyframes(),
 			queryNothing(),
-			ViteImageOptimizer(), // test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
+			ViteImageOptimizer({
+				test: /\.(jpe?g|png|gif|tiff|svg|avif)$/i, // test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
+			}),
 			license({
 				banner: {
 					commentStyle: "ignored",

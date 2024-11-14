@@ -331,7 +331,7 @@ export default [
 				message: "Please use window.open instead.",
 			}],
 			"no-restricted-syntax": ["error", {
-				selector: "VariableDeclaration[kind = 'let'] > VariableDeclarator[init = null]:not([id.typeAnnotation])",
+				selector: ":not(ForOfStatement, ForInStatement) > VariableDeclaration[kind = 'let'] > VariableDeclarator[init = null]:not([id.typeAnnotation])",
 				message: "Type must be inferred at variable declaration",
 			}],
 		},

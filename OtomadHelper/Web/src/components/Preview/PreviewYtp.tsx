@@ -92,13 +92,122 @@ const StyledPreviewYtp = styled.div<{
 					animation: ${keyframes`
 						0% { scale: 1; }
 						14.285714% { scale: 1.5; filter: grayscale(1); }
-						42.857143% { scale: 2.25; filter: grayscale(1); }
+						42.857143% { scale: 2; filter: url("#red-channel"); }
 					`} ${getDuration(3)} step-end infinite;
+				}
+			`,
+			rainbow: css`
+				img {
+					filter: url("#rainbow");
+				}
+			`,
+			emboss: css`
+				img {
+					filter: url("#emboss");
+				}
+			`,
+			bump: css`
+				img {
+					filter: url("#bump");
+				}
+			`,
+			edge: css`
+				img {
+					filter: url("#edge");
 				}
 			`,
 		}[$name];
 	}}
 `;
+
+function SvgFilters() {
+	return (
+		<>
+			{/* <DefineSvgFilter id="mosaic">
+				<feGaussianBlur stdDeviation="4" in="SourceGraphic" result="smoothed" />
+				<feImage width="8" height="8" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAWSURBVAgdY1ywgOEDAwKxgJhIgFQ+AP/vCNK2s+8LAAAAAElFTkSuQmCC" result="displacement-map" />
+				<feTile in="displacement-map" result="pixelate-map" />
+				<feDisplacementMap
+					in="smoothed"
+					in2="pixelate-map"
+					xChannelSelector="R"
+					yChannelSelector="G"
+					scale="50"
+					result="pre-final"
+				/>
+				<feComposite operator="in" in2="SourceGraphic" />
+			</DefineSvgFilter> */}
+			<DefineSvgFilter id="rainbow" colorInterpolationFilters="sRGB">
+				<feColorMatrix
+					type="matrix"
+					values="
+						0.33 0.33 0.33 0 0
+						0.33 0.33 0.33 0 0
+						0.33 0.33 0.33 0 0
+						0 0 0 1 0
+					"
+					in="SourceGraphic"
+					result="colorMatrix"
+				/>
+				<feComponentTransfer in="colorMatrix" result="componentTransfer">
+					<feFuncR type="table" tableValues="1 1 0 0 0 1 1" />
+					<feFuncG type="table" tableValues="0 1 1 1 0 0 0" />
+					<feFuncB type="table" tableValues="0 0 0 1 1 1 0" />
+					<feFuncA type="table" tableValues="0 1" />
+				</feComponentTransfer>
+				<feBlend mode="normal" in="componentTransfer" in2="SourceGraphic" result="blend" />
+			</DefineSvgFilter>
+			<DefineSvgFilter id="red-channel">
+				<feColorMatrix
+					type="matrix"
+					values="
+						1 0 0 0 0
+						1 0 0 0 0
+						1 0 0 0 0
+						0 0 0 1 0
+					"
+				/>
+			</DefineSvgFilter>
+			<DefineSvgFilter id="emboss">
+				<feConvolveMatrix
+					order="3 3"
+					preserveAlpha="true"
+					kernelMatrix="
+						1 0 0
+						0 0 0
+						0 0 -1
+					"
+					divisor="1"
+					bias="0.2"
+				/>
+			</DefineSvgFilter>
+			<DefineSvgFilter id="bump">
+				<feConvolveMatrix
+					order="5 5"
+					preserveAlpha="true"
+					kernelMatrix="
+						0.5 0 0 0 0
+						0 1 0 0 0
+						0 0 -1.5 0 0
+						0.3 0 0 0 0
+						0 0 0 0 0
+					"
+				/>
+			</DefineSvgFilter>
+			<DefineSvgFilter id="edge">
+				<feConvolveMatrix
+					order="3 3"
+					preserveAlpha="true"
+					kernelMatrix="
+						1 1 1
+						1 -8 1
+						1 1 1
+					"
+				/>
+			</DefineSvgFilter>
+		</>
+	);
+}
 
 export default function PreviewYtp({ thumbnail, name }: FCP<{
 	/** Thumbnail. */
@@ -124,16 +233,17 @@ export default function PreviewYtp({ thumbnail, name }: FCP<{
 		spherize: webglFilters?.spherize,
 		twist: webglFilters?.twist,
 		mosaic: webglFilters?.mosaic,
-		thermal: webglFilters?.thermal,
-		emboss: webglFilters?.emboss,
-		bump: webglFilters?.bump,
-		edge: webglFilters?.edge,
+		// rainbow: webglFilters?.rainbow,
+		// emboss: webglFilters?.emboss,
+		// bump: webglFilters?.bump,
+		// edge: webglFilters?.edge,
 	}[name];
 
 	return (
 		<StyledPreviewYtp $name={name}>
 			{forMap(imageCount, i =>
 				<img key={i} data-name={name} src={alterImage || thumbnail} />)}
+			<SvgFilters />
 		</StyledPreviewYtp>
 	);
 }

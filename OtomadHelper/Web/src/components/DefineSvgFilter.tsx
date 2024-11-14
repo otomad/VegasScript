@@ -1,24 +1,26 @@
-const filters = proxyMap<string, ReactNode>();
+const filters = proxyMap<string, [FCP<{}, "filter">, ReactNode]>();
 
 function SvgFilterPortal() {
+	const snapFilters = useSnapshot(filters);
+
 	return (
 		<Portal container={document.body}>
-			<svg width={0} height={0}>
+			<svg id="svg-filters" width={0} height={0}>
 				<defs>
-					{filters.entries().map(([id, filter]) => <filter key={id} id={id}>{filter}</filter>)}
+					{Map.prototype.map.call(snapFilters, (id, [svgAttrs, filter]) => <filter key={id} id={id} {...svgAttrs}>{filter}</filter>)}
 				</defs>
 			</svg>
 		</Portal>
 	);
 }
 
-export default function DefineSvgFilter({ id, children }: PropsWithChildren<{
+export default function DefineSvgFilter({ id, children, ...svgAttrs }: FCP<{
 	/** Globally unique identifier. */
 	id: string;
-}>) {
+}, "filter">): undefined {
 	useEffect(() => {
 		if (children == null) return;
-		filters.set(id, children);
+		filters.set(id, [svgAttrs, children]);
 	}, [children]);
 }
 

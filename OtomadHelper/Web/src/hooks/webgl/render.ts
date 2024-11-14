@@ -8,7 +8,7 @@ type UniformType = ValueOf<{
 
 type Uniforms = Record<string, number | number[] | { type: UniformType; value: number | number[] }>;
 
-class WebGLFilter {
+export class WebGLFilter {
 	constructor(
 		public readonly gl: WebGL2RenderingContext,
 		public readonly program: WebGLProgram | null,
@@ -82,9 +82,9 @@ class WebGLFilter {
 	}
 }
 
-function initWebgl2(/* image: HTMLImageElement, fragmentFilter: string, uniforms: Record<string, number> = {}, canvas?: HTMLCanvasElement */) {
+export function initWebgl2(/* image: HTMLImageElement, fragmentFilter: string, uniforms: Record<string, number> = {}, */ canvas?: HTMLCanvasElement) {
 	// Get A WebGL 2 context.
-	const canvas = document.createElement("canvas");
+	canvas ??= document.createElement("canvas");
 	const gl = canvas.getContext("webgl2");
 	if (!gl) return null!;
 

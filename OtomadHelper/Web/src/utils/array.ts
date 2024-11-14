@@ -188,6 +188,10 @@
 			return this.get(key);
 	};
 
+	Map.prototype.map = function (callbackfn) {
+		return Array.from(this, ([key, value], index) => callbackfn(key, value, index, this));
+	};
+
 	makePrototypeKeysNonEnumerable(Map);
 }
 

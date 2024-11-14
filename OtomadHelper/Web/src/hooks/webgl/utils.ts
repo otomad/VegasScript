@@ -115,12 +115,11 @@ export function createProgram(gl: WebGLRenderingContext, shaders: WebGLShader[],
  * @return {WebGLShader} The created shader.
  */
 function createShaderFromScript(gl: WebGLRenderingContext, scriptId: string, shaderType?: number, errorCallback?: ErrorCallback): WebGLShader | null {
-	let shaderSource = "";
 	const shaderScript = document.getElementById(scriptId) as HTMLScriptElement | null;
 	if (!shaderScript)
 		throw "*** Error: unknown script element: " + scriptId;
 
-	shaderSource = shaderScript.text;
+	const shaderSource = shaderScript.text;
 
 	if (!shaderType)
 		if (shaderScript.type === "x-shader/x-vertex")
