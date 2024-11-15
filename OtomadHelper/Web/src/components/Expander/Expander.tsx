@@ -11,22 +11,12 @@ const ExpanderParent = styled(SettingsCard)<{
 	backdrop-filter: blur(4px);
 
 	.check-info {
-		// Check info should still take up space when hidden, to avoid layout jumps during the toggle animation.
-		transition-behavior: allow-discrete;
-
-		&.hidden {
-			display: none;
-			translate: 0 16px;
-			opacity: 0;
-			/* visibility: hidden; */
-		}
-
-		@starting-style {
+		${tgs()} {
 			translate: 0 16px;
 			opacity: 0;
 		}
 
-		&:not(.hidden) {
+		&.enter-active {
 			transition: ${fallbackTransitions}, translate ${eases.easeOutElastic} 1250ms;
 		}
 	}
@@ -137,18 +127,12 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 }>) {
 	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className };
 	const [lockExpanderParentContentSize, setLockExpanderParentContentSize] = useState(false);
-	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>();
 	const [internalExpanded, _setInternalExpanded] = useState(expanded);
-	const setInternalExpanded: typeof _setInternalExpanded = expanded => {
-		clearTimeout(lockExpanderParentContentSizeTimeoutId.current);
+	const setInternalExpanded: typeof _setInternalExpanded = expanded => void (async () => {
 		setLockExpanderParentContentSize(true);
-		setTimeout(() => {
-			_setInternalExpanded(expanded);
-			lockExpanderParentContentSizeTimeoutId.current = setTimeout(() => {
-				setLockExpanderParentContentSize(false);
-			}, 250);
-		}, 0);
-	};
+		await delay(0);
+		_setInternalExpanded(expanded);
+	})();
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useEffect(() => setInternalExpanded(expanded), [expanded]);
 	useEffect(() => { if (disabled || childrenDisabled) setInternalExpanded(false); }, [disabled, childrenDisabled]);
@@ -165,7 +149,17 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 				_lockContentSize={lockExpanderParentContentSize}
 			>
 				{actions}
-				{checkInfo != null && <div className={["check-info", TRAILING_EXEMPTION, { hidden: !(!internalExpanded || alwaysShowCheckInfo) }]}>{checkInfo}</div>}
+				{checkInfo != null && (
+					<CssTransition
+						in={!internalExpanded || alwaysShowCheckInfo}
+						onEntered={() => setLockExpanderParentContentSize(false)}
+						onExited={() => setLockExpanderParentContentSize(false)}
+						moreCoherentWhenCombo
+						hiddenOnExit
+					>
+						<div className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</div>
+					</CssTransition>
+				)}
 			</ExpanderParent>
 			<CssTransition in={internalExpanded} unmountOnExit>
 				<ExpanderChild disabled={disabled || childrenDisabled} className={{ clipChildren }}>
