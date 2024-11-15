@@ -207,6 +207,7 @@ ignoreWords:
   - matsuoka
   - rantetsu
   - inori
+  - nocontent
 flagWords:
   - colour -> color
   - canot -> cannot

@@ -31,7 +31,7 @@ const StyledPreviewLayout = styled.div<{
 			${styles.mixins.square("100%")};
 			content: "";
 			display: block;
-			background-image: url(${styledProp("$img")});
+			background-image: url("${styledProp("$img")}");
 			background-position: center;
 			background-size: cover;
 			border-radius: inherit;
@@ -165,7 +165,7 @@ function convertMidiToKeyframes(mid: typeof import("*.mid?keyframes").default.tr
 
 			${toPercents(notes[1])} {
 				scale: 1;
-				animation-timing-function: step-start;
+				animation-timing-function: step-end;
 			}
 
 			${toPercents(notes[2])} {
@@ -174,7 +174,7 @@ function convertMidiToKeyframes(mid: typeof import("*.mid?keyframes").default.tr
 
 			${toPercents(notes[3])} {
 				scale: -1 1;
-				animation-timing-function: step-start;
+				animation-timing-function: step-end;
 			}
 		`;
 	return result;

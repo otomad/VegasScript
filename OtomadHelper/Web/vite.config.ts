@@ -19,7 +19,7 @@ import minifySvgMatrix from "./src/plugins/babel/minify-svg-matrix";
 import fragmentFiltersVirtualFile from "./src/plugins/vite/fragment-filters";
 import globalized from "./src/plugins/vite/globalized";
 import midiKeyframes from "./src/plugins/vite/midi";
-import queryNothing from "./src/plugins/vite/query-nothing";
+import queryNoContent from "./src/plugins/vite/query-nocontent";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
 
 const ENABLE_MINIFY = true;
@@ -105,7 +105,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			}), */
 			turboConsole(),
 			midiKeyframes(),
-			queryNothing(),
+			queryNoContent(),
 			ViteImageOptimizer({
 				test: /\.(svg|gif)$/i, // test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
 			}),

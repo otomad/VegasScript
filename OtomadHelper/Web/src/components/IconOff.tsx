@@ -74,13 +74,13 @@ export default function IconOff({ name: _name }: FCP<{
 						/>
 					</g>
 				</mask>
-				<rect width={ICON_INITIAL_SIZE} height={ICON_INITIAL_SIZE} fill="currentColor" mask={`url(#${maskId})`} />
+				<rect width={ICON_INITIAL_SIZE} height={ICON_INITIAL_SIZE} fill="currentColor" mask={`url("#${maskId}")`} />
 			</svg>
 		</StyledIconOff>
 	);
 }
 
-const corrections = Object.keys(import.meta.glob("/src/assets/icons/off_slash_correction/**/*", { eager: true, query: "?nothing" }))
+const corrections = Object.keys(import.meta.glob("/src/assets/icons/off_slash_correction/**/*", { eager: true, query: "?nocontent" }))
 	.map(path => path.match(new RegExp("/src/assets/icons/off_slash_correction/(.*).svg"))?.[1]).toRemoveFalsy();
 
 /**

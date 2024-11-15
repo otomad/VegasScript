@@ -20,7 +20,7 @@ export const svgCursor = (): Plugin => {
 			const cursorAttrs = getSvgDataset<"hotspotX" | "hotspotY" | "fallback">(svgString);
 			const { hotspotX = "0", hotspotY = "0", fallback = "default" } = cursorAttrs;
 
-			return `import svg from "${filePath}";\nexport default \`url(\${svg}) ${hotspotX} ${hotspotY}, ${fallback}\`;`;
+			return `import svg from "${filePath}";\nexport default \`url("\${svg}") ${hotspotX} ${hotspotY}, ${fallback}\`;`;
 		},
 	};
 };

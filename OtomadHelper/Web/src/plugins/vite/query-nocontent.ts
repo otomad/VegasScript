@@ -1,14 +1,14 @@
-/// <reference path="./query-nothing.d.ts" />
+/// <reference path="./query-nocontent.d.ts" />
 
 import type { Plugin } from "vite";
 
 export default (): Plugin => {
 	return {
-		name: "vite-plugin-query-nothing",
+		name: "vite-plugin-query-nocontent",
 		enforce: "pre",
 
 		load(id) {
-			if (id.endsWith("?nothing"))
+			if (id.endsWith("?nocontent"))
 				return "export { };";
 		},
 	};
