@@ -19,6 +19,8 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 		}
 
 		> .trailing {
+			max-inline-size: 100%;
+
 			> button.button,
 			> .contents > button.button {
 				align-self: stretch;

@@ -108,7 +108,7 @@ export default function Grid() {
 				</Determinant>
 
 				<SettingsCard title={t.track.grid.fastFill} icon="edit_sparkle" disabled={square} appearance="secondary">
-					<Disabled as={StackPanel} $gap={4} $wr>
+					<Disabled as={StackPanel} $gap={4}>
 						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(1)}>{t.track.grid.min}</Button>
 						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(100)}>{t.track.grid.max}</Button>
 						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(radicand)}>{t.track.grid.square}</Button>

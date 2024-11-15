@@ -2,6 +2,7 @@ import type { TransitionProps } from "react-transition-group";
 
 const StyledCommandBar = styled.div`
 	// box-shadow: 0 8px 16px ${c("shadows-flyout")};
+	position: relative;
 	padding: 4px;
 	background-color: ${c("background-fill-color-acrylic-background-command-bar")};
 	border: 1px solid ${c("stroke-color-surface-stroke-flyout")};

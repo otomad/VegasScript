@@ -484,6 +484,8 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 
 	const onNavItemsScroll = useCallback<UIEventHandler<HTMLDivElement>>(e => {
 		const currentElement = e.currentTarget;
+		const panel = currentElement.closest(".left")!;
+		if (panel.classList.containsAny("minimal", "covered")) return;
 		const { scrollTop, dataset: { navItemsId } } = currentElement;
 		if (!navItemsId) return;
 		document.querySelectorAll(`[data-nav-items-id="${navItemsId}"]`).forEach(element => {
@@ -493,9 +495,15 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	}, []);
 
 	return (
-		<div className={["left", paneDisplayMode, { flyout }]}>
+		<div className={["left", paneDisplayMode, { flyout, covered: !flyout && isFlyoutShown }]}>
 			<TopLeftButtons shadow paneDisplayMode={isCompact ? "compact" : paneDisplayMode} />
-			<div ref={navItemsEl} data-nav-items-id={navItemsId} className={["nav-items", { overflowing: isNavItemsOverflowing }]} onScroll={onNavItemsScroll}>
+			<div
+				ref={navItemsEl}
+				data-nav-items-id={navItemsId}
+				className={["nav-items", { overflowing: isNavItemsOverflowing }]}
+				tabIndex={-1}
+				onScroll={onNavItemsScroll}
+			>
 				{customContent}
 				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
 					{navItems.map((item, index) => {

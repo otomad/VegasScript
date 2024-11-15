@@ -27,6 +27,9 @@ const Indicator = styled.div.attrs(({ $vertical }) => ({
 `;
 
 const StyledTabBar = styled.div`
+	${styles.mixins.square("100%")};
+	scroll-padding: 0;
+
 	> .scroll {
 		position: relative;
 		overscroll-behavior: contain;
