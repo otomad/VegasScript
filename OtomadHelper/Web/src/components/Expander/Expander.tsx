@@ -15,9 +15,15 @@ const ExpanderParent = styled(SettingsCard)<{
 		transition-behavior: allow-discrete;
 
 		&.hidden {
+			display: none;
 			translate: 0 16px;
 			opacity: 0;
-			visibility: hidden;
+			/* visibility: hidden; */
+		}
+
+		@starting-style {
+			translate: 0 16px;
+			opacity: 0;
 		}
 
 		&:not(.hidden) {
@@ -130,7 +136,19 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	onClickWhenChildrenDisabled?(): void;
 }>) {
 	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className };
-	const [internalExpanded, setInternalExpanded] = useState(expanded);
+	const [lockExpanderParentContentSize, setLockExpanderParentContentSize] = useState(false);
+	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>();
+	const [internalExpanded, _setInternalExpanded] = useState(expanded);
+	const setInternalExpanded: typeof _setInternalExpanded = expanded => {
+		clearTimeout(lockExpanderParentContentSizeTimeoutId.current);
+		setLockExpanderParentContentSize(true);
+		setTimeout(() => {
+			_setInternalExpanded(expanded);
+			lockExpanderParentContentSizeTimeoutId.current = setTimeout(() => {
+				setLockExpanderParentContentSize(false);
+			}, 250);
+		}, 0);
+	};
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useEffect(() => setInternalExpanded(expanded), [expanded]);
 	useEffect(() => { if (disabled || childrenDisabled) setInternalExpanded(false); }, [disabled, childrenDisabled]);
@@ -144,6 +162,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 				onClick={handleClick}
 				$expanded={internalExpanded}
 				$childrenDisabled={childrenDisabled}
+				_lockContentSize={lockExpanderParentContentSize}
 			>
 				{actions}
 				{checkInfo != null && <div className={["check-info", TRAILING_EXEMPTION, { hidden: !(!internalExpanded || alwaysShowCheckInfo) }]}>{checkInfo}</div>}

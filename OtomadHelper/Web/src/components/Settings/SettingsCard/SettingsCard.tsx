@@ -135,7 +135,7 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", className, tabIndex, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", _lockContentSize, className, tabIndex, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -161,6 +161,8 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	dragHandle?: boolean;
 	/** Appearance preference. */
 	appearance?: "primary" | "secondary";
+	/** @private Temperately lock the content size? */
+	_lockContentSize?: boolean;
 }, "div">) {
 	trailingIcon ??= type === "button" ? "chevron_right" :
 		type === "expander" ? "chevron_down" : undefined;
@@ -187,7 +189,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 								</>
 							)}
 							{typeof icon === "object" ? icon : <Icon name={icon} />}
-							<Transitions.DynamicAutoSize specified="height">
+							<Transitions.DynamicAutoSize specified="height" lockSize={_lockContentSize}>
 								<div className="text">
 									<p className="title"><Preserves>{title}</Preserves></p>
 									<p className="details"><Preserves>{details}</Preserves></p>
@@ -249,7 +251,7 @@ function SettingsCardBase({ threshold = SETTINGS_CARD_TRAILING_MAX_WIDTH, leadin
 
 	return (
 		<>
-			<StyledLeading className={wrapped && "contents"}>{leading}</StyledLeading>
+			<StyledLeading className={!wrapped && "contents"}>{leading}</StyledLeading>
 			{trailing && <div ref={trailingEl} className="trailing">{trailing}</div>}
 		</>
 	);

@@ -150,7 +150,7 @@ const StyledPreviewPrve = styled.div<{
 							from { scale: 10; }
 							to { scale: 1; }
 						`} alternate;
-						animation-timing-function: ${eases.easeOutMax} !important;
+						animation-timing-function: ${eases.easeOutSmooth} !important;
 					}
 				`,
 				hMirror: css`
@@ -251,8 +251,9 @@ const StyledPreviewPrve = styled.div<{
 				`,
 				negativeFade: css`
 					--frames: 1;
+					--adjust-order: 2;
 					img:nth-child(1) {
-						opacity: 0;
+						opacity: 0.5;
 						animation: ${keyframes`
 							0% { opacity: 0; animation-timing-function: ${eases.easeInMax}; }
 							50% { opacity: 1; animation-timing-function: ${eases.easeOutMax}; }
@@ -288,8 +289,9 @@ const StyledPreviewPrve = styled.div<{
 					}
 				`,
 				chromaticFade: css`
+					--adjust-order: 2;
 					img {
-						filter: grayscale(1);
+						filter: grayscale(0.5);
 						animation: ${keyframes`
 							0%, 100% { filter: grayscale(1); }
 							50% { filter: none; }
