@@ -124,6 +124,7 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 	}
 
 	> .base > .leading > .text {
+		min-height: 20px;
 		overflow: hidden;
 		transition: ${fallbackTransitions}, height ${eases.easeOutMaterialEmphasized} 250ms;
 	}

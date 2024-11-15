@@ -126,16 +126,24 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	onClickWhenChildrenDisabled?(): void;
 }>) {
 	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className };
+	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>();
 	const [lockExpanderParentContentSize, setLockExpanderParentContentSize] = useState(false);
 	const [internalExpanded, _setInternalExpanded] = useState(expanded);
 	const setInternalExpanded: typeof _setInternalExpanded = expanded => void (async () => {
+		clearTimeout(lockExpanderParentContentSizeTimeoutId.current);
 		setLockExpanderParentContentSize(true);
 		await delay(0);
 		_setInternalExpanded(expanded);
+		await delay(251, lockExpanderParentContentSizeTimeoutId);
+		setLockExpanderParentContentSize(false);
 	})();
+	const resetLockExpanderParentContentSize = () => {
+		clearTimeout(lockExpanderParentContentSizeTimeoutId.current);
+		setLockExpanderParentContentSize(false);
+	};
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
-	useEffect(() => setInternalExpanded(expanded), [expanded]);
-	useEffect(() => { if (disabled || childrenDisabled) setInternalExpanded(false); }, [disabled, childrenDisabled]);
+	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
+	useEffect(() => { if (disabled || childrenDisabled) _setInternalExpanded(false); }, [disabled, childrenDisabled]);
 
 	return (
 		<div className="expander">
@@ -152,8 +160,8 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 				{checkInfo != null && (
 					<CssTransition
 						in={!internalExpanded || alwaysShowCheckInfo}
-						onEntered={() => setLockExpanderParentContentSize(false)}
-						onExited={() => setLockExpanderParentContentSize(false)}
+						onEntered={() => resetLockExpanderParentContentSize()}
+						onExited={() => resetLockExpanderParentContentSize()}
 						moreCoherentWhenCombo
 						hiddenOnExit
 					>
