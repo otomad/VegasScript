@@ -17,9 +17,13 @@ const StyledItemsViewItem = styled.button<{
 	}
 
 	${({ $view, $withBorder }) => $view === "grid" ? css`
+		display: flex;
+		flex-direction: column;
+		block-size: 100%;
+
 		:where(.image-wrapper) {
-			width: 100%;
-			height: ${GRID_VIEW_ITEM_HEIGHT}px;
+			block-size: ${GRID_VIEW_ITEM_HEIGHT}px;
+			inline-size: 100%;
 		}
 
 		.image-wrapper {
@@ -175,6 +179,11 @@ const StyledItemsViewItem = styled.button<{
 
 		&:empty {
 			display: none;
+		}
+
+		&.details {
+			${styles.effects.text.caption};
+			color: ${c("fill-color-text-secondary")};
 		}
 	}
 

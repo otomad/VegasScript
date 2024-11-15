@@ -3,6 +3,10 @@ import type babelCore from "@babel/core";
 const matrixAttrs = {
 	feColorMatrix: ["values"],
 	feConvolveMatrix: ["kernelMatrix"],
+	feFuncR: ["tableValues"],
+	feFuncG: ["tableValues"],
+	feFuncB: ["tableValues"],
+	feFuncA: ["tableValues"],
 };
 
 export default (_babel: typeof babelCore): babelCore.PluginObj | undefined => {

@@ -2,7 +2,59 @@ import cursor from "assets/cursors/poo.svg?cursor";
 import tipsImage from "assets/images/tips/yoooo_a_boom.jpg";
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
-const effects = ["chorus", "delay", "changePitch", "reverse", "changeSpeed", "vibrato", "changeHue", "rotateHue", "monochrome", "negative", "repeatRapidly", "randomTuning", "upsize", "spherize", "mirror", "highContrast", "oversaturation", "emphasizeThrice", "twist", "mosaic", "rainbow", "emboss", "bump", "edge"];
+type Stream = "audio" | "video" | "n/a";
+const $s = (mainStream: Stream, ...sideEffects: [stream: Stream, name: string, likely?: boolean][]) =>
+	({ stream: mainStream, sideEffects: sideEffects.map(([stream, name, likely]) => ({ stream, name, likely: !!likely })) });
+const effects: Record<string, ReturnType<typeof $s>> = {
+	chorus: $s("audio"),
+	delay: $s("audio"),
+	changePitch: $s("audio"),
+	reverse: $s("n/a"),
+	changeSpeed: $s("n/a"),
+	vibrato: $s("audio", ["video", "wave", true]),
+	changeHue: $s("video"),
+	rotateHue: $s("video"),
+	monochrome: $s("video"),
+	negative: $s("video", ["audio", "pitchDown", true]),
+	repeatRapidly: $s("n/a"),
+	randomTuning: $s("audio", ["video", "hFlipWithRhythm"]),
+	upsize: $s("video", ["audio", "loud"]),
+	spherize: $s("video"),
+	mirror: $s("video"),
+	highContrast: $s("video", ["audio", "loud"]),
+	oversaturation: $s("video", ["audio", "pitchUp", true]),
+	emphasizeThrice: $s("n/a", ["audio", "pitchUpOrPitchDown"], ["video", "sporadicUpsizeFocusMotion"], ["video", "monochrome", true]),
+	twist: $s("video"),
+	pixelate: $s("video"),
+	spectrum: $s("video"),
+	thermal: $s("video"),
+	emboss: $s("video"),
+	bump: $s("video"),
+	edge: $s("video"),
+};
+const effectNames = Object.keys(effects);
+
+const StyledSideEffect = styled.div`
+	display: flex;
+	align-items: center;
+	margin-block: 4px;
+
+	.icon {
+		font-size: 16px;
+
+		+ .icon {
+			margin-inline-start: 4px;
+		}
+
+		+ span {
+			margin-inline-start: 6px;
+		}
+	}
+
+	span {
+		margin-block-start: -1px;
+	}
+`;
 
 export default function Ytp() {
 	const { enabled, clips, constraintStart, constraintEnd } = selectConfig(c => c.ytp);
@@ -29,22 +81,35 @@ export default function Ytp() {
 					icon="sparkle"
 					actions={(
 						<OverlapLayout $horizontalAlign="end" $verticalAlign="center">
-							{selectEffectCount === 1 && <span>{selectEffects[0]}</span>}
+							{selectEffectCount === 1 && <span>{t.ytp.effects[selectEffects[0]]}</span>}
 							<Badge hidden={selectEffectCount < 2}>{selectEffectCount}</Badge>
 						</OverlapLayout>
 					)}
 				>
-					<SelectAll value={[selectEffects, setSelectEffects]} all={effects} />
+					<SelectAll value={[selectEffects, setSelectEffects]} all={effectNames} />
 					<ItemsView view="grid" current={[selectEffects, setSelectEffects]} multiple>
-						{effects.map(name => (
-							<ItemsView.Item
-								key={name}
-								id={name}
-								image={<PreviewYtp thumbnail={exampleThumbnail} name={name} />}
-							>
-								{name}
-							</ItemsView.Item>
-						))}
+						{effectNames.map(name => {
+							const { stream, sideEffects } = effects[name];
+							return (
+								<ItemsView.Item
+									key={name}
+									id={name}
+									image={<PreviewYtp thumbnail={exampleThumbnail} name={name} />}
+									details={sideEffects.map(({ stream, name, likely }) => (
+										<StyledSideEffect key={name}>
+											<Icon name={stream === "audio" ? "volume" : stream === "video" ? "image" : ""} />
+											{likely && <Icon name="dice" />}
+											<span>{tf.ytp.sideEffects[name] ?? tf.ytp.effects[name]}</span>
+										</StyledSideEffect>
+									))}
+								>
+									<StackPanel>
+										<Icon name={stream === "audio" ? "volume" : stream === "video" ? "image" : ""} style={{ fontSize: "20px" }} />
+										<span>{t.ytp.effects[name]}</span>
+									</StackPanel>
+								</ItemsView.Item>
+							);
+						})}
 					</ItemsView>
 				</Expander>
 			</EmptyMessage.Typical>

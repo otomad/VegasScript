@@ -96,9 +96,14 @@ const StyledPreviewYtp = styled.div<{
 					`} ${getDuration(3)} step-end infinite;
 				}
 			`,
-			rainbow: css`
+			spectrum: css`
 				img {
-					filter: url("#rainbow");
+					filter: url("#spectrum");
+				}
+			`,
+			thermal: css`
+				img {
+					filter: url("#thermal");
 				}
 			`,
 			emboss: css`
@@ -123,7 +128,7 @@ const StyledPreviewYtp = styled.div<{
 function SvgFilters() {
 	return (
 		<>
-			{/* <DefineSvgFilter id="mosaic">
+			{/* <DefineSvgFilter id="pixelate">
 				<feGaussianBlur stdDeviation="4" in="SourceGraphic" result="smoothed" />
 				<feImage width="8" height="8" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAWSURBVAgdY1ywgOEDAwKxgJhIgFQ+AP/vCNK2s+8LAAAAAElFTkSuQmCC" result="displacement-map" />
 				<feTile in="displacement-map" result="pixelate-map" />
@@ -137,7 +142,7 @@ function SvgFilters() {
 				/>
 				<feComposite operator="in" in2="SourceGraphic" />
 			</DefineSvgFilter> */}
-			<DefineSvgFilter id="rainbow" colorInterpolationFilters="sRGB">
+			<DefineSvgFilter id="spectrum" colorInterpolationFilters="sRGB">
 				<feColorMatrix
 					type="matrix"
 					values="
@@ -156,6 +161,13 @@ function SvgFilters() {
 					<feFuncA type="table" tableValues="0 1" />
 				</feComponentTransfer>
 				<feBlend mode="normal" in="componentTransfer" in2="SourceGraphic" result="blend" />
+			</DefineSvgFilter>
+			<DefineSvgFilter id="thermal" colorInterpolationFilters="sRGB">
+				<feComponentTransfer>
+					<feFuncR type="table" tableValues="0 0.125 0.8   1     1" />
+					<feFuncG type="table" tableValues="0 0     0     0.843 1" />
+					<feFuncB type="table" tableValues="0 0.549 0.466 0     1" />
+				</feComponentTransfer>
 			</DefineSvgFilter>
 			<DefineSvgFilter id="red-channel">
 				<feColorMatrix
@@ -232,8 +244,8 @@ export default function PreviewYtp({ thumbnail, name }: FCP<{
 		vibrato: webglFilters?.wave,
 		spherize: webglFilters?.spherize,
 		twist: webglFilters?.twist,
-		mosaic: webglFilters?.mosaic,
-		// rainbow: webglFilters?.rainbow,
+		pixelate: webglFilters?.pixelate,
+		// spectrum: webglFilters?.spectrum,
 		// emboss: webglFilters?.emboss,
 		// bump: webglFilters?.bump,
 		// edge: webglFilters?.edge,

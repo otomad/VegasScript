@@ -208,6 +208,7 @@ ignoreWords:
   - rantetsu
   - inori
   - nocontent
+  - tf
 flagWords:
   - colour -> color
   - canot -> cannot

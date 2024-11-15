@@ -59,7 +59,7 @@ function ExpanderChildTrimValue({ start, end, unit = t.units.milliseconds, decim
 }, "div">) {
 	return (
 		<StyledExpanderChildTrim>
-			<div className="timecodes">
+			<VerticalIfFlexWrap className="timecodes">
 				<TextBox.Number
 					value={start}
 					suffix={unit}
@@ -77,7 +77,7 @@ function ExpanderChildTrimValue({ start, end, unit = t.units.milliseconds, decim
 					max={max}
 					spinnerStep={spinnerStep}
 				/>
-			</div>
+			</VerticalIfFlexWrap>
 		</StyledExpanderChildTrim>
 	);
 }

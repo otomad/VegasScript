@@ -8,7 +8,7 @@ export function isI18nItem(newChild: Any): newChild is Record<string, string> {
 	return !!newChild?.[I18N_ITEM_SYMBOL];
 }
 
-const getProxy = (target: object) =>
+const getProxy = (target: object, fallbackMode: boolean = false) =>
 	new Proxy(target, {
 		get(target, rootName) {
 			if (typeof rootName === "symbol") return;
@@ -27,6 +27,7 @@ const getProxy = (target: object) =>
 				};
 			};
 			const getMissingKey = (key: string) => {
+				if (fallbackMode) return undefined;
 				const displayValue = `<${key}>`;
 				console.error("Missing translation key: " + key);
 				return displayValue;
@@ -75,8 +76,11 @@ const targetFunction = (options?: number | bigint | TOptions) => {
 	return getProxy(options);
 };
 /** Get localize string objects. */
-export const t = getProxy(targetFunction) as LocaleDictionary & typeof targetFunction;
+export const t = getProxy(targetFunction) as Trans;
+export const tf = getProxy(targetFunction, true) as Trans;
 Object.freeze(t);
+Object.freeze(tf);
+type Trans = LocaleDictionary & typeof targetFunction;
 
 /**
  * Check if the current page is written from right to left (such as in Arabic) rather than from left to right (such as in English).

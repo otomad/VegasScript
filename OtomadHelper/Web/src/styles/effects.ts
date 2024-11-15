@@ -1,5 +1,5 @@
 const opszs = {
-	small: 1,
+	small: 5,
 	text: 10.5,
 	display: 36,
 };

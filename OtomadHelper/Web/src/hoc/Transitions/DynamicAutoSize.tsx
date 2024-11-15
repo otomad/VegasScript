@@ -11,7 +11,6 @@ export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 	useEffect(() => {
 		const content = el.current;
 		if (!content || !content.offsetParent) return;
-		console.log(content, children, deferredChildren, lockSize);
 		content.style.interpolateSize = isStale ? "numeric-only" : null!;
 		if (specified === "height" || specified === "both")
 			content.style.height = isStale ? content.offsetHeight + "px" : null!;

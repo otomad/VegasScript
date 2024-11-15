@@ -143,7 +143,10 @@ export default {
 			affix: {},
 			unallocated: {},
 		},
-		ytp: {},
+		ytp: {
+			effects: {},
+			sideEffects: {},
+		},
 		mosh: {},
 		tools: {},
 		selectInfo: {},
