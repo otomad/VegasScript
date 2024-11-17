@@ -55,17 +55,14 @@ function Update-UndefinedSymbols {
 }
 
 $infos = @{
-	VegasVersions    = 22;
+	VegasVersions    = 16..22 -join "";
 	UndefinedSymbols = @();
 }, @{
-	VegasVersions    = 16..21 -join "";
-	UndefinedSymbols = @("VER_GEQ_22");
-}, @{
 	VegasVersions    = 14..15 -join "";
-	UndefinedSymbols = @("VER_GEQ_22", "VER_GEQ_16");
+	UndefinedSymbols = @("VER_GEQ_16");
 }, @{
 	VegasVersions    = 13;
-	UndefinedSymbols = @("VER_GEQ_22", "VER_GEQ_16", "VER_GEQ_14");
+	UndefinedSymbols = @("VER_GEQ_16", "VER_GEQ_14");
 }
 
 $version = [Regex]::New("(?<=VERSION-)[\d\.]+").Match((Get-Content -Path '..\README.md' -Encoding UTF8)).Value
