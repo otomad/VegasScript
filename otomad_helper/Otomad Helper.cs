@@ -49,7 +49,6 @@
 #define INTERNATIONALIZED // 启用国际化翻译操作。取消定义后可暂时禁用翻译操作并锁定为简体中文，如不需要翻译时也许可以加快脚本启动速度，但其实也没快多少。
 #define PRODUCTION // 用于生产环境。定义后可以吞掉一些无关紧要的错误。取消定义后可以展现一些可能会产生隐患的错误。
 // 以下宏定义为版本号标记。如您的软件本体版本号低于这些标记，应注释掉它们。注意若启用高版本号的标记，比它更低的版本号标记必须同时启用。
-#define VER_GEQ_22 // Vegas 版本号大于或等于 22。
 #define VER_GEQ_16 // Vegas 版本号大于或等于 16。定义后可正常使用调音算法属性等功能。
 #define VER_GEQ_14 // Vegas 版本号大于或等于 14。定义后将依赖库切换到 Magix 版本。
 
@@ -91,9 +90,9 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 	/// </summary>
 	public class EntryPoint {
 		/// <summary>版本号</summary>
-		public static readonly Version VERSION = new Version(4, 46, 2, 0);
+		public static readonly Version VERSION = new Version(4, 47, 17, 0);
 		/// <summary>修订日期</summary>
-		public static readonly DateTime REVISION_DATE = new DateTime(2023, 10, 2);
+		public static readonly DateTime REVISION_DATE = new DateTime(2023, 11, 17);
 
 		// 配置参数变量
 		#region 视频属性
@@ -191,6 +190,7 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 		#endregion
 
 		#region 媒体属性
+		/**<summary>素材盲盒</summary>*/ private const bool IsBlindBox = false;
 		/**<summary>起始时间</summary>*/ private double SourceConfigStartTime { get { return configForm.SourceStartTimeText.DoubleValue; } }
 		/**<summary>终止时间</summary>*/ private double SourceConfigEndTime { get { return configForm.SourceStartTimeText.DoubleValue; } }
 		/**<summary>素材来源</summary>*/ private MediaSourceFrom SourceConfigFrom { get { return (MediaSourceFrom)configForm.ChooseSourceCombo.SelectedIndex; } }
@@ -378,11 +378,7 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 				return false;
 			}
 			try {
-				#if VER_GEQ_22
-					vegas.ImportFile(clipName, true, false);
-				#else
-					vegas.ImportFile(clipName, true);
-				#endif
+				ImportFile(clipName, true, false);
 			} catch (Exception ee) { ShowError(new Exceptions.NoMediaTakeException(), ee); return false; }
 			Media media = vegas.Project.MediaPool.Find(clipName);
 			this.media = media;
@@ -403,11 +399,7 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 			bool valid = true;
 			exception = null;
 			try {
-				#if VER_GEQ_22
-					vegas.ImportFile(clipName, true, false);
-				#else
-					vegas.ImportFile(clipName, true);
-				#endif
+				ImportFile(clipName, true, false);
 			} catch (Exception e) {
 				valid = false;
 				exception = e;
@@ -427,6 +419,29 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 			if (isNewFile) vegas.Project.MediaPool.Remove(clipName);
 			return valid;
 		}
+
+		/// <summary>
+		/// 导入媒体或嵌套项目文件到当前项目中。
+		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// 它与 <see cref="Vegas.OpenFile(string, bool)" /> 不同的是，如果打开一个 .veg 文件，将会作为嵌套时间轴添加，而不是打开该项目。
+		/// </para>
+		/// <para>
+		/// 由于从 Vegas Pro 22 Build 122 开始，<see cref="Vegas.OpenFile(string)" /> 新增了一个三参数的重载方法，但是却去除了两参数的重载方法，这导致了两个版本的脚本不能互通。因此单独实现一套统一的方法。
+		/// </para>
+		/// </remarks>
+		/// <param name="fileName">要导入的媒体文件路径。</param>
+		/// <param name="mediaPoolOnly">是否仅添加媒体到项目媒体中？</param>
+		/// <param name="enablePromptMatchFirstVideo">如果导入第一个媒体，则显示提示？（仅 Vegas Pro 22 Build 122 可用）</param>
+		internal void ImportFile(string fileName, bool mediaPoolOnly, bool enablePromptMatchFirstVideo = false) {
+			MethodInfo importFileMethod;
+			if ((importFileMethod = typeof(Vegas).GetMethod("ImportFile", new Type[] { typeof(string), typeof(bool), typeof(bool) })) != null)
+				importFileMethod.Invoke(vegas, new object[] { fileName, mediaPoolOnly, enablePromptMatchFirstVideo });
+			else if ((importFileMethod = typeof(Vegas).GetMethod("ImportFile", new Type[] { typeof(string), typeof(bool) })) != null)
+				importFileMethod.Invoke(vegas, new object[] { fileName, mediaPoolOnly });
+		}
+
 		/// <summary>
 		/// 测试媒体文件是否合法。
 		/// </summary>
@@ -1021,6 +1036,9 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 			return true;
 		}
 
+		private static readonly Random blindBoxRandom = new Random();
+		private long blindBoxFirstMeasure = -1;
+
 		/// <summary>
 		/// 生成音系 Music Anime Dōga / YouTube Poop Music Video。
 		/// </summary>
@@ -1090,11 +1108,18 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 
 			#region 如果修改了素材的入点和出点的时间
 			double sourceStartTime = SourceConfigStartTime, sourceEndTime = SourceConfigEndTime;
-			bool adjustTime = sourceStartTime != 0 || sourceEndTime != 0;
+			if (IsBlindBox && MidiConfigTracks.CurrentChannel > 0) // WARN: 临时解决未来版本的后门代码。
+				sourceStartTime = blindBoxRandom.NextDouble() * Math.Max(audioLength, videoLength);
+			bool adjustTime = sourceStartTime != 0 || sourceEndTime != 0 || IsBlindBox;
 			if (adjustTime) {
 				while (sourceEndTime <= sourceStartTime) sourceEndTime += Math.Max(audioLength, videoLength);
 				audioLength = videoLength = sourceEndTime - sourceStartTime;
 			}
+			long blindBoxLastMeasure = 0;
+			Action NextRandomSource = () => {
+				sourceStartTime = blindBoxRandom.NextDouble() * Math.Max(audioLength, videoLength);
+				sourceEndTime = sourceStartTime + Math.Max(audioLength, videoLength);
+			};
 			double generateBeginTime = GenerateAt == GenerateAt.CUSTOM ? GenerateAtCustomTimecode.ToMilliseconds() :
 				GenerateAt == GenerateAt.CURSOR ? vegas.Transport.CursorPosition.ToMilliseconds() : 0;
 			double songLength = 0; // 指定乐曲总长。
@@ -1164,6 +1189,22 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 						}
 				NoteEvent noteEvent = midiEvent as NoteEvent;
 				NoteOnEvent noteOnEvent = midiEvent as NoteOnEvent;
+
+				if (IsBlindBox) { // WARN: 临时解决未来版本的后门代码。
+					const long changeSourceDuration = 4;
+					long quarters = noteOnEvent.AbsoluteTime / midi.TicksPerQuarter;
+					long measures = quarters / midi.TimeSignatureNumerator;
+					if (blindBoxFirstMeasure < 0)
+						blindBoxFirstMeasure = measures;
+					else {
+						long blindBoxCurrentMeasure = (measures - blindBoxFirstMeasure) / changeSourceDuration;
+						if (blindBoxCurrentMeasure > blindBoxLastMeasure) {
+							blindBoxLastMeasure = blindBoxCurrentMeasure;
+							NextRandomSource();
+						}
+					}
+				}
+
 				double startTime, duration;
 				if (!MidiUseDynamicMidiBpm) {
 					startTime = midiEvent.AbsoluteTime * midi.MsPerQuarter / midi.TicksPerQuarter;
@@ -1671,6 +1712,8 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 		/// <param name="pitch">相对音高。</param>
 		/// <returns>拉伸值。</returns>
 		public static double Pitch2Stretch(double pitch) {
+			while (pitch > 24) pitch -= 12; // WARN: 临时解决未来版本的后门代码。
+			while (pitch < -24) pitch += 12; // WARN: 临时解决未来版本的后门代码。
 			return Math.Pow(2, pitch / 12.0);
 		}
 
@@ -2628,6 +2671,8 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 				if (AConfig && selectedEventSet.audioEvent != null) selectedEventSet.audioEvent.Remove();
 				if (VConfig && selectedEventSet.videoEvent != null) selectedEventSet.videoEvent.Remove();
 			}
+			foreach (TrackGroup trackGroup in vegas.Project.TrackGroups)
+				trackGroup.CollapseTrackGroup();
 		}
 
 		/// <summary>
@@ -11437,7 +11482,21 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 		/// 如果轨道使用过至少一次了（添加示例轨道事件除外），则根据生成后的轨道情况提供一个建议的新参照轨道索引值。
 		/// </returns>
 		public int? SumUp() {
-			return topmostTrackIndex == int.MaxValue ? null : topmostTrackIndex as int?;
+			int? topIndex = topmostTrackIndex == int.MaxValue ? null : topmostTrackIndex as int?;
+			if (topIndex.HasValue) {
+				foreach (Track track in Tracks)
+					track.Selected = false;
+				foreach (Track track in videoTracks)
+					track.Selected = true;
+				foreach (Track track in audioTracks)
+					track.Selected = true;
+				TrackGroup trackGroup = vegas.Project.GroupSelectedTracks();
+				if (trackGroup != null) {
+					trackGroup.Name = !string.IsNullOrWhiteSpace(videoName) ? videoName : audioName;
+					//trackGroup.CollapseTrackGroup(); // 后面又莫名展开了。
+				}
+			}
+			return topIndex;
 		}
 
 		/// <summary>
@@ -33036,7 +33095,7 @@ namespace Otomad.VegasScript.OtomadHelper.V4 {
 				negative = "Negative",
 				lumin_invert = "Luminance Invert",
 				hue_invert = "Hue Invert",
-				step_change_hue = "{0} Steps Chromatic Aberration",
+				step_change_hue = "{0} Steps Color Difference",
 				chromatic_and_monochrome = "Chromatic and Monochrome",
 				pingpong = "Ping-Pong Effect",
 				whirl = "Whirl",
