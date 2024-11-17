@@ -1,5 +1,10 @@
 // TODO: "PInvoke.cs" rename to "PInvoke_Win32.cs" and "PInvoke_DotNet.cs".
 
+using System.Data;
+using System.Windows.Media;
+
+using static OtomadHelper.Interop.PInvoke;
+
 namespace OtomadHelper.Interop;
 
 public static class PInvoke {
@@ -498,7 +503,7 @@ public static class PInvoke {
 
 	[DllImport("user32.dll", SetLastError = false, CharSet = CharSet.Unicode)]
 	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool EnumDisplaySettingsW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, uint iModeNum, out DevModeW lpDevMode);
+	private static extern bool EnumDisplaySettingsW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, uint iModeNum, ref DevModeW lpDevMode);
 
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 	internal struct DevModeW {
@@ -555,7 +560,7 @@ public static class PInvoke {
 
 	public static MonitorInfo? GetMonitorInfo(IntPtr hwnd) {
 		const uint MONITOR_DEFAULTTONEAREST = 2;
-		const uint ENUM_CURRENT_SETTINGS = unchecked((uint)-1);
+		const uint ENUM_CURRENT_SETTINGS = ~0u;
 
 		IntPtr hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
 		if (hMonitor == IntPtr.Zero) return null;
@@ -564,7 +569,7 @@ public static class PInvoke {
 		if (!GetMonitorInfoW(hMonitor, ref monitorInfo)) return null;
 
 		DevModeW devMode = new() { dmSize = (ushort)Marshal.SizeOf<DevModeW>() };
-		if (!EnumDisplaySettingsW(monitorInfo.szDevice, ENUM_CURRENT_SETTINGS, out devMode)) return null;
+		if (!EnumDisplaySettingsW(monitorInfo.szDevice, ENUM_CURRENT_SETTINGS, ref devMode)) return null;
 
 		return new MonitorInfo {
 			Width = devMode.dmPelsWidth,
@@ -573,6 +578,12 @@ public static class PInvoke {
 		};
 	}
 
-	[DllImport("user32.dll")]
-	public static extern bool SetProcessDPIAware();
+	/// <summary>
+	/// Get the screen real size without DPI scale.
+	/// </summary>
+	public static (uint Width, uint Height) GetPhysicalSize(this Screen screen) {
+		DevModeW devMode = new() { dmSize = (ushort)Marshal.SizeOf(typeof(DevModeW)) };
+		EnumDisplaySettingsW(screen.DeviceName, ~0u, ref devMode);
+		return (devMode.dmPelsWidth, devMode.dmPelsHeight);
+	}
 }

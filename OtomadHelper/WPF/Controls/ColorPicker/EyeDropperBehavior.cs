@@ -84,16 +84,28 @@ public class EyeDropperBehavior : Behavior<Button> {
 	private Point GetPoint(MouseEventArgs e) =>
 		Window.PointToScreen(e.GetPosition(Window));
 
-	private static Color GetColorAt(Point point) =>
-		GetColorAt((int)point.X, (int)point.Y).ToMediaColor();
+	private static Color GetColorAt(Point point) {
+		point = ScalePointByDpiAware(point);
+		return GetColorAt((int)point.X, (int)point.Y).ToMediaColor();
+	}
 
-	private static DrawingColor GetColorAt(int x, int y) { // FIXME: In multi screen, the non primary screen will get wrong color because of different DPI.
-		s = (x, y);
+	private static DrawingColor GetColorAt(int x, int y) {
 		Bitmap bmp = new(1, 1);
 		Rectangle bounds = new(x, y, 1, 1);
 		using (Graphics g = Graphics.FromImage(bmp))
 			g.CopyFromScreen(bounds.Location, DrawingPoint.Empty, bounds.Size);
 		return bmp.GetPixel(0, 0);
+	}
+
+	private static Point ScalePointByDpiAware(Point point) {
+		Screen screen = Screen.FromPoint(point.ToDrawingPoint());
+		Rectangle bounds = screen.Bounds;
+		int width = bounds.Width, height = bounds.Height, left = bounds.Left, top = bounds.Top;
+		(uint realWidth, uint realHeight) = screen.GetPhysicalSize();
+		return new(
+			(point.X - left) / width * realWidth + left,
+			(point.Y - top) / height * realHeight + top
+		);
 	}
 
 	public static readonly RoutedEvent GetColorEvent = EventManager.RegisterRoutedEvent(nameof(GetColorEvent),
