@@ -1,8 +1,6 @@
 using System.Drawing;
-using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using System.Windows.Input;
 using System.Windows.Interop;
 
 using APNGLib;
@@ -19,7 +17,6 @@ using ScriptPortal.Vegas;
 
 using BackdropWindow = OtomadHelper.WPF.Controls.BackdropWindow;
 using ContextMenu = OtomadHelper.Models.ContextMenu;
-using Timer = System.Timers.Timer;
 
 namespace OtomadHelper.Module;
 
@@ -102,7 +99,6 @@ public partial class Host : UserControl {
 #if VEGAS_ENV
 		AddModuleKeybindings();
 #endif
-		StartUpdateFps();
 	}
 
 	private async void Browser_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
@@ -317,27 +313,6 @@ public partial class Host : UserControl {
 	protected void Dockable_Closed(object sender, EventArgs e) {
 		Keybindings.TriggerKeybinding -= Module_TriggerKeybinding;
 		Keybindings.Enabled = false;
-		fpsTimer.Elapsed -= FpsTimer_Elapsed;
-		fpsTimer.Stop();
 	}
 #endif
-
-	private readonly Timer fpsTimer = new() { Interval = 1000 };
-	internal uint Fps { get; private set; } = 60;
-
-	private void StartUpdateFps() {
-		fpsTimer.Elapsed += FpsTimer_Elapsed;
-		fpsTimer.Start();
-	}
-
-	private void FpsTimer_Elapsed(object sender, ElapsedEventArgs e) {
-		MonitorInfo? monitorInfo = GetMonitorInfo(Handle);
-		if (monitorInfo.HasValue) {
-			uint newFps = monitorInfo.Value.Frequency;
-			if (newFps > 0 && newFps != Fps) {
-				Fps = newFps;
-				PostWebMessage(new FpsUpdated { fps = newFps });
-			}
-		}
-	}
 }

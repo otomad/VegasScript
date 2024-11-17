@@ -19,8 +19,8 @@ public class ComboBoxIdToIsCheckedConverter : IValueConverter {
 	}
 }
 
-[ValueConversion(typeof(string), typeof(string))]
-public class ComboBoxIdToOptionConverter : ValueConverter<string, string> {
+[ValueConversion(typeof(object), typeof(string))]
+public class ComboBoxIdToOptionConverter : ValueConverter<object, string> {
 	private static (object[] ids, string[] options) GetParameter(object parameter) {
 		object[] @params = (object[])parameter;
 		object[] ids = [.. (ObservableCollection<object>)@params[0]];
@@ -28,7 +28,7 @@ public class ComboBoxIdToOptionConverter : ValueConverter<string, string> {
 		return (ids, options);
 	}
 
-	public override string Convert(string value, Type targetType, object parameter, CultureInfo culture) {
+	public override string Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 		(object[] ids, string[] options) = GetParameter(parameter);
 		int index = ids.IndexOf(value);
 		if (!options.TryGetValue(index, out string option))
@@ -36,11 +36,11 @@ public class ComboBoxIdToOptionConverter : ValueConverter<string, string> {
 		return option;
 	}
 
-	public override string ConvertBack(string value, Type targetType, object parameter, CultureInfo culture) {
+	public override object ConvertBack(string value, Type targetType, object parameter, CultureInfo culture) {
 		(object[] ids, string[] options) = GetParameter(parameter);
 		int index = options.IndexOf(value);
 		if (!ids.TryGetValue(index, out object id))
-			id = value is string option ? $"<{option}>" : string.Empty;
-		return (string)id;
+			id = targetType == typeof(string) ? string.Empty : targetType.GetDefault();
+		return id;
 	}
 }

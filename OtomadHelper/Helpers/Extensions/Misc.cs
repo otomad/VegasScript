@@ -275,4 +275,11 @@ public static partial class Extensions {
 		enumerableType ??= type.GetInterface("IEnumerable");
 		return true;
 	}
+
+	private static T GetDefaultGeneric<T>() => default!;
+	/// <summary>
+	/// Get the default value of a <see cref="Type" /> <b>variable</b> like <c><see langword="default"/>(Type)</c>.
+	/// </summary>
+	public static object GetDefault(this Type type) =>
+		typeof(Extensions).GetMethod(nameof(GetDefaultGeneric), BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(type).Invoke(null, null);
 }
