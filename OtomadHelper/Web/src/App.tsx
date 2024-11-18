@@ -1,3 +1,4 @@
+import { DoesBrowserSupportACertainFeature, getBrowserName } from "helpers/browserslist";
 import { changeColorScheme } from "helpers/color-mode";
 import DynamicAccentColor from "styles/accent";
 import GlobalStyle from "styles/global";
@@ -20,12 +21,15 @@ export default function App() {
 	const forceUpdate = useForceUpdate();
 	i18n.on("languageChanged", forceUpdate);
 
+	const browserName = useMemo(() => getBrowserName(), []);
+	const isBrowserSupported = useMemo(() => DoesBrowserSupportACertainFeature(), []);
+
 	return (
 		<>
 			<BackgroundImage />
 			<GlobalStyle $ready={ready} />
 			<DynamicAccentColor />
-			{/* <InfoBar status="error" title="We do not support your legacy browser!" /> */}
+			{!isBrowserSupported && <InfoBar status="error" title={t.descriptions.unsupportedBrowser({ browser: browserName })} />}
 			<ShellPage />
 			<DevContextMenu />
 			<Toast />

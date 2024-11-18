@@ -614,6 +614,7 @@ export default {
 			},
 		},
 		descriptions: {
+			unsupportedBrowser: "很抱歉，我们不支持你老旧的{{browser}}浏览器，请更新！",
 			condition: "指定当满足何条件时才会应用该配置",
 			curve: "指定关键帧类型中的插值曲线",
 			source: {
@@ -885,7 +886,7 @@ export default {
 		wrongOpeningMethod: {
 			script: {
 				title: "嘿，你把该扩展程序放错了位置！",
-				content: "新版的 Otomad Helper 是一个扩展程序。与旧版不同，它不是一个脚本。\n\n请将该扩展移动到 VEGAS 的 Application Extensions 目录，而不是 Script Menu 目录。\n\n位置：",
+				content: "新版的Otomad Helper是一个扩展程序。与旧版不同，它不是一个脚本。\n\n请将该扩展移动到VEGAS的Application Extensions目录，而不是Script Menu目录。\n\n位置：",
 			},
 		},
 		textBox: {
@@ -911,8 +912,8 @@ export default {
 				yellow: "黄",
 				key: "黑",
 				luminance: "辉度",
-				aAxisInLab: "a 轴（−绿 ↔ +红）",
-				bAxisInLab: "b 轴（−蓝 ↔ +黄）",
+				aAxisInLab: "a轴（−绿 ↔ +红）",
+				bAxisInLab: "b轴（−蓝 ↔ +黄）",
 				chroma: "彩度",
 				alpha: "不透明度",
 				hex: "十六进制色码",

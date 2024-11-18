@@ -92,7 +92,7 @@ public class I18n : DynamicObject {
 					return new I18n(newParents);
 			return $"<{chainedKey}>";
 		}
-		return result;
+		return Pangu.Spacing(result);
 
 	}
 

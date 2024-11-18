@@ -148,6 +148,7 @@ export default [
 			"@stylistic/no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0, maxBOF: 0 }],
 			"@stylistic/max-statements-per-line": "off",
 			"no-useless-assignment": "error",
+			"no-control-regex": "off",
 			"import/order": "off", // 与 VSCode 内置导入排序特性打架。
 			"import/first": "off", // 与 Vue 特性冲突。
 			"import/named": "off", // 与 TypeScript 特性冲突。

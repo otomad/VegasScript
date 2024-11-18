@@ -86,9 +86,9 @@
 		<value>嘿，你把该扩展程序放错了位置！</value>
 	</data>
 	<data name="WrongOpeningMethod.Script.Content" xml:space="preserve">
-		<value>新版的 Otomad Helper 是一个扩展程序。与旧版不同，它不是一个脚本。
+		<value>新版的Otomad Helper是一个扩展程序。与旧版不同，它不是一个脚本。
 
-请将该扩展移动到 VEGAS 的 Application Extensions 目录，而不是 Script Menu 目录。
+请将该扩展移动到VEGAS的Application Extensions目录，而不是Script Menu目录。
 
 位置：</value>
 	</data>
@@ -144,10 +144,10 @@
 		<value>辉度</value>
 	</data>
 	<data name="ColorPicker.Axis.AAxisInLab" xml:space="preserve">
-		<value>a 轴（−绿 ↔ +红）</value>
+		<value>a轴（−绿 ↔ +红）</value>
 	</data>
 	<data name="ColorPicker.Axis.BAxisInLab" xml:space="preserve">
-		<value>b 轴（−蓝 ↔ +黄）</value>
+		<value>b轴（−蓝 ↔ +黄）</value>
 	</data>
 	<data name="ColorPicker.Axis.Chroma" xml:space="preserve">
 		<value>彩度</value>

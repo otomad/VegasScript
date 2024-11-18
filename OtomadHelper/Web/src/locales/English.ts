@@ -629,6 +629,7 @@ export default {
 			},
 		},
 		descriptions: {
+			unsupportedBrowser: "We’re sorry but we don’t support your legacy {{browser}} browser, please update!",
 			condition: "Specifies when to apply this configuration",
 			curve: "Specifies the interpolation curve of the keyframe type",
 			source: {

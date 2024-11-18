@@ -112,6 +112,14 @@ public static partial class Extensions {
 		third = list.Count > 2 ? list[2] : throw outOfRangeException;
 		rest = list.Skip(3).ToList();
 	}
+	/// <inheritdoc cref="Deconstruct{T}(IList{T}, out T, out T, out T, out IList{T})"/>
+	public static void Deconstruct<T>(this IList<T> list, out T first, out T second, out T third, out T fourth, out IList<T> rest) {
+		first = list.Count > 0 ? list[0] : throw outOfRangeException;
+		second = list.Count > 1 ? list[1] : throw outOfRangeException;
+		third = list.Count > 2 ? list[2] : throw outOfRangeException;
+		fourth = list.Count > 3 ? list[3] : throw outOfRangeException;
+		rest = list.Skip(4).ToList();
+	}
 
 	/// <summary>
 	/// Converts a list of objects into a tuple.

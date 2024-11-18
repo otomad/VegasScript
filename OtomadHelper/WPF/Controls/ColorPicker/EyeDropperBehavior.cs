@@ -89,7 +89,7 @@ public class EyeDropperBehavior : Behavior<Button> {
 
 	private static Color GetColorAt(DrawingPoint point, bool debug_isMouseUp = false) {
 		point = ScalePointByDpiAware(point);
-		if (debug_isMouseUp) Debug_ScreenShot(point);
+		//if (debug_isMouseUp) Debug_ScreenShot(point);
 		return GetColorAt(point.X, point.Y).ToMediaColor();
 	}
 

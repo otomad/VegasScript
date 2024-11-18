@@ -209,6 +209,7 @@ ignoreWords:
   - inori
   - nocontent
   - tf
+  - edg
 flagWords:
   - colour -> color
   - canot -> cannot

@@ -614,6 +614,7 @@ export default {
 			},
 		},
 		descriptions: {
+			unsupportedBrowser: "申し訳ありませんが、レガシー {{browser}} ブラウザはサポートされていません。アップデートしてください！",
 			condition: "この設定をいつ適用するかを指定します",
 			curve: "キーフレームタイプの補間曲線を指定します。",
 			source: {
