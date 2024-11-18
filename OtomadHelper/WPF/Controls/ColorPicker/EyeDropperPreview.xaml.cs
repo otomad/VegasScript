@@ -18,7 +18,7 @@ public partial class EyeDropperPreview : Window {
 		helper = new(this);
 	}
 
-	internal void MoveToMouse(Point point, (double X, double Y) dpi) {
+	internal void MoveToMouse(System.Drawing.Point point, (double X, double Y) dpi) {
 		//Point point = PointToScreen(Mouse.GetPosition(this));
 		Left = point.X / dpi.X - ActualWidth / 2;
 		Top = point.Y / dpi.Y - ActualHeight / 2;

@@ -1,6 +1,7 @@
 // TODO: "PInvoke.cs" rename to "PInvoke_Win32.cs" and "PInvoke_DotNet.cs".
 
 using System.Data;
+using System.Drawing;
 using System.Windows.Media;
 
 using static OtomadHelper.Interop.PInvoke;
@@ -579,11 +580,11 @@ public static class PInvoke {
 	}
 
 	/// <summary>
-	/// Get the screen real size without DPI scale.
+	/// Get the screen real bounds (size and position) without DPI scale.
 	/// </summary>
-	public static (uint Width, uint Height) GetPhysicalSize(this Screen screen) {
+	public static Rectangle GetPhysicalBounds(this Screen screen) {
 		DevModeW devMode = new() { dmSize = (ushort)Marshal.SizeOf(typeof(DevModeW)) };
 		EnumDisplaySettingsW(screen.DeviceName, ~0u, ref devMode);
-		return (devMode.dmPelsWidth, devMode.dmPelsHeight);
+		return new(devMode.dmPositionX, devMode.dmPositionY, (int)devMode.dmPelsWidth, (int)devMode.dmPelsHeight);
 	}
 }

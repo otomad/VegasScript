@@ -16,6 +16,7 @@
 	ShowInTaskbar="False"
 	Topmost="True"
 	WindowStyle="None"
+	Focusable="False"
 	Loaded="Window_Loaded"
 	mc:Ignorable="d"
 	>

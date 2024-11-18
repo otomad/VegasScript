@@ -18,6 +18,7 @@ public class EyeDropperBehavior : Behavior<Button> {
 		AssociatedObject.PreviewMouseMove += Button_MouseMove;
 		AssociatedObject.PreviewMouseUp += Button_MouseUp;
 		AssociatedObject.LostMouseCapture += Button_LostMouseCapture;
+		Preview.MouseMove += Button_MouseMove;
 
 		base.OnAttached();
 	}
@@ -29,6 +30,7 @@ public class EyeDropperBehavior : Behavior<Button> {
 		AssociatedObject.PreviewMouseMove -= Button_MouseMove;
 		AssociatedObject.PreviewMouseUp -= Button_MouseUp;
 		AssociatedObject.LostMouseCapture -= Button_LostMouseCapture;
+		Preview.MouseMove -= Button_MouseMove;
 	}
 
 	private Window? window;
@@ -52,8 +54,9 @@ public class EyeDropperBehavior : Behavior<Button> {
 	}
 
 	private void Button_MouseMove(object sender, MouseEventArgs e) {
+		s = Preview.IsFocused;
 		if (!AssociatedObject.IsMouseCaptured) return;
-		Point position = GetPoint(e);
+		DrawingPoint position = CursorPosition;
 		Visual source = PresentationSource.FromVisual(Preview) is not null ? Preview : Window;
 		Preview.MoveToMouse(position, source.GetDpi());
 		Color color = GetColorAt(position);
@@ -62,8 +65,8 @@ public class EyeDropperBehavior : Behavior<Button> {
 
 	private void Button_MouseUp(object sender, MouseButtonEventArgs e) {
 		if (AssociatedObject.IsMouseCaptured) {
-			Point position = GetPoint(e);
-			Color color = GetColorAt(position);
+			DrawingPoint position = CursorPosition;
+			Color color = GetColorAt(position, true);
 			AssociatedObject.RaiseEvent(new GetColorRoutedEventArgs(color, GetColorEvent, AssociatedObject));
 		}
 		Button_LostMouseCapture();
@@ -81,31 +84,42 @@ public class EyeDropperBehavior : Behavior<Button> {
 		AssociatedObject.ReleaseMouseCapture();
 	}
 
-	private Point GetPoint(MouseEventArgs e) =>
-		Window.PointToScreen(e.GetPosition(Window));
+	private DrawingPoint CursorPosition => System.Windows.Forms.Cursor.Position;
+	// Do not use MouseEventArgs to get mouse position like below, or cannot get negative mouse position.
+	// private Point GetPoint(MouseEventArgs e) => Window.PointToScreen(e.GetPosition(Window));
 
-	private static Color GetColorAt(Point point) {
+	private static Color GetColorAt(DrawingPoint point, bool debug_isMouseUp = false) {
 		point = ScalePointByDpiAware(point);
-		return GetColorAt((int)point.X, (int)point.Y).ToMediaColor();
+		if (debug_isMouseUp) Debug_ScreenShot(point);
+		return GetColorAt(point.X, point.Y).ToMediaColor();
 	}
 
 	private static DrawingColor GetColorAt(int x, int y) {
-		Bitmap bmp = new(1, 1);
+		using Bitmap bmp = new(1, 1);
 		Rectangle bounds = new(x, y, 1, 1);
 		using (Graphics g = Graphics.FromImage(bmp))
 			g.CopyFromScreen(bounds.Location, DrawingPoint.Empty, bounds.Size);
 		return bmp.GetPixel(0, 0);
 	}
 
-	private static Point ScalePointByDpiAware(Point point) {
-		Screen screen = Screen.FromPoint(point.ToDrawingPoint());
+	private static DrawingPoint ScalePointByDpiAware(DrawingPoint point) {
+		Screen screen = Screen.FromPoint(point);
 		Rectangle bounds = screen.Bounds;
 		int width = bounds.Width, height = bounds.Height, left = bounds.Left, top = bounds.Top;
-		(uint realWidth, uint realHeight) = screen.GetPhysicalSize();
+		Rectangle realBounds = screen.GetPhysicalBounds();
+		int realWidth = realBounds.Width, realHeight = realBounds.Height, realLeft = realBounds.Left, realTop = realBounds.Top;
 		return new(
-			(point.X - left) / width * realWidth + left,
-			(point.Y - top) / height * realHeight + top
+			(int)(((double)point.X - left) / width * realWidth + realLeft),
+			(int)(((double)point.Y - top) / height * realHeight + realTop)
 		);
+	}
+
+	private static void Debug_ScreenShot(DrawingPoint point) {
+		using Bitmap bmp = new(3840, 3240);
+		Rectangle bounds = new(point.X, point.Y, bmp.Width, bmp.Height);
+		using (Graphics g = Graphics.FromImage(bmp))
+			g.CopyFromScreen(bounds.Location, DrawingPoint.Empty, bounds.Size);
+		bmp.Save(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\screenshot.png");
 	}
 
 	public static readonly RoutedEvent GetColorEvent = EventManager.RegisterRoutedEvent(nameof(GetColorEvent),
