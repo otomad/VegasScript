@@ -3,24 +3,22 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-using Gma.System.MouseKeyHook;
-
 using Microsoft.Xaml.Behaviors;
 
 using Color = System.Windows.Media.Color;
 using DrawingColor = System.Drawing.Color;
 using Point = System.Windows.Point;
 using DrawingPoint = System.Drawing.Point;
-using FormMouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace OtomadHelper.WPF.Controls;
 
 public class EyeDropperBehavior : Behavior<Button> {
 	protected override void OnAttached() {
 		AssociatedObject.PreviewMouseDown += Button_MouseDown;
-		//AssociatedObject.PreviewMouseMove += Button_MouseMove;
-		//AssociatedObject.PreviewMouseUp += Button_MouseUp;
-		//AssociatedObject.LostMouseCapture += Button_LostMouseCapture;
+		AssociatedObject.PreviewMouseMove += Button_MouseMove;
+		AssociatedObject.PreviewMouseUp += Button_MouseUp;
+		AssociatedObject.LostMouseCapture += Button_LostMouseCapture;
+		Preview.MouseMove += Button_MouseMove;
 
 		base.OnAttached();
 	}
@@ -29,9 +27,10 @@ public class EyeDropperBehavior : Behavior<Button> {
 		base.OnDetaching();
 
 		AssociatedObject.PreviewMouseDown -= Button_MouseDown;
-		//AssociatedObject.PreviewMouseMove -= Button_MouseMove;
-		//AssociatedObject.PreviewMouseUp -= Button_MouseUp;
-		//AssociatedObject.LostMouseCapture -= Button_LostMouseCapture;
+		AssociatedObject.PreviewMouseMove -= Button_MouseMove;
+		AssociatedObject.PreviewMouseUp -= Button_MouseUp;
+		AssociatedObject.LostMouseCapture -= Button_LostMouseCapture;
+		Preview.MouseMove -= Button_MouseMove;
 	}
 
 	private Window? window;
@@ -40,62 +39,48 @@ public class EyeDropperBehavior : Behavior<Button> {
 	private const double InvisibleWindowLeft = 65536;
 
 	private EyeDropperPreview Preview { get; } = new();
-	private IKeyboardMouseEvents? GlobalMouse;
-
-	protected void GlobalMouse_Subscribe() {
-		GlobalMouse = Hook.GlobalEvents();
-
-		GlobalMouse.MouseMove += Button_MouseMove;
-		GlobalMouse.MouseUp += Button_MouseUp;
-	}
-
-	protected void GlobalMouse_Unsubscribe() {
-		if (GlobalMouse is null) return;
-
-		GlobalMouse.MouseMove -= Button_MouseMove;
-		GlobalMouse.MouseUp -= Button_MouseUp;
-
-		GlobalMouse.Dispose();
-	}
 
 	private void Button_MouseDown(object sender, MouseButtonEventArgs e) {
+		if (AssociatedObject.IsMouseCaptured) {
+			Button_LostMouseCapture();
+			return;
+		}
+		AssociatedObject.CaptureMouse();
 		CurrentWindowLeft = Window.Left;
 		Window.Left += InvisibleWindowLeft;
 		Mouse.OverrideCursor = Cursors.Cross;
 		Preview.Show();
-		Button_MouseMove(sender, null!);
-		GlobalMouse_Subscribe();
+		Button_MouseMove(sender, e);
 	}
 
-	private void Button_MouseMove(object sender, FormMouseEventArgs e) {
+	private void Button_MouseMove(object sender, MouseEventArgs e) {
+		if (!AssociatedObject.IsMouseCaptured) return;
 		DrawingPoint position = CursorPosition;
 		Visual source = PresentationSource.FromVisual(Preview) is not null ? Preview : Window;
 		Preview.MoveToMouse(position, source.GetDpi());
 		Color color = GetColorAt(position);
-		s = position;
-		s = color;
 		Preview.PointColor = color;
 	}
 
-	private void Button_MouseUp(object sender, FormMouseEventArgs e) {
-		DrawingPoint position = CursorPosition;
-		Color color = GetColorAt(position, true);
-		AssociatedObject.RaiseEvent(new GetColorRoutedEventArgs(color, GetColorEvent, AssociatedObject));
+	private void Button_MouseUp(object sender, MouseButtonEventArgs e) {
+		if (AssociatedObject.IsMouseCaptured) {
+			DrawingPoint position = CursorPosition;
+			Color color = GetColorAt(position, true);
+			AssociatedObject.RaiseEvent(new GetColorRoutedEventArgs(color, GetColorEvent, AssociatedObject));
+		}
 		Button_LostMouseCapture();
 	}
 
 	private void Button_LostMouseCapture() => Button_LostMouseCapture(null!, null!);
-	private void Button_LostMouseCapture(object sender, MouseEventArgs e) {
-		//if (sender is not null) {
-		//	await Task.Delay(5);
-		//	if (AssociatedObject.IsMouseCaptured) return;
-		//}
+	private async void Button_LostMouseCapture(object sender, MouseEventArgs e) {
+		if (sender is not null) {
+			await Task.Delay(5);
+			if (AssociatedObject.IsMouseCaptured) return;
+		}
 		Window.Left = CurrentWindowLeft;
 		Mouse.OverrideCursor = null;
 		Preview.Hide();
-		//AssociatedObject.ReleaseMouseCapture();
-		Window.Activate();
-		GlobalMouse_Unsubscribe();
+		AssociatedObject.ReleaseMouseCapture();
 	}
 
 	private DrawingPoint CursorPosition => System.Windows.Forms.Cursor.Position;
