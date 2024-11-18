@@ -216,6 +216,11 @@ export default class IndexedDBStore<T extends object> {
 	 */
 	[Symbol.asyncIterator] = this.values;
 
+	/** @deprecated */
+	[Symbol.iterator]() {
+		throw new SyntaxError("Cannot use for-of statement, use for-await-of statement instead");
+	}
+
 	/**
 	 * Retrieves all items from the IndexedDB object store.
 	 *
