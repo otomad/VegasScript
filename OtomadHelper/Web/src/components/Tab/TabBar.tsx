@@ -143,7 +143,6 @@ export default function TabBar<T extends string = string>({ current: [current, s
 			movement = "appear";
 		const selectedTabItem = indicator.previousElementSibling!.querySelector(".selected");
 		if (!selectedTabItem) {
-			if (movement === "appear") return;
 			movement = "disappear";
 			const center = (entry1 + entireLength - entry2) / 2;
 			setPosition([center, center - 1]);
