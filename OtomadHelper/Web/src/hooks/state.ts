@@ -6,10 +6,12 @@ export function useDelayState<T>(initialState: T) {
 	type Options = Partial<{
 		delay: number;
 		keep: number;
+		allowInterrupt: boolean;
 	}>;
 	const setState = async (value: React.SetStateAction<T>, options: Options = {}) => {
-		if (keepTimeoutId.current) return;
+		if (keepTimeoutId.current && !options.allowInterrupt) return;
 		clearTimeout(delayTimeoutId.current);
+		clearTimeout(keepTimeoutId.current);
 		if (options.delay)
 			await delay(options.delay, delayTimeoutId);
 		delayTimeoutId.current = undefined;
@@ -19,5 +21,5 @@ export function useDelayState<T>(initialState: T) {
 		keepTimeoutId.current = undefined;
 	};
 
-	return [state, setState];
+	return [state, setState] as const;
 }

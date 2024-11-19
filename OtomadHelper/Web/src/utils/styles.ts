@@ -321,3 +321,25 @@ export function getClearColorFromBackgroundColor(colorVar: string, alpha: number
 	if (!colorVar.startsWith("--")) colorVar = "--" + colorVar;
 	return `oklab(from var(${colorVar}) calc(1 - ((L - 0.65) * infinity + 0.5)) 0 0 / ${alpha})`;
 }
+
+/**
+ * Useful when you want to convert
+ * ```typescript
+ * element.style.backgroundColor = "black";
+ * ```
+ * to
+ * ```typescript
+ * element.style.setProperty("background-color", "black");
+ * ```
+ *
+ * @example
+ * · backgroundColor ⇒ background-color
+ * · webkitTextStroke ⇒ -webkit-text-stroke
+ * · --custom-property ⇒ --custom-property
+ *
+ * @param camel - Camel case CSS style property name, except CSS custom property.
+ * @returns Kebab case CSS style property name.
+ */
+export function convertCamelStylePropertyToKebab(camel: string) {
+	return camel.startsWith("--") ? camel : new VariableName(camel).cssProperty;
+}

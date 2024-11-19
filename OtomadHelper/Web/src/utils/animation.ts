@@ -55,15 +55,17 @@ export function flushSync(callback?: () => unknown) {
 
 /**
  * **Temporarily** disable transition animations when styling an element.
- * @param element - HTML DOM element or its CSS style declaration.
+ * @param element - HTML DOM element.
  * @param style - CSS style.
+ * @param thenRemoveStyle - After that, then remove the style that be set?
  */
-export async function setStyleWithoutTransition(element: HTMLElement | CSSStyleDeclaration, style: CSSProperties = {}) {
-	const styles = element instanceof CSSStyleDeclaration ? element : element.style;
+export function setStyleWithoutTransition(element: HTMLElement, style: CSSProperties = {}, thenRemoveStyle: boolean = false) {
+	const styles = element.style;
 	Object.assign(styles, style);
-	styles.transition = "none";
-	await nextAnimationTick();
-	styles.transition = null!;
+	styles.setProperty("transition", "none", "important");
+	void element.offsetHeight;
+	styles.removeProperty("transition");
+	if (thenRemoveStyle) Object.keys(style).map(convertCamelStylePropertyToKebab).forEach(property => styles.removeProperty(property));
 }
 
 /**
@@ -444,7 +446,7 @@ export async function setStyleTemporarily(element: HTMLElement, style: CSSProper
 	const { promise, resolve } = Promise.withResolvers<void>();
 	setStyleTemporarilyQueue.push(promise);
 
-	style = objectReplaceKeys(style, camel => camel.startsWith("--") ? camel : new VariableName(camel).cssProperty);
+	style = objectReplaceKeys(style, convertCamelStylePropertyToKebab);
 	// Convert property names to kebab case or Element.style.setProperty won't recognize them.
 	if (!("transition" in style)) style.transition = "none";
 
