@@ -20,7 +20,7 @@ const StyledCommandBar = styled.div`
 	}
 
 	.command-bar-item {
-		transition: all ${eases.easeInOutFluent} 650ms;
+		transition: all ${eases.easeInOutFluent} 500ms;
 
 		&.enter,
 		&.exit {
