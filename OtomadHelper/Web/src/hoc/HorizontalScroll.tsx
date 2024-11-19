@@ -9,7 +9,7 @@ export default function HorizontalScroll({ enabled = true, children }: FCP<{
 	/** Max `scrollLeft` value */
 	const scrollWidth = useRef(0);
 	/** Desired scroll distance per animation frame. You can adjust to your wish */
-	const getScrollStep = () => scrollWidth.current * getFrameInterval() / 1000;
+	const getScrollStep = () => scrollWidth.current * getFrameInterval() / 500;
 	/** Target value for `scrollLeft`. */
 	const targetLeft = useRef(0);
 
