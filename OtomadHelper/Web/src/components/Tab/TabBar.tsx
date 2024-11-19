@@ -8,9 +8,11 @@ type TabBarMovement = "previous" | "next" | "appear" | "disappear" | "none";
 
 const Indicator = styled.div.attrs(({ $vertical }) => ({
 	className: $vertical ? "vertical" : "horizontal",
-})) <{
+}))<{
 	/** Position (a tuple of distances from the container in the upper and lower directions). */
 	$position?: TwoD;
+	/** Starting position. */
+	$appearingPosition?: TwoD;
 	/** Vertical tabs? */
 	$vertical?: boolean;
 	/** The tab bar movement. */
@@ -21,25 +23,30 @@ const Indicator = styled.div.attrs(({ $vertical }) => ({
 	position: absolute;
 	background-color: ${c("accent-color")};
 	${({ $vertical }) => $vertical ? css`inset-inline-start: 5px;` : css`inset-block-end: 0;`}
+	transition: ${fallbackTransitions}${({ $movement, $vertical }) => !$movement?.in("next", "previous") ? "" :
+		`, ${$movement === "next" ? $vertical ? "inset-block-start" : "left" : $vertical ? "inset-block-end" : "right"} ${eases.easeOutMax} 250ms ${DELAY}ms`};
 	${({ $position, $vertical }) => $position && css`
 		${$vertical ? "inset-block-start" : "left"}: ${$position[0] ?? 0}px;
 		${$vertical ? "inset-block-end" : "right"}: ${isUndefinedNullNaN($position[1]) ? "100%" : $position[1] + "px"};
 	`};
-	transition: ${fallbackTransitions}${({ $movement, $vertical }) => !$movement?.in("next", "previous") ? "" :
-		`, ${$movement === "next" ? $vertical ? "inset-block-start" : "left" : $vertical ? "inset-block-end" : "right"} ${eases.easeOutMax} 250ms ${DELAY}ms`};
-	transition-behavior: allow-discrete;
-	${({ $movement, $vertical }) => [
-		$movement === "disappear" && css`
-			display: none;
-			scale: ${$vertical ? "1 0" : "0 1"};
-		`,
-		css`
-			@starting-style {
-				scale: ${$vertical ? "1 0" : "0 1"};
-			}
-		`,
-	]};
+	${({ $appearingPosition, $vertical }) => $appearingPosition && css`
+		transition: none !important;
+		${$vertical ? "inset-block-start" : "left"}: ${$appearingPosition[0]}px;
+		${$vertical ? "inset-block-end" : "right"}: ${$appearingPosition[1]}px;
+	`};
 `;
+/* transition-behavior: allow-discrete;
+${({ $movement, $vertical }) => [
+	$movement === "disappear" && css`
+		display: none;
+		scale: ${$vertical ? "1 0" : "0 1"};
+	`,
+	css`
+		@starting-style {
+			scale: ${$vertical ? "1 0" : "0 1"};
+		}
+	`,
+]}; */
 
 const StyledTabBar = styled.div`
 	${styles.mixins.square("100%")};
@@ -100,6 +107,7 @@ export default function TabBar<T extends string = string>({ current: [current, s
 	const { uiScale1 } = useSnapshot(configStore.settings);
 	const [_movement, setMovement] = useState<TabBarMovement>("disappear");
 	const [disablePressIndicatorStyle, setDisablePressIndicatorStyle] = useDelayState(false);
+	const [appearingPosition, setAppearingPosition] = useDelayState<TwoD>();
 
 	/**
 	 * Update the tab indicator.
@@ -137,6 +145,8 @@ export default function TabBar<T extends string = string>({ current: [current, s
 		if (!selectedTabItem) {
 			if (movement === "appear") return;
 			movement = "disappear";
+			const center = (entry1 + entireLength - entry2) / 2;
+			setPosition([center, center - 1]);
 			setMovement(movement);
 			return;
 		}
@@ -147,6 +157,8 @@ export default function TabBar<T extends string = string>({ current: [current, s
 		if (targetOffset > 0) { target1 += targetOffset; target2 -= targetOffset; }
 		const setPositionBoth = () => setPosition([target1, target2]);
 		if (movement === "appear") {
+			const center = (target1 + target2) / 2;
+			setAppearingPosition([center, entireLength - center], { keep: 1, allowInterrupt: true }).then(() => setAppearingPosition(undefined));
 			setPositionBoth();
 			setMovement(movement);
 			return;
@@ -178,7 +190,13 @@ export default function TabBar<T extends string = string>({ current: [current, s
 							});
 						})}
 					</div>
-					<Indicator ref={indicatorEl} $position={position} $vertical={vertical} $movement={_movement} />
+					<Indicator
+						ref={indicatorEl}
+						$position={position}
+						$appearingPosition={appearingPosition}
+						$vertical={vertical}
+						$movement={_movement}
+					/>
 				</div>
 			</StyledTabBar>
 		</HorizontalScroll>

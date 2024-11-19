@@ -1,13 +1,15 @@
-export function useDelayState<T>(initialState: T) {
+type Options = Partial<{
+	delay: number;
+	keep: number;
+	allowInterrupt: boolean;
+}>;
+
+export function useDelayState<T>(): [T | undefined, (value: React.SetStateAction<T | undefined>, options?: Options) => Promise<void>];
+export function useDelayState<T>(initialState: T): [T, (value: React.SetStateAction<T>, options?: Options) => Promise<void>];
+export function useDelayState<T>(initialState?: T) {
 	const [state, setStateInternal] = useState(initialState);
 	const delayTimeoutId = useRef<Timeout>();
 	const keepTimeoutId = useRef<Timeout>();
-
-	type Options = Partial<{
-		delay: number;
-		keep: number;
-		allowInterrupt: boolean;
-	}>;
 	const setState = async (value: React.SetStateAction<T>, options: Options = {}) => {
 		if (keepTimeoutId.current && !options.allowInterrupt) return;
 		clearTimeout(delayTimeoutId.current);
@@ -15,11 +17,11 @@ export function useDelayState<T>(initialState: T) {
 		if (options.delay)
 			await delay(options.delay, delayTimeoutId);
 		delayTimeoutId.current = undefined;
-		setStateInternal(value);
+		setStateInternal(value as T);
 		if (options.keep)
 			await delay(options.keep, keepTimeoutId);
 		keepTimeoutId.current = undefined;
 	};
 
-	return [state, setState] as const;
+	return [state, setState];
 }
