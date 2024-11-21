@@ -7,7 +7,7 @@ const StyledColorPicker = styled(StyledButton).attrs({
 	aspect-ratio: 1 / 1;
 	min-inline-size: unset;
 	background-color: ${c("color")} !important;
-	outline: 1px solid ${getClearColorFromBackgroundColor("color")} !important;
+	outline: 1px solid ${getContrastiveColor("color")} !important;
 
 	input {
 		visibility: hidden;

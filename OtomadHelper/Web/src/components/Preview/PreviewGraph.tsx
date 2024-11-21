@@ -8,7 +8,7 @@ const StyledPreviewGraph = styled.i.attrs({
 	margin: ${-CONTAINER_PADDING}px;
 	margin-inline: -10px -2px;
 	padding: ${CONTAINER_PADDING}px;
-	background-color: ${getClearColorFromBackgroundColor("color", 0.5)};
+	background-color: ${getContrastiveColor("color", 0.5)};
 	border-radius: 2px;
 
 	svg {

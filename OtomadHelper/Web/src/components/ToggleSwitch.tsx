@@ -176,7 +176,7 @@ const StyledToggleSwitchLabel = styled.button`
 		}
 
 		&.colored {
-			--highlight-color: ${getClearColorFromBackgroundColor("accent-color")};
+			--highlight-color: ${getContrastiveColor("accent-color")};
 
 			.thumb {
 				background-color: ${c("highlight-color")};
