@@ -1,8 +1,6 @@
 using System.Globalization;
 using System.Resources;
 
-using OtomadHelper.Properties;
-
 namespace OtomadHelper.Helpers;
 
 public class I18n : DynamicObject {
@@ -89,11 +87,10 @@ public class I18n : DynamicObject {
 		if (result is null) {
 			foreach (DictionaryEntry entry in DefaultCultureRes)
 				if (entry.Key.ToString().StartsWith(chainedKey + '.'))
-					return new I18n(newParents);
+					return new I18n(newParents) { EnablePangu = EnablePangu };
 			return $"<{chainedKey}>";
 		}
-		return Pangu.Spacing(result);
-
+		return EnablePangu ? Pangu.Spacing(result) : result;
 	}
 
 	public override bool TryGetMember(GetMemberBinder binder, out object result) {
@@ -112,9 +109,12 @@ public class I18n : DynamicObject {
 	}
 
 	public static readonly dynamic t = new I18n();
+	public static readonly dynamic t_disablePangu = new I18n() { EnablePangu = false };
 
 	private IEnumerable<string> Parents { get; set; } = [];
 
 	private I18n() { }
 	private I18n(IEnumerable<string> parents) => Parents = parents;
+
+	public bool EnablePangu { get; set; } = true;
 }

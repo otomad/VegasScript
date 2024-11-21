@@ -85,5 +85,6 @@ public class ColorPickerIsNotSpecialColorTextBoxConverter : ValueConverter<strin
 [ValueConversion(typeof(string), typeof(string))]
 public class ColorAxisKeyToTranslationConverter : ValueConverter<string, string, bool> {
 	public override string Convert(string value, Type targetType, bool useLongName, CultureInfo culture) =>
-		useLongName ? t.ColorPicker.Axis[value] : t.ColorPicker.AxisAbbrs[value];
+		useLongName ? t.ColorPicker.Axis[value] : t_disablePangu.ColorPicker.AxisAbbrs[value];
+	// NOTE: When use short name, it will disable pangu.
 }
