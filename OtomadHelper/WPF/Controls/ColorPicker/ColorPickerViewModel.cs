@@ -322,8 +322,8 @@ public struct ColorPickerModelAxis(ColourSpace model, int axis) {
 		["HSL"] = ColourSpace.Hsl,
 		["HSB"] = ColourSpace.Hsb,
 		["HWB"] = ColourSpace.Hwb,
-		["LAB"] = ColourSpace.Lab,
-		["LCH"] = ColourSpace.Lchab,
+		//["LAB"] = ColourSpace.Lab,
+		//["LCH"] = ColourSpace.Lchab,
 		["OKLAB"] = ColourSpace.Oklab,
 		["OKLCH"] = ColourSpace.Oklch,
 	};
@@ -341,5 +341,15 @@ public struct ColorPickerModelAxis(ColourSpace model, int axis) {
 	internal void Deconstruct(out ColourSpace model, out int axis) {
 		model = Model;
 		axis = Axis;
+	}
+
+	public bool IsValid {
+		get {
+			try {
+				return NameModelMap.Values.Contains(Model) && Axis >= 0 && Axis < 3;
+			} catch (Exception) {
+				return false;
+			}
+		}
 	}
 }

@@ -27,13 +27,14 @@ public partial class ColorPicker : UserControl {
 
 	public new ColorPickerViewModel DataContext => (ColorPickerViewModel)base.DataContext;
 
-	public static async Task<string> ShowDialog(string hex) {
+	public static async Task<string> ShowDialog(string hex, ColorPickerModelAxis? initialModelAxis = null) {
 		bool startsWithHash = hex.StartsWith("#");
 		Unicolour? color = ColorPickerViewModel.FromHex(hex);
 		if (color is null) return hex;
 		ColorPicker panel = new();
 		ColorPickerViewModel viewModel = panel.DataContext;
 		viewModel.Color = color;
+		if (initialModelAxis.HasValue && initialModelAxis.Value.IsValid) viewModel.ModelAxis = initialModelAxis.Value;
 		bool dialogResult = await ContentDialog.ShowDialog<bool?>((string)t.ColorPicker.Title, panel, [
 			new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Ok, true, true),
 			new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Cancel, false),
