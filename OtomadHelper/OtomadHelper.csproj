@@ -156,6 +156,7 @@
 		<EmbeddedResource Remove="Assets\LoadingAnimation.webp" />
 		<EmbeddedResource Remove="Assets\LoadingAnimation_v4.apng" />
 		<EmbeddedResource Remove="Properties\Module\*.resx" />
+		<EmbeddedResource Remove="Assets\**\*.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Properties\Settings.settings">
