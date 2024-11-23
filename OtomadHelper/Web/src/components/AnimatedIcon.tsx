@@ -207,9 +207,9 @@ export default forwardRef(function AnimatedIcon({
 		try {
 			const rawIcon = iconsImport[`/src/assets/lotties/${name}.json`];
 			return rawIcon;
-		} catch (e) {
+		} catch (cause) {
 			if (!showFallbackIcon)
-				console.error(`Lottie file "${name}" doesn't exist in "assets/lotties"`, e);
+				console.error(new Error(`Lottie file "${name}" doesn't exist in "assets/lotties"`, { cause }));
 			return null!;
 		}
 	}, [name]);
