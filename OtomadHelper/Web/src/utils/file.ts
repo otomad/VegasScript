@@ -86,7 +86,7 @@ export async function openFile({ accept = "", multiple = false } = {}): Promise<
 		input.onchange = () => resolve();
 		input.click();
 	});
-	const files = await Promise.all(Array.from(input.files ?? [], async file => file instanceof FileSystemFileHandle ? await file.getFile() : file));
+	const files = await Array.fromAsync(input.files ?? [], async file => file instanceof FileSystemFileHandle ? await file.getFile() : file);
 	if (multiple) return files;
 	else return files[0] ?? null;
 }
