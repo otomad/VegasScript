@@ -40,7 +40,7 @@ public static partial class VisibilityAnimation {
 	/// AnimationType property changed
 	/// </summary>
 	static partial void OnAnimationTypeChanged(FrameworkElement frameworkElement, AnimationType oldValue, AnimationType newValue) {
-		// If AnimationType is set to True on this framework element, 
+		// If AnimationType is set to True on this framework element,
 		if (GetAnimationType(frameworkElement) != AnimationType.None) {
 			// Add this framework element to hooked list
 			HookVisibilityChanges(frameworkElement);
@@ -106,8 +106,8 @@ public static partial class VisibilityAnimation {
 		Visibility visibility = (Visibility)baseValue;
 
 		// If Visibility value hasn't change, do nothing.
-		// This can happen if the Visibility property is set using data binding 
-		// and the binding source has changed but the new visibility value 
+		// This can happen if the Visibility property is set using data binding
+		// and the binding source has changed but the new visibility value
 		// hasn't changed.
 		if (visibility == frameworkElement.Visibility) return baseValue;
 
@@ -118,24 +118,24 @@ public static partial class VisibilityAnimation {
 		// If animation already started, don't restart it (otherwise, infinite loop)
 		if (UpdateAnimationStartedFlag(frameworkElement)) return baseValue;
 
-		// If we get here, it means we have to start fade in or fade out animation. 
-		// In any case return value of this method will be Visibility.Visible, 
+		// If we get here, it means we have to start fade in or fade out animation.
+		// In any case return value of this method will be Visibility.Visible,
 		// to allow the animation.
 		DoubleAnimation doubleAnimation = new() {
 			Duration = new Duration(TimeSpan.FromMilliseconds(AnimationDuration)),
 		};
 
-		// When animation completes, set the visibility value to the requested 
+		// When animation completes, set the visibility value to the requested
 		// value (baseValue)
 		doubleAnimation.Completed += (sender, eventArgs) => {
 			if (visibility == Visibility.Visible) {
-				// In case we change into Visibility.Visible, the correct value 
+				// In case we change into Visibility.Visible, the correct value
 				// is already set, so just update the animation started flag
 				UpdateAnimationStartedFlag(frameworkElement);
 			} else {
-				// This will trigger value coercion again 
-				// but UpdateAnimationStartedFlag() function will return true 
-				// this time, thus animation will not be triggered. 
+				// This will trigger value coercion again
+				// but UpdateAnimationStartedFlag() function will return true
+				// this time, thus animation will not be triggered.
 				if (BindingOperations.IsDataBound(frameworkElement, UIElement.VisibilityProperty)) {
 					// Set visibility using bounded value
 					Binding bindingValue = BindingOperations.GetBinding(frameworkElement, UIElement.VisibilityProperty);
@@ -149,19 +149,19 @@ public static partial class VisibilityAnimation {
 
 		if (visibility is Visibility.Collapsed or Visibility.Hidden) {
 			// Fade out by animating opacity
-			doubleAnimation.From = 1.0;
-			doubleAnimation.To = 0.0;
+			doubleAnimation.From = 1d;
+			doubleAnimation.To = 0d;
 		} else {
 			// Fade in by animating opacity
-			doubleAnimation.From = 0.0;
-			doubleAnimation.To = 1.0;
+			doubleAnimation.From = 0d;
+			doubleAnimation.To = 1d;
 		}
 
 		// Start animation
 		frameworkElement.BeginAnimation(UIElement.OpacityProperty, doubleAnimation);
 
 		// Make sure the element remains visible during the animation
-		// The original requested value will be set in the completed event of 
+		// The original requested value will be set in the completed event of
 		// the animation
 		return Visibility.Visible;
 	}

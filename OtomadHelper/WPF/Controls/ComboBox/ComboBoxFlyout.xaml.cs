@@ -7,7 +7,7 @@ namespace OtomadHelper.WPF.Controls;
 /// <summary>
 /// ComboBoxFlyout.xaml 的交互逻辑
 /// </summary>
-[DependencyProperty<double>("ItemHeight", DefaultValue = 20.0)]
+[DependencyProperty<double>("ItemHeight", DefaultValue = 20d)]
 [DependencyProperty<bool>("IsPressingSpace", DefaultValue = false)]
 public partial class ComboBoxFlyout : BaseFlyout {
 	public ComboBoxFlyout() {

@@ -7,7 +7,7 @@ namespace OtomadHelper.WPF.Controls;
 /// <summary>
 /// Icon.xaml 的交互逻辑
 /// </summary>
-[DependencyProperty<double>("Size", DefaultValue = 16.0)]
+[DependencyProperty<double>("Size", DefaultValue = 16d)]
 [DependencyProperty<Brush>("Foreground", DefaultValueExpression = "defaultForeground")]
 [DependencyProperty<IconTemplate>("Source")]
 [DependencyProperty<string>("IconName")]

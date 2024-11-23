@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace OtomadHelper.WPF.Controls;
 
-[DependencyProperty<double>("Spacing", DefaultValue = 8.0)]
+[DependencyProperty<double>("Spacing", DefaultValue = 8d)]
 internal partial class ContentDialogButtonPanel : Grid {
 	public ContentDialogButtonPanel() : base() {
 		LayoutUpdated += (sender, e) => UpdateChildren();

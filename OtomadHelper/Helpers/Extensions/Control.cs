@@ -38,7 +38,7 @@ public static partial class Extensions {
 	public static async void Vanish(this Window window) =>
 		await Dispatcher.CurrentDispatcher.InvokeAsync(window.Close, DispatcherPriority.Normal);
 
-	private const double DPI_DIVISOR = 96.0;
+	private const double DPI_DIVISOR = 96d;
 
 	/// <summary>
 	/// Get the DPI of the screen where the WinForm <see cref="Form"/> is located.

@@ -72,8 +72,8 @@ public static class ErrorHandleService {
 /// </summary>
 /// <remarks>
 /// <code>
-///	(AssemblyVersion, 7.9.0.0)
-///	(FileVersion, 7.9.0)
+/// (AssemblyVersion, 7.9.0.0)
+/// (FileVersion, 7.9.0)
 /// (ProductVersion, 7.9.0+2b8b4c7f50aa25d0fc8e8827b2c35aa1a7c0a5e3)
 /// </code>
 /// </remarks>
