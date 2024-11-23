@@ -186,7 +186,7 @@ declare interface Map<K, V> {
 	 *
 	 * @returns The value associated with the specified key. If the key does not exist, the default value is returned.
 	 */
-	getOrInit(key: K, defaultValue: () => MaybeRef<V>): V;
+	getOrInsert(key: K, defaultValue: () => MaybeRef<V>): V;
 
 	/**
 	 * Calls a defined callback function on each key value pair of a map, and returns an array that contains the results.

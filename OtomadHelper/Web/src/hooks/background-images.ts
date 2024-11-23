@@ -40,7 +40,7 @@ export function useBackgroundImages() {
 		if (!store.current || !store.current.isDatabaseOpen) return;
 		const items = await store.current.map(async (value, key) => {
 			key = +key;
-			const url: string = await Map.prototype.getOrInit.apply(keyToUrl, [key, async () => await fileToBlob(value.imageData)]);
+			const url: string = await Map.prototype.getOrInsert.apply(keyToUrl, [key, async () => await fileToBlob(value.imageData)]);
 			return { ...value, url, key };
 		});
 		setItems([{ imageData: null!, filename: "", url: "", key: -1 }, ...items]);

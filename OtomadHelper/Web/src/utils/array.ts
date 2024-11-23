@@ -179,7 +179,7 @@
 }
 
 { // Init map extensions
-	Map.prototype.getOrInit = async function (key, defaultValue) {
+	Map.prototype.getOrInsert = async function (key, defaultValue) {
 		if (!this.has(key)) {
 			const value = await defaultValue();
 			this.set(key, value);
