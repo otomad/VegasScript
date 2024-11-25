@@ -352,6 +352,18 @@ export default {
 				},
 				padding: "Padding",
 			},
+			box3d: {
+				deleteTracks: "Delete original tracks",
+				useLongerSide: "Use longer side of edge length",
+				faces: {
+					front: "Front",
+					back: "Back",
+					left: "Left",
+					right: "Right",
+					top: "Top",
+					bottom: "Bottom",
+				},
+			},
 			gradient: {
 				effects: {
 					rainbow: "Rainbow Colors",
@@ -757,6 +769,10 @@ export default {
 						vFlip: "Mirrors the tracks by flipping the rows in a parity pattern",
 					},
 					padding: "Adjusts the inner margins of track boxes to be less cluttered with other boxes",
+				},
+				box3d: {
+					deleteTracks: "Due to technical limitations, the selected tracks cannot be moved directly. It can only create new tracks and migrate the clips, but not track motions, effects or anything else. You can decide if you want to delete the original tracks.\nNewly added tracks will not be affected.",
+					useLongerSide: "Uses the long side instead of the short side as the cube's edge length if the source is a rectangle, which make the cube more natural",
 				},
 				gradient: "Gives the video tracks a gradient color effect in your layout",
 				legato: "Fills in the gaps between the track clips",

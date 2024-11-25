@@ -103,7 +103,7 @@ const StyledCube = styled.div`
 
 export default function Box3d() { // BUG: When drag the box to the top or bottom face, it cannot be clicked.
 	pageStore.useOnSave(() => configStore.track.box3d.enabled = true);
-
+	const { deleteTracks, useLongerSide } = selectConfig(c => c.track.box3d);
 	const [selectedFace, setSelectedFace] = useState<typeof faces[number]>();
 
 	// #region Drag Behavior
@@ -150,10 +150,13 @@ export default function Box3d() { // BUG: When drag the box to the top or bottom
 			<StyledCube onPointerDown={onDragStart} onPointerMove={onDrag} onPointerUp={onDragEnd} onAuxClick={reset}>
 				<div className="container-outer">
 					<div className="container" style={rotationCss}>
-						{faces.map(face => <div key={face} className={[face, "face", { selected: selectedFace === face }]} onClick={() => setSelectedFace(face)}>{face}</div>)}
+						{faces.map(face => <div key={face} className={[face, "face", { selected: selectedFace === face }]} onClick={() => setSelectedFace(face)}>{t.track.box3d.faces[face]}</div>)}
 					</div>
 				</div>
 			</StyledCube>
+
+			<SettingsCardToggleSwitch on={deleteTracks} title={t.track.box3d.deleteTracks} details={t.descriptions.track.box3d.deleteTracks} icon="delete" />
+			<SettingsCardToggleSwitch on={useLongerSide} title={t.track.box3d.useLongerSide} details={t.descriptions.track.box3d.useLongerSide} icon="codepen" />
 		</div>
 	);
 }

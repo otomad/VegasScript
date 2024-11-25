@@ -176,6 +176,8 @@ export const configStore = createStore({
 		},
 		box3d: {
 			enabled: true,
+			deleteTracks: false,
+			useLongerSide: false,
 		},
 		gradient: {
 			enabled: true,
