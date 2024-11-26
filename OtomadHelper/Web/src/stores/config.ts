@@ -2,6 +2,7 @@ import type { beepEngines } from "views/audio";
 import type { pitchNotations } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
 import type { barOrBeatUnits, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
+import type { trackLegatoModes } from "views/track";
 import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
 import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
 
@@ -25,6 +26,7 @@ type TrackOrChannel = typeof trackAndChannel[number];
 type GridArrayType = typeof arrayTypes[number];
 type GridFitType = typeof fitTypes[number];
 type GridParityType = typeof parityTypes[number];
+type TrackLegatoMode = typeof trackLegatoModes[number];
 
 const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 
@@ -187,6 +189,13 @@ export const configStore = createStore({
 			viewSquare: false,
 			viewMirrorEdges: false,
 			viewSize: 325,
+		},
+		legato: {
+			mode: "stacking" as TrackLegatoMode,
+			increaseSpacing: EMPTY_TIMECODE,
+			forClips: false,
+			includeGroup: false,
+			backwards: false,
 		},
 	},
 	sonar: {

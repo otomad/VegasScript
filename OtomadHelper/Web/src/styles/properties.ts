@@ -37,3 +37,13 @@ CSS.registerProperty({
 	inherits: true,
 	initialValue: "1",
 });
+
+/**
+ * Preview waveform scale.
+ */
+CSS.registerProperty({
+	name: "--preview-waveform-scale",
+	syntax: "<number>",
+	inherits: true,
+	initialValue: "1",
+});

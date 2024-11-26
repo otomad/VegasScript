@@ -1,5 +1,7 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
+export /* @internal */ const trackLegatoModes = ["stacking", "stackingAllTracks", "stackingAllAfter", "limitStretch", "stretch", "lengthen", "increaseSpacing", "increaseSpacingAllTracks"] as const;
+
 const StyledDeactivateButton = styled(Button).attrs({
 	icon: "arrow_reset",
 	accent: true,
@@ -20,11 +22,14 @@ const DeactivateButton = ({ deactivated: [deactivated, setDeactivated] }: { deac
 export default function Track() {
 	const { pushPage } = useSnapshot(pageStore);
 	const [layoutEnabled, layoutEnabledCount, deactivateAll] = useLayoutEnabled();
+	const { mode: legatoMode, increaseSpacing, forClips: legatoForClips, includeGroup: legatoIncludeGroup, backwards: legatoBackwards } = selectConfig(c => c.track.legato);
+
+	useEffect(() => {
+		if (!legatoForClips[0] && legatoMode[0] === "stackingAllAfter") legatoMode[1]("stacking");
+	}, [legatoMode[0], legatoForClips[0]]);
 
 	return (
 		<div className="container">
-			<PreviewTrackLegato style={{ width: "600px", height: "200px" }} />
-
 			<SettingsPageControl image={(<PreviewLayout thumbnail={exampleThumbnail} />)} learnMoreLink="">{t.descriptions.track}</SettingsPageControl>
 
 			<Subheader>{t.track.layout}</Subheader>
@@ -59,7 +64,41 @@ export default function Track() {
 			</div>
 
 			<Subheader>{t.stream.legato}</Subheader>
-			<Expander title={t.track.legato} details={t.descriptions.track.legato} icon="legato" />
+			<Expander title={t.track.legato} details={t.descriptions.track.legato} icon="legato">
+				<ItemsView view="grid" current={legatoMode} $itemWidth={320}>
+					{trackLegatoModes.map(mode => {
+						if (mode === "stackingAllAfter" && !legatoForClips[0]) return;
+						const displayMode = mode === "stacking" && legatoForClips[0] ? "stackingSelected" : mode;
+						const { legato } = t.track;
+						const multiline = legato[displayMode].toString().split("\n");
+						return (
+							<ItemsView.Item
+								id={mode}
+								key={mode}
+								details={multiline[1]}
+								image={<PreviewTrackLegato mode={mode} />}
+								$withBorder
+							>
+								{multiline[0]}
+							</ItemsView.Item>
+						);
+					})}
+				</ItemsView>
+				<ToggleSwitch on={legatoForClips} details={t.descriptions.track.legato.forClips} icon="track_event">{t.track.legato.forClips}</ToggleSwitch>
+				<ToggleSwitch on={legatoIncludeGroup} details={t.descriptions.track.legato.includeGroup} icon="group">{t.track.legato.includeGroup}</ToggleSwitch>
+				<ToggleSwitch on={legatoBackwards} details={t.descriptions.track.legato.backwards} icon="arrow_reply">{t.track.legato.backwards}</ToggleSwitch>
+				<Expander.Item
+					title={t.track.legato.increaseSpacing.toString().split("\n")[0]}
+					details={t.descriptions.track.legato.increaseSpacing}
+					disabled={!legatoMode[0].in("increaseSpacing", "increaseSpacingAllTracks")}
+					icon="increase_spacing"
+				>
+					<TimecodeBox timecode={increaseSpacing} />
+				</Expander.Item>
+				<Expander.ChildWrapper>
+					<Button icon="checkmark">{t.apply}</Button>
+				</Expander.ChildWrapper>
+			</Expander>
 
 			<Subheader>{t.track.clear}</Subheader>
 			<div>

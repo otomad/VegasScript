@@ -98,7 +98,7 @@ const ExpanderChild = styled.div`
 `;
 
 const ExpanderChildWrapper = styled.div`
-	padding: 7px 38px;
+	padding: 7px 51px; // 7px 38px
 
 	&:has(.slider) {
 		padding: 21px 52px;

@@ -191,6 +191,13 @@ export /* @internal */ const StyledButton = styled.button<{
 	> .content > span {
 		${styles.mixins.hideIfEmpty()};
 		transition: none; // If enable transition, in Audio page, when toggle No Tuning in tuning method, the prelisten buttons text will be flickering.
+
+
+		@layer components {
+			&:is(:lang(en), :lang(vi), :lang(id)) {
+				margin-block-start: -1px; // Solve bad font letter sinking.
+			}
+		}
 	}
 `;
 

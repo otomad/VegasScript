@@ -13,6 +13,7 @@ const StyledTimecodeBox = styled.div`
 	display: grid;
 	grid-auto-flow: column;
 	grid-template-rows: repeat(3, auto);
+	gap: 0;
 	justify-content: center;
 	place-items: center;
 	font-variant-numeric: tabular-nums;
@@ -91,6 +92,15 @@ const StyledTimecodeBox = styled.div`
 		z-index: -1;
 		height: ${TEXTBOX_BASE_HEIGHT}px;
 		pointer-events: none;
+	}
+
+	&[disabled],
+	[disabled] & {
+		color: ${c("fill-color-text-disabled")};
+
+		${StyledTextBox} {
+			background-color: ${c("fill-color-control-disabled")};
+		}
 	}
 `;
 
