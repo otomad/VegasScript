@@ -23,6 +23,8 @@ export default function Track() {
 
 	return (
 		<div className="container">
+			<PreviewTrackLegato style={{ width: "600px", height: "200px" }} />
+
 			<SettingsPageControl image={(<PreviewLayout thumbnail={exampleThumbnail} />)} learnMoreLink="">{t.descriptions.track}</SettingsPageControl>
 
 			<Subheader>{t.track.layout}</Subheader>
