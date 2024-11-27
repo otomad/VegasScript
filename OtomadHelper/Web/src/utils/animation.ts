@@ -238,7 +238,7 @@ export async function* animateSizeGenerator(
 		Object.assign(keyframes[setYPaddingIndex], { paddingTop: 0, paddingBottom: 0, marginTop: 0, marginBottom: 0, borderTopWidth: 0, borderBottomWidth: 0 } satisfies CSSStyleDeclarationNumberish);
 	if (setYPadding && isWidthChanged && setXPaddingIndex !== undefined)
 		Object.assign(keyframes[setXPaddingIndex], { paddingLeft: 0, paddingRight: 0, marginLeft: 0, marginRight: 0, borderLeftWidth: 0, borderRightWidth: 0 } satisfies CSSStyleDeclarationNumberish);
-	const setTranslate = (pxes: number[]) => pxes.map(i => i + "px").join(" ");
+	const setTranslate = (pxes: number[]) => pxes.map(px => px + "px").join(" ");
 	if (startReverseSlideIn)
 		keyframes[0].translate = setTranslate([isWidthChanged ? endWidth : 0, isHeightChanged ? endHeight : 0]);
 	if (endReverseSlideIn)

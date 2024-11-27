@@ -80,7 +80,7 @@
 	};
 
 	Array.prototype.toRemoveFalsy = function () {
-		return this.filter(item => item);
+		return this.filter(Boolean);
 	};
 
 	Array.prototype.equals = function (another) {
