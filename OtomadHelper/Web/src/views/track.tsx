@@ -65,7 +65,8 @@ export default function Track() {
 
 			<Subheader>{t.stream.legato}</Subheader>
 			<Expander title={t.track.legato} details={t.descriptions.track.legato} icon="legato">
-				<ItemsView view="grid" current={legatoMode} $itemWidth={320}>
+				<ItemsView view="grid" current={legatoMode} $itemWidth={320} key={String(legatoForClips[0])}>
+					{/* When `legatoForClips` change, re-render the entire component to avoid the animation of the newly added item being out of sync with other items. */}
 					{trackLegatoModes.map(mode => {
 						if (mode === "stackingAllAfter" && !legatoForClips[0]) return;
 						const displayMode = mode === "stacking" && legatoForClips[0] ? "stackingSelected" : mode;

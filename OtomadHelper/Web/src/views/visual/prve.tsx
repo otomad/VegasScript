@@ -200,10 +200,10 @@ export default function Prve() {
 										step={1}
 										defaultValue={0}
 										displayValue={step => step + 1}
+										// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
 										smoothDisplayValue={false}
 										disabled={invalidValue || currentEffect === "normal"}
 									/>
-									// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
 								);
 							})()}
 						</Expander.Item>
