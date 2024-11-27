@@ -111,19 +111,25 @@ const StyledSliderWrapper = styled.div`
 	}
 `;
 
-export default function Slider({ value: [value, setValue], min = 0, max = 100, defaultValue, step, keyStep = 1, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChanged, onDisplayValueChanged }: FCP<{
+export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, displayValueStep, smoothDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChanged, onDisplayValueChanged }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
 	/** Slider minimum value. */
 	min?: number;
 	/** Slider maximum value. */
 	max?: number;
+	/** If `min` and `max` changed dynamically, automatically clamp the value that would not exceed the range? */
+	autoClampValue?: boolean;
 	/** Slider default value. Restore defaults when clicking the mouse middle button, right button, or touchscreen long press component. */
 	defaultValue?: number;
 	/** Slider effective increment value. */
 	step?: number;
 	/** Specifies the value by which the slider adjusts once when a keyboard direction key is pressed. */
 	keyStep?: number;
+	/** The display value decimal places will accept it, or use `step` if it is undefined. */
+	displayValueStep?: number;
+	/** Make the display value smoothly? Defaults to true. */
+	smoothDisplayValue?: boolean;
 	/** Disabled */
 	disabled?: boolean;
 	/** Show the text indicates the value? Or get the display text from the value. */
@@ -147,9 +153,11 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 	if (min > max)
 		throw new RangeError(`Is the minimum value of Slider greater than the maximum value? The minimum value is ${min}, and the maximum value is ${max}`);
 	if (value < min)
-		throw new RangeError("The value of Slider is lesser than the minimum value. " + errorInfo);
+		if (autoClampValue) setValue?.(min);
+		else throw new RangeError("The value of Slider is lesser than the minimum value. " + errorInfo);
 	if (value > max)
-		throw new RangeError("The value of Slider is greater than the maximum value. " + errorInfo);
+		if (autoClampValue) setValue?.(max);
+		else throw new RangeError("The value of Slider is greater than the maximum value. " + errorInfo);
 
 	const restrict = (n: number | undefined, nanValue: number) => Number.isFinite(n) ? clamp(map(n!, min, max, 0, 1), 0, 1) : nanValue;
 	const sharpValue = useMemo(() => restrict(value, 0), [value, min, max]);
@@ -169,7 +177,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 	function clampValue(value: number) {
 		value = clamp(value, min, max);
 		if (step !== undefined)
-			value = Math.floor((value - min) / step) * step + min;
+			value = Math.round((value - min) / step) * step + min;
 		return value;
 	}
 
@@ -202,7 +210,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 		thumb.addEventListener("pointerup", pointerUp);
 	}
 
-	const onTrackDown = useCallback<PointerEventHandler>(e => {
+	const onTrackDown: PointerEventHandler = e => {
 		if (e.button) { resetToDefault(e); return; }
 		const track = e.currentTarget as HTMLDivElement;
 		const thumb = track.parentElement!.querySelector(".thumb") as HTMLDivElement;
@@ -213,7 +221,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 		setValue?.(value);
 		onChanging?.(value);
 		onThumbDown(e, true); // Then call the dragging slider event.
-	}, []);
+	};
 
 	const onKeyDown = useCallback<KeyboardEventHandler<HTMLDivElement>>(e => {
 		const movePrev = e.code === "ArrowUp" || e.code === "ArrowLeft";
@@ -224,8 +232,9 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, d
 	}, [value]);
 
 	const displayValue = (() => {
-		const smoothValue2 = map(smoothValue, 0, 1, min, max);
-		const steppedSmoothValue = step ? smoothValue2.toFixed(step.countDecimals()) : smoothValue2;
+		const smoothValue2 = map(smoothDisplayValue ? smoothValue : sharpValue, 0, 1, min, max);
+		const step2 = displayValueStep ?? step;
+		const steppedSmoothValue = step2 ? smoothValue2.toFixed(step2.countDecimals()) : smoothValue2;
 		if (_displayValue === false || _displayValue === undefined) return undefined;
 		else if (_displayValue === true) return steppedSmoothValue;
 		else if (typeof _displayValue === "function") return _displayValue(+steppedSmoothValue);

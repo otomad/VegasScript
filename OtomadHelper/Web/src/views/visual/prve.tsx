@@ -1,4 +1,8 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import type { LocaleIdentifiers } from "locales/types";
+
+type PrveClassType = Exclude<keyof LocaleIdentifiers["javascript"]["prve"]["classes"], "_"> | (string & {});
+type PrveEffectType = Exclude<keyof LocaleIdentifiers["javascript"]["prve"]["effects"], "_"> | (string & {});
 
 const controlModes = ["general", "samePitch", "differentSyllables"] as const;
 const getControlModeIcon = (mode: string) => `prve_control_${new VariableName(mode).snake}` as DeclaredIcons;
@@ -8,15 +12,15 @@ const STEP_CHANGE_HUE = "stepChangeHue";
 const getWhirlInfo = () => withObject(t.prve.effects, fx => `${fx.whirl} = ${fx.pingpong} + ${fx.hFlip}`);
 
 /** With frames step. */
-const $s = (frames: number, ...effectIds: string[]) => effectIds.map(effect => ({ effect, frames }));
+const $s = (frames: number, ...effectIds: PrveEffectType[]) => effectIds.map(effect => ({ effect, frames }));
 type PrveClassEffect = {
-	effect: string;
+	effect: PrveEffectType;
 	frames: number;
 };
 class PrveClass {
 	public static readonly all = [
 		new PrveClass("flip", "flip_h", [...$s(2, "hFlip", "vFlip"), ...$s(4, "ccwFlip", "cwFlip")]),
-		new PrveClass("rotation", "rotate", [...$s(4, "ccwRotate", "cwRotate"), ...$s(2, "turned")]),
+		new PrveClass("rotation", "rotate", $s(1, "rotate")),
 		new PrveClass("scale", "resize_image", $s(1, "zoomOutIn")),
 		new PrveClass("mirror", "image_reflection", [...$s(2, "hMirror", "vMirror"), ...$s(4, "ccwMirror", "cwMirror")]),
 		new PrveClass("invert", "invert_color", [...$s(2, "negative", "luminInvert", "negativeFade", "negativeLuma")]),
@@ -30,9 +34,9 @@ class PrveClass {
 		new PrveClass("wipe", "double_tap_swipe", [...$s(2, "wipeRight"), ...$s(1, "wipeRight1", "splitVOut")]),
 	];
 
-	public readonly class: string;
+	public readonly class: PrveClassType;
 	private constructor(
-		klass: string,
+		klass: PrveClassType,
 		public readonly icon: DeclaredIcons,
 		public readonly effects: PrveClassEffect[],
 	) {
@@ -40,19 +44,34 @@ class PrveClass {
 		this.findEffectFrames = this.findEffectFrames.bind(this);
 	}
 
-	public static findClass(klass: string) { return PrveClass.all.find(_class => _class.class === klass); }
+	public static findClass(klass: PrveClassType) { return PrveClass.all.find(_class => _class.class === klass); }
 	public get effectIds() { return this.effects.map(effect => effect.effect) ?? []; }
-	public static findClassEffects(klass: string) { return PrveClass.findClass(klass)?.effectIds ?? []; }
-	public findEffectFrames(effect: string) { return this.effects.find(_effect => _effect.effect === effect)?.frames ?? 1; }
+	public static findClassEffects(klass: PrveClassType) { return PrveClass.findClass(klass)?.effectIds ?? []; }
+	public findEffectFrames(effect: PrveClassType) { return this.effects.find(_effect => _effect.effect === effect)?.frames ?? 1; }
 }
+
+/** Prve amounts option. */
+const $a = (title: string, icon: DeclaredIcons, state: StateProperty<number>, def: number, min: number, max: number, step: number = 0.001, displayValue: PropsOf<typeof Slider>["displayValue"] = true) =>
+	({ title, icon, state, def, min, max, step, displayValue });
+export /* @internal */ const defaultPrveAmounts = Object.freeze({
+	compression: 0.8,
+	slant: 0.7,
+	puyo: 0.625,
+	pendulum: 15,
+	gaussianBlur: 0.1,
+	radialBlur: 0.8,
+	rotation: -90,
+});
 
 export default function Prve() {
 	const [controlMode, setControlMode] = useState<typeof controlModes[number]>("general");
 	const isGeneralCurrent = useMemo(() => controlMode === "general", [controlMode]);
 	const { control, isMultiple, effects } = selectConfig(c => c.visual.prve[controlMode]);
+	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation } = selectConfig(c => c.visual.prve[controlMode].amounts);
 	const selectionMode = useSelectionMode(isMultiple);
+	console.log(effects[0]);
 	const effectLength = effects[0].length;
-	const selectPrve = (klass: string) => {
+	const selectPrve = (klass: PrveClassType): StateProperty<PrveEffectType> => {
 		const classEffects = PrveClass.findClassEffects(klass);
 		const flipEffects = PrveClass.findClassEffects("flip");
 		return useStateSelector(
@@ -93,6 +112,8 @@ export default function Prve() {
 		},
 	);
 
+	const rotationStep = useStateSelector(rotation, angle => angle === 0 ? 0 : 360 / angle, step => step === 0 ? 0 : Math.round(360 / step));
+
 	return (
 		<div className="container">
 			<StackPanel $align="space-between" $endAlignWhenWrap>
@@ -119,7 +140,76 @@ export default function Prve() {
 
 			{PrveClass.all.map(({ class: klass, icon, effectIds, findEffectFrames }) => {
 				const currentEffectState = selectPrve(klass), currentEffect = currentEffectState[0]!;
-				return (
+				if (klass === "rotation") return (
+					<ExpanderRadio
+						key={klass}
+						title={t.prve.classes[klass]}
+						disabled={!control[0]}
+						icon={icon}
+						items={[DEFAULT_EFFECT, "ccwRotate", "cwRotate", "turned"]}
+						value={[
+							currentEffect === "rotate" ?
+								rotation[0] === -90 ? "ccwRotate" :
+								rotation[0] === 90 ? "cwRotate" :
+								rotation[0] === 180 || rotation[0] === -180 ? "turned" :
+								null! : currentEffect,
+							(rotate: string) => {
+								if (rotate.in("ccwRotate", "cwRotate", "turned")) {
+									currentEffectState[1]!("rotate");
+									rotation[1](rotate === "ccwRotate" ? -90 : rotate === "cwRotate" ? 90 : 180);
+								} else currentEffectState[1]!(rotate);
+							},
+						]}
+						view="grid"
+						idField
+						nameField={getEffectName}
+						imageField={effect => <PreviewPrve key={effect} thumbnail={exampleThumbnail} effect={effect} frames={effect === "turned" ? 2 : 4} />}
+						checkInfoCondition={effect => effect === undefined || effect === DEFAULT_EFFECT ? "" : effect === null ? rotation[0] + t.units.degrees : getEffectName(effect)}
+						alwaysShowCheckInfo
+					>
+						<Expander.Item title={t.prve.amounts.rotationAngle} icon="angle">
+							<Slider
+								value={rotation}
+								min={-360}
+								max={360}
+								step={1}
+								defaultValue={0}
+								displayValue={deg => deg + t.units.degrees}
+							/>
+						</Expander.Item>
+						<Expander.Item title={t.prve.amounts.rotationStep} icon="turntable">
+							<Slider
+								value={rotationStep}
+								min={-360}
+								max={360}
+								step={1}
+								displayValueStep={0.01}
+								defaultValue={0}
+								displayValue
+							/>
+						</Expander.Item>
+						<Expander.Item title={t.prve.initialValue} icon="replay">
+							{(() => {
+								const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) <= 1;
+								return (
+									<Slider
+										value={invalidValue ? [0] : useInitialValue(currentEffect)}
+										min={0}
+										max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)) - 1)}
+										autoClampValue
+										step={1}
+										defaultValue={0}
+										displayValue={step => step + 1}
+										smoothDisplayValue={false}
+										disabled={invalidValue || currentEffect === "normal"}
+									/>
+									// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
+								);
+							})()}
+						</Expander.Item>
+					</ExpanderRadio>
+				);
+				else return (
 					<ExpanderRadio
 						key={klass}
 						title={t.prve.classes[klass]}
@@ -134,7 +224,35 @@ export default function Prve() {
 						checkInfoCondition={effect => !effect || effect === DEFAULT_EFFECT ? "" : getEffectName(effect)}
 						alwaysShowCheckInfo
 					>
-						{klass === "time" ? <InfoBar status="info" title={getWhirlInfo()} /> : undefined}
+						{klass === "time" && <InfoBar status="info" title={getWhirlInfo()} />}
+						{klass.in("ec", "swing", "blur") && (() => {
+							const tAmounts = t.prve.amounts;
+							const option =
+								/* eslint-disable @stylistic/indent */
+								klass === "swing" ? $a(tAmounts.pendulum, "angle", pendulum, defaultPrveAmounts.pendulum, -360, 360, 1, deg => deg + t.units.degrees) :
+								klass === "blur" ?
+									currentEffect === "gaussianBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", gaussianBlur, defaultPrveAmounts.gaussianBlur, 0, 1) :
+									currentEffect === "radialBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", radialBlur, defaultPrveAmounts.radialBlur, 0, 1) : undefined :
+								klass === "ec" ?
+									currentEffect === "puyo" ? $a(tAmounts.puyo, "puyo", puyo, defaultPrveAmounts.puyo, 0.5, 1) :
+									currentEffect.in("slantDown", "slantUp") ? $a(tAmounts.compression, "slant", slant, defaultPrveAmounts.slant, 0.5, 1) :
+									currentEffect.in("vExpansion", "vExpansionBounce", "vCompression", "vCompressionBounce", "vBounce") ? $a(tAmounts.compression, "compression", compression, defaultPrveAmounts.compression, 0.5, 1) : undefined :
+								undefined;
+								/* eslint-enable @stylistic/indent */
+							if (!option) return;
+							return (
+								<Expander.Item title={option.title} icon={option.icon}>
+									<Slider
+										value={option.state}
+										min={option.min}
+										max={option.max}
+										step={option.step}
+										defaultValue={option.def}
+										displayValue={option.displayValue}
+									/>
+								</Expander.Item>
+							);
+						})()}
 						<InitialValue klass={klass} effect={currentEffect} initialValue={useInitialValue(currentEffect)} />
 					</ExpanderRadio>
 				);

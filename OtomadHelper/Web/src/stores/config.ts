@@ -1,3 +1,4 @@
+import { deepClone } from "valtio/utils";
 import type { beepEngines } from "views/audio";
 import type { pitchNotations } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
@@ -5,6 +6,7 @@ import type { barOrBeatUnits, selectGeneratedClipsType, sourceFromEnums, startTi
 import type { trackLegatoModes } from "views/track";
 import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
 import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
+import { defaultPrveAmounts } from "views/visual/prve";
 
 type StartTime = typeof startTimes[number]["id"];
 type TempoUsing = typeof tempoUsings[number]["id"];
@@ -29,6 +31,11 @@ type GridParityType = typeof parityTypes[number];
 type TrackLegatoMode = typeof trackLegatoModes[number];
 
 const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
+const defaultPrve = {
+	isMultiple: false,
+	effects: [{ fx: "normal", initial: 0 }],
+	amounts: defaultPrveAmounts as Record<keyof typeof defaultPrveAmounts, number>,
+};
 
 export const configStore = createStore({
 	source: {
@@ -119,18 +126,15 @@ export const configStore = createStore({
 		prve: {
 			general: {
 				control: true,
-				isMultiple: false,
-				effects: [{ fx: "normal", initial: 0 }],
+				...deepClone(defaultPrve),
 			},
 			samePitch: {
 				control: false,
-				isMultiple: false,
-				effects: [{ fx: "normal", initial: 0 }],
+				...deepClone(defaultPrve),
 			},
 			differentSyllables: {
 				control: false,
-				isMultiple: false,
-				effects: [{ fx: "normal", initial: 0 }],
+				...deepClone(defaultPrve),
 			},
 		},
 		staff: {

@@ -102,130 +102,130 @@ const StyledPreviewTrackLegato = styled.div<{
 		}
 
 		${({ $mode }) => {
-		switch ($mode) {
-			case "stacking": return css`
-				&:nth-of-type(2) {
-					--c2: 2;
-				}
-				&:nth-of-type(3) {
-					--c2: 3;
-				}
-				&:nth-of-type(4) {
-					--c2: 4;
-				}
-			`;
-			case "stackingAllAfter": return css`
-				&:nth-of-type(2) {
-					--c2: 2;
-				}
-				&:nth-of-type(3) {
-					--c2: 3;
-				}
-				&:nth-of-type(4) {
-					--c2: 4;
-				}
-				&:nth-of-type(5) {
-					--c1: 11;
-					--c2: 5;
-				}
-				&:nth-of-type(6) {
-					--c1: 15;
-					--c2: 6;
-				}
-			`;
-			case "stackingAllTracks": return css`
-				&:nth-of-type(2) {
-					--c2: 2;
-				}
-				&:nth-of-type(3) {
-					--c2: 3;
-				}
-				&:nth-of-type(4) {
-					--c2: 4;
-				}
-				&:nth-of-type(5) {
-					--r: 1;
-					--c1: 3;
-					--c2: 2;
-				}
-				&:nth-of-type(6) {
-					--r: 3;
-					--c1: 6;
-					--c2: 3;
-				}
-			`;
-			case "limitStretch": return css`
-				&:nth-of-type(1),
-				&:nth-of-type(2),
-				&:nth-of-type(3) {
-					--d2: 2;
-				}
-			`;
-			case "stretch": return css`
-				&:nth-of-type(1),
-				&:nth-of-type(3) {
-					--d2: 2;
-				}
-				&:nth-of-type(2) {
-					--d2: 3;
-					--s2: 1.5;
-				}
-			`;
-			case "lengthen": return css`
-				&:nth-of-type(1),
-				&:nth-of-type(3) {
-					--d2: 2;
-					--s2: 2;
-				}
-				&:nth-of-type(2) {
-					--d2: 3;
-					--s2: 3;
-				}
+			switch ($mode) {
+				case "stacking": return css`
+					&:nth-of-type(2) {
+						--c2: 2;
+					}
+					&:nth-of-type(3) {
+						--c2: 3;
+					}
+					&:nth-of-type(4) {
+						--c2: 4;
+					}
+				`;
+				case "stackingAllAfter": return css`
+					&:nth-of-type(2) {
+						--c2: 2;
+					}
+					&:nth-of-type(3) {
+						--c2: 3;
+					}
+					&:nth-of-type(4) {
+						--c2: 4;
+					}
+					&:nth-of-type(5) {
+						--c1: 11;
+						--c2: 5;
+					}
+					&:nth-of-type(6) {
+						--c1: 15;
+						--c2: 6;
+					}
+				`;
+				case "stackingAllTracks": return css`
+					&:nth-of-type(2) {
+						--c2: 2;
+					}
+					&:nth-of-type(3) {
+						--c2: 3;
+					}
+					&:nth-of-type(4) {
+						--c2: 4;
+					}
+					&:nth-of-type(5) {
+						--r: 1;
+						--c1: 3;
+						--c2: 2;
+					}
+					&:nth-of-type(6) {
+						--r: 3;
+						--c1: 6;
+						--c2: 3;
+					}
+				`;
+				case "limitStretch": return css`
+					&:nth-of-type(1),
+					&:nth-of-type(2),
+					&:nth-of-type(3) {
+						--d2: 2;
+					}
+				`;
+				case "stretch": return css`
+					&:nth-of-type(1),
+					&:nth-of-type(3) {
+						--d2: 2;
+					}
+					&:nth-of-type(2) {
+						--d2: 3;
+						--s2: 1.5;
+					}
+				`;
+				case "lengthen": return css`
+					&:nth-of-type(1),
+					&:nth-of-type(3) {
+						--d2: 2;
+						--s2: 2;
+					}
+					&:nth-of-type(2) {
+						--d2: 3;
+						--s2: 3;
+					}
 
-				svg {
-					width: 58px; // Hard code for debounce.
-				}
-			`;
-			case "increaseSpacing": return css`
-				&:nth-of-type(2) {
-					--c1: 2;
-					--c2: 3;
-				}
-				&:nth-of-type(3) {
-					--c1: 3;
-					--c2: 5;
-				}
-				&:nth-of-type(4) {
-					--c1: 4;
-					--c2: 7;
-				}
-			`;
-			case "increaseSpacingAllTracks": return css`
-				&:nth-of-type(2) {
-					--c1: 2;
-					--c2: 3;
-				}
-				&:nth-of-type(3) {
-					--c1: 3;
-					--c2: 5;
-				}
-				&:nth-of-type(4) {
-					--c1: 4;
-					--c2: 7;
-				}
-				&:nth-of-type(5) {
-					--r: 1;
-					--c1: 2;
-					--c2: 3;
-				}
-				&:nth-of-type(6) {
-					--r: 3;
-					--c1: 3;
-					--c2: 5;
-				}
-			`;
-			default: break;
-		}
+					svg {
+						width: 58px; // Hard code for debounce.
+					}
+				`;
+				case "increaseSpacing": return css`
+					&:nth-of-type(2) {
+						--c1: 2;
+						--c2: 3;
+					}
+					&:nth-of-type(3) {
+						--c1: 3;
+						--c2: 5;
+					}
+					&:nth-of-type(4) {
+						--c1: 4;
+						--c2: 7;
+					}
+				`;
+				case "increaseSpacingAllTracks": return css`
+					&:nth-of-type(2) {
+						--c1: 2;
+						--c2: 3;
+					}
+					&:nth-of-type(3) {
+						--c1: 3;
+						--c2: 5;
+					}
+					&:nth-of-type(4) {
+						--c1: 4;
+						--c2: 7;
+					}
+					&:nth-of-type(5) {
+						--r: 1;
+						--c1: 2;
+						--c2: 3;
+					}
+					&:nth-of-type(6) {
+						--r: 3;
+						--c1: 3;
+						--c2: 5;
+					}
+				`;
+				default: break;
+			}
 		}}
 	}
 `;

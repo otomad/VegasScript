@@ -559,6 +559,7 @@ export default {
 				vFlip: "Vertical Flip",
 				ccwFlip: "Counterclockwise Flip",
 				cwFlip: "Clockwise Flip",
+				rotate: "Rotate",
 				ccwRotate: "Counterclockwise Rotation",
 				cwRotate: "Clockwise Rotation",
 				turned: "Turned",
@@ -594,6 +595,13 @@ export default {
 				wipeRight: "Wipe in the Right",
 				wipeRight1: "1 Step Wipe in the Right",
 				splitVOut: "Split Vertical Out",
+			},
+			amounts: {
+				compression: "Reduction scale",
+				puyo: "Deformation ratio",
+				pendulum: "Swing angle",
+				rotationAngle: "Rotation angle",
+				rotationStep: "Steps per cycle",
 			},
 		},
 		pixelScaling: {
@@ -637,7 +645,7 @@ export default {
 					_: "Background image",
 					opacity: "Opacity",
 					tint: "Tint",
-					blur: "Blur intensity",
+					blur: "Blurriness",
 				},
 			},
 			preference: {

@@ -1,5 +1,5 @@
 import type { TOptions } from "i18next";
-import English from "./English";
+import type English from "./English";
 
 export type I18nArgsFunction<TResult extends string = string> = {
 	(options: TOptions & Interpolations<TResult>): TResult;

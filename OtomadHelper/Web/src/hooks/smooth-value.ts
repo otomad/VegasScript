@@ -8,7 +8,7 @@ interface SmoothValueOptions<T extends SmoothValueAcceptType> {
 	onStopChange?: SmoothValueChangeHandler<T>;
 }
 
-const EPSILON = 0.01; // Number.EPSILON
+const EPSILON = 0.000001; // Number.EPSILON
 const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < EPSILON;
 
 /**
@@ -24,11 +24,11 @@ export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, spee
 		throw new RangeError(`useSmoothValue speed parameter value range error. The parameter value must be within the range of (0 ~ 1], the current value is ${speed}.`);
 	const animationId = useRef<number>();
 	const FRACTION_DIGITS = 6; // Round to 6 decimal places.
-	const isStopChanging = useRef(true);
+	// const isStopChanging = useRef(true);
 	const [smoothValue, _setSmoothValue] = useState(current);
 	const setSmoothValue = setStateInterceptor(_setSmoothValue, undefined, (cur, prev) => {
 		options.onChange?.(cur, prev);
-		if (options.onStopChange) {
+		/* if (options.onStopChange) */ {
 			do {
 				if (typeof cur === "number") {
 					asserts<number>(prev);
@@ -40,11 +40,13 @@ export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, spee
 					asserts<number[]>(prev);
 					if (cur.length === prev.length && cur.every((c, i) => isValueNotChanged(c, prev[i]))) break;
 				}
-				isStopChanging.current = false;
+				// isStopChanging.current = false;
+				return;
 			} while (false);
-			if (!isStopChanging.current) {
+			/* if (!isStopChanging.current) */ {
 				options.onStopChange?.(cur, prev);
-				isStopChanging.current = true;
+				_setSmoothValue(current);
+				// isStopChanging.current = true;
 			}
 		}
 	});
