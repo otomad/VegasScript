@@ -1,6 +1,6 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
-export /* @internal */ const trackLegatoModes = ["stacking", "stackingAllTracks", "stackingAllAfter", "limitStretch", "stretch", "lengthen", "increaseSpacing", "increaseSpacingAllTracks"] as const;
+export /* @internal */ const trackLegatoModes = ["stacking", "stackingAllAfter", "stackingAllTracks", "limitStretch", "stretch", "lengthen", "increaseSpacing", "increaseSpacingAllTracks"] as const;
 
 const StyledDeactivateButton = styled(Button).attrs({
 	icon: "arrow_reset",

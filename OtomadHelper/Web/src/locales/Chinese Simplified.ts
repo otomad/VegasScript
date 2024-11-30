@@ -124,6 +124,7 @@ export default {
 		view: "视图",
 		size: "大小",
 		disabled: "禁用",
+		apply: "应用",
 		infoBar: {
 			warning: "警告",
 		},
@@ -345,6 +346,18 @@ export default {
 				column: "列数",
 				row: "行数",
 			},
+			box3d: {
+				deleteTracks: "删除原轨道",
+				useLongerSide: "以长边作为棱长",
+				faces: {
+					front: "前",
+					back: "后",
+					left: "左",
+					right: "右",
+					top: "上",
+					bottom: "下",
+				},
+			},
 			gradient: {
 				effects: {
 					rainbow: "彩虹色",
@@ -363,6 +376,18 @@ export default {
 			deactivateAll: "全部停用",
 			legato: {
 				_: "填补间隙",
+				stacking: "堆积剪辑\n应用于当前轨道",
+				stackingAllTracks: "堆积剪辑\n应用于所有轨道",
+				stackingSelected: "堆积剪辑\n仅应用于所选剪辑",
+				stackingAllAfter: "堆积剪辑\n也应用于后续所有剪辑",
+				limitStretch: "拉伸剪辑\n限制在拉伸极限范围之内",
+				stretch: "拉伸剪辑\n超出拉伸极限范围之后再延长剪辑",
+				lengthen: "延长剪辑\n改变剪辑持续时间",
+				increaseSpacing: "增加间隙\n应用于当前轨道",
+				increaseSpacingAllTracks: "增加间隙\n应用于所有轨道",
+				forClips: "仅应用于所选剪辑",
+				includeGroup: "也应用于同分组内其它剪辑",
+				backwards: "反向",
 			},
 			clear: {
 				_: "清除",
@@ -520,6 +545,7 @@ export default {
 				vFlip: "垂直翻转",
 				ccwFlip: "逆时针翻转",
 				cwFlip: "顺时针翻转",
+				rotate: "旋转",
 				ccwRotate: "逆时针旋转",
 				cwRotate: "顺时针旋转",
 				turned: "颠倒",
@@ -554,6 +580,13 @@ export default {
 				wipeRight1: "1 步向右擦除",
 				splitVOut: "垂直分割",
 				stepChangeHue: "{{count}}步色差",
+			},
+			amounts: {
+				compression: "缩小比例",
+				puyo: "变形比率",
+				pendulum: "摆动角度",
+				rotationAngle: "旋转角度",
+				rotationStep: "每圈步数",
 			},
 		},
 		pixelScaling: {
@@ -743,8 +776,18 @@ export default {
 					},
 					padding: "调整轨道框的内边距，使之与其它轨道框不那么紧凑",
 				},
+				box3d: {
+					deleteTracks: "由于技术限制，无法直接移动所选轨道。只能新建轨道并将原剪辑迁移过去，但轨道运动、效果等其它内容暂时无法迁移，你可以自由决定是否删除原先的轨道。\n对于新增轨道则不受影响。",
+					useLongerSide: "如果素材是矩形，则使用长边而不是短边作为立方体的棱长，可能会使立方体更自然",
+				},
 				gradient: "使视频轨道在布局中具有渐变样式的颜色效果",
-				legato: "填补轨道剪辑中的间隙",
+				legato: {
+					_: "填补轨道剪辑中的间隙",
+					increaseSpacing: "划分各剪辑间的间距",
+					forClips: "仅应用于所选剪辑而不是整条轨道",
+					includeGroup: "同时应用于组内剪辑",
+					backwards: "反向应用填补间隙",
+				},
 				deactivate: "重置此布局的状态以停用它",
 				view: "仅更改预览，不影响结果",
 				descending: "反转轨道的应用顺序",

@@ -124,6 +124,7 @@ export default {
 		view: "表示",
 		size: "サイズ",
 		disabled: "無効",
+		apply: "適用",
 		infoBar: {
 			warning: "警告",
 		},
@@ -345,6 +346,18 @@ export default {
 				column: "列",
 				row: "行",
 			},
+			box3d: {
+				deleteTracks: "元のトラックを削除する",
+				useLongerSide: "エッジの長さの長い側を使用",
+				faces: {
+					front: "フロント",
+					back: "戻る",
+					left: "左",
+					right: "右",
+					top: "上",
+					bottom: "下揃え",
+				},
+			},
 			gradient: {
 				effects: {
 					rainbow: "虹の色",
@@ -363,6 +376,14 @@ export default {
 			deactivateAll: "すべて無効にする",
 			legato: {
 				_: "Legato",
+				stackingAllAfter: "クリップ\nをすべての後にスタックする",
+				limitStretch: "ストレッチ制限内のクリップ\n",
+				stretch: "ストレッチ制限を超えたときにクリップ\n長さを伸ばします",
+				increaseSpacing: "\n現在のトラックの間隔を上げる",
+				increaseSpacingAllTracks: "\n間隔を広げます。すべてのトラックについて。",
+				forClips: "選択したクリップのみ",
+				includeGroup: "グループ内のクリップを含める",
+				backwards: "戻る",
 			},
 			clear: {
 				_: "クリア",
@@ -520,6 +541,7 @@ export default {
 				vFlip: "垂直反転",
 				ccwFlip: "反時計回りに反転",
 				cwFlip: "Clockwise Flip",
+				rotate: "回転",
 				ccwRotate: "反時計回りの回転",
 				cwRotate: "時計回りの回転",
 				turned: "ターンしました",
@@ -554,6 +576,13 @@ export default {
 				wipeRight1: "右側の1ステップワイプ",
 				splitVOut: "垂直方向に分割",
 				stepChangeHue: "{{count}} 歩数の色の違い",
+			},
+			amounts: {
+				compression: "縮小スケール",
+				puyo: "変形率",
+				pendulum: "スイング角度",
+				rotationAngle: "回転角度",
+				rotationStep: "月経周期ごとのステップ",
 			},
 		},
 		pixelScaling: {
@@ -597,7 +626,7 @@ export default {
 					_: "背景画像",
 					opacity: "透明度",
 					tint: "Tint",
-					blur: "ぼかしの強さ",
+					blur: "ぼやけ",
 				},
 			},
 			preference: {
@@ -740,8 +769,18 @@ export default {
 					},
 					padding: "トラック ボックスの内側の余白を他のボックスとあまり混雑しないように調整します。",
 				},
+				box3d: {
+					deleteTracks: "技術的な制限により、選択したトラックは直接移動できません。 新しいトラックを作成してクリップを移行できますが、トラックの動きやエフェクトなどはできません。 元のトラックを削除するかどうかを決めることができます。\n新しく追加されたトラックは影響を受けません。",
+					useLongerSide: "ソースが長方形の場合、キューブのエッジ長さとして、短辺の代わりに長い辺を使用します。 立方体をより自然なものにするのです",
+				},
 				gradient: "レイアウトにグラデーションカラー効果を与えます。",
-				legato: "トラッククリップ間のギャップを埋めます",
+				legato: {
+					_: "トラッククリップ間のギャップを埋めます",
+					increaseSpacing: "クリップごとの間隔を分割",
+					forClips: "トラック全体ではなく、選択したクリップにレガートを適用します。",
+					includeGroup: "グループ化クリップにも適用されます",
+					backwards: "レガートを後方に適用する",
+				},
 				deactivate: "このレイアウトの状態をリセットして無効にします",
 				view: "結果に影響を与えずにプレビューのみを変更します",
 				descending: "トラックが適用される順序を反転します。",

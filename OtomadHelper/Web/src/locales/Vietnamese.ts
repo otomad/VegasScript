@@ -126,6 +126,9 @@ export default {
 					vFlip: {},
 				},
 			},
+			box3d: {
+				faces: {},
+			},
 			gradient: {
 				effects: {},
 				view: {},
@@ -154,6 +157,7 @@ export default {
 			control: {},
 			classes: {},
 			effects: {},
+			amounts: {},
 		},
 		pixelScaling: {},
 		settings: {
@@ -214,6 +218,8 @@ export default {
 					fit: {},
 					mirrorEdges: {},
 				},
+				box3d: {},
+				legato: {},
 			},
 			sonar: {},
 			lyrics: {
