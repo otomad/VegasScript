@@ -106,9 +106,9 @@
 		<Page Include="WPF\**\*.xaml" />
 		<Compile Include="GlobalUsings.cs" />
 		<Folder Include="Resources\" />
-		<None Include="..\.editorconfig">
+		<EditorConfigFiles Include="..\.editorconfig">
 			<Link>.editorconfig</Link>
-		</None>
+		</EditorConfigFiles>
 		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>

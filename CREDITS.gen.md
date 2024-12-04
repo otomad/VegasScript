@@ -125,6 +125,7 @@ Project | Authors | License
 [@eslint-community/eslint-utils](https://github.com/eslint-community/eslint-utils) | Toru Nagashima | MIT
 [@eslint-community/regexpp](https://github.com/eslint-community/regexpp) | Toru Nagashima | MIT
 [@eslint/config-array](https://github.com/eslint/rewrite) | Nicholas C. Zakas | Apache-2.0
+[@eslint/core](https://github.com/eslint/rewrite) | Nicholas C. Zakas | Apache-2.0
 [@eslint/eslintrc](https://github.com/eslint/eslintrc) | Nicholas C. Zakas | MIT
 [@eslint/js](https://github.com/eslint/eslint) |  | MIT
 [@eslint/object-schema](https://github.com/eslint/rewrite) | Nicholas C. Zakas | Apache-2.0
@@ -133,8 +134,10 @@ Project | Authors | License
 [@floating-ui/dom](https://github.com/floating-ui/floating-ui) | atomiks | MIT
 [@floating-ui/react-dom-interactions](https://github.com/floating-ui/floating-ui) | atomiks | MIT
 [@floating-ui/react-dom](https://github.com/floating-ui/floating-ui) | atomiks | MIT
+[@humanfs/core](https://github.com/humanwhocodes/humanfs) | Nicholas C. Zakas | Apache-2.0
+[@humanfs/node](https://github.com/humanwhocodes/humanfs) | Nicholas C. Zakas | Apache-2.0
 [@humanwhocodes/module-importer](https://github.com/humanwhocodes/module-importer) | Nicholas C. Zaks | Apache-2.0
-[@humanwhocodes/retry](https://github.com/humanwhocodes/retrier) | Nicholas C. Zaks | Apache-2.0
+[@humanwhocodes/retry](https://github.com/humanwhocodes/retry) | Nicholas C. Zaks | Apache-2.0
 [@img/sharp-win32-x64](https://github.com/lovell/sharp) | Lovell Fuller | Apache-2.0 AND LGPL-3.0-or-later
 [@isaacs/cliui](https://github.com/yargs/cliui) | Ben Coe | ISC
 [@jridgewell/gen-mapping](https://github.com/jridgewell/gen-mapping) | Justin Ridgewell | MIT
@@ -154,10 +157,6 @@ Project | Authors | License
 [@rollup/pluginutils](https://github.com/rollup/plugins) | Rich Harris | MIT
 [@rollup/rollup-win32-x64-msvc](https://github.com/rollup/rollup) | Lukas Taegert-Atkinson | MIT
 [@styled/typescript-styled-plugin](https://github.com/styled-components/typescript-styled-plugin) | Styled Components | MIT
-[@stylistic/eslint-plugin-js](https://github.com/eslint-stylistic/eslint-stylistic) | Anthony Fu | MIT
-[@stylistic/eslint-plugin-jsx](https://github.com/eslint-stylistic/eslint-stylistic) | Anthony Fu | MIT
-[@stylistic/eslint-plugin-plus](https://github.com/eslint-stylistic/eslint-stylistic) | Anthony Fu | MIT
-[@stylistic/eslint-plugin-ts](https://github.com/eslint-stylistic/eslint-stylistic) | Anthony Fu | MIT
 [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic) | Anthony Fu | MIT
 [@stylistic/stylelint-plugin](https://github.com/stylelint-stylistic/stylelint-stylistic) | Sergey Artemov | MIT
 [@svgr/babel-plugin-add-jsx-attribute](https://github.com/gregberge/svgr/tree/main/packages/babel-plugin-add-jsx-attribute) | Greg Bergé | MIT
@@ -179,7 +178,6 @@ Project | Authors | License
 [@types/babel__template](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/babel__traverse](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/conventional-commits-parser](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
-[@types/eslint](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/estree](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/jsdom](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/json-schema](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
@@ -192,7 +190,6 @@ Project | Authors | License
 [@types/react-dom](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/react-transition-group](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/react](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
-[@types/semver](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/stylis](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/svgo](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/tough-cookie](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
@@ -336,7 +333,6 @@ Project | Authors | License
 [define-property](https://github.com/jonschlinkert/define-property) | Jon Schlinkert | MIT
 [defu](https://github.com/unjs/defu) |  | MIT
 [delayed-stream](https://github.com/felixge/node-delayed-stream) | Felix Geisendörfer | MIT
-[derive-valtio](https://github.com/dai-shi/derive-valtio) | Daishi Kato | MIT
 [destr](https://github.com/unjs/destr) |  | MIT
 [detect-file](https://github.com/doowb/detect-file) | Brian Woodward | MIT
 [detect-indent](https://github.com/sindresorhus/detect-indent) | Sindre Sorhus | MIT
@@ -375,10 +371,10 @@ Project | Authors | License
 [eslint-plugin-react-hooks](https://github.com/facebook/react) |  | MIT
 [eslint-plugin-react-refresh](https://github.com/ArnaudBarre/eslint-plugin-react-refresh) | Arnaud Barré | MIT
 [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) | Yannick Croissant | MIT
-[eslint-scope](https://github.com/eslint/eslint-scope) |  | BSD-2-Clause
-[eslint-visitor-keys](https://github.com/eslint/eslint-visitor-keys) | Toru Nagashima | Apache-2.0
+[eslint-scope](https://github.com/eslint/js) |  | BSD-2-Clause
+[eslint-visitor-keys](https://github.com/eslint/js) | Toru Nagashima | Apache-2.0
 [eslint](https://github.com/eslint/eslint) | Nicholas C. Zakas | MIT
-[espree](https://github.com/eslint/espree) | Nicholas C. Zakas | BSD-2-Clause
+[espree](https://github.com/eslint/js) | Nicholas C. Zakas | BSD-2-Clause
 [esprima](https://github.com/jquery/esprima) | Ariya Hidayat | BSD-2-Clause
 [esquery](https://github.com/estools/esquery) | Joel Feenstra | BSD-3-Clause
 [esrecurse](https://github.com/estools/esrecurse) |  | BSD-2-Clause
@@ -397,6 +393,7 @@ Project | Authors | License
 [fast-glob](https://github.com/mrmlnc/fast-glob) | Denis Malinochkin | MIT
 [fast-json-stable-stringify](https://github.com/epoberezkin/fast-json-stable-stringify) | James Halliday | MIT
 [fast-levenshtein](https://github.com/hiddentao/fast-levenshtein) | Ramesh Nair | MIT
+[fast-uri](https://github.com/fastify/fast-uri) | Vincent Le Goff | BSD-3-Clause
 [fastest-levenshtein](https://github.com/ka-weihe/fastest-levenshtein) | Kasper U. Weihe | MIT
 [fastq](https://github.com/mcollina/fastq) | Matteo Collina | ISC
 [fd-slicer](https://github.com/andrewrk/node-fd-slicer) | Andrew Kelley | MIT
@@ -443,6 +440,7 @@ Project | Authors | License
 [graceful-fs](https://github.com/isaacs/node-graceful-fs) |  | ISC
 [graphemer](https://github.com/flmnt/graphemer) | Matt Davies | MIT
 [h3](https://github.com/unjs/h3) |  | MIT
+[has-ansi](https://github.com/sindresorhus/has-ansi) | Sindre Sorhus | MIT
 [has-bigints](https://github.com/ljharb/has-bigints) | Jordan Harband | MIT
 [has-flag](https://github.com/sindresorhus/has-flag) | Sindre Sorhus | MIT
 [has-property-descriptors](https://github.com/inspect-js/has-property-descriptors) | Jordan Harband | MIT
@@ -507,7 +505,6 @@ Project | Authors | License
 [is-number-object](https://github.com/inspect-js/is-number-object) | Jordan Harband | MIT
 [is-number](https://github.com/jonschlinkert/is-number) | Jon Schlinkert | MIT
 [is-obj](https://github.com/sindresorhus/is-obj) | Sindre Sorhus | MIT
-[is-path-inside](https://github.com/sindresorhus/is-path-inside) | Sindre Sorhus | MIT
 [is-plain-obj](https://github.com/sindresorhus/is-plain-obj) | Sindre Sorhus | MIT
 [is-plain-object](https://github.com/jonschlinkert/is-plain-object) | Jon Schlinkert | MIT
 [is-potential-custom-element-name](https://github.com/mathiasbynens/is-potential-custom-element-name) | Mathias Bynens | MIT
@@ -531,8 +528,10 @@ Project | Authors | License
 [iterator.prototype](https://github.com/ljharb/Iterator.prototype) | Jordan Harband | MIT
 [jackspeak](https://github.com/isaacs/jackspeak) | Isaac Z. Schlueter | BlueOak-1.0.0
 [jiti](https://github.com/unjs/jiti) |  | MIT
+[jotai-immer](https://github.com/jotaijs/jotai-immer) | Daishi Kato | MIT
 [jotai-valtio](https://github.com/jotaijs/jotai-valtio) | Daishi Kato | MIT
 [jotai](https://github.com/pmndrs/jotai) | Daishi Kato | MIT
+[js-base64](https://github.com/dankogai/js-base64) | Dan Kogai | BSD-3-Clause
 [js-tokens](https://github.com/lydell/js-tokens) | Simon Lydell | MIT
 [js-yaml](https://github.com/nodeca/js-yaml) | Vladimir Zapparov | MIT
 [jsdom](https://github.com/jsdom/jsdom) |  | MIT
@@ -662,7 +661,7 @@ Project | Authors | License
 [posix-character-classes](https://github.com/jonschlinkert/posix-character-classes) | Jon Schlinkert | MIT
 [possible-typed-array-names](https://github.com/ljharb/possible-typed-array-names) | Jordan Harband | MIT
 [postcss-prefix-selector](https://github.com/RadValentin/postcss-prefix-selector) | Jonathan Ong | MIT
-postcss-resolve-nested-selector | David Clark | MIT
+[postcss-resolve-nested-selector](https://github.com/csstools/postcss-resolve-nested-selector) |  | MIT
 [postcss-safe-parser](https://github.com/postcss/postcss-safe-parser) | Andrey Sitnik | MIT
 [postcss-selector-parser](https://github.com/postcss/postcss-selector-parser) |  | MIT
 [postcss-sorting](https://github.com/hudochenkov/postcss-sorting) | Aleks Hudochenkov | MIT
@@ -822,7 +821,7 @@ postcss-resolve-nested-selector | David Clark | MIT
 [typedarray.prototype.slice](https://github.com/es-shims/TypedArray.prototype.slice) | Jordan Harband | MIT
 [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
 [typescript-template-language-service-decorator](https://github.com/Microsoft/typescript-template-language-service-decorator) | Microsoft | MIT
-[typescript](https://github.com/Microsoft/TypeScript) | Microsoft Corp. | Apache-2.0
+[typescript](https://github.com/microsoft/TypeScript) | Microsoft Corp. | Apache-2.0
 [ufo](https://github.com/unjs/ufo) |  | MIT
 [unbox-primitive](https://github.com/ljharb/unbox-primitive) | Jordan Harband | MIT
 [uncrypto](https://github.com/unjs/uncrypto) |  | MIT
@@ -842,7 +841,6 @@ postcss-resolve-nested-selector | David Clark | MIT
 [url-parse](https://github.com/unshiftio/url-parse) | Arnout Kazemier | MIT
 [use-immer](https://github.com/mweststrate/use-immer) | Michel Weststrate | MIT
 [use-isomorphic-layout-effect](https://github.com/Andarist/use-isomorphic-layout-effect) |  | MIT
-[use-sync-external-store](https://github.com/facebook/react) |  | MIT
 [use](https://github.com/jonschlinkert/use) | Jon Schlinkert | MIT
 [utf8-buffer](https://github.com/rochars/utf8-buffer) | Rafael da Silva Rocha | MIT
 [util-deprecate](https://github.com/TooTallNate/util-deprecate) | Nathan Rajlich | MIT
