@@ -10,6 +10,7 @@ import { defineConfig } from "vite";
 import glsl from "vite-plugin-glsl";
 import htmlMinifier from "vite-plugin-html-minifier";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+import noBundlePlugin from "vite-plugin-no-bundle";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -23,6 +24,7 @@ import queryNoContent from "./src/plugins/vite/query-nocontent";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
 
 const ENABLE_MINIFY = true;
+const NO_BUNDLE = false;
 
 const resolve = (...paths: string[]) => _resolve(__dirname, ...paths);
 
@@ -125,6 +127,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 					},
 				},
 			}),
+			NO_BUNDLE && noBundlePlugin(),
 		],
 		base: "",
 		publicDir: "src/public",
@@ -145,10 +148,14 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 				},
 			},
 			chunkSizeWarningLimit: 500_000, // 500MB
-			minify: ENABLE_MINIFY && "esbuild", // "terser", // When enable terser, smaller but slower.
+			minify: ENABLE_MINIFY && !NO_BUNDLE && "esbuild", // "terser", // When enable terser, smaller but slower.
 			terserOptions: {
 				keep_classnames: true,
 			},
+			lib: NO_BUNDLE ? {
+				entry: "src/main.tsx",
+				name: "OtomadHelper",
+			} : undefined,
 		},
 		esbuild: {
 			keepNames: true, // When enabled, not only keep the class names, but also unexpectedly keep the function names.

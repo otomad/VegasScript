@@ -275,6 +275,9 @@ importers:
       vite-plugin-image-optimizer:
         specifier: ^1.1.8
         version: 1.1.8(patch_hash=fhhltqb36irwz5vha6miizderq)(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3))
+      vite-plugin-no-bundle:
+        specifier: ^4.0.0
+        version: 4.0.0
       vite-plugin-svg-icons:
         specifier: ^2.0.1
         version: 2.0.1(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3))
@@ -4597,6 +4600,9 @@ packages:
     peerDependencies:
       vite: '>=3'
 
+  vite-plugin-no-bundle@4.0.0:
+    resolution: {integrity: sha512-DXsJGXtp/QLWNFBfBqr+arxaTHEgiPCAgf9bcOPGv4n3AsFigsFj+oL95nFdMt8cRbgRDtvyTX802IZNBGg3Xg==}
+
   vite-plugin-svg-icons@2.0.1:
     resolution: {integrity: sha512-6ktD+DhV6Rz3VtedYvBKKVA2eXF+sAQVaKkKLDSqGUfnhqXl3bj5PPkVTl3VexfTuZy66PmINi8Q6eFnVfRUmA==}
     peerDependencies:
@@ -7183,7 +7189,7 @@ snapshots:
     dependencies:
       detect-file: 1.0.0
       is-glob: 4.0.3
-      micromatch: 4.0.5
+      micromatch: 4.0.8
       resolve-dir: 1.0.1
 
   flat-cache@4.0.1:
@@ -9490,6 +9496,11 @@ snapshots:
       ansi-colors: 4.1.3
       pathe: 1.1.2
       vite: 6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3)
+
+  vite-plugin-no-bundle@4.0.0:
+    dependencies:
+      fast-glob: 3.3.2
+      micromatch: 4.0.8
 
   vite-plugin-svg-icons@2.0.1(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3)):
     dependencies:

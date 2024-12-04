@@ -1,3 +1,4 @@
+import defaultPrveAmounts from "helpers/defaultPrveAmounts";
 import { deepClone } from "valtio/utils";
 import type { beepEngines } from "views/audio";
 import type { pitchNotations } from "views/lyrics";
@@ -6,7 +7,6 @@ import type { barOrBeatUnits, selectGeneratedClipsType, sourceFromEnums, startTi
 import type { trackLegatoModes } from "views/track";
 import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
 import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
-import { defaultPrveAmounts } from "views/visual/prve";
 
 type StartTime = typeof startTimes[number]["id"];
 type TempoUsing = typeof tempoUsings[number]["id"];

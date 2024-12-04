@@ -1,4 +1,5 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import defaultPrveAmounts from "helpers/defaultPrveAmounts";
 import type { LocaleIdentifiers } from "locales/types";
 
 type PrveClassType = Exclude<keyof LocaleIdentifiers["javascript"]["prve"]["classes"], "_"> | (string & {});
@@ -53,15 +54,6 @@ class PrveClass {
 /** Prve amounts option. */
 const $a = (title: string, icon: DeclaredIcons, state: StateProperty<number>, def: number, min: number, max: number, step: number = 0.001, displayValue: PropsOf<typeof Slider>["displayValue"] = true) =>
 	({ title, icon, state, def, min, max, step, displayValue });
-export /* @internal */ const defaultPrveAmounts = Object.freeze({
-	compression: 0.8,
-	slant: 0.7,
-	puyo: 0.625,
-	pendulum: 15,
-	gaussianBlur: 0.1,
-	radialBlur: 0.8,
-	rotation: -90,
-});
 
 export default function Prve() {
 	const [controlMode, setControlMode] = useState<typeof controlModes[number]>("general");
