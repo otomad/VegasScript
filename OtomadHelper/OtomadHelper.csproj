@@ -106,9 +106,10 @@
 		<Page Include="WPF\**\*.xaml" />
 		<Compile Include="GlobalUsings.cs" />
 		<Folder Include="Resources\" />
-		<EditorConfigFiles Include="..\.editorconfig">
+		<None Include="..\.editorconfig">
 			<Link>.editorconfig</Link>
-		</EditorConfigFiles>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
 		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
@@ -188,10 +189,11 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>-->
 		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 		<PackageReference Include="NAudio" Version="2.2.1" />
-		<PackageReference Include="System.Text.Json" Version="8.0.5" />
+		<PackageReference Include="PanguSpacing" Version="1.1.2" />
+		<PackageReference Include="System.Text.Json" Version="9.0.0" />
 		<PackageReference Include="Wacton.Unicolour" Version="4.7.0" />
 	</ItemGroup>
 </Project>

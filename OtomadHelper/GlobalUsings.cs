@@ -30,6 +30,8 @@ global using Microsoft.Win32;
 global using OtomadHelper.Helpers;
 global using OtomadHelper.WPF.Common;
 
+global using PanguSpacing;
+
 global using static OtomadHelper.Helpers.Debugger;
 global using static OtomadHelper.Helpers.Extensions;
 global using static OtomadHelper.Helpers.I18n;

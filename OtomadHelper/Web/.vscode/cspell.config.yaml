@@ -54,6 +54,7 @@ words:
   - glsl
   - gongche
   - highp
+  - hmr
   - hotspot
   - hoverable
   - hsb
@@ -104,6 +105,8 @@ words:
   - oklab
   - oklch
   - ol
+  - opsz
+  - opszs
   - otf
   - otomad
   - otomads
