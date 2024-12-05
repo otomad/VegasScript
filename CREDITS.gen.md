@@ -37,7 +37,7 @@ DependencyPropertyGenerator | havendv | MIT
 [NAudio.Wasapi](https://github.com/naudio/NAudio) | Mark Heath | MIT
 [NAudio.WinForms](https://github.com/naudio/NAudio) | Mark Heath | MIT
 [NAudio.WinMM](https://github.com/naudio/NAudio) | NAudio.WinMM | MIT
-[PanguSpacing](https://github.com/otomad/pangu.cs) | yozora | 
+[PanguSpacing](https://github.com/otomad/pangu.cs) | yozora | MIT
 [System.Buffers](https://dot.net/) | Microsoft | MIT
 [System.ComponentModel.Annotations](https://github.com/dotnet/runtime) | Microsoft | MIT
 [System.IO.Pipelines](https://dot.net/) | Microsoft | MIT
