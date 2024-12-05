@@ -37,8 +37,10 @@ DependencyPropertyGenerator | havendv | MIT
 [NAudio.Wasapi](https://github.com/naudio/NAudio) | Mark Heath | MIT
 [NAudio.WinForms](https://github.com/naudio/NAudio) | Mark Heath | MIT
 [NAudio.WinMM](https://github.com/naudio/NAudio) | NAudio.WinMM | MIT
+[PanguSpacing](https://github.com/otomad/pangu.cs) | yozora | 
 [System.Buffers](https://dot.net/) | Microsoft | MIT
 [System.ComponentModel.Annotations](https://github.com/dotnet/runtime) | Microsoft | MIT
+[System.IO.Pipelines](https://dot.net/) | Microsoft | MIT
 [System.Memory](https://dot.net/) | Microsoft | MIT
 [System.Numerics.Vectors](https://dot.net/) | Microsoft | MIT
 [System.Runtime.CompilerServices.Unsafe](https://dot.net/) | Microsoft | MIT
@@ -633,7 +635,7 @@ Project | Authors | License
 [os-homedir](https://github.com/sindresorhus/os-homedir) | Sindre Sorhus | MIT
 [os-tmpdir](https://github.com/sindresorhus/os-tmpdir) | Sindre Sorhus | MIT
 [osenv](https://github.com/npm/osenv) | Isaac Z. Schlueter | ISC
-[otomad-helper](https://github.com/otomad/OtomadHelper) | Rantetsu Inori | GPL-3.0-only
+[otomad-helper](https://github.com/otomad/OtomadHelper) | Rantetsu Inori | GPL-3.0-or-later
 [p-limit](https://github.com/sindresorhus/p-limit) | Sindre Sorhus | MIT
 [p-locate](https://github.com/sindresorhus/p-locate) | Sindre Sorhus | MIT
 [package-json-from-dist](https://github.com/isaacs/package-json-from-dist) | Isaac Z. Schlueter | BlueOak-1.0.0
@@ -766,7 +768,9 @@ Project | Authors | License
 [sprintf-js](https://github.com/alexei/sprintf.js) | Alexandru Marasteanu | BSD-3-Clause
 [stable](https://github.com/Two-Screen/stable) | Angry Bytes | MIT
 [static-extend](https://github.com/jonschlinkert/static-extend) | Jon Schlinkert | MIT
+[stdin-discarder](https://github.com/sindresorhus/stdin-discarder) | Sindre Sorhus | MIT
 [strict-uri-encode](https://github.com/kevva/strict-uri-encode) | Kevin Mårtensson | MIT
+[string-width](https://github.com/sindresorhus/string-width) | Sindre Sorhus | MIT
 [string-width](https://github.com/sindresorhus/string-width) | Sindre Sorhus | MIT
 [string.prototype.matchall](https://github.com/es-shims/String.prototype.matchAll) | Jordan Harband | MIT
 [string.prototype.repeat](https://github.com/mathiasbynens/String.prototype.repeat) | Mathias Bynens | MIT
@@ -774,6 +778,7 @@ Project | Authors | License
 [string.prototype.trimend](https://github.com/es-shims/String.prototype.trimEnd) | Jordan Harband | MIT
 [string.prototype.trimstart](https://github.com/es-shims/String.prototype.trimStart) | Jordan Harband | MIT
 [string_decoder](https://github.com/nodejs/string_decoder) |  | MIT
+[strip-ansi](https://github.com/chalk/strip-ansi) | Sindre Sorhus | MIT
 [strip-ansi](https://github.com/chalk/strip-ansi) | Sindre Sorhus | MIT
 [strip-bom](https://github.com/sindresorhus/strip-bom) | Sindre Sorhus | MIT
 [strip-final-newline](https://github.com/sindresorhus/strip-final-newline) | Sindre Sorhus | MIT
@@ -851,6 +856,7 @@ Project | Authors | License
 [vite-plugin-glsl](https://github.com/UstymUkhman/vite-plugin-glsl) | Ustym Ukhman | MIT
 [vite-plugin-html-minifier](https://github.com/erm1116/vite-plugin-html-minifier) | erm1116 | MIT
 [vite-plugin-image-optimizer](https://github.com/FatehAK/vite-plugin-image-optimizer) | fatehak | MIT
+[vite-plugin-no-bundle](https://github.com/ManBearTM/vite-plugin-no-bundle) | ManBearTM | Unlicense
 [vite-plugin-svg-icons](https://github.com/anncwb/vite-plugin-svg-icons) | Vben | MIT
 [vite-plugin-svgr](https://github.com/pd4d10/vite-plugin-svgr) | Rongjian Zhang | MIT
 [vite-tsconfig-paths](https://github.com/aleclarson/vite-tsconfig-paths) | aleclarson | MIT
@@ -875,6 +881,7 @@ Project | Authors | License
 [which](https://github.com/isaacs/node-which) | Isaac Z. Schlueter | ISC
 [word-wrap](https://github.com/jonschlinkert/word-wrap) | Jon Schlinkert | MIT
 [wrap-ansi](https://github.com/chalk/wrap-ansi) | Sindre Sorhus | MIT
+[wrap-ansi](https://github.com/chalk/wrap-ansi) | Sindre Sorhus | MIT
 [wrappy](https://github.com/npm/wrappy) | Isaac Z. Schlueter | ISC
 [write-file-atomic](https://github.com/npm/write-file-atomic) | GitHub Inc. | ISC
 [ws](https://github.com/websockets/ws) | Einar Otto Stangvik | MIT
@@ -892,4 +899,4 @@ Project | Authors | License
 
 Project | Authors | License
 ---- | ---- | ----
-[@otomad-helper/api](https://github.com/otomad/OtomadHelper) | Rantetsu Inori | GPL-3.0-only
+[@otomad-helper/api](https://github.com/otomad/OtomadHelper) | Rantetsu Inori | GPL-3.0-or-later

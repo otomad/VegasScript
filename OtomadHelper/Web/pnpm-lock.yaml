@@ -14,6 +14,9 @@ patchedDependencies:
   babel-plugin-transform-jsx-classnames@1.2.2:
     hash: ie37eryichha676pwommzoc6ja
     path: patches/babel-plugin-transform-jsx-classnames@1.2.2.patch
+  license-checker@25.0.1:
+    hash: ntt36pd6gdgk3s7akbfjtsuhce
+    path: patches/license-checker@25.0.1.patch
   lottie-web@5.12.2:
     hash: urdo465qcktf5jshudaoriujbq
     path: patches/lottie-web@5.12.2.patch
@@ -217,7 +220,7 @@ importers:
         version: 24.1.1
       license-checker:
         specifier: ^25.0.1
-        version: 25.0.1
+        version: 25.0.1(patch_hash=ntt36pd6gdgk3s7akbfjtsuhce)
       lightningcss:
         specifier: ^1.24.1
         version: 1.24.1
@@ -270,8 +273,8 @@ importers:
         specifier: ^1.3.1
         version: 1.3.1(rollup@4.28.0)(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3))
       vite-plugin-html-minifier:
-        specifier: ^1.0.4
-        version: 1.0.4(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3))
+        specifier: ^1.0.5
+        version: 1.0.5(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3))
       vite-plugin-image-optimizer:
         specifier: ^1.1.8
         version: 1.1.8(patch_hash=fhhltqb36irwz5vha6miizderq)(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3))
@@ -4589,10 +4592,11 @@ packages:
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
 
-  vite-plugin-html-minifier@1.0.4:
-    resolution: {integrity: sha512-YxgLco0YJjTa6UEilLoGBiVecf5j2+w3IQHs+uH1oZmcJmpVgdR5T2tDsEYhF5YaWV/7+pCHGsnUsZDxRqjLTw==}
+  vite-plugin-html-minifier@1.0.5:
+    resolution: {integrity: sha512-Yv50z65w4wTyu799Iw8f5jb3rkYJM4LllPdxU1GLXkqrn/GGPmIJlFwEvS6Pnxl5CCn7JkIWvoxPp+zGSuowDQ==}
+    engines: {node: '>=20.10.0', pnpm: '>=9.0.4'}
     peerDependencies:
-      vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+      vite: '>=3.0.0'
 
   vite-plugin-image-optimizer@1.1.8:
     resolution: {integrity: sha512-40bYRDHQLUOrIwJIJQqyKJHrfgVshqzDLtMy8SEgf+fB7PnppslSTTkY7PJFrBGqgbCdOdN9KkqsvccXmnEa5Q==}
@@ -7900,7 +7904,7 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  license-checker@25.0.1:
+  license-checker@25.0.1(patch_hash=ntt36pd6gdgk3s7akbfjtsuhce):
     dependencies:
       chalk: 2.4.2
       debug: 3.2.7
@@ -9486,7 +9490,7 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  vite-plugin-html-minifier@1.0.4(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3)):
+  vite-plugin-html-minifier@1.0.5(vite@6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3)):
     dependencies:
       html-minifier-terser: 7.2.0
       vite: 6.0.2(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.24.1)(terser@5.30.3)

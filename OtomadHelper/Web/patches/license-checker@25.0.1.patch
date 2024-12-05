@@ -1,0 +1,16 @@
+diff --git a/lib/index.js b/lib/index.js
+index 2eca8e8614fe809433f708c8d13e70600e41cdcf..8f9f60e31b619b7e18ff43c82683b7becca6983d 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -321,9 +321,9 @@ exports.init = function(options, callback) {
+         };
+ 
+         Object.keys(data).sort().forEach(function(item) {
+-            if (data[item].private) {
++            /* if (data[item].private) {
+                 data[item].licenses = colorizeString(UNLICENSED);
+-            }
++            } */
+             /*istanbul ignore next*/
+             if (!data[item].licenses) {
+                 data[item].licenses = colorizeString(UNKNOWN);

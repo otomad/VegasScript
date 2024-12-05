@@ -9,7 +9,8 @@
 	"homepage": "https://otomadhelper.readthedocs.io/",
 	"bugs": "https://github.com/otomad/OtomadHelper/issues",
 	"author": "Rantetsu Inori",
-	"license": "GPL-3.0-only",
+	"license": "GPL-3.0-or-later",
+	"private": true,
 	"scripts": {
 		"build": "tsp compile ."
 	},
