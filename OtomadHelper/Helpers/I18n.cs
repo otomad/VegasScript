@@ -1,14 +1,16 @@
 using System.Globalization;
 using System.Resources;
 
+using CultureInfoMatcher;
+
 namespace OtomadHelper.Helpers;
 
 public class I18n : DynamicObject {
 	public static readonly CultureInfo SystemCulture = Thread.CurrentThread.CurrentCulture;
 	public static CultureInfo Culture { get; private set; } = SystemCulture;
 	private static readonly CultureInfo DefaultCulture = new("en-US");
-	private static ResXResourceSet CurrentCultureRes { get; set; } = GetSuitableCultureRes(SystemCulture);
-	private static ResXResourceSet DefaultCultureRes { get; set; } = GetSuitableCultureRes(DefaultCulture);
+	private static ResXResourceSet CurrentCultureRes { get; set; } = GetCultureRes(SystemCulture);
+	private static ResXResourceSet DefaultCultureRes { get; set; } = GetCultureRes(DefaultCulture);
 
 	public static string SetCulture {
 		set {
@@ -18,7 +20,7 @@ public class I18n : DynamicObject {
 			if (culture.Equals(Culture)) return;
 			Culture = culture;
 			CurrentCultureRes?.Dispose();
-			CurrentCultureRes = GetSuitableCultureRes(culture);
+			CurrentCultureRes = GetCultureRes(culture);
 			CultureChanged?.Invoke(culture);
 		}
 	}
@@ -28,45 +30,13 @@ public class I18n : DynamicObject {
 		Thread.CurrentThread.CurrentUICulture = Culture;
 	}
 
-	private static Dictionary<CultureInfo, CultureInfo>? cultureFallbackMap;
-	private static ResXResourceSet GetSuitableCultureRes(CultureInfo culture) {
+	private static ResXResourceSet GetCultureRes(CultureInfo culture) {
 		const string RESW_EXT = "resw";
 		List<CultureInfo> cultures = ResourceHelper.GetEmbeddedResourceNamesInFolder("Strings")
 			.Select(path => new CultureInfo(path.Match(new Regex($@"([^\.]+)\.{RESW_EXT}$", RegexOptions.IgnoreCase)).Groups[1].Value))
 			.ToList();
-		CultureInfo suitableCulture;
-		if (cultures.Contains(culture)) suitableCulture = culture;
-		else if (!cultures.Select(culture => culture.TwoLetterISOLanguageName).ToList().Contains(culture.TwoLetterISOLanguageName)) suitableCulture = DefaultCulture;
-		else {
-			if (cultureFallbackMap is null) {
-				cultureFallbackMap = [];
-				foreach (CultureInfo targetCulture in cultures) {
-					CultureInfo cultureItem = targetCulture;
-					while (!cultureItem.IsReadOnly) {
-						cultureItem = cultureItem.Parent;
-						if (!cultureFallbackMap.ContainsKey(cultureItem))
-							cultureFallbackMap[cultureItem] = targetCulture;
-						else
-							continue;
-					}
-				}
-			}
-			{
-				CultureInfo cultureItem = culture;
-				while (!cultureItem.IsReadOnly) {
-					cultureItem = cultureItem.Parent;
-					if (cultureFallbackMap.TryGetValue(cultureItem, out CultureInfo targetCulture)) {
-						suitableCulture = targetCulture;
-						goto Found;
-					}
-				}
-				// Plan B: Unreachable or bug
-				suitableCulture = DefaultCulture;
-			Found:
-				Unused();
-			}
-		}
-		Stream stream = ResourceHelper.GetEmbeddedResource($"Strings.{suitableCulture}.{RESW_EXT}");
+		CultureInfo matchedCulture = CultureMatcher.Match(culture, cultures, DefaultCulture);
+		Stream stream = ResourceHelper.GetEmbeddedResource($"Strings.{matchedCulture}.{RESW_EXT}");
 		return new(stream);
 	}
 
