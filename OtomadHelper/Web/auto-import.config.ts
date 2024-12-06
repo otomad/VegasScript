@@ -26,11 +26,11 @@ export default [
 		"classnames": [
 			["default", "classNames"],
 		],
-		"react-transition-group": [
+		"react-transition-group-fc": [
 			"SwitchTransition",
 			"TransitionGroup",
 			"Transition",
-			"CssTransition",
+			["CSSTransition", "CssTransition"],
 		],
 		"react-i18next": [
 			"useTranslation",

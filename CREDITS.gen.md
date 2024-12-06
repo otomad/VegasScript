@@ -191,7 +191,6 @@ Project | Authors | License
 [@types/pangu](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/prop-types](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/react-dom](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
-[@types/react-transition-group](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/react](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/stylis](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/svgo](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
@@ -343,7 +342,6 @@ Project | Authors | License
 [dezalgo](https://github.com/npm/dezalgo) | Isaac Z. Schlueter | ISC
 [dir-glob](https://github.com/kevva/dir-glob) | Kevin Mårtensson | MIT
 [doctrine](https://github.com/eslint/doctrine) |  | Apache-2.0
-[dom-helpers](https://github.com/react-bootstrap/dom-helpers) | Jason Quense | MIT
 [dom-serializer](https://github.com/cheeriojs/dom-serializer) | Felix Boehm | MIT
 [domelementtype](https://github.com/fb55/domelementtype) | Felix Boehm | BSD-2-Clause
 [domhandler](https://github.com/fb55/domhandler) | Felix Boehm | BSD-2-Clause
@@ -693,7 +691,7 @@ Project | Authors | License
 [react-is](https://github.com/facebook/react) |  | MIT
 [react-merge-refs](https://github.com/gregberge/react-merge-refs) | Greg Bergé | MIT
 [react-refresh](https://github.com/facebook/react) |  | MIT
-[react-transition-group](https://github.com/reactjs/react-transition-group) |  | BSD-3-Clause
+[react-transition-group-fc](https://github.com/otomad/react-transition-group) | lunate | BSD-3-Clause
 [react](https://github.com/facebook/react) |  | MIT
 [read-installed](https://github.com/isaacs/read-installed) | Isaac Z. Schlueter | ISC
 [read-package-json](https://github.com/npm/read-package-json) | Isaac Z. Schlueter | ISC

@@ -2,9 +2,9 @@ import type _DndKitCore from "@dnd-kit/core";
 import type _Immer from "immer";
 import type _LottieWeb from "lottie-web";
 import type React from "react";
-import type _ReactTransitionGroup from "react-transition-group";
-import type * as ReactTransitionGroupCssTransition from "react-transition-group/CSSTransition";
-import type * as ReactTransitionGroupTransition from "react-transition-group/Transition";
+import type _ReactTransitionGroup from "react-transition-group-fc";
+import type * as ReactTransitionGroupCssTransition from "react-transition-group-fc/CSSTransition";
+import type * as ReactTransitionGroupTransition from "react-transition-group-fc/Transition";
 import type _StyledComponents from "styled-components";
 import type { StoreApi, UseBoundStore } from "zustand";
 
@@ -130,6 +130,6 @@ declare global {
 	export type { Draft } from "immer";
 	export type { AnimationItem } from "lottie-web";
 	export type { AnimationEventHandler, ChangeEventHandler, CSSProperties, DependencyList, DragEventHandler, EventHandler, FocusEventHandler, FormEventHandler, KeyboardEventHandler, MouseEventHandler, MutableRefObject, PointerEventHandler, PropsWithChildren, default as React, ReactElement, ReactNode, RefObject, SyntheticEvent, UIEventHandler, WheelEventHandler } from "react";
-	export type { CssTransition, SwitchTransition, TransitionGroup } from "react-transition-group"; // CSSTransition has the same name as a native class.
+	export type { CSSTransition as CssTransition, SwitchTransition, TransitionGroup } from "react-transition-group-fc"; // CSSTransition has the same name as a native class.
 	export type { RuleSet, WebTarget } from "styled-components";
 }

@@ -1,4 +1,4 @@
-import type { TransitionProps } from "react-transition-group";
+import type { TransitionProps } from "react-transition-group-fc";
 
 const StyledCommandBar = styled.div`
 	// box-shadow: 0 8px 16px ${c("shadows-flyout")};

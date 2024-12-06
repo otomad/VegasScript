@@ -1,4 +1,4 @@
-import type { TransitionProps } from "react-transition-group";
+import type { TransitionProps } from "react-transition-group-fc";
 import type { AnimateSizeOptions, SameOrDifferent } from "utils/animation";
 
 /** @deprecated */
