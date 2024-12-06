@@ -62,7 +62,7 @@ const StyledSlider = styled.div`
 		box-shadow:
 			0 0 0 1px ${c("stroke-color-control-stroke-default")},
 			0 1px 0 ${c("stroke-color-control-stroke-default")};
-		transition: ${fallbackTransitions}, inset-inline-start 0s;
+		transition: ${fallbackTransitions}, ${styles.effects.focusRingTransitions}, inset-inline-start 0s !important;
 
 		&::after {
 			content: "";
@@ -71,7 +71,7 @@ const StyledSlider = styled.div`
 			display: block;
 			background-color: ${c("accent-color")};
 			scale: ${12 / 20};
-			transition: ${fallbackTransitions}, scale ${eases.easeOutBackSmooth} 250ms;
+			transition: ${fallbackTransitions}, scale ${eases.easeOutBackSmooth} 250ms !important;
 		}
 
 		&:hover::after {

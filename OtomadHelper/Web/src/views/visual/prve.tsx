@@ -52,8 +52,8 @@ class PrveClass {
 }
 
 /** Prve amounts option. */
-const $a = (title: string, icon: DeclaredIcons, state: StateProperty<number>, def: number, min: number, max: number, step: number = 0.001, displayValue: PropsOf<typeof Slider>["displayValue"] = true) =>
-	({ title, icon, state, def, min, max, step, displayValue });
+const $a = (title: string, icon: DeclaredIcons, state: StateProperty<number>, def: number, min: number, max: number, decimalPlaces: number = 3, suffix?: string, prefix?: string) =>
+	({ title, icon, state, def, min, max, decimalPlaces, suffix, prefix });
 
 export default function Prve() {
 	const [controlMode, setControlMode] = useState<typeof controlModes[number]>("general");
@@ -157,41 +157,35 @@ export default function Prve() {
 						alwaysShowCheckInfo
 					>
 						<Expander.Item title={t.prve.amounts.rotationAngle} icon="angle">
-							<Slider
+							<SliderWithBox
 								value={rotation}
 								min={-360}
 								max={360}
-								step={1}
+								decimalPlaces={0}
 								defaultValue={0}
-								displayValue={deg => deg + t.units.degrees}
+								suffix={t.units.degrees}
 							/>
 						</Expander.Item>
 						<Expander.Item title={t.prve.amounts.rotationStep} icon="turntable">
-							<Slider
+							<SliderWithBox
 								value={rotationStep}
 								min={-360}
 								max={360}
-								step={1}
-								displayValueStep={0.01}
 								defaultValue={0}
-								displayValue
 							/>
 						</Expander.Item>
 						<Expander.Item title={t.prve.initialValue} icon="replay">
 							{(() => {
 								const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) <= 1;
 								return (
-									<Slider
-										value={invalidValue ? [0] : useInitialValue(currentEffect)}
-										min={0}
-										max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)) - 1)}
-										autoClampValue
-										step={1}
+									<SliderWithBox
+										value={invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1)}
+										min={1}
+										max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)))}
+										decimalPlaces={0}
 										defaultValue={0}
-										displayValue={step => step + 1}
-										// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
-										smoothDisplayValue={false}
 										disabled={invalidValue || currentEffect === "normal"}
+										// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
 									/>
 								);
 							})()}
@@ -218,7 +212,7 @@ export default function Prve() {
 							const tAmounts = t.prve.amounts;
 							const option =
 								/* eslint-disable @stylistic/indent */
-								klass === "swing" ? $a(tAmounts.pendulum, "angle", pendulum, defaultPrveAmounts.pendulum, -360, 360, 1, deg => deg + t.units.degrees) :
+								klass === "swing" ? $a(tAmounts.pendulum, "angle", pendulum, defaultPrveAmounts.pendulum, -360, 360, 0, t.units.degrees) :
 								klass === "blur" ?
 									currentEffect === "gaussianBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", gaussianBlur, defaultPrveAmounts.gaussianBlur, 0, 1) :
 									currentEffect === "radialBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", radialBlur, defaultPrveAmounts.radialBlur, 0, 1) : undefined :
@@ -231,13 +225,14 @@ export default function Prve() {
 							if (!option) return;
 							return (
 								<Expander.Item title={option.title} icon={option.icon}>
-									<Slider
+									<SliderWithBox
 										value={option.state}
 										min={option.min}
 										max={option.max}
-										step={option.step}
+										decimalPlaces={option.decimalPlaces}
 										defaultValue={option.def}
-										displayValue={option.displayValue}
+										prefix={option.prefix}
+										suffix={option.suffix}
 									/>
 								</Expander.Item>
 							);
