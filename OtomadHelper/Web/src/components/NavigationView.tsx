@@ -467,6 +467,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 				animatedIcon={animatedIcon}
 				focusable={focusable}
 				badge={badge}
+				ariaCurrentWhenSelected="page"
 			>
 				{text}
 			</TabBar.Item>
@@ -492,7 +493,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	}, []);
 
 	return (
-		<div className={["left", paneDisplayMode, { flyout, covered: !flyout && isFlyoutShown }]}>
+		<div className={["left", paneDisplayMode, { flyout, covered: !flyout && isFlyoutShown }]} aria-hidden={paneDisplayMode === "minimal"}>
 			<TopLeftButtons shadow paneDisplayMode={isCompact ? "compact" : paneDisplayMode} />
 			<div
 				ref={navItemsEl}
@@ -502,14 +503,14 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 				onScroll={onNavItemsScroll}
 			>
 				{customContent}
-				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
+				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical role="navigation">
 					{navItems.map((item, index) => {
 						if (!item.bottom) return getNavItemNode(item, index);
 					})}
 				</TabBar>
 			</div>
 			<div className="nav-items-bottom">
-				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
+				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical role="navigation">
 					{navItems.map((item, index) => {
 						if (item.bottom) return getNavItemNode(item, index);
 					})}
@@ -672,7 +673,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 						<div>
 							<TransitionGroup>
 								<CssTransition key={pageTitleKey.join()}>
-									<h1 className="title">
+									<h1 className="title" role="navigation" aria-label="Breadcrumb">
 										<TransitionGroup>
 											{titles.flatMap((title, i, { length }) => {
 												const last = i === length - 1;
@@ -680,6 +681,9 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 													<div
 														key={i}
 														className={["crumb", { parent: !last }]}
+														tabIndex={last ? -1 : 0}
+														role="link"
+														aria-current={last && "page"}
 														onClick={() => title.link?.length && currentNav[1]?.(title.link)}
 													>
 														{title.name}

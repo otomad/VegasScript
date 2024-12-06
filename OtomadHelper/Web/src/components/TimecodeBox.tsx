@@ -174,6 +174,9 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 		if (e.code.in("ArrowUp", "ArrowDown")) {
 			stopEvent(e);
 			handleSpinnerClick(+valueEl.dataset.lastIndex!, e.code === "ArrowUp" ? 1 : -1);
+		} else if (e.code.in("PageUp", "PageDown")) {
+			stopEvent(e);
+			handleSpinnerClick(+valueEl.dataset.lastIndex!, e.code === "PageUp" ? 10 : -10);
 		} else if (e.code.in("ArrowLeft", "ArrowRight", "Semicolon", "Period", "Equal", "NumpadAdd", "Space", "Enter", "NumpadEnter", "NumpadDecimal")) {
 			stopEvent(e);
 			moveFocus(valueEl, e.code === "ArrowLeft" ? -1 : 1);

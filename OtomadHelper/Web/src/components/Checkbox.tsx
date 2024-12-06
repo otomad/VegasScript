@@ -143,29 +143,30 @@ export default function Checkbox<T>(props: FCP<{
 	value: StateProperty<T[]>;
 	/** State change event. */
 	onChange?(e: { id: T; value: T[]; checkState: CheckState; checked: boolean }): void;
-} & SharedProps>): JSX.Element;
+} & SharedProps, "label">): JSX.Element;
 export default function Checkbox(props: FCP<{
 	/** Is the checkbox currently selected? */
 	value: StateProperty<boolean>;
 	/** State change event. */
 	onChange?(e: { checkState: CheckState; checked: boolean }): void;
-} & SharedProps>): JSX.Element;
+} & SharedProps, "label">): JSX.Element;
 export default function Checkbox(props: FCP<{
 	/** Checked status. */
 	value: StateProperty<CheckState>;
 	/** State change event. */
 	onChange?(e: { checkState: CheckState; checked: boolean | null }): void;
-} & SharedProps>): JSX.Element;
-export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions }: FCP<{
+} & SharedProps, "label">): JSX.Element;
+export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, ...htmlAttrs }: FCP<{
 	id?: T;
 	value: StateProperty<T[]> | StateProperty<boolean> | StateProperty<CheckState>;
 	onChange?: Function;
-} & SharedProps>) {
+} & SharedProps, "label">) {
 	const labelEl = useDomRef<"label">();
 	const checkboxEl = useDomRef<"input">();
 	const singleMode = id === undefined, checkStateMode = typeof value === "string";
 	const checked = checkStateMode ? value === "checked" : singleMode ? !!value : (value as T[]).includes(id);
 	const indeterminate = value === "indeterminate";
+	const ariaId = useId();
 
 	const handleChange = (checked: boolean, indeterminate: boolean) => {
 		const checkbox = checkboxEl.current;
@@ -206,7 +207,16 @@ export default function Checkbox<T>({ children, id, value: [value, setValue], di
 	}, [indeterminate, checked]);
 
 	return (
-		<StyledCheckboxLabel tabIndex={0} ref={labelEl} $plain={plain}>
+		<StyledCheckboxLabel
+			tabIndex={0}
+			ref={labelEl}
+			$plain={plain}
+			role="checkbox"
+			aria-checked={indeterminate ? "mixed" : checked}
+			aria-labelledby={`${ariaId}-title`}
+			aria-describedby={`${ariaId}-details`}
+			{...htmlAttrs}
+		>
 			<input
 				type="checkbox"
 				checked={checked}
@@ -224,9 +234,9 @@ export default function Checkbox<T>({ children, id, value: [value, setValue], di
 			</div>
 			{!plain && (
 				<>
-					<div className="text">
-						<p className="title">{children}</p>
-						<p className="details">{details}</p>
+					<div className="text" aria-hidden>
+						<p className="title" id={`${ariaId}-title`}>{children}</p>
+						<p className="details" id={`${ariaId}-details`}>{details}</p>
 					</div>
 					<div className="actions">
 						{actions}

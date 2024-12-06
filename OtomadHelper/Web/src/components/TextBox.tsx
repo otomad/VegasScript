@@ -257,7 +257,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 	}
 `;
 
-const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, onChange, onChanging, onInput, onKeyDown, ...htmlAttrs }: FCP<{
+const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, _inputAttrs: inputAttrs, onChange, onChanging, onInput, onKeyDown, ...htmlAttrs }: FCP<{
 	/** The value of the input box. */
 	value: StateProperty<string>;
 	/** Content placeholder. */
@@ -272,6 +272,8 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 	_spinner?(inputId: string): ReactNode;
 	/** @private Show the positive sign? */
 	_showPositiveSign?: boolean;
+	/** @private Set the attributes for the input element. */
+	_inputAttrs?: FCP<{}, "input">;
 	/** Text change event. Only occurs after pasting text or after the input box is out of focus. */
 	onChange?: BaseEventHandler<HTMLInputElement>;
 	/** Text changing event. Occurs any time the text changes. */
@@ -321,7 +323,6 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 		<StyledTextBox
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
-			aria-readonly={readOnly || undefined}
 			{...htmlAttrs}
 		>
 			<div className="wrapper">
@@ -342,6 +343,7 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 					onPaste={handleChange}
 					onKeyDown={handleKeyDown}
 					onMouseDown={onChanging}
+					{...inputAttrs}
 				/>
 				<label className="suffix" htmlFor={inputId}>{suffix}</label>
 				{spinner?.(inputId)}
@@ -355,7 +357,7 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 });
 
 type NumberLike = number | bigint;
-function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, positiveSign, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
+function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, keyLargeStepMultiple, positiveSign, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
 	/** The value of the number, which can be number or bigint type. */
 	value: StateProperty<TNumber>;
 	/** The number of decimal places, leaving blank means no limit. */
@@ -368,11 +370,17 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 	max?: TNumber;
 	/** The value to increase or decrease each time the knob of numeric up down box is clicked. Defaults to 1. */
 	spinnerStep?: TNumber;
+	/**
+	 * According to the Accessibility feature, when user press PageUp and PageDown key, it will adjust a larger number than the `keyStep`.
+	 * Please specify a number which will multiply by the `keyStep`. Defaults to 10.
+	 */
+	keyLargeStepMultiple?: TNumber;
 	/** Show the positive sign if the value is positive? */
 	positiveSign?: boolean;
 }>) {
 	const inputEl = useDomRef<"input">();
 	const bigIntMode = typeof value === "bigint";
+	keyLargeStepMultiple ??= (bigIntMode ? 10n : 10) as TNumber;
 	const intMode = bigIntMode || decimalPlaces === 0;
 	const [displayValue, setDisplayValue] = useState<string>();
 
@@ -427,7 +435,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 
 	const updateDisplayValue = (value?: NumberLike) => setDisplayValue(normalizeValue(value));
 
-	const handleBlurChange = useCallback<BaseEventHandler<HTMLInputElement>>(e => {
+	const handleBlurChange: BaseEventHandler<HTMLInputElement> = e => {
 		const el = e.currentTarget ?? e.target;
 		let value = el.value;
 		if (e.nativeEvent instanceof ClipboardEvent && e.nativeEvent.clipboardData) {
@@ -438,7 +446,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 		} else if (e.type === "blur" && e.nativeEvent instanceof FocusEvent && isInPath(e.nativeEvent.relatedTarget, ".spinner"))
 			return;
 		updateDisplayValue(parseText(value));
-	}, []);
+	};
 
 	useEffect(() => {
 		const newValue = value, oldValue = displayValue && parseText(displayValue);
@@ -463,7 +471,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 		}
 	};
 
-	const handlePressSpin = useCallback((spinValue: NumberLike) => {
+	const handlePressSpin = (spinValue: NumberLike) => {
 		setValue(value => {
 			if (!(typeof value === "number" || typeof value === "bigint")) return undefined;
 			const spin = typeof value === "bigint" ? BigInt(spinValue) : spinValue;
@@ -471,27 +479,36 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 			updateDisplayValue(newValue);
 			return newValue;
 		});
-	}, [value, min, max, decimalPlaces]);
+	};
 
-	const handleReleaseSpin = useCallback<BaseEventHandler<HTMLButtonElement>>(e => {
+	const handleReleaseSpin: BaseEventHandler<HTMLButtonElement> = e => {
 		if (!(e.currentTarget instanceof HTMLElement)) return;
 		if (!e.currentTarget.matches(":focus-visible")) // If the knob is pressed by the space on keyboard, do not auto focus on the input box.
 			inputEl.current?.focus(); // If the knob is pressed by the mouse, it will auto focus on the input box.
 		setCaretToPoint();
-	}, [spinnerStep]);
+	};
 
-	const handleKeyDown = useCallback<KeyboardEventHandler<HTMLInputElement>>(e => {
+	const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
 		const baseStep = spinnerStep ?? 1;
-		let step: NumberLike | undefined;
+		let step: NumberLike | undefined, limit: number | undefined;
 		if (e.code === "ArrowUp") step = baseStep;
 		else if (e.code === "ArrowDown") step = -baseStep;
-		if (step) {
-			handlePressSpin(step);
+		else if (e.code === "PageUp") step = baseStep * keyLargeStepMultiple;
+		else if (e.code === "PageDown") step = -baseStep * keyLargeStepMultiple;
+		else if (e.code === "Home") limit = -1;
+		else if (e.code === "End") limit = 1;
+		if (step || limit) {
+			if (step && !limit)
+				handlePressSpin(step);
+			else if (limit)
+				if (limit < 0 && min !== undefined) setValue(min);
+				else if (limit > 0 && max !== undefined) setValue(max);
+				else return;
 			textBoxProps.onChanging?.(e);
 			setTimeout(() => setCaretToPoint());
 			stopEvent(e);
 		}
-	}, [spinnerStep, handlePressSpin]);
+	};
 
 	return (
 		<TextBox

@@ -179,6 +179,7 @@ words:
   - vocaloid
   - vsq
   - vtt
+  - wai
   - webgl
   - webp
   - winform
@@ -214,6 +215,8 @@ ignoreWords:
   - nocontent
   - tf
   - edg
+  - menuitemcheckbox
+  - menuitemradio
 flagWords:
   - colour -> color
   - canot -> cannot

@@ -82,7 +82,7 @@ const StyledTooltip = styled.div<{
 `;
 
 // TODO: forwardRef
-export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, children }: FCP<{
+export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, children }: FCP<{
 	/** Tooltip content. */
 	title: ReactNode;
 	/** Tooltip placement. */
@@ -93,6 +93,8 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	timeout?: number;
 	/** Do not show the tooltip? */
 	disabled?: boolean;
+	/** Auto apply the tooltip title to aria label attribute of the target element? Defaults to true. */
+	applyAriaLabel?: boolean;
 }>) {
 	const [shown, setShown] = useState(false);
 	const [contentsEl, setContentsEl] = useDomRefState<"div">(); // Use state instead of ref to make sure change it to rerender.
@@ -109,12 +111,12 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	}, [contentsEl]);
 
 	useEffect(() => {
-		if (dom && title) {
+		if (dom && title && applyAriaLabel) {
 			const ariaLabel = title.toString();
 			if (!ariaLabel.match(/^\[object .*\]$/))
 				dom.ariaLabel = ariaLabel;
 		}
-	}, [dom, title]);
+	}, [dom, title, applyAriaLabel]);
 
 	const handleHover = (e: MouseEvent) => {
 		clearTimeout(shownTimeout.current);
@@ -140,6 +142,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	useEventListener(dom, "mouseenter", handleHover, undefined, [contentsEl, title, placement, offset, timeout, disabled, children]);
 	useEventListener(dom, "mouseleave", handleUnhover, undefined, [contentsEl]);
 	useEventListener(dom, "click", handleUnhover, undefined, [contentsEl]);
+	useEventListener(window, "keydown", e => e.code === "Escape" && handleUnhover(), undefined, [contentsEl]);
 
 	return (
 		<>

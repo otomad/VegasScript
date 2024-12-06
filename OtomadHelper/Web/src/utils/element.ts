@@ -219,3 +219,30 @@ type WithAttrsProps<TTag> = Partial<(TTag extends keyof ElementTagNameMap ? FCP<
 export function withAttrs<TTag extends keyof ElementTagNameMap | React.FC>(tag: TTag, withProps: WithAttrsProps<TTag>) {
 	return (props: WithAttrsProps<TTag>) => React.createElement(tag, { ...withProps, ...props }) as unknown as TTag;
 }
+
+/**
+ * If the react node is a string or something like this, then apply aria label.
+ * @param node - React node, maybe a string, number, bigint, i18n item, or something else.
+ * @returns Plain string or undefined.
+ */
+export function applyAriaLabel(node: ReactNode) {
+	return (typeof node).in("string", "number", "bigint") || isI18nItem(node) ? String(node) : undefined;
+}
+
+/**
+ * Convert from `CheckState` to `aria-checked`.
+ * `CheckState` | `aria-checked`
+ * --- | ---
+ * checked | true
+ * unchecked | false
+ * indeterminate | mixed
+ * @param checkState - Check box selection status.
+ * @returns Aria checked.
+ */
+export function checkStateToAriaChecked(checkState: CheckState): React.AriaAttributes["aria-checked"] {
+	return ({
+		checked: true,
+		unchecked: false,
+		indeterminate: "mixed",
+	} as const)[checkState];
+}

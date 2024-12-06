@@ -195,12 +195,17 @@ export default function Segmented<T extends string = string>({ current: [current
 	}, [children, current]);
 
 	return (
-		<StyledSegmented $itemCount={itemCount} $selectedIndex={selectedIndex} onKeyDown={e => e.code.startsWith("Arrow") && e.preventDefault()}>
+		<StyledSegmented
+			role="radiogroup"
+			$itemCount={itemCount}
+			$selectedIndex={selectedIndex}
+			onKeyDown={e => e.code.startsWith("Arrow") && e.preventDefault()}
+		>
 			<div className="items">
 				{items.map(child => {
 					const id = child.props.id as T ?? child.props.children;
 					return React.cloneElement(child, {
-						className: { selected: id === current },
+						selected: id === current,
 						onClick: () => setCurrent?.(id),
 					});
 				})}

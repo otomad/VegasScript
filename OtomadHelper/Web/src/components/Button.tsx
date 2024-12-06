@@ -232,6 +232,7 @@ export default forwardRef(function Button({ children, icon, animatedIcon, subtle
 			as={repeat ? RepeatButton : "button"}
 			ref={ref}
 			type="button"
+			role={hyperlink ? "link" : undefined}
 			className={[className, { subtle, hyperlink, extruded, minWidthUnbounded }, accent && typeof accent === "string" ? accent : "accent"]}
 			$fillColorName={fillColorName}
 			$subtleFillColorName={subtleFillColorName}

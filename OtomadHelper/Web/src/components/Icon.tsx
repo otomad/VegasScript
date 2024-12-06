@@ -1,9 +1,7 @@
 import "virtual:svg-icons-register";
 
 const squared = styles.mixins.square("1em");
-const StyledIcon = styled.i.attrs({
-	role: "img",
-})<{
+const StyledIcon = styled.i<{
 	/** Keep the color of the icon itself? */
 	$filled?: boolean;
 }>`
@@ -25,7 +23,7 @@ const StyledIcon = styled.i.attrs({
 `;
 
 export const getIconSymbolId = (name: string) => "#icon-" + name.replaceAll("/", "-");
-export const getIconAriaDescription = (name: string) => name.replace(/^off_slash_correction\//, "").replaceAll("_", " ").replaceAll("/", ": ");
+export const getIconAriaLabel = (name: string) => "Icon - " + name.replace(/^off_slash_correction\//, "").replaceAll("_", " ").replaceAll("/", ": ");
 
 function Icon(props: FCP<{
 	/** Icon file name. */
@@ -57,7 +55,7 @@ function Icon({ name, filled, shadow, className, ...htmlAttrs }: FCP<{
 	if (!name) return;
 
 	const symbolId = getIconSymbolId(name);
-	const ariaDescription = getIconAriaDescription(name);
+	const ariaLabel = getIconAriaLabel(name);
 
 	return (
 		<StyledIcon
@@ -66,7 +64,8 @@ function Icon({ name, filled, shadow, className, ...htmlAttrs }: FCP<{
 			{...htmlAttrs}
 			ref={ref}
 			role="img"
-			aria-description={ariaDescription}
+			aria-label={ariaLabel}
+			aria-hidden
 		>
 			<svg aria-hidden>
 				<use href={symbolId} />

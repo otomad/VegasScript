@@ -61,7 +61,6 @@ export default function Prve() {
 	const { control, isMultiple, effects } = selectConfig(c => c.visual.prve[controlMode]);
 	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation } = selectConfig(c => c.visual.prve[controlMode].amounts);
 	const selectionMode = useSelectionMode(isMultiple);
-	console.log(effects[0]);
 	const effectLength = effects[0].length;
 	const selectPrve = (klass: PrveClassType): StateProperty<PrveEffectType> => {
 		const classEffects = PrveClass.findClassEffects(klass);
@@ -69,8 +68,6 @@ export default function Prve() {
 		return useStateSelector(
 			effects,
 			effects => {
-				// if (!isMultiple) effects = effects.slice(0, 1);
-				// const effect = effects.find(effect => classEffects.includes(effect));
 				if (classEffects === undefined) return undefined;
 				const fx = effects.map(effect => effect.fx).intersection(classEffects)[0];
 				return fx ?? DEFAULT_EFFECT;
@@ -289,8 +286,8 @@ function InitialValue({ klass, effect, initialValue }: FCP<{
 	const frames = PrveClass.findClass(klass)?.findEffectFrames(effect) ?? 1;
 
 	return (
-		<StyledInitialValue title={t.prve.initialValue} icon="replay">
-			<ItemsView className="initial-value-items" view="grid" current={initialValue} $itemWidth={100}>
+		<StyledInitialValue title={t.prve.initialValue} icon="replay" role="region">
+			<ItemsView className="initial-value-items" view="grid" current={initialValue} $itemWidth={100} aria-label={t.prve.initialValue}>
 				{forMap(frames, j => {
 					const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
 					return (
@@ -301,6 +298,7 @@ function InitialValue({ klass, effect, initialValue }: FCP<{
 							key={j}
 							id={j}
 							className="initial-value-item"
+							aria-label={`Step ${j + 1} of ${frames}`}
 						/>
 					);
 				})}

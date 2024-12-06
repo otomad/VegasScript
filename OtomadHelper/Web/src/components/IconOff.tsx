@@ -23,7 +23,7 @@ export default function IconOff({ name: _name }: FCP<{
 	const comp = useDomRef<"div">();
 	const [svgPath, setSvgPath] = useState("");
 	const symbolId = getIconSymbolId(name);
-	const ariaDescription = getIconAriaDescription(name) + " off";
+	const ariaLabel = getIconAriaLabel(name) + " off";
 	const maskId = useId();
 	const [shouldDelayToShow, setShouldDelayToShow] = useState(false);
 
@@ -53,7 +53,7 @@ export default function IconOff({ name: _name }: FCP<{
 	if (shouldDelayToShow) return;
 
 	return (
-		<StyledIconOff ref={comp} role="img" aria-description={ariaDescription}>
+		<StyledIconOff ref={comp} role="img" aria-label={ariaLabel} aria-hidden>
 			<svg width={ICON_INITIAL_SIZE} height={ICON_INITIAL_SIZE} viewBox={`0 0 ${ICON_INITIAL_SIZE} ${ICON_INITIAL_SIZE}`} xmlns="http://www.w3.org/2000/svg">
 				<mask id={maskId}>
 					<g fill="white" dangerouslySetInnerHTML={{ __html: svgPath }} />

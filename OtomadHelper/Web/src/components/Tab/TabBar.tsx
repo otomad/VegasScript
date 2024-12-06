@@ -35,20 +35,8 @@ const Indicator = styled.div.attrs(({ $vertical }) => ({
 		${$vertical ? "inset-block-end" : "right"}: ${$appearingPosition[1]}px;
 	`};
 `;
-/* transition-behavior: allow-discrete;
-${({ $movement, $vertical }) => [
-	$movement === "disappear" && css`
-		display: none;
-		scale: ${$vertical ? "1 0" : "0 1"};
-	`,
-	css`
-		@starting-style {
-			scale: ${$vertical ? "1 0" : "0 1"};
-		}
-	`,
-]}; */
 
-const StyledTabBar = styled.div`
+const StyledTabBar = styled.nav`
 	${styles.mixins.square("100%")};
 	scroll-padding: 0;
 
@@ -94,14 +82,14 @@ const StyledTabBar = styled.div`
 	}
 `;
 
-export default function TabBar<T extends string = string>({ current: [current, setCurrent], collapsed, children, vertical }: FCP<{
+export default function TabBar<T extends string = string>({ current: [current, setCurrent], collapsed, children, vertical, ...htmlAttrs }: FCP<{
 	/** The identifier of the currently selected item. */
 	current: StateProperty<T>;
 	/** Hide the text label and only show the icon? */
 	collapsed?: boolean;
 	/** Use the vertical NavigationView style? */
 	vertical?: boolean;
-}>) {
+}, "nav">) {
 	const indicatorEl = useDomRef<"div">();
 	const [position, _setPosition] = useState<TwoD>([NaN, NaN]);
 	const { uiScale1 } = useSnapshot(configStore.settings);
@@ -116,22 +104,6 @@ export default function TabBar<T extends string = string>({ current: [current, s
 		const indicator = indicatorEl.current;
 		if (!indicator) return;
 		let movement: TabBarMovement = "none";
-		/* if (!indicator.offsetParent) { // If the indicator (and its ancestors) are hidden
-			_setPosition([NaN, NaN]);
-			const hiddenElement = getPath(indicator).find(element => getComputedStyle(element).display === "none");
-			if (!hiddenElement) return;
-			const MAX_WAITING_TIME = 10_000, observeTime = Date.now();
-			const observer = new MutationObserver(() => {
-				if (indicator.offsetParent) {
-					observer.disconnect();
-					update();
-				}
-				if (Date.now() - observeTime > MAX_WAITING_TIME)
-					observer.disconnect();
-			});
-			observer.observe(hiddenElement, { attributeFilter: ["class"] });
-			return;
-		} */
 		setDisablePressIndicatorStyle(true, { keep: DELAY, allowInterrupt: true }).then(() => setDisablePressIndicatorStyle(false));
 		const entireRect = indicator.parentElement!.getBoundingClientRect();
 		const entire1 = entireRect[vertical ? "top" : "left"],
@@ -175,7 +147,7 @@ export default function TabBar<T extends string = string>({ current: [current, s
 	return (
 		<HorizontalScroll enabled={!vertical}>
 			{/* Vertical tab bar (navigation view) do not care about horizontal scrolling. */}
-			<StyledTabBar className={[vertical ? "vertical" : "horizontal", { disablePressIndicatorStyle }]}>
+			<StyledTabBar role="tablist" className={[vertical ? "vertical" : "horizontal", { disablePressIndicatorStyle }]} {...htmlAttrs}>
 				<div className="scroll">
 					<div className="items">
 						{React.Children.map(children, child => {

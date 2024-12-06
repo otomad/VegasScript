@@ -49,4 +49,31 @@ declare global {
 
 	/** A type which includes the numeric value and its unit enum type. */
 	type Unit<TUnit extends string> = [numeric: number, unit: TUnit];
+
+	/**
+	 * The `aria-checked` attribute indicates the current "checked" state of checkboxes, radio buttons, and other widgets.
+	 *
+	 * The `aria-checked` attribute indicates whether the element is checked (`true`), unchecked (`false`), or if the checked
+	 * status is indeterminate (`mixed`), meaning it is neither checked nor unchecked. The mixed value is supported by the
+	 * tri-state input roles of `checkbox` and `menuitemcheckbox`.
+	 *
+	 * The mixed value is not supported on radio, menuitemradio, or switch and elements that inherits from these. The value
+	 * will be false if mixed is set when not supported.
+	 *
+	 * [MDN Reference](https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-checked)
+	 */
+	type AriaChecked = React.AriaAttributes["aria-checked"];
+
+	/**
+	 * The `role` read-only property of the `ElementInternals` interface returns the
+	 * [WAI-ARIA role](https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Roles) for the element. For example,
+	 * a checkbox might have `role="checkbox"`. It reflects the `role` attribute; it does not return the element's implicit ARIA
+	 * role, if any, unless explicitly set.
+	 *
+	 * A string which contains an ARIA role. A full list of ARIA roles can be found on the
+	 * [ARIA techniques page](https://developer.mozilla.org/docs/Web/Accessibility/ARIA/ARIA_Techniques).
+	 *
+	 * [MDN Reference](https://developer.mozilla.org/docs/Web/API/ElementInternals/role)
+	 */
+	type AriaRole = React.AriaRole;
 }

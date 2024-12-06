@@ -173,7 +173,7 @@
 	</Target>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-		<PackageReference Include="CultureMatcher" Version="1.0.0" />
+		<PackageReference Include="CultureMatcher" Version="1.0.1" />
 		<PackageReference Include="DependencyPropertyGenerator" Version="1.4.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

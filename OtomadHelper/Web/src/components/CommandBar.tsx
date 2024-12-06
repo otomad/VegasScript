@@ -41,7 +41,7 @@ const StyledCommandBar = styled.div`
 
 export default function CommandBar({ children, ...htmlAttrs }: FCP<{}, "div">) {
 	return (
-		<StyledCommandBar {...htmlAttrs}>
+		<StyledCommandBar role="toolbar" aria-label="Command Bar" {...htmlAttrs}>
 			<TransitionGroup>
 				{children}
 			</TransitionGroup>

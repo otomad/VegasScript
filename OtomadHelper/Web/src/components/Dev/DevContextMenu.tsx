@@ -55,13 +55,14 @@ export default function DevContextMenu() {
 	});
 
 	useEventListener(window, "mousedown", e => isMenuShown && !isInPath(e, menuEl) && clearMenu(), undefined, [isMenuShown, clearMenu]);
+	useEventListener(window, "keydown", e => isMenuShown && e.code === "Escape" && clearMenu(), undefined, [isMenuShown, clearMenu]);
 
 	return (
 		<Portal>
-			<StyledContextMenu ref={menuEl} style={{ left: ifFinite(location[0]), top: ifFinite(location[1]) }}>
+			<StyledContextMenu ref={menuEl} role={menu?.items.length ? "menu" : undefined} style={{ left: ifFinite(location[0]), top: ifFinite(location[1]) }}>
 				{menu && menu.items.map((item, i) =>
-					item.kind === "command" ? <li key={i} disabled={item.enabled === false} onClick={() => { clearMenu(); item.command?.(); }}><span className="content">{processAccessKey(item.label)}</span></li> :
-					item.kind === "separator" ? <hr key={i} /> : undefined,
+					item.kind === "command" ? <li key={i} role="menuitem" disabled={item.enabled === false} onClick={() => { clearMenu(); item.command?.(); }}><span className="content">{processAccessKey(item.label)}</span></li> :
+					item.kind === "separator" ? <hr key={i} role="separator" /> : undefined,
 				)}
 			</StyledContextMenu>
 		</Portal>

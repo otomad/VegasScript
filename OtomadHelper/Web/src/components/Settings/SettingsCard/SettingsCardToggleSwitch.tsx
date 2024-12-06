@@ -1,4 +1,4 @@
-export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, $color, actions, lock, onClick, ...settingsCardProps }: FCP<PropsOf<typeof SettingsCard> & {
+export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, $color, actions, lock, title, onClick, ...settingsCardProps }: FCP<PropsOf<typeof SettingsCard> & {
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled? */
@@ -32,7 +32,6 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 			disabled={disabled || lock != null}
 			trailingIcon={trailingIcon}
 			className={[className, nameof({ SettingsCardToggleSwitch }), { toggleSwitchHoverable: !isExpander || !on }]}
-			onClick={onClick}
 			actions={(
 				<>
 					<ToggleSwitch
@@ -44,11 +43,18 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 						tabIndex={isExpander ? undefined : -1}
 						disabled={disabled}
 						resetTransitionOnChanging={resetTransitionOnChanging}
+						aria-label={applyAriaLabel(title)}
+						aria-hidden={!(isExpander && on)}
 					/>
 					{actions}
 				</>
 			)}
 			childrenDisabled={isExpander ? !on : undefined}
+			title={title}
+			aria-label={applyAriaLabel(title)}
+			role={isExpander && on ? undefined : "switch"}
+			aria-checked={on}
+			onClick={onClick}
 			onClickWhenChildrenDisabled={isExpander && setOn ? () => setOn(true) : undefined}
 			{...settingsCardProps}
 		>

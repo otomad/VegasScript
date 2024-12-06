@@ -111,7 +111,7 @@ const StyledSliderWrapper = styled.div`
 	}
 `;
 
-export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, displayValueStep, smoothDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChanged, onDisplayValueChanged }: FCP<{
+export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, keyLargeStepMultiple = 10, displayValueStep, smoothDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChanged, onDisplayValueChanged }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
 	/** Slider minimum value. */
@@ -124,8 +124,13 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	defaultValue?: number;
 	/** Slider effective increment value. */
 	step?: number;
-	/** Specifies the value by which the slider adjusts once when a keyboard direction key is pressed. */
+	/** Specifies the value by which the slider adjusts once when a keyboard arrow key is pressed. Defaults to 1. */
 	keyStep?: number;
+	/**
+	 * According to the Accessibility feature, when user press PageUp and PageDown key, it will adjust a larger number than the `keyStep`.
+	 * Please specify a number which will multiply by the `keyStep`. Defaults to 10.
+	 */
+	keyLargeStepMultiple?: number;
 	/** The display value decimal places will accept it, or use `step` if it is undefined. */
 	displayValueStep?: number;
 	/** Make the display value smoothly? Defaults to true. */
@@ -224,11 +229,14 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	};
 
 	const onKeyDown = useCallback<KeyboardEventHandler<HTMLDivElement>>(e => {
-		const movePrev = e.code === "ArrowUp" || e.code === "ArrowLeft";
-		const moveNext = e.code === "ArrowDown" || e.code === "ArrowRight";
-		if (!movePrev && !moveNext) return;
+		const increase = e.code.in("ArrowUp", "ArrowRight", "PageUp", "End");
+		const decrease = e.code.in("ArrowDown", "ArrowLeft", "PageDown", "Home");
+		const largeStep = e.code.in("PageUp", "PageDown");
+		if (!decrease && !increase) return;
 		stopEvent(e);
-		setValue?.(clampValue(value + (movePrev ? -1 : 1) * keyStep));
+		const newValue = e.code === "Home" ? min : e.code === "End" ? max :
+			clampValue(value + (decrease ? -1 : 1) * keyStep * (largeStep ? keyLargeStepMultiple : 1));
+		setValue?.(newValue);
 	}, [value]);
 
 	const displayValue = (() => {
@@ -246,16 +254,22 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 
 	return (
 		<StyledSliderWrapper>
-			{displayValue && !onDisplayValueChanged && <span className="display-value">{displayValue}</span>}
+			{hasValue(displayValue) && !onDisplayValueChanged && <span className="display-value" aria-hidden>{displayValue}</span>}
 			<StyledSlider
 				tabIndex={0}
 				style={{
 					"--value": smoothValue,
 				}}
 				disabled={disabled}
+				aria-disabled={disabled}
 				onKeyDown={onKeyDown}
 				onAuxClick={resetToDefault}
 				onContextMenu={stopEvent}
+				role="slider"
+				aria-valuemin={min}
+				aria-valuemax={max}
+				aria-valuenow={value}
+				aria-valuetext={hasValue(displayValue) ? String(displayValue) : undefined}
 			>
 				<div className="track" onPointerDown={onTrackDown} />
 				<div className="passed" />
@@ -263,4 +277,11 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 			</StyledSlider>
 		</StyledSliderWrapper>
 	);
+}
+
+/**
+ * Ignore `undefined`, `null`, `NaN`, and empty string.
+ */
+function hasValue(test: Readable | undefined | null): test is Readable {
+	return !!test || test === 0 || test === 0n;
 }

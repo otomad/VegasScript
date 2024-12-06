@@ -229,6 +229,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	const [isDragging, setIsDragging] = useState(false);
 	const [thumbLeft, setThumbLeft] = useState<number>();
 	const [pressed, setPressed] = useState(false);
+	const ariaId = useId();
 	// Note: Parameter changes using styled-components directly will affect performance.
 	const thumbStyle = useMemo(() => thumbLeft === undefined ? undefined : {
 		insetInlineStart: thumbLeft + "px",
@@ -294,13 +295,17 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			onClick={e => handleCheck(!on, e)}
 			tabIndex={0}
 			style={{ "--accent-color": $color }}
+			role="switch"
+			aria-checked={on}
+			aria-labelledby={`${ariaId}-title`}
+			aria-describedby={`${ariaId}-details`}
 			{...htmlAttrs}
 		>
 			{icon && <Icon name={icon} />}
 			{(children || details) && (
-				<div className="text">
-					{children && <p className="title">{children}</p>}
-					{details && <p className="details">{details}</p>}
+				<div className="text" aria-hidden>
+					{children && <p className="title" id={`${ariaId}-title`}>{children}</p>}
+					{details && <p className="details" id={`${ariaId}-details`}>{details}</p>}
 				</div>
 			)}
 			<div className="right">

@@ -95,7 +95,13 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 			<CssTransition in={shown} unmountOnExit appear>
 				<ClickOnSameElement onClick={closeWhenNonStatic}>
 					<Mask>
-						<StyledContentDialog onClick={e => e.stopPropagation()} {...htmlAttrs}>
+						<StyledContentDialog
+							role="dialog"
+							aria-label={title}
+							aria-modal
+							onClick={e => e.stopPropagation()}
+							{...htmlAttrs}
+						>
 							<div className="content">
 								<div className="title">{title}</div>
 								<div className="body">{children}</div>

@@ -169,8 +169,8 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 }, "div">) {
 	trailingIcon ??= type === "button" ? "chevron_right" :
 		type === "expander" ? "chevron_down" : undefined;
-
 	const dragHandleContext = useContext(SortableList.Item.Context);
+	const ariaId = useId();
 
 	return (
 		<StyledSettingsCard
@@ -178,6 +178,8 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 			className={[className, type === "container-but-button" ? "container" : type, { secondary: appearance === "secondary" }]}
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
+			aria-labelledby={`${ariaId}-title`}
+			aria-describedby={`${ariaId}-details`}
 			tabIndex={tabIndex ?? type.in("container", "container-but-button") ? -1 : 0}
 			{...htmlAttrs}
 		>
@@ -194,8 +196,8 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 							{typeof icon === "object" ? icon : <Icon name={icon} />}
 							<Transitions.DynamicAutoSize specified="height" lockSize={_lockContentSize}>
 								<div className="text">
-									<p className="title"><Preserves>{title}</Preserves></p>
-									<p className="details"><Preserves>{details}</Preserves></p>
+									<p className="title" id={`${ariaId}-title`} aria-hidden><Preserves>{title}</Preserves></p>
+									<p className="details" id={`${ariaId}-details`} aria-hidden><Preserves>{details}</Preserves></p>
 									<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
 								</div>
 							</Transitions.DynamicAutoSize>

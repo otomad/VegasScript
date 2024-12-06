@@ -127,6 +127,7 @@ export default function RadioButton<T>({ children, id, value: [value, setValue],
 }, "label">) {
 	const labelEl = useDomRef<"label">();
 	const checked = value === id;
+	const ariaId = useId();
 	const handleCheck = (checked: boolean = true) => {
 		if (checked) {
 			setValue?.(id);
@@ -137,14 +138,23 @@ export default function RadioButton<T>({ children, id, value: [value, setValue],
 	useOnFormKeyDown(labelEl, "radio", handleCheck);
 
 	return (
-		<StyledRadioButtonLabel tabIndex={checked ? 0 : -1} ref={labelEl} $plain={plain} {...htmlAttrs}>
+		<StyledRadioButtonLabel
+			tabIndex={checked ? 0 : -1}
+			ref={labelEl}
+			$plain={plain}
+			role="radio"
+			aria-checked={checked}
+			aria-labelledby={`${ariaId}-title`}
+			aria-describedby={`${ariaId}-details`}
+			{...htmlAttrs}
+		>
 			<input type="radio" checked={checked} name={radioGroup} onChange={e => handleCheck(e.target.checked)} disabled={disabled} />
 			<div className="base">
 				<div className="bullet" />
 			</div>
-			<div className="text">
-				<p className="title">{children}</p>
-				<p className="details">{details}</p>
+			<div className="text" aria-hidden>
+				<p className="title" id={`${ariaId}-title`}>{children}</p>
+				<p className="details" id={`${ariaId}-details`}>{details}</p>
 			</div>
 		</StyledRadioButtonLabel>
 	);

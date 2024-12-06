@@ -113,7 +113,7 @@ export default function InfoBar({ status, title, children, button, className, ..
 	});
 
 	return (
-		<StyledInfoBar ref={infoBarEl} $status={status ?? "info"} className={[className, { multiline }]} {...htmlAttrs}>
+		<StyledInfoBar ref={infoBarEl} role="alert" $status={status ?? "info"} className={[className, { multiline }]} {...htmlAttrs}>
 			{status && <Badge status={status} />}
 			<div className="text-part">
 				{title && <div className="title">{title}</div>}

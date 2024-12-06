@@ -317,7 +317,7 @@ export default forwardRef(function AnimatedIcon({
 	return (
 		<StyledAnimatedIcon $clipped={clipped} {...htmlAttrs}>
 			<EventInjector onAnimationStart={onAnimationStart}>
-				<div className="icon-box" onClick={handleClick}>
+				<div className="icon-box" aria-hidden onClick={handleClick}>
 					<Lottie
 						className={{ filled }}
 						loop={loop}

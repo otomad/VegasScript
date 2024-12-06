@@ -117,7 +117,7 @@ const StyledTabItem = styled.button`
 const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [false] }: { hidden?: boolean; badge?: BadgeArgs }) =>
 	<Badge status={status ?? "accent"} hidden={hidden || layoutHidden}>{badge}</Badge>;
 
-export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, _vertical: vertical, ...htmlAttrs }: FCP<{
+export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, ariaCurrentWhenSelected, _vertical: vertical, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons;
 	/** Animated icon. */
@@ -132,6 +132,8 @@ export /* @internal */ default function TabItem({ icon, animatedIcon, children, 
 	focusable?: boolean;
 	/** Badge. */
 	badge?: BadgeArgs;
+	/** Set the `aria-current` attribute only when the tab item has been selected. */
+	ariaCurrentWhenSelected?: React.AriaAttributes["aria-current"];
 	/** @private Use the vertical NavigationView style? */
 	_vertical?: boolean;
 }, "section">) {
@@ -145,12 +147,15 @@ export /* @internal */ default function TabItem({ icon, animatedIcon, children, 
 	useEffect(() => scrollIntoView(), [selected]);
 
 	return (
-		<Tooltip placement="right" offset={5} disabled={!collapsed} title={children}>
+		<Tooltip placement="right" offset={5} disabled={!collapsed} title={children} applyAriaLabel={false}>
 			<StyledTabItemWrapper {...htmlAttrs}>
 				<StyledTabItem
 					type="button"
 					ref={tabItemEl}
 					tabIndex={focusable ? 0 : -1}
+					role="tab"
+					aria-selected={selected}
+					aria-current={selected ? ariaCurrentWhenSelected : undefined}
 					{...htmlAttrs}
 					className={{ selected }}
 				>

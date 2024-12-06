@@ -57,7 +57,13 @@ export default function ComboBox<T extends string | number>({ ids, options, curr
 
 	if (window.isWebView)
 		return (
-			<StyledComboBox onClick={showComboBox} {...htmlAttrs as FCP<{}, "button">}>
+			<StyledComboBox
+				role="combobox"
+				aria-expanded={false}
+				aria-haspopup
+				onClick={showComboBox}
+				{...htmlAttrs as FCP<{}, "button">}
+			>
 				<div className="content">
 					<div className="text">{currentOption}</div>
 					<Icon name="chevron_down" />
@@ -66,7 +72,13 @@ export default function ComboBox<T extends string | number>({ ids, options, curr
 		);
 	else // fallback in dev (a normal browser)
 		return (
-			<StyledComboBox as="select" defaultValue={current} onChange={e => setCurrent?.(e.currentTarget.value as T)} {...htmlAttrs}>
+			<StyledComboBox
+				as="select"
+				role="combobox"
+				defaultValue={current}
+				onChange={e => setCurrent?.(e.currentTarget.value as T)}
+				{...htmlAttrs}
+			>
 				{ids.map((id, i) => <option key={id} value={id}>{options[i]}</option>)}
 			</StyledComboBox>
 		);

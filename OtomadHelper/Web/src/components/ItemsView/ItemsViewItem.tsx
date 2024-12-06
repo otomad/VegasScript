@@ -247,17 +247,18 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	/** Occurs when user click it. */
 	onClick?: OnItemsViewItemClickEventHandler;
 }, "button">) {
+	const ariaId = useId();
 	const textPart = (children || details) && (
-		<div className="text">
-			{children && <p className="title">{children}</p>}
-			{details && <p className="details">{details}</p>}
+		<div className="text" aria-hidden>
+			{children && <p className="title" id={`${ariaId}-title`}>{children}</p>}
+			{details && <p className="details" id={`${ariaId}-details`}>{details}</p>}
 		</div>
 	);
 	// const checkbox = multiple && <Checkbox value={[selected]} plain />;
 	const checkbox = (
 		<CssTransition in={multiple} unmountOnExit>
 			<div className="checkbox-temp-wrapper">{/* WARN: Wait for React 19 ref as a prop, and then remove this div. */}
-				<Checkbox value={[selected]} plain />
+				<Checkbox value={[selected]} plain inert />
 			</div>
 		</CssTransition>
 	);
@@ -279,6 +280,10 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 					$withBorder={$withBorder}
 					className={[className, view, { selected: selected !== "unchecked" }]}
 					tabIndex={0}
+					role={multiple ? "checkbox" : "radio"}
+					aria-checked={checkStateToAriaChecked(selected)}
+					aria-labelledby={`${ariaId}-title`}
+					aria-describedby={`${ariaId}-details`}
 					onClick={e => onClick?.(id, selected, e)}
 					{...htmlAttrs}
 				>

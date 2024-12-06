@@ -22,6 +22,7 @@ export default function Link({ children, href, blank = true, target, rel = DEFAU
 			rel={rel}
 			tabIndex={0}
 			onKeyDown={handleKeyDown}
+			role="link"
 			{...htmlAttrs}
 		>
 			{children}
