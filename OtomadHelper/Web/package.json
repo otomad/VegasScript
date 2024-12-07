@@ -61,7 +61,7 @@
 		"react-dom": "^18.2.0",
 		"react-flip-move": "^3.0.5",
 		"react-i18next": "^15.1.0",
-		"react-transition-group-fc": "^4.5.1",
+		"react-transition-group-fc": "^4.5.2",
 		"styled-components": "^6.1.8",
 		"styled-tools": "^1.7.2",
 		"use-immer": "^0.10.0",
