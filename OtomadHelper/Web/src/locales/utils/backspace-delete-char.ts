@@ -1,5 +1,6 @@
 import type { PostProcessorModule } from "i18next";
 
+/** @deprecated */
 const backspaceDeleteCharProcessor: PostProcessorModule = {
 	type: "postProcessor",
 	name: "backspace-delete-char",
