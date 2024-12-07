@@ -194,6 +194,9 @@ export default [
 			"@stylistic/indent-binary-ops": "error",
 			"@stylistic/type-generic-spacing": "error",
 			"@stylistic/type-named-tuple-spacing": "error",
+			// "@typescript-eslint/no-confusing-void-expression": "error",
+			// "@typescript-eslint/no-floating-promises": "error",
+			// 嗯对这几个不晓得怎么用不了。
 			"@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
 			"@typescript-eslint/strict-boolean-expressions": ["off", { // 如需检查错误时可再临时手动开启。
 				"allowString": false,
