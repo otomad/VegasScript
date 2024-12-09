@@ -1,24 +1,25 @@
 diff --git a/index.d.ts b/index.d.ts
-index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181fa56d3067 100644
+index fe8999a0aa2a3664f83a96c9b9a56d47cd6e53d9..9c8fb057549473876b127e220d9b5d90baf3e0a4 100644
 --- a/index.d.ts
 +++ b/index.d.ts
-@@ -6,6 +6,7 @@
+@@ -5,6 +5,7 @@
+ /// <reference path="global.d.ts" />
  
  import * as CSS from "csstype";
- import * as PropTypes from "prop-types";
 +import { Argument as ClassArray } from "classnames";
  
  type NativeAnimationEvent = AnimationEvent;
  type NativeClipboardEvent = ClipboardEvent;
-@@ -479,6 +480,7 @@ declare namespace React {
-         | ReactElement
-         | string
-         | number
-+        | bigint
-         | Iterable<ReactNode>
-         | ReactPortal
-         | boolean
-@@ -2142,19 +2144,19 @@ declare namespace React {
+@@ -384,7 +385,7 @@ declare namespace React {
+     }
+ 
+     interface ReactPortal extends ReactElement {
+-        children: ReactNode;
++        children?: ReactNode;
+     }
+ 
+     /**
+@@ -1966,19 +1967,19 @@ declare namespace React {
       */
      interface SyntheticEvent<T = Element, E = Event> extends BaseSyntheticEvent<E, EventTarget & T, EventTarget> {}
  
@@ -42,7 +43,7 @@ index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181f
          pointerId: number;
          pressure: number;
          tangentialPressure: number;
-@@ -2167,7 +2169,7 @@ declare namespace React {
+@@ -1991,7 +1992,7 @@ declare namespace React {
          isPrimary: boolean;
      }
  
@@ -51,7 +52,7 @@ index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181f
          relatedTarget: (EventTarget & RelatedTarget) | null;
          target: EventTarget & Target;
      }
-@@ -2199,7 +2201,7 @@ declare namespace React {
+@@ -2023,7 +2024,7 @@ declare namespace React {
          | "Symbol"
          | "SymbolLock";
  
@@ -60,7 +61,7 @@ index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181f
          altKey: boolean;
          /** @deprecated */
          charCode: number;
-@@ -2224,7 +2226,7 @@ declare namespace React {
+@@ -2048,7 +2049,7 @@ declare namespace React {
          which: number;
      }
  
@@ -69,7 +70,7 @@ index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181f
          altKey: boolean;
          button: number;
          buttons: number;
-@@ -2246,7 +2248,7 @@ declare namespace React {
+@@ -2070,7 +2071,7 @@ declare namespace React {
          shiftKey: boolean;
      }
  
@@ -78,7 +79,7 @@ index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181f
          altKey: boolean;
          changedTouches: TouchList;
          ctrlKey: boolean;
-@@ -2260,25 +2262,25 @@ declare namespace React {
+@@ -2084,30 +2085,30 @@ declare namespace React {
          touches: TouchList;
      }
  
@@ -103,21 +104,27 @@ index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181f
          pseudoElement: string;
      }
  
+-    interface ToggleEvent<T = Element> extends SyntheticEvent<T, NativeToggleEvent> {
++    interface ToggleEvent<T = Element> extends SyntheticEvent<T, NativeToggleEvent>, globalThis.ToggleEvent {
+         oldState: "closed" | "open";
+         newState: "closed" | "open";
+     }
+ 
 -    interface TransitionEvent<T = Element> extends SyntheticEvent<T, NativeTransitionEvent> {
 +    interface TransitionEvent<T = Element> extends SyntheticEvent<T, NativeTransitionEvent>, globalThis.TransitionEvent {
          elapsedTime: number;
          propertyName: string;
          pseudoElement: string;
-@@ -2841,7 +2843,7 @@ declare namespace React {
-         // Standard HTML Attributes
+@@ -2682,7 +2683,7 @@ declare namespace React {
          accessKey?: string | undefined;
+         autoCapitalize?: "off" | "none" | "on" | "sentences" | "words" | "characters" | undefined | (string & {});
          autoFocus?: boolean | undefined;
 -        className?: string | undefined;
 +        className?: string | ClassArray | undefined;
          contentEditable?: Booleanish | "inherit" | "plaintext-only" | undefined;
          contextMenu?: string | undefined;
          dir?: string | undefined;
-@@ -3590,7 +3592,7 @@ declare namespace React {
+@@ -3450,7 +3451,7 @@ declare namespace React {
  
          // Attributes which also defined in HTMLAttributes
          // See comment in SVGDOMPropertyConfig.js
@@ -126,7 +133,7 @@ index 25bc72acab41076de886dd83a3f76536fc659502..61aa514eca574715ccc2420b51ca181f
          color?: string | undefined;
          height?: number | string | undefined;
          id?: string | undefined;
-@@ -4147,7 +4149,7 @@ declare namespace React {
+@@ -3932,7 +3933,7 @@ declare namespace React {
      // https://github.com/nikeee/2048-typescript/blob/master/2048/js/touch.d.ts
      // ----------------------------------------------------------------------
  

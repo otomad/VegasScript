@@ -15,7 +15,7 @@ const keyToUrl = proxyMap<number, string>();
 const itemsAtom = atom<BackgroundImageRowWithMore[]>([]);
 
 export function useBackgroundImages() {
-	const store = useRef<IndexedDBStore<BackgroundImageRow>>();
+	const store = useRef<IndexedDBStore<BackgroundImageRow>>(undefined);
 	type Store = NonNull<typeof store.current>;
 	const [items, setItems] = useAtom(itemsAtom);
 	const { backgroundImage } = useSnapshot(configStore.settings);

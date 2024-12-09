@@ -1,0 +1,147 @@
+diff --git a/cjs/react-dom-client.development.js b/cjs/react-dom-client.development.js
+index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd2710283a1ed 100644
+--- a/cjs/react-dom-client.development.js
++++ b/cjs/react-dom-client.development.js
+@@ -1387,7 +1387,13 @@
+     }
+     function setValueForAttribute(node, name, value) {
+       if (isAttributeNameSafe(name))
+-        if (null === value) node.removeAttribute(name);
++        if (name.startsWith("data-") && typeof value === "boolean") {
++          if (!value) {
++            node.removeAttribute(name);
++          } else {
++            node.setAttribute(name, "");
++          }
++        } else if (null === value) node.removeAttribute(name);
+         else {
+           switch (typeof value) {
+             case "undefined":
+@@ -2454,6 +2460,8 @@
+       return null;
+     }
+     function validateDOMNesting(childTag, ancestorInfo) {
++      return; // Stop reporting the fucking errors, I insist on writing the invalid html.
++
+       ancestorInfo = ancestorInfo || emptyAncestorInfoDev;
+       var parentInfo = ancestorInfo.current;
+       ancestorInfo = (parentInfo = isTagValidWithParent(
+@@ -4490,6 +4498,9 @@
+               parentName
+             ));
+     }
++    function isI18nItem(newChild) {
++      return !!newChild?.[Symbol.for("i18n_item")];
++    }
+     function createChildReconciler(shouldTrackSideEffects) {
+       function deleteChild(returnFiber, childToDelete) {
+         if (shouldTrackSideEffects) {
+@@ -4638,7 +4649,8 @@
+         if (
+           ("string" === typeof newChild && "" !== newChild) ||
+           "number" === typeof newChild ||
+-          "bigint" === typeof newChild
++          "bigint" === typeof newChild ||
++          isI18nItem(newChild)
+         )
+           return (
+             (newChild = createFiberFromText(
+@@ -4729,7 +4741,8 @@
+         if (
+           ("string" === typeof newChild && "" !== newChild) ||
+           "number" === typeof newChild ||
+-          "bigint" === typeof newChild
++          "bigint" === typeof newChild ||
++          isI18nItem(newChild)
+         )
+           return null !== key
+             ? null
+@@ -4815,7 +4828,8 @@
+         if (
+           ("string" === typeof newChild && "" !== newChild) ||
+           "number" === typeof newChild ||
+-          "bigint" === typeof newChild
++          "bigint" === typeof newChild ||
++          isI18nItem(newChild)
+         )
+           return (
+             (existingChildren = existingChildren.get(newIdx) || null),
+@@ -5378,7 +5392,8 @@
+         if (
+           ("string" === typeof newChild && "" !== newChild) ||
+           "number" === typeof newChild ||
+-          "bigint" === typeof newChild
++          "bigint" === typeof newChild ||
++          isI18nItem(newChild)
+         )
+           return (
+             (prevDebugInfo = "" + newChild),
+diff --git a/cjs/react-dom-client.production.js b/cjs/react-dom-client.production.js
+index af7283abaca3e5812ef71b03d9c999410baa1a80..84584ecc6ef6a076897dee635ef199b9b0b1e2c5 100644
+--- a/cjs/react-dom-client.production.js
++++ b/cjs/react-dom-client.production.js
+@@ -909,7 +909,13 @@ function isAttributeNameSafe(attributeName) {
+ }
+ function setValueForAttribute(node, name, value) {
+   if (isAttributeNameSafe(name))
+-    if (null === value) node.removeAttribute(name);
++    if (name.startsWith("data-") && typeof value === "boolean") {
++      if (!value) {
++        node.removeAttribute(name);
++      } else {
++        node.setAttribute(name, "");
++      }
++    } else if (null === value) node.removeAttribute(name);
+     else {
+       switch (typeof value) {
+         case "undefined":
+@@ -2751,6 +2757,9 @@ function resolveLazy(lazyType) {
+   var init = lazyType._init;
+   return init(lazyType._payload);
+ }
++function isI18nItem(newChild) {
++  return !!newChild?.[Symbol.for("i18n_item")];
++}
+ function createChildReconciler(shouldTrackSideEffects) {
+   function deleteChild(returnFiber, childToDelete) {
+     if (shouldTrackSideEffects) {
+@@ -2885,7 +2894,8 @@ function createChildReconciler(shouldTrackSideEffects) {
+     if (
+       ("string" === typeof newChild && "" !== newChild) ||
+       "number" === typeof newChild ||
+-      "bigint" === typeof newChild
++      "bigint" === typeof newChild ||
++      isI18nItem(newChild)
+     )
+       return (
+         (newChild = createFiberFromText(
+@@ -2955,7 +2965,8 @@ function createChildReconciler(shouldTrackSideEffects) {
+     if (
+       ("string" === typeof newChild && "" !== newChild) ||
+       "number" === typeof newChild ||
+-      "bigint" === typeof newChild
++      "bigint" === typeof newChild ||
++      isI18nItem(newChild)
+     )
+       return null !== key
+         ? null
+@@ -3009,7 +3020,8 @@ function createChildReconciler(shouldTrackSideEffects) {
+     if (
+       ("string" === typeof newChild && "" !== newChild) ||
+       "number" === typeof newChild ||
+-      "bigint" === typeof newChild
++      "bigint" === typeof newChild ||
++      isI18nItem(newChild)
+     )
+       return (
+         (existingChildren = existingChildren.get(newIdx) || null),
+@@ -3395,7 +3407,8 @@ function createChildReconciler(shouldTrackSideEffects) {
+     }
+     return ("string" === typeof newChild && "" !== newChild) ||
+       "number" === typeof newChild ||
+-      "bigint" === typeof newChild
++      "bigint" === typeof newChild ||
++      isI18nItem(newChild)
+       ? ((newChild = "" + newChild),
+         null !== currentFirstChild && 6 === currentFirstChild.tag
+           ? (deleteRemainingChildren(returnFiber, currentFirstChild.sibling),

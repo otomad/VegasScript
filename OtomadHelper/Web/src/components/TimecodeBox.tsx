@@ -112,7 +112,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 }, "div">) {
 	const timecodeBoxEl = useDomRef<"div">();
 
-	const lastActiveItemLastIndex = useRef<number>();
+	const lastActiveItemLastIndex = useRef<number>(undefined);
 
 	const tokens = useMemo(() => getTimecodeTokens(timecode), [timecode]);
 

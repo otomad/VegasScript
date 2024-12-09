@@ -4,7 +4,7 @@ export default function RepeatButton({ children, onClick, onRelease, ...htmlAttr
 	/** Mouse release button event. */
 	onRelease?: BaseEventHandler;
 }, "button">) {
-	const repeatTimeout = useRef<Timeout>();
+	const repeatTimeout = useRef<Timeout>(undefined);
 	const clearRepeatInterval = () => clearInterval(repeatTimeout.current);
 	const [pressed, setPressed] = useState(false);
 

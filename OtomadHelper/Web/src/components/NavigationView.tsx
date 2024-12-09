@@ -626,7 +626,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 	[currentNav, navItems]);
 	titles ??= [{ name: currentNavItem?.text ?? "" }];
 
-	const previousPageTitleKey = useRef<typeof pageTitleKey>();
+	const previousPageTitleKey = useRef<typeof pageTitleKey>(undefined);
 	const pageTitleKey: [string, number] = [currentNavItem?.id ?? "", new Date().valueOf()];
 	if (pageTitleKey[0] === previousPageTitleKey.current?.[0]) pageTitleKey[1] = previousPageTitleKey.current?.[1];
 	previousPageTitleKey.current = pageTitleKey;

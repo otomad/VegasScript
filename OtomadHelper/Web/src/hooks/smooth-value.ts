@@ -22,7 +22,7 @@ const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < 
 export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, speed: number, options: SmoothValueOptions<T> = {}) {
 	if (speed <= 0 || speed > 1)
 		throw new RangeError(`useSmoothValue speed parameter value range error. The parameter value must be within the range of (0 ~ 1], the current value is ${speed}.`);
-	const animationId = useRef<number>();
+	const animationId = useRef<number>(undefined);
 	const FRACTION_DIGITS = 6; // Round to 6 decimal places.
 	// const isStopChanging = useRef(true);
 	const [smoothValue, _setSmoothValue] = useState(current);

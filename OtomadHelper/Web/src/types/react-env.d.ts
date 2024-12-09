@@ -45,11 +45,10 @@ declare global {
 	type GetTagFromElement<TElement> = {
 		[Tag in keyof ElementTagNameMap]: ElementTagNameMap[Tag] extends TElement ? TElement extends ElementTagNameMap[Tag] ? Tag : never : never;
 	}[keyof ElementTagNameMap];
-	type GetAttributesFromTag<TTagName> =
-		React.ReactDOM[TTagName] extends React.DetailedHTMLFactory<infer Attrs, any> ? Attrs :
-		React.ReactDOM[TTagName] extends React.SVGFactory ? React.SVGAttributes<any> : never;
+	type GetAttributesFromTag<TTagName> = React.JSX.IntrinsicElements[TTagName];
 	type GetAttributesFromElement<TElement> = GetAttributesFromTag<GetTagFromElement<TElement>>;
 
+	type test____ = GetAttributesFromTag<"a">;
 	/**
 	 * Props type for React Hook style functional components.
 	 * @template TProps - Props of the component.
@@ -116,7 +115,7 @@ declare global {
 	interface BaseEvent<T = Element> extends SyntheticEvent<T>, Event { }
 	export type BaseEventHandler<T = Element> = EventHandler<BaseEvent<T>>;
 
-	export type ElementTagNameMap = HTMLElementTagNameMap & SVGElementTagNameMap & MathMLElementTagNameMap & HTMLElementDeprecatedTagNameMap;
+	export type ElementTagNameMap = HTMLElementTagNameMap & Omit<SVGElementTagNameMap, "a"> & MathMLElementTagNameMap & HTMLElementDeprecatedTagNameMap;
 	export type TagNameToElement<TTagName extends keyof ElementTagNameMap | Element> =
 		TTagName extends keyof ElementTagNameMap ? ElementTagNameMap[TTagName] : TTagName;
 	export type ForwardedRef<T> = T extends keyof ElementTagNameMap ? React.ForwardedRef<ElementTagNameMap[T]> : React.ForwardedRef<T>;
@@ -129,7 +128,7 @@ declare global {
 	export type { Property as CSSProperty } from "csstype";
 	export type { Draft } from "immer";
 	export type { AnimationItem } from "lottie-web";
-	export type { AnimationEventHandler, ChangeEventHandler, CSSProperties, DependencyList, DragEventHandler, EventHandler, FocusEventHandler, FormEventHandler, KeyboardEventHandler, MouseEventHandler, MutableRefObject, PointerEventHandler, PropsWithChildren, default as React, ReactElement, ReactNode, RefObject, SyntheticEvent, UIEventHandler, WheelEventHandler } from "react";
+	export type { AnimationEventHandler, ChangeEventHandler, CSSProperties, DependencyList, DragEventHandler, EventHandler, FocusEventHandler, FormEventHandler, KeyboardEventHandler, MouseEventHandler, PointerEventHandler, PropsWithChildren, default as React, ReactElement, ReactNode, RefObject, RefObject, SyntheticEvent, UIEventHandler, WheelEventHandler } from "react";
 	export type { CSSTransition as CssTransition, SwitchTransition, TransitionGroup } from "react-transition-group-fc"; // CSSTransition has the same name as a native class.
 	export type { RuleSet, WebTarget } from "styled-components";
 }

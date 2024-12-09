@@ -271,7 +271,7 @@ export function useDomRefState<TElement extends keyof ElementTagNameMap | Elemen
  */
 export function useDomRefs<TElement extends keyof ElementTagNameMap | Element>() {
 	type TElementOrNull = TagNameToElement<TElement> | null;
-	const refs: MutableRefObject<TElementOrNull[]> = useRef([]);
+	const refs: RefObject<TElementOrNull[]> = useRef([]);
 	const setRef = (index: number) => (el: TElementOrNull) => refs.current[index] = el;
 	return [refs, setRef] as const;
 }
@@ -589,9 +589,13 @@ export function clearObject(object: AnyObject) {
  * @warn This function use an unstable API, which may become invalid after a React update in the future.
  */
 export function canUseHook() {
+	// React 18.0
+	// const internal = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+	// return !!internal.ReactCurrentDispatcher.current;
+
 	// @ts-expect-error
-	const internal = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE ?? React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-	return !!internal.ReactCurrentDispatcher.current;
+	const internal = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+	return !!internal.H;
 }
 
 /**

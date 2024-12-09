@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  '@types/react@18.2.78':
-    hash: elhs2bm6qbyerx2izl4w7ytzby
-    path: patches/@types__react@18.2.78.patch
+  '@types/react@19.0.1':
+    hash: uhwoqw3gdbxseimddc3rrm7cji
+    path: patches/@types__react@19.0.1.patch
   babel-plugin-styled-components@2.1.4:
     hash: lj4emmbuiuzlg5edtbjplsude4
     path: patches/babel-plugin-styled-components@2.1.4.patch
@@ -26,24 +26,24 @@ patchedDependencies:
   postcss-selector-parser@6.1.2:
     hash: c6pvggwplewue4bpxp74ftgq5u
     path: patches/postcss-selector-parser@6.1.2.patch
-  postcss-styled-syntax@0.6.4:
+  postcss-styled-syntax@0.7.0:
     hash: rn4setm5xqloprsbfimt6gdcgu
-    path: patches/postcss-styled-syntax@0.6.4.patch
-  postcss@8.4.47:
-    hash: 5ekgxqzkzchng7x6j4g2ebxymi
-    path: patches/postcss@8.4.47.patch
-  react-dom@18.2.0:
-    hash: zh6ks6wyyqeaux22zsfgr6pzny
-    path: patches/react-dom@18.2.0.patch
+    path: patches/postcss-styled-syntax@0.7.0.patch
+  postcss@8.4.49:
+    hash: 4euoa6z2mpnx7lmi3kqkotwb5q
+    path: patches/postcss@8.4.49.patch
+  react-dom@19.0.0:
+    hash: ykjfilvwog5igucew45xgxs7gm
+    path: patches/react-dom@19.0.0.patch
   react-flip-move@3.0.5:
     hash: mgjzmccyt7p4vdkyyzygxjdjwq
     path: patches/react-flip-move@3.0.5.patch
-  react@18.2.0:
-    hash: ctassvsoyoddchcpsn57aedcym
-    path: patches/react@18.2.0.patch
-  styled-components@6.1.8:
-    hash: 5bk3gltfg5a7pjp7qehgmxddoq
-    path: patches/styled-components@6.1.8.patch
+  react@19.0.0:
+    hash: g2pabjf2tcwka6woxtxz5me4iy
+    path: patches/react@19.0.0.patch
+  styled-components@6.1.13:
+    hash: qcbctzhtajyapl4pmv66quao6a
+    path: patches/styled-components@6.1.13.patch
   vite-plugin-image-optimizer@1.1.8:
     hash: fhhltqb36irwz5vha6miizderq
     path: patches/vite-plugin-image-optimizer@1.1.8.patch
@@ -54,13 +54,13 @@ importers:
     dependencies:
       '@dnd-kit/core':
         specifier: ^6.3.1
-        version: 6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       '@dnd-kit/modifiers':
         specifier: ^9.0.0
-        version: 9.0.0(@dnd-kit/core@6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 9.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       '@dnd-kit/sortable':
         specifier: ^10.0.0
-        version: 10.0.0(@dnd-kit/core@6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 10.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       ani-cursor:
         specifier: ^0.0.5
         version: 0.0.5
@@ -81,13 +81,13 @@ importers:
         version: 10.1.1
       jotai:
         specifier: ^2.10.3
-        version: 2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       jotai-immer:
         specifier: ^0.4.1
-        version: 0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
+        version: 0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))
       jotai-valtio:
         specifier: ^0.5.0
-        version: 0.5.0(jotai@2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
+        version: 0.5.0(jotai@2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(valtio@2.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -101,32 +101,32 @@ importers:
         specifier: ^4.0.7
         version: 4.0.7(patch_hash=kommaei6mdnwkhfyu555is7zfe)
       react:
-        specifier: ^18.2.0
-        version: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+        specifier: ^19.0.0
+        version: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
       react-dom:
-        specifier: ^18.2.0
-        version: 18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        specifier: ^19.0.0
+        version: 19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       react-flip-move:
         specifier: ^3.0.5
-        version: 3.0.5(patch_hash=mgjzmccyt7p4vdkyyzygxjdjwq)(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 3.0.5(patch_hash=mgjzmccyt7p4vdkyyzygxjdjwq)(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       react-i18next:
         specifier: ^15.1.0
-        version: 15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       react-transition-group-fc:
         specifier: ^4.5.2
-        version: 4.5.2(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 4.5.2(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       styled-components:
-        specifier: ^6.1.8
-        version: 6.1.8(patch_hash=5bk3gltfg5a7pjp7qehgmxddoq)(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        specifier: ^6.1.13
+        version: 6.1.13(patch_hash=qcbctzhtajyapl4pmv66quao6a)(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       styled-tools:
         specifier: ^1.7.2
         version: 1.7.2
       use-immer:
         specifier: ^0.10.0
-        version: 0.10.0(immer@10.1.1)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 0.10.0(immer@10.1.1)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       valtio:
         specifier: ^2.1.2
-        version: 2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 2.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
     devDependencies:
       '@commitlint/cli':
         specifier: latest
@@ -171,23 +171,23 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       '@types/react':
-        specifier: ^18.2.78
-        version: 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
+        specifier: ^19.0.1
+        version: 19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji)
       '@types/react-dom':
-        specifier: ^18.2.25
-        version: 18.2.25
+        specifier: ^19.0.1
+        version: 19.0.1
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.3.4(vite@6.0.3(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
       babel-plugin-styled-components:
         specifier: ^2.1.4
-        version: 2.1.4(patch_hash=lj4emmbuiuzlg5edtbjplsude4)(@babel/core@7.24.4)(styled-components@6.1.8(patch_hash=5bk3gltfg5a7pjp7qehgmxddoq)(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))
+        version: 2.1.4(patch_hash=lj4emmbuiuzlg5edtbjplsude4)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=qcbctzhtajyapl4pmv66quao6a)(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))
       babel-plugin-transform-jsx-classnames:
         specifier: ^1.2.2
         version: 1.2.2(patch_hash=ie37eryichha676pwommzoc6ja)
       click-to-react-component:
         specifier: ^1.1.2
-        version: 1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+        version: 1.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       commitizen:
         specifier: latest
         version: 4.3.1(@types/node@22.9.0)(typescript@5.7.2)
@@ -222,11 +222,11 @@ importers:
         specifier: ^1.28.2
         version: 1.28.2
       postcss:
-        specifier: ^8.4.47
-        version: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
+        specifier: ^8.4.49
+        version: 8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)
       postcss-styled-syntax:
-        specifier: ^0.6.4
-        version: 0.6.4(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi))
+        specifier: ^0.7.0
+        version: 0.7.0(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q))
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -664,14 +664,14 @@ packages:
   '@emnapi/runtime@1.3.1':
     resolution: {integrity: sha512-kEBmG8KyqtxJZv+ygbEim+KCGtIq1fC22Ms3S4ziXmYKm8uyoLX0MHONVKwp+9opg390VaKRNt4a7A9NwmpNhw==}
 
-  '@emotion/is-prop-valid@1.2.1':
-    resolution: {integrity: sha512-61Mf7Ufx4aDxx1xlDeOm8aFFigGHE4z+0sKCa+IHCeZKiyP9RLD0Mmx7m8b9/Cf37f7NAvQOOJAbQQGVr5uERw==}
+  '@emotion/is-prop-valid@1.2.2':
+    resolution: {integrity: sha512-uNsoYd37AFmaCdXlg6EYD1KaPOaRWRByMCYzbKUX4+hhMfrxdVSelShywL4JVaAeM/eHUOSprYBQls+/neX3pw==}
 
   '@emotion/memoize@0.8.1':
     resolution: {integrity: sha512-W2P2c/VRW1/1tLox0mVUalvnWXxavmv/Oum2aPsRcoDJuob75FC3Y8FbpfLwUegRcxINtGUMPq0tFCvYNTBXNA==}
 
-  '@emotion/unitless@0.8.0':
-    resolution: {integrity: sha512-VINS5vEYAscRl2ZUDiT3uMPlrFQupiKgHz5AA4bCH1miKBg4qtwkim1qPmJj/4WG6TreYMY111rEFsjupcOKHw==}
+  '@emotion/unitless@0.8.1':
+    resolution: {integrity: sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==}
 
   '@esbuild/aix-ppc64@0.24.0':
     resolution: {integrity: sha512-WtKdFM7ls47zkKHFVzMz8opM7LkcsIp9amDUBIAWirg70RM71WRSjdILPsY5Uv1D42ZpUfaPILDlfactHgsRkw==}
@@ -1295,14 +1295,17 @@ packages:
   '@types/prop-types@15.7.12':
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
 
-  '@types/react-dom@18.2.25':
-    resolution: {integrity: sha512-o/V48vf4MQh7juIKZU2QGDfli6p1+OOi5oXx36Hffpc9adsHeXjVp8rHuPkjd8VT8sOJ2Zp05HR7CdpGTIUFUA==}
+  '@types/react-dom@19.0.1':
+    resolution: {integrity: sha512-hljHij7MpWPKF6u5vojuyfV0YA4YURsQG7KT6SzV0Zs2BXAtgdTxG6A229Ub/xiWV4w/7JL8fi6aAyjshH4meA==}
 
   '@types/react@18.2.78':
     resolution: {integrity: sha512-qOwdPnnitQY4xKlKayt42q5W5UQrSHjgoXNVEtxeqdITJ99k4VXJOP3vt8Rkm9HmgJpH50UNU+rlqfkfWOqp0A==}
 
-  '@types/stylis@4.2.0':
-    resolution: {integrity: sha512-n4sx2bqL0mW1tvDf/loQ+aMX7GQD3lc3fkCMC55VFNDu/vBOabO+LTIeXKM14xK0ppk5TUGcWRjiSpIlUpghKw==}
+  '@types/react@19.0.1':
+    resolution: {integrity: sha512-YW6614BDhqbpR5KtUYzTA+zlA7nayzJRA9ljz9CQoxthR0sDisYZLuvSMsil36t4EH/uAt8T52Xb4sVw17G+SQ==}
+
+  '@types/stylis@4.2.5':
+    resolution: {integrity: sha512-1Xve+NMN7FWjY14vLoY5tL3BVEQ/n42YLwaqJIPYhotZ9uBHt87VceMwWQpzmdEt2TNXIorIFG+YeCUUW7RInw==}
 
   '@types/svgo@2.6.4':
     resolution: {integrity: sha512-l4cmyPEckf8moNYHdJ+4wkHvFxjyW6ulm9l4YGaOxeyBWPhBOT0gvni1InpFPdzx1dKf/2s62qGITwxNWnPQng==}
@@ -1930,9 +1933,6 @@ packages:
   cssstyle@4.1.0:
     resolution: {integrity: sha512-h66W1URKpBS5YMI/V8PyXvTMFT8SupJ1IzoIV8IeBC/ji8WVmrO8dGlTi+2dh6whmdk6BiKJLD/ZBkhWbcg6nA==}
     engines: {node: '>=18'}
-
-  csstype@3.1.2:
-    resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
 
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
@@ -3642,8 +3642,8 @@ packages:
     peerDependencies:
       postcss: ^8.4.20
 
-  postcss-styled-syntax@0.6.4:
-    resolution: {integrity: sha512-uWiLn+9rKgIghUYmTHvXMR6MnyPULMe9Gv3bV537Fg4FH6CA6cn21WMjKss2Qb98LUhT847tKfnRGG3FhSOgUQ==}
+  postcss-styled-syntax@0.7.0:
+    resolution: {integrity: sha512-OeStzPkHJ1/WDGRKm/JuVK8UdJbjt3U7AFC+zUc9omJ79SaXSxWoy+PXxJz7t8vOO8HcUgCLndNEQfLvZ74TuQ==}
     engines: {node: '>=14.17'}
     peerDependencies:
       postcss: ^8.4.21
@@ -3655,12 +3655,8 @@ packages:
     resolution: {integrity: sha512-zrUjRRe1bpXKsX1qAJNJjqZViErVuyEkMTRrwu4ud4sbTtIBRmtaYDrHmcGgmrbsW3MHfmtIf+vJumgQn+PrXg==}
     engines: {node: '>=0.12'}
 
-  postcss@8.4.31:
-    resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
-    engines: {node: ^10 || ^12 || >=14}
-
-  postcss@8.4.47:
-    resolution: {integrity: sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==}
+  postcss@8.4.38:
+    resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.4.49:
@@ -3714,10 +3710,10 @@ packages:
   radix3@1.1.2:
     resolution: {integrity: sha512-b484I/7b8rDEdSDKckSSBA8knMpcdsXudlE/LNL639wFoHKwLbEkQFZHWEYwDC0wa0FKUcCY+GAF73Z7wxNVFA==}
 
-  react-dom@18.2.0:
-    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
+  react-dom@19.0.0:
+    resolution: {integrity: sha512-4GV5sHFG0e/0AD4X+ySy6UJd3jVl1iNsNHdpad0qhABJ11twS3TTBnseqsKurKcsNqCEFeGL3uLpVChpIO3QfQ==}
     peerDependencies:
-      react: ^18.2.0
+      react: ^19.0.0
 
   react-flip-move@3.0.5:
     resolution: {integrity: sha512-Mf4XpbkUNZy9eu80iXXFIjToDvw+bnHxmKHVoositbMpV87O/EQswnXUqVovRHoTx/F+4dE+p//PyJnAT7OtPA==}
@@ -3754,8 +3750,8 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  react@18.2.0:
-    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
+  react@19.0.0:
+    resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
     engines: {node: '>=0.10.0'}
 
   read-installed@4.0.3:
@@ -3903,8 +3899,8 @@ packages:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
 
-  scheduler@0.23.0:
-    resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
+  scheduler@0.25.0:
+    resolution: {integrity: sha512-xFVuu11jh+xcO7JOAGJNOXld8/TcEHK/4CituBUeUb5hqxJLj9YuemAEuvm9gQ/+pgXYfbQuqAkiYu+u7YEsNA==}
 
   scule@1.3.0:
     resolution: {integrity: sha512-6FtHJEvt+pVMIB9IBY+IcCJ6Z5f1iQnytgyfKMhDKgmzYG+TeH/wx1y3l27rshSbLiSanrR9ffZDrEsmjlQF2g==}
@@ -3990,10 +3986,6 @@ packages:
 
   snapdragon@0.8.2:
     resolution: {integrity: sha512-FtyOnWN/wCHTVXOMwvSv26d+ko5vWlIDD6zoUJ7LW8vh+ZBC8QdljveRP+crNrtBwioEUWy/4dMtbBjA4ioNlg==}
-    engines: {node: '>=0.10.0'}
-
-  source-map-js@1.2.0:
-    resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
     engines: {node: '>=0.10.0'}
 
   source-map-js@1.2.1:
@@ -4128,8 +4120,8 @@ packages:
   style-search@0.1.0:
     resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==}
 
-  styled-components@6.1.8:
-    resolution: {integrity: sha512-PQ6Dn+QxlWyEGCKDS71NGsXoVLKfE1c3vApkvDYS5KAK+V8fNWGhbSUEo9Gg2iaID2tjLXegEW3bZDUGpofRWw==}
+  styled-components@6.1.13:
+    resolution: {integrity: sha512-M0+N2xSnAtwcVAQeFEsGWFFxXDftHUD7XrKla06QbpUMmbmtFBMMTcKWvFXtWxuD5qQkB8iU5gk6QASlx2ZRMw==}
     engines: {node: '>= 16'}
     peerDependencies:
       react: '>= 16.8.0'
@@ -4160,8 +4152,8 @@ packages:
     engines: {node: '>=18.12.0'}
     hasBin: true
 
-  stylis@4.3.1:
-    resolution: {integrity: sha512-EQepAV+wMsIaGVGX1RECzgrcqRRU/0sYOHkeLsZ3fzHaHXZy4DaOOX0vOlGQdlsjkh3mFHAIlVimpwAs4dslyQ==}
+  stylis@4.3.2:
+    resolution: {integrity: sha512-bhtUjWd/z6ltJiQwg0dUfxEJ+W+jdqQd8TbWLWyeIJHlnsqmGLRFFd8e5mA0AZi/zx90smXRlN66YMTcaSFifg==}
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -4290,9 +4282,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  tslib@2.5.0:
-    resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
 
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
@@ -5151,36 +5140,36 @@ snapshots:
     dependencies:
       postcss-selector-parser: 7.0.0
 
-  '@dnd-kit/accessibility@3.1.1(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
+  '@dnd-kit/accessibility@3.1.1(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))':
     dependencies:
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
       tslib: 2.6.2
 
-  '@dnd-kit/core@6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
+  '@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))':
     dependencies:
-      '@dnd-kit/accessibility': 3.1.1(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      '@dnd-kit/utilities': 3.2.2(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
-      react-dom: 18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      '@dnd-kit/accessibility': 3.1.1(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
+      react-dom: 19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       tslib: 2.6.2
 
-  '@dnd-kit/modifiers@9.0.0(@dnd-kit/core@6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
+  '@dnd-kit/modifiers@9.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))':
     dependencies:
-      '@dnd-kit/core': 6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      '@dnd-kit/utilities': 3.2.2(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      '@dnd-kit/core': 6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
       tslib: 2.6.2
 
-  '@dnd-kit/sortable@10.0.0(@dnd-kit/core@6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
+  '@dnd-kit/sortable@10.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))':
     dependencies:
-      '@dnd-kit/core': 6.3.1(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      '@dnd-kit/utilities': 3.2.2(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      '@dnd-kit/core': 6.3.1(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
       tslib: 2.6.2
 
-  '@dnd-kit/utilities@3.2.2(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
+  '@dnd-kit/utilities@3.2.2(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))':
     dependencies:
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
       tslib: 2.6.2
 
   '@dual-bundle/import-meta-resolve@4.1.0': {}
@@ -5200,13 +5189,13 @@ snapshots:
       tslib: 2.6.2
     optional: true
 
-  '@emotion/is-prop-valid@1.2.1':
+  '@emotion/is-prop-valid@1.2.2':
     dependencies:
       '@emotion/memoize': 0.8.1
 
   '@emotion/memoize@0.8.1': {}
 
-  '@emotion/unitless@0.8.0': {}
+  '@emotion/unitless@0.8.1': {}
 
   '@esbuild/aix-ppc64@0.24.0':
     optional: true
@@ -5327,23 +5316,23 @@ snapshots:
     dependencies:
       '@floating-ui/core': 0.6.2
 
-  '@floating-ui/react-dom-interactions@0.3.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
+  '@floating-ui/react-dom-interactions@0.3.1(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))':
     dependencies:
-      '@floating-ui/react-dom': 0.6.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      '@floating-ui/react-dom': 0.6.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       aria-hidden: 1.2.4
       point-in-polygon: 1.1.0
-      use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      use-isomorphic-layout-effect: 1.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
     transitivePeerDependencies:
       - '@types/react'
       - react
       - react-dom
 
-  '@floating-ui/react-dom@0.6.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))':
+  '@floating-ui/react-dom@0.6.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))':
     dependencies:
       '@floating-ui/dom': 0.4.5
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
-      react-dom: 18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
+      react-dom: 19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      use-isomorphic-layout-effect: 1.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
     transitivePeerDependencies:
       - '@types/react'
 
@@ -5733,16 +5722,20 @@ snapshots:
 
   '@types/prop-types@15.7.12': {}
 
-  '@types/react-dom@18.2.25':
+  '@types/react-dom@19.0.1':
     dependencies:
-      '@types/react': 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
+      '@types/react': 18.2.78
 
-  '@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)':
+  '@types/react@18.2.78':
     dependencies:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
 
-  '@types/stylis@4.2.0': {}
+  '@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji)':
+    dependencies:
+      csstype: 3.1.3
+
+  '@types/stylis@4.2.5': {}
 
   '@types/svgo@2.6.4':
     dependencies:
@@ -6037,14 +6030,14 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  babel-plugin-styled-components@2.1.4(patch_hash=lj4emmbuiuzlg5edtbjplsude4)(@babel/core@7.24.4)(styled-components@6.1.8(patch_hash=5bk3gltfg5a7pjp7qehgmxddoq)(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
+  babel-plugin-styled-components@2.1.4(patch_hash=lj4emmbuiuzlg5edtbjplsude4)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=qcbctzhtajyapl4pmv66quao6a)(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))):
     dependencies:
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-module-imports': 7.24.3
       '@babel/plugin-syntax-jsx': 7.24.1(@babel/core@7.24.4)
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 6.1.8(patch_hash=5bk3gltfg5a7pjp7qehgmxddoq)(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      styled-components: 6.1.13(patch_hash=qcbctzhtajyapl4pmv66quao6a)(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
     transitivePeerDependencies:
       - '@babel/core'
 
@@ -6232,11 +6225,11 @@ snapshots:
 
   cli-width@4.1.0: {}
 
-  click-to-react-component@1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  click-to-react-component@1.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
-      '@floating-ui/react-dom-interactions': 0.3.1(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      '@floating-ui/react-dom-interactions': 0.3.1(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       htm: 3.1.1
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
       react-merge-refs: 1.1.0
     transitivePeerDependencies:
       - '@types/react'
@@ -6454,8 +6447,6 @@ snapshots:
   cssstyle@4.1.0:
     dependencies:
       rrweb-cssom: 0.7.1
-
-  csstype@3.1.2: {}
 
   csstype@3.1.3: {}
 
@@ -7627,20 +7618,20 @@ snapshots:
 
   jiti@1.21.6: {}
 
-  jotai-immer@0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
+  jotai-immer@0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))):
     dependencies:
       immer: 10.1.1
-      jotai: 2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      jotai: 2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
 
-  jotai-valtio@0.5.0(jotai@2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(valtio@2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))):
+  jotai-valtio@0.5.0(jotai@2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(valtio@2.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))):
     dependencies:
-      jotai: 2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
-      valtio: 2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      jotai: 2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
+      valtio: 2.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
 
-  jotai@2.10.3(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  jotai@2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     optionalDependencies:
-      '@types/react': 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      '@types/react': 19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
 
   js-base64@2.6.4: {}
 
@@ -8267,9 +8258,9 @@ snapshots:
 
   postcss-resolve-nested-selector@0.1.6: {}
 
-  postcss-safe-parser@7.0.1(postcss@8.4.49):
+  postcss-safe-parser@7.0.1(postcss@8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)):
     dependencies:
-      postcss: 8.4.49
+      postcss: 8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)
 
   postcss-selector-parser@6.1.2(patch_hash=c6pvggwplewue4bpxp74ftgq5u):
     dependencies:
@@ -8281,13 +8272,13 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-sorting@8.0.2(postcss@8.4.49):
+  postcss-sorting@8.0.2(postcss@8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)):
     dependencies:
-      postcss: 8.4.49
+      postcss: 8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)
 
-  postcss-styled-syntax@0.6.4(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)):
+  postcss-styled-syntax@0.7.0(patch_hash=rn4setm5xqloprsbfimt6gdcgu)(postcss@8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)):
     dependencies:
-      postcss: 8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi)
+      postcss: 8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)
       typescript: 5.7.2
 
   postcss-value-parser@4.2.0: {}
@@ -8299,19 +8290,13 @@ snapshots:
       source-map: 0.5.7
       supports-color: 3.2.3
 
-  postcss@8.4.31:
-    dependencies:
-      nanoid: 3.3.7
-      picocolors: 1.0.0
-      source-map-js: 1.2.0
-
-  postcss@8.4.47(patch_hash=5ekgxqzkzchng7x6j4g2ebxymi):
+  postcss@8.4.38:
     dependencies:
       nanoid: 3.3.7
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.4.49:
+  postcss@8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q):
     dependencies:
       nanoid: 3.3.7
       picocolors: 1.1.1
@@ -8368,25 +8353,24 @@ snapshots:
 
   radix3@1.1.2: {}
 
-  react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
-      loose-envify: 1.4.0
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
-      scheduler: 0.23.0
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
+      scheduler: 0.25.0
 
-  react-flip-move@3.0.5(patch_hash=mgjzmccyt7p4vdkyyzygxjdjwq)(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  react-flip-move@3.0.5(patch_hash=mgjzmccyt7p4vdkyyzygxjdjwq)(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
-      react-dom: 18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
+      react-dom: 19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
 
-  react-i18next@15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  react-i18next@15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
       '@babel/runtime': 7.26.0
       html-parse-stringify: 3.0.1
       i18next: 24.0.5(typescript@5.7.2)
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
     optionalDependencies:
-      react-dom: 18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      react-dom: 19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
 
   react-is@16.13.1: {}
 
@@ -8394,14 +8378,12 @@ snapshots:
 
   react-refresh@0.14.2: {}
 
-  react-transition-group-fc@4.5.2(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  react-transition-group-fc@4.5.2(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
-      react-dom: 18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
+      react-dom: 19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
 
-  react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym):
-    dependencies:
-      loose-envify: 1.4.0
+  react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy): {}
 
   read-installed@4.0.3:
     dependencies:
@@ -8589,9 +8571,7 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  scheduler@0.23.0:
-    dependencies:
-      loose-envify: 1.4.0
+  scheduler@0.25.0: {}
 
   scule@1.3.0: {}
 
@@ -8712,8 +8692,6 @@ snapshots:
       use: 3.1.1
     transitivePeerDependencies:
       - supports-color
-
-  source-map-js@1.2.0: {}
 
   source-map-js@1.2.1: {}
 
@@ -8872,19 +8850,19 @@ snapshots:
 
   style-search@0.1.0: {}
 
-  styled-components@6.1.8(patch_hash=5bk3gltfg5a7pjp7qehgmxddoq)(react-dom@18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  styled-components@6.1.13(patch_hash=qcbctzhtajyapl4pmv66quao6a)(react-dom@19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
-      '@emotion/is-prop-valid': 1.2.1
-      '@emotion/unitless': 0.8.0
-      '@types/stylis': 4.2.0
+      '@emotion/is-prop-valid': 1.2.2
+      '@emotion/unitless': 0.8.1
+      '@types/stylis': 4.2.5
       css-to-react-native: 3.2.0
-      csstype: 3.1.2
-      postcss: 8.4.31
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
-      react-dom: 18.2.0(patch_hash=zh6ks6wyyqeaux22zsfgr6pzny)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym))
+      csstype: 3.1.3
+      postcss: 8.4.38
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
+      react-dom: 19.0.0(patch_hash=ykjfilvwog5igucew45xgxs7gm)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
       shallowequal: 1.1.0
-      stylis: 4.3.1
-      tslib: 2.5.0
+      stylis: 4.3.2
+      tslib: 2.6.2
 
   styled-tools@1.7.2: {}
 
@@ -8899,8 +8877,8 @@ snapshots:
 
   stylelint-order@6.0.4(stylelint@16.11.0(typescript@5.7.2)):
     dependencies:
-      postcss: 8.4.49
-      postcss-sorting: 8.0.2(postcss@8.4.49)
+      postcss: 8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)
+      postcss-sorting: 8.0.2(postcss@8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q))
       stylelint: 16.11.0(typescript@5.7.2)
 
   stylelint@16.11.0(typescript@5.7.2):
@@ -8932,9 +8910,9 @@ snapshots:
       micromatch: 4.0.8
       normalize-path: 3.0.0
       picocolors: 1.1.1
-      postcss: 8.4.49
+      postcss: 8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)
       postcss-resolve-nested-selector: 0.1.6
-      postcss-safe-parser: 7.0.1(postcss@8.4.49)
+      postcss-safe-parser: 7.0.1(postcss@8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q))
       postcss-selector-parser: 7.0.0
       postcss-value-parser: 4.2.0
       resolve-from: 5.0.0
@@ -8947,7 +8925,7 @@ snapshots:
       - supports-color
       - typescript
 
-  stylis@4.3.1: {}
+  stylis@4.3.2: {}
 
   supports-color@2.0.0: {}
 
@@ -9090,8 +9068,6 @@ snapshots:
   tsconfck@3.0.3(typescript@5.7.2):
     optionalDependencies:
       typescript: 5.7.2
-
-  tslib@2.5.0: {}
 
   tslib@2.6.2: {}
 
@@ -9269,16 +9245,16 @@ snapshots:
 
   urix@0.1.0: {}
 
-  use-immer@0.10.0(immer@10.1.1)(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  use-immer@0.10.0(immer@10.1.1)(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
       immer: 10.1.1
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
 
-  use-isomorphic-layout-effect@1.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  use-isomorphic-layout-effect@1.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
     optionalDependencies:
-      '@types/react': 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
+      '@types/react': 19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji)
 
   use@3.1.1: {}
 
@@ -9293,12 +9269,12 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  valtio@2.1.2(@types/react@18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby))(react@18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)):
+  valtio@2.1.2(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)):
     dependencies:
       proxy-compare: 3.0.0
     optionalDependencies:
-      '@types/react': 18.2.78(patch_hash=elhs2bm6qbyerx2izl4w7ytzby)
-      react: 18.2.0(patch_hash=ctassvsoyoddchcpsn57aedcym)
+      '@types/react': 19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji)
+      react: 19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy)
 
   vary@1.1.2: {}
 
@@ -9364,7 +9340,7 @@ snapshots:
   vite@6.0.3(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0):
     dependencies:
       esbuild: 0.24.0
-      postcss: 8.4.49
+      postcss: 8.4.49(patch_hash=4euoa6z2mpnx7lmi3kqkotwb5q)
       rollup: 4.28.0
     optionalDependencies:
       '@types/node': 22.9.0

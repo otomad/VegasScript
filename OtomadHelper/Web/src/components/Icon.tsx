@@ -25,19 +25,19 @@ const StyledIcon = styled.i<{
 export const getIconSymbolId = (name: string) => "#icon-" + name.replaceAll("/", "-");
 export const getIconAriaLabel = (name: string) => "Icon - " + name.replace(/^off_slash_correction\//, "").replaceAll("_", " ").replaceAll("/", ": ");
 
-function Icon(props: FCP<{
+export default function Icon(props: FCP<{
 	/** Icon file name. */
 	name: DeclaredIcons | "" | boolean;
 	/** Keep the color of the icon itself? */
 	filled?: boolean;
 	children?: never;
-}, "i">, ref: ForwardedRef<"i">): JSX.Element;
-function Icon(props: FCP<{
+}, "i">): JSX.Element;
+export default function Icon(props: FCP<{
 	/** Hold the place, but nothing shown? */
 	shadow: boolean;
 	children?: never;
-}, "i">, ref: ForwardedRef<"i">): JSX.Element;
-function Icon({ name, filled, shadow, className, ...htmlAttrs }: FCP<{
+}, "i">): JSX.Element;
+export default function Icon({ name, filled, shadow, className, ref, ...htmlAttrs }: FCP<{
 	/**
 	 * Icon file name.
 	 * - If it is a boolean, it will be disguised as a (fake) icon element, but the content will be empty.
@@ -48,7 +48,7 @@ function Icon({ name, filled, shadow, className, ...htmlAttrs }: FCP<{
 	filled?: boolean;
 	/** Hold the place, but nothing shown? */
 	shadow?: boolean;
-}, "i">, ref: ForwardedRef<"i">) {
+}, "i">) {
 	if (shadow) return <StyledIcon className={["shadow", className]} {...htmlAttrs} ref={ref} />;
 
 	if (typeof name === "boolean") return <i hidden className={className} {...htmlAttrs} ref={ref} />;
@@ -73,5 +73,3 @@ function Icon({ name, filled, shadow, className, ...htmlAttrs }: FCP<{
 		</StyledIcon>
 	);
 }
-
-export default forwardRef(Icon) as unknown as typeof Icon; // The `forwardRef` doesn't support overload function.

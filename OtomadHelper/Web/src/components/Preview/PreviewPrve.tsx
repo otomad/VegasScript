@@ -516,7 +516,7 @@ function WebglFilter({ src, effect, step }: {
 	step?: number;
 }) {
 	const canvas = useDomRef<"canvas">();
-	const filter = useRef<WebGLFilter>();
+	const filter = useRef<WebGLFilter>(undefined);
 	const { hover } = useContext(ItemsView.Item.StateContext);
 	const [isMounted, setIsMounted] = useState(false);
 	const [uniformName, setUniformName] = useState<string>();
@@ -525,7 +525,7 @@ function WebglFilter({ src, effect, step }: {
 	const [uniformKeyframes, setUniformKeyframes] = useState<[number, number][]>([]);
 	const currentKeyframe = useRef(0);
 	const lastTime = useRef(0);
-	const animationId = useRef<number>();
+	const animationId = useRef<number>(undefined);
 	const usingStaticUniformValue = !hover && step === undefined;
 	const displayUniformValue = usingStaticUniformValue ? staticUniformValue : uniformValue;
 

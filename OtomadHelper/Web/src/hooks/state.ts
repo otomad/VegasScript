@@ -8,8 +8,8 @@ export function useDelayState<T>(): [T | undefined, (value: React.SetStateAction
 export function useDelayState<T>(initialState: T): [T, (value: React.SetStateAction<T>, options?: Options) => Promise<void>];
 export function useDelayState<T>(initialState?: T) {
 	const [state, setStateInternal] = useState(initialState);
-	const delayTimeoutId = useRef<Timeout>();
-	const keepTimeoutId = useRef<Timeout>();
+	const delayTimeoutId = useRef<Timeout>(undefined);
+	const keepTimeoutId = useRef<Timeout>(undefined);
 	const setState = async (value: React.SetStateAction<T>, options: Options = {}) => {
 		if (keepTimeoutId.current && !options.allowInterrupt) return;
 		clearTimeout(delayTimeoutId.current);

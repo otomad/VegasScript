@@ -117,14 +117,14 @@ declare global {
 	 *
 	 * @template TRef - Maybe a Ref type.
 	 */
-	type MaybeRef<TRef> = RefObject<TRef> | MutableRefObject<TRef> | TRef;
+	type MaybeRef<TRef> = RefObject<TRef> | RefObject<TRef> | TRef;
 
 	/**
 	 * Reference to HTML DOM element.
 	 *
 	 * @template TElement - HTML DOM element.
 	 */
-	type DomRef<TElement extends Element> = MutableRefObject<TElement | null>;
+	type DomRef<TElement extends Element> = RefObject<TElement | null>;
 
 	/**
 	 * Get the type of a function based on the specified parameters and return value.

@@ -200,7 +200,7 @@ export /* @internal */ const StyledButton = styled.button<{
 		}
 	}
 `;
-
+type a = FCP<{}, "div">;
 export default forwardRef(function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, className, onRelease, onClick, ...htmlAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;

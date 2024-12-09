@@ -101,7 +101,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	const tooltipEl = useDomRef<"div">();
 	const [actualPlacement, setActualPlacement] = useState(placement);
 	const [position, setPosition] = useState<CSSProperties>();
-	const shownTimeout = useRef<Timeout>();
+	const shownTimeout = useRef<Timeout>(undefined);
 
 	const dom = useMemo(() => {
 		let dom = contentsEl?.firstElementChild;

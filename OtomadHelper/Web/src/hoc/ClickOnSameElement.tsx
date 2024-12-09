@@ -7,7 +7,7 @@ export default forwardRef(function ClickOnSameElement({ children, onClick }: {
 	 */
 	onClick?: MouseEventHandler;
 }, ref: ForwardedRef<HTMLElement>) {
-	const target = useRef<HTMLElement | null>(null);
+	const target = useRef<HTMLElement>(null);
 	const isPressed = useRef(false);
 	useImperativeHandleRef(ref, target);
 

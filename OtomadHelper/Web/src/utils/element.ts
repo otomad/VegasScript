@@ -29,17 +29,17 @@ export function stopEvent(event?: Pick<Event, "preventDefault" | "stopPropagatio
  * @param reactNode - The ReactNode to check for a ref.
  * @returns True if the ReactNode has a ref property, otherwise false.
  */
-export function hasRefInReactNode(reactNode: unknown): reactNode is { ref: MutableRefObject<Element | null> } {
+export function hasRefInReactNode(reactNode: unknown): reactNode is { ref: RefObject<Element | null> } {
 	return !!(reactNode && typeof reactNode === "object" && "ref" in reactNode && reactNode.ref);
 }
 
 /**
  * Clones the provided children, replacing any refs with the provided nodeRef.
  * @param children - The ReactNode to clone and replace refs.
- * @param nodeRef - The MutableRefObject to use as the new ref for any cloned elements with a ref.
+ * @param nodeRef - The RefObject to use as the new ref for any cloned elements with a ref.
  * @returns The cloned children with updated refs.
  */
-export function cloneRef(children: ReactNode, nodeRef: MutableRefObject<Element | null>) {
+export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>) {
 	return h(
 		Fragment,
 		null,
@@ -62,8 +62,8 @@ export function cloneRef(children: ReactNode, nodeRef: MutableRefObject<Element 
 	);
 }
 
-type TargetType = Node | Element | MutableRefObject<Element | null | undefined> | Event | EventTarget | null | undefined;
-type DetectInPathType = Node | Element | MutableRefObject<Element | null | undefined> | Event | EventTarget | string | null | undefined;
+type TargetType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | null | undefined;
+type DetectInPathType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | string | null | undefined;
 
 /**
  * Get an array from the specified element that traces back to the root element.

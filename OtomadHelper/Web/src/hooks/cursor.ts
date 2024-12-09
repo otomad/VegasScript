@@ -22,7 +22,7 @@ export function forceCursor(cursor: Cursor | null) {
  * @param element - HTML DOM element reference.
  * @param aniUrl - The path of the animated mouse cursor.
  */
-export function useAniCursor(element: MutableRefObject<HTMLElement | null>, aniUrl: string) {
+export function useAniCursor(element: RefObject<HTMLElement | null>, aniUrl: string) {
 	useAsyncEffect(async () => {
 		const isCreated = () => !!document.head.querySelector(`style[data-ani-url="${aniUrl}"]`);
 		if (!isCreated()) {

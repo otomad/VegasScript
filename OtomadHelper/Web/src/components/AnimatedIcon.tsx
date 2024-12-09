@@ -70,7 +70,7 @@ const StyledAnimatedIcon = styled.div<{
 type LottieStateMarker = `${string}To${string}`;
 type MarkerFromTo = Partial<{ from: string; to: string }> | undefined;
 
-function useLottieSequence(animationItem: MutableRefObject<AnimationItem | undefined>) {
+function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) {
 	const [sequence, setSequence] = useImmer<LottieStateMarker[]>([]);
 
 	function findMarker(callback: string | ((name: string) => boolean)) {
@@ -195,7 +195,7 @@ export default forwardRef(function AnimatedIcon({
 	pause(): void;
 	stop(): void;
 }>) {
-	const animationItem = useRef<AnimationItem>();
+	const animationItem = useRef<AnimationItem>(undefined);
 	const { findMarker, onAnimationComplete, ...sequence } = useLottieSequence(animationItem);
 
 	/**

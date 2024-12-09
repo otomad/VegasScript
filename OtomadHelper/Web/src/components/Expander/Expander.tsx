@@ -128,7 +128,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	onClickWhenChildrenDisabled?(): void;
 }>) {
 	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className, role };
-	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>();
+	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>(undefined);
 	const [lockExpanderParentContentSize, setLockExpanderParentContentSize] = useState(false);
 	const [internalExpanded, _setInternalExpanded] = useState(expanded);
 	const setInternalExpanded: typeof _setInternalExpanded = expanded => void (async () => {

@@ -28,7 +28,7 @@ export function useUnmountEffect(effect: EffectCallback | (() => Promise<void>))
  * @param deps - An optional array of dependencies. If provided, the effect will be re-executed when any of the dependencies change.
  */
 export function useAsyncEffect(effect: EffectCallbackWithAsync, deps?: DependencyList | undefined) {
-	const unmountEffect = useRef<(() => void) | void>();
+	const unmountEffect = useRef<(() => void) | void>(undefined);
 	useEffect(() => {
 		(async () => {
 			unmountEffect.current = await effect();
@@ -57,7 +57,7 @@ export function useAsyncMountEffect(effect: EffectCallbackWithAsync) {
  * @returns The previous value of the state variable, or `undefined` if it has not been set yet.
  */
 export function usePrevious<T>(value: T): T | undefined {
-	const prevRef = useRef<T>(), curRef = useRef<T>();
+	const prevRef = useRef<T>(undefined), curRef = useRef<T>(undefined);
 	useEffect(() => {
 		if (curRef.current !== value) prevRef.current = curRef.current;
 		curRef.current = value;
@@ -190,7 +190,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * });
  * ```
  */
-export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: MutableRefObject<E | null>, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList): void;
+export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: RefObject<E | null>, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList): void;
 /**
  * A hook to add an event listener to the specified target element, with both addEventListener and removeEventListener in the lifecycle.
  *

@@ -8,7 +8,7 @@
  * @param timeoutIdRef - Get the timeout ID and assign to a React ref object.
  * @returns Empty promise.
  */
-export function delay(ms: number, timeoutIdRef?: MutableRefObject<Timeout | undefined | null>): Promise<void> {
+export function delay(ms: number, timeoutIdRef?: RefObject<Timeout | undefined | null>): Promise<void> {
 	return new Promise(resolve => {
 		const timeoutId = setTimeout(resolve, ms);
 		if (timeoutIdRef) timeoutIdRef.current = timeoutId;
@@ -34,7 +34,7 @@ export function sleep(ms: number) {
  * @returns An ID reference used to cancel the timer.
  */
 export function createInterval(callback: () => void, ms: number) {
-	const timeoutId = useRef<Timeout>();
+	const timeoutId = useRef<Timeout>(undefined);
 
 	useMountEffect(() => {
 		timeoutId.current = setInterval(callback, ms);
@@ -66,7 +66,7 @@ export function createInterval(callback: () => void, ms: number) {
  * @param delay - The number of milliseconds to wait before calling the `callback`.
  */
 export function useInterval(callback: () => void, delay: number) {
-	const savedCallback = useRef<() => void>();
+	const savedCallback = useRef<() => void>(undefined);
 
 	// Remember the latest callback.
 	useEffect(() => {

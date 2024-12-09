@@ -11,10 +11,10 @@ index 8b9e1ef8425805e186575c71d518ff4682788b65..db03aea08838651194a8b0622379b01f
        if (result !== false && child.walk) {
          result = child.walk(callback)
 diff --git a/lib/node.js b/lib/node.js
-index 88f382a1c90f59117bd75dfba156dfbb47909dc2..c6bc83584598dd5a2537dcfff90e61339f77c3c8 100644
+index 9949be78a6f0bc3c573fc6ec869ecdc4552a707b..b91e3b971ec098af36c253449677621777bdfddf 100644
 --- a/lib/node.js
 +++ b/lib/node.js
-@@ -55,7 +55,6 @@ class Node {
+@@ -85,7 +85,6 @@ class Node {
    }
  
    addToError(error) {
