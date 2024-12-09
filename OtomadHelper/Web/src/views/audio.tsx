@@ -84,8 +84,6 @@ export default function Audio() {
 				(adjustAudioToBasePitch[0] ? new Pitch("C", 5) : new Pitch(basePitch[0])).frequency, beepDuration[0], beepVolume[0]);
 			setStopPrelistenings(draft => void draft.pushUniquely(stop));
 			promise.then(() => setStopPrelistenings(draft => void draft.removeItem(stop)));
-		} else if (engine[0] === "NAudio") {
-			// TODO
 		} else return;
 	}
 	function stopPrelistening() {

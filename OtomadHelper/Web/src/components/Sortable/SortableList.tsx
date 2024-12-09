@@ -33,7 +33,7 @@ const getItemId = (item: BaseItem) =>
 		item;
 
 const addDatasets = (children: ReactNode, id: UniqueIdentifier, index: number) => React.Children.map(children, child =>
-	React.isValidElement(child) ? React.cloneElement(child as never, { "data-id": id, "data-index": index }) : child);
+	isValidElement(child) ? React.cloneElement(child as never, { "data-id": id, "data-index": index }) : child);
 
 export function SortableList<T extends BaseItem>({ items: itemsStateProperty, overlayEmits, fullyDraggable, children }: FCP<{
 	/** List items. The item must have `id` property in it. */

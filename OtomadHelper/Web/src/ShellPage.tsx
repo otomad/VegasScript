@@ -57,10 +57,7 @@ export default function ShellPage() {
 	const pageContentId = useId();
 	setPageContentId(pageContentId);
 
-	useEffect(() => { // TODO: React 19 to use new method.
-		document.title = documentTitle;
-	}, [documentTitle]);
-	useEffect(() => { // TODO: React 19 to use new method.
+	useEffect(() => {
 		document.body.classList.toggle("pixelated", enablePixelScaling);
 	}, [enablePixelScaling]);
 
@@ -98,6 +95,7 @@ export default function ShellPage() {
 			)}
 			style={{ zoom, "--zoom": zoom }}
 		>
+			<title>{documentTitle}</title>
 			<Page />
 		</NavigationView>
 	);

@@ -210,7 +210,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 									disabled: disabled ?? false,
 									"aria-disabled": disabled || undefined,
 								} as object;
-								return !React.isValidElement(child) ? !child ? child : <p {...propsWithDisabled}>{child}</p> : React.cloneElement(child, propsWithDisabled);
+								return !isValidElement(child) ? !child ? child : <p {...propsWithDisabled}>{child}</p> : React.cloneElement(child, propsWithDisabled);
 							})}
 							{trailingIcon && typeof trailingIcon === "string" && (
 								<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>

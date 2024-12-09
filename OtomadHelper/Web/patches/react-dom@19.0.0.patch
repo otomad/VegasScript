@@ -1,5 +1,5 @@
 diff --git a/cjs/react-dom-client.development.js b/cjs/react-dom-client.development.js
-index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd2710283a1ed 100644
+index 83ea1c6a783efe2e674eda4b681eb361f000d12d..cd32582b1bd7d5fd546fd52575d341c893654b1e 100644
 --- a/cjs/react-dom-client.development.js
 +++ b/cjs/react-dom-client.development.js
 @@ -1387,7 +1387,13 @@
@@ -26,7 +26,15 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd271
        ancestorInfo = ancestorInfo || emptyAncestorInfoDev;
        var parentInfo = ancestorInfo.current;
        ancestorInfo = (parentInfo = isTagValidWithParent(
-@@ -4490,6 +4498,9 @@
+@@ -2772,6 +2780,7 @@
+           );
+     }
+     function validateProperty(tagName, name, value, eventRegistry) {
++      if (isI18nItem(value)) return !0;
+       if (hasOwnProperty.call(warnedProperties, name) && warnedProperties[name])
+         return !0;
+       var lowerCasedName = name.toLowerCase();
+@@ -4490,6 +4499,9 @@
                parentName
              ));
      }
@@ -36,7 +44,7 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd271
      function createChildReconciler(shouldTrackSideEffects) {
        function deleteChild(returnFiber, childToDelete) {
          if (shouldTrackSideEffects) {
-@@ -4638,7 +4649,8 @@
+@@ -4638,7 +4650,8 @@
          if (
            ("string" === typeof newChild && "" !== newChild) ||
            "number" === typeof newChild ||
@@ -46,7 +54,7 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd271
          )
            return (
              (newChild = createFiberFromText(
-@@ -4729,7 +4741,8 @@
+@@ -4729,7 +4742,8 @@
          if (
            ("string" === typeof newChild && "" !== newChild) ||
            "number" === typeof newChild ||
@@ -56,7 +64,7 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd271
          )
            return null !== key
              ? null
-@@ -4815,7 +4828,8 @@
+@@ -4815,7 +4829,8 @@
          if (
            ("string" === typeof newChild && "" !== newChild) ||
            "number" === typeof newChild ||
@@ -66,7 +74,7 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd271
          )
            return (
              (existingChildren = existingChildren.get(newIdx) || null),
-@@ -5378,7 +5392,8 @@
+@@ -5378,7 +5393,8 @@
          if (
            ("string" === typeof newChild && "" !== newChild) ||
            "number" === typeof newChild ||
@@ -76,8 +84,16 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..c554ae661fb0d9e0ac888410300cd271
          )
            return (
              (prevDebugInfo = "" + newChild),
+@@ -16898,6 +16914,7 @@
+     }
+     function noop$1() {}
+     function setProp(domElement, tag, key, value, props, prevValue) {
++      if (isI18nItem(value)) value = value.toString();
+       switch (key) {
+         case "children":
+           if ("string" === typeof value)
 diff --git a/cjs/react-dom-client.production.js b/cjs/react-dom-client.production.js
-index af7283abaca3e5812ef71b03d9c999410baa1a80..84584ecc6ef6a076897dee635ef199b9b0b1e2c5 100644
+index af7283abaca3e5812ef71b03d9c999410baa1a80..e3e29504a1512e3b57db2fff945b4b7e7e9c4ebf 100644
 --- a/cjs/react-dom-client.production.js
 +++ b/cjs/react-dom-client.production.js
 @@ -909,7 +909,13 @@ function isAttributeNameSafe(attributeName) {
@@ -145,3 +161,11 @@ index af7283abaca3e5812ef71b03d9c999410baa1a80..84584ecc6ef6a076897dee635ef199b9
        ? ((newChild = "" + newChild),
          null !== currentFirstChild && 6 === currentFirstChild.tag
            ? (deleteRemainingChildren(returnFiber, currentFirstChild.sibling),
+@@ -12347,6 +12360,7 @@ function checkForUnmatchedText(serverText, clientText) {
+ }
+ function noop$1() {}
+ function setProp(domElement, tag, key, value, props, prevValue) {
++  if (isI18nItem(value)) value = value.toString();
+   switch (key) {
+     case "children":
+       "string" === typeof value

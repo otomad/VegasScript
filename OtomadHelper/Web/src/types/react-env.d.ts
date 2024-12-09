@@ -11,7 +11,6 @@ import type { StoreApi, UseBoundStore } from "zustand";
 declare module "react" {
 	interface HTMLAttributes {
 		disabled?: boolean;
-		inert?: boolean;
 	}
 }
 

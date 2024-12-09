@@ -76,4 +76,7 @@ declare global {
 	 * [MDN Reference](https://developer.mozilla.org/docs/Web/API/ElementInternals/role)
 	 */
 	type AriaRole = React.AriaRole;
+
+	/** React element with a HTML DOM element ref prop. */
+	type ReactElementWithDomRef = ReactElement<{ ref?: RefObject<Element | null> }>;
 }

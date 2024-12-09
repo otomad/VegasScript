@@ -14,6 +14,24 @@ export function isReactInstance<T extends ReactElementType>(node: ReactNode, ele
 }
 
 /**
+ * Check if a React Node is a valid React Element and **not a React Fragment**.
+ *
+ * @remarks
+ * In React 19, `React.Fragment` won't accept any unknown props, when you unexpected pass other props to
+ * `React.Fragment`, you will get a warning:
+ *
+ * > Invalid prop supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.
+ *
+ * It is best to disqualify the `React.Fragment` when you are testing `React.isValidElement()`.
+ *
+ * @param object - The React Node to test.
+ * @returns The React Node is a valid React Element and **not a React Fragment**?
+ */
+export function isValidElement<P>(object: {} | null | undefined): object is ReactElement<P> {
+	return React.isValidElement(object) && object?.type !== React.Fragment;
+}
+
+/**
  * Prevent event bubbling and default behavior simultaneously.
  * @param event - Event (Vanilla JavaScript event or React wrapped event).
  */
@@ -44,6 +62,7 @@ export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>
 		Fragment,
 		null,
 		React.Children.map(children, (child: ReactNode) => {
+			if (!isValidElement(child)) return child;
 			if (hasRefInReactNode(child)) {
 				// useImperativeHandle(child.ref, () => nodeRef.current!, []);
 				// child.ref.current = nodeRef.current;
@@ -55,7 +74,7 @@ export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>
 					set: value => nodeRef.current = value,
 				});
 			}
-			return React.cloneElement(child as ReactElement, {
+			return React.cloneElement(child as ReactElementWithDomRef, {
 				ref: nodeRef,
 			});
 		}),
@@ -147,25 +166,6 @@ export function isElementHidden(element: Element | undefined | null): element is
 		getComputedStyle(element).visibility !== "visible", // `visibility` CSS property is set to `hidden` or `collapse`
 	);
 	return !!hiddenElement;
-}
-
-/**
- * Create or update a `<meta>` tag.
- * @param name - The name of the `<meta>` tag.
- * @param content - The content of the `<meta>` tag.
- */
-export function updateOrCreateMetaTag(name: string, content: string) {
-	// Try to find an existing meta tag
-	let meta = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
-
-	if (meta) // If the tag already exists, update its content
-		meta.content = content;
-	else { // If the tag does not exist, create a new tag and set its properties
-		meta = document.createElement("meta");
-		meta.name = name;
-		meta.content = content;
-		document.head.appendChild(meta);
-	}
 }
 
 /**

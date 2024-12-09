@@ -13,10 +13,6 @@ export default function App() {
 		changeColorScheme(undefined, "refresh");
 	});
 
-	useEffect(() => {
-		updateOrCreateMetaTag("description", t.descriptions.settings.about); // DELETE
-	});
-
 	const { i18n } = useTranslation();
 	const forceUpdate = useForceUpdate();
 	i18n.on("languageChanged", forceUpdate);
@@ -35,6 +31,7 @@ export default function App() {
 			<Toast />
 			<DefineSvgFilter.Portal />
 			<div id="portals" />
+			<meta name="description" content={t.descriptions.settings.about} />
 		</>
 	);
 }

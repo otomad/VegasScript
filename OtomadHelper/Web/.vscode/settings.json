@@ -24,4 +24,6 @@
 	"cSpell.minWordLength": 1,
 	"javascript.preferences.useAliasesForRenames": false,
 	"typescript.preferences.useAliasesForRenames": false,
+	"todo-tree.tree.showBadges": true,
+	"todo-tree.tree.disableCompactFolders": true,
 }

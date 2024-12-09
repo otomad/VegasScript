@@ -59,6 +59,8 @@ const getProxy = (target: object, fallbackMode: boolean = false) =>
 					get(target, currentName): unknown {
 						if (toPrimitives.includes(currentName))
 							return () => translate(keys);
+						if (currentName === Symbol.toStringTag)
+							return "String";
 						if (typeof currentName === "string")
 							return getWithArgsProxy(...parents, currentName);
 						if (typeof currentName === "symbol")

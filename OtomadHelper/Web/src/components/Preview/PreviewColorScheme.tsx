@@ -4,7 +4,7 @@ import colors from "styles/colors";
 const actualColorSchemes = ["light", "dark"] as const;
 
 const StyledPreviewColorScheme = styled.div.attrs({
-	inert: "" as never as boolean, // WARN: In React 19, change it to true, because React 18 is not standard.
+	inert: true,
 })`
 	position: relative;
 

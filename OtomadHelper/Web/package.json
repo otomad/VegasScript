@@ -61,7 +61,7 @@
 		"react-dom": "^19.0.0",
 		"react-flip-move": "^3.0.5",
 		"react-i18next": "^15.1.0",
-		"react-transition-group-fc": "^4.5.2",
+		"react-transition-group-fc": "^4.5.3",
 		"styled-components": "^6.1.13",
 		"styled-tools": "^1.7.2",
 		"use-immer": "^0.10.0",
@@ -138,7 +138,7 @@
 			"styled-components@6.1.13": "patches/styled-components@6.1.13.patch",
 			"@types/react@19.0.1": "patches/@types__react@19.0.1.patch",
 			"react@19.0.0": "patches/react@19.0.0.patch",
-			"react-dom@19.0.0": "patches/react-dom@19.0.0.patch"
+			"react-dom": "patches/react-dom@19.0.0.patch"
 		},
 		"allowNonAppliedPatches": false
 	},

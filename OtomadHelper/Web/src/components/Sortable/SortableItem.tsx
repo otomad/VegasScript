@@ -64,7 +64,10 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 
 	useEffect(() => {
 		setDisabled((React.Children.map(children, child =>
-			React.isValidElement(child) ? !!child.props.disabled || ["true", true].includes(child.props["aria-disabled"]) : false,
+			isValidElement<{
+				disabled?: boolean;
+				"aria-disabled"?: boolean;
+			}>(child) ? !!child.props.disabled || (["true", true] as unknown[]).includes(child.props["aria-disabled"]) : false,
 		) as boolean[]).includes(true));
 	}, [children]);
 

@@ -19,8 +19,8 @@ export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 	});
 
 	return React.Children.map(deferredChildren, child => {
-		if (!React.isValidElement(child)) return child;
-		return React.cloneElement(child as ReactElement, {
+		if (!isValidElement(child)) return child;
+		return React.cloneElement(child as ReactElementWithDomRef, {
 			ref: el,
 		});
 	});
