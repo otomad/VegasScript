@@ -3,6 +3,7 @@ import globals from "globals";
 // extends
 import eslint from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin";
+import reactCompiler from "eslint-plugin-react-compiler";
 import reactRefresh from "eslint-plugin-react-refresh";
 import reactRecommended from "eslint-plugin-react/configs/recommended.js";
 import tseslint from "typescript-eslint";
@@ -36,6 +37,7 @@ export default [
 		files: ["**/*.{js,jsx,ts,tsx}"],
 		plugins: {
 			"react-refresh": reactRefresh,
+			"react-compiler": reactCompiler,
 		},
 		rules: {
 			"@stylistic/indent": ["error", "tab", {
@@ -337,6 +339,7 @@ export default [
 				selector: ":not(ForOfStatement, ForInStatement) > VariableDeclaration[kind = 'let'] > VariableDeclarator[init = null]:not([id.typeAnnotation])",
 				message: "Type must be inferred at variable declaration",
 			}],
+			"react-compiler/react-compiler": "error",
 		},
 	},
 	{
