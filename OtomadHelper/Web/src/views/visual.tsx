@@ -96,6 +96,7 @@ export default function Visual() {
 					<TooltipPartial title={<Tooltip.Content image={loopImage} />}>
 						<SettingsCardToggleSwitch title={t.stream.loop} details={t.descriptions.stream.loop} icon="loop" on={loop} />
 					</TooltipPartial>
+					<ExpanderStreamPlaybackRate stream="visual" />
 					<TooltipPartial title={<Tooltip.Content image={staticVisualImage} />}>
 						<SettingsCardToggleSwitch title={t.stream.staticVisual} details={t.descriptions.stream.staticVisual} icon="image" on={staticVisual} />
 					</TooltipPartial>
@@ -123,7 +124,7 @@ export default function Visual() {
 						nameField={t.stream.legato}
 						iconField="icon"
 						imageField="image"
-						$itemWidth={566 / 196 * GRID_VIEW_ITEM_HEIGHT}
+						itemWidth={566 / 196 * GRID_VIEW_ITEM_HEIGHT}
 					/>
 					<SettingsCardToggleSwitch
 						title={t.stream.multitrackForChords}

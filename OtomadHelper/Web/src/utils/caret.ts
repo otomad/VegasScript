@@ -7,11 +7,9 @@ export const Caret = {
 	 * @param input - Input elements (if has).
 	 * @returns The index of the text cursor.
 	 */
-	get(input?: MaybeRef<HTMLInputElement>) {
-		if (input) {
-			input = toValue(input);
-			return input.selectionStart;
-		}
+	get(input?: MaybeRef<HTMLInputElement | null>) {
+		input = toValue(input);
+		if (input) return input.selectionStart;
 		const selection = window.getSelection();
 		if (selection === null) return null;
 		return selection.anchorOffset;
@@ -22,9 +20,10 @@ export const Caret = {
 	 * @param element HTML DOM element.
 	 * @param offset The index of the text cursor.
 	 */
-	set(element: MaybeRef<Element>, offset: number | undefined | null) {
+	set(element: MaybeRef<Element | null>, offset: number | undefined | null) {
 		if (offset == null) return;
 		element = toValue(element);
+		if (!element) return;
 
 		if (element instanceof HTMLInputElement) {
 			if (offset < 0) offset = element.value.length + 1 + offset;

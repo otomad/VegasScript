@@ -90,7 +90,7 @@ export default {
 					preparation: "Preparation",
 				},
 			},
-			consonant: "Contain consonant",
+			consonant: "Consonant time",
 		},
 		on: "On",
 		off: "Off",
@@ -150,9 +150,11 @@ export default {
 			beatsPerMinute: "BPM",
 			semitones: "st",
 			degrees: "°",
-			bar: "Bar",
-			beat: "Beat",
+			bar: "bar",
+			beat: "beat",
 			densityIndependentPixels: "dp",
+			times: "×",
+			cent: "cent",
 		},
 		confirm: {
 			delete: {
@@ -213,6 +215,11 @@ export default {
 				flexingOnly: "Flexing only",
 			},
 			loop: "Loop",
+			playbackRate: {
+				_: "Playback rate",
+				based: "Adjust based on current rate",
+				sync: "Synchronize audio and visual configurations",
+			},
 			normalize: "Normalize",
 			staticVisual: "Static visual",
 			unlengthen: {
@@ -693,7 +700,7 @@ export default {
 					ytpEnabled: "YTP feature is enabled and it already supports randomization, it is unnecessary to set it here.",
 				},
 				consonant: {
-					_: "You can separate the consonant and vowel parts of the same audio or video source so that special optimization can be applied to the consonant part of the source.\nIf at least two audio or video clips are selected, the first clip is considered the consonant part and the second clip is considered the vowel part.",
+					_: "To prevent consonants from being stretched or delayed, you can separate the consonant and vowel parts of the same audio or video source so that special optimization can be applied to the consonant part of the source.\nIf at least two audio or video clips are selected, the first clip is considered the consonant part and the second clip is considered the vowel part.",
 					ytpEnabled: "YTP feature is enabled and this feature is currently unavailable.",
 					blindBoxEnabled: "Blind box feature is enabled and this feature is currently unavailable.",
 					manualEnabled: "In Sentence Mixing mode, this feature is enabled automatically.",
@@ -710,6 +717,12 @@ export default {
 			stream: {
 				stretch: "Stretches the clip instead of changing its duration",
 				loop: "When the clip is lengthened to the end of the source media, playback starts over",
+				playbackRate: {
+					_: "Changes the playback rate of the clip",
+					based: "Multiplies the value by the current rate of the clip to calculate a new rate, rather than directly replacing the current rate",
+					sync: "Enable to change the {{stream, lowercase}} playback rate configurations to the ones shown here",
+					outSync: "Disable to desynchronize the {{stream, lowercase}} playback rate configurations from here",
+				},
 				normalize: "Normalizes the audio, useful for quiet audio",
 				staticVisual: "Freezes the frame at the beginning of the clip",
 				unlengthen: "Attempts to freeze at the out point of the clip to avoid accidentally playing the part beyond the trimming time when some notes are too long",
@@ -857,7 +870,7 @@ export default {
 				datamix: "Applies the motion of one clip to the visual of another clip",
 				layer: "Makes multilayering by copying the video clip repeatedly",
 				render: "Prerenders a portion of the timeline which may contain very complex video edits, and replaces it with a single video clip",
-				scramble: "Splits the clips into lots of clip fragments and shuffles them",
+				scramble: "Chops the clips into a pile of fragments and shuffles them",
 				automator: "Adds random keyframes to each frame automatically for each effect you have added to the video clips",
 				stutter: "Stutters the clips by forwarding and reversing them in randomized intervals",
 				shake: "Shakes or wiggles the clips by using Pan/Crop",

@@ -9,7 +9,7 @@ const StackPanel = styled.div<{
 	flex-direction: ${({ $direction = "horizontal" }) => $direction === "vertical" ? "column" : "row"};
 	// stylelint-disable-next-line declaration-block-no-redundant-longhand-properties
 	flex-wrap: ${ifProp("$nowrap", "nowrap", "wrap")};
-	gap: ${({ $gap = 8 }) => typeof $gap === "number" ? $gap + "px" : $gap};
+	gap: ${({ $gap = 8 }) => styles.toValue($gap)};
 	justify-content: ${styledProp("$align", "normal")};
 	align-items: center;
 

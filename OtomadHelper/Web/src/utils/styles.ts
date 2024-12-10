@@ -58,17 +58,6 @@ export function important(priority: number = 1) {
 	return ":not(#\\#)".repeat(priority);
 }
 
-/**
- * Get the corresponding CSS style value based on a string or number.
- *
- * This function takes a value as input and returns a CSS value. If the input value is a number,
- * it is converted to a CSS length value with the unit "px". Otherwise, the input value is returned
- * as is. This function is used to convert the calculated position values to CSS values.
- *
- * @param value - If the value passed in is a number, its corresponding pixel value is returned;
- * if the value passed in is a string, the original string value is retained.
- * @returns The CSS value of the given value.
- */
 function toValue_css(value: string | number) {
 	return typeof value === "number" ? value + "px" : value;
 }
@@ -78,6 +67,30 @@ export { eases };
 export const styles = {
 	mixins,
 	effects,
+	/**
+	 * Get the corresponding CSS style value based on a string or number.
+	 *
+	 * Add "px" unit if the value is a number, or return the value itself if it already has a unit.
+	 *
+	 * This function takes a value as input and returns a CSS value. If the input value is a number,
+	 * it is converted to a CSS length value with the unit "px". Otherwise, the input value is returned
+	 * as is. This function is used to convert the calculated position values to CSS values.
+	 *
+	 * @remarks A function name that given by GPT is **`pxify`**.
+	 *
+	 * @param value
+	 * - If the value passed in is a number, its corresponding pixel value is returned;
+	 * if the value passed in is a string, the original string value is retained.
+	 * - The CSS value, a number (treat as px unit) or a string.
+	 *
+	 * @returns The CSS value of the given value.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log(styles.toValue(8)); // "8px"
+	 * console.log(styles.toValue("2rem")); // "2rem"
+	 * ```
+	 */
 	toValue: toValue_css,
 };
 

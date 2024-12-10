@@ -193,7 +193,7 @@ const StyledToggleSwitchLabel = styled.button`
 	}
 `;
 
-export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = [], hideLabel, as, details, resetTransitionOnChanging = false, $color, lock, icon, children, ...htmlAttrs }: FCP<{
+export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = [], hideLabel, as, details, resetTransitionOnChanging = false, color, lock, icon, children, ...htmlAttrs }: FCP<{
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled */
@@ -207,7 +207,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	/** Detailed description. */
 	details?: ReactNode;
 	/** Use special accent color for the toggle switch. */
-	$color?: string;
+	color?: string;
 	/**
 	 * Reset the page's transition effect when toggling the switch.
 	 * @remarks This is business logic, but present in the base component.
@@ -289,12 +289,12 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	return (
 		<StyledToggleSwitchLabel
 			as={as as "button"}
-			className={{ selected: on, pressed, colored: !!$color }}
+			className={{ selected: on, pressed, colored: !!color }}
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
 			onClick={e => handleCheck(!on, e)}
 			tabIndex={0}
-			style={{ "--accent-color": $color }}
+			style={{ "--accent-color": color }}
 			role="switch"
 			aria-checked={on}
 			aria-labelledby={`${ariaId}-title`}

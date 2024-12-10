@@ -1,6 +1,6 @@
 type FieldType<T> = string | ((item: T) => string | undefined) | true;
 
-export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, view = "radio", details: _details, $itemWidth, radioGroup, itemsViewItemAttrs, hideCustom = true, before, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
+export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, hideCustom = true, before, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
 	/** List of options. */
 	items: readonly TItem[];
 	/** The identifier of the currently selected value. */
@@ -39,7 +39,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	/** Detailed description. */
 	details?: ReactNode | ((value: TKey | undefined, items: TItem[]) => ReactNode);
 	/** The width of the child element image when using the grid view component. */
-	$itemWidth?: number;
+	itemWidth?: number;
 	/** Radio button group name, optional. */
 	radioGroup?: string;
 	/** Additional attributes for the items view item. */
@@ -107,7 +107,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 					{getItemField(item, "name")}
 				</RadioButton>
 			)) : (
-				<ItemsView view={view} current={[value, setValue]} $itemWidth={$itemWidth} role={null}>
+				<ItemsView view={view} current={[value, setValue]} itemWidth={itemWidth} role={null}>
 					{filteredItems.map(item => (
 						<ItemsView.Item
 							id={getItemField(item, "id")}

@@ -31,7 +31,7 @@ export default function Gradient() {
 			</Expander>
 			<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} />
 
-			<ItemsView view="grid" current={effect} $itemWidth={viewSize[0]}>
+			<ItemsView view="grid" current={effect} itemWidth={viewSize[0]}>
 				{gradients.map(id => (
 					<ItemsView.Item
 						key={id}

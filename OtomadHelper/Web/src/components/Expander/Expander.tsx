@@ -109,7 +109,7 @@ const ExpanderChildWrapper = styled.div`
 	}
 `;
 
-export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childItemsRole, selectInfo, selectValid, disabled, className, role, onClickWhenChildrenDisabled }: FCP<PropsOf<typeof SettingsCard> & {
+export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childItemsRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled }: FCP<PropsOf<typeof SettingsCard> & {
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/** Expanded initially? */
@@ -127,7 +127,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	/** Occurs when the expander parent has been clicked where the child items disabled. */
 	onClickWhenChildrenDisabled?(): void;
 }>) {
-	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className, role };
+	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className, role, trailingGap };
 	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>(undefined);
 	const [lockExpanderParentContentSize, setLockExpanderParentContentSize] = useState(false);
 	const [internalExpanded, _setInternalExpanded] = useState(expanded);

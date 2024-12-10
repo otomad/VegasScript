@@ -38,6 +38,8 @@ words:
   - datamoshes
   - datamoshing
   - demibold
+  - desynchronize
+  - desynchronizes
   - dnd
   - dvh
   - dvw
@@ -53,6 +55,7 @@ words:
   - geq
   - glsl
   - gongche
+  - gpt
   - highp
   - hmr
   - hotspot
@@ -131,6 +134,7 @@ words:
   - prves
   - puyo
   - pv
+  - pxify
   - quarternary
   - resw
   - resx

@@ -32,7 +32,7 @@ export default function Settings() {
 				idField
 				nameField={t.settings.language}
 				imageField={language => <PreviewLanguage language={language} />}
-				itemsViewItemAttrs={{ $withBorder: true }}
+				itemsViewItemAttrs={{ withBorder: true }}
 			/>
 
 			<Subheader>{t.settings.appearance}</Subheader>
@@ -102,8 +102,8 @@ export default function Settings() {
 				idField
 				nameField={t.settings.appearance.colorScheme}
 				imageField={colorScheme => <PreviewColorScheme colorScheme={colorScheme} currentColorScheme={scheme} />}
-				itemsViewItemAttrs={{ $withBorder: true }}
-				$itemWidth={112}
+				itemsViewItemAttrs={{ withBorder: true }}
+				itemWidth={112}
 			/>
 			<Expander
 				title={t.settings.appearance.uiScale}

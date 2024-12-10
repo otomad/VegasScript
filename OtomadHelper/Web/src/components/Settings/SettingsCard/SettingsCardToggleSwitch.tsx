@@ -1,4 +1,4 @@
-export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, $color, actions, lock, title, onClick, ...settingsCardProps }: FCP<PropsOf<typeof SettingsCard> & {
+export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, color, actions, lock, title, onClick, ...settingsCardProps }: FCP<PropsOf<typeof SettingsCard> & {
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled? */
@@ -9,7 +9,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 	 */
 	resetTransitionOnChanging?: boolean;
 	/** Use special accent color for the toggle switch. */
-	$color?: string;
+	color?: string;
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/**
@@ -36,7 +36,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 				<>
 					<ToggleSwitch
 						as={isExpander ? undefined : "label"}
-						$color={$color}
+						color={color}
 						on={[on, setOn]}
 						lock={lock}
 						isPressing={[isToggleSwitchPressing, setIsToggleSwitchPressing]}

@@ -54,13 +54,13 @@ const StyledItemsView = styled.div<{
 export default function ItemsView<
 	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: [current, setCurrent], $itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, ...htmlAttrs }: FCP<{
+>({ view, current: [current, setCurrent], itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/** The identifier of the currently selected item. */
 	current: StateProperty<T>;
 	/** In grid view, the width of the child element image. */
-	$itemWidth?: number;
+	itemWidth?: number;
 	/** Multiple selection mode? */
 	multiple?: M;
 	/** Specifies which items are set to an indeterminate state. */
@@ -91,7 +91,7 @@ export default function ItemsView<
 	return (
 		<StyledItemsView
 			className={[className, view]}
-			$itemWidth={$itemWidth}
+			$itemWidth={itemWidth}
 			role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
 			{...htmlAttrs}
 		>

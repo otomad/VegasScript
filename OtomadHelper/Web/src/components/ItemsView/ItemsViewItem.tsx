@@ -223,7 +223,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, $withBorder = false, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -237,7 +237,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/** Additional border on normal state of the image wrapper. */
-	$withBorder?: boolean;
+	withBorder?: boolean;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -277,7 +277,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 			<EventInjector onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
 				<StyledItemsViewItem
 					$view={view!}
-					$withBorder={$withBorder}
+					$withBorder={withBorder}
 					className={[className, view, { selected: selected !== "unchecked" }]}
 					tabIndex={0}
 					role={multiple ? "checkbox" : "radio"}

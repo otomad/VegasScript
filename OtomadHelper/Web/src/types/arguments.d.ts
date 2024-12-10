@@ -79,4 +79,7 @@ declare global {
 
 	/** React element with a HTML DOM element ref prop. */
 	type ReactElementWithDomRef = ReactElement<{ ref?: RefObject<Element | null> }>;
+
+	/** Audio or Visual. */
+	type StreamKind = "audio" | "visual";
 }

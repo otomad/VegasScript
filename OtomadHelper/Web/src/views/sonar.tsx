@@ -20,7 +20,7 @@ export default function Sonar() {
 						title={t.sonar.shadow}
 						details={t.descriptions.sonar.shadow}
 						on={shadow}
-						$color={shadowColor[0]}
+						color={shadowColor[0]}
 						actions={<ColorPicker color={shadowColor} />}
 					/>
 

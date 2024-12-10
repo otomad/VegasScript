@@ -237,7 +237,7 @@ export function applyAriaLabel(node: ReactNode) {
  * unchecked | false
  * indeterminate | mixed
  * @param checkState - Check box selection status.
- * @returns Aria checked.
+ * @returns Aria checked.e
  */
 export function checkStateToAriaChecked(checkState: CheckState): React.AriaAttributes["aria-checked"] {
 	return ({
@@ -245,4 +245,25 @@ export function checkStateToAriaChecked(checkState: CheckState): React.AriaAttri
 		unchecked: false,
 		indeterminate: "mixed",
 	} as const)[checkState];
+}
+
+/**
+ * Returns a new array with all sub-array and sub-React-fragment React nodes concatenated into it recursively.
+ * @param children - React children.
+ */
+export function flattenReactChildren(children: ReactNode) {
+	const flattened: ReactNode[] = [];
+	React.Children.forEach(children, child => {
+		if (
+			React.isValidElement<{ children?: ReactNode }>(child) &&
+			child.type === React.Fragment &&
+			"children" in child.props
+		)
+			flattened.push(...flattenReactChildren(child.props.children));
+		else if (Array.isArray(child))
+			flattened.push(...child.flat(Infinity));
+		else
+			flattened.push(child);
+	});
+	return flattened;
 }

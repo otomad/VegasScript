@@ -282,7 +282,7 @@ function InitialValue({ klass, effect, initialValue }: FCP<{
 
 	return (
 		<StyledInitialValue title={t.prve.initialValue} icon="replay" role="region">
-			<ItemsView className="initial-value-items" view="grid" current={initialValue} $itemWidth={100} aria-label={t.prve.initialValue}>
+			<ItemsView className="initial-value-items" view="grid" current={initialValue} itemWidth={100} aria-label={t.prve.initialValue}>
 				{forMap(frames, j => {
 					const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
 					return (

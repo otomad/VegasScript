@@ -169,6 +169,13 @@ export const configStore = createStore({
 		],
 	},
 	createGroups: true,
+	playbackRate: {
+		sync: true,
+		audioRate: 1,
+		visualRate: 1,
+		audioBased: true,
+		visualBased: true,
+	},
 	track: {
 		grid: {
 			enabled: true,

@@ -1,10 +1,20 @@
 import { StyledCard } from "components/Card";
 import { styledExpanderItemBase, styledExpanderItemContent } from "components/Expander/ExpanderItem";
 
-const isPressed = (ampersand = "&") => `${ampersand}:not(:has(button:active)):active, .sortable-overlay:not(.dropping) > ${ampersand}`;
+const isPressed = (ampersand = "&") => `${ampersand}:not(:has(:is(button, input):active)):active, .sortable-overlay:not(.dropping) > ${ampersand}`;
 
-const StyledSettingsCard = styled(StyledCard)(() => css`
+const StyledSettingsCard = styled(StyledCard)<{
+	/** Override the default trailing gap. */
+	$trailingGap?: number | string;
+}>(({ $trailingGap }) => css`
 	${styledExpanderItemContent};
+
+	${$trailingGap !== undefined && css`
+		.trailing {
+			content: "jb";
+			gap: ${styles.toValue($trailingGap)};
+		}
+	`}
 
 	> .base {
 		${styledExpanderItemBase};
@@ -138,7 +148,7 @@ const StyledSettingsCard = styled(StyledCard)(() => css`
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", _lockContentSize, className, tabIndex, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -164,6 +174,8 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	dragHandle?: boolean;
 	/** Appearance preference. */
 	appearance?: "primary" | "secondary";
+	/** Override the default trailing gap. */
+	trailingGap?: number | string;
 	/** @private Temperately lock the content size? */
 	_lockContentSize?: boolean;
 }, "div">) {
@@ -181,6 +193,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 			aria-labelledby={`${ariaId}-title`}
 			aria-describedby={`${ariaId}-details`}
 			tabIndex={tabIndex ?? type.in("container", "container-but-button") ? -1 : 0}
+			$trailingGap={trailingGap}
 			{...htmlAttrs}
 		>
 			<div className="base">
@@ -205,12 +218,21 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 					)}
 					trailing={(
 						<>
-							{React.Children.map(children, child => {
+							{flattenReactChildren(children).map((child, i) => {
 								const propsWithDisabled = {
+									key: (() => {
+										const key = isObject(child) && "key" in child && child.key;
+										return key == null || key === false ? i : key;
+									})(),
 									disabled: disabled ?? false,
 									"aria-disabled": disabled || undefined,
-								} as object;
-								return !isValidElement(child) ? !child ? child : <p {...propsWithDisabled}>{child}</p> : React.cloneElement(child, propsWithDisabled);
+								};
+								// React dislike using key with spread operator in JSX, but in React.cloneElement you have to do this,
+								// so treat it individually.
+								const { key: _key, ...propsWithDisabledWithoutKey } = propsWithDisabled;
+								return !isValidElement(child) ?
+									!child ? child : <p key={i} {...propsWithDisabledWithoutKey}>{child}</p> :
+									React.cloneElement(child, propsWithDisabled);
 							})}
 							{trailingIcon && typeof trailingIcon === "string" && (
 								<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>

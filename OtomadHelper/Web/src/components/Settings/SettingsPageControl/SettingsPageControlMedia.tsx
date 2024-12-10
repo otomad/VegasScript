@@ -64,7 +64,7 @@ const StyledSettingsPageControlMedia = styled(Card)<{
 
 export default function SettingsPageControlMedia({ stream, fileName, enabled, thumbnail }: FCP<{
 	/** Audio or visual? */
-	stream: "audio" | "visual";
+	stream: StreamKind;
 	/** File name. */
 	fileName: string;
 	/** Enabled? */

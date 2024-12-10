@@ -343,6 +343,7 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 					onPaste={handleChange}
 					onKeyDown={handleKeyDown}
 					onMouseDown={onChanging}
+					onClick={e => e.stopPropagation()}
 					{...inputAttrs}
 				/>
 				<label className="suffix" htmlFor={inputId}>{suffix}</label>
