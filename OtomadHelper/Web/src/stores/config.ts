@@ -282,6 +282,6 @@ export const selectConfigArray = <T extends object>(path: (state: typeof configS
 globals.config = configStore;
 
 // If declare these
-useListenKeybinding.global("useTrackEventAsSource", () => configStore.source.sourceFrom = "trackEvent");
-useListenKeybinding.global("useProjectMediaAsSource", () => configStore.source.sourceFrom = "projectMedia");
-useListenKeybinding.global("enableYtp", () => configStore.ytp.enabled = !configStore.ytp.enabled);
+useListenKeybinding("useTrackEventAsSource", () => configStore.source.sourceFrom = "trackEvent");
+useListenKeybinding("useProjectMediaAsSource", () => configStore.source.sourceFrom = "projectMedia");
+useListenKeybinding("enableYtp", () => configStore.ytp.enabled = !configStore.ytp.enabled);

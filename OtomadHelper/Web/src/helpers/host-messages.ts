@@ -14,11 +14,11 @@ export type ApplicationEvents = {
 
 expectType<Record<string, unknown[]>>(undefined! as ApplicationEvents);
 
-useListen.global("host:consoleLog", ({ severity, message }) => {
+useListen("host:consoleLog", ({ severity, message }) => {
 	console[severity]?.(message);
 });
 
-useListen.global("host:contextMenuItemClickEventArgs", ({ menuUuid, menuItemUuid }) => {
+useListen("host:contextMenuItemClickEventArgs", ({ menuUuid, menuItemUuid }) => {
 	const { contextMenu } = window;
 	if (contextMenu == null || contextMenu.uuid !== menuUuid) return;
 	const item = findItem(contextMenu.items);
@@ -38,7 +38,7 @@ useListen.global("host:contextMenuItemClickEventArgs", ({ menuUuid, menuItemUuid
 	}
 });
 
-useListen.global("host:triggerKeybinding", ({ event }) => {
+useListen("host:triggerKeybinding", ({ event }) => {
 	let key: string = event;
 	if (event === "enableYtp" && !configStore.ytp.enabled) key = "disableYtp";
 	useEvent("app:toast", i18n.t(`csharp:keybindings.commands.${key}`));

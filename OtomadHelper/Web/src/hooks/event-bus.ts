@@ -19,16 +19,6 @@ const emitter = mitt<ApplicationEvents>();
 export const useEvent: <Key extends keyof ApplicationEvents>(type: Key, ...args: ApplicationEvents[Key]) => void = (type, ...args) =>
 	emitter.emit(type, args);
 
-type UseListenHandler = {
-	<Key extends keyof ApplicationEvents>(type: Key, handler: (...args: ApplicationEvents[Key]) => void): void;
-	(type: "*", handler: (type: keyof ApplicationEvents, ...args: ApplicationEvents[keyof ApplicationEvents]) => void): void;
-};
-type UseListenHandlerWithGlobal = UseListenHandler & { global: UseListenHandler };
-const getUseListenCallback = (type: string, handler: Function) => (typeOrArgs: string | unknown[], args: unknown[]) => {
-	if (type === "*") handler(typeOrArgs, ...args);
-	else handler(...typeOrArgs);
-};
-
 /**
  * Listens to an event on the global event emitter.
  *
@@ -45,22 +35,26 @@ const getUseListenCallback = (type: string, handler: Function) => (typeOrArgs: s
  * useListen("*", (type, e) => console.log(type, e));
  * ```
  */
-export const useListen: UseListenHandlerWithGlobal = Object.assign((type: string, handler: Function) => {
-	const callback = getUseListenCallback(type, handler);
-	useEffect(() => {
+export const useListen: {
+	<Key extends keyof ApplicationEvents>(type: Key, handler: (...args: ApplicationEvents[Key]) => void): void;
+	(type: "*", handler: (type: keyof ApplicationEvents, ...args: ApplicationEvents[keyof ApplicationEvents]) => void): void;
+} = (type: string, handler: Function) => {
+	const callback = (typeOrArgs: string | unknown[], args: unknown[]) => {
+		if (type === "*") handler(typeOrArgs, ...args);
+		else handler(...typeOrArgs);
+	};
+	if (!canUseHook()) (emitter.on as Function)(type as keyof ApplicationEvents, callback);
+	else useEffect(() => {
 		(emitter.on as Function)(type as keyof ApplicationEvents, callback);
 		return () => (emitter.off as Function)(type as keyof ApplicationEvents, callback);
 	});
-}, { global: (type: string, handler: Function) => {
-	const callback = getUseListenCallback(type, handler);
-	(emitter.on as Function)(type as keyof ApplicationEvents, callback);
-} });
+};
 
-export const useListenKeybinding = Object.assign((type: WebMessageEvents.TriggerKeybinding["event"], handler: () => void) => {
-	useListen("host:triggerKeybinding", ({ event }) => { if (event === type) handler(); });
-}, { global: (type: WebMessageEvents.TriggerKeybinding["event"], handler: () => void) => {
-	useListen.global("host:triggerKeybinding", ({ event }) => { if (event === type) handler(); });
-} });
+export const useListenKeybinding = (type: WebMessageEvents.TriggerKeybinding["event"], handler: () => void) => {
+	useListen("host:triggerKeybinding", ({ event }) => {
+		if (event === type) handler();
+	});
+};
 
 /**
  * Listens to an event on the global event emitter once.
