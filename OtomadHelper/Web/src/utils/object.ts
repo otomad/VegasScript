@@ -198,7 +198,7 @@ export function isRef<T>(ref: MaybeRef<T>): ref is RefObject<T> {
  * ```
  */
 export function toValue<T>(ref: MaybeRef<T>): T {
-	return isRef(ref) ? ref.current! : ref;
+	return isRef(ref) ? ref.current : ref;
 }
 
 /**
@@ -621,14 +621,4 @@ export function getCurrentState<T>(setter: SetState<T>) {
 			return prevState;
 		});
 	});
-}
-
-/**
- * @deprecated // WARN: Await for React 19 released with a new feature **ref as a prop**, and then delete this function.
- */
-export function functionModule<F extends Function, O>(
-	func: F,
-	object: O,
-) {
-	return Object.assign(func, object) as F & Readonly<O>;
 }

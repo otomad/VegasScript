@@ -154,7 +154,7 @@ const StyledItemsViewItem = styled.button<{
 				scale: 1 0.625;
 			}
 
-			> :not(.checkbox-temp-wrapper) { // WARN: Wait for React 19 ref as a prop.
+			> :not(.checkbox-label) {
 				opacity: ${c("pressed-text-opacity")};
 			}
 		}
@@ -191,7 +191,7 @@ const StyledItemsViewItem = styled.button<{
 		${styles.effects.text.bodyStrong};
 	}
 
-	.checkbox-temp-wrapper { // WARN: Wait for React 19 ref as a prop.
+	.checkbox-label {
 		${tgs()} {
 			opacity: 0;
 
@@ -254,12 +254,9 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 			{details && <p className="details" id={`${ariaId}-details`}>{details}</p>}
 		</div>
 	);
-	// const checkbox = multiple && <Checkbox value={[selected]} plain />;
 	const checkbox = (
 		<CssTransition in={multiple} unmountOnExit>
-			<div className="checkbox-temp-wrapper">{/* WARN: Wait for React 19 ref as a prop, and then remove this div. */}
-				<Checkbox value={[selected]} plain inert />
-			</div>
+			<Checkbox value={[selected]} plain inert />
 		</CssTransition>
 	);
 	const iconOrElement = typeof icon === "string" ? <Icon name={icon} /> : icon;

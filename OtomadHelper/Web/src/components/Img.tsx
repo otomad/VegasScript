@@ -35,12 +35,12 @@ function resetImageAttributes(image: HTMLImageElement, withAttrs: FCP<{}, "img">
 	});
 }
 
-export default forwardRef(function Img({ src, duplicate, ...htmlAttrs }: FCP<{
+export default function Img({ src, duplicate, ref, ...htmlAttrs }: FCP<{
 	/** Image source href. */
 	src: string;
 	/** If the page needs to include the image twice in different locations, please specify an alias here for a better experience. */
 	duplicate?: string;
-}, "img">, ref: ForwardedRef<"img">) {
+}, "img">) {
 	const contentsEl = useDomRef<"div">();
 	const imageEl = useDomRef<"img">();
 	const images = useSnapshot(useImages);
@@ -65,4 +65,4 @@ export default forwardRef(function Img({ src, duplicate, ...htmlAttrs }: FCP<{
 	}, [src, duplicate]);
 
 	return <Contents ref={contentsEl} className="img" />;
-});
+}

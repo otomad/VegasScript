@@ -1,13 +1,14 @@
-export default forwardRef(function ClickOnSameElement({ children, onClick }: {
+export default function ClickOnSameElement({ children, onClick, ref }: {
 	/** The child must be ONE HTML or React element. */
 	children: ReactElement;
+	ref?: ForwardedRef<"section">;
 	/**
 	 * Make sure that if press mouse button while on child content and release it on parent, that does not count as click on parent.
 	 * @see https://stackoverflow.com/q/76955236/19553213
 	 */
 	onClick?: MouseEventHandler;
-}, ref: ForwardedRef<HTMLElement>) {
-	const target = useRef<HTMLElement>(null);
+}) {
+	const target = useDomRef<"section">();
 	const isPressed = useRef(false);
 	useImperativeHandleRef(ref, target);
 
@@ -27,4 +28,4 @@ export default forwardRef(function ClickOnSameElement({ children, onClick }: {
 			{children}
 		</EventInjector>
 	);
-});
+}

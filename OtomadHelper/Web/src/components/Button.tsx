@@ -200,8 +200,8 @@ export /* @internal */ const StyledButton = styled.button<{
 		}
 	}
 `;
-type a = FCP<{}, "div">;
-export default forwardRef(function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, className, onRelease, onClick, ...htmlAttrs }: FCP<{
+
+export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, className, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Button animated icon. */
@@ -222,7 +222,7 @@ export default forwardRef(function Button({ children, icon, animatedIcon, subtle
 	minWidthUnbounded?: boolean;
 	/** Mouse release button event. Only works with `RepeatButton`. */
 	onRelease?: BaseEventHandler;
-}, "button">, ref: ForwardedRef<"button">) {
+}, "button">) {
 	const fillColorName = !accent ? undefined : accent === true ? "accent-color" : `fill-color-system-${accent}`;
 	const subtleFillColorName = `fill-color-system-${accent === true ? "accent" : accent}-background`;
 	const handleClick = useOnNestedButtonClick(onClick);
@@ -248,4 +248,4 @@ export default forwardRef(function Button({ children, icon, animatedIcon, subtle
 			</StackPanel>
 		</StyledButton>
 	);
-});
+}

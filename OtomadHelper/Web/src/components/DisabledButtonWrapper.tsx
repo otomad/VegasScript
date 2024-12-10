@@ -18,11 +18,11 @@ const StyledDisabledButtonWrapper = styled.div`
 	}
 `;
 
-export default forwardRef(function DisabledButtonWrapper({ disabled, children, ...htmlAttrs }: FCP<{}, "div">, ref: ForwardedRef<"div">) {
+export default function DisabledButtonWrapper({ disabled, children, ref, ...htmlAttrs }: FCP<{}, "div">) {
 	return (
 		<StyledDisabledButtonWrapper ref={ref} className={{ disabled }} {...htmlAttrs}>
 			{children}
 			<Badge hidden={!disabled} status="warning" />
 		</StyledDisabledButtonWrapper>
 	);
-});
+}

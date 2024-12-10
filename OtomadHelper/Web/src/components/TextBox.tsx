@@ -257,7 +257,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 	}
 `;
 
-const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, _inputAttrs: inputAttrs, onChange, onChanging, onInput, onKeyDown, ...htmlAttrs }: FCP<{
+export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, _inputAttrs: inputAttrs, onChange, onChanging, onInput, onKeyDown, ref, ...htmlAttrs }: FCP<{
 	/** The value of the input box. */
 	value: StateProperty<string>;
 	/** Content placeholder. */
@@ -284,7 +284,7 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 	onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
 	"aria-disabled"?: never;
 	"aria-readonly"?: never;
-}, "div">, ref: ForwardedRef<"input">) {
+}, "div">) {
 	const inputId = useId();
 	const inputEl = useDomRef<"input">();
 	useImperativeHandleRef(ref, inputEl);
@@ -355,7 +355,7 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 			</div>
 		</StyledTextBox>
 	);
-});
+}
 
 type NumberLike = number | bigint;
 function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, keyLargeStepMultiple, positiveSign, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
@@ -566,7 +566,5 @@ function NumberUnitTextBox<TUnit extends string>({ value: [[value, unit], set], 
 	);
 }
 
-export default functionModule(TextBox, {
-	Number: NumberTextBox,
-	NumberUnit: NumberUnitTextBox,
-});
+TextBox.Number = NumberTextBox;
+TextBox.NumberUnit = NumberUnitTextBox;

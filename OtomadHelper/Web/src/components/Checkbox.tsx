@@ -156,7 +156,7 @@ export default function Checkbox(props: FCP<{
 	/** State change event. */
 	onChange?(e: { checkState: CheckState; checked: boolean | null }): void;
 } & SharedProps, "label">): JSX.Element;
-export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, ...htmlAttrs }: FCP<{
+export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, ref, ...htmlAttrs }: FCP<{
 	id?: T;
 	value: StateProperty<T[]> | StateProperty<boolean> | StateProperty<CheckState>;
 	onChange?: Function;
@@ -167,6 +167,8 @@ export default function Checkbox<T>({ children, id, value: [value, setValue], di
 	const checked = checkStateMode ? value === "checked" : singleMode ? !!value : (value as T[]).includes(id);
 	const indeterminate = value === "indeterminate";
 	const ariaId = useId();
+
+	useImperativeHandleRef(ref, labelEl);
 
 	const handleChange = (checked: boolean, indeterminate: boolean) => {
 		const checkbox = checkboxEl.current;

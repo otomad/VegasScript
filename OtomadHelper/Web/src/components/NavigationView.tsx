@@ -530,11 +530,11 @@ const StyledBreadCrumbChevronRight = styled.div`
 	}
 `;
 
-const BreadCrumbChevronRight = forwardRef<HTMLDivElement>((_, ref) => (
+const BreadCrumbChevronRight = ({ ref }: FCP<{}, "div">) => (
 	<StyledBreadCrumbChevronRight ref={ref}>
 		<Icon name="chevron_right" />
 	</StyledBreadCrumbChevronRight>
-));
+);
 
 interface NavItem {
 	/** Label text. */

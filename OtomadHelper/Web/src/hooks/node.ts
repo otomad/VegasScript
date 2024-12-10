@@ -18,7 +18,7 @@ export function useForceUpdate() {
  *
  * @returns A cleanup function that removes the event listeners when the component unmounts.
  */
-export function useOnFormKeyDown(element: RefObject<HTMLElement>, type: "radio" | "checkbox", handleCheck: (checked?: boolean) => void) {
+export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, type: "radio" | "checkbox", handleCheck: (checked?: boolean) => void) {
 	useEffect(() => {
 		const el = element.current;
 		const CUSTOM_CHANGE_EVENT = "customchange";
@@ -76,7 +76,7 @@ export function useOnFormKeyDown(element: RefObject<HTMLElement>, type: "radio" 
  * @param forwardedRef - Forwarded ref argument from the `forwardRef` function.
  * @param localRef - Local `useDomRef` variable.
  */
-export function useImperativeHandleRef<T>(forwardedRef: React.ForwardedRef<T>, localRef: RefObject<T | null | undefined>) {
+export function useImperativeHandleRef<T>(forwardedRef: React.ForwardedRef<T> | undefined, localRef: RefObject<T | null | undefined>) {
 	useImperativeHandle(forwardedRef, () => localRef.current!);
 }
 

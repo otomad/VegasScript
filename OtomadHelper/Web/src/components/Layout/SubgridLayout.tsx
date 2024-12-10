@@ -50,10 +50,10 @@ const subgridChildren = createStore(new class {
 	});
 }());
 
-export default forwardRef(function SubgridLayout({ name: groupName, children, ...htmlAttrs }: FCP<{
+export default function SubgridLayout({ name: groupName, children, ref, ...htmlAttrs }: FCP<{
 	/** Subgrid group name. */
 	name: string;
-}, "div">, ref: ForwardedRef<"div">) {
+}, "div">) {
 	const containerEl = useDomRef<"div">();
 	useImperativeHandleRef(ref, containerEl);
 
@@ -77,4 +77,4 @@ export default forwardRef(function SubgridLayout({ name: groupName, children, ..
 	}, [children]);
 
 	return <Contents ref={containerEl} {...htmlAttrs}>{children}</Contents>;
-});
+}

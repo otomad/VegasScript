@@ -154,7 +154,7 @@ function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) 
 
 const iconsImport = import.meta.glob<AnyObject>("/src/assets/lotties/**/*.json", { import: "default", eager: true });
 
-export default forwardRef(function AnimatedIcon({
+export default function AnimatedIcon({
 	loop = false,
 	autoplay = false,
 	name,
@@ -164,6 +164,7 @@ export default forwardRef(function AnimatedIcon({
 	showFallbackIcon = false,
 	onInit,
 	onClick,
+	ref,
 	...htmlAttrs
 }: FCP<{
 	/** Loop? */
@@ -190,11 +191,12 @@ export default forwardRef(function AnimatedIcon({
 	/** Click event. */
 	onClick?(anim?: AnimationItem): void;
 	children?: never;
-}, "div">, ref: ForwardedRef<{
-	play(): void;
-	pause(): void;
-	stop(): void;
-}>) {
+	ref?: ForwardedRef<{
+		play(): void;
+		pause(): void;
+		stop(): void;
+	}>;
+}, "div">) {
 	const animationItem = useRef<AnimationItem>(undefined);
 	const { findMarker, onAnimationComplete, ...sequence } = useLottieSequence(animationItem);
 
@@ -330,4 +332,4 @@ export default forwardRef(function AnimatedIcon({
 			</EventInjector>
 		</StyledAnimatedIcon>
 	);
-});
+}

@@ -19,8 +19,9 @@ type Options = boolean | AddEventListenerOptions | EventListenerOptions;
 
 const eventAttrToType = (eventName: string) => eventName.toLowerCase().replace(/^on/, "");
 
-const EventInjector = forwardRef(function EventInjector({ children, options, ...events }: FCP<{
+export default function EventInjector({ children, ref, options, ...events }: FCP<{
 	children: ReactElement;
+	ref?: ForwardedRef<"section">;
 	/**
 	 * Event listener options.
 	 *
@@ -30,7 +31,7 @@ const EventInjector = forwardRef(function EventInjector({ children, options, ...
 	 * ```
 	 */
 	options?: Options;
-} & AllEvents>, ref: ForwardedRef<"section">) {
+} & AllEvents>) {
 	const childEl = useDomRef<"section">();
 	useImperativeHandleRef(ref, childEl);
 
@@ -46,19 +47,21 @@ const EventInjector = forwardRef(function EventInjector({ children, options, ...
 	}, [children, options]);
 
 	return cloneRef(children, childEl);
-});
+}
 
-export default functionModule(EventInjector, {
-	/**
-	 * ```typescript
-	 * { passive: true }
-	 * ```
-	 */
-	Passive: ({ options = { passive: true }, ...props }: PropsOf<typeof EventInjector>) => <EventInjector {...props} options={options} />,
-	/**
-	 * ```typescript
-	 * { passive: false }
-	 * ```
-	 */
-	Active: ({ options = { passive: false }, ...props }: PropsOf<typeof EventInjector>) => <EventInjector {...props} options={options} />,
-});
+/**
+ * ```typescript
+ * { passive: true }
+ * ```
+ */
+EventInjector.Passive = function EventInjector_Passive({ options = { passive: true }, ...props }: PropsOf<typeof EventInjector>) {
+	return <EventInjector {...props} options={options} />;
+};
+/**
+ * ```typescript
+ * { passive: false }
+ * ```
+ */
+EventInjector.Active = function EventInjector_Passive({ options = { passive: false }, ...props }: PropsOf<typeof EventInjector>) {
+	return <EventInjector {...props} options={options} />;
+};

@@ -42,7 +42,7 @@ const StyledSettingsPageControl = styled.div<{
 	}
 `;
 
-export default forwardRef(function SettingsPageControl({ image, imageOverlay, learnMoreLink, clearFloat, cursor, children, ...htmlAttrs }: FCP<{
+export default function SettingsPageControl({ image, imageOverlay, learnMoreLink, clearFloat, cursor, children, ref, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Something overlay on the image. */
@@ -53,7 +53,7 @@ export default forwardRef(function SettingsPageControl({ image, imageOverlay, le
 	clearFloat?: boolean;
 	/** The file path of the Easter egg mouse cursor. */
 	cursor?: string;
-}, "div">, ref: ForwardedRef<"div">) {
+}, "div">) {
 	const { hideUseTips } = useSnapshot(configStore.settings);
 	if (hideUseTips) return;
 
@@ -94,4 +94,4 @@ export default forwardRef(function SettingsPageControl({ image, imageOverlay, le
 			</p>
 		</StyledSettingsPageControl>
 	);
-});
+}

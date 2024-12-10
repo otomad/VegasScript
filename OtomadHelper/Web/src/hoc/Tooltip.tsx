@@ -81,8 +81,7 @@ const StyledTooltip = styled.div<{
 	}
 `;
 
-// TODO: forwardRef
-export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, children }: FCP<{
+export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, children, ref }: FCP<{
 	/** Tooltip content. */
 	title: ReactNode;
 	/** Tooltip placement. */
@@ -95,6 +94,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	disabled?: boolean;
 	/** Auto apply the tooltip title to aria label attribute of the target element? Defaults to true. */
 	applyAriaLabel?: boolean;
+	ref?: ForwardedRef<"section">;
 }>) {
 	const [shown, setShown] = useState(false);
 	const [contentsEl, setContentsEl] = useDomRefState<"div">(); // Use state instead of ref to make sure change it to rerender.
@@ -102,6 +102,8 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	const [actualPlacement, setActualPlacement] = useState(placement);
 	const [position, setPosition] = useState<CSSProperties>();
 	const shownTimeout = useRef<Timeout>(undefined);
+
+	useImperativeHandle(ref, () => contentsEl!);
 
 	const dom = useMemo(() => {
 		let dom = contentsEl?.firstElementChild;

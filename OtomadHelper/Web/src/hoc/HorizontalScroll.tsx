@@ -1,11 +1,12 @@
 /**
  * @see https://stackoverflow.com/a/70226036/19553213
  */
-export default function HorizontalScroll({ enabled = true, children }: FCP<{
+export default function HorizontalScroll({ enabled = true, children, ref }: FCP<{
 	/** When user use mouse wheel to scroll, should it scroll horizontally instead of default vertically? */
 	enabled?: boolean;
-}, "div">) {
-	const _el = useDomRef<"section">(); // WARN: Wait for React 19 ref as a prop.
+}, "section">) {
+	const _el = useDomRef<"section">();
+	useImperativeHandleRef(ref, _el);
 	/** Max `scrollLeft` value */
 	const scrollWidth = useRef(0);
 	/** Desired scroll distance per animation frame. You can adjust to your wish */
@@ -44,7 +45,7 @@ export default function HorizontalScroll({ enabled = true, children }: FCP<{
 	}, [enabled]);
 
 	return (
-		<EventInjector onWheel={onWheel}>
+		<EventInjector ref={_el} onWheel={onWheel}>
 			{children as ReactElement}
 		</EventInjector>
 	);
