@@ -15,19 +15,17 @@ const allSelectGeneratedClips = Object.freeze(selectGeneratedClipsType.map(item 
 const getAllSelectGeneratedClips = () => allSelectGeneratedClips.slice();
 export /* @internal */ const trackNames = [
 	{ id: "track", name: t.source.trackName.track, icon: "layer" },
-	{ id: "trackIndex", name: t.source.trackName.trackIndex, icon: "layer_number_list" },
-	{ id: "instrument", name: t.source.trackName.instrument, icon: "score" },
+	{ id: "trackIndex", name: t.source.trackName.trackIndex, icon: "layer_number" },
+	{ id: "instrument", name: t.source.trackName.instrument, icon: "instrument" },
 	{ id: "channel", name: t.source.trackName.channel, icon: "midi" },
 	{ id: "clip", name: t.source.trackName.clip, icon: "track_event" },
 	{ id: "media", name: t.source.trackName.media, icon: "media" },
 	{ id: "score", name: t.source.trackName.score, icon: "document_score" },
 	{ id: "unnamed", name: t.source.trackName.unnamed, icon: "prohibited" },
 ] as const;
-export /* @internal */ const barOrBeatUnits = [
-	{ id: "bar", name: t.units.bar },
-	{ id: "beat", name: t.units.beat },
-] as const;
-const barOrBeatUnitTypes = barOrBeatUnits.map(unit => unit.id), barOrBeatUnitNames = barOrBeatUnits.map(unit => unit.name);
+
+export /* @internal */ const barOrBeatUnitTypes = ["bar", "beat"] as const;
+const barOrBeatUnitNames = (count: number) => [t(count).units.bar, t(count).units.beat] as const;
 
 /** @deprecated */
 const isUnderVegas16 = true;
@@ -91,8 +89,8 @@ export default function Source() {
 
 			<Subheader>{t.subheaders.advanced}</Subheader>
 			<Expander title={t.source.afterCompletion} icon="post_processing">
-				<ToggleSwitch on={removeSourceClips} lock={lockRemoveOrSelectSourceClips}>{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
-				<ToggleSwitch on={selectSourceClips} lock={lockRemoveOrSelectSourceClips}>{t.source.afterCompletion.selectSourceClips}</ToggleSwitch>
+				<ToggleSwitch on={removeSourceClips} lock={lockRemoveOrSelectSourceClips} icon="delete">{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
+				<ToggleSwitch on={selectSourceClips} lock={lockRemoveOrSelectSourceClips} icon="select_all">{t.source.afterCompletion.selectSourceClips}</ToggleSwitch>
 				<SelectAll value={selectGeneratedClips} all={getAllSelectGeneratedClips()} title={t.source.afterCompletion.selectGeneratedClips} />
 				<ItemsView view="tile" multiple current={selectGeneratedClips}>
 					{selectGeneratedClipsType.map(({ id, name, icon }) =>
@@ -105,7 +103,7 @@ export default function Source() {
 				selectInfo={preferredTrack === 0 ? t.source.preferredTrack.top : t(preferredTrack).source.preferredTrack.ordinal}
 				icon="preferred_track"
 			>
-				<Expander.Item title={t.source.preferredTrack.index} details={t.descriptions.source.preferredTrack.fillingInstructions}>
+				<Expander.Item title={t.source.preferredTrack.index} details={t.descriptions.source.preferredTrack.fillingInstructions} icon="layer_number">
 					<StackPanel>
 						<TextBox.Number value={[preferredTrack, setPreferredTrack]} decimalPlaces={0} />
 						<QuicklySelectCurrentTrack />
@@ -114,13 +112,14 @@ export default function Source() {
 				<ToggleSwitch
 					on={belowAdjustmentTracks}
 					details={underVegas16}
+					icon="layer_sparkle_below"
 					lock={isUnderVegas16 ? false : null}
 				>
 					{t.source.preferredTrack.belowAdjustmentTracks}
 				</ToggleSwitch>
 			</Expander>
 			<SettingsCardToggleSwitch title={t.source.trackGroup} details={t.descriptions.source.trackGroup} icon="group" on={trackGroup}>
-				<ToggleSwitch on={collapseTrackGroup} icon="arrow_minimize">{t.source.trackGroup.collapse}</ToggleSwitch>
+				<ToggleSwitch on={collapseTrackGroup} icon="chevron_down_up">{t.source.trackGroup.collapse}</ToggleSwitch>
 			</SettingsCardToggleSwitch>
 			<ExpanderRadio
 				title={t.source.trackName}
@@ -134,16 +133,24 @@ export default function Source() {
 				iconField="icon"
 			/>
 
-			<Expander title={t.source.blindBox} details={t.descriptions.source.blindBox} selectInfo={ytpEnabled && t.descriptions.source.blindBox.ytpEnabled} disabled={ytpEnabled} icon="dice">
+			<Expander
+				title={t.source.blindBox}
+				details={t.descriptions.source.blindBox}
+				selectInfo={ytpEnabled && t.descriptions.source.blindBox.ytpEnabled}
+				disabled={ytpEnabled}
+				icon="dice"
+				checkInfo={blindBoxEnabled ? t.on : t.off}
+				alwaysShowCheckInfo
+			>
 				<ToggleSwitch on={blindBoxForTrack} details={t.descriptions.source.blindBox.track} icon="layer">{t.source.blindBox.track}</ToggleSwitch>
 				<ToggleSwitch on={blindBoxForMarker} details={t.descriptions.source.blindBox.marker} icon="marker">{t.source.blindBox.marker}</ToggleSwitch>
 				<ToggleSwitch on={blindBoxForBarOrBeat} details={t.descriptions.source.blindBox.barOrBeat} icon="music_bar">{t.source.blindBox.barOrBeat}</ToggleSwitch>
 				<Disabled disabled={!blindBoxForBarOrBeat[0]}>
 					<Expander.Item title={t.source.blindBox.barOrBeat.period} details={t.descriptions.source.blindBox.barOrBeat.period} icon="timer">
-						<TextBox.NumberUnit value={blindBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={barOrBeatUnitNames} decimalPlaces={0} min={1} />
+						<TextBox.NumberUnit value={blindBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={1} />
 					</Expander.Item>
 					<Expander.Item title={t.source.blindBox.barOrBeat.preparation} details={t.descriptions.source.blindBox.barOrBeat.preparation} icon="hourglass">
-						<TextBox.NumberUnit value={blindBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={barOrBeatUnitNames} decimalPlaces={0} min={0} />
+						<TextBox.NumberUnit value={blindBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={0} />
 					</Expander.Item>
 				</Disabled>
 			</Expander>

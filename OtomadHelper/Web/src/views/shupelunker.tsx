@@ -35,7 +35,7 @@ export default function Shupelunker() {
 					</Expander>
 					<SettingsCardToggleSwitch on={exclusiveTrack} title={t.shupelunker.exclusiveTrack} details={t.descriptions.shupelunker.exclusiveTrack} icon="exclusive_track" />
 					<SettingsCard title={t.offset} details={t.descriptions.shupelunker.offset} icon="table_resize">
-						<TextBox.Number value={offset} decimalPlaces={0} suffix={t.units.semitones} positiveSign />
+						<TextBox.Number value={offset} decimalPlaces={0} suffix={t.units.semitone} positiveSign />
 					</SettingsCard>
 
 					<Subheader>{t.shupelunker.keyMappingZones}</Subheader>

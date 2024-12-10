@@ -153,7 +153,7 @@ export default function Prve() {
 						idField
 						nameField={getEffectName}
 						imageField={effect => <PreviewPrve key={effect} thumbnail={exampleThumbnail} effect={effect} frames={effect === "turned" ? 2 : 4} />}
-						checkInfoCondition={effect => effect === undefined || effect === DEFAULT_EFFECT ? "" : effect === null ? rotation[0] + t.units.degrees : getEffectName(effect)}
+						checkInfoCondition={effect => effect === undefined || effect === DEFAULT_EFFECT ? "" : effect === null ? rotation[0] + t.units.degree : getEffectName(effect)}
 						alwaysShowCheckInfo
 					>
 						<Expander.Item title={t.prve.amounts.rotationAngle} icon="angle">
@@ -163,7 +163,7 @@ export default function Prve() {
 								max={360}
 								decimalPlaces={0}
 								defaultValue={0}
-								suffix={t.units.degrees}
+								suffix={t.units.degree}
 							/>
 						</Expander.Item>
 						<Expander.Item title={t.prve.amounts.rotationStep} icon="turntable">
@@ -212,7 +212,7 @@ export default function Prve() {
 							const tAmounts = t.prve.amounts;
 							const option =
 								/* eslint-disable @stylistic/indent */
-								klass === "swing" ? $a(tAmounts.pendulum, "angle", pendulum, defaultPrveAmounts.pendulum, -360, 360, 0, t.units.degrees) :
+								klass === "swing" ? $a(tAmounts.pendulum, "angle", pendulum, defaultPrveAmounts.pendulum, -360, 360, 0, t.units.degree) :
 								klass === "blur" ?
 									currentEffect === "gaussianBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", gaussianBlur, defaultPrveAmounts.gaussianBlur, 0, 1) :
 									currentEffect === "radialBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", radialBlur, defaultPrveAmounts.radialBlur, 0, 1) : undefined :

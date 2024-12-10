@@ -206,7 +206,7 @@ export default function Visual() {
 							</Segmented>
 						</Expander.Item>
 						<Expander.Item title={t.stream.playingTechniques.glissando.swirlAmount} details={t.descriptions.stream.playingTechniques.glissando.swirlAmount}>
-							<TextBox.Number value={glissandoAmount} min={-24} max={24} suffix={t.units.semitones} positiveSign />
+							<TextBox.Number value={glissandoAmount} min={-24} max={24} suffix={t.units.semitone} positiveSign />
 						</Expander.Item>
 					</SettingsCardToggleSwitch>
 					<SettingsCardToggleSwitch

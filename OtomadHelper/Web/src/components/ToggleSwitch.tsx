@@ -52,6 +52,8 @@ const StyledToggleSwitchLabel = styled.button`
 		&:last-child {
 			border-radius: inherit;
 		}
+
+		&
 	}
 
 	&:not(.expander-child-items &) {
@@ -131,6 +133,10 @@ const StyledToggleSwitchLabel = styled.button`
 		.icon,
 		.text {
 			color: ${c("fill-color-text-disabled")};
+		}
+
+		.text .details {
+			opacity: ${c("disabled-text-opacity")};
 		}
 	}
 

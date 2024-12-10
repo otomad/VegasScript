@@ -63,7 +63,8 @@ export default function Audio() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
 		stretch, loop, normalize, unlengthen, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
-		tuningMethod, stretchAttribute, alternativeForExceedsTheRange, resample, preserveFormant, basePitch, currentPreset,
+		tuningMethod, stretchAttribute, alternativeForExceedsTheRange, resample, preserveFormant, currentPreset,
+		basePitch, basePitchBased, cent,
 	} = selectConfig(c => c.audio);
 	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = selectConfig(c => c.audio.prelistenAttributes);
 	const { createGroups } = selectConfig(c => c);
@@ -214,9 +215,25 @@ export default function Audio() {
 						/>
 						<SettingsCardToggleSwitch title={t.stream.tuning.resample} details={t.descriptions.stream.tuning.resample} icon="lock" on={resample} />
 						<SettingsCardToggleSwitch title={t.stream.tuning.preserveFormant} details={t.descriptions.stream.tuning.preserveFormant} icon="speech" on={preserveFormant} />
-						<SettingsCard title={t.stream.tuning.basePitch} details={t.descriptions.stream.tuning.basePitch} icon="music_note">
-							<PitchPicker spn={basePitch} />
-						</SettingsCard>
+						<Expander
+							title={t.stream.tuning.basePitch}
+							details={t.descriptions.stream.tuning.basePitch}
+							icon="music_note"
+							actions={<PitchPicker spn={basePitch} />}
+						>
+							<Expander.Item title={t.stream.tuning.basePitch.cent} details={t.descriptions.stream.tuning.basePitch.cent} icon="fine_tune">
+								<SliderWithBox
+									value={cent}
+									min={-100}
+									max={100}
+									decimalPlaces={0}
+									defaultValue={0}
+									suffix={t(cent[0]).units.cent}
+								/>
+							</Expander.Item>
+							<ToggleSwitch icon="circled_times" on={basePitchBased} details={t.descriptions.stream.tuning.basePitch.based}>{t.stream.tuning.basePitch.based}</ToggleSwitch>
+							<ToggleSwitch icon="tuning_sparkle" on={[false]} disabled details={<p style={{ color: c("fill-color-system-critical") }}>{t.underConstruction}</p>}>{t.stream.tuning.basePitch.auto}</ToggleSwitch>
+						</Expander>
 						<Expander
 							title={t.stream.tuning.prelisten}
 							details={t.descriptions.stream.tuning.prelisten}
@@ -236,7 +253,7 @@ export default function Audio() {
 								<ComboBox ids={beepWaveforms} options={beepWaveforms.map(waveform => t.stream.tuning.prelisten.waveform[waveform])} current={waveform} />
 							</Expander.Item>
 							<Expander.Item icon="timer" title={t.stream.tuning.prelisten.duration}>
-								<TextBox.Number value={beepDuration} min={0} decimalPlaces={0} spinnerStep={100} suffix={t.units.milliseconds} />
+								<TextBox.Number value={beepDuration} min={0} decimalPlaces={0} spinnerStep={100} suffix={t.units.millisecond} />
 							</Expander.Item>
 							<Expander.Item icon="volume" title={t.stream.tuning.prelisten.volume}>
 								<Slider

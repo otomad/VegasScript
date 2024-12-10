@@ -40,7 +40,7 @@ function ExpanderChildTrimTimecode({ start, end }: FCP<{
 	);
 }
 
-function ExpanderChildTrimValue({ start, end, unit = t.units.milliseconds, decimalPlaces, min, max, spinnerStep }: FCP<{
+function ExpanderChildTrimValue({ start, end, unit = t.units.millisecond, decimalPlaces, min, max, spinnerStep }: FCP<{
 	children?: never;
 	/** Start time value. */
 	start: StateProperty<number>;

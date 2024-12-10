@@ -323,6 +323,7 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 		<StyledTextBox
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
+			onClick={e => e.stopPropagation()}
 			{...htmlAttrs}
 		>
 			<div className="wrapper">
@@ -343,7 +344,6 @@ const TextBox = forwardRef(function TextBox({ value: [value, _setValue], placeho
 					onPaste={handleChange}
 					onKeyDown={handleKeyDown}
 					onMouseDown={onChanging}
-					onClick={e => e.stopPropagation()}
 					{...inputAttrs}
 				/>
 				<label className="suffix" htmlFor={inputId}>{suffix}</label>
@@ -551,16 +551,17 @@ function NumberUnitTextBox<TUnit extends string>({ value: [[value, unit], set], 
 	/** Numeric value and its unit type. */
 	value: StatePropertyNonNull<Unit<TUnit>>;
 	/** All unit types. */
-	units: TUnit[];
-	/** All unit type names. */
-	unitNames: Readable[];
+	units: readonly TUnit[];
+	/** All unit type names, or get the plural unit type names from the value (count). */
+	unitNames: readonly Readable[] | ((value: number) => readonly Readable[]);
 }>) {
-	const setValue = (value: number) => set(([, unit]) => [value, unit]);
-	const setUnit = (unit: TUnit) => set(([value]) => [value, unit]);
+	const setValue = (newValue: React.SetStateAction<number>) => set(([, unit]) => [typeof newValue === "function" ? newValue(value) : newValue, unit]);
+	const setUnit = (newUnit: React.SetStateAction<TUnit>) => set(([value]) => [value, typeof newUnit === "function" ? newUnit(unit) : unit]);
+
 	return (
 		<StyledNumberUnitTextBox>
 			<NumberTextBox value={[value, setValue]} {...numberTextBoxProps} disabled={disabled} />
-			<ComboBox current={[unit, setUnit]} ids={units} options={unitNames} disabled={disabled} />
+			<ComboBox current={[unit, setUnit]} ids={units} options={typeof unitNames === "function" ? unitNames(value) : unitNames} disabled={disabled} />
 		</StyledNumberUnitTextBox>
 	);
 }

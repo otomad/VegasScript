@@ -98,6 +98,7 @@ export default {
 		},
 		stream: {
 			stretch: {},
+			playbackRate: {},
 			unlengthen: {},
 			legato: {},
 			transformMethod: {},
@@ -110,6 +111,7 @@ export default {
 				tuningMethod: {},
 				stretchAttributes: {},
 				alternativeForExceedsTheRange: {},
+				basePitch: {},
 				prelisten: {
 					waveform: {},
 				},
@@ -198,6 +200,7 @@ export default {
 			},
 			score: {},
 			stream: {
+				playbackRate: {},
 				resampleImitatively: {},
 				playingTechniques: {
 					glissando: {},
@@ -207,6 +210,7 @@ export default {
 				tuning: {
 					tuningMethod: {},
 					alternativeForExceedsTheRange: {},
+					basePitch: {},
 					prelisten: {},
 				},
 				effects: {},

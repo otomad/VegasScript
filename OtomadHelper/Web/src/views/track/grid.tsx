@@ -144,7 +144,7 @@ export default function Grid() {
 					</Segmented>
 				</SettingsCard>
 				<SettingsCard title={t.track.grid.padding} icon="image_border" details={t.descriptions.track.grid.padding}>
-					<TextBox.Number value={padding} min={0} max={50} defaultValue={0} suffix={t.units.densityIndependentPixels} />
+					<TextBox.Number value={padding} min={0} max={50} defaultValue={0} suffix={t.units.densityIndependentPixel} />
 				</SettingsCard>
 				<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} />
 

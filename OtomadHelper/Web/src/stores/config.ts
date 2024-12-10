@@ -3,7 +3,7 @@ import { deepClone } from "valtio/utils";
 import type { beepEngines } from "views/audio";
 import type { pitchNotations } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
-import type { barOrBeatUnits, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
+import type { barOrBeatUnitTypes, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { trackLegatoModes } from "views/track";
 import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
 import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
@@ -22,7 +22,7 @@ type MultipleSelectTrackItem = typeof multipleSelectTrackItems[number];
 type SelectGeneratedClips = typeof selectGeneratedClipsType[number]["id"];
 type BeepEngine = typeof beepEngines[number];
 type TrackNameType = typeof trackNames[number]["id"];
-type BarOrBeatUnit = typeof barOrBeatUnits[number]["id"];
+type BarOrBeatUnit = typeof barOrBeatUnitTypes[number];
 type SourceFrom = typeof sourceFromEnums[number];
 type TrackOrChannel = typeof trackAndChannel[number];
 type GridArrayType = typeof arrayTypes[number];
@@ -94,6 +94,8 @@ export const configStore = createStore({
 		resample: false,
 		preserveFormant: false,
 		basePitch: "C5",
+		cent: 0,
+		basePitchBased: true,
 		prelistenAttributes: {
 			engine: "WebAudio" as BeepEngine,
 			waveform: "sine" as OscillatorCommonType,
