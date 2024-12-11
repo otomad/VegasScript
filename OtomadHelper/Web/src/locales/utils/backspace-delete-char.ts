@@ -1,3 +1,5 @@
+// DELETE: Deprecated.
+
 import type { PostProcessorModule } from "i18next";
 
 /** @deprecated */

@@ -9,7 +9,7 @@ export default {
 		},
 		colon: "：",
 		semicolon: "；",
-		caesura: "・",
+		enumerationComma: "・",
 		rangeDash: "〜",
 		titles: {
 			home: "ホーム",
@@ -59,7 +59,7 @@ export default {
 				_: "優先トラック",
 				index: "トラックの優先インデックス",
 				top: "最上部",
-				ordinal: "{{count, ordinal}}トラックの下",
+				ordinal: "{{count, ordinal}}のトラックの下",
 				belowAdjustmentTracks: "1つ以上の調整トラックがこのトラックの下にある場合は、次のトラックを選択してください。",
 				newTrack: "新しいトラック",
 				quicklySelect: "現在のトラックをすばやく選択",

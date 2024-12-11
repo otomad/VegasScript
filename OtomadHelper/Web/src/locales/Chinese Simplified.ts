@@ -9,7 +9,7 @@ export default {
 		},
 		colon: "：",
 		semicolon: "；",
-		caesura: "、",
+		enumerationComma: "、",
 		rangeDash: "~",
 		titles: {
 			home: "主页",

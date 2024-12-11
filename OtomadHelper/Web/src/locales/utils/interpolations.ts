@@ -1,5 +1,5 @@
 import type { FormatFunction } from "i18next";
-import formatOrdinal from "./ordinal";
+import ordinal from "intl-ordinal";
 
 const formatInterpolation: FormatFunction = function format(value, format, lng) {
 	if (isI18nItem(value))
@@ -16,7 +16,7 @@ const formatInterpolation: FormatFunction = function format(value, format, lng) 
 			break;
 		case "number":
 			switch (format) {
-				case "ordinal": return formatOrdinal(value, lng!);
+				case "ordinal": return ordinal(lng!).format(value);
 				default: break;
 			}
 			break;

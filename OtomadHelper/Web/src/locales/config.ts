@@ -2,8 +2,8 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 import allLanguages from "./all";
-import formatInterpolation from "./utils/interpolation";
-import panguProcessor from "./utils/pangu";
+import formatInterpolation from "./utils/interpolations";
+import { fullwidthQuotesProcessor, panguProcessor } from "./utils/processors";
 
 i18n
 	// Detect the language user used currently
@@ -13,6 +13,8 @@ i18n
 	.use(initReactI18next)
 	// Pangu plugin, insert spaces between East-asian word and Western word
 	.use(panguProcessor)
+	// Add fullwidth quotation marks Unicode Standardized Variation Sequence (SVS)
+	.use(fullwidthQuotesProcessor)
 	// Initial i18next
 	// Docs: https://www.i18next.com/overview/configuration-options
 	.init({
@@ -24,7 +26,10 @@ i18n
 			escapeValue: false,
 			format: formatInterpolation,
 		},
-		postProcess: ["pangu"],
+		postProcess: [
+			panguProcessor.name,
+			fullwidthQuotesProcessor.name,
+		],
 		resources: allLanguages,
 	});
 

@@ -9,7 +9,7 @@ export default {
 		},
 		colon: ": ",
 		semicolon: "; ",
-		caesura: ", ",
+		enumerationComma: ", ",
 		titles: {
 			home: "Trang chủ",
 			source: "Nguồn",

@@ -7,7 +7,7 @@ export default {
 		},
 		colon: ": ",
 		semicolon: "; ",
-		caesura: ", ",
+		enumerationComma: ", ",
 		rangeDash: "–",
 		titles: {
 			home: "Home",

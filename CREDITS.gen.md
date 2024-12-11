@@ -383,7 +383,6 @@ Project | Authors | License
 [estree-walker](https://github.com/Rich-Harris/estree-walker) | Rich Harris | MIT
 [esutils](https://github.com/estools/esutils) |  | BSD-2-Clause
 [etag](https://github.com/jshttp/etag) |  | MIT
-[execa](https://github.com/sindresorhus/execa) | Sindre Sorhus | MIT
 [expand-brackets](https://github.com/jonschlinkert/expand-brackets) | Jon Schlinkert | MIT
 [expand-tilde](https://github.com/jonschlinkert/expand-tilde) | Jon Schlinkert | MIT
 [extend-shallow](https://github.com/jonschlinkert/extend-shallow) | Jon Schlinkert | MIT
@@ -452,6 +451,8 @@ Project | Authors | License
 [has-values](https://github.com/jonschlinkert/has-values) | Jon Schlinkert | MIT
 [hasown](https://github.com/inspect-js/hasOwn) | Jordan Harband | MIT
 [he](https://github.com/mathiasbynens/he) | Mathias Bynens | MIT
+[hermes-estree](https://github.com/facebook/hermes) |  | MIT
+[hermes-parser](https://github.com/facebook/hermes) |  | MIT
 [homedir-polyfill](https://github.com/doowb/homedir-polyfill) | Brian Woodward | MIT
 [hosted-git-info](https://github.com/npm/hosted-git-info) | Rebecca Turner | ISC
 [htm](https://github.com/developit/htm) | Jason Miller | Apache-2.0
@@ -462,7 +463,6 @@ Project | Authors | License
 [htmlparser2](https://github.com/fb55/htmlparser2) | Felix Boehm | MIT
 [http-proxy-agent](https://github.com/TooTallNate/proxy-agents) | Nathan Rajlich | MIT
 [https-proxy-agent](https://github.com/TooTallNate/proxy-agents) | Nathan Rajlich | MIT
-[human-signals](https://github.com/ehmicky/human-signals) | ehmicky | Apache-2.0
 [husky](https://github.com/typicode/husky) | typicode | MIT
 [i18next-browser-languagedetector](https://github.com/i18next/i18next-browser-languageDetector) | Jan Mühlemann | MIT
 [i18next](https://github.com/i18next/i18next) | Jan Mühlemann | MIT
@@ -480,6 +480,7 @@ Project | Authors | License
 [ini](https://github.com/isaacs/ini) | Isaac Z. Schlueter | ISC
 [inquirer](https://github.com/SBoudrias/Inquirer.js) | Simon Boudrias | MIT
 [internal-slot](https://github.com/ljharb/internal-slot) | Jordan Harband | MIT
+[intl-ordinal](https://github.com/otomad/intl-ordinal) | lunate | MIT
 [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto) | Divyansh Singh | MIT
 [is-accessor-descriptor](https://github.com/inspect-js/is-accessor-descriptor) | Jon Schlinkert | MIT
 [is-array-buffer](https://github.com/inspect-js/is-array-buffer) | Jordan Harband | MIT
@@ -512,7 +513,6 @@ Project | Authors | License
 [is-regex](https://github.com/inspect-js/is-regex) | Jordan Harband | MIT
 [is-set](https://github.com/inspect-js/is-set) | Jordan Harband | MIT
 [is-shared-array-buffer](https://github.com/inspect-js/is-shared-array-buffer) | Jordan Harband | MIT
-[is-stream](https://github.com/sindresorhus/is-stream) | Sindre Sorhus | MIT
 [is-string](https://github.com/ljharb/is-string) | Jordan Harband | MIT
 [is-symbol](https://github.com/inspect-js/is-symbol) | Jordan Harband | MIT
 [is-text-path](https://github.com/sindresorhus/is-text-path) | Sindre Sorhus | MIT
@@ -584,7 +584,6 @@ Project | Authors | License
 [mdn-data](https://github.com/mdn/data) | Mozilla Developer Network | CC0-1.0
 [meow](https://github.com/sindresorhus/meow) | Sindre Sorhus | MIT
 [merge-options](https://github.com/schnittstabil/merge-options) | Michael Mayer | MIT
-[merge-stream](https://github.com/grncdr/merge-stream) | Stephen Sugden | MIT
 [merge2](https://github.com/teambition/merge2) |  | MIT
 [merge](https://github.com/yeikos/js.merge) | yeikos | MIT
 [micromatch](https://github.com/micromatch/micromatch) | Jon Schlinkert | MIT
@@ -613,7 +612,6 @@ Project | Authors | License
 [normalize-package-data](https://github.com/npm/normalize-package-data) | Meryn Stol | BSD-2-Clause
 [normalize-path](https://github.com/jonschlinkert/normalize-path) | Jon Schlinkert | MIT
 [npm-normalize-package-bin](https://github.com/npm/npm-normalize-package-bin) | Isaac Z. Schlueter | ISC
-[npm-run-path](https://github.com/sindresorhus/npm-run-path) | Sindre Sorhus | MIT
 [nth-check](https://github.com/fb55/nth-check) | Felix Boehm | BSD-2-Clause
 [nwsapi](https://github.com/dperini/nwsapi) | Diego Perini | MIT
 [object-assign](https://github.com/sindresorhus/object-assign) | Sindre Sorhus | MIT
@@ -678,11 +676,9 @@ Project | Authors | License
 [prop-types](https://github.com/facebook/prop-types) |  | MIT
 [proxy-compare](https://github.com/dai-shi/proxy-compare) | Daishi Kato | MIT
 [proxy-from-env](https://github.com/Rob--W/proxy-from-env) | Rob Wu | MIT
-[psl](https://github.com/lupomontero/psl) | Lupo Montero | MIT
 [pump](https://github.com/mafintosh/pump) | Mathias Buus Madsen | MIT
 [punycode](https://github.com/mathiasbynens/punycode.js) | Mathias Bynens | MIT
 [query-string](https://github.com/sindresorhus/query-string) | Sindre Sorhus | MIT
-[querystringify](https://github.com/unshiftio/querystringify) | Arnout Kazemier | MIT
 [queue-microtask](https://github.com/feross/queue-microtask) | Feross Aboukhadijeh | MIT
 [radix3](https://github.com/unjs/radix3) |  | MIT
 [react-dom](https://github.com/facebook/react) |  | MIT
@@ -706,7 +702,6 @@ Project | Authors | License
 [repeat-string](https://github.com/jonschlinkert/repeat-string) | Jon Schlinkert | MIT
 [require-directory](https://github.com/troygoode/node-require-directory) | Troy Goode | MIT
 [require-from-string](https://github.com/floatdrop/require-from-string) | Vsevolod Strukchinsky | MIT
-[requires-port](https://github.com/unshiftio/requires-port) | Arnout Kazemier | MIT
 [resolve-dir](https://github.com/jonschlinkert/resolve-dir) | Jon Schlinkert | MIT
 [resolve-from](https://github.com/sindresorhus/resolve-from) | Sindre Sorhus | MIT
 [resolve-url](https://github.com/lydell/resolve-url) | Simon Lydell | MIT
@@ -780,7 +775,6 @@ Project | Authors | License
 [strip-ansi](https://github.com/chalk/strip-ansi) | Sindre Sorhus | MIT
 [strip-ansi](https://github.com/chalk/strip-ansi) | Sindre Sorhus | MIT
 [strip-bom](https://github.com/sindresorhus/strip-bom) | Sindre Sorhus | MIT
-[strip-final-newline](https://github.com/sindresorhus/strip-final-newline) | Sindre Sorhus | MIT
 [strip-json-comments](https://github.com/sindresorhus/strip-json-comments) | Sindre Sorhus | MIT
 [strip-literal](https://github.com/antfu/strip-literal) | Anthony Fu | MIT
 [style-search](https://github.com/davidtheclark/style-search) | David Clark | ISC
@@ -802,8 +796,10 @@ Project | Authors | License
 [table](https://github.com/gajus/table) | Gajus Kuizinas | BSD-3-Clause
 [terser](https://github.com/terser/terser) | Mihai Bazon | BSD-2-Clause
 [text-extensions](https://github.com/sindresorhus/text-extensions) | Sindre Sorhus | MIT
-[text-table](https://github.com/substack/text-table) | James Halliday | MIT
 [through](https://github.com/dominictarr/through) | Dominic Tarr | MIT
+[tinyexec](https://github.com/tinylibs/tinyexec) | James Garbutt | MIT
+[tldts-core](https://github.com/remusao/tldts) | Rémi Berson | MIT
+[tldts](https://github.com/remusao/tldts) | Rémi Berson | MIT
 [tmp](https://github.com/raszi/node-tmp) | KARASZI István | MIT
 [to-fast-properties](https://github.com/sindresorhus/to-fast-properties) | Sindre Sorhus | MIT
 [to-object-path](https://github.com/jonschlinkert/to-object-path) | Jon Schlinkert | MIT
@@ -842,7 +838,6 @@ Project | Authors | License
 [update-browserslist-db](https://github.com/browserslist/update-db) | Andrey Sitnik | MIT
 [uri-js](https://github.com/garycourt/uri-js) | Gary Court | BSD-2-Clause
 [urix](https://github.com/lydell/urix) | Simon Lydell | MIT
-[url-parse](https://github.com/unshiftio/url-parse) | Arnout Kazemier | MIT
 [use-immer](https://github.com/mweststrate/use-immer) | Michel Weststrate | MIT
 [use-isomorphic-layout-effect](https://github.com/Andarist/use-isomorphic-layout-effect) |  | MIT
 [use](https://github.com/jonschlinkert/use) | Jon Schlinkert | MIT
@@ -893,6 +888,8 @@ Project | Authors | License
 [yargs](https://github.com/yargs/yargs) |  | MIT
 [yauzl](https://github.com/thejoshwolfe/yauzl) | Josh Wolfe | MIT
 [yocto-queue](https://github.com/sindresorhus/yocto-queue) | Sindre Sorhus | MIT
+[zod-validation-error](https://github.com/causaly/zod-validation-error) | Dimitrios C. Michalakos | MIT
+[zod](https://github.com/colinhacks/zod) | Colin McDonnell | MIT
 
 ## TypeSpec API Libs
 

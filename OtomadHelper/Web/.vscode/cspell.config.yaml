@@ -51,11 +51,13 @@ words:
   - extralight
   - filedir
   - flyouts
+  - fullwidth
   - fx
   - geq
   - glsl
   - gongche
   - gpt
+  - halfwidth
   - highp
   - hmr
   - hotspot

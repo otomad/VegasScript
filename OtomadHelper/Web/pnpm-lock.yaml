@@ -70,6 +70,9 @@ importers:
       dedent:
         specifier: ^1.5.3
         version: 1.5.3
+      fullwidth-quotes:
+        specifier: ^1.0.0
+        version: 1.0.0
       i18next:
         specifier: ^24.0.5
         version: 24.0.5(typescript@5.7.2)
@@ -79,6 +82,9 @@ importers:
       immer:
         specifier: ^10.1.1
         version: 10.1.1
+      intl-ordinal:
+        specifier: ^1.0.0
+        version: 1.0.0
       jotai:
         specifier: ^2.10.3
         version: 2.10.3(@types/react@19.0.1(patch_hash=uhwoqw3gdbxseimddc3rrm7cji))(react@19.0.0(patch_hash=g2pabjf2tcwka6woxtxz5me4iy))
@@ -2456,6 +2462,9 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
+  fullwidth-quotes@1.0.0:
+    resolution: {integrity: sha512-LNHA79a7cBfOBgIKITvH0VzwbiiQPn4jpN+vknlC1BLZCXVtT4hXoPEBH9K1SUe3DK4CwL4XH4uhbUe+XRTwCQ==}
+
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
@@ -2473,6 +2482,10 @@ packages:
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
+
+  get-east-asian-width@1.3.0:
+    resolution: {integrity: sha512-vpeMIQKxczTD/0s2CdEWHcb0eeJe6TFjxb+J5xgX7hScxqrGuyjmv4c1D4A/gelKfyox0gJJwIHF+fLjeaM8kQ==}
+    engines: {node: '>=18'}
 
   get-intrinsic@1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
@@ -2751,6 +2764,9 @@ packages:
   internal-slot@1.0.7:
     resolution: {integrity: sha512-NGnrKwXzSms2qUUih/ILZ5JBqNTSa1+ZmP6flaIp6KmSElgE9qdndzS3cqjrDovwFdmwsGsLdeFgB6suw+1e9g==}
     engines: {node: '>= 0.4'}
+
+  intl-ordinal@1.0.0:
+    resolution: {integrity: sha512-MM7l/ey1Cr3e3uZgyBccyvyIEuQU/yfgsCuxQbJbmRDaQz5l1I7xlcq57Y986bHX9nf/jaQDHtuLzelUwbnQ5w==}
 
   iron-webcrypto@1.2.1:
     resolution: {integrity: sha512-feOM6FaSr6rEABp/eDfVseKyTMDt+KGpeB35SkVn9Tyn0CqvVsY3EwI0v5i8nMHyJnzCIQf7nsy3p41TPkJZhg==}
@@ -7094,6 +7110,10 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
+  fullwidth-quotes@1.0.0:
+    dependencies:
+      get-east-asian-width: 1.3.0
+
   function-bind@1.1.2: {}
 
   function.prototype.name@1.1.6:
@@ -7108,6 +7128,8 @@ snapshots:
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
+
+  get-east-asian-width@1.3.0: {}
 
   get-intrinsic@1.2.4:
     dependencies:
@@ -7433,6 +7455,8 @@ snapshots:
       es-errors: 1.3.0
       hasown: 2.0.2
       side-channel: 1.0.6
+
+  intl-ordinal@1.0.0: {}
 
   iron-webcrypto@1.2.1: {}
 
