@@ -112,7 +112,7 @@ export default function Source() {
 				<ToggleSwitch
 					on={belowAdjustmentTracks}
 					details={underVegas16}
-					icon="layer_sparkle_below"
+					icon="layer_sparkle_add_below"
 					lock={isUnderVegas16 ? false : null}
 				>
 					{t.source.preferredTrack.belowAdjustmentTracks}

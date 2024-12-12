@@ -767,7 +767,7 @@ export default {
 						classic: "Uses the Classic Pitch Change Method, which cannot work exceed the range, and is the only method available in VEGAS Pro ≤ 8",
 						scaleless: "Locks stretch and pitch, and changes the stretch to get the corresponding pitch regardless of the actual note pitch, just for fun",
 					},
-					stretchAttributes: "More configuration about the selected tuning method",
+					stretchAttributes: "Detailed configuration of the selected tuning method",
 					alternativeForExceedsTheRange: {
 						_: "Handles out of range notes with an alternative method",
 						plugin: "Reaches any pitch by using the Pitch Shift Audio Effect Plugin repeatedly",
@@ -781,7 +781,7 @@ export default {
 					basePitch: {
 						_: "Specifies the base pitch of the audio clip",
 						cent: "Fine tune pitch",
-						based: "Reuse manually set pitch values",
+						based: "If you have changed the pitch in audio properties or effect plugins, adjustments will continue based on those values instead of resetting them",
 					},
 					prelisten: {
 						_: "Compares the clip to the base pitch for easy adjustment",

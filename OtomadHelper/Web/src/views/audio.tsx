@@ -231,7 +231,7 @@ export default function Audio() {
 									suffix={t(cent[0]).units.cent}
 								/>
 							</Expander.Item>
-							<ToggleSwitch icon="circled_times" on={basePitchBased} details={t.descriptions.stream.tuning.basePitch.based}>{t.stream.tuning.basePitch.based}</ToggleSwitch>
+							<ToggleSwitch icon="relative" on={basePitchBased} details={t.descriptions.stream.tuning.basePitch.based}>{t.stream.tuning.basePitch.based}</ToggleSwitch>
 							<ToggleSwitch icon="tuning_sparkle" on={[false]} disabled details={<p style={{ color: c("fill-color-system-critical") }}>{t.underConstruction}</p>}>{t.stream.tuning.basePitch.auto}</ToggleSwitch>
 						</Expander>
 						<Expander

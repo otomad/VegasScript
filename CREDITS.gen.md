@@ -415,11 +415,13 @@ Project | Authors | License
 [fragment-cache](https://github.com/jonschlinkert/fragment-cache) | Jon Schlinkert | MIT
 [fs-extra](https://github.com/jprichardson/node-fs-extra) | JP Richardson | MIT
 [fs.realpath](https://github.com/isaacs/fs.realpath) | Isaac Z. Schlueter | ISC
+[fullwidth-quotes](https://github.com/otomad/fullwidth-quotes) | lunate | MIT
 [function-bind](https://github.com/Raynos/function-bind) | Raynos | MIT
 [function.prototype.name](https://github.com/es-shims/Function.prototype.name) | Jordan Harband | MIT
 [functions-have-names](https://github.com/inspect-js/functions-have-names) | Jordan Harband | MIT
 [gensync](https://github.com/loganfsmyth/gensync) | Logan Smyth | MIT
 [get-caller-file](https://github.com/stefanpenner/get-caller-file) | Stefan Penner | ISC
+[get-east-asian-width](https://github.com/sindresorhus/get-east-asian-width) | Sindre Sorhus | MIT
 [get-intrinsic](https://github.com/ljharb/get-intrinsic) | Jordan Harband | MIT
 [get-port-please](https://github.com/unjs/get-port-please) |  | MIT
 [get-stream](https://github.com/sindresorhus/get-stream) | Sindre Sorhus | MIT
@@ -451,8 +453,6 @@ Project | Authors | License
 [has-values](https://github.com/jonschlinkert/has-values) | Jon Schlinkert | MIT
 [hasown](https://github.com/inspect-js/hasOwn) | Jordan Harband | MIT
 [he](https://github.com/mathiasbynens/he) | Mathias Bynens | MIT
-[hermes-estree](https://github.com/facebook/hermes) |  | MIT
-[hermes-parser](https://github.com/facebook/hermes) |  | MIT
 [homedir-polyfill](https://github.com/doowb/homedir-polyfill) | Brian Woodward | MIT
 [hosted-git-info](https://github.com/npm/hosted-git-info) | Rebecca Turner | ISC
 [htm](https://github.com/developit/htm) | Jason Miller | Apache-2.0
@@ -888,8 +888,6 @@ Project | Authors | License
 [yargs](https://github.com/yargs/yargs) |  | MIT
 [yauzl](https://github.com/thejoshwolfe/yauzl) | Josh Wolfe | MIT
 [yocto-queue](https://github.com/sindresorhus/yocto-queue) | Sindre Sorhus | MIT
-[zod-validation-error](https://github.com/causaly/zod-validation-error) | Dimitrios C. Michalakos | MIT
-[zod](https://github.com/colinhacks/zod) | Colin McDonnell | MIT
 
 ## TypeSpec API Libs
 

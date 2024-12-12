@@ -38,7 +38,7 @@ export default function ExpanderStreamPlaybackRate({ stream }: FCP<{
 				</StackPanel>
 			)}
 		>
-			<ToggleSwitch on={stream === "audio" ? audioBased : visualBased} details={t.descriptions.stream.playbackRate.based} icon="circled_times">{t.stream.playbackRate.based}</ToggleSwitch>
+			<ToggleSwitch on={stream === "audio" ? audioBased : visualBased} details={t.descriptions.stream.playbackRate.based} icon="relative">{t.stream.playbackRate.based}</ToggleSwitch>
 			<ToggleSwitch on={sync} icon="sync" details={t.descriptions.stream.playbackRate[!sync[0] ? "sync" : "outSync"]({ stream: stream !== "audio" ? t.titles.audio : t.titles.visual })}>{t.stream.playbackRate.sync}</ToggleSwitch>
 		</Expander>
 	);

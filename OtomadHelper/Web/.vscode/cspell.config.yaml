@@ -22,6 +22,7 @@ words:
   - ccw
   - classname
   - classnames
+  - clr
   - codepen
   - commitlint
   - composables
@@ -94,6 +95,7 @@ words:
   - mograph
   - mographs
   - moz
+  - mscorlib
   - multilayering
   - multisource
   - multitrack

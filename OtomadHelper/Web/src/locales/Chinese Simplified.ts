@@ -290,8 +290,8 @@ export default {
 				basePitch: {
 					_: "原始音高",
 					cent: "音分",
-					based: "基于当前音调值调整",
-					auto: "自动调谐",
+					based: "基于当前音高值调整",
+					auto: "自动校音",
 				},
 				prelisten: {
 					_: "预听",
@@ -749,7 +749,7 @@ export default {
 						classic: "使用古典音调更改方法，它无法超出音域，是VEGAS Pro ≤ 8所使用的唯一方法",
 						scaleless: "锁定伸缩与音调，完全通过改变拉伸值来获取相应的音调，而不考虑音符的实际音高，仅供娱乐",
 					},
-					stretchAttributes: "有关所选调音方法的更多配置",
+					stretchAttributes: "有关所选调音方法的详细配置",
 					alternativeForExceedsTheRange: {
 						_: "使用另一种平替方法来处理超出音域范围之外的音符",
 						plugin: "通过反复使用移调音频效果插件从而达到任意音高",
@@ -763,7 +763,7 @@ export default {
 					basePitch: {
 						_: "指定音频剪辑的原始音高",
 						cent: "微调音高",
-						based: "重用手动设定的音高值",
+						based: "如果您已经在音频属性或效果插件中更改了音调，则将基于它们继续调整，而不是将其重置",
 					},
 					prelisten: {
 						_: "将剪辑与原始音高进行比较，以便调整",
