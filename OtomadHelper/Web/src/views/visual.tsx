@@ -186,7 +186,7 @@ export default function Visual() {
 					<SettingsCard title={t({ context: "full" }).titles.staff} details={t.descriptions.stream.effects.staff} type="button" icon="g_clef" onClick={() => pushPage("staff")}>
 						<ToggleSwitch on={enableStaffVisualizer} />
 					</SettingsCard>
-					<SettingsCard title={t.titles.pixelScaling} details={t.descriptions.stream.effects.pixelScaling} type="button" icon="miscz" onClick={() => pushPage("pixel-scaling")}>
+					<SettingsCard title={t.titles.pixelScaling} details={t.descriptions.stream.effects.pixelScaling} type="button" icon="pixelate_zoom" onClick={() => pushPage("pixel-scaling")}>
 						<ToggleSwitch on={enablePixelScaling} />
 					</SettingsCard>
 
@@ -218,7 +218,7 @@ export default function Visual() {
 					<SettingsCardToggleSwitch
 						title={t.stream.playingTechniques.arpeggio}
 						details={t.descriptions.stream.playingTechniques.arpeggio}
-						icon="arpeggio"
+						icon="score"
 						on={arpeggio}
 					>
 						<ToggleSwitch icon="invert_color" on={arpeggioNegative} details={t.descriptions.stream.playingTechniques.arpeggio.negative}>{t.prve.effects.negative}</ToggleSwitch>

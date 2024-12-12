@@ -20,7 +20,7 @@ export default function PixelScaling() {
 			<SettingsPageControl image={tipsImage} cursor={cursor} learnMoreLink="">{t.descriptions.pixelScaling}</SettingsPageControl>
 			<SettingsCardToggleSwitch title={t.enabled} icon="enabled" on={enabled} resetTransitionOnChanging />
 
-			<EmptyMessage.Typical icon="miscz" title="pixelScaling" enabled={enabled}>
+			<EmptyMessage.Typical icon="pixelate_zoom" title="pixelScaling" enabled={enabled}>
 				<Expander
 					title={t.pixelScaling.scaleFactor}
 					icon="zoom_in"
