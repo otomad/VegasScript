@@ -49,12 +49,21 @@ const StyledItemsView = styled.div<{
 			padding-inline: 23.5px;
 		}
 	}
+
+	@layer components {
+		.items-view-item {
+			${tgs()} {
+				scale: 0.75;
+				opacity: 0;
+			}
+		}
+	}
 `;
 
 export default function ItemsView<
 	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: [current, setCurrent], itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, ...htmlAttrs }: FCP<{
+>({ view, current: [current, setCurrent], itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/** The identifier of the currently selected item. */
@@ -72,6 +81,8 @@ export default function ItemsView<
 	 * or nothing will happened.
 	 */
 	role?: AriaRole | null;
+	/** Enable transition group for items view items. Passing a string represents it as the transition name. */
+	transition?: boolean | string;
 }, "div">) {
 	const isSelected = (id: PropertyKey) => {
 		if (multiple)
@@ -95,17 +106,23 @@ export default function ItemsView<
 			role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
 			{...htmlAttrs}
 		>
-			{React.Children.map(children, child => {
-				if (!isReactInstance(child, ItemsViewItem)) return child;
-				const id = child.props.id;
-				const onParentClick = child.props.onClick;
-				return React.cloneElement(child, {
-					selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includes(id) ? "indeterminate" : "checked",
-					_view: view,
-					_multiple: multiple,
-					onClick: (...e: Parameters<OnItemsViewItemClickEventHandler>) => { handleClick(id); onParentClick?.(...e); },
+			{(() => {
+				const items = React.Children.map(children, child => {
+					if (!isReactInstance(child, ItemsViewItem)) return child;
+					const id = child.props.id;
+					const onParentClick = child.props.onClick;
+					const item = React.cloneElement(child, {
+						selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includes(id) ? "indeterminate" : "checked",
+						_view: view,
+						_multiple: multiple,
+						onClick: (...e: Parameters<OnItemsViewItemClickEventHandler>) => { handleClick(id); onParentClick?.(...e); },
+					});
+					if (!transition) return item;
+					else return <CssTransition key={id as string} classNames={typeof transition === "string" ? transition : undefined} unmountOnExit>{item}</CssTransition>;
 				});
-			})}
+				if (!transition) return items;
+				else return <TransitionGroup component={null}>{items}</TransitionGroup>;
+			})()}
 		</StyledItemsView>
 	);
 }

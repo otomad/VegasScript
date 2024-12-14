@@ -46,8 +46,8 @@ export function stopEvent(event?: Pick<Event, "preventDefault" | "stopPropagatio
  * @param reactNode - The ReactNode to check for a ref.
  * @returns True if the ReactNode has a ref property, otherwise false.
  */
-export function hasRefInReactNode(reactNode: unknown): reactNode is { ref: RefObject<Element | null> } {
-	return !!(reactNode && typeof reactNode === "object" && "ref" in reactNode && reactNode.ref);
+export function hasRefInReactNode(reactNode: unknown): reactNode is { ref: RefObject<Element | null>; props: { ref: RefObject<Element | null> } } {
+	return !!(isObject(reactNode) && "props" in reactNode && isObject(reactNode.props) && "ref" in reactNode.props && reactNode.props.ref);
 }
 
 /**
@@ -65,8 +65,8 @@ export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>
 			if (hasRefInReactNode(child)) {
 				// useImperativeHandle(child.ref, () => nodeRef.current!, []);
 				// child.ref.current = nodeRef.current;
-				delete (child.ref as Partial<DomRef<Element>>).current;
-				Object.defineProperty(child.ref, "current", {
+				delete (child.props.ref as Partial<DomRef<Element>>).current;
+				Object.defineProperty(child.props.ref, "current", {
 					configurable: true,
 					enumerable: true,
 					get: () => nodeRef.current,

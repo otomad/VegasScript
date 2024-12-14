@@ -46,6 +46,7 @@ export default function Settings() {
 				idField="key"
 				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
+				transition
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([
 						{ label: t.menu.delete, onClick: () => backgroundImages.delete(item.key), confirmDeleteMessage: t.confirm.delete.backgroundImage },

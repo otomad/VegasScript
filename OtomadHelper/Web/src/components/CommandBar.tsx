@@ -73,7 +73,7 @@ function CommandBarItem({ icon, children, canBeDisabled, disabled, onClick, ...b
 }
 
 function separateTransitionAttrs(buttonAndTransitionAttrs: object) {
-	type HTMLElementAttrs = FCP<{}, "section">;
+	type HTMLElementAttrs = FCP<{}, "button">;
 	const transitionAttrKeys = ["in", "mountOnEnter", "unmountOnExit", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"];
 	const transitionAttrs: TransitionProps = {}, htmlAttrs: HTMLElementAttrs = {};
 	for (const [key, value] of entries(buttonAndTransitionAttrs))
