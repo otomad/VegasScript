@@ -8,7 +8,7 @@ const pressed = ":active:not(:has(.actions:active))";
 const StyledCheckboxLabel = styled.label<{
 	/** Include just the checkbox itself, not the text label? */
 	$plain?: boolean;
-}>`
+}>(({ $plain }) => css`
 	display: flex;
 	gap: 8px;
 	align-items: center;
@@ -23,14 +23,14 @@ const StyledCheckboxLabel = styled.label<{
 
 	${styledExpanderItemText};
 
-	${({ $plain }) => !$plain && css`
+	${!$plain && css`
 		.expander-child-items & {
 			${styledExpanderItemBase};
 			${styledExpanderItemContent};
 		}
 	`}
 
-	${({ $plain }) => $plain && css`
+	${$plain && css`
 		.text {
 			display: none;
 		}
@@ -123,7 +123,7 @@ const StyledCheckboxLabel = styled.label<{
 	}
 
 	${styles.mixins.forwardFocusRing()};
-`;
+`);
 
 interface SharedProps {
 	/** Disabled? */

@@ -8,8 +8,7 @@ type ReactElementType = string | React.JSXElementConstructor<Any>;
  * @param element - Component class or function component.
  * @returns Is its instance?
  */
-export function isReactInstance<T extends ReactElementType>(node: ReactNode, element: T):
-	node is ReactElement<T extends React.FC<infer P> ? P : unknown, T> {
+export function isReactInstance<T extends ReactElementType>(node: ReactNode, element: T): node is ReactElementOf<T> {
 	return React.isValidElement(node) && isObject(node) && "type" in node && node.type === element;
 }
 

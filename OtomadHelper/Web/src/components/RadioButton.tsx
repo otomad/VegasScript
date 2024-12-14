@@ -3,7 +3,7 @@ import { styledExpanderItemBase, styledExpanderItemContent, styledExpanderItemTe
 const StyledRadioButtonLabel = styled.label<{
 	/** Include just the radio button itself, not the text label? */
 	$plain?: boolean;
-}>`
+}>(({ $plain }) => css`
 	display: flex;
 	gap: 8px;
 	align-items: center;
@@ -18,14 +18,14 @@ const StyledRadioButtonLabel = styled.label<{
 
 	${styledExpanderItemText};
 
-	${({ $plain }) => !$plain && css`
+	${!$plain && css`
 		.expander-child-items & {
 			${styledExpanderItemBase};
 			${styledExpanderItemContent};
 		}
 	`}
 
-	${({ $plain }) => $plain && css`
+	${$plain && css`
 		.text {
 			display: none;
 		}
@@ -107,7 +107,7 @@ const StyledRadioButtonLabel = styled.label<{
 	}
 
 	${styles.mixins.forwardFocusRing()};
-`;
+`);
 
 export default function RadioButton<T>({ children, id, value: [value, setValue], disabled, onChange, details, radioGroup, plain, ...htmlAttrs }: FCP<{
 	/** Identifier. */

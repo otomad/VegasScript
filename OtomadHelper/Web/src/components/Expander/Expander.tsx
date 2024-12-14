@@ -1,3 +1,4 @@
+import ExpanderGroup from "./ExpanderGroup";
 import ExpanderItem from "./ExpanderItem";
 
 export const TRAILING_EXEMPTION = "trailing-exemption";
@@ -109,7 +110,7 @@ const ExpanderChildWrapper = styled.div`
 	}
 `;
 
-export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childItemsRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled }: FCP<PropsOf<typeof SettingsCard> & {
+export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childItemsRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled, onToggle }: FCP<Override<PropsOf<typeof SettingsCard>, {
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/** Expanded initially? */
@@ -126,7 +127,9 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	childItemsRole?: AriaRole;
 	/** Occurs when the expander parent has been clicked where the child items disabled. */
 	onClickWhenChildrenDisabled?(): void;
-}>) {
+	/** Occurs when the expander expanded or collapsed. */
+	onToggle?(expanded: boolean): void;
+}>>) {
 	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className, role, trailingGap };
 	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>(undefined);
 	const [lockExpanderParentContentSize, setLockExpanderParentContentSize] = useState(false);
@@ -145,6 +148,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	};
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
+	useEffect(() => onToggle?.(internalExpanded), [internalExpanded]);
 	useEffect(() => { if (disabled || childrenDisabled) _setInternalExpanded(false); }, [disabled, childrenDisabled]);
 	const ariaId = useId();
 
@@ -194,3 +198,4 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 
 Expander.Item = ExpanderItem;
 Expander.ChildWrapper = ExpanderChildWrapper;
+Expander.Group = ExpanderGroup;

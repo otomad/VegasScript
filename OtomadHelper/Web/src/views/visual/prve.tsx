@@ -58,6 +58,7 @@ const $a = (title: string, icon: DeclaredIcons, state: StateProperty<number>, de
 export default function Prve() {
 	const [controlMode, setControlMode] = useState<typeof controlModes[number]>("general");
 	const isGeneralCurrent = useMemo(() => controlMode === "general", [controlMode]);
+	const { autoCollapsePrveClasses } = useSnapshot(configStore.settings);
 	const { control, isMultiple, effects } = selectConfig(c => c.visual.prve[controlMode]);
 	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation } = selectConfig(c => c.visual.prve[controlMode].amounts);
 	const selectionMode = useSelectionMode(isMultiple);
@@ -127,120 +128,122 @@ export default function Prve() {
 				<Badge style={{ marginInlineStart: "12px" }} hidden={effectLength <= 1}>{effectLength}</Badge>
 			</Subheader>
 
-			{PrveClass.all.map(({ class: klass, icon, effectIds, findEffectFrames }) => {
-				const currentEffectState = selectPrve(klass), currentEffect = currentEffectState[0]!;
-				if (klass === "rotation") return (
-					<ExpanderRadio
-						key={klass}
-						title={t.prve.classes[klass]}
-						disabled={!control[0]}
-						icon={icon}
-						items={[DEFAULT_EFFECT, "ccwRotate", "cwRotate", "turned"]}
-						value={[
-							currentEffect === "rotate" ?
-								rotation[0] === -90 ? "ccwRotate" :
-								rotation[0] === 90 ? "cwRotate" :
-								rotation[0] === 180 || rotation[0] === -180 ? "turned" :
-								null! : currentEffect,
-							(rotate: string) => {
-								if (rotate.in("ccwRotate", "cwRotate", "turned")) {
-									currentEffectState[1]!("rotate");
-									rotation[1](rotate === "ccwRotate" ? -90 : rotate === "cwRotate" ? 90 : 180);
-								} else currentEffectState[1]!(rotate);
-							},
-						]}
-						view="grid"
-						idField
-						nameField={getEffectName}
-						imageField={effect => <PreviewPrve key={effect} thumbnail={exampleThumbnail} effect={effect} frames={effect === "turned" ? 2 : 4} />}
-						checkInfoCondition={effect => effect === undefined || effect === DEFAULT_EFFECT ? "" : effect === null ? rotation[0] + t.units.degree : getEffectName(effect)}
-						alwaysShowCheckInfo
-					>
-						<Expander.Item title={t.prve.amounts.rotationAngle} icon="angle">
-							<SliderWithBox
-								value={rotation}
-								min={-360}
-								max={360}
-								decimalPlaces={0}
-								defaultValue={0}
-								suffix={t.units.degree}
-							/>
-						</Expander.Item>
-						<Expander.Item title={t.prve.amounts.rotationStep} icon="turntable">
-							<SliderWithBox
-								value={rotationStep}
-								min={-360}
-								max={360}
-								defaultValue={0}
-							/>
-						</Expander.Item>
-						<Expander.Item title={t.prve.initialValue} icon="replay">
-							{(() => {
-								const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) <= 1;
+			<Expander.Group autoCollapse={autoCollapsePrveClasses}>
+				{PrveClass.all.map(({ class: klass, icon, effectIds, findEffectFrames }) => {
+					const currentEffectState = selectPrve(klass), currentEffect = currentEffectState[0]!;
+					if (klass === "rotation") return (
+						<ExpanderRadio
+							key={klass}
+							title={t.prve.classes[klass]}
+							disabled={!control[0]}
+							icon={icon}
+							items={[DEFAULT_EFFECT, "ccwRotate", "cwRotate", "turned"]}
+							value={[
+								currentEffect === "rotate" ?
+									rotation[0] === -90 ? "ccwRotate" :
+									rotation[0] === 90 ? "cwRotate" :
+									rotation[0] === 180 || rotation[0] === -180 ? "turned" :
+									null! : currentEffect,
+								(rotate: string) => {
+									if (rotate.in("ccwRotate", "cwRotate", "turned")) {
+										currentEffectState[1]!("rotate");
+										rotation[1](rotate === "ccwRotate" ? -90 : rotate === "cwRotate" ? 90 : 180);
+									} else currentEffectState[1]!(rotate);
+								},
+							]}
+							view="grid"
+							idField
+							nameField={getEffectName}
+							imageField={effect => <PreviewPrve key={effect} thumbnail={exampleThumbnail} effect={effect} frames={effect === "turned" ? 2 : 4} />}
+							checkInfoCondition={effect => effect === undefined || effect === DEFAULT_EFFECT ? "" : effect === null ? rotation[0] + t.units.degree : getEffectName(effect)}
+							alwaysShowCheckInfo
+						>
+							<Expander.Item title={t.prve.amounts.rotationAngle} icon="angle">
+								<SliderWithBox
+									value={rotation}
+									min={-360}
+									max={360}
+									decimalPlaces={0}
+									defaultValue={0}
+									suffix={t.units.degree}
+								/>
+							</Expander.Item>
+							<Expander.Item title={t.prve.amounts.rotationStep} icon="turntable">
+								<SliderWithBox
+									value={rotationStep}
+									min={-360}
+									max={360}
+									defaultValue={0}
+								/>
+							</Expander.Item>
+							<Expander.Item title={t.prve.initialValue} icon="replay">
+								{(() => {
+									const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) <= 1;
+									return (
+										<SliderWithBox
+											value={invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1)}
+											min={1}
+											max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)))}
+											decimalPlaces={0}
+											defaultValue={0}
+											disabled={invalidValue || currentEffect === "normal"}
+											// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
+										/>
+									);
+								})()}
+							</Expander.Item>
+						</ExpanderRadio>
+					);
+					else return (
+						<ExpanderRadio
+							key={klass}
+							title={t.prve.classes[klass]}
+							disabled={!control[0]}
+							icon={icon}
+							items={[DEFAULT_EFFECT, ...effectIds]}
+							value={currentEffectState}
+							view="grid"
+							idField
+							nameField={getEffectName}
+							imageField={effect => <PreviewPrve key={effect} thumbnail={exampleThumbnail} effect={effect} frames={findEffectFrames(effect)} />}
+							checkInfoCondition={effect => !effect || effect === DEFAULT_EFFECT ? "" : getEffectName(effect)}
+							alwaysShowCheckInfo
+						>
+							{klass === "time" && <InfoBar status="info" title={getWhirlInfo()} />}
+							{klass.in("ec", "swing", "blur") && (() => {
+								const tAmounts = t.prve.amounts;
+								const option =
+									/* eslint-disable @stylistic/indent */
+									klass === "swing" ? $a(tAmounts.pendulum, "angle", pendulum, defaultPrveAmounts.pendulum, -360, 360, 0, t.units.degree) :
+									klass === "blur" ?
+										currentEffect === "gaussianBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", gaussianBlur, defaultPrveAmounts.gaussianBlur, 0, 1) :
+										currentEffect === "radialBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", radialBlur, defaultPrveAmounts.radialBlur, 0, 1) : undefined :
+									klass === "ec" ?
+										currentEffect === "puyo" ? $a(tAmounts.puyo, "puyo", puyo, defaultPrveAmounts.puyo, 0.5, 1) :
+										currentEffect.in("slantDown", "slantUp") ? $a(tAmounts.compression, "slant", slant, defaultPrveAmounts.slant, 0.5, 1) :
+										currentEffect.in("vExpansion", "vExpansionBounce", "vCompression", "vCompressionBounce", "vBounce") ? $a(tAmounts.compression, "compression", compression, defaultPrveAmounts.compression, 0.5, 1) : undefined :
+									undefined;
+									/* eslint-enable @stylistic/indent */
+								if (!option) return;
 								return (
-									<SliderWithBox
-										value={invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1)}
-										min={1}
-										max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)))}
-										decimalPlaces={0}
-										defaultValue={0}
-										disabled={invalidValue || currentEffect === "normal"}
-										// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
-									/>
+									<Expander.Item title={option.title} icon={option.icon}>
+										<SliderWithBox
+											value={option.state}
+											min={option.min}
+											max={option.max}
+											decimalPlaces={option.decimalPlaces}
+											defaultValue={option.def}
+											prefix={option.prefix}
+											suffix={option.suffix}
+										/>
+									</Expander.Item>
 								);
 							})()}
-						</Expander.Item>
-					</ExpanderRadio>
-				);
-				else return (
-					<ExpanderRadio
-						key={klass}
-						title={t.prve.classes[klass]}
-						disabled={!control[0]}
-						icon={icon}
-						items={[DEFAULT_EFFECT, ...effectIds]}
-						value={currentEffectState}
-						view="grid"
-						idField
-						nameField={getEffectName}
-						imageField={effect => <PreviewPrve key={effect} thumbnail={exampleThumbnail} effect={effect} frames={findEffectFrames(effect)} />}
-						checkInfoCondition={effect => !effect || effect === DEFAULT_EFFECT ? "" : getEffectName(effect)}
-						alwaysShowCheckInfo
-					>
-						{klass === "time" && <InfoBar status="info" title={getWhirlInfo()} />}
-						{klass.in("ec", "swing", "blur") && (() => {
-							const tAmounts = t.prve.amounts;
-							const option =
-								/* eslint-disable @stylistic/indent */
-								klass === "swing" ? $a(tAmounts.pendulum, "angle", pendulum, defaultPrveAmounts.pendulum, -360, 360, 0, t.units.degree) :
-								klass === "blur" ?
-									currentEffect === "gaussianBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", gaussianBlur, defaultPrveAmounts.gaussianBlur, 0, 1) :
-									currentEffect === "radialBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", radialBlur, defaultPrveAmounts.radialBlur, 0, 1) : undefined :
-								klass === "ec" ?
-									currentEffect === "puyo" ? $a(tAmounts.puyo, "puyo", puyo, defaultPrveAmounts.puyo, 0.5, 1) :
-									currentEffect.in("slantDown", "slantUp") ? $a(tAmounts.compression, "slant", slant, defaultPrveAmounts.slant, 0.5, 1) :
-									currentEffect.in("vExpansion", "vExpansionBounce", "vCompression", "vCompressionBounce", "vBounce") ? $a(tAmounts.compression, "compression", compression, defaultPrveAmounts.compression, 0.5, 1) : undefined :
-								undefined;
-								/* eslint-enable @stylistic/indent */
-							if (!option) return;
-							return (
-								<Expander.Item title={option.title} icon={option.icon}>
-									<SliderWithBox
-										value={option.state}
-										min={option.min}
-										max={option.max}
-										decimalPlaces={option.decimalPlaces}
-										defaultValue={option.def}
-										prefix={option.prefix}
-										suffix={option.suffix}
-									/>
-								</Expander.Item>
-							);
-						})()}
-						<InitialValue klass={klass} effect={currentEffect} initialValue={useInitialValue(currentEffect)} />
-					</ExpanderRadio>
-				);
-			})}
+							<InitialValue klass={klass} effect={currentEffect} initialValue={useInitialValue(currentEffect)} />
+						</ExpanderRadio>
+					);
+				})}
+			</Expander.Group>
 		</div>
 	);
 }

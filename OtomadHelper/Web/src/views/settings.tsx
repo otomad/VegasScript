@@ -4,7 +4,7 @@ export default function Settings() {
 	const schemes = ["light", "dark", "auto"] as const;
 	const { scheme: [scheme, setScheme] } = useStoreState(colorModeStore);
 	const {
-		uiScale, hideUseTips, autoSwitchSourceFrom,
+		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur,
 	} = selectConfig(c => c.settings);
 	const backgroundImages = useBackgroundImages();
@@ -128,6 +128,7 @@ export default function Settings() {
 
 			<Subheader>{t.settings.preference}</Subheader>
 			<SettingsCardToggleSwitch title={t.settings.preference.autoSwitchSourceFrom} details={t.descriptions.settings.preference.autoSwitchSourceFrom} icon="arrow_swap" on={autoSwitchSourceFrom} />
+			<SettingsCardToggleSwitch title={t.settings.preference.autoCollapsePrveClasses} details={t.descriptions.settings.preference.autoCollapsePrveClasses} icon="chevron_down_up" on={autoCollapsePrveClasses} />
 
 			<Subheader>{t.subheaders.config}</Subheader>
 			<SettingsCardToggleSwitch title={t.settings.config.hideUsageTips} icon="chat_help_off" on={hideUseTips} />

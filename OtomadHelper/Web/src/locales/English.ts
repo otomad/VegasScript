@@ -666,6 +666,7 @@ export default {
 			preference: {
 				_: "Preference",
 				autoSwitchSourceFrom: "Auto switch source from",
+				autoCollapsePrveClasses: "Auto collapse $t(titles.prve) classes",
 			},
 			config: {
 				hideUsageTips: "Hide usage tips",
@@ -912,7 +913,7 @@ export default {
 					samePitch: "Separate controls for consecutive events of the same pitch in YTPMV or Sentence Mixing mode.",
 					differentSyllables: "Separate controls for consecutive events of different syllables in Sentence Mixing mode.",
 				},
-				forceStretch: "The PV Rhythm Visual Effects you are currently using contain Time Class effects, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending)” when in these effects, and not controlled by your settings",
+				forceStretch: "The $t(titles.prve) you are currently using contain Time Class effects, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending)” when in these effects, and not controlled by your settings",
 			},
 			pixelScaling: {
 				_: "Pixel Scaling feature can enlarge the pixel image of the source to avoid the pixel distortion problem caused by rescaling the original pixel image using smooth gradient algorithm due to VEGAS Pan/Crop. To use it, you can add FFmpeg to the system environment variable, or you can install Datamosh Extension Pack directly.\nPixel Scaling feature will use FFmpeg to enlarge the source file using the nearest neighbor interpolation algorithm to fit the current project size, and then replace the source media file in VEGAS with the newly generated media file. The newly generated file will be identified by adding the suffix “_Scaled” to its name. This feature theoretically supports any image/video file format, including image sequence files imported into VEGAS using conventional methods.",
@@ -921,7 +922,8 @@ export default {
 				about: "Otomad Helper is a YTPMV/YTP extension for VEGAS Pro that enables VEGAS to accept scores such as MIDI sequence files as input and automatically generate YTPMV tracks.",
 				translation: "If you would like to participate in the translation, you are welcome to join as well.",
 				preference: {
-					autoSwitchSourceFrom: "Automatically change the source from based on the last selected content",
+					autoSwitchSourceFrom: "Changes the source from automatically based on the last selected content",
+					autoCollapsePrveClasses: "Collapses other expanded $t(titles.prve) classes automatically when expanding a class",
 				},
 			},
 		},

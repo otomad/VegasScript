@@ -100,6 +100,12 @@ declare global {
 	export type PropsOf<TComponent> = TComponent extends React.FC<infer P> ? P : never;
 
 	/**
+	 * Get React element instance for the React component.
+	 * @template TComponent - React functional component.
+	 */
+	export type ReactElementOf<TComponent> = ReactElement<TComponent extends React.FC<infer TProps> ? TProps : unknown, TComponent>;
+
+	/**
 	 * Get React Element type for the React component.
 	 * @template TComponent - React functional component.
 	 */
