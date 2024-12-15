@@ -77,6 +77,17 @@ export default function Visual() {
 					</StackPanel>
 				</SettingsCard>
 				<SettingsCardToggleSwitch title={t.stream.createGroups} details={t.descriptions.stream.createGroups} icon="group" on={createGroups} />
+				<ExpanderStreamPlaybackRate stream="visual" />
+				<TooltipPartial title={<Tooltip.Content image={loopImage} />}>
+					<SettingsCard
+						title={t.stream.loop}
+						details={t.descriptions.stream.loop}
+						selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.preserve}
+						icon="loop"
+					>
+						<ThreeStageSwitch current={loop} indetText={t.preserve} indetIcon="sync_off" />
+					</SettingsCard>
+				</TooltipPartial>
 				<EmptyMessage.YtpDisabled>
 					<TooltipPartial title={<Tooltip.Content image={stretchImage} />}>
 						<ExpanderRadio
@@ -93,10 +104,6 @@ export default function Visual() {
 							iconField="icon"
 						/>
 					</TooltipPartial>
-					<TooltipPartial title={<Tooltip.Content image={loopImage} />}>
-						<SettingsCardToggleSwitch title={t.stream.loop} details={t.descriptions.stream.loop} icon="loop" on={loop} />
-					</TooltipPartial>
-					<ExpanderStreamPlaybackRate stream="visual" />
 					<TooltipPartial title={<Tooltip.Content image={staticVisualImage} />}>
 						<SettingsCardToggleSwitch title={t.stream.staticVisual} details={t.descriptions.stream.staticVisual} icon="image" on={staticVisual} />
 					</TooltipPartial>

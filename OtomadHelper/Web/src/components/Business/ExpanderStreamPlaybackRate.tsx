@@ -21,7 +21,7 @@ export default function ExpanderStreamPlaybackRate({ stream }: FCP<{
 		<Expander
 			title={t.stream.playbackRate}
 			details={t.descriptions.stream.playbackRate}
-			icon="play_circle_hint"
+			icon="play_circle_hint_half"
 			trailingGap={8}
 			actions={(
 				<StackPanel>

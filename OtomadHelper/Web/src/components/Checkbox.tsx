@@ -1,6 +1,6 @@
 import { styledExpanderItemBase, styledExpanderItemContent, styledExpanderItemText } from "components/Expander/ExpanderItem";
 
-const checkedOrInd = ":is(:checked, :indeterminate)";
+const checkedOrIndet = ":is(:checked, :indeterminate)";
 const unchecked = ":not(:checked, :indeterminate)";
 const iconExiting = ":has(.icon.exit, .icon.enter-done)";
 const pressed = ":active:not(:has(.actions:active))";
@@ -63,7 +63,7 @@ const StyledCheckboxLabel = styled.label<{
 		}
 	}
 
-	input${checkedOrInd} ~ .base,
+	input${checkedOrIndet} ~ .base,
 	.base${iconExiting} {
 		background-color: ${c("accent-color")} !important;
 		outline-color: ${c("accent-color")} !important;
@@ -75,7 +75,7 @@ const StyledCheckboxLabel = styled.label<{
 			background-color: ${c("fill-color-control-alt-tertiary")};
 		}
 
-		input${checkedOrInd} ~ .base {
+		input${checkedOrIndet} ~ .base {
 			opacity: 0.9;
 		}
 	}
@@ -88,8 +88,8 @@ const StyledCheckboxLabel = styled.label<{
 		}
 	}
 
-	&${pressed} input${checkedOrInd} ~ .base,
-	.items-view-item${pressed} & input${checkedOrInd} ~ .base,
+	&${pressed} input${checkedOrIndet} ~ .base,
+	.items-view-item${pressed} & input${checkedOrIndet} ~ .base,
 	&${pressed} .base${iconExiting} {
 		opacity: 0.8;
 
@@ -109,7 +109,7 @@ const StyledCheckboxLabel = styled.label<{
 		}
 	}
 
-	input${checkedOrInd}[disabled] ~ .base {
+	input${checkedOrIndet}[disabled] ~ .base {
 		background-color: ${c("stroke-color-control-strong-stroke-disabled")} !important;
 		outline-color: ${c("stroke-color-control-strong-stroke-disabled")} !important;
 	}

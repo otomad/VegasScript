@@ -104,6 +104,16 @@ export default function Audio() {
 					</StackPanel>
 				</SettingsCard>
 				<SettingsCardToggleSwitch title={t.stream.createGroups} details={t.descriptions.stream.createGroups} icon="group" on={createGroups} />
+				<ExpanderStreamPlaybackRate stream="audio" />
+				<SettingsCardToggleSwitch title={t.stream.normalize} details={t.descriptions.stream.normalize} icon="normalize" on={normalize} />
+				<SettingsCard
+					title={t.stream.loop}
+					details={t.descriptions.stream.loop}
+					selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.preserve}
+					icon="loop"
+				>
+					<ThreeStageSwitch current={loop} indetText={t.preserve} indetIcon="sync_off" />
+				</SettingsCard>
 				<EmptyMessage.YtpDisabled>
 					<ExpanderRadio
 						title={t.stream.stretch}
@@ -116,9 +126,6 @@ export default function Audio() {
 						nameField={t.stream.stretch}
 						iconField="icon"
 					/>
-					<SettingsCardToggleSwitch title={t.stream.loop} details={t.descriptions.stream.loop} icon="loop" on={loop} />
-					<ExpanderStreamPlaybackRate stream="audio" />
-					<SettingsCardToggleSwitch title={t.stream.normalize} details={t.descriptions.stream.normalize} icon="normalize" on={normalize} />
 					<ExpanderRadio
 						title={t.stream.unlengthen}
 						details={t.descriptions.stream.unlengthen}

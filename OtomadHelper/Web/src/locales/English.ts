@@ -128,6 +128,7 @@ export default {
 		size: "Size",
 		disabled: "Disabled",
 		apply: "Apply",
+		preserve: "Preserve",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -725,7 +726,10 @@ export default {
 			},
 			stream: {
 				stretch: "Stretches the clip instead of changing its duration",
-				loop: "When the clip is lengthened to the end of the source media, playback starts over",
+				loop: {
+					_: "When the clip is lengthened to the end of the source media, playback starts over",
+					preserve: "Preserves the original loop configuration of the clip or the default value",
+				},
 				playbackRate: {
 					_: "Changes the playback rate of the clip",
 					based: "Multiplies the value by the current rate of the clip to calculate a new rate, rather than directly replacing the current rate",
@@ -741,7 +745,7 @@ export default {
 				createGroups: "Creates groups for video and audio clips represented by one note",
 				autoPan: "Pans the audio using envelope automation",
 				stack: "Stacks the clips as tightly as possible on one track, rather than placing the results on separate tracks according to the score track",
-				timeUnremapping: "The clips will not reset their in point time when note on occurs, but will continue playing, useful if you want to apply the effects to the source only",
+				timeUnremapping: "The clip will not reset its in point time when note on occurs, but will continue to play, useful if you only want to apply the effects to the source",
 				resampleImitatively: {
 					_: "Imitate the resampling behavior in the Visual, causing the stretching to flexing as the pitch increases",
 					auto: "This will depend on whether resampling is enabled in Audio to ensure that the visual is sync with the audio",

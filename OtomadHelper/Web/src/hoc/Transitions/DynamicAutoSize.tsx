@@ -1,4 +1,4 @@
-export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
+export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{ // BUG: After auto resize, when scrolling page, some content will not display immediately.
 	/** Explicitly specify which direction needs to be animated. Defaults to height animation. */
 	specified?: "width" | "height" | "both";
 	/** Temperately lock the content size? */
