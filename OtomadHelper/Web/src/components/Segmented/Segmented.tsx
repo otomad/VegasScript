@@ -190,7 +190,7 @@ export default function Segmented<T extends string = string>({ current: [current
 		const direction = ["ArrowRight", "ArrowDown"].includes(e.code) ? 1 :
 			["ArrowLeft", "ArrowUp"].includes(e.code) ? -1 : 0;
 		if (!direction) return;
-		const newIndex = PNMod(selectedIndex + direction, itemCount);
+		const newIndex = floorMod(selectedIndex + direction, itemCount);
 		setCurrentByIndex(newIndex);
 	}, [children, current]);
 

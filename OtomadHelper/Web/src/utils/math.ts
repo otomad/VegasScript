@@ -101,23 +101,25 @@ export function mapCssCalc(x: string | number, min: string | number, max: string
 export const randBetween = (min: number, max: number) => Math.floor(Math.random() * (max + 1 - min) + min);
 
 /**
- * Mainly targeting a proposed modulus for negative numbers, making it more suitable for practical use,
- * and returning a non negative number.
+ * Calculates the floor modulus of two numbers.
+ *
+ * This function computes the modulus operation where the result has the same sign as the divisor.
+ * It's particularly useful for handling negative numbers in modular arithmetic, making it more suitable for
+ * practical use.
  *
  * For example. When a random angle is given, but in reality, only taking the remainder obtained by dividing
  * it by 360° is the true angle we need, we don't care about how many turns we have made. However, when the
  * dividend is negative, using the `%` operator directly can cause some changes. We hope that the result got
  * in this way is also a positive number that is more in line with practical use.
  *
- * @param a - Dividend.
- * @param b - Divisor.
- * @returns Remainder.
+ * @param x - The dividend (the number to be divided).
+ * @param y - The divisor (the number to divide by).
+ * @returns The floor modulus of x and y. The result will have the same sign as y, and its absolute value will
+ * be less than the absolute value of y.
  */
-export function PNMod(a: number, b: number) {
-	if (b === 0) return NaN;
-	b = Math.abs(b);
-	let i = 0;
-	while (a + b * i < 0)
-		i++;
-	return (a + b * i) % b;
+export function floorMod(x: number, y: number) {
+	let result = x % y;
+	if (result !== 0 && x < 0 !== y < 0)
+		result += y;
+	return result;
 }

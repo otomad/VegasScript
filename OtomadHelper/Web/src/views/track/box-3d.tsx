@@ -119,7 +119,7 @@ export default function Box3d() { // BUG: When drag the box to the top or bottom
 
 	const onDrag: PointerEventHandler<HTMLDivElement> = e => {
 		if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
-		const rx = PNMod(rotation.x, 360),
+		const rx = floorMod(rotation.x, 360),
 			ryDir = rx > 90 && rx < 270 ? 1 : -1;
 		setRotation(({ x, y }) => new Point(
 			x - (Math.round(e.clientY) - position.y),
