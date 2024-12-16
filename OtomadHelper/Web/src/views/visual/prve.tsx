@@ -319,7 +319,7 @@ function getEffectName(effectId: string) {
 	return effects[effectId];
 }
 
-export function usePrveCheckInfo() {
+export function usePrveInfo() {
 	const effects = useSnapshot(configStore.visual.prve.general).effects.map(effect => effect.fx);
 	const { samePitch, differentSyllables } = useSnapshot(configStore.visual.prve);
 	const enableOtherSeparateControls = samePitch.control || differentSyllables.control;
@@ -330,11 +330,15 @@ export function usePrveCheckInfo() {
 	}
 	const effectId = effects[0] ?? DEFAULT_EFFECT;
 	const effect = getEffectName(effectId);
-	if (effects.length > 1 || enableOtherSeparateControls) return t.etc({ examples: effect });
-	else return effect;
+	const prveCount = effects.length;
+	const prveCheckInfo = prveCount > 1 || enableOtherSeparateControls ?
+		t.etc({ examples: effect }) :
+		effect;
+	const isForceStretch = useIsForceStretch();
+	return { prveCount, prveCheckInfo, isForceStretch };
 }
 
-export function useIsForceStretch() {
+function useIsForceStretch() {
 	const timeEffects = PrveClass.findClassEffects("time");
 	const prve = useSnapshot(configStore.visual.prve);
 	const effects = Object.values(prve).flatMap(control => control.effects);

@@ -25,11 +25,11 @@ export default {
 			mosh_full: "Datamosh",
 			tools: "Công cụ",
 			settings: "Cài đặt",
-			prve: "Hiệu ứng nhịp điệu hình ảnh PV",
 			pixelScaling: "Tỷ lệ pixel",
 			parameters: "Thông số",
 			track: "Các track",
 			mosh: "Mosh",
+			prve: "Hiệu ứng nhịp điệu hình ảnh PV",
 		},
 		source: {
 			trackEvent: "Track event",
@@ -200,6 +200,7 @@ export default {
 			},
 			score: {},
 			stream: {
+				loop: {},
 				playbackRate: {},
 				resampleImitatively: {},
 				playingTechniques: {

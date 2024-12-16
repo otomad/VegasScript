@@ -27,7 +27,6 @@ export default {
 			tools: "工具",
 			management: "管理",
 			settings: "设置",
-			prve: "画面节奏视觉效果",
 			staff: "五线谱",
 			staff_full: "五线谱可视化",
 			pixelScaling: "像素硬边缘放大",
@@ -38,6 +37,7 @@ export default {
 			track: "轨道",
 			mosh: "抹失",
 			effect: "效果",
+			prve: "画面节奏视觉效果",
 		},
 		source: {
 			trackEvent: "轨道剪辑",
@@ -125,6 +125,7 @@ export default {
 		size: "大小",
 		disabled: "禁用",
 		apply: "应用",
+		unset: "不变",
 		infoBar: {
 			warning: "警告",
 		},
@@ -278,7 +279,7 @@ export default {
 				},
 				alternativeForExceedsTheRange: {
 					_: "超出音域替代方法",
-					multiple: "使用多次音效插件",
+					multiple: "多次使用音效插件",
 					plugin: "切换到移调音效插件",
 					octave: "高/低八度",
 					octaveExp: "高/低八度（实验性）",
@@ -648,6 +649,7 @@ export default {
 			preference: {
 				_: "偏好",
 				autoSwitchSourceFrom: "自动切换素材来源",
+				autoCollapsePrveClasses: "自动折叠$t(titles.prve)类",
 			},
 			config: {
 				hideUsageTips: "隐藏使用小贴士",
@@ -706,7 +708,10 @@ export default {
 			},
 			stream: {
 				stretch: "拉伸剪辑而不是改变剪辑的持续时间",
-				loop: "当剪辑延长到源媒体的末尾后，将会重头开始播放",
+				loop: {
+					_: "当剪辑延长到源媒体的末尾后，将会重头开始播放",
+					unset: "保持剪辑原始循环设置不变或保持默认值",
+				},
 				playbackRate: {
 					_: "改变剪辑的播放速率",
 					based: "将值与剪辑的当前速率相乘以得到新的速率，而不是直接替换当前速率",
@@ -891,7 +896,7 @@ export default {
 					samePitch: "对相同音高的连续事件分别控制（音MAD和人力模式）",
 					differentSyllables: "对不同音节的连续事件分别控制（人力模式）",
 				},
-				forceStretch: "正在使用的画面节奏视觉效果中包含时间类的效果，这会导致在这些效果下拉伸将被强制设定为“$t(stream.stretch.flexingAndExtending)”，而不受你的设置控制",
+				forceStretch: "正在使用的$t(titles.prve, { 'count': {{count}} })中包含时间类的效果，这会导致在这些效果下拉伸将被强制设定为“$t(stream.stretch.flexingAndExtending)”，而不受你的设置控制",
 			},
 			pixelScaling: {
 				_: "像素硬边缘放大功能，可以将原素材的像素画图像放大并替换为新图像，以避免VEGAS自带的平移/裁切对原始像素画使用平滑渐变算法重新缩放而造成的像素失真问题。如需使用该功能，你必须提前将FFmpeg添加至系统环境变量内，或者也可以直接安装数据抹失扩展包。\n像素硬边缘放大功能会利用FFmpeg对素材原文件使用最近邻插值算法进行放大处理，以适配当前工程大小，再将VEGAS内的原始媒体文件替换成新生成的媒体文件。新生成的文件会在名称中添加“_Scaled”后缀作为标识。此功能理论上支持任意图像/视频文件格式，同时也支持通过常规方式导入进VEGAS的图像序列文件。",
@@ -900,7 +905,8 @@ export default {
 				about: "音MAD助手是VEGAS Pro的音MAD扩展程序，旨在使VEGAS能够接受如MIDI序列文件等乐谱作为输入并自动生成音MAD的轨道。",
 				translation: "如果你想要参与翻译，欢迎你的加入。",
 				preference: {
-					autoSwitchSourceFrom: "根据最后所选的内容自动更改素材来源",
+					autoSwitchSourceFrom: "根据最后所选内容自动更改素材来源",
+					autoCollapsePrveClasses: "展开一个$t(titles.prve)类时自动折叠其它效果类",
 				},
 			},
 		},

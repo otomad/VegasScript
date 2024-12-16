@@ -32,6 +32,7 @@ export default {
 			effect: "Effect",
 			effect_other: "Effects",
 			prve: "PV Rhythm Visual Effect",
+			prve_other: "PV Rhythm Visual Effects",
 			staff: "Staff",
 			staff_full: "Staff Visualizer",
 			pixelScaling: "Pixel Scaling",
@@ -128,7 +129,7 @@ export default {
 		size: "Size",
 		disabled: "Disabled",
 		apply: "Apply",
-		preserve: "Preserve",
+		unset: "Unset",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -287,7 +288,7 @@ export default {
 				},
 				alternativeForExceedsTheRange: {
 					_: "If exceeds the range",
-					multiple: "Use multiple Audio Effect Plugins",
+					multiple: "Multiple use of Audio Effect Plugins",
 					plugin: "Switch to Pitch Shift Audio Effect Plugin",
 					octave: "Higher / lower octaves",
 					octaveExp: "Higher / lower octaves (Experimental)",
@@ -728,7 +729,7 @@ export default {
 				stretch: "Stretches the clip instead of changing its duration",
 				loop: {
 					_: "When the clip is lengthened to the end of the source media, playback starts over",
-					preserve: "Preserves the original loop configuration of the clip or the default value",
+					unset: "Preserves the original loop setting of the clip or the default value",
 				},
 				playbackRate: {
 					_: "Changes the playback rate of the clip",
@@ -917,7 +918,8 @@ export default {
 					samePitch: "Separate controls for consecutive events of the same pitch in YTPMV or Sentence Mixing mode.",
 					differentSyllables: "Separate controls for consecutive events of different syllables in Sentence Mixing mode.",
 				},
-				forceStretch: "The $t(titles.prve) you are currently using contain Time Class effects, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending)” when in these effects, and not controlled by your settings",
+				forceStretch: "The currently used $t(titles.prve, { 'count': {{count}} }) is in the Time Class, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending, nowrapPerWord)” when in that effect, and not controlled by your settings",
+				forceStretch_other: "The currently used $t(titles.prve, { 'count': {{count}} }) include the Time Class effects, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending, nowrapPerWord)” when in these effects, and not controlled by your settings",
 			},
 			pixelScaling: {
 				_: "Pixel Scaling feature can enlarge the pixel image of the source to avoid the pixel distortion problem caused by rescaling the original pixel image using smooth gradient algorithm due to VEGAS Pan/Crop. To use it, you can add FFmpeg to the system environment variable, or you can install Datamosh Extension Pack directly.\nPixel Scaling feature will use FFmpeg to enlarge the source file using the nearest neighbor interpolation algorithm to fit the current project size, and then replace the source media file in VEGAS with the newly generated media file. The newly generated file will be identified by adding the suffix “_Scaled” to its name. This feature theoretically supports any image/video file format, including image sequence files imported into VEGAS using conventional methods.",

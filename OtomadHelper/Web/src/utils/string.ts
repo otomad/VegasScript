@@ -43,6 +43,19 @@ import dedent from "dedent";
 		return dedent(this as string);
 	};
 
+	String.prototype.toCapitalized = function (keepCase = false) {
+		const decapitated = this.slice(1);
+		return this[0].toUpperCase() + (keepCase ? decapitated : decapitated.toLowerCase());
+	};
+
+	String.prototype.nowrapPerWord = function () {
+		return this.replaceAll(" ", "\xa0");
+	};
+
+	String.prototype.nowrapPerChar = function () {
+		return this.inTwo("\u2060");
+	};
+
 	makePrototypeKeysNonEnumerable(String);
 }
 

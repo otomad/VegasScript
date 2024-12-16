@@ -140,4 +140,34 @@ declare interface String {
 	 * That's all.
 	 */
 	dedent(): string;
+
+	/**
+	 * Capitalizes the first character of a string.
+	 *
+	 * @param keepCase - If true, maintains the case of characters after the first one. If false, converts them to lowercase. Default is false.
+	 * @returns A new string with the first character capitalized and the rest either maintained or converted to lowercase based on the `keepCase` parameter.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log("getElementById".toCapitalized()); // "Getelementbyid"
+	 * console.log("getElementById".toCapitalized(true)); // "GetElementById"
+	 * ```
+	 */
+	toCapitalized(keepCase?: boolean): string;
+
+	/**
+	 * Make sure there are no line breaks between every two words in the string.
+	 *
+	 * This will replace all the space characters in the string with the No-Break Space (U+00A0) characters.
+	 * Note that other white space characters are not affected.
+	 */
+	nowrapPerWord(): string;
+
+	/**
+	 * Make sure there are no line breaks between any two characters in the string.
+	 * Applicable to languages that do not use spaces as a boundary between words.
+	 *
+	 * This will insert a Word Joiner (U+2060; formerly Zero-Width No-Break Space, U+FEFF) character between any two characters in the string.
+	 */
+	nowrapPerChar(): string;
 }

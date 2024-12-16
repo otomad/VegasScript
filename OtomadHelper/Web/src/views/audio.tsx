@@ -109,10 +109,10 @@ export default function Audio() {
 				<SettingsCard
 					title={t.stream.loop}
 					details={t.descriptions.stream.loop}
-					selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.preserve}
+					selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.unset}
 					icon="loop"
 				>
-					<ThreeStageSwitch current={loop} indetText={t.preserve} indetIcon="sync_off" />
+					<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line-horizontal" />
 				</SettingsCard>
 				<EmptyMessage.YtpDisabled>
 					<ExpanderRadio

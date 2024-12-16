@@ -7,7 +7,7 @@ import staticVisualImage from "assets/images/tutorials/visual/static.png";
 import stretchImage from "assets/images/tutorials/visual/stretch.png";
 import unlengthenImage from "assets/images/tutorials/visual/unlengthen.png";
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
-import { useIsForceStretch, usePrveCheckInfo } from "./visual/prve";
+import { usePrveInfo } from "./visual/prve";
 
 export /* @internal */ const stretches = [
 	{ id: "noStretching", icon: "prohibited" },
@@ -50,8 +50,7 @@ export default function Visual() {
 	const { enabled: enablePixelScaling } = selectConfig(c => c.visual.pixelScaling);
 	const { enabled: enableStaffVisualizer } = selectConfig(c => c.visual.staff);
 	const { createGroups } = selectConfig(c => c);
-	const prveCheckInfo = usePrveCheckInfo();
-	const isForceStretch = useIsForceStretch();
+	const { prveCheckInfo, isForceStretch, prveCount } = usePrveInfo();
 	const topPriorityTransformMethod = transformMethod[0][0];
 
 	const { pushPage } = useSnapshot(pageStore);
@@ -82,10 +81,10 @@ export default function Visual() {
 					<SettingsCard
 						title={t.stream.loop}
 						details={t.descriptions.stream.loop}
-						selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.preserve}
+						selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.unset}
 						icon="loop"
 					>
-						<ThreeStageSwitch current={loop} indetText={t.preserve} indetIcon="sync_off" />
+						<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line-horizontal" />
 					</SettingsCard>
 				</TooltipPartial>
 				<EmptyMessage.YtpDisabled>
@@ -93,7 +92,7 @@ export default function Visual() {
 						<ExpanderRadio
 							title={t.stream.stretch}
 							details={t.descriptions.stream.stretch}
-							selectInfo={isForceStretch && t.descriptions.prve.forceStretch}
+							selectInfo={isForceStretch && t(prveCount).descriptions.prve.forceStretch}
 							selectValid={false}
 							icon="stretch"
 							items={stretches}
