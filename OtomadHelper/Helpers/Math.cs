@@ -4,59 +4,67 @@ namespace OtomadHelper.Helpers;
 
 public static class MathEx {
 	/// <summary>
-	/// Mainly targeting a proposed modulus for negative numbers, making it more suitable for practical use,
-	/// and returning a non negative number.
+	/// Calculates the floor modulus of two numbers.
 	/// </summary>
 	/// <remarks>
+	/// <para>
+	/// This function computes the modulus operation where the result has the same sign as the divisor.
+	/// It's particularly useful for handling negative numbers in modular arithmetic, making it more suitable for
+	/// practical use.
+	/// </para>
+	/// <para>
 	/// For example. When a random angle is given, but in reality, only taking the remainder obtained by dividing
 	/// it by 360° is the true angle we need, we don't care about how many turns we have made. However, when the
 	/// dividend is negative, using the `%` operator directly can cause some changes. We hope that the result got
 	/// in this way is also a positive number that is more in line with practical use.
+	/// </para>
 	/// </remarks>
-	/// <param name="a">Dividend.</param>
-	/// <param name="b">Divisor.</param>
-	/// <returns>Remainder.</returns>
-	private static dynamic _PNMod(dynamic a, dynamic b) {
-		if (b == 0) return double.NaN;
-		b = Math.Abs(b);
-		int i = 0;
-		while (a + b * i < 0)
-			i++;
-		return (a + b * i) % b;
+	/// <param name="x">The dividend (the number to be divided).</param>
+	/// <param name="y">The divisor (the number to divide by).</param>
+	/// <returns>
+	/// The floor modulus of x and y. The result will have the same sign as y, and its absolute value will
+	/// be less than the absolute value of y.
+	/// </returns>
+	[SuppressMessage("Style", "IDE1006")]
+	private static dynamic _FloorMod(dynamic x, dynamic y) {
+		dynamic result = x % y;
+		if (result != 0 && x < 0 != y < 0)
+			result += y;
+		return result;
 	}
 
-	/// <inheritdoc cref="_PNMod"/>
-	public static int PNMod(int a, int b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static long PNMod(long a, long b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static float PNMod(float a, float b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static double PNMod(double a, double b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static float PNMod(int a, float b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static float PNMod(float a, int b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static float PNMod(long a, float b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static float PNMod(float a, long b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static double PNMod(int a, double b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static double PNMod(double a, int b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static double PNMod(long a, double b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static double PNMod(double a, long b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static double PNMod(float a, double b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static double PNMod(double a, float b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static long PNMod(int a, long b) => _PNMod(a, b);
-	/// <inheritdoc cref="_PNMod"/>
-	public static long PNMod(long a, int b) => _PNMod(a, b);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static int FloorMod(int x, int y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static long FloorMod(long x, long y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static float FloorMod(float x, float y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static double FloorMod(double x, double y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static float FloorMod(int x, float y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static float FloorMod(float x, int y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static float FloorMod(long x, float y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static float FloorMod(float x, long y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static double FloorMod(int x, double y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static double FloorMod(double x, int y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static double FloorMod(long x, double y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static double FloorMod(double x, long y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static double FloorMod(float x, double y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static double FloorMod(double x, float y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static long FloorMod(int x, long y) => _FloorMod(x, y);
+	/// <inheritdoc cref="_FloorMod"/>
+	public static long FloorMod(long x, int y) => _FloorMod(x, y);
 
 	/// <summary>
 	/// Returns <paramref name="value"/> clamped to the inclusive range of <paramref name="min"/> and <paramref name="max"/>.

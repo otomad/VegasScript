@@ -52,7 +52,7 @@ public partial class PitchPickerViewModel : ObservableObject<PitchPickerFlyout> 
 	[RelayCommand]
 	private void NoteNameSpin(int delta) {
 		SignDelta(ref delta);
-		NoteName = NoteNames[MathEx.PNMod(NoteNames.IndexOf(NoteName) + delta, NoteNames.Length)];
+		NoteName = NoteNames[MathEx.FloorMod(NoteNames.IndexOf(NoteName) + delta, NoteNames.Length)];
 	}
 
 	[RelayCommand]

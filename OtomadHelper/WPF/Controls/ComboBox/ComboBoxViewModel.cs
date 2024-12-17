@@ -24,7 +24,7 @@ public partial class ComboBoxViewModel<T> : ObservableObject<ComboBoxFlyout> {
 	[RelayCommand]
 	private void ArrowMove(int direction) {
 		if (Ids.Count == 0) return;
-		Selected = Ids[MathEx.PNMod(SelectedIndex + direction, Ids.Count)];
+		Selected = Ids[MathEx.FloorMod(SelectedIndex + direction, Ids.Count)];
 	}
 }
 
