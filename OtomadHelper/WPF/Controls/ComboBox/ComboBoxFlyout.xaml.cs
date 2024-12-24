@@ -19,12 +19,14 @@ public partial class ComboBoxFlyout : BaseFlyout {
 
 	public new ComboBoxViewModel DataContext => (ComboBoxViewModel)base.DataContext;
 
-	public static ComboBoxFlyout Initial<T>(IEnumerable<T> ids, IEnumerable<string> options, T selected, Rect targetRect, out Task<T> dialogResult) {
+	public static ComboBoxFlyout Initial<T>(IEnumerable<T> ids, IEnumerable<string> options, IEnumerable<string>? icons, T selected, Rect targetRect, out Task<T> dialogResult) {
 		ComboBoxFlyout comboBox = new();
 		comboBox.DataContext.Selected = selected!;
 		foreach (T id in ids)
 			comboBox.DataContext.Ids.Add(id!);
 		comboBox.DataContext.Options.AddRange(options);
+		if (icons is not null)
+			comboBox.DataContext.Icons.AddRange(icons.Select(svg => IconTemplate.FromSvg(svg)));
 		comboBox.SetTargetRect(targetRect);
 		dialogResult = comboBox.GetDialogResultTask(() => (T)comboBox.DataContext.Selected);
 		return comboBox;

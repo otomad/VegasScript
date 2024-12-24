@@ -8,6 +8,8 @@ public partial class ComboBoxViewModel<T> : ObservableObject<ComboBoxFlyout> {
 
 	public ObservableCollection<T> Ids { get; } = [];
 
+	public ObservableCollection<IconTemplate> Icons { get; } = [];
+
 	[ObservableProperty]
 	private T selected = typeof(T).Extends(typeof(string)) ? (T)(object)string.Empty : default!;
 

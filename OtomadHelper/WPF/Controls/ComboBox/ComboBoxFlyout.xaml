@@ -49,8 +49,10 @@
 			<m:DoubleToThicknessConverter x:Key="DoubleToThick" />
 			<m:DoubleToCornerRadiusConverter x:Key="DoubleToRadius" />
 			<m:BooleanOrConverter x:Key="BoolOr" />
+			<m:CollectionHasItemsConverter x:Key="HasItems" />
 			<c:ComboBoxIdToIsCheckedConverter x:Key="IdToChecked" />
 			<c:ComboBoxIdToOptionConverter x:Key="IdToOption" />
+			<c:ComboBoxIdToIconConverter x:Key="IdToIcon" />
 
 			<s:Double x:Key="Padding">2</s:Double>
 			<s:Double x:Key="IndicatorRadius">1.5</s:Double>
@@ -200,6 +202,15 @@
 				<Setter Property="LineHeight" Value="20" />
 			</Style>
 
+			<Style x:Key="ComboBoxItemContentGrid" TargetType="Grid">
+				<Setter Property="m:GridDef.Column" Value="10,16,8,*" />
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding Icons, ElementName=ViewModel, Converter={StaticResource HasItems}}" Value="False">
+						<Setter Property="m:GridDef.Column" Value="10,0,0,*" />
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
+
 			<Style x:Key="ItemsControlWrapper" TargetType="ItemsControl">
 				<Setter Property="Padding" Value="{Binding Source={StaticResource Padding}, Converter={StaticResource DoubleToThick}, Mode=OneWay}" />
 				<!--<Setter Property="Visibility" Value="{Binding IsContent, ElementName=View, Converter={StaticResource BoolToHiddenVis}, Mode=OneWay}" />
@@ -266,14 +277,26 @@
 						<i:Interaction.Behaviors>
 							<m:AllowSecondaryButtonsClick />
 						</i:Interaction.Behaviors>
-						<Grid m:GridDef.Column="12,*">
+						<Grid Style="{StaticResource ComboBoxItemContentGrid}">
 							<Rectangle
 								x:Name="Indicator"
 								Grid.Column="0"
 								Style="{StaticResource Indicator}"
 								Visibility="{Binding IsChecked, ElementName=RadioButton, Converter={StaticResource BoolToVis}}"
 								/>
-							<TextBlock Grid.Column="1">
+							<c:Icon Size="16" Grid.Column="1">
+								<c:Icon.Source>
+									<m:Binding Converter="{StaticResource IdToIcon}" Mode="OneWay">
+										<m:Binding.ConverterParameter>
+											<MultiBinding>
+												<Binding Path="Ids" ElementName="ViewModel" />
+												<Binding Path="Icons" ElementName="ViewModel" />
+											</MultiBinding>
+										</m:Binding.ConverterParameter>
+									</m:Binding>
+								</c:Icon.Source>
+							</c:Icon>
+							<TextBlock Grid.Column="3">
 								<TextBlock.Text>
 									<m:Binding Converter="{StaticResource IdToOption}" Mode="OneWay">
 										<m:Binding.ConverterParameter>

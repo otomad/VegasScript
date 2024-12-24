@@ -39,9 +39,9 @@ public class Bridge {
 	/// <param name="ids">An array of <see cref="string"/> representing the ID of items in the combo box.</param>
 	/// <param name="options">An array of <see cref="string"/> representing the items to be displayed in the combo box.</param>
 	/// <returns>The selected item from the combo box flyout.</returns>
-	public async Task<T> ShowComboBox<T>(Rect rect, T selected, T[] ids, string[] options) {
+	public async Task<T> ShowComboBox<T>(Rect rect, T selected, T[] ids, string[] options, string[]? icons = null) {
 		Rect screenRect = Host.ClientToScreenRect(rect);
-		ComboBoxFlyout flyout = ComboBoxFlyout.Initial(ids, options, selected, screenRect, out Task<T> resultTask);
+		ComboBoxFlyout flyout = ComboBoxFlyout.Initial(ids, options, icons, selected, screenRect, out Task<T> resultTask);
 		Host.ShowFlyout(flyout);
 		return await resultTask;
 	}

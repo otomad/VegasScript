@@ -23,7 +23,7 @@ const StyledComboBox = styled(StyledButton)`
 		}
 	}
 
-	&:active .content .icon {
+	&:active .content .icon.chevron {
 		translate: 0 2px;
 	}
 
@@ -49,22 +49,23 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 	/** The selected option of the combo box. */
 	current: StateProperty<T>;
 }, "select">) {
-	const currentOption = options[ids.indexOf(current!)] ?? `<${current}>`;
 	const [iconSvgs, setIconSvgs] = useState<string[]>();
+	const hasIcons = !!icons?.length;
+	const currentOption = options[ids.indexOf(current!)] ?? `<${current}>`;
+	const currentIcon = icons?.[ids.indexOf(current!)];
 
 	useAsyncEffect(async () => {
-		if (!icons || !icons.length) setIconSvgs(undefined);
+		if (!hasIcons) setIconSvgs(undefined);
 		else setIconSvgs(await Array.fromAsync(icons, rawIcon));
 	}, [icons]);
 
 	const showComboBox: MouseEventHandler<HTMLButtonElement> = async e => {
-		console.log(iconSvgs);
 		const rect = e.currentTarget.getBoundingClientRect();
-		const result = await bridges.bridge.showComboBox(rect, current!, ids, toStringArray(options)) as T;
+		const result = await bridges.bridge.showComboBox(rect, current!, ids, toStringArray(options), iconSvgs) as T;
 		setCurrent?.(result);
 	};
 
-	if (true || window.isWebView)
+	if (window.isWebView)
 		return (
 			<StyledComboBox
 				role="combobox"
@@ -74,8 +75,9 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 				{...htmlAttrs as FCP<{}, "button">}
 			>
 				<div className="content">
+					{hasIcons && (currentIcon ? <Icon name={currentIcon} /> : <Icon shadow />)}
 					<div className="text">{currentOption}</div>
-					<Icon name="chevron_down" />
+					<Icon name="chevron_down" className="chevron" />
 				</div>
 			</StyledComboBox>
 		);

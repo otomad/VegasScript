@@ -196,9 +196,13 @@ public static partial class Extensions {
 			value = result;
 			return true;
 		} catch (IndexOutOfRangeException) {
-			value = default!;
-			return false;
+			goto CleanUp;
+		} catch (ArgumentOutOfRangeException) {
+			goto CleanUp;
 		}
+	CleanUp:
+		value = default!;
+		return false;
 	}
 
 	/// <summary>
@@ -268,4 +272,12 @@ public static partial class Extensions {
 	/// this will return <c>IEnumerable&lt;int&gt; { 0, 1, 2, 3 }</c>.
 	/// </remarks>
 	public static IEnumerable<int> Keys<T>(this IEnumerable<T> collection) => Enumerable.Range(0, collection.Count());
+
+	/// <inheritdoc cref="Enumerable.Count{TSource}(IEnumerable{TSource})" />
+	public static int Count(this IEnumerable source) {
+		int count = 0;
+		foreach (object? _ in source)
+			count++;
+		return count;
+	}
 }

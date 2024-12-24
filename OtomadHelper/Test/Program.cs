@@ -1,6 +1,8 @@
-#define TEST3
+#define TEST0
 using System.Resources;
 using System.Windows.Forms;
+
+using OtomadHelper.WPF.Controls;
 
 namespace OtomadHelper.Test;
 

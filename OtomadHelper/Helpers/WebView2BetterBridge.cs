@@ -65,8 +65,10 @@ public class BetterBridge {
 		try {
 			// We have stored each argument as json data in an array, the array is also encoded to a string
 			// since webview can't invoke string[] array functions
-			string[]? jsonArgs = JsonSerializer.Deserialize<string[]>(jsonArgsString, jsonOptions) ??
+			string[] jsonArgs = JsonSerializer.Deserialize<string[]>(jsonArgsString, jsonOptions) ??
 				throw new TypeLoadException("Invalid arguments");
+			for (int i = 0; i < jsonArgs.Length; i++)
+				jsonArgs[i] = jsonArgs[i] is null ? "null" : jsonArgs[i];
 
 			bool matchedMethodName = false, matchedParameterLength = false;
 			MethodInfo[] methods = bridgeClassType.GetMethods();

@@ -38,7 +38,7 @@ public partial class TestControlsWinForm : Form {
 		Task<string> resultTaskString = null!;
 		Task<bool> resultTaskBool = null!;
 		if (sender == ComboBoxBtn)
-			flyout = ComboBoxFlyout.Initial(list.Select(i => i.ToUpper()), list, selected, rect, out resultTaskString);
+			flyout = ComboBoxFlyout.Initial(list.Select(i => i.ToUpper()), list, null, selected, rect, out resultTaskString);
 		else if (sender == PitchPickerBtn)
 			flyout = PitchPickerFlyout.Initial(rect, selected, out resultTaskString);
 		else if (sender == ConfirmDeleteFlyoutBtn)

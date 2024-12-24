@@ -44,3 +44,21 @@ public class ComboBoxIdToOptionConverter : ValueConverter<object, string> {
 		return id;
 	}
 }
+
+[ValueConversion(typeof(object), typeof(IconTemplate))]
+public class ComboBoxIdToIconConverter : ValueConverter<object, IconTemplate> {
+	private static (object[] ids, IconTemplate[] icons) GetParameter(object parameter) {
+		object[] @params = (object[])parameter;
+		object[] ids = [.. (ObservableCollection<object>)@params[0]];
+		IconTemplate[] icons = [.. (ObservableCollection<IconTemplate>)@params[1]];
+		return (ids, icons);
+	}
+
+	public override IconTemplate Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+		(object[] ids, IconTemplate[] icons) = GetParameter(parameter);
+		int index = ids.IndexOf(value);
+		if (!icons.TryGetValue(index, out IconTemplate icon))
+			icon = new();
+		return icon;
+	}
+}

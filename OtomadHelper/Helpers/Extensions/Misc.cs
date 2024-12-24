@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Data;
+using System.Xml;
 
 using DataFormats = System.Windows.Forms.DataFormats;
 using DragEventArgs = System.Windows.Forms.DragEventArgs;
@@ -282,4 +283,42 @@ public static partial class Extensions {
 	/// </summary>
 	public static object GetDefault(this Type type) =>
 		typeof(Extensions).GetMethod(nameof(GetDefaultGeneric), BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(type).Invoke(null, null);
+
+	/// <inheritdoc cref="XmlElement.GetAttribute(string)" />
+	public static string? GetAttributeCaseInsensitive(this XmlElement element, string name) {
+		name = name.ToLowerInvariant();
+		foreach (XmlAttribute attribute in element.Attributes)
+			if (attribute.Name.ToLowerInvariant() == name)
+				return attribute.Value;
+		return null;
+	}
+
+	/// <inheritdoc cref="XmlElement.GetAttribute(string, string)" />
+	public static string? GetAttributeCaseInsensitive(this XmlElement element, string localName, string namespaceURI) {
+		localName = localName.ToLowerInvariant();
+		namespaceURI = namespaceURI.ToLowerInvariant();
+		foreach (XmlAttribute attribute in element.Attributes)
+			if (attribute.LocalName.ToLowerInvariant() == localName && attribute.NamespaceURI.ToLowerInvariant() == namespaceURI)
+				return attribute.Value;
+		return null;
+	}
+
+	/// <inheritdoc cref="XmlElement.HasAttribute(string)" />
+	public static bool HasAttributeCaseInsensitive(this XmlElement element, string name) {
+		name = name.ToLowerInvariant();
+		foreach (XmlAttribute attribute in element.Attributes)
+			if (attribute.Name.ToLowerInvariant() == name)
+				return true;
+		return false;
+	}
+
+	/// <inheritdoc cref="XmlElement.HasAttribute(string, string)" />
+	public static bool HasAttributeCaseInsensitive(this XmlElement element, string localName, string namespaceURI) {
+		localName = localName.ToLowerInvariant();
+		namespaceURI = namespaceURI.ToLowerInvariant();
+		foreach (XmlAttribute attribute in element.Attributes)
+			if (attribute.LocalName.ToLowerInvariant() == localName && attribute.NamespaceURI.ToLowerInvariant() == namespaceURI)
+				return true;
+		return false;
+	}
 }
