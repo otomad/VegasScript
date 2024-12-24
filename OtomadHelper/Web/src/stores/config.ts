@@ -6,7 +6,7 @@ import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tem
 import type { barOrBeatUnitTypes, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { trackLegatoModes } from "views/track";
 import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
-import type { legatos, stretches, transformMethods, unlengthens } from "views/visual";
+import type { legatos, stretches, transformMethods, truncates } from "views/visual";
 
 type StartTime = typeof startTimes[number]["id"];
 type TempoUsing = typeof tempoUsings[number]["id"];
@@ -14,7 +14,7 @@ type ConstrainNoteLengthType = typeof constrainNoteLengthTypes[number]["id"];
 type Encoding = typeof encodings[number];
 type Stretch = typeof stretches[number]["id"];
 type Legato = typeof legatos[number]["id"];
-type Unlengthen = typeof unlengthens[number]["id"];
+type Truncate = typeof truncates[number]["id"];
 type TransformMethod = typeof transformMethods[number];
 type PitchNotation = typeof pitchNotations[number];
 type Timecode = string;
@@ -81,7 +81,7 @@ export const configStore = createStore({
 		stretch: "noStretching" as Stretch,
 		loop: "auto" as TrueFalseAuto,
 		normalize: true,
-		unlengthen: "lengthenable" as Unlengthen,
+		truncate: "lengthenable" as Truncate,
 		legato: "portato" as Legato,
 		multitrackForChords: false,
 		stack: false,
@@ -118,7 +118,7 @@ export const configStore = createStore({
 		stretch: "noStretching" as Stretch,
 		loop: "auto" as TrueFalseAuto,
 		staticVisual: false,
-		unlengthen: "lengthenable" as Unlengthen,
+		truncate: "lengthenable" as Truncate,
 		legato: "upToOneBeat" as Legato,
 		multitrackForChords: false,
 		stack: false,

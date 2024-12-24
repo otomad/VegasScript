@@ -5,7 +5,7 @@ import legatoUpTo1BeatImage from "assets/images/tutorials/legato_config/legato_u
 import loopImage from "assets/images/tutorials/visual/loop.png";
 import staticVisualImage from "assets/images/tutorials/visual/static.png";
 import stretchImage from "assets/images/tutorials/visual/stretch.png";
-import unlengthenImage from "assets/images/tutorials/visual/unlengthen.png";
+import truncateImage from "assets/images/tutorials/visual/truncate.png";
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 import { usePrveInfo } from "./visual/prve";
 
@@ -21,7 +21,7 @@ export /* @internal */ const legatos = [
 	{ id: "upToOneBar", icon: "music_bar", image: legatoUpTo1BarImage },
 	{ id: "unlimited", icon: "infinity", image: legatoUnlimitedImage },
 ] as const;
-export /* @internal */ const unlengthens = [
+export /* @internal */ const truncates = [
 	{ id: "lengthenable", icon: "lengthenable", availableInAudio: true },
 	{ id: "freezeEndFrames", icon: "freeze_end_frames", availableInAudio: false },
 	{ id: "trimEndFrames", icon: "trim_end_frames", availableInAudio: true },
@@ -43,7 +43,7 @@ const TooltipPartial = Tooltip.with({ placement: "y" });
 export default function Visual() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, staticVisual, unlengthen, legato, multitrackForChords, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
+		stretch, loop, staticVisual, truncate, legato, multitrackForChords, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
 		glissando, glissandoEffect, glissandoAmount, appoggiatura, arpeggio, arpeggioNegative, activeParameterScheme,
 	} = selectConfig(c => c.visual);
 	// const activeParameterScheme = selectConfigArray(c => c.visual.activeParameterScheme);
@@ -103,21 +103,21 @@ export default function Visual() {
 							iconField="icon"
 						/>
 					</TooltipPartial>
-					<TooltipPartial title={<Tooltip.Content image={staticVisualImage} />}>
-						<SettingsCardToggleSwitch title={t.stream.staticVisual} details={t.descriptions.stream.staticVisual} icon="image" on={staticVisual} />
-					</TooltipPartial>
-					<TooltipPartial title={<Tooltip.Content image={unlengthenImage} />}>
+					<TooltipPartial title={<Tooltip.Content image={truncateImage} />}>
 						<ExpanderRadio
-							title={t.stream.unlengthen}
-							details={t.descriptions.stream.unlengthen}
+							title={t.stream.truncate}
+							details={t.descriptions.stream.truncate}
 							icon="arrow_import_prohibited"
-							items={unlengthens}
-							value={unlengthen}
+							items={truncates}
+							value={truncate}
 							view="tile"
 							idField="id"
-							nameField={t.stream.unlengthen}
+							nameField={t.stream.truncate}
 							iconField="icon"
 						/>
+					</TooltipPartial>
+					<TooltipPartial title={<Tooltip.Content image={staticVisualImage} />}>
+						<SettingsCardToggleSwitch title={t.stream.staticVisual} details={t.descriptions.stream.staticVisual} icon="image" on={staticVisual} />
 					</TooltipPartial>
 					<ExpanderRadio
 						title={t.stream.legato}

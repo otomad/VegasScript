@@ -227,8 +227,8 @@ export default {
 			},
 			normalize: "Normalize",
 			staticVisual: "Static visual",
-			unlengthen: {
-				_: "Unlengthen",
+			truncate: {
+				_: "Truncate",
 				lengthenable: "Lengthenable",
 				freezeEndFrames: "Freeze end frames",
 				trimEndFrames: "Trim end frames",
@@ -739,9 +739,9 @@ export default {
 				},
 				normalize: "Normalizes the audio, useful for quiet audio",
 				staticVisual: "Freezes the frame at the beginning of the clip",
-				unlengthen: "Attempts to freeze at the out point of the clip to avoid accidentally playing the part beyond the trimming time when some notes are too long",
+				truncate: "Attempts to freeze at the out point of the clip to avoid accidentally playing the part beyond the trimming time when some notes are too long",
 				legato: "Fills in the gaps between the notes",
-				unlengthenAndLegatoConflictInAudio: "Unlengthening and Legato are conflicting in Audio, you cannot enable them simultaneously!",
+				truncateAndLegatoConflictInAudio: "Truncation and Legato are conflicting in Audio, you cannot enable them simultaneously!",
 				multitrackForChords: "Creates multiple tracks for chords",
 				createGroups: "Creates groups for video and audio clips represented by one note",
 				autoPan: "Pans the audio using envelope automation",

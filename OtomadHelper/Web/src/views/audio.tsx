@@ -1,6 +1,6 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
-import { legatos, stretches, unlengthens } from "./visual";
-const unlengthensInAudio = unlengthens.filter(item => item.availableInAudio);
+import { legatos, stretches, truncates } from "./visual";
+const truncatesInAudio = truncates.filter(item => item.availableInAudio);
 
 export /* @internal */ const tuningMethods = [
 	{ id: "noTuning", icon: "prohibited" },
@@ -62,7 +62,7 @@ const PrelistenActions = styled(Disabled).attrs({
 export default function Audio() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, normalize, unlengthen, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
+		stretch, loop, normalize, truncate, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
 		tuningMethod, stretchAttribute, alternativeForExceedsTheRange, resample, preserveFormant, currentPreset,
 		basePitch, basePitchBased, cent,
 	} = selectConfig(c => c.audio);
@@ -127,14 +127,14 @@ export default function Audio() {
 						iconField="icon"
 					/>
 					<ExpanderRadio
-						title={t.stream.unlengthen}
-						details={t.descriptions.stream.unlengthen}
+						title={t.stream.truncate}
+						details={t.descriptions.stream.truncate}
 						icon="arrow_import_prohibited"
-						items={unlengthensInAudio}
-						value={unlengthen}
+						items={truncatesInAudio}
+						value={truncate}
 						view="tile"
 						idField="id"
-						nameField={t.stream.unlengthen}
+						nameField={t.stream.truncate}
 						iconField="icon"
 					/>
 					<ExpanderRadio
@@ -150,7 +150,7 @@ export default function Audio() {
 						imageField="image"
 						itemWidth={566 / 196 * GRID_VIEW_ITEM_HEIGHT}
 					/>
-					{!hideUseTips && <InfoBar status="accent" title={t.descriptions.stream.unlengthenAndLegatoConflictInAudio} />}
+					{!hideUseTips && <InfoBar status="accent" title={t.descriptions.stream.truncateAndLegatoConflictInAudio} />}
 					<SettingsCardToggleSwitch
 						title={t.stream.multitrackForChords}
 						details={t.descriptions.stream.multitrackForChords}
@@ -319,5 +319,5 @@ export default function Audio() {
 	);
 }
 
-subscribeStoreKey(configStore.audio, "unlengthen", value => value !== "lengthenable" && (configStore.audio.legato = "portato"));
-subscribeStoreKey(configStore.audio, "legato", value => value !== "portato" && (configStore.audio.unlengthen = "lengthenable"));
+subscribeStoreKey(configStore.audio, "truncate", value => value !== "lengthenable" && (configStore.audio.legato = "portato"));
+subscribeStoreKey(configStore.audio, "legato", value => value !== "portato" && (configStore.audio.truncate = "lengthenable"));
