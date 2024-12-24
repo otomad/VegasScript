@@ -1,4 +1,4 @@
-const curves = ["linear", "fast", "slow", "smooth", "sharp", "none"] as const; // TODO: i18n
+const curves = ["linear", "fast", "slow", "smooth", "sharp", "hold"] as const; // TODO: i18n
 
 export /* @internal */ default function ExpanderItemCurve({ curve }: FCP<{
 	curve: StateProperty<CurveType>;
@@ -6,7 +6,7 @@ export /* @internal */ default function ExpanderItemCurve({ curve }: FCP<{
 }, "div">) {
 	return (
 		<Expander.Item title={t.curve} details={t.descriptions.curve} icon="curve">
-			<ComboBox ids={curves} options={curves} current={curve} />
+			<ComboBox ids={curves} options={curves} icons={curves.map(curve => `curves/${curve}` as const)} current={curve} />
 		</Expander.Item>
 	);
 }

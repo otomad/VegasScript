@@ -23,7 +23,7 @@ declare global {
 	/**
 	 * Curve Type, Video Keyframe Type, or OFX Interpolation Type.
 	 */
-	type CurveType = "linear" | "fast" | "slow" | "smooth" | "sharp" | "none";
+	type CurveType = "linear" | "fast" | "slow" | "smooth" | "sharp" | "hold";
 
 	/**
 	 * A string that represents the priority (e.g. `"important"`) if one exists.

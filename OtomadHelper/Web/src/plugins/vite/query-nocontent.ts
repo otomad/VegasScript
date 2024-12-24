@@ -1,5 +1,3 @@
-/// <reference path="./query-nocontent.d.ts" />
-
 import type { Plugin } from "vite";
 
 export default (): Plugin => {

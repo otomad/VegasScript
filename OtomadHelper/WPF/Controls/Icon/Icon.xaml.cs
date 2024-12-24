@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace OtomadHelper.WPF.Controls;
@@ -17,6 +18,7 @@ public partial class Icon : Viewbox {
 	}
 
 	private void Icon_Loaded(object sender, RoutedEventArgs e) {
+		_ = Source;
 		if (Foreground == defaultForeground)
 			SetResourceReference(ForegroundProperty, "ForegroundBrush");
 	}

@@ -9,18 +9,31 @@
 	Loaded="Icon_Loaded"
 	>
 	<Viewbox.Resources>
-		<Style TargetType="Canvas">
+		<Style TargetType="ItemsControl">
+			<Setter Property="DataContext" Value="{Binding ElementName=View}" />
+			<Setter Property="ItemsSource" Value="{Binding Source.Path}" />
+		</Style>
+		<Style x:Key="ContainerStyle" TargetType="Canvas">
 			<Setter Property="DataContext" Value="{Binding ElementName=View}" />
 			<Setter Property="Width" Value="{Binding Source.Size}" />
 			<Setter Property="Height" Value="{Binding Source.Size}" />
 		</Style>
-		<Style TargetType="Path">
-			<Setter Property="Data" Value="{Binding Source.Path}" />
-			<Setter Property="Fill" Value="{Binding Foreground}" />
+		<Style x:Key="PathStyle" TargetType="Path">
+			<Setter Property="Data" Value="{Binding}" />
+			<Setter Property="Fill" Value="{Binding Foreground, ElementName=View}" />
 		</Style>
 	</Viewbox.Resources>
 
-	<Canvas>
-		<Path />
-	</Canvas>
+	<ItemsControl>
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<Canvas Style="{StaticResource ContainerStyle}" />
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
+		<ItemsControl.ItemTemplate>
+			<DataTemplate>
+				<Path Style="{StaticResource PathStyle}" />
+			</DataTemplate>
+		</ItemsControl.ItemTemplate>
+	</ItemsControl>
 </Viewbox>

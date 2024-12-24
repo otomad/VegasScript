@@ -1,5 +1,3 @@
-/// <reference path="./fragment-filters.d.ts" />
-
 import { lstat, readdir, readFile } from "fs/promises";
 import { parse, resolve } from "path";
 import type { Plugin } from "vite";

@@ -1,5 +1,3 @@
-/// <reference path="./midi.d.ts" />
-
 import _Midi from "@tonejs/midi";
 import { readFile } from "fs/promises";
 import type { Plugin } from "vite";
