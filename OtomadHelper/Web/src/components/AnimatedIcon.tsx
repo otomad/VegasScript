@@ -152,7 +152,7 @@ function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) 
 	return { sequence, findMarker, push, clearAll, shift, goToAndStop, onAnimationComplete };
 }
 
-const iconsImport = import.meta.glob<AnyObject>("/src/assets/lotties/**/*.json", { import: "default", eager: true });
+const iconsImport = import.meta.glob<AnyObject>("/src/assets/lotties/**/*.json", { import: "default", eager: true, query: "?lottie" });
 
 export default function AnimatedIcon({
 	loop = false,
