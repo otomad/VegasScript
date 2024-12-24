@@ -14,7 +14,9 @@ public partial class ButtonContentTemplate : ContentControl {
 
 	partial void OnTextChanged(object? content) {
 		if (content is string text)
-			Content = new AccessText { Text = AmpToUnder.Convert(text, typeof(string), DependencyProperty.UnsetValue, CultureInfo.CurrentCulture) };
+			Content = new AccessText {
+				Text = AmpToUnder.Convert(text, typeof(string), DependencyProperty.UnsetValue, CultureInfo.CurrentCulture),
+			};
 		else
 			Content = content;
 	}
