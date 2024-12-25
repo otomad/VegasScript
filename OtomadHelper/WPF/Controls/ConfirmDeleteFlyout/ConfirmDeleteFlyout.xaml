@@ -19,7 +19,8 @@
 	</c:BaseFlyout.DataContext>
 
 	<c:BaseFlyout.Resources>
-		<Style TargetType="TextBlock">
+		<Style x:Key="ConfirmMessage" TargetType="TextBlock">
+			<!-- Must specify a x:Key, otherwise even the AccessKey inside the Button will still be unexpectedly affected by this TextBlock style. -->
 			<Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
 			<Setter Property="FontSize" Value="14" />
 			<Setter Property="Margin" Value="0,0,0,12" />
@@ -27,7 +28,7 @@
 
 		<Style
 			x:Key="Title"
-			BasedOn="{StaticResource {x:Type TextBlock}}"
+			BasedOn="{StaticResource ConfirmMessage}"
 			TargetType="TextBlock"
 			>
 			<Setter Property="FontWeight" Value="SemiBold" />
@@ -52,7 +53,7 @@
 		<Border Padding="16,14" BorderThickness="0">
 			<StackPanel Orientation="Vertical">
 				<TextBlock Style="{StaticResource Title}" Text="{m:Trans Flyout.ConfirmDelete.Title}" />
-				<TextBlock d:Text="Are you sure you want to delete it?" Text="{Binding Message}" />
+				<TextBlock Style="{StaticResource ConfirmMessage}" d:Text="Are you sure you want to delete it?" Text="{Binding Message}" />
 				<c:ContentDialogButtonPanel>
 					<c:Button
 						Command="{Binding SetDialogResultCommand}"
