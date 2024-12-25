@@ -191,18 +191,13 @@ public static partial class Extensions {
 
 	/// <inheritdoc cref="Dictionary{int, T}.TryGetValue(int, out T)"/>
 	public static bool TryGetValue<T>(this IList<T> list, int index, out T value) {
-		try {
-			T result = list[index];
-			value = result;
+		if (index >= 0 && index < list.Count) {
+			value = list[index];
 			return true;
-		} catch (IndexOutOfRangeException) {
-			goto CleanUp;
-		} catch (ArgumentOutOfRangeException) {
-			goto CleanUp;
+		} else {
+			value = default!;
+			return false;
 		}
-	CleanUp:
-		value = default!;
-		return false;
 	}
 
 	/// <summary>
