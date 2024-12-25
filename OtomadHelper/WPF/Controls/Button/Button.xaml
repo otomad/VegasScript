@@ -17,6 +17,14 @@
 		<Setter Property="RecognizesAccessKey" Value="True" />
 	</Style>
 
+	<Style x:Key="FixExternalTextBlockStyleAffectingAccessKeyStyle" TargetType="TextBlock">
+		<!--
+			If there is any style for TextBlock outside the Button, it will unexpectedly affect the style of AccessKey inside the Button,
+			and it needs to be cleaned up here.
+		-->
+		<Setter Property="Margin" Value="0" />
+	</Style>
+
 	<Style x:Key="DefaultButtonStyle" TargetType="c:Button">
 		<Setter Property="MinHeight" Value="32" />
 		<Setter Property="BorderBrush" Value="{DynamicResource ControlElevation}" />
@@ -40,6 +48,9 @@
 						<ContentPresenter Style="{StaticResource ButtonContentPresenter}">
 							<ContentPresenter.ContentTemplate>
 								<DataTemplate>
+									<DataTemplate.Resources>
+										<Style TargetType="TextBlock" BasedOn="{StaticResource FixExternalTextBlockStyleAffectingAccessKeyStyle}" />
+									</DataTemplate.Resources>
 									<c:ButtonContentTemplate Text="{Binding}" />
 								</DataTemplate>
 							</ContentPresenter.ContentTemplate>
@@ -86,6 +97,9 @@
 									<ContentPresenter Style="{StaticResource ButtonContentPresenter}">
 										<ContentPresenter.ContentTemplate>
 											<DataTemplate>
+												<DataTemplate.Resources>
+													<Style TargetType="TextBlock" BasedOn="{StaticResource FixExternalTextBlockStyleAffectingAccessKeyStyle}" />
+												</DataTemplate.Resources>
 												<c:ButtonContentTemplate Text="{Binding}" />
 											</DataTemplate>
 										</ContentPresenter.ContentTemplate>
