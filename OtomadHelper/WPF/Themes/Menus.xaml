@@ -19,29 +19,39 @@
 		<MenuItem Command="ApplicationCommands.SelectAll" Icon="{m:Icon SelectAll}" />
 	</ContextMenu>
 
+	<Style x:Key="ScrollBarContextMenuItemCommandTarget" TargetType="MenuItem">
+		<Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+	</Style>
+
 	<ContextMenu x:Key="VerticalScrollBarContextMenu" x:Shared="true">
-		<MenuItem Command="ScrollBar.ScrollHereCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<ContextMenu.Resources>
+			<Style TargetType="MenuItem" BasedOn="{StaticResource ScrollBarContextMenuItemCommandTarget}" />
+		</ContextMenu.Resources>
+		<MenuItem Command="ScrollBar.ScrollHereCommand" />
 		<Separator />
-		<MenuItem Command="ScrollBar.ScrollToTopCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-		<MenuItem Command="ScrollBar.ScrollToBottomCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<MenuItem Command="ScrollBar.ScrollToTopCommand" />
+		<MenuItem Command="ScrollBar.ScrollToBottomCommand" />
 		<Separator />
-		<MenuItem Command="ScrollBar.PageUpCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-		<MenuItem Command="ScrollBar.PageDownCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<MenuItem Command="ScrollBar.PageUpCommand" />
+		<MenuItem Command="ScrollBar.PageDownCommand" />
 		<Separator />
-		<MenuItem Command="ScrollBar.LineUpCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-		<MenuItem Command="ScrollBar.LineDownCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<MenuItem Command="ScrollBar.LineUpCommand" />
+		<MenuItem Command="ScrollBar.LineDownCommand" />
 	</ContextMenu>
 
 	<ContextMenu x:Key="HorizontalScrollBarContextMenu" x:Shared="true">
-		<MenuItem Command="ScrollBar.ScrollHereCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<ContextMenu.Resources>
+			<Style TargetType="MenuItem" BasedOn="{StaticResource ScrollBarContextMenuItemCommandTarget}" />
+		</ContextMenu.Resources>
+		<MenuItem Command="ScrollBar.ScrollHereCommand" />
 		<Separator />
-		<MenuItem Command="ScrollBar.ScrollToLeftEndCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-		<MenuItem Command="ScrollBar.ScrollToRightEndCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<MenuItem Command="ScrollBar.ScrollToLeftEndCommand" />
+		<MenuItem Command="ScrollBar.ScrollToRightEndCommand" />
 		<Separator />
-		<MenuItem Command="ScrollBar.PageLeftCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-		<MenuItem Command="ScrollBar.PageRightCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<MenuItem Command="ScrollBar.PageLeftCommand" />
+		<MenuItem Command="ScrollBar.PageRightCommand" />
 		<Separator />
-		<MenuItem Command="ScrollBar.LineLeftCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-		<MenuItem Command="ScrollBar.LineRightCommand" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+		<MenuItem Command="ScrollBar.LineLeftCommand" />
+		<MenuItem Command="ScrollBar.LineRightCommand" />
 	</ContextMenu>
 </ResourceDictionary>
