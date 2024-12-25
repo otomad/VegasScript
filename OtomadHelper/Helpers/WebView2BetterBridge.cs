@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 
 using OtomadHelper.Helpers.TupleAsJsonArray;
 using OtomadHelper.Models;
-using OtomadHelper.Module;
 
 namespace OtomadHelper.Helpers.WebView2BetterBridge;
 
@@ -67,8 +66,7 @@ public class BetterBridge {
 			// since webview can't invoke string[] array functions
 			string[] jsonArgs = JsonSerializer.Deserialize<string[]>(jsonArgsString, jsonOptions) ??
 				throw new TypeLoadException("Invalid arguments");
-			for (int i = 0; i < jsonArgs.Length; i++)
-				jsonArgs[i] = jsonArgs[i] is null ? "null" : jsonArgs[i];
+			jsonArgs.FillNullsWith("null");
 
 			bool matchedMethodName = false, matchedParameterLength = false;
 			MethodInfo[] methods = bridgeClassType.GetMethods();

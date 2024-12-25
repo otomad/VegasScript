@@ -280,4 +280,23 @@ public static partial class Extensions {
 			count++;
 		return count;
 	}
+
+	/// <summary>
+	/// Run null-conditional operator (<c>??</c>) for each items in an <see cref="IList{T}" />.
+	/// </summary>
+	/// <remarks>
+	/// <para>
+	/// For example, if you pass 0 to <paramref name="def" />, every <see langword="null" />
+	/// in the <see cref="IList{T}" /> will be replaced to 0.
+	/// </para>
+	/// <para>
+	/// Note: This will modify the original <paramref name="list" />.
+	/// </para>
+	/// </remarks>
+	/// <param name="def">The value to replace nulls with.</param>
+	public static void FillNullsWith<T>(this IList<T> list, T def) {
+		for (int i = 0; i < list.Count; i++)
+			if (list[i] is null)
+				list[i] = def;
+	}
 }
