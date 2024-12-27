@@ -178,7 +178,8 @@ export default function Prve() {
 							</Expander.Item>
 							<Expander.Item title={t.prve.initialValue} icon="replay">
 								{(() => {
-									const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) <= 1;
+									const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) < 2;
+									console.log(invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1));
 									return (
 										<SliderWithBox
 											value={invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1)}

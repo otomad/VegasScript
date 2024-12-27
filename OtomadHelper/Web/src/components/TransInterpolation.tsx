@@ -11,15 +11,18 @@ export default function TransInterpolation<TInterpolations>({ i18nKey, children:
 	const internalInterpolations = keys.mapObject((key, index) => [key, encodeKeyToTag(index)] as const);
 	const withInterpolations = t(internalInterpolations);
 	const translatedString = i18nKey(withInterpolations).toString();
-	const splitted = translatedString
-		.split(new RegExp(`(${tagStart}.*${tagCancel})`, "u"))
-		.map(segment => {
-			if (!segment.startsWith(tagStart)) return segment;
-			const index = decodeKeyFromTag(segment);
-			if (index == null) return "";
-			const key = keys[index];
-			return interpolations[key];
-		});
+	const lines = translatedString.split("\n");
+	const splitted = lines
+		.map(line => line
+			.split(new RegExp(`(${tagStart}.*${tagCancel})`, "u"))
+			.map(segment => {
+				if (!segment.startsWith(tagStart)) return segment;
+				const index = decodeKeyFromTag(segment);
+				if (index == null) return "";
+				const key = keys[index];
+				return interpolations[key];
+			}),
+		);
 	return splitted;
 }
 

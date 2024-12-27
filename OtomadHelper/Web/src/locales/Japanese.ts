@@ -277,7 +277,7 @@ export default {
 				stretchAttributes: {
 					_: "ストレッチ属性",
 				},
-				alternativeForExceedsTheRange: {
+				alternativeForExceedTheRange: {
 					_: "範囲を超えた場合",
 					multiple: "オーディオエフェクトプラグインの複数使用",
 					plugin: "ピッチシフトオーディオエフェクトプラグインに切り替える",
@@ -750,7 +750,7 @@ export default {
 						scaleless: "ストレッチとピッチをロックし、ストレッチを変更して、実際のノートピッチに関係なく対応するピッチを取得します。",
 					},
 					stretchAttributes: "選択したチューニング方法の詳細な構成",
-					alternativeForExceedsTheRange: {
+					alternativeForExceedTheRange: {
 						_: "別の方法で範囲外のメモを処理",
 						plugin: "ピッチシフトオーディオエフェクトプラグインを繰り返し使用して任意のピッチに到達します。",
 						octave: "オクターブ音量を {{formulaFor24}}の範囲まで上げたり下げたりすることによって、少なくとも不協和音の間隔を避けてください。",

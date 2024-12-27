@@ -110,7 +110,7 @@ export default {
 			tuning: {
 				tuningMethod: {},
 				stretchAttributes: {},
-				alternativeForExceedsTheRange: {},
+				alternativeForExceedTheRange: {},
 				basePitch: {},
 				prelisten: {
 					waveform: {},
@@ -210,7 +210,7 @@ export default {
 				},
 				tuning: {
 					tuningMethod: {},
-					alternativeForExceedsTheRange: {},
+					alternativeForExceedTheRange: {},
 					basePitch: {},
 					prelisten: {},
 				},

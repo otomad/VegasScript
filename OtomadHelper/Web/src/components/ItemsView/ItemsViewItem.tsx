@@ -171,6 +171,11 @@ const StyledItemsViewItem = styled.button<{
 
 		.image-wrapper {
 			${styles.mixins.flexCenter()};
+
+			&.top-align-icon {
+				align-self: flex-start;
+				margin-top: 5px;
+			}
 		}
 	`}
 
@@ -223,7 +228,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -238,6 +243,8 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	actions?: ReactNode;
 	/** Additional border on normal state of the image wrapper. */
 	withBorder?: boolean;
+	/** `list`, `tile` - Top alignment the icon? */
+	topAlignIcon?: boolean;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -297,7 +304,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 							<>
 								{checkbox}
 								{(image || icon) && (
-									<div className="image-wrapper">
+									<div className={["image-wrapper", { topAlignIcon }]}>
 										{typeof image === "string" ? <img src={image} /> : iconOrElement}
 									</div>
 								)}

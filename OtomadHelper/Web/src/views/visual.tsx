@@ -99,8 +99,9 @@ export default function Visual() {
 							value={stretch}
 							view="tile"
 							idField="id"
-							nameField={t.stream.stretch}
 							iconField="icon"
+							nameField={t.stream.stretch}
+							detailsField={t.descriptions.stream.stretch}
 						/>
 					</TooltipPartial>
 					<TooltipPartial title={<Tooltip.Content image={truncateImage} />}>
@@ -112,8 +113,9 @@ export default function Visual() {
 							value={truncate}
 							view="tile"
 							idField="id"
-							nameField={t.stream.truncate}
 							iconField="icon"
+							nameField={t.stream.truncate}
+							detailsField={t.descriptions.stream.truncate}
 						/>
 					</TooltipPartial>
 					<TooltipPartial title={<Tooltip.Content image={staticVisualImage} />}>

@@ -1,7 +1,7 @@
 import defaultPrveAmounts from "helpers/defaultPrveAmounts";
 import { deepClone } from "valtio/utils";
-import type { beepEngines } from "views/audio";
-import type { pitchNotations } from "views/lyrics";
+import type { beepEngines, normalizeTimes } from "views/audio";
+import type { musicalNotationSystems } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
 import type { barOrBeatUnitTypes, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { trackLegatoModes } from "views/track";
@@ -16,7 +16,7 @@ type Stretch = typeof stretches[number]["id"];
 type Legato = typeof legatos[number]["id"];
 type Truncate = typeof truncates[number]["id"];
 type TransformMethod = typeof transformMethods[number];
-type PitchNotation = typeof pitchNotations[number];
+type PitchNotation = typeof musicalNotationSystems[number];
 type Timecode = string;
 type MultipleSelectTrackItem = typeof multipleSelectTrackItems[number];
 type SelectGeneratedClips = typeof selectGeneratedClipsType[number]["id"];
@@ -29,6 +29,7 @@ type GridArrayType = typeof arrayTypes[number];
 type GridFitType = typeof fitTypes[number];
 type GridParityType = typeof parityTypes[number];
 type TrackLegatoMode = typeof trackLegatoModes[number];
+type NormalizeTime = typeof normalizeTimes[number]["id"];
 
 const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 const defaultPrve = {
@@ -80,7 +81,7 @@ export const configStore = createStore({
 		preferredTrack: 0,
 		stretch: "noStretching" as Stretch,
 		loop: "auto" as TrueFalseAuto,
-		normalize: true,
+		normalize: "once" as NormalizeTime,
 		truncate: "lengthenable" as Truncate,
 		legato: "portato" as Legato,
 		multitrackForChords: false,
@@ -89,8 +90,10 @@ export const configStore = createStore({
 		autoPan: true,
 		autoPanCurve: "linear" as CurveType,
 		tuningMethod: "elastic",
+		tuningMethodAcid: false,
+		tuningMethodScaleless: false,
 		stretchAttribute: "efficient",
-		alternativeForExceedsTheRange: "plugin",
+		alternativeForExceedTheRange: "plugin",
 		resample: false,
 		preserveFormant: false,
 		basePitch: "C5",

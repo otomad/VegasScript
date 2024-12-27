@@ -225,7 +225,11 @@ export default {
 				based: "Adjust based on current rate",
 				sync: "Synchronize audio and visual configurations",
 			},
-			normalize: "Normalize",
+			normalize: {
+				_: "Normalize",
+				once: "Once",
+				always: "Always",
+			},
 			staticVisual: "Static visual",
 			truncate: {
 				_: "Truncate",
@@ -282,11 +286,12 @@ export default {
 					elastic: "Élastique",
 					classic: "Classic",
 					scaleless: "Scaleless",
+					acid: "ACID",
 				},
 				stretchAttributes: {
 					_: "Stretch attributes",
 				},
-				alternativeForExceedsTheRange: {
+				alternativeForExceedTheRange: {
 					_: "If exceeds the range",
 					multiple: "Multiple use of Audio Effect Plugins",
 					plugin: "Switch to Pitch Shift Audio Effect Plugin",
@@ -437,10 +442,10 @@ export default {
 			},
 			pitchNotation: {
 				_: "Pitch notation",
-				type: "Pitch notation type",
+				system: "Musical notation system",
 				scientific: "Scientific Pitch Notation",
 				helmholtz: "Helmholtz Pitch Notation",
-				solfeggio: "Solfeggio Syllable",
+				solfege: "Solfège Syllable",
 				numbered: "Numbered Musical Notation",
 				gongche: "Gongche Notation",
 			},
@@ -726,10 +731,16 @@ export default {
 				ytpEnabled: "YTP feature is enabled, it does not depend on the score, so all settings here have no effect.",
 			},
 			stream: {
-				stretch: "Stretches the clip instead of changing its duration",
+				stretch: {
+					_: "Stretches the clip instead of changing its duration",
+					noStretching: "No stretching allowed, only changes the duration",
+					flexingAndExtending: "Stretches whether the note is longer than the clip or not",
+					extendingOnly: "Stretches if the note is longer than the clip, otherwise shortens the duration",
+					flexingOnly: "Stretches if the note is shorter than the clip, otherwise lengthens the duration",
+				},
 				loop: {
 					_: "When the clip is lengthened to the end of the source media, playback starts over",
-					unset: "Preserves the original loop setting of the clip or the default value",
+					unset: "Preserves the original loop setting of the clip unchanged or the default value",
 				},
 				playbackRate: {
 					_: "Changes the playback rate of the clip",
@@ -737,10 +748,22 @@ export default {
 					sync: "Enable to change the {{stream, lowercase}} playback rate configurations to the ones shown here",
 					outSync: "Disable to desynchronize the {{stream, lowercase}} playback rate configurations from here",
 				},
-				normalize: "Normalizes the audio, useful for quiet audio",
+				normalize: {
+					_: "Normalizes the audio, useful for quiet audio",
+					once: "Normalizes only the first time and use the gain after the first normalization for all subsequent clips. This is faster and ensures a consistent gain for all the same clips. But changing the duration may cause other clips to be inappropriate for the gain. (Recommended)",
+					always: "Normalizes every time to ensure that each duration of clip has a more appropriate gain. But it is slower and may result in inconsistent gains for all the same clips.",
+				},
 				staticVisual: "Freezes the frame at the beginning of the clip",
-				truncate: "Attempts to freeze at the out point of the clip to avoid accidentally playing the part beyond the trimming time when some notes are too long",
-				legato: "Fills in the gaps between the notes",
+				truncate: {
+					_: "Attempts to freeze at the out point of the clip to avoid accidentally playing the part beyond the trimming time when some notes are too long",
+					lengthenable: "Lengthens the duration if the note is longer than the clip",
+					freezeEndFrames: "Freezes the frame from the clip's out point if the note is longer than the clip",
+					trimEndFrames: "Trims frames after the clip's out point if the note is longer than the clip",
+					splitThenFreeze: "If the note is longer than the clip, splits from the clip's out point, and then freezes the latter's in point",
+					freezeToGray: "If the note is longer than the clip, splits from the clip's out point, then freezes the latter's in point, and next applies a Black and White effect to the latter",
+					freezeToPreset: "If the note is longer than the clip, splits from the clip's out point, then freezes the latter's in point, and next applies a custom preset to the latter",
+				},
+				legato: "Fills in the gaps between notes",
 				truncateAndLegatoConflictInAudio: "Truncation and Legato are conflicting in Audio, you cannot enable them simultaneously!",
 				multitrackForChords: "Creates multiple tracks for chords",
 				createGroups: "Creates groups for video and audio clips represented by one note",
@@ -767,14 +790,22 @@ export default {
 				},
 				tuning: {
 					tuningMethod: {
+						_: "Uses a different tuning algorithm",
 						noTuning: "No pitch effect",
-						pitchShift: "Uses the Pitch Shift Audio Effect Plugin, which is slow to generate, and ineffective at changing playback rates, but can work exceed the range",
-						elastic: "Uses the Elastic Pitch Change Method, just is the default method that directly pressing the +/− keys, which cannot work exceed the range",
-						classic: "Uses the Classic Pitch Change Method, which cannot work exceed the range, and is the only method available in VEGAS Pro ≤ 8",
+						pitchShift: "Uses the Pitch Shift Audio Effect Plugin. It is a DirectX plugin with the same algorithm as the Classic Method and can support a wider range of pitches. The extension requires some presets to be loaded before use.",
+						elastic: "Uses the Elastic Pitch Change Method. The Élastique Method uses technology from Zplane.development, and provides enhanced real-time time stretching and pitch-shifting capabilities. It is just the default method to directly press the +/− keys.",
+						classic: "Uses the Classic Pitch Change Method. It uses the old technology from Vegas Pro 8 and below versions, and provides more crossfade types to choose from, depending on your source.",
 						scaleless: "Locks stretch and pitch, and changes the stretch to get the corresponding pitch regardless of the actual note pitch, just for fun",
+						unset: "Preserves the original tuning method of the clip unchanged or the default value, even if it is No Tuning",
+						acid: "Prioritizes the tuning method configured in ACID Pro if you are using ACIDized loops",
+						evaluates: {
+							fast: "Fast to generate",
+							changeRate: "Effective on playback rate change",
+							exceedTheRange: "Can work exceed the range",
+						},
 					},
 					stretchAttributes: "Detailed configuration of the selected tuning method",
-					alternativeForExceedsTheRange: {
+					alternativeForExceedTheRange: {
 						_: "Handles out of range notes with an alternative method",
 						plugin: "Reaches any pitch by using the Pitch Shift Audio Effect Plugin repeatedly",
 						octave: "At least avoid dissonant intervals by raising or lowering the octave scale to the range of {{formulaFor24}}",
@@ -823,7 +854,7 @@ export default {
 					padding: "Adjusts the inner margins of track boxes to be less cluttered with other boxes",
 				},
 				box3d: {
-					deleteTracks: "Due to technical limitations, the selected tracks cannot be moved directly. It can only create new tracks and migrate the clips, but not track motions, effects or anything else. You can decide if you want to delete the original tracks.\nNewly added tracks will not be affected.",
+					deleteTracks: "Due to technical limitations, the selected tracks cannot be moved directly. Currently, it can only create new tracks and migrate the clips automatically, but not track motions, effects, or anything else. You will have to move them yourself later. You can decide if you want to delete the original tracks. Newly added tracks are not affected.",
 					useLongerSide: "Uses the long side instead of the short side as the cube's edge length if the source is a rectangle, which make the cube more natural",
 				},
 				gradient: "Gives the video tracks a gradient color effect in your layout",
@@ -856,7 +887,7 @@ export default {
 				},
 				pitchNotation: {
 					_: "Visualizes the pitch of the current note as text",
-					type: "There are several ways to express musical notation in the world, choose the one you prefer",
+					system: "Choose your preferred one from distinct systems for expressing musical notation",
 				},
 			},
 			shupelunker: {
@@ -865,7 +896,7 @@ export default {
 				affix: "The base pitches of the clips need to be detected by naming them, please specify whether the pitch info should be a prefix or suffix to the clip name",
 				unallocated: {
 					_: "Specifies how to fill the vacancies if the sources do not cover all keys",
-					octaves: "Uses the clips with the nearest higher or lower octave, this has the highest priority, useful for sources with sung solfeggios",
+					octaves: "Uses the clips with the nearest higher or lower octave, this has the highest priority, useful for sources with sung solfèges",
 					lowerNeighbors: "Uses lower neighbors, but the lowest keys are filled from their nearest higher neighbor, this has higher priority than the higher neighbors",
 					higherNeighbors: "Uses higher neighbors, but the highest keys are filled from their nearest lower neighbor",
 					default: "Uses the first clip without any affixes to cover all remaining vacancies, this has the lowest priority",

@@ -277,7 +277,7 @@ export default {
 				stretchAttributes: {
 					_: "拉伸属性",
 				},
-				alternativeForExceedsTheRange: {
+				alternativeForExceedTheRange: {
 					_: "超出音域替代方法",
 					multiple: "多次使用音效插件",
 					plugin: "切换到移调音效插件",
@@ -755,7 +755,7 @@ export default {
 						scaleless: "锁定伸缩与音调，完全通过改变拉伸值来获取相应的音调，而不考虑音符的实际音高，仅供娱乐",
 					},
 					stretchAttributes: "有关所选调音方法的详细配置",
-					alternativeForExceedsTheRange: {
+					alternativeForExceedTheRange: {
 						_: "使用另一种平替方法来处理超出音域范围之外的音符",
 						plugin: "通过反复使用移调音频效果插件从而达到任意音高",
 						octave: "通过升高或降低八度到 {{formulaFor24}} 的音域范围内来至少避免不协和音程",

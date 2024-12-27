@@ -6,7 +6,7 @@ export default function Tools() {
 				title={t.tools.flow}
 				details={t.descriptions.tools.flow}
 				type="button"
-				icon="flow"
+				icon="curve"
 			/>
 			<SettingsCard
 				title={t.tools.selectorAndReplacer}
@@ -53,7 +53,7 @@ export default function Tools() {
 				title={t.tools.exportScore}
 				details={t.descriptions.tools.exportScore}
 				type="button"
-				icon="export_score"
+				icon="score_share"
 			/>
 
 			<Subheader>{t.tools.converters}</Subheader>

@@ -3,7 +3,7 @@ import ExpanderItem from "./ExpanderItem";
 
 export const TRAILING_EXEMPTION = "trailing-exemption";
 
-const ExpanderParent = styled(SettingsCard)<{
+const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when scrolling page, some content will not display immediately.
 	/** Expanded? */
 	$expanded?: boolean;
 	/** Make expander child items disabled. */

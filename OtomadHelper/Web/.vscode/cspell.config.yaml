@@ -49,6 +49,7 @@ words:
   - ele
   - endregion
   - esbuild
+  - evaluable
   - extralight
   - filedir
   - flyouts
@@ -150,6 +151,8 @@ words:
   - segoe
   - shupelunker
   - singthesis
+  - solfège
+  - solfèges
   - solfeggios
   - spherize
   - splitted
@@ -202,6 +205,7 @@ words:
   - yoooo
   - ytp
   - ytpmv
+  - zplane
   - zustand
 ignoreWords:
   - ranne
@@ -227,6 +231,7 @@ ignoreWords:
   - edg
   - menuitemcheckbox
   - menuitemradio
+  - ized
 flagWords:
   - colour -> color
   - canot -> cannot
@@ -246,3 +251,6 @@ flagWords:
   - oe -> or
   - filed -> field
   - interupt -> interrupt
+  - prefered -> preferred
+  - preffered -> preferred
+  - evaluatable -> evaluable

@@ -1,6 +1,6 @@
 import tipsImage from "assets/images/tips/bathroom_mirror.jpg";
 
-export /* @internal */ const pitchNotations = ["scientific", "helmholtz", "solfeggio", "numbered", "gongche"] as const;
+export /* @internal */ const musicalNotationSystems = ["scientific", "helmholtz", "solfege", "numbered", "gongche"] as const;
 
 export default function Shupelunker() {
 	const { enabled, presetTemplate } = selectConfig(c => c.lyrics);
@@ -37,10 +37,10 @@ export default function Shupelunker() {
 					<SettingsCardToggleSwitch title={t.lyrics.enableMode({ mode: t.lyrics.pitchNotation })} details={t.descriptions.lyrics.pitchNotation} icon="csharp" on={notationEnabled} />
 					<Disabled disabled={!notationEnabled[0]}>
 						<ExpanderRadio
-							title={t.lyrics.pitchNotation.type}
-							details={t.descriptions.lyrics.pitchNotation.type}
+							title={t.lyrics.pitchNotation.system}
+							details={t.descriptions.lyrics.pitchNotation.system}
 							icon="music_note"
-							items={pitchNotations}
+							items={musicalNotationSystems}
 							value={type}
 							view="tile"
 							idField

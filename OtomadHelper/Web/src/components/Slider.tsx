@@ -153,7 +153,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	onDisplayValueChanged?(value: Readable | undefined): void;
 }>) {
 	const errorInfo = `The value range should be between [${min} ~ ${max}], with the current value being ${value}.`;
-	if (value === undefined)
+	if (value === undefined || Number.isNaN(value))
 		throw new ReferenceError("value undefined");
 	if (min > max)
 		throw new RangeError(`Is the minimum value of Slider greater than the maximum value? The minimum value is ${min}, and the maximum value is ${max}`);
@@ -167,6 +167,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	const restrict = (n: number | undefined, nanValue: number) => Number.isFinite(n) ? clamp(map(n!, min, max, 0, 1), 0, 1) : nanValue;
 	const sharpValue = useMemo(() => restrict(value, 0), [value, min, max]);
 	const smoothValue = staticInterval === 0 ? sharpValue : useSmoothValue(sharpValue, 0.5, { staticInterval });
+	console.log("smoothValue", smoothValue);
 	// Modify this parameter to adjust the smooth movement value of the slider.
 	const [pressed, setPressed] = useState(false);
 

@@ -11,7 +11,7 @@ const StyledSliderWithBox = styled.div`
 /**
  * Combine a slider and a numeric text box organically.
  */
-export default function SliderWithBox({ value, min = 0, max = 100, defaultValue, decimalPlaces = 3, keyStep = 1, keyLargeStepMultiple = 10, positiveSign, placeholder, prefix, suffix, disabled }: FCP<{
+export default function SliderWithBox({ value, min = 0, max = 100, defaultValue, decimalPlaces = 3, keyStep = 1, keyLargeStepMultiple = 10, positiveSign, placeholder, prefix, suffix, disabled, smoothDisplayValue, staticSmoothInterval }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
 	/** Slider minimum value. */
@@ -39,6 +39,10 @@ export default function SliderWithBox({ value, min = 0, max = 100, defaultValue,
 	suffix?: string;
 	/** Disabled? */
 	disabled?: boolean;
+	/** Slider - Make the display value smoothly? Defaults to true. */
+	smoothDisplayValue?: boolean;
+	/** Slider - Use a static smooth value speed interval instead of automatically detect by screen refresh rate. */
+	staticSmoothInterval?: number;
 	children?: never;
 }>) {
 	return (
@@ -66,6 +70,8 @@ export default function SliderWithBox({ value, min = 0, max = 100, defaultValue,
 				keyLargeStepMultiple={keyLargeStepMultiple}
 				disabled={disabled}
 				autoClampValue
+				smoothDisplayValue={smoothDisplayValue}
+				staticSmoothInterval={staticSmoothInterval}
 				aria-hidden
 			/>
 		</StyledSliderWithBox>

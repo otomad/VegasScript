@@ -4,10 +4,10 @@ const truncatesInAudio = truncates.filter(item => item.availableInAudio);
 
 export /* @internal */ const tuningMethods = [
 	{ id: "noTuning", icon: "prohibited" },
+	{ id: "unset", icon: "line-horizontal" },
 	{ id: "pitchShift", icon: "plugin" },
 	{ id: "elastic", icon: "plus_minus" },
 	{ id: "classic", icon: "history" },
-	{ id: "scaleless", icon: "scaleless" },
 ] as const;
 
 export /* @internal */ const exceeds = [
@@ -17,7 +17,14 @@ export /* @internal */ const exceeds = [
 	{ id: "wrap", icon: "abs_leq" },
 	{ id: "silent", icon: "speaker_mute" },
 ] as const;
-const getExceedsName = (id: string | undefined, tuningMethod: string) => !id ? "" : t.stream.tuning.alternativeForExceedsTheRange[
+
+export /* @internal */ const normalizeTimes = [
+	{ id: "false", icon: "dismiss" },
+	{ id: "once", icon: "checkmark_1" },
+	{ id: "always", icon: "checkmark_multiple" },
+] as const;
+
+const getExceedsName = (id: string | undefined, tuningMethod: string) => !id ? "" : t.stream.tuning.alternativeForExceedTheRange[
 	id === "plugin" && tuningMethod === "pitchShift" ? "multiple" : id
 ];
 
@@ -59,11 +66,24 @@ const PrelistenActions = styled(Disabled).attrs({
 	}
 `;
 
+const TuningMethodEvaluation = styled.ul`
+	li {
+		display: flex;
+		gap: 6px;
+		align-items: flex-end;
+
+		.icon {
+			font-size: 14px;
+		}
+	}
+`;
+
 export default function Audio() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
 		stretch, loop, normalize, truncate, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
-		tuningMethod, stretchAttribute, alternativeForExceedsTheRange, resample, preserveFormant, currentPreset,
+		tuningMethod, tuningMethodAcid, tuningMethodScaleless,
+		stretchAttribute, alternativeForExceedTheRange, resample, preserveFormant, currentPreset,
 		basePitch, basePitchBased, cent,
 	} = selectConfig(c => c.audio);
 	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = selectConfig(c => c.audio.prelistenAttributes);
@@ -105,7 +125,11 @@ export default function Audio() {
 				</SettingsCard>
 				<SettingsCardToggleSwitch title={t.stream.createGroups} details={t.descriptions.stream.createGroups} icon="group" on={createGroups} />
 				<ExpanderStreamPlaybackRate stream="audio" />
-				<SettingsCardToggleSwitch title={t.stream.normalize} details={t.descriptions.stream.normalize} icon="normalize" on={normalize} />
+				<SettingsCard title={t.stream.normalize} details={t.descriptions.stream.normalize} icon="normalize" selectInfo={normalize[0] !== "false" && t.descriptions.stream.normalize[normalize[0]]}>
+					<Segmented current={normalize}>
+						{normalizeTimes.map(({ id, icon }) => <Segmented.Item id={id} key={id} icon={icon}>{id === "false" ? t.off : t.stream.normalize[id]}</Segmented.Item>)}
+					</Segmented>
+				</SettingsCard>
 				<SettingsCard
 					title={t.stream.loop}
 					details={t.descriptions.stream.loop}
@@ -123,8 +147,9 @@ export default function Audio() {
 						value={stretch}
 						view="tile"
 						idField="id"
-						nameField={t.stream.stretch}
 						iconField="icon"
+						nameField={t.stream.stretch}
+						detailsField={t.descriptions.stream.stretch}
 					/>
 					<ExpanderRadio
 						title={t.stream.truncate}
@@ -134,8 +159,9 @@ export default function Audio() {
 						value={truncate}
 						view="tile"
 						idField="id"
-						nameField={t.stream.truncate}
 						iconField="icon"
+						nameField={t.stream.truncate}
+						detailsField={t.descriptions.stream.truncate}
 					/>
 					<ExpanderRadio
 						title={t.stream.legato}
@@ -181,15 +207,36 @@ export default function Audio() {
 					<Subheader>{t.stream.tuning}</Subheader>
 					<ExpanderRadio
 						title={t.stream.tuning.tuningMethod}
+						details={t.descriptions.stream.tuning.tuningMethod}
 						icon="tuning"
 						items={tuningMethods}
 						value={tuningMethod}
-						view="list"
+						view="tile"
+						itemsViewItemAttrs={{ topAlignIcon: true }}
 						idField="id"
 						iconField="icon"
-						nameField={t.stream.tuning.tuningMethod}
-						detailsField={t.descriptions.stream.tuning.tuningMethod}
-					/>
+						nameField={({ id }) => id === "unset" ? t.unset : t.stream.tuning.tuningMethod[id]}
+						checkInfoCondition={id => id === "unset" ? t.unset : t.stream.tuning.tuningMethod[id!]}
+						detailsField={({ id }) => {
+							const evaluable = id.in("pitchShift", "elastic", "classic"), isAudioFx = id === "pitchShift";
+							const check = (bool: boolean) => (bool ? "checkmark" : "dismiss") satisfies DeclaredIcons;
+							return (
+								<>
+									<p>{t.descriptions.stream.tuning.tuningMethod[id]}</p>
+									{evaluable && (
+										<TuningMethodEvaluation>
+											<li><Icon name={check(!isAudioFx)} />{t.descriptions.stream.tuning.tuningMethod.evaluates.fast}</li>
+											<li><Icon name={check(!isAudioFx)} />{t.descriptions.stream.tuning.tuningMethod.evaluates.changeRate}</li>
+											<li><Icon name={check(isAudioFx)} />{t.descriptions.stream.tuning.tuningMethod.evaluates.exceedTheRange}</li>
+										</TuningMethodEvaluation>
+									)}
+								</>
+							);
+						}}
+					>
+						<ToggleSwitch on={tuningMethodAcid} lock={tuningMethod[0] !== "noTuning" ? null : false} icon="acid" details={t.descriptions.stream.tuning.tuningMethod.acid}>{t.stream.tuning.tuningMethod.acid}</ToggleSwitch>
+						<ToggleSwitch on={tuningMethodScaleless} lock={tuningMethod[0].in("unset", "elastic", "classic") ? null : false} icon="scaleless" details={t.descriptions.stream.tuning.tuningMethod.scaleless}>{t.stream.tuning.tuningMethod.scaleless}</ToggleSwitch>
+					</ExpanderRadio>
 					<Disabled disabled={tuningMethod[0].in("noTuning", "scaleless")}>
 						<ExpanderRadio
 							title={t.stream.tuning.stretchAttributes}
@@ -202,18 +249,18 @@ export default function Audio() {
 							nameField={t.stream.tuning.stretchAttributes}
 						/>
 						<ExpanderRadio
-							title={t.stream.tuning.alternativeForExceedsTheRange}
-							details={t.descriptions.stream.tuning.alternativeForExceedsTheRange}
+							title={t.stream.tuning.alternativeForExceedTheRange}
+							details={t.descriptions.stream.tuning.alternativeForExceedTheRange}
 							icon="exceeds"
 							items={exceeds}
-							value={alternativeForExceedsTheRange}
+							value={alternativeForExceedTheRange}
 							view="list"
 							idField="id"
 							iconField="icon"
 							nameField={item => getExceedsName(item.id, tuningMethod[0])}
 							detailsField={item => (
 								<TransInterpolation
-									i18nKey={t => t.descriptions.stream.tuning.alternativeForExceedsTheRange[item.id]}
+									i18nKey={t => t.descriptions.stream.tuning.alternativeForExceedTheRange[item.id]}
 									formulaFor39={<MathFormulaFor39 />}
 									formulaFor24={<MathFormulaFor24 />}
 								/>
