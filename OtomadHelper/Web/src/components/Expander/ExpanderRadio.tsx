@@ -101,6 +101,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 					value={[value, setValue]}
 					id={getItemField(item, "id")}
 					key={getItemField(item, "id")}
+					icon={getItemField(item, "icon")}
 					details={getItemField(item, "details")}
 					radioGroup={radioGroup}
 					onClick={onItemClick}

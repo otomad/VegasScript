@@ -13,14 +13,17 @@ export default function TransInterpolation<TInterpolations>({ i18nKey, children:
 	const translatedString = i18nKey(withInterpolations).toString();
 	const lines = translatedString.split("\n");
 	const splitted = lines
-		.map(line => line
+		.map((line, lineIndex) => line
 			.split(new RegExp(`(${tagStart}.*${tagCancel})`, "u"))
-			.map(segment => {
+			.map((segment, segmentIndex) => {
 				if (!segment.startsWith(tagStart)) return segment;
 				const index = decodeKeyFromTag(segment);
 				if (index == null) return "";
 				const key = keys[index];
-				return interpolations[key];
+				let node = interpolations[key];
+				if (React.isValidElement(node) && node.key == null)
+					node = React.cloneElement(node, { key: [lineIndex, segmentIndex, key].join("-") });
+				return node;
 			}),
 		);
 	return splitted;

@@ -147,8 +147,8 @@ importers:
         specifier: latest
         version: 19.5.0
       '@crowdin/crowdin-api-client':
-        specifier: ^1.33.1
-        version: 1.40.0
+        specifier: ^1.41.0
+        version: 1.41.0
       '@styled/typescript-styled-plugin':
         specifier: ^1.0.1
         version: 1.0.1
@@ -587,8 +587,8 @@ packages:
     resolution: {integrity: sha512-DSHae2obMSMkAtTBSOulg5X7/z+rGLxcXQIkg3OmWvY6wifojge5uVMydfhUvs7yQj+V7jNmRZ2Xzl8GJyqRgg==}
     engines: {node: '>=v18'}
 
-  '@crowdin/crowdin-api-client@1.40.0':
-    resolution: {integrity: sha512-UhZlxsiVEwcYCFX/9BgPTQub05vUEHGPQVU33w/hOq+qsss9y9GTJCq6WfUvIEQlvaZWhUO8/Ko2uMomeOwyrQ==}
+  '@crowdin/crowdin-api-client@1.41.0':
+    resolution: {integrity: sha512-Qpdo+mN9r2A23r7RdbzY3W//aN1tOr4boPyS9WaLXs6sHWkYlMsB1US5MY7EwUnJoRvHJjRJ+26fp/R7gQIDEA==}
     engines: {node: '>=12.9.0'}
 
   '@csstools/css-parser-algorithms@3.0.3':
@@ -5351,7 +5351,7 @@ snapshots:
       '@types/conventional-commits-parser': 5.0.0
       chalk: 5.3.0
 
-  '@crowdin/crowdin-api-client@1.40.0':
+  '@crowdin/crowdin-api-client@1.41.0':
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:

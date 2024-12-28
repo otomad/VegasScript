@@ -81,8 +81,8 @@ export default {
 			},
 			blindBox: {
 				_: "素材盲盒",
-				track: "为每个音轨或通道",
-				marker: "每个标记切换一次",
+				track: "为每条音轨或通道",
+				marker: "每处标记切换一次",
 				barOrBeat: {
 					_: "每小节或每拍切换一次",
 					period: "周期",
@@ -114,7 +114,6 @@ export default {
 		new: "新建",
 		etc: "{{examples}} 等",
 		offset: "偏移",
-		curve: "插值曲线",
 		unselected: "未选择",
 		topPriority: "{{item}} 最优先",
 		browse: "浏览",
@@ -158,6 +157,15 @@ export default {
 			delete: {
 				backgroundImage: "你确定要删除该背景图像吗？",
 			},
+		},
+		curve: {
+			_: "插值曲线",
+			linear: "线性",
+			fast: "快速",
+			slow: "慢速",
+			smooth: "光滑",
+			sharp: "急剧",
+			hold: "保留",
 		},
 		fileFormats: {
 			allFiles: "所有文件",
@@ -216,10 +224,14 @@ export default {
 				based: "基于当前速率调整",
 				sync: "同步音画配置",
 			},
-			normalize: "规范化音频",
+			normalize: {
+				_: "规范化音频",
+				once: "一次",
+				always: "每次",
+			},
 			staticVisual: "静态画面",
-			unlengthen: {
-				_: "禁止延长",
+			truncate: {
+				_: "截断",
 				lengthenable: "可延长",
 				freezeEndFrames: "冻结尾帧",
 				trimEndFrames: "截断尾帧",
@@ -273,6 +285,7 @@ export default {
 					elastic: "弹性",
 					classic: "古典",
 					scaleless: "无音阶",
+					acid: "ACID",
 				},
 				stretchAttributes: {
 					_: "拉伸属性",
@@ -302,7 +315,7 @@ export default {
 					engine: "引擎",
 					waveform: {
 						_: "波形",
-						sine: "正弦波",
+						sinusoid: "正弦波",
 						triangle: "三角波",
 						square: "方波",
 						sawtooth: "锯齿波",
@@ -426,10 +439,10 @@ export default {
 			},
 			pitchNotation: {
 				_: "音高记号",
-				type: "音高记号形式",
+				system: "乐谱系统",
 				scientific: "国际谱（科学音高记法）",
 				helmholtz: "女唱谱（亥姆霍兹音高记法）",
-				solfeggio: "唱名",
+				solfege: "唱名",
 				numbered: "简谱",
 				gongche: "工尺谱",
 			},
@@ -707,7 +720,13 @@ export default {
 				ytpEnabled: "YTP功能已启用，但它不依赖于乐曲，因此该处的所有设置均不起任何作用。",
 			},
 			stream: {
-				stretch: "拉伸剪辑而不是改变剪辑的持续时间",
+				stretch: {
+					_: "拉伸剪辑而不是改变剪辑的持续时间",
+					noStretching: "不允许拉伸，仅更改持续时间",
+					flexingAndExtending: "无论音符是否比剪辑更长都会拉伸",
+					extendingOnly: "当音符比剪辑更长时才拉伸，反之则缩短持续时间",
+					flexingOnly: "当音符比剪辑更短时才拉伸，反之则延长持续时间",
+				},
 				loop: {
 					_: "当剪辑延长到源媒体的末尾后，将会重头开始播放",
 					unset: "保持剪辑原始循环设置不变或保持默认值",
@@ -718,11 +737,23 @@ export default {
 					sync: "启用以将{{stream, lowercase}}的播放速率配置更改为此处的配置",
 					outSync: "禁用以解除{{stream, lowercase}}播放速率配置与此处的同步",
 				},
-				normalize: "适用于音频太安静的素材",
+				normalize: {
+					_: "适用于音频太安静的素材",
+					once: "仅在第一次时标准化，后续剪辑均采用第一次标准化后的增益。它更快且可确保所有同一剪辑的增益一致。但如果改变持续时间则有可能导致其它剪辑不适合该增益。（推荐）",
+					always: "每一次都标准化，以确保任何持续时间的剪辑都有更合适的增益。但是它更慢，而且可能会导致所有同一剪辑的增益不一致。",
+				},
 				staticVisual: "在剪辑起始处冻结帧",
-				unlengthen: "尝试在剪辑的出点处冻结，以避免在某些音符过长时，意外播放到超出修剪时间的部分",
+				truncate: {
+					_: "尝试在剪辑的出点处冻结，以避免在某些音符过长时，意外播放到超出修剪时间的部分",
+					lengthenable: "当音符比剪辑更长时，延长持续时间",
+					freezeEndFrames: "当音符比剪辑更长时，从剪辑的出点处开始冻结帧",
+					trimEndFrames: "当音符比剪辑更长时，修剪掉剪辑出点处之后的帧",
+					splitThenFreeze: "当音符比剪辑更长时，从剪辑的出点处分割，然后将后者从入点处冻结",
+					freezeToGray: "当音符比剪辑更长时，从剪辑的出点处分割，然后将后者从入点处冻结，紧接着为后者应用黑白效果",
+					freezeToPreset: "当音符比剪辑更长时，从剪辑的出点处分割，然后将后者从入点处冻结，紧接着为后者应用自定义预设",
+				},
 				legato: "填补音符与音符之间的间隙",
-				unlengthenAndLegatoConflictInAudio: "禁止延长和填补间隙在音频里互相冲突，不能同时开启！",
+				truncateAndLegatoConflictInAudio: "截断和填补间隙在音频里互相冲突，不能同时开启！",
 				multitrackForChords: "为和弦创建多条轨道",
 				createGroups: "将一个音符所表示的视频与音频剪辑创建分组",
 				autoPan: "自动化控制音频的声像包络",
@@ -748,11 +779,19 @@ export default {
 				},
 				tuning: {
 					tuningMethod: {
+						_: "使用另一种不同的调音算法",
 						noTuning: "无变调效果",
-						pitchShift: "使用移调音频效果插件，它生成得很慢，且在改变回放速率时失效，但可以超出音域",
-						elastic: "使用弹性音调更改方法，也就是加减键调音的默认方法，它无法超出音域",
-						classic: "使用古典音调更改方法，它无法超出音域，是VEGAS Pro ≤ 8所使用的唯一方法",
+						pitchShift: "使用移调音频效果插件。它是一款DirectX插件，其算法与古典方法相同，可以支持更广泛的音域。在使用前扩展需要加载一些预设方可使用。",
+						elastic: "使用弹性音调更改方法。Élastique方法使用了来自zplane.development的技术，并提供了增强的实时时间拉伸和音调转换功能。它也就是直接按下加减键调音的默认方法。",
+						classic: "使用古典音调更改方法。它使用了来自Vegas Pro 8及以下版本中旧的技术，并可根据素材提供更多混叠类型供选择。",
 						scaleless: "锁定伸缩与音调，完全通过改变拉伸值来获取相应的音调，而不考虑音符的实际音高，仅供娱乐",
+						unset: "保持剪辑原始调音方法不变或保持默认值，即便它是不调音",
+						acid: "如果你正在使用ACID化的循环音乐片段，则优先选择在ACID Pro中配置的调音方法",
+						evaluates: {
+							fast: "生成很快",
+							changeRate: "改变回放速率时有效",
+							exceedTheRange: "可以超出音域",
+						},
 					},
 					stretchAttributes: "有关所选调音方法的详细配置",
 					alternativeForExceedTheRange: {
@@ -788,14 +827,14 @@ export default {
 				},
 			},
 			track: {
-				_: "布局是YTPMV画面制作过程中的核心要点之一。了解版式，知道如何为YTPMV制作一个良好的画面布局，会让它比你想象的更有趣。\n基本上，确保你的主旋律采样是画面中最突出的部分。",
+				_: "布局是YTPMV画面制作过程中的核心要点之一。了解版式，知道如何为YTPMV制作一版良好的画面布局，会让它比你想象的更有趣。\n基本上，确保你的主旋律采样是画面中最突出的部分。",
 				grid: {
 					square: "根据轨道数目创建标准网格布局，如2×2、3×3等。",
 					custom: "自定义网格布局中的行列数。行数会自动适应列数，反之亦然。",
 					fit: {
 						_: "缩放剪辑以保持宽高比并适应轨道框",
-						cover: "裁切两边以填充整个轨道框，这样就没有间隙，但这会使其两边消失在视线之外\n（在Windows背景设置中也被称为“填充”，在CSS取值中也被称为“覆盖”）",
-						contain: "在两边添加遮幅，以将整个剪辑装进轨道框中，这样就可以看到整个画面，但当纵横比差异过大时，间隙就会变得太显眼\n（在Windows背景设置中也被称为“适应”，在CSS取值中也被称为“包含”）",
+						cover: "裁切两边以填充整樘轨道框，这样就没有间隙，但这会使其两边消失在视线之外\n（在Windows背景设置中也被称为“填充”，在CSS取值中也被称为“覆盖”）",
+						contain: "在两边添加遮幅，以将整段剪辑装进轨道框中，这样就可以看到整幅画面，但当纵横比差异过大时，间隙就会变得太显眼\n（在Windows背景设置中也被称为“适应”，在CSS取值中也被称为“包含”）",
 					},
 					mirrorEdges: {
 						hFlip: "以奇偶性翻转列来镜像轨道",
@@ -804,7 +843,7 @@ export default {
 					padding: "调整轨道框的内边距，使之与其它轨道框不那么紧凑",
 				},
 				box3d: {
-					deleteTracks: "由于技术限制，无法直接移动所选轨道。只能新建轨道并将原剪辑迁移过去，但轨道运动、效果等其它内容暂时无法迁移，你可以自由决定是否删除原先的轨道。\n对于新增轨道则不受影响。",
+					deleteTracks: "由于技术限制，无法直接移动所选轨道。目前只能新建轨道并将原剪辑自动迁移过去，但轨道运动、效果等其它内容暂时无法迁移。你必须稍后自行迁移。你可以自由决定是否删除原先的轨道。对于新增轨道则不受影响。",
 					useLongerSide: "如果素材是矩形，则使用长边而不是短边作为立方体的棱长，可能会使立方体更自然",
 				},
 				gradient: "使视频轨道在布局中具有渐变样式的颜色效果",
@@ -836,7 +875,7 @@ export default {
 				},
 				pitchNotation: {
 					_: "以文本形式可视化当前音符的音调",
-					type: "世界上有各种各样的表达音乐符号的方式，选择你喜欢的方式",
+					system: "从不同的乐谱系统中选择你喜欢的那一套",
 				},
 			},
 			shupelunker: {
@@ -906,7 +945,7 @@ export default {
 				translation: "如果你想要参与翻译，欢迎你的加入。",
 				preference: {
 					autoSwitchSourceFrom: "根据最后所选内容自动更改素材来源",
-					autoCollapsePrveClasses: "展开一个$t(titles.prve)类时自动折叠其它效果类",
+					autoCollapsePrveClasses: "展开一组$t(titles.prve)类时自动折叠其它效果类",
 				},
 			},
 		},

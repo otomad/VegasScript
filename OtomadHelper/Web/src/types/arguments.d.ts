@@ -38,8 +38,8 @@ declare global {
 	/** Three stage switch type. */
 	type TrueFalseAuto = "true" | "false" | "auto";
 
-	/** The type of oscillator to use. Must be one of the following: "sine", "square", "sawtooth", "triangle". */
-	type OscillatorCommonType = Exclude<OscillatorType, "custom">;
+	/** The type of oscillator to use. Must be one of the following: "sinusoid", "square", "sawtooth", "triangle". */
+	type OscillatorCommonType = "sinusoid" | "triangle" | "square" | "sawtooth";
 
 	/** The values that badge can be accepted. */
 	type BadgeValue = string | number | boolean | undefined;

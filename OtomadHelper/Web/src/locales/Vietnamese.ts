@@ -83,6 +83,7 @@ export default {
 		confirm: {
 			delete: {},
 		},
+		curve: {},
 		fileFormats: {
 			allFiles: "Tất cả các file",
 			midi: "File trình tự MIDI",
@@ -99,7 +100,8 @@ export default {
 		stream: {
 			stretch: {},
 			playbackRate: {},
-			unlengthen: {},
+			normalize: {},
+			truncate: {},
 			legato: {},
 			transformMethod: {},
 			playingTechniques: {
@@ -200,8 +202,11 @@ export default {
 			},
 			score: {},
 			stream: {
+				stretch: {},
 				loop: {},
 				playbackRate: {},
+				normalize: {},
+				truncate: {},
 				resampleImitatively: {},
 				playingTechniques: {
 					glissando: {},
@@ -209,7 +214,9 @@ export default {
 					arpeggio: {},
 				},
 				tuning: {
-					tuningMethod: {},
+					tuningMethod: {
+						evaluates: {},
+					},
 					alternativeForExceedTheRange: {},
 					basePitch: {},
 					prelisten: {},

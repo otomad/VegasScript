@@ -20,6 +20,7 @@ const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < 
  * @see https://codepen.io/nanonansen/pen/oRWmaY Reference: Parallax smooth movement.
  */
 export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, speed: number, options: SmoothValueOptions<T> = {}) {
+	if (isPrefersReducedMotion()) return current;
 	if (speed <= 0 || speed > 1)
 		throw new RangeError(`useSmoothValue speed parameter value range error. The parameter value must be within the range of (0 ~ 1], the current value is ${speed}.`);
 	const animationId = useRef<number>(undefined);

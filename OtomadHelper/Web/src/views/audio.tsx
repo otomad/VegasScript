@@ -29,7 +29,7 @@ const getExceedsName = (id: string | undefined, tuningMethod: string) => !id ? "
 ];
 
 export /* @internal */ const beepEngines = ["WebAudio"] as const;
-const beepWaveforms = ["sine", "triangle", "square", "sawtooth"] as const satisfies OscillatorCommonType[];
+const beepWaveforms = ["sinusoid", "triangle", "square", "sawtooth"] as const satisfies OscillatorCommonType[];
 
 /** @deprecated */
 const tracks = [t.source.preferredTrack.newTrack, "1: Lead"];
@@ -125,11 +125,25 @@ export default function Audio() {
 				</SettingsCard>
 				<SettingsCardToggleSwitch title={t.stream.createGroups} details={t.descriptions.stream.createGroups} icon="group" on={createGroups} />
 				<ExpanderStreamPlaybackRate stream="audio" />
-				<SettingsCard title={t.stream.normalize} details={t.descriptions.stream.normalize} icon="normalize" selectInfo={normalize[0] !== "false" && t.descriptions.stream.normalize[normalize[0]]}>
+				{/* When using segmented control, excessive explanation of its functions may occupy a large amount of interface space and potentially affect the user experience. */}
+				{/* <SettingsCard title={t.stream.normalize} details={t.descriptions.stream.normalize} icon="normalize" selectInfo={normalize[0] !== "false" && t.descriptions.stream.normalize[normalize[0]]}>
 					<Segmented current={normalize}>
 						{normalizeTimes.map(({ id, icon }) => <Segmented.Item id={id} key={id} icon={icon}>{id === "false" ? t.off : t.stream.normalize[id]}</Segmented.Item>)}
 					</Segmented>
-				</SettingsCard>
+				</SettingsCard> */}
+				<ExpanderRadio
+					title={t.stream.normalize}
+					details={t.descriptions.stream.normalize}
+					icon="normalize"
+					items={normalizeTimes}
+					value={normalize}
+					view="list"
+					idField="id"
+					iconField="icon"
+					nameField={({ id }) => id === "false" ? t.off : t.stream.normalize[id]}
+					checkInfoCondition={id => id === "false" ? t.off : t.stream.normalize[id!]}
+					detailsField={({ id }) => id === "false" ? undefined : t.descriptions.stream.normalize[id]}
+				/>
 				<SettingsCard
 					title={t.stream.loop}
 					details={t.descriptions.stream.loop}
@@ -301,10 +315,15 @@ export default function Audio() {
 							)}
 						>
 							<Expander.Item icon="table_column_top_bottom" title={t.stream.tuning.prelisten.engine}>
-								<ComboBox options={beepEngines} ids={beepEngines} current={engine} />
+								<ComboBox current={engine} ids={beepEngines} options={beepEngines} />
 							</Expander.Item>
 							<Expander.Item icon="sound_wave" title={t.stream.tuning.prelisten.waveform}>
-								<ComboBox ids={beepWaveforms} options={beepWaveforms.map(waveform => t.stream.tuning.prelisten.waveform[waveform])} current={waveform} />
+								<ComboBox
+									current={waveform}
+									ids={beepWaveforms}
+									options={beepWaveforms.map(waveform => t.stream.tuning.prelisten.waveform[waveform])}
+									icons={beepWaveforms.map(waveform => `waveforms/${waveform}` as const)}
+								/>
 							</Expander.Item>
 							<Expander.Item icon="timer" title={t.stream.tuning.prelisten.duration}>
 								<TextBox.Number value={beepDuration} min={0} decimalPlaces={0} spinnerStep={100} suffix={t.units.millisecond} />

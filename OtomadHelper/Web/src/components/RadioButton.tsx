@@ -109,7 +109,7 @@ const StyledRadioButtonLabel = styled.label<{
 	${styles.mixins.forwardFocusRing()};
 `);
 
-export default function RadioButton<T>({ children, id, value: [value, setValue], disabled, onChange, details, radioGroup, plain, ...htmlAttrs }: FCP<{
+export default function RadioButton<T>({ children, id, value: [value, setValue], disabled, onChange, details, radioGroup, plain, icon, ...htmlAttrs }: FCP<{
 	/** Identifier. */
 	id: T;
 	/** The selected value in the current radio button group. */
@@ -124,6 +124,8 @@ export default function RadioButton<T>({ children, id, value: [value, setValue],
 	radioGroup?: string;
 	/** Include just the radio button itself, not the text label? */
 	plain?: boolean;
+	/** Icon. */
+	icon?: DeclaredIcons;
 }, "label">) {
 	const labelEl = useDomRef<"label">();
 	const checked = value === id;
@@ -152,6 +154,7 @@ export default function RadioButton<T>({ children, id, value: [value, setValue],
 			<div className="base">
 				<div className="bullet" />
 			</div>
+			{icon && <Icon name={icon} />}
 			<div className="text" aria-hidden>
 				<p className="title" id={`${ariaId}-title`}>{children}</p>
 				<p className="details" id={`${ariaId}-details`}>{details}</p>

@@ -227,6 +227,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	 * Useful when you need to disable user input without affecting configuration saving.
 	 */
 	lock?: boolean | null;
+	/** Icon. */
 	icon?: DeclaredIcons;
 }, "button">) {
 	const on = typeof lock === "boolean" ? lock : _on!;

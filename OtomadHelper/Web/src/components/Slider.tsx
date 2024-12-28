@@ -167,7 +167,6 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	const restrict = (n: number | undefined, nanValue: number) => Number.isFinite(n) ? clamp(map(n!, min, max, 0, 1), 0, 1) : nanValue;
 	const sharpValue = useMemo(() => restrict(value, 0), [value, min, max]);
 	const smoothValue = staticInterval === 0 ? sharpValue : useSmoothValue(sharpValue, 0.5, { staticInterval });
-	console.log("smoothValue", smoothValue);
 	// Modify this parameter to adjust the smooth movement value of the slider.
 	const [pressed, setPressed] = useState(false);
 

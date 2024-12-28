@@ -134,6 +134,8 @@ interface SharedProps {
 	plain?: boolean;
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
+	/** Icon. */
+	icon?: DeclaredIcons;
 }
 
 export default function Checkbox<T>(props: FCP<{
@@ -156,7 +158,7 @@ export default function Checkbox(props: FCP<{
 	/** State change event. */
 	onChange?(e: { checkState: CheckState; checked: boolean | null }): void;
 } & SharedProps, "label">): JSX.Element;
-export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, ref, ...htmlAttrs }: FCP<{
+export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, icon, ref, ...htmlAttrs }: FCP<{
 	id?: T;
 	value: StateProperty<T[]> | StateProperty<boolean> | StateProperty<CheckState>;
 	onChange?: Function;
@@ -236,6 +238,7 @@ export default function Checkbox<T>({ children, id, value: [value, setValue], di
 			</div>
 			{!plain && (
 				<>
+					{icon && <Icon name={icon} />}
 					<div className="text" aria-hidden>
 						<p className="title" id={`${ariaId}-title`}>{children}</p>
 						<p className="details" id={`${ariaId}-details`}>{details}</p>
