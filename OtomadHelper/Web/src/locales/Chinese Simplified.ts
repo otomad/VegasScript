@@ -188,7 +188,7 @@ export default {
 				constantScore: "恒定乐曲速度",
 				project: "项目速度",
 			},
-			timeSignature: "节拍",
+			timeSignature: "拍号",
 			constrain: {
 				_: "限制音符长度",
 				none: "不限制",
