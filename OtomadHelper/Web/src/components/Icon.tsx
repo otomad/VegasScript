@@ -22,8 +22,8 @@ const StyledIcon = styled.i<{
 	}
 `;
 
-export const getIconSymbolId = (name: string) => "#icon-" + name.replaceAll("/", "-");
-export const getIconAriaLabel = (name: string) => "Icon - " + name.replace(/^off_slash_correction\//, "").replaceAll("_", " ").replaceAll("/", ": ");
+export const getIconSymbolId = (name: string) => `#icon-${name.replaceAll("/", "-")}` as const;
+export const getIconAriaLabel = (name: string) => `Icon - ${name.replace(/^off_slash_correction\//, "").replaceAll("_", " ").replaceAll("/", ": ")}` as const;
 
 export default function Icon(props: FCP<{
 	/** Icon file name. */
@@ -73,3 +73,36 @@ export default function Icon({ name, filled, shadow, className, ref, ...htmlAttr
 		</StyledIcon>
 	);
 }
+
+const xmlSerializer = new XMLSerializer();
+
+/**
+ * Get raw SVG of the icon.
+ * @remarks Only available after the React app loaded.
+ * @param name - Icon file name.
+ */
+function getRawSvg(name: DeclaredIcons) {
+	// Old method, it will accidentally build a large number of svg module chunks.
+	// const iconsImport = import.meta.glob<string>("/src/assets/icons/**/*.svg", { import: "default", query: "?raw" });
+	// return iconsImport[`/src/assets/icons/${name}.svg`]?.();
+
+	const symbolId = getIconSymbolId(name);
+	const symbol = document.querySelector<SVGSymbolElement>(symbolId);
+	if (!symbol) return null;
+	const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+	const svg = document.createElementNS(SVG_NAMESPACE, "svg");
+	for (const attribute of symbol.attributes) {
+		if (attribute.name === "id") continue;
+		if (attribute.name === "viewBox") {
+			const viewBox = symbol.viewBox.baseVal;
+			svg.setAttribute("width", String(viewBox.width));
+			svg.setAttribute("height", String(viewBox.height));
+		}
+		svg.setAttributeNode(attribute.cloneNode(true) as Attr);
+	}
+	for (const child of symbol.childNodes)
+		svg.appendChild(child.cloneNode(true));
+	return xmlSerializer.serializeToString(svg);
+}
+
+Icon.getRawSvg = getRawSvg;

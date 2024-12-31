@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// noinspection ES6PreferShortImport
 
 import react from "@vitejs/plugin-react";
 import { transform as transformCSS } from "lightningcss";

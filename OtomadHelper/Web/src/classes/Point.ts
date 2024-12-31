@@ -1,3 +1,5 @@
+import { type } from "utils/object";
+
 type PointLike = { x: number; y: number };
 const isReadonlyArray = (arg: Any): arg is readonly Any[] => Array.isArray(arg);
 

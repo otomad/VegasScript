@@ -54,9 +54,9 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 	const currentOption = options[ids.indexOf(current!)] ?? `<${current}>`;
 	const currentIcon = icons?.[ids.indexOf(current!)];
 
-	useAsyncEffect(async () => {
+	useEffect(() => {
 		if (!hasIcons) setIconSvgs(undefined);
-		else setIconSvgs(await Array.fromAsync(icons, rawIcon));
+		else setIconSvgs(icons.map(icon => Icon.getRawSvg(icon) ?? ""));
 	}, [icons]);
 
 	const showComboBox: MouseEventHandler<HTMLButtonElement> = async e => {
@@ -101,6 +101,3 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 function toStringArray(array: readonly Object[]) {
 	return array.map(item => item.toString());
 }
-
-const iconsImport = import.meta.glob<string>("/src/assets/icons/**/*.svg", { import: "default", query: "?raw" });
-function rawIcon(name: string) { return iconsImport[`/src/assets/icons/${name}.svg`]?.(); }

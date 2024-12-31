@@ -101,7 +101,7 @@ export const configStore = createStore({
 		basePitchBased: true,
 		prelistenAttributes: {
 			engine: "WebAudio" as BeepEngine,
-			waveform: "sine" as OscillatorCommonType,
+			waveform: "sinusoid" as OscillatorCommonType,
 			duration: 500,
 			volume: 1,
 			adjustAudioToBasePitch: false,
