@@ -77,8 +77,8 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 		ToTriplet(Color, model);
 
 	[RelayCommand]
-	private void CheckModelAxis(string name) =>
-		ModelAxis = ColorPickerModelAxis.FromName(name);
+	private void CheckModelAxis(ColorPickerModelAxis? value) =>
+		ModelAxis = value ?? ModelAxis;
 
 	[RelayCommand]
 	private void GetColorFromScreen(Color color) =>
@@ -93,26 +93,28 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 
 	private bool isTextChanging = false;
 	[RelayCommand]
-	private void TextChanged((string Text, string Name) e) {
+	private void TextChanged((string Text, ColorPickerModelAxis ModelAxis)? e) {
 		lock (this) {
-			if (isTextChanging) return;
+			if (isTextChanging || !e.HasValue) return;
+			(string Text, ColorPickerModelAxis ModelAxis) = e.Value;
 			isTextChanging = true;
-			if (e.Name is "A255" or "A100" or "HEX") {
-				if (e.Name == "HEX") {
-					Unicolour? color = FromHex(e.Text);
+			if (ModelAxis.IsSpecial) {
+				string special = ModelAxis.Special;
+				if (special == "HEX") {
+					Unicolour? color = FromHex(Text);
 					if (color is not null) {
 						Color = color;
-						Hex = e.Text;
+						Hex = Text;
 					}
-				} else if (double.TryParse(e.Text, out double alpha)) {
-					alpha = alpha / (e.Name == "A255" ? 255 : 100);
-					ColourSpace model = ModelAxis.Model;
+				} else if (double.TryParse(Text, out double alpha)) {
+					alpha = alpha / (special == "A255" ? 255 : 100);
+					ColourSpace model = this.ModelAxis.Model;
 					Color = new(model, ToTriplet(model), alpha);
 				}
 			} else {
 				double alpha = Color.Alpha.A;
-				(ColourSpace model, int axis) = ColorPickerModelAxis.FromName(e.Name);
-				if (double.TryParse(e.Text, out double value)) {
+				(ColourSpace model, int axis) = ModelAxis;
+				if (double.TryParse(Text, out double value)) {
 					double[] triplet = ToTriplet(model).ToArray<double>();
 					Range inputRange = GetInputRange(model).Get<Range>(axis), outputRange = GetOutputRange(model).Get<Range>(axis);
 					triplet[axis] = MathEx.Map(value, inputRange.Min, inputRange.Max, outputRange.Min, outputRange.Max);
@@ -127,16 +129,17 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 		if (View is null) return;
 		ThreeDRange range = GetInputRange(ModelAxis.Model);
 
-		TextBox? GetTextBox(int xyzIndex) => View?.FindForm<TextBox>(new ColorPickerModelAxis(ModelAxis.Model, GetPointXyz(xyzIndex)).ToString());
+		TextBox? GetTextBox(int xyzIndex) => View?.FindForm<TextBox>(new ColorPickerModelAxis(ModelAxis.Model, GetPointXyz(xyzIndex)));
 
 		View.PointXy.XRange = range.Get<Range>(GetPointXyz(0));
 		View.PointXy.YRange = range.Get<Range>(GetPointXyz(1));
 		View.PointZ.YRange = range.Get<Range>(GetPointXyz(2));
 		View.PointA.YRange = (0, 255);
-		BindingOperations.SetBinding(View.PointXy, ColorTrackThumb.XProperty, new Binding("Text") { Source = GetTextBox(0), Mode = BindingMode.OneWay });
-		BindingOperations.SetBinding(View.PointXy, ColorTrackThumb.YProperty, new Binding("Text") { Source = GetTextBox(1), Mode = BindingMode.OneWay });
-		BindingOperations.SetBinding(View.PointZ, ColorTrackThumb.YProperty, new Binding("Text") { Source = GetTextBox(2), Mode = BindingMode.OneWay });
-		BindingOperations.SetBinding(View.PointA, ColorTrackThumb.YProperty, new Binding("Text") { Source = View?.FindForm<TextBox>("A255"), Mode = BindingMode.OneWay });
+		const string BINDING_PATH = "(m:TextBoxLastNonEmptyValueBehavior.LastNonEmptyValue)";
+		BindingOperations.SetBinding(View.PointXy, ColorTrackThumb.XProperty, new Binding(BINDING_PATH) { Source = GetTextBox(0), Mode = BindingMode.OneWay });
+		BindingOperations.SetBinding(View.PointXy, ColorTrackThumb.YProperty, new Binding(BINDING_PATH) { Source = GetTextBox(1), Mode = BindingMode.OneWay });
+		BindingOperations.SetBinding(View.PointZ, ColorTrackThumb.YProperty, new Binding(BINDING_PATH) { Source = GetTextBox(2), Mode = BindingMode.OneWay });
+		BindingOperations.SetBinding(View.PointA, ColorTrackThumb.YProperty, new Binding(BINDING_PATH) { Source = View?.FindForm<TextBox>(ColorPickerModelAxis.FromSpecial("A255")), Mode = BindingMode.OneWay });
 		// BindingMode.TwoWay will break binding, so we use TextBox.SetCurrentValue instead.
 	}
 
@@ -304,52 +307,5 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 
 		if (hex.Length is 3 or 4) hex = RepeatTwice(hex);
 		return new(hex);
-	}
-}
-
-public struct ColorPickerModelAxis(ColourSpace model, int axis) {
-	public ColourSpace Model { get; set; } = model;
-	public int Axis { get; set; } = axis;
-
-	public static bool operator ==(ColorPickerModelAxis item1, ColorPickerModelAxis item2) =>
-		item1.Model == item2.Model && item1.Axis == item2.Axis;
-	public static bool operator !=(ColorPickerModelAxis item1, ColorPickerModelAxis item2) => !(item1 == item2);
-	public override bool Equals(object obj) => obj is ColorPickerModelAxis item && this == item;
-	public override int GetHashCode() => Model.GetHashCode() ^ Axis.GetHashCode();
-
-	internal static readonly Dictionary<string, ColourSpace> NameModelMap = new() {
-		["RGB"] = ColourSpace.Rgb255,
-		["HSL"] = ColourSpace.Hsl,
-		["HSB"] = ColourSpace.Hsb,
-		["HWB"] = ColourSpace.Hwb,
-		//["LAB"] = ColourSpace.Lab,
-		//["LCH"] = ColourSpace.Lchab,
-		["OKLAB"] = ColourSpace.Oklab,
-		["OKLCH"] = ColourSpace.Oklch,
-	};
-
-	public static ColorPickerModelAxis FromName(string name) {
-		string[] splitted = name.Split('_', '.');
-		return new(
-			NameModelMap[splitted[0].ToUpperInvariant()],
-			int.Parse(splitted[1])
-		);
-	}
-
-	public override string ToString() => $"{NameModelMap.GetKeyByValue(Model)}.{Axis}";
-
-	internal void Deconstruct(out ColourSpace model, out int axis) {
-		model = Model;
-		axis = Axis;
-	}
-
-	public bool IsValid {
-		get {
-			try {
-				return NameModelMap.Values.Contains(Model) && Axis >= 0 && Axis < 3;
-			} catch (Exception) {
-				return false;
-			}
-		}
 	}
 }

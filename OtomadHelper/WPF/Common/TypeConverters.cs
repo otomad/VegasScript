@@ -3,12 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace OtomadHelper.WPF.Common;
 
-public class CollectionConverter<T> : TypeConverter where T : IEnumerable {
-	public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) =>
-		sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-	public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) =>
-		destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
-
+public class CollectionConverter<T> : TypeConverter<T> where T : IEnumerable {
 	private static readonly Regex removeParenthesisRegex = new(@"^(\((?<content>.*)\)|\[(?<content>.*)\]|\{(?<content>.*)\})$");
 	public static string RemoveParenthesis(ref string source) {
 		source = source.Trim();
@@ -17,9 +12,7 @@ public class CollectionConverter<T> : TypeConverter where T : IEnumerable {
 		return source;
 	}
 
-	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) {
-		if (value is null) throw GetConvertFromException(value);
-		if (value is not string source) return base.ConvertFrom(context, culture, value);
+	public override T ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, string source) {
 		RemoveParenthesis(ref source);
 		if (!typeof(T).TryGetIEnumerableType(out Type enumerable, out Type itemType)) goto UnknownType;
 		string[] items = source.Split(',', ';');
@@ -40,27 +33,18 @@ public class CollectionConverter<T> : TypeConverter where T : IEnumerable {
 		throw new ArgumentException($"The argument type `{typeof(T)}` is not supported");
 	}
 
-	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) =>
-		destinationType == typeof(string) ? value.ToString() : base.ConvertTo(context, culture, value, destinationType);
+	public override string ConvertTo(ITypeDescriptorContext context, CultureInfo culture, T value) => value.ToString();
 }
 
-public class TupleConverter<T> : TypeConverter where T : ITuple {
-	public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) =>
-		sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-	public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) =>
-		destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
-
-	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) {
-		if (value is null) throw GetConvertFromException(value);
-		if (value is not string source) return base.ConvertFrom(context, culture, value);
+public class TupleConverter<T> : TypeConverter<T> where T : ITuple {
+	public override T ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, string source) {
 		CollectionConverter<IEnumerable>.RemoveParenthesis(ref source);
 		if (!typeof(T).Extends(typeof(ITuple)) || !typeof(T).IsGenericType) goto UnknownType;
 		IEnumerable<object> items = source.Split(',', ';').Select((item, index) => Convert.ChangeType(item, typeof(T).GenericTypeArguments[index]));
-		return items.ToTuple(typeof(T));
+		return items.ToTuple<T>();
 	UnknownType:
 		throw new ArgumentException($"The argument type `{typeof(T)}` is not supported");
 	}
 
-	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) =>
-		destinationType == typeof(string) ? value.ToString() : base.ConvertTo(context, culture, value, destinationType);
+	public override string ConvertTo(ITypeDescriptorContext context, CultureInfo culture, T value) => value.ToString();
 }

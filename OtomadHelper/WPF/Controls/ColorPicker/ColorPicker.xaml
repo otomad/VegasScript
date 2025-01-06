@@ -29,20 +29,20 @@
 
 			<c:ColorPickerModelAxisToCheckedConverter x:Key="ModelAxisToChecked" />
 			<c:ColorPickerValuesToTextConverter x:Key="ValuesToText" />
-			<c:ColorPickerTextChangedEventArgsToTextAndNameConverter x:Key="TextChangedToTextName" />
+			<c:ColorPickerTextChangedEventArgsToTextAndModelAxisConverter x:Key="TextChangedToTextModelAxis" />
 			<c:UnicolourToMediaColorConverter x:Key="UniToMediaColor" />
-			<c:TextBoxNameToRangeConverter x:Key="NameToRange" />
+			<c:TextBoxModelAxisToRangeConverter x:Key="ModelAxisToRange" />
 			<c:Alpha255ToAlpha100Converter x:Key="A255ToA100" />
-			<c:ColorPickerIsNotSpecialColorTextBoxConverter x:Key="NotSpecialColor" />
 			<c:ColorAxisKeyToTranslationConverter x:Key="AxisKeyToTrans" />
+			<m:BooleanNotConverter x:Key="BoolNot" />
 
 			<Style BasedOn="{StaticResource DefaultRadioButtonStyle}" TargetType="RadioButton">
 				<Setter Property="FontFamily" Value="{Binding MonoFont, RelativeSource={RelativeSource AncestorType=c:BackdropWindow}}" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="HorizontalAlignment" Value="Left" />
-				<Setter Property="IsChecked" Value="{m:Binding ModelAxis, Converter={StaticResource ModelAxisToChecked}, ConverterParameter={Binding Tag, RelativeSource= {RelativeSource Self}}, Mode=OneWay}" />
+				<Setter Property="IsChecked" Value="{m:Binding ModelAxis, Converter={StaticResource ModelAxisToChecked}, ConverterParameter={Binding (c:ColorPicker.ModelAxis), RelativeSource={RelativeSource Self}}, Mode=OneWay}" />
 				<Setter Property="Command" Value="{Binding CheckModelAxisCommand}" />
-				<Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+				<Setter Property="CommandParameter" Value="{Binding (c:ColorPicker.ModelAxis), RelativeSource={RelativeSource Self}}" />
 			</Style>
 
 			<Style TargetType="Label">
@@ -73,7 +73,7 @@
 				<Setter Property="Margin" Value="5,2" />
 				<Setter Property="TextAlignment" Value="Right" />
 				<Setter Property="m:NumberTextBoxBehavior.NumberInputMode" Value="Integer" />
-				<Setter Property="m:NumberTextBoxBehavior.Range" Value="{Binding Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource NameToRange}, Mode=OneTime}" />
+				<Setter Property="m:NumberTextBoxBehavior.Range" Value="{Binding (c:ColorPicker.ModelAxis), RelativeSource={RelativeSource Self}, Converter={StaticResource ModelAxisToRange}, Mode=OneTime}" />
 				<Setter Property="m:InteractivityItems.Template">
 					<Setter.Value>
 						<m:InteractivityTemplate>
@@ -81,10 +81,11 @@
 								<m:InteractivityItems.Behaviors>
 									<m:NumberTextBoxBehavior />
 									<m:NumberTextBoxUpDownKeyBehavior />
+									<m:TextBoxLastNonEmptyValueBehavior />
 								</m:InteractivityItems.Behaviors>
 								<m:InteractivityItems.Triggers>
 									<i:EventTrigger EventName="TextChanged">
-										<i:InvokeCommandAction Command="{Binding TextChangedCommand}" EventArgsConverter="{StaticResource TextChangedToTextName}" />
+										<i:InvokeCommandAction Command="{Binding TextChangedCommand}" EventArgsConverter="{StaticResource TextChangedToTextModelAxis}" />
 									</i:EventTrigger>
 								</m:InteractivityItems.Triggers>
 							</m:InteractivityItems>
@@ -92,8 +93,8 @@
 					</Setter.Value>
 				</Setter>
 				<Style.Triggers>
-					<DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource NotSpecialColor}}" Value="True">
-						<Setter Property="Text" Value="{m:Binding Values, Converter={StaticResource ValuesToText}, ConverterParameter={Binding Tag, RelativeSource={RelativeSource Self}}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" />
+					<DataTrigger Binding="{Binding (c:ColorPicker.ModelAxis).IsSpecial, RelativeSource={RelativeSource Self}}" Value="False">
+						<Setter Property="Text" Value="{m:Binding Values, Converter={StaticResource ValuesToText}, ConverterParameter={Binding (c:ColorPicker.ModelAxis), RelativeSource={RelativeSource Self}}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" />
 					</DataTrigger>
 				</Style.Triggers>
 			</Style>
@@ -180,50 +181,50 @@
 		</Grid>
 
 		<Grid x:Name="Form" Grid.Column="6" m:GridDef.Column="Auto,65,Auto,10,Auto,65,Auto,10,Auto,65,Auto" m:GridDef.Row="*,*,*,8,*,*,*,8,*,*">
-			<RadioButton Tag="HSL.0" Grid.Column="0" Grid.Row="0"><Label Tag="Hue" /></RadioButton>
-			<RadioButton Tag="HSL.1" Grid.Column="0" Grid.Row="1"><Label Tag="Saturation" /></RadioButton>
-			<RadioButton Tag="HSL.2" Grid.Column="0" Grid.Row="2"><Label Tag="Lightness" /></RadioButton>
-			<RadioButton Tag="RGB.0" Grid.Column="0" Grid.Row="4"><Label Tag="Red" /></RadioButton>
-			<RadioButton Tag="RGB.1" Grid.Column="0" Grid.Row="5"><Label Tag="Green" /></RadioButton>
-			<RadioButton Tag="RGB.2" Grid.Column="0" Grid.Row="6"><Label Tag="Blue" /></RadioButton>
-			<RadioButton Tag="HSB.0" Grid.Column="4" Grid.Row="0"><Label Tag="Hue" /></RadioButton>
-			<RadioButton Tag="HSB.1" Grid.Column="4" Grid.Row="1"><Label Tag="Saturation" /></RadioButton>
-			<RadioButton Tag="HSB.2" Grid.Column="4" Grid.Row="2"><Label Tag="Brightness" /></RadioButton>
-			<RadioButton Tag="HWB.0" Grid.Column="4" Grid.Row="4"><Label Tag="Hue" /></RadioButton>
-			<RadioButton Tag="HWB.1" Grid.Column="4" Grid.Row="5"><Label Tag="White" /></RadioButton>
-			<RadioButton Tag="HWB.2" Grid.Column="4" Grid.Row="6"><Label Tag="Black" /></RadioButton>
-			<RadioButton Tag="OKLAB.0" Grid.Column="8" Grid.Row="0"><Label Tag="Luminance" /></RadioButton>
-			<RadioButton Tag="OKLAB.1" Grid.Column="8" Grid.Row="1"><Label Tag="AAxisInLab" /></RadioButton>
-			<RadioButton Tag="OKLAB.2" Grid.Column="8" Grid.Row="2"><Label Tag="BAxisInLab" /></RadioButton>
-			<RadioButton Tag="OKLCH.0" Grid.Column="8" Grid.Row="4"><Label Tag="Luminance" /></RadioButton>
-			<RadioButton Tag="OKLCH.1" Grid.Column="8" Grid.Row="5"><Label Tag="Chroma" /></RadioButton>
-			<RadioButton Tag="OKLCH.2" Grid.Column="8" Grid.Row="6"><Label Tag="Hue" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HSL.0" Grid.Column="0" Grid.Row="0"><Label Tag="Hue" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HSL.1" Grid.Column="0" Grid.Row="1"><Label Tag="Saturation" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HSL.2" Grid.Column="0" Grid.Row="2"><Label Tag="Lightness" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="RGB.0" Grid.Column="0" Grid.Row="4"><Label Tag="Red" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="RGB.1" Grid.Column="0" Grid.Row="5"><Label Tag="Green" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="RGB.2" Grid.Column="0" Grid.Row="6"><Label Tag="Blue" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HSB.0" Grid.Column="4" Grid.Row="0"><Label Tag="Hue" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HSB.1" Grid.Column="4" Grid.Row="1"><Label Tag="Saturation" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HSB.2" Grid.Column="4" Grid.Row="2"><Label Tag="Brightness" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HWB.0" Grid.Column="4" Grid.Row="4"><Label Tag="Hue" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HWB.1" Grid.Column="4" Grid.Row="5"><Label Tag="White" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="HWB.2" Grid.Column="4" Grid.Row="6"><Label Tag="Black" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="OKLAB.0" Grid.Column="8" Grid.Row="0"><Label Tag="Luminance" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="OKLAB.1" Grid.Column="8" Grid.Row="1"><Label Tag="AAxisInLab" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="OKLAB.2" Grid.Column="8" Grid.Row="2"><Label Tag="BAxisInLab" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="OKLCH.0" Grid.Column="8" Grid.Row="4"><Label Tag="Luminance" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="OKLCH.1" Grid.Column="8" Grid.Row="5"><Label Tag="Chroma" /></RadioButton>
+			<RadioButton c:ColorPicker.ModelAxis="OKLCH.2" Grid.Column="8" Grid.Row="6"><Label Tag="Hue" /></RadioButton>
 			<TextBlock Grid.Column="0" Grid.Row="8" Style="{StaticResource RadioLessLabel}"><Label Tag="Alpha" /></TextBlock>
 			<TextBlock Grid.Column="0" Grid.Row="9" Style="{StaticResource RadioLessLabel}"><Label Tag="Alpha" /></TextBlock>
 			<TextBlock Grid.Column="4" Grid.Row="8" Style="{StaticResource RadioLessLabel}" ToolTip="{m:Trans ColorPicker.Axis.Hex}">#</TextBlock>
 
-			<TextBox Tag="HSL.0" Grid.Column="1" Grid.Row="0" />
-			<TextBox Tag="HSL.1" Grid.Column="1" Grid.Row="1" />
-			<TextBox Tag="HSL.2" Grid.Column="1" Grid.Row="2" />
-			<TextBox Tag="RGB.0" Grid.Column="1" Grid.Row="4" />
-			<TextBox Tag="RGB.1" Grid.Column="1" Grid.Row="5" />
-			<TextBox Tag="RGB.2" Grid.Column="1" Grid.Row="6" />
-			<TextBox Tag="HSB.0" Grid.Column="5" Grid.Row="0" />
-			<TextBox Tag="HSB.1" Grid.Column="5" Grid.Row="1" />
-			<TextBox Tag="HSB.2" Grid.Column="5" Grid.Row="2" />
-			<TextBox Tag="HWB.0" Grid.Column="5" Grid.Row="4" />
-			<TextBox Tag="HWB.1" Grid.Column="5" Grid.Row="5" />
-			<TextBox Tag="HWB.2" Grid.Column="5" Grid.Row="6" />
-			<TextBox Tag="OKLAB.0" Grid.Column="9" Grid.Row="0" />
-			<TextBox Tag="OKLAB.1" Grid.Column="9" Grid.Row="1" m:NumberTextBoxBehavior.NumberInputMode="SignedInteger" />
-			<TextBox Tag="OKLAB.2" Grid.Column="9" Grid.Row="2" m:NumberTextBoxBehavior.NumberInputMode="SignedInteger" />
-			<TextBox Tag="OKLCH.0" Grid.Column="9" Grid.Row="4" />
-			<TextBox Tag="OKLCH.1" Grid.Column="9" Grid.Row="5" />
-			<TextBox Tag="OKLCH.2" Grid.Column="9" Grid.Row="6" />
-			<TextBox Tag="A255" Grid.Column="1" Grid.Row="8" m:NumberTextBoxBehavior.Range="0,255" Text="{Binding Alpha, Mode=OneWay}" />
-			<TextBox Tag="A100" Grid.Column="1" Grid.Row="9" m:NumberTextBoxBehavior.Range="0,100" Text="{Binding Alpha, Mode=OneWay, Converter={StaticResource A255ToA100}}" />
+			<TextBox c:ColorPicker.ModelAxis="HSL.0" Grid.Column="1" Grid.Row="0" />
+			<TextBox c:ColorPicker.ModelAxis="HSL.1" Grid.Column="1" Grid.Row="1" />
+			<TextBox c:ColorPicker.ModelAxis="HSL.2" Grid.Column="1" Grid.Row="2" />
+			<TextBox c:ColorPicker.ModelAxis="RGB.0" Grid.Column="1" Grid.Row="4" />
+			<TextBox c:ColorPicker.ModelAxis="RGB.1" Grid.Column="1" Grid.Row="5" />
+			<TextBox c:ColorPicker.ModelAxis="RGB.2" Grid.Column="1" Grid.Row="6" />
+			<TextBox c:ColorPicker.ModelAxis="HSB.0" Grid.Column="5" Grid.Row="0" />
+			<TextBox c:ColorPicker.ModelAxis="HSB.1" Grid.Column="5" Grid.Row="1" />
+			<TextBox c:ColorPicker.ModelAxis="HSB.2" Grid.Column="5" Grid.Row="2" />
+			<TextBox c:ColorPicker.ModelAxis="HWB.0" Grid.Column="5" Grid.Row="4" />
+			<TextBox c:ColorPicker.ModelAxis="HWB.1" Grid.Column="5" Grid.Row="5" />
+			<TextBox c:ColorPicker.ModelAxis="HWB.2" Grid.Column="5" Grid.Row="6" />
+			<TextBox c:ColorPicker.ModelAxis="OKLAB.0" Grid.Column="9" Grid.Row="0" />
+			<TextBox c:ColorPicker.ModelAxis="OKLAB.1" Grid.Column="9" Grid.Row="1" m:NumberTextBoxBehavior.NumberInputMode="SignedInteger" />
+			<TextBox c:ColorPicker.ModelAxis="OKLAB.2" Grid.Column="9" Grid.Row="2" m:NumberTextBoxBehavior.NumberInputMode="SignedInteger" />
+			<TextBox c:ColorPicker.ModelAxis="OKLCH.0" Grid.Column="9" Grid.Row="4" />
+			<TextBox c:ColorPicker.ModelAxis="OKLCH.1" Grid.Column="9" Grid.Row="5" />
+			<TextBox c:ColorPicker.ModelAxis="OKLCH.2" Grid.Column="9" Grid.Row="6" />
+			<TextBox c:ColorPicker.ModelAxis="A255" Grid.Column="1" Grid.Row="8" m:NumberTextBoxBehavior.Range="0,255" Text="{Binding Alpha, Mode=OneWay}" />
+			<TextBox c:ColorPicker.ModelAxis="A100" Grid.Column="1" Grid.Row="9" m:NumberTextBoxBehavior.Range="0,100" Text="{Binding Alpha, Mode=OneWay, Converter={StaticResource A255ToA100}}" />
 			<TextBox
-				Tag="HEX"
+				c:ColorPicker.ModelAxis="HEX"
 				Grid.Column="5"
 				Grid.Row="8"
 				Grid.ColumnSpan="5"

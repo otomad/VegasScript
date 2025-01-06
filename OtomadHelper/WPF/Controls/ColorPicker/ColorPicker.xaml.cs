@@ -9,6 +9,7 @@ namespace OtomadHelper.WPF.Controls;
 /// <summary>
 /// ColorPicker.xaml 的交互逻辑
 /// </summary>
+[AttachedDependencyProperty<ColorPickerModelAxis>("ModelAxis", DefaultValueExpression = "null")]
 public partial class ColorPicker : UserControl {
 	static ColorPicker() {
 		_ = Configuration.Default;
@@ -34,7 +35,7 @@ public partial class ColorPicker : UserControl {
 		ColorPicker panel = new();
 		ColorPickerViewModel viewModel = panel.DataContext;
 		viewModel.Color = color;
-		if (initialModelAxis.HasValue && initialModelAxis.Value.IsValid) viewModel.ModelAxis = initialModelAxis.Value;
+		if (ColorPickerModelAxis.Valid(initialModelAxis)) viewModel.ModelAxis = initialModelAxis;
 		bool dialogResult = await ContentDialog.ShowDialog<bool?>((string)t.ColorPicker.Title, panel, [
 			new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Ok, true, true),
 			new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Cancel, false),
@@ -44,9 +45,9 @@ public partial class ColorPicker : UserControl {
 		return (startsWithHash ? "#" : "") + ColorPickerViewModel.ToHex(newColor)[0];
 	}
 
-	public TElement? FindForm<TElement>(string tag) where TElement : FrameworkElement {
+	public TElement? FindForm<TElement>(ColorPickerModelAxis modelAxis) where TElement : FrameworkElement {
 		foreach (UIElement element in Form.Children)
-			if (element is TElement el && el.Tag is string Tag && Tag == tag)
+			if (element is TElement el && GetModelAxis(el) == modelAxis)
 				return el;
 		return null;
 	}

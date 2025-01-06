@@ -8,30 +8,34 @@ using Wacton.Unicolour;
 namespace OtomadHelper.WPF.Controls;
 
 [ValueConversion(typeof(ColorPickerModelAxis), typeof(bool))]
-public class ColorPickerModelAxisToCheckedConverter : ValueConverter<ColorPickerModelAxis, bool, string> {
-	public override bool Convert(ColorPickerModelAxis modelAxis, Type targetType, string parameter, CultureInfo culture) =>
-		modelAxis == ColorPickerModelAxis.FromName(parameter);
+public class ColorPickerModelAxisToCheckedConverter : ValueConverter<ColorPickerModelAxis, bool, ColorPickerModelAxis> {
+	public override bool Convert(ColorPickerModelAxis modelAxis, Type targetType, ColorPickerModelAxis parameter, CultureInfo culture) =>
+		modelAxis == parameter;
 
-	public override ColorPickerModelAxis ConvertBack(bool value, Type targetType, string parameter, CultureInfo culture) =>
-		ColorPickerModelAxis.FromName(parameter);
+	public override ColorPickerModelAxis ConvertBack(bool value, Type targetType, ColorPickerModelAxis parameter, CultureInfo culture) => parameter;
 }
 
-[ValueConversion(typeof(Dictionary<ColorPickerModelAxis, double>), typeof(string))]
-public class ColorPickerValuesToTextConverter : ValueConverter<Dictionary<ColorPickerModelAxis, double>, string, string> {
-	public override string Convert(Dictionary<ColorPickerModelAxis, double> dictionary, Type targetType, string parameter, CultureInfo culture) {
+[ValueConversion(typeof(Dictionary<ColorPickerModelAxis, double>), typeof(ColorPickerModelAxis))]
+public class ColorPickerValuesToTextConverter : ValueConverter<Dictionary<ColorPickerModelAxis, double>, string, ColorPickerModelAxis> {
+	public override string Convert(Dictionary<ColorPickerModelAxis, double> dictionary, Type targetType, ColorPickerModelAxis parameter, CultureInfo culture) {
 		try {
-			return dictionary.TryGetValue(ColorPickerModelAxis.FromName(parameter), out double result) ? Math.Round(result).ToString() : string.Empty;
+			return dictionary.TryGetValue(parameter, out double result) ? Math.Round(result).ToString() : string.Empty;
 		} catch (Exception) {
 			return string.Empty;
 		}
 	}
 }
 
-[ValueConversion(typeof(TextChangedEventArgs), typeof(ValueTuple<string, string>))]
-public class ColorPickerTextChangedEventArgsToTextAndNameConverter : ValueConverter<TextChangedEventArgs, (string text, string name)> {
-	public override (string text, string name) Convert(TextChangedEventArgs e, Type targetType, object parameter, CultureInfo culture) {
+[ValueConversion(typeof(TextChangedEventArgs), typeof(ValueTuple<string, ColorPickerModelAxis>?))]
+[AttachedDependencyProperty<bool, TextBox>("IsFirstTime", DefaultValue = true)]
+public partial class ColorPickerTextChangedEventArgsToTextAndModelAxisConverter : ValueConverter<TextChangedEventArgs, (string text, ColorPickerModelAxis modelAxis)?> {
+	public override (string text, ColorPickerModelAxis modelAxis)? Convert(TextChangedEventArgs e, Type targetType, object parameter, CultureInfo culture) {
 		TextBox textBox = (TextBox)e.Source;
-		return (textBox.Text, (string)textBox.Tag);
+		if (GetIsFirstTime(textBox)) { // During initialization, text changed events will be triggered immediately for all text boxes, so ignore these events.
+			SetIsFirstTime(textBox, false);
+			return null;
+		} else
+			return (textBox.Text, ColorPicker.GetModelAxis(textBox)!);
 	}
 }
 
@@ -52,11 +56,11 @@ public class TrackThumbInnerBaseMultiplySizeConverter : MultiValueConverter<doub
 		values.ToArray().Aggregate(1d, (a, b) => a * b);
 }
 
-[ValueConversion(typeof(string), typeof(Range?))]
-public class TextBoxNameToRangeConverter : ValueConverter<string, Range?> {
-	public override Range? Convert(string name, Type targetType, object parameter, CultureInfo culture) {
+[ValueConversion(typeof(ColorPickerModelAxis), typeof(Range?))]
+public class TextBoxModelAxisToRangeConverter : ValueConverter<ColorPickerModelAxis, Range?> {
+	public override Range? Convert(ColorPickerModelAxis modelAxis, Type targetType, object parameter, CultureInfo culture) {
 		try {
-			(ColourSpace model, int axis) = ColorPickerModelAxis.FromName(name);
+			(ColourSpace model, int axis) = modelAxis;
 			(Range X, Range Y, Range Z) ranges = ColorPickerViewModel.GetInputRange(model);
 			return axis switch {
 				0 => ranges.X,
@@ -74,12 +78,6 @@ public class TextBoxNameToRangeConverter : ValueConverter<string, Range?> {
 public class Alpha255ToAlpha100Converter : ValueConverter<int, int> {
 	public override int Convert(int value, Type targetType, object parameter, CultureInfo culture) =>
 		(int)Math.Round((double)value / 255 * 100);
-}
-
-[ValueConversion(typeof(string), typeof(bool))]
-public class ColorPickerIsNotSpecialColorTextBoxConverter : ValueConverter<string, bool> {
-	public override bool Convert(string name, Type targetType, object parameter, CultureInfo culture) =>
-		name.Contains(".");
 }
 
 [ValueConversion(typeof(string), typeof(string))]
