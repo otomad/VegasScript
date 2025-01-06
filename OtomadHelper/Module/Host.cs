@@ -144,7 +144,7 @@ public partial class Host : UserControl {
 		string fullPath = files[0];
 		Path path = new(fullPath);
 		e.Effect = e.AllowedEffect & DragDropEffects.Copy;
-		DropTargetHelper.DragEnter(this, e.Data, new Point(e.X, e.Y), e.Effect, t.Host.ToolTip.ImportToHere, path.FullFileName);
+		DropTargetHelper.DragEnter(this, e.Data, new Point(e.X, e.Y), e.Effect, t.Host.ToolTip.ImportToHere, path.FileName);
 		bool isDirectory = path.IsDirectory;
 		string extension = path.DotExtension;
 		using RegistryKey? registryKey = Registry.ClassesRoot.OpenSubKey(extension);

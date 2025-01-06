@@ -88,7 +88,7 @@
 		<None Include="Libraries\**" />
 		<EmbeddedResource Include="Assets\**" />
 		<Compile Include="Assets\**\*.cs" />
-		<Content Include="Assets\ToolbarIcons\**" />
+		<None Include="Assets\ToolbarIcons\**" />
 		<Content Include="Icons\**" />
 		<EmbeddedResource Include="Web\dist\**" />
 		<EmbeddedResource Include="Strings\**" />
@@ -158,6 +158,7 @@
 		<EmbeddedResource Remove="Assets\LoadingAnimation_v4.apng" />
 		<EmbeddedResource Remove="Properties\Module\*.resx" />
 		<EmbeddedResource Remove="Assets\**\*.cs" />
+		<EmbeddedResource Remove="Assets\ToolbarIcons\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Properties\Settings.settings">

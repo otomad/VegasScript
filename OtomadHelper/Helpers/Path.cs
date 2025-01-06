@@ -4,15 +4,20 @@ namespace OtomadHelper.Helpers;
 
 /// <summary>
 /// Path class, used to handle paths.<br />
-/// Although the system owned the <see cref="System.IO.Path"/> class, it is a static class and not very object-oriented.
+/// Although the system owned the <see cref="PathStatic" /> class, it is a static class and not very object-oriented.
 /// </summary>
-public class Path : List<string> {
+public class Path :
+	IEnumerable, IEnumerable<string>,
+	ICollection, ICollection<string>, IReadOnlyCollection<string>,
+	IList, IList<string>, IReadOnlyList<string> {
+	protected readonly List<string> directories = [];
+
 	/// <summary>
 	/// Construct a path class from a string.
 	/// </summary>
 	/// <param name="path">Path string.</param>
 	public Path(string path) {
-		path = path.Replace(new Regex(@".*:/+"), match => {
+		path = path.Replace(new Regex(@"^.*:/+"), match => {
 			Protocol = match.Value;
 			return "";
 		});
@@ -30,6 +35,16 @@ public class Path : List<string> {
 	/// </summary>
 	/// <param name="uri">URI object.</param>
 	public Path(Uri uri) : this(uri.ToString()) { }
+
+	/// <summary>
+	/// Make a clone of an existed <see cref="Path" /> object instance.
+	/// </summary>
+	/// <param name="path"><see cref="Path" /> object instance.</param>
+	public Path(Path path) {
+		directories.AddRange(path.directories);
+		Protocol = path.Protocol;
+		IsWindows = path.IsWindows;
+	}
 
 	/// <summary>
 	/// The input content is spliced one by one into a new path class.
@@ -62,7 +77,7 @@ public class Path : List<string> {
 	}
 
 	/// <inheritdoc cref="List{T}.Add(T)"/>
-	public new void Add(string path) {
+	public void Add(string path) {
 		string[] paths = path.Replace(new Regex(@"[/\\]+|\0[/\\]*"), "/").TrimEnd('/').Split('/');
 		foreach (string dir in paths) {
 			if (dir is null) continue;
@@ -75,11 +90,12 @@ public class Path : List<string> {
 					throw new Exception($"Invalid path directory: `{dir}`");
 				continue;
 			} else
-				base.Add(dir);
+				AddBasically(dir);
 		}
 	}
 
-	public new void AddRange(IEnumerable<string> paths) => Add(JoinPaths(paths));
+	/// <inheritdoc cref="List{T}.AddRange(IEnumerable{T})"/>
+	public void AddRange(IEnumerable<string> paths) => Add(JoinPaths(paths));
 
 	private const string leadingSlashReplacement = "\0";
 	/// <summary>
@@ -90,74 +106,94 @@ public class Path : List<string> {
 	private static string JoinPaths(IEnumerable<string> paths) =>
 		paths.Select(path => path.StartsWith("/") || path.StartsWith("\\") ? leadingSlashReplacement + path[1..] : path).Join('/');
 
-	[Obsolete("Do not use it")]
-	public new void Insert(int index, string path) => throw new NotImplementedException();
-	[Obsolete("Do not use it")]
-	public new void InsertRange(int index, IEnumerable<string> paths) => throw new NotImplementedException();
-
 	/// <summary>
 	/// Go up one directory level.
 	/// </summary>
 	public void Up() => RemoveAt(Count - 1);
 
+	/// <inheritdoc cref="FullPath" />
 	public override string ToString() => Protocol + this.Join(sep);
 
 	/// <summary>
-	/// Make a copy of the current instance.
+	/// Make a clone of the current instance.
 	/// </summary>
-	/// <returns>Copy.</returns>
-	public Path Copy() => new(ToString()) { IsWindows = IsWindows };
-
-	private string GetLastItem() => this[^1];
+	/// <returns>Cloned new instance.</returns>
+	public Path Clone() => new(this);
 
 	/// <summary>
 	/// Get the full path text.
 	/// </summary>
+	/// <remarks>
+	/// For example, the path "<c>C:\Windows\MyFile.txt</c>" returns "<c>C:\Windows\MyFile.txt</c>".
+	/// </remarks>
 	public string FullPath => ToString();
 
 	/// <summary>
-	/// Get or set the filename + extension of the file that the path ultimately points to.
+	/// Get the directory name of the file path.
 	/// </summary>
-	public string FullFileName {
-		get => GetLastItem();
+	/// <remarks>
+	/// Returns the directory information for path, or <see langword="null" /> if path denotes a root directory or is <see langword="null" />,
+	/// or <see cref="string.Empty" /> if path does not contain directory information.
+	/// <para>For example, the path "<c>C:\Windows\MyFile.txt</c>" returns "<c>C:\Windows</c>".</para>
+	/// </remarks>
+	public string DirName => PathStatic.GetDirectoryName(FullPath);
+
+	/// <summary>
+	/// Get or set the filename + extension of the file that the path finally points to.
+	/// </summary>
+	/// <remarks>
+	/// For example, the path "<c>C:\Windows\MyFile.txt</c>" returns "<c>MyFile.txt</c>".
+	/// </remarks>
+	public string FileName {
+		get => this[^1];
 		set => this[^1] = value;
 	}
 
 	private static readonly Regex extReg = new(@"(?<=\.)[^\.\\/:\*\?""<>\|]*$");
 
 	/// <summary>
-	/// Get or set the extension of the file that the path ultimately points to, <b>excluding</b> the leading period ".".
+	/// Get or set the extension of the file that the path finally points to, <b>excluding</b> the leading period ".".
 	/// </summary>
+	/// <remarks>
+	/// For example, the path "<c>C:\Windows\MyFile.txt</c>" returns "<c>txt</c>".
+	/// </remarks>
 	public string Extension {
 		get => DotExtension[1..];
 		set => DotExtension = value;
 	}
 
 	/// <summary>
-	/// Get or set the extension of the file that the path ultimately points to, including the leading period ".".
+	/// Get or set the extension of the file that the path finally points to, including the leading period ".".
 	/// </summary>
+	/// <remarks>
+	/// For example, the path "<c>C:\Windows\MyFile.txt</c>" returns "<c>.txt</c>".
+	/// </remarks>
 	public string DotExtension {
-		get => PathStatic.GetExtension(FullFileName).ToLowerInvariant();
+		get => PathStatic.GetExtension(FileName).ToLowerInvariant();
 		set {
 			value = value.Trim().TrimStart('.');
-			FullFileName = PathStatic.ChangeExtension(FullFileName, value);
+			FileName = PathStatic.ChangeExtension(FileName, value);
 		}
 	}
 
 	/// <summary>
-	/// Get or set the filename of the file that the path ultimately points to.
+	/// Get or set the filename without extension of the file that the path finally points to.
 	/// </summary>
-	public string BaseName {
+	/// <remarks>
+	/// For example, the path "<c>C:\Windows\MyFile.txt</c>" returns "<c>MyFile</c>".
+	/// </remarks>
+	public string FileRoot {
 		get {
-			if (Extension == "") return FullFileName;
-			string fileName = extReg.Replace(FullFileName, "");
+			if (Extension == "") return FileName;
+			string fileName = extReg.Replace(FileName, "");
 			return fileName[..^1];
 		}
-		set => FullFileName = value + '.' + Extension;
+		set => FileName = value + '.' + Extension;
 	}
 
+	#region File System Operations
 	/// <summary>
-	/// Get the directory where the file that the path ultimately points to is located.
+	/// Get the directory where the file that the path finally points to is located.
 	/// </summary>
 	public string Directory => Protocol + (Count == 0 ? sep.ToString() : new Path([.. GetRange(0, Count - 1)]).ToString());
 
@@ -170,7 +206,9 @@ public class Path : List<string> {
 	/// Determine whether the path is a directory?
 	/// </summary>
 	public bool IsDirectory => File.GetAttributes(FullPath).HasFlag(FileAttributes.Directory);
+	#endregion
 
+	#region Operator Overloading
 	public static bool operator ==(Path path1, Path path2) => path1.SequenceEqual(path2);
 
 	public static bool operator !=(Path path1, Path path2) => !(path1 == path2);
@@ -195,7 +233,7 @@ public class Path : List<string> {
 	public override bool Equals(object obj) => ReferenceEquals(this, obj) || obj is not null && obj is Path path && this == path;
 
 	public override int GetHashCode() {
-		int hash = 0;
+		int hash = Protocol.GetHashCode();
 		foreach (string dir in this)
 			hash ^= dir.GetHashCode();
 		return hash;
@@ -204,4 +242,52 @@ public class Path : List<string> {
 	public static implicit operator string(Path path) => path.ToString();
 
 	public static implicit operator Uri(Path path) => new(path.ToString());
+
+	public static implicit operator List<string>(Path path) => path.directories.ToList();
+
+	public static implicit operator string[](Path path) => path.directories.ToArray();
+	#endregion
+
+	#region Implementation
+	public IEnumerator<string> GetEnumerator() => directories.GetEnumerator();
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+	void ICollection.CopyTo(Array array, int index) => ((ICollection)directories).CopyTo(array, index);
+	object ICollection.SyncRoot => ((ICollection)directories).SyncRoot;
+	bool ICollection.IsSynchronized => ((ICollection)directories).IsSynchronized;
+
+	void ICollection<string>.CopyTo(string[] array, int arrayIndex) => directories.CopyTo(array, arrayIndex);
+	bool ICollection<string>.Remove(string item) => throw new NotImplementedException();
+	bool ICollection<string>.IsReadOnly => false;
+
+	int IList.Add(object value) => throw new NotImplementedException();
+	void IList.Insert(int index, object value) => throw new NotImplementedException();
+	void IList.Remove(object value) => throw new NotImplementedException();
+	bool IList.Contains(object value) => ((IList)directories).Contains(value);
+	int IList.IndexOf(object value) => ((IList)directories).IndexOf(value);
+	bool IList.IsFixedSize => ((IList)directories).IsFixedSize;
+	bool IList.IsReadOnly => false;
+	object IList.this[int index] {
+		get => directories[index];
+		set => directories[index] = (string)value;
+	}
+
+	void IList<string>.Insert(int index, string item) => directories.Insert(index, item);
+
+	public int Count => directories.Count;
+	public void Clear() => directories.Clear();
+	public bool Contains(string item) => directories.Contains(item);
+	public int IndexOf(string item) => directories.IndexOf(item);
+	public void RemoveAt(int index) => directories.RemoveAt(index);
+	public string this[int index] {
+		get => directories[index];
+		set => directories[index] = value;
+	}
+
+	/// <inheritdoc cref="List{T}.GetRange(int, int)" />
+	protected List<string> GetRange(int index, int count) => directories.GetRange(index, count);
+
+	/// <inheritdoc cref="List{T}.Add(T)"/>
+	protected void AddBasically(string item) => directories.Add(item);
+	#endregion
 }
