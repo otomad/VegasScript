@@ -12,7 +12,7 @@ export default function TransInterpolation<TInterpolations>({ i18nKey, children:
 	const withInterpolations = t(internalInterpolations);
 	const translatedString = i18nKey(withInterpolations).toString();
 	const lines = translatedString.split("\n");
-	const splitted = lines
+	const split = lines
 		.map((line, lineIndex) => line
 			.split(new RegExp(`(${tagStart}.*${tagCancel})`, "u"))
 			.map((segment, segmentIndex) => {
@@ -26,7 +26,7 @@ export default function TransInterpolation<TInterpolations>({ i18nKey, children:
 				return node;
 			}),
 		);
-	return splitted;
+	return split;
 }
 
 function encodeKeyToTag(key: number) {

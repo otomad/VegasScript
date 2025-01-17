@@ -8,8 +8,8 @@ import VariableName from "../src/classes/VariableName";
 
 import allLanguages from "../src/locales/all";
 
-const templateString = await readFile(resolve(__dirname, "Resources.resx.template.xml"), "utf-8");
-const template = create(templateString);
+const template_string = await readFile(resolve(__dirname, "Resources.resx.template.xml"), "utf-8");
+const template = create(template_string);
 
 function flattenObject(object: AnyObject, context: string[] = []) {
 	const convertKey = (context: string[]) => context.map(key => new VariableName(key).pascal).join(".");

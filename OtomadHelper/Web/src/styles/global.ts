@@ -4,7 +4,7 @@ import fakeAnimations from "./fake-animations";
 import reset from "./reset";
 
 const GlobalStyle = createGlobalStyle<{
-	/** The page has completed loading? */
+	/** Has the page loaded completely? */
 	$ready?: boolean;
 }>`
 	${globalColors()};
@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle<{
 		&,
 		&::before,
 		&::after {
-			font-family: "Segoe UI Variable", "Segoe UI", "Microsoft JhengHei", "Microsoft YaHei UI", sans-serif;
+			font-family: "Segoe UI Variable", "Segoe UI", "Microsoft JhengHei UI", "Microsoft YaHei UI", sans-serif;
 		}
 	}
 

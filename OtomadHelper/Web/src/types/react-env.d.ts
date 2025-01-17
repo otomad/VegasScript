@@ -47,7 +47,6 @@ declare global {
 	type GetAttributesFromTag<TTagName> = React.JSX.IntrinsicElements[TTagName];
 	type GetAttributesFromElement<TElement> = GetAttributesFromTag<GetTagFromElement<TElement>>;
 
-	type test____ = GetAttributesFromTag<"a">;
 	/**
 	 * Props type for React Hook style functional components.
 	 * @template TProps - Props of the component.

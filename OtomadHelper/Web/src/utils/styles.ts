@@ -8,13 +8,13 @@ import effects from "styles/effects";
 import { STATUS_PREFIX, type AvailableLottieStatus } from "styles/fake-animations";
 import mixins from "styles/mixins";
 
-export const fallbackTransitions = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s`;
+export const fallbackTransitions = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s` as const;
 
 /**
  * Apply the theme color.
  * @param cssVarName - The CSS property name of the color. Does not need to add "--" before it. It can also be `white` or `black`.
- * @param alpha - Alpha value, note that it is a percentage value rather than a decimal value between 0 to 1. If left blank, it indicates an opaque color.
- * @returns The custom property solid color called by `var()`, or the transparent color encapsulated by relative color function `rgba(from ...)`.
+ * @param alpha - Alpha value, note that it is a percentage value rather than a decimal value between 0 and 1. If left blank, it indicates an opaque color.
+ * @returns The custom property solid color called by `var()`, or the translucent color encapsulated by relative color function `rgba(from ...)`.
  */
 export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alpha?: number) {
 	if (alpha !== undefined && (alpha < 0 || alpha > 100))

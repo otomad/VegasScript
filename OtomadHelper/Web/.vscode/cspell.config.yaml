@@ -155,7 +155,6 @@ words:
   - solfèges
   - solfeggios
   - spherize
-  - splitted
   - spn
   - styl
   - stylelint
@@ -186,6 +185,7 @@ words:
   - upsize
   - ust
   - utau
+  - utf
   - valtio
   - vite
   - vnd
@@ -240,7 +240,8 @@ flagWords:
   - seting -> setting
   - od -> of
   - draging -> dragging
-  - splited -> splitted
+  - splited -> split
+  - splitted -> split
   - pesudo -> pseudo
   - exitting -> exiting
   - trailling -> trailing
