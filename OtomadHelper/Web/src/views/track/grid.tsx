@@ -107,7 +107,7 @@ export default function Grid() {
 					<TextBox.Number value={[rows]} min={1} max={100} readOnly />
 				</Determinant>
 
-				<SettingsCard title={t.track.grid.fastFill} icon="edit_sparkle" disabled={square} appearance="secondary">
+				<SettingsCard title={t.track.grid.fastFill} icon="edit_lightning" disabled={square} appearance="secondary">
 					<Disabled as={StackPanel} $gap={4}>
 						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(1)}>{t.track.grid.min}</Button>
 						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(100)}>{t.track.grid.max}</Button>

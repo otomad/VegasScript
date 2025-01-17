@@ -88,7 +88,6 @@ export default function Audio() {
 	} = selectConfig(c => c.audio);
 	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = selectConfig(c => c.audio.prelistenAttributes);
 	const { createGroups } = selectConfig(c => c);
-	const { hideUseTips } = useSnapshot(configStore.settings);
 	const activeParameterScheme = selectConfigArray(c => c.audio.activeParameterScheme);
 	const [stopPrelistenings, setStopPrelistenings] = useImmer<(() => void)[]>([]);
 	const isPrelistening = stopPrelistenings.length > 0;
@@ -176,7 +175,9 @@ export default function Audio() {
 						iconField="icon"
 						nameField={t.stream.truncate}
 						detailsField={t.descriptions.stream.truncate}
-					/>
+					>
+						<TruncateAndLegatoConflictInfoBar />
+					</ExpanderRadio>
 					<ExpanderRadio
 						title={t.stream.legato}
 						details={t.descriptions.stream.legato}
@@ -189,8 +190,9 @@ export default function Audio() {
 						iconField="icon"
 						imageField="image"
 						itemWidth={566 / 196 * GRID_VIEW_ITEM_HEIGHT}
-					/>
-					{!hideUseTips && <InfoBar status="accent" title={t.descriptions.stream.truncateAndLegatoConflictInAudio} />}
+					>
+						<TruncateAndLegatoConflictInfoBar />
+					</ExpanderRadio>
 					<SettingsCardToggleSwitch
 						title={t.stream.multitrackForChords}
 						details={t.descriptions.stream.multitrackForChords}
@@ -383,6 +385,10 @@ export default function Audio() {
 			</EmptyMessage.Typical>
 		</div>
 	);
+}
+
+function TruncateAndLegatoConflictInfoBar() {
+	return <InfoBar status="accent" title={t.descriptions.stream.truncateAndLegatoConflictInAudio} />;
 }
 
 subscribeStoreKey(configStore.audio, "truncate", value => value !== "lengthenable" && (configStore.audio.legato = "portato"));
