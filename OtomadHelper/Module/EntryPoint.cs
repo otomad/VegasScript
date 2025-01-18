@@ -10,6 +10,7 @@ public class EntryPoint {
 
 	public async void FromVegas(Vegas myVegas) {
 		vegas = myVegas;
+		Prior.Initialize();
 
 		string programDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 		if (await WPF.Controls.ContentDialog.ShowDialog<string>(

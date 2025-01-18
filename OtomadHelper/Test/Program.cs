@@ -1,4 +1,4 @@
-#define TEST5
+#define TEST0
 using System.Resources;
 using System.Windows.Forms;
 
@@ -15,6 +15,7 @@ internal static class Program {
 		//CosturaUtility.Initialize();
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
+		Prior.Initialize();
 		//AppContext.SetSwitch("Switch.System.Windows.Controls.Text.UseAdornerForTextboxSelectionRendering", false);
 		//SetCulture = "en-US";
 #if TEST0
@@ -25,7 +26,7 @@ internal static class Program {
 		Application.Run(new TestControlsWinForm());
 #endif
 #if TEST2
-		s = WPF.Controls.ContentDialog.ShowDialog<DialogResult>("幸福倒计时", "即将更新 Windows 11 到最新版本！", [
+		s = ContentDialog.ShowDialog<DialogResult>("幸福倒计时", "即将更新 Windows 11 到最新版本！", [
 			new("草", DialogResult.Abort),
 			new("走", DialogResult.Retry),
 			new("忽略", DialogResult.Ignore, true),
@@ -33,10 +34,10 @@ internal static class Program {
 #endif
 #if TEST3
 		try {
-			WPF.Controls.ContentDialog.errorFooter = "VEGAS Pro: v21.0\nOtomad Helper: v8.0.0";
+			ContentDialog.errorFooter = "VEGAS Pro: v21.0\nOtomad Helper: v8.0.0";
 			TestError();
 		} catch (Exception e) {
-			WPF.Controls.ContentDialog.ShowError(e);
+			ContentDialog.ShowError(e);
 		}
 		static int TestError() => 0 / Math.Abs(0);
 #endif
@@ -44,7 +45,7 @@ internal static class Program {
 		new TestControlsWPF().ShowDialog();
 #endif
 #if TEST5
-		_ = WPF.Controls.ColorPicker.ShowDialog("f00", new(Wacton.Unicolour.ColourSpace.Hsb, 2)).Then(color => s = color);
+		_ = ColorPicker.ShowDialog("f00", new(Wacton.Unicolour.ColourSpace.Hsb, 2)).Then(color => s = color);
 #endif
 	}
 }

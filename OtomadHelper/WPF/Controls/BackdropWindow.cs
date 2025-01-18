@@ -30,10 +30,6 @@ public partial class BackdropWindow : Window {
 	protected readonly WindowInteropHelper helper;
 	protected IntPtr Handle => helper.Handle;
 
-	static BackdropWindow() {
-		EnableTextSelectionVisuals();
-	}
-
 	public BackdropWindow() : base() {
 		InitializeComponent();
 		helper = new(this);

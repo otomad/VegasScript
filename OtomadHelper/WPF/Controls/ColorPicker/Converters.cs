@@ -27,15 +27,10 @@ public class ColorPickerValuesToTextConverter : ValueConverter<Dictionary<ColorP
 }
 
 [ValueConversion(typeof(TextChangedEventArgs), typeof(ValueTuple<string, ColorPickerModelAxis>?))]
-[AttachedDependencyProperty<bool, TextBox>("IsFirstTime", DefaultValue = true)]
 public partial class ColorPickerTextChangedEventArgsToTextAndModelAxisConverter : ValueConverter<TextChangedEventArgs, (string text, ColorPickerModelAxis modelAxis)?> {
 	public override (string text, ColorPickerModelAxis modelAxis)? Convert(TextChangedEventArgs e, Type targetType, object parameter, CultureInfo culture) {
 		TextBox textBox = (TextBox)e.Source;
-		if (GetIsFirstTime(textBox)) { // During initialization, text changed events will be triggered immediately for all text boxes, so ignore these events.
-			SetIsFirstTime(textBox, false);
-			return null;
-		} else
-			return (textBox.Text, ColorPicker.GetModelAxis(textBox)!);
+		return (textBox.Text, ColorPicker.GetModelAxis(textBox)!);
 	}
 }
 

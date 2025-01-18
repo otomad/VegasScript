@@ -93,7 +93,7 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 
 	private bool isTextChanging = false;
 	[RelayCommand]
-	private void TextChanged((string Text, ColorPickerModelAxis ModelAxis)? e) {
+	private void TextChanged((string Text, ColorPickerModelAxis ModelAxis)? e) { // BUG: In Program TEST5, the text will changed frequently after the window loaded.
 		lock (this) {
 			if (isTextChanging || !e.HasValue) return;
 			(string Text, ColorPickerModelAxis ModelAxis) = e.Value;

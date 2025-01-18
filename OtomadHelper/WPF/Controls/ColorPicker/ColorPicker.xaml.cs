@@ -12,7 +12,8 @@ namespace OtomadHelper.WPF.Controls;
 [AttachedDependencyProperty<ColorPickerModelAxis>("ModelAxis", DefaultValueExpression = "null")]
 public partial class ColorPicker : UserControl {
 	static ColorPicker() {
-		BackdropWindow.EnableTextSelectionVisuals();
+		// Only needed once, makes first Unicolour initialize faster.
+		// https://github.com/waacton/Unicolour/issues/4#issuecomment-2396548329
 		_ = Configuration.Default;
 	}
 
@@ -33,7 +34,6 @@ public partial class ColorPicker : UserControl {
 		bool startsWithHash = hex.StartsWith("#");
 		Unicolour? color = ColorPickerViewModel.FromHex(hex);
 		if (color is null) return hex;
-		AppContext.SetSwitch("Switch.System.Windows.Controls.Text.UseAdornerForTextboxSelectionRendering", false);
 		ColorPicker panel = new();
 		ColorPickerViewModel viewModel = panel.DataContext;
 		viewModel.Color = color;
