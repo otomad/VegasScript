@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,6 +12,7 @@ namespace OtomadHelper.WPF.Controls;
 /// </summary>
 [AttachedDependencyProperty<ColorPickerModelAxis>("ModelAxis", DefaultValueExpression = "null")]
 public partial class ColorPicker : UserControl {
+	[MethodImpl(MethodImplOptions.NoOptimization)]
 	static ColorPicker() {
 		// Only needed once, makes first Unicolour initialize faster.
 		// https://github.com/waacton/Unicolour/issues/4#issuecomment-2396548329

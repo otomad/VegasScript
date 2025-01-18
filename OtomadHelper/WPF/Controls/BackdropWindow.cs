@@ -146,8 +146,8 @@ public partial class BackdropWindow : Window {
 	/// <list type="bullet">
 	/// <item>If true (by default), it will display a solid selection color, and the text color will be also inverted to white as required.
 	/// Just like classic Win32, WinForm, UWP, WinUI, etc. do.</item>
-	/// <item>If false, it will display a translucent selection color overlay the text, and the text will not change color.
-	/// Just like WPF does before .NET Framework 4.7.1 and earlier versions.</item>
+	/// <item>If false, it will use adorner for textbox section rendering to display a translucent selection color overlay the text,
+	/// and the text will not change color. Just like WPF does before .NET Framework 4.7.1 and earlier versions.</item>
 	/// </list>
 	/// </param>
 	public static void EnableTextSelectionVisuals(bool enabled = true) =>
