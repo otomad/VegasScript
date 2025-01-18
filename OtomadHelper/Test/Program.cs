@@ -1,4 +1,4 @@
-#define TEST0
+#define TEST5
 using System.Resources;
 using System.Windows.Forms;
 
@@ -15,6 +15,7 @@ internal static class Program {
 		//CosturaUtility.Initialize();
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
+		//AppContext.SetSwitch("Switch.System.Windows.Controls.Text.UseAdornerForTextboxSelectionRendering", false);
 		//SetCulture = "en-US";
 #if TEST0
 		Application.Run(new AppDebugForm());

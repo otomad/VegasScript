@@ -19,7 +19,7 @@ declare global {
 		 * The `lock()` property of the `ScreenOrientation` interface locks the orientation of the containing document to the specified orientation.
 		 *
 		 * [MDN Reference](https://developer.mozilla.org/docs/Web/API/ScreenOrientation/lock)
-		 * @see https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1615 Microsoft unexpected remove it from TypeScript library.
+		 * @see [Microsoft unexpected remove it from TypeScript library.](https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1615)
 		 *
 		 * @param type - An orientation lock type.
 		 * @returns A Promise that resolves after locking succeeds.

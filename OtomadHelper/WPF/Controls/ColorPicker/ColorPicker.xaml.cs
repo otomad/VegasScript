@@ -12,6 +12,7 @@ namespace OtomadHelper.WPF.Controls;
 [AttachedDependencyProperty<ColorPickerModelAxis>("ModelAxis", DefaultValueExpression = "null")]
 public partial class ColorPicker : UserControl {
 	static ColorPicker() {
+		BackdropWindow.EnableTextSelectionVisuals();
 		_ = Configuration.Default;
 	}
 
@@ -32,6 +33,7 @@ public partial class ColorPicker : UserControl {
 		bool startsWithHash = hex.StartsWith("#");
 		Unicolour? color = ColorPickerViewModel.FromHex(hex);
 		if (color is null) return hex;
+		AppContext.SetSwitch("Switch.System.Windows.Controls.Text.UseAdornerForTextboxSelectionRendering", false);
 		ColorPicker panel = new();
 		ColorPickerViewModel viewModel = panel.DataContext;
 		viewModel.Color = color;

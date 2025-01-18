@@ -17,7 +17,7 @@ const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < 
  * @param speed - Smooth speed.
  * @param options - Other smooth value options.
  * @returns Smooth value state variable.
- * @see https://codepen.io/nanonansen/pen/oRWmaY Reference: Parallax smooth movement.
+ * @see [Reference: Parallax smooth movement.](https://codepen.io/nanonansen/pen/oRWmaY)
  */
 export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, speed: number, options: SmoothValueOptions<T> = {}) {
 	if (isPrefersReducedMotion()) return current;

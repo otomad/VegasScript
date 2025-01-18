@@ -48,7 +48,7 @@ export function useDetectWrappedElements(ref: RefObject<HTMLElement>, {
 }
 
 /**
- * @see [jQuery.position() equivalent is wrong](https://github.com/HubSpot/youmightnotneedjquery/issues/172)
+ * @see [`jQuery.position()` equivalent is wrong](https://github.com/HubSpot/youmightnotneedjquery/issues/172)
  */
 function getTopPosition(el: Element) {
 	const { top } = el.getBoundingClientRect();

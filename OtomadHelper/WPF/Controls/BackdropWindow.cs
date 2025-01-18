@@ -1,5 +1,7 @@
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -27,6 +29,10 @@ namespace OtomadHelper.WPF.Controls;
 public partial class BackdropWindow : Window {
 	protected readonly WindowInteropHelper helper;
 	protected IntPtr Handle => helper.Handle;
+
+	static BackdropWindow() {
+		EnableTextSelectionVisuals();
+	}
 
 	public BackdropWindow() : base() {
 		InitializeComponent();
@@ -122,6 +128,34 @@ public partial class BackdropWindow : Window {
 		};
 		return taskCompletionSource.Task;
 	}
+
+	/// <summary>
+	/// Enable a better looking and easier to see WPF text selection visuals,
+	/// and make <see cref="TextBoxBase.SelectionTextBrush" /> effective.
+	/// </summary>
+	/// <remarks>
+	/// <para>
+	/// If you've ever selected text in a WPF UI, such as through a <see cref="TextBox" />, you've probably noticed
+	/// it looks slightly strange compared to WinForm and WinUI text selection for example - it looks more as though
+	/// the text selection color is overlayed on top of the text rather than underneath it.
+	/// </para>
+	/// <para>
+	/// So let's fix this. In .Net Framework 4.7.2,
+	/// <a href="https://learn.microsoft.com/dotnet/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element#:~:text=Switch.System.Windows.Controls.Text.%0AUseAdornerForTextboxSelectionRendering">Microsoft introduced a fix for this</a>,
+	/// which results in the text selection visual in WPF looking much more like it does in other UI frameworks.
+	/// </para>
+	/// <para><a href="https://codingguides.quinnscomputing.com/2023/03/how-to-enable-better-looking-and-easier.html">Reference</a></para>
+	/// </remarks>
+	/// <param name="enabled">
+	/// <list type="bullet">
+	/// <item>If true (by default), it will display a solid selection color, and the text color will be also inverted to white as required.
+	/// Just like classic Win32, WinForm, UWP, WinUI, etc. do.</item>
+	/// <item>If false, it will display a translucent selection color overlay the text, and the text will not change color.
+	/// Just like WPF does before .NET Framework 4.7.1 and earlier versions.</item>
+	/// </list>
+	/// </param>
+	public static void EnableTextSelectionVisuals(bool enabled = true) =>
+		AppContext.SetSwitch("Switch.System.Windows.Controls.Text.UseAdornerForTextboxSelectionRendering", !enabled);
 
 	#region Set backdrop type
 	/// <inheritdoc cref="FrameworkElement.Resources" />

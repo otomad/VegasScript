@@ -7,8 +7,10 @@
 	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	>
 	<s:Double x:Key="CornerRadiusLength">4</s:Double>
+
 	<m:DoubleToCornerRadiusConverter x:Key="DoubleToRadius" />
 	<c:TextBoxStripeSizeToRectConverter x:Key="StripeSizeToRect" />
+	<m:BackgroundToForegroundColorConverter x:Key="BgToFg" />
 
 	<Style x:Key="TextBoxStripe" TargetType="Border">
 		<Setter Property="Height" Value="{StaticResource CornerRadiusLength}" />
@@ -80,7 +82,8 @@
 		<Setter Property="BorderBrush" Value="{DynamicResource ControlStroke}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="SelectionBrush" Value="{Binding WindowGlassBrush, RelativeSource={RelativeSource AncestorType=c:BackdropWindow}}" />
-		<Setter Property="SelectionTextBrush" Value="{DynamicResource TextOnAccentForegroundBrush}" />
+		<!--<Setter Property="SelectionTextBrush" Value="{DynamicResource TextOnAccentForegroundBrush}" />-->
+		<Setter Property="SelectionTextBrush" Value="{Binding SelectionBrush, RelativeSource={RelativeSource Self}, Converter={StaticResource BgToFg}}" />
 		<Setter Property="ContextMenu" Value="{StaticResource TextBoxContextMenu}" />
 		<Setter Property="Template">
 			<Setter.Value>
