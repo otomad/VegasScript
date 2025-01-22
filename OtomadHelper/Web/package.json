@@ -34,7 +34,7 @@
 		"list-credit-licenses": "tsx scripts/list-credit-licenses.ts",
 		"prepare": "husky",
 		"commit": "git-cz -a",
-		"supportedBrowsers": "(echo export default && browserslist-useragent-regexp --allowHigherVersions) > src/supportedBrowsers.ts"
+		"supported-browsers": "(echo export default && browserslist-useragent-regexp --allowHigherVersions) > src/supportedBrowsers.ts"
 	},
 	"browserslist": [
 		"Edge >= 129",
