@@ -60,7 +60,7 @@ export default function Settings() {
 			>
 				{showBackgroundImage && (
 					<>
-						<Expander.Item title={t.settings.appearance.backgroundImage.opacity} icon="opacity">
+						<Expander.Item title={t.settings.appearance.backgroundImage.opacity} icon="fade">
 							<Slider
 								value={backgroundImageOpacity}
 								min={0}

@@ -16,10 +16,18 @@ index 3466bbadfb74e01ada397f81866e6b972f24ad68..e3d15dac971be0181ab979436549c11f
      "pack:chrome": "npm run build:browser && cp -rf ./dist/browser/pangu.min.js ./browser_extensions/chrome/vendors/pangu/pangu.min.js && cd ./browser_extensions/chrome/ && zip -q -r -0 ../paranoid-auto-spacing.zip . && zip -j ../paranoid-auto-spacing.zip ~/Dropbox/Projects/paranoid-auto-spacing/key.pem",
      "pack:firefox": "node ./browser_extensions/firefox/pack.js",
 diff --git a/src/shared/core.js b/src/shared/core.js
-index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..828cf95c0106d37f6fea904340a4455e9fc446d7 100644
+index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..3ee499a78e583577f8f7e8c252755054bd2e99cc 100644
 --- a/src/shared/core.js
 +++ b/src/shared/core.js
-@@ -1,3 +1,10 @@
+@@ -1,3 +1,18 @@
++/**
++ * Unicode **Punctuation Space**
++ * @remarks
++ * Space equal to narrow punctuation of a front.
++ *
++ * By default, a punctuation space character \u2008 is used that is narrower than THE SPACE character \u0020 itself,
++ * to avoid making the space look too wide.
++ */
 +const PUNCSP = '\u2008';
 +
 +/**
@@ -30,7 +38,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..828cf95c0106d37f6fea904340a4455e
  // CJK is short for Chinese, Japanese, and Korean.
  //
  // CJK includes following Unicode blocks:
-@@ -16,7 +23,10 @@
+@@ -16,7 +31,11 @@
  // https://github.com/vinta/pangu
  //
  // all J below does not include \u30fb
@@ -38,11 +46,12 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..828cf95c0106d37f6fea904340a4455e
 +const CJK = '\\p{sc=Han}\\p{sc=Bopo}\\p{sc=Hira}\\p{sc=Kana}〆ー㆐-㆟㇀-\u31ee㈀-㏿';
 +// const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff';
 +
-+const MathOperators = '\\p{Sm}';
++/** Math operators or math symbols, but except the midline horizontal ellipsis \u22ef. */
++const SM = '(?![⋯])[\\p{Sm}]';
  
  // ANS is short for Alphabets, Numbers, and Symbols.
  //
-@@ -26,50 +36,50 @@ const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u
+@@ -26,50 +45,50 @@ const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u
  //
  // some S below does not include all symbols
  
@@ -84,8 +93,8 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..828cf95c0106d37f6fea904340a4455e
  // the symbol part only includes + - * / = & | < >
 -const CJK_OPERATOR_ANS = new RegExp(`([${CJK}])([\\+\\-\\*\\/=&\\|<>])([A-Za-z0-9])`, 'g');
 -const ANS_OPERATOR_CJK = new RegExp(`([A-Za-z0-9])([\\+\\-\\*\\/=&\\|<>])([${CJK}])`, 'g');
-+const CJK_OPERATOR_ANS = $r(`([${CJK}])([\\+\\-\\*\\/=&\\|<>${MathOperators}])([A-Za-z0-9])`);
-+const ANS_OPERATOR_CJK = $r(`([A-Za-z0-9])([\\+\\-\\*\\/=&\\|<>${MathOperators}])([${CJK}])`);
++const CJK_OPERATOR_ANS = $r(`([${CJK}])([\\+\\-\\*\\/=&\\|<>]|${SM})([A-Za-z0-9])`);
++const ANS_OPERATOR_CJK = $r(`([A-Za-z0-9])([\\+\\-\\*\\/=&\\|<>]|${SM})([${CJK}])`);
  
  const FIX_SLASH_AS = /([/]) ([a-z\-_\./]+)/g;
  const FIX_SLASH_AS_SLASH = /([/\.])([A-Za-z\-_\./]+) ([/])/g;
@@ -107,8 +116,8 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..828cf95c0106d37f6fea904340a4455e
  
 -const CJK_ANS = new RegExp(`([${CJK}])([A-Za-z\u0370-\u03ff0-9@\\$%\\^&\\*\\-\\+\\\\=\\|/\u00a1-\u00ff\u2150-\u218f\u2700—\u27bf])`, 'g');
 -const ANS_CJK = new RegExp(`([A-Za-z\u0370-\u03ff0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?\u00a1-\u00ff\u2150-\u218f\u2700—\u27bf])([${CJK}])`, 'g');
-+const CJK_ANS = $r(`([${CJK}])([A-Za-zͰ-Ͽ0-9@\\$%\\^&\\*\\-\\+\\\\=\\|/¡-ÿ⅐-\u218f✀—➿${MathOperators}])`);
-+const ANS_CJK = $r(`([A-Za-zͰ-Ͽ0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?¡-ÿ⅐-\u218f✀—➿${MathOperators}])([${CJK}])`);
++const CJK_ANS = $r(`([${CJK}])([A-Za-zͰ-Ͽ0-9@\\$%\\^&\\*\\-\\+\\\\=\\|/¡-ÿ⅐-\u218f✀—➿]|${SM})`);
++const ANS_CJK = $r(`([A-Za-zͰ-Ͽ0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?¡-ÿ⅐-\u218f✀—➿]|${SM})([${CJK}])`);
  
  const S_A = /(%)([A-Za-z])/g;
  
@@ -117,7 +126,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..828cf95c0106d37f6fea904340a4455e
  
  class Pangu {
    constructor() {
-@@ -125,38 +135,38 @@ class Pangu {
+@@ -125,38 +144,38 @@ class Pangu {
        return `${cjk}${fullwidthSymbols}`;
      });
  
@@ -172,7 +181,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..828cf95c0106d37f6fea904340a4455e
  
      newText = newText.replace(S_A, '$1 $2');
  
-@@ -189,3 +199,7 @@ const pangu = new Pangu();
+@@ -189,3 +208,7 @@ const pangu = new Pangu();
  module.exports = pangu;
  module.exports.default = pangu;
  module.exports.Pangu = Pangu;
