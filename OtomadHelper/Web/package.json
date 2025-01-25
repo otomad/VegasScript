@@ -130,7 +130,6 @@
 			"babel-plugin-styled-components@2.1.4": "patches/babel-plugin-styled-components@2.1.4.patch",
 			"babel-plugin-transform-jsx-classnames@1.2.2": "patches/babel-plugin-transform-jsx-classnames@1.2.2.patch",
 			"lottie-web@5.12.2": "patches/lottie-web@5.12.2.patch",
-			"pangu@4.0.7": "patches/pangu@4.0.7.patch",
 			"react-flip-move@3.0.5": "patches/react-flip-move@3.0.5.patch",
 			"postcss-selector-parser@6.1.2": "patches/postcss-selector-parser@6.1.2.patch",
 			"vite-plugin-image-optimizer@1.1.8": "patches/vite-plugin-image-optimizer@1.1.8.patch",
@@ -140,7 +139,8 @@
 			"styled-components@6.1.13": "patches/styled-components@6.1.13.patch",
 			"@types/react@19.0.1": "patches/@types__react@19.0.1.patch",
 			"react@19.0.0": "patches/react@19.0.0.patch",
-			"react-dom": "patches/react-dom@19.0.0.patch"
+			"react-dom": "patches/react-dom@19.0.0.patch",
+			"pangu": "patches/pangu.patch"
 		},
 		"allowNonAppliedPatches": false
 	},
