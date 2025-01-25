@@ -23,7 +23,7 @@ export default function Shupelunker() {
 						<ComboBox current={presetTemplate} options={[]} ids={[]} />
 					</SettingsCard>
 
-					<Subheader>{t.lyrics.karaoke}</Subheader>
+					<Subheader>{t.lyrics.karaoke.toString()}</Subheader>
 					<SettingsCardToggleSwitch title={t.lyrics.enableMode({ mode: t.lyrics.karaoke })} details={t.descriptions.lyrics.karaoke} icon="mic" on={karaokeEnabled} />
 					<Disabled disabled={!karaokeEnabled[0]}>
 						<SettingsCard icon="karaoke_future_fill" title={t.lyrics.karaoke.futureFill} details={t.descriptions.lyrics.karaoke.futureFill}>

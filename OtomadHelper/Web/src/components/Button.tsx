@@ -135,6 +135,11 @@ export /* @internal */ const StyledButton = styled.button<{
 			color: ${c("fill-color-text-on-accent-primary")};
 		}
 
+		.icon svg,
+		.icon svg * {
+			color: inherit;
+		}
+
 		&:hover {
 			--border-accent-color: ${c("fill-color", 90)};
 			background-color: ${c("fill-color", 90)};
