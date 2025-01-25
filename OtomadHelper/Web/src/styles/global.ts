@@ -13,9 +13,10 @@ const GlobalStyle = createGlobalStyle<{
 	*,
 	::before,
 	::after {
+		--cjk-font-family: "Microsoft YaHei UI";
 		box-sizing: border-box;
 		scroll-behavior: smooth;
-		font-family: "Segoe UI Variable", "Segoe UI", "Microsoft YaHei UI", sans-serif;
+		font-family: "Yozora Sans", "Segoe UI Variable", "Segoe UI", var(--cjk-font-family), "Microsoft YaHei UI", sans-serif;
 		hyphens: auto;
 		user-select: none;
 		transition: ${fallbackTransitions};
@@ -35,7 +36,7 @@ const GlobalStyle = createGlobalStyle<{
 		&,
 		&::before,
 		&::after {
-			font-family: "Segoe UI Variable", "Segoe UI", "Microsoft JhengHei UI", "Microsoft YaHei UI", sans-serif;
+			--cjk-font-family: "Microsoft JhengHei UI";
 		}
 	}
 
@@ -43,7 +44,7 @@ const GlobalStyle = createGlobalStyle<{
 		&,
 		&::before,
 		&::after {
-			font-family: "Segoe UI Variable", "Segoe UI", "Yu Gothic UI", "Meiryo UI", "MS UI Gothic", "Microsoft YaHei UI", sans-serif;
+			--cjk-font-family: "Yu Gothic UI", "Meiryo UI", "MS UI Gothic";
 		}
 	}
 
@@ -51,7 +52,7 @@ const GlobalStyle = createGlobalStyle<{
 		&,
 		&::before,
 		&::after {
-			font-family: "Segoe UI Variable", "Segoe UI", "Malgun Gothic", "Microsoft YaHei UI", sans-serif;
+			--cjk-font-family: "Malgun Gothic";
 		}
 	}
 

@@ -47,7 +47,9 @@ export default {
 		"selector-pseudo-class-no-unknown": [true, {
 			"ignorePseudoClasses": ["deep", "slotted", "global", "export", "vertical", "horizontal", "decrement", "increment", "component", "comp", "any-hover", "lang-latin"],
 		}],
-		"declaration-block-no-duplicate-properties": true,
+		"declaration-block-no-duplicate-properties": [true, {
+			"ignore": ["consecutive-duplicates-with-different-values"], // 如果可以使用 PostCSS 了，请移除它。
+		}],
 		"declaration-block-no-duplicate-custom-properties": true,
 		"font-family-no-duplicate-names": true,
 		"keyframe-block-no-duplicate-selectors": true,

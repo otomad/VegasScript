@@ -38,7 +38,7 @@ export function useAniCursor(element: RefObject<HTMLElement | null>, aniUrl: str
 		}
 	}, [aniUrl]);
 
-	useEffect(() => void (
-		element.current && (element.current.dataset.anicursor = aniUrl)
-	), [aniUrl]);
+	useEffect(() => {
+		element.current && (element.current.dataset.anicursor = aniUrl);
+	}, [aniUrl]);
 }

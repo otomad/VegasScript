@@ -635,7 +635,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 		setIsExpandedInExpandedMode(expanded => !expanded) :
 		setFlyoutDisplayMode(mode => mode === "expanded" ? "minimal" : "expanded");
 
-	const hideFlyoutNavMenu = () => void (flyoutDisplayMode !== "minimal" && setFlyoutDisplayMode("minimal"));
+	const hideFlyoutNavMenu = () => { flyoutDisplayMode !== "minimal" && setFlyoutDisplayMode("minimal"); };
 	useEffect(hideFlyoutNavMenu, [currentNav, useWindowWidth()]);
 
 	return (

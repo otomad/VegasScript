@@ -2,8 +2,6 @@
  * Reset all CSS default junk configs here.
  */
 export default css`
-	/* stylelint-disable declaration-block-no-duplicate-properties */
-
 	@layer base {
 		// Goodbye, the ugly native style.
 		button,

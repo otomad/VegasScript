@@ -33,6 +33,8 @@ declare module "valtio" {
 	function useSnapshot<T extends object>(p: T): T;
 }
 
+declare const genericElement: unique symbol;
+
 declare global {
 	/**
 	 * React Hook style functional component type.
@@ -52,9 +54,28 @@ declare global {
 	 * @template TProps - Props of the component.
 	 * @template TTagName - Inherit all Attrs from a native HTML element.
 	 */
-	export type FCP<TProps = {}, TTagName extends string | Element | null = null> = Override<
+	export type FCP<TProps = {}, TTagName extends string | Element | GenericElement | null = null> = Override<
 		TTagName extends null ? PropsWithChildren :
+		TTagName extends GenericElement ? GenericElementAttributes :
 		TTagName extends string ? GetAttributesFromTag<TTagName> : GetAttributesFromElement<TTagName>, TProps>;
+
+	/**
+	 * Similar to HTMLElement, but the `ref` prop can accept anything.\
+	 * Useful if you want to pass the type to multiple different elements.
+	 * @version React 19.0
+	 * @example
+	 * ```tsx
+	 * export function MyComponent({ ...htmlAttrs }: FCP<{}, GenericElement>) {
+	 *     return (
+	 *         <div {...htmlAttrs}>
+	 *             <button {...htmlAttrs} />
+	 *         </div>
+	 *     )
+	 * }
+	 * ```
+	 */
+	export type GenericElement = typeof genericElement;
+	type GenericElementAttributes = React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<any> };
 
 	/**
 	 * The type of setter function in React useState.

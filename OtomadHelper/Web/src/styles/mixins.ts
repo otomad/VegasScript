@@ -69,33 +69,6 @@ export default {
 	circle: (position: BorderRadiusPosition = "full") =>
 		setBorderRadius("100%", position),
 	/**
-	 * Create a gradient border.
-	 * @param gradient - Gradient color.
-	 * @param borderWidth - Border width.
-	 */
-	gradientBorder: (gradient: string | RuleSet<object>, borderWidth: number | string = "1px") => {
-		if (typeof borderWidth === "number") borderWidth = borderWidth + "px";
-		return css`
-			position: relative;
-			padding: ${borderWidth};
-
-			&::before {
-				content: "";
-				position: absolute;
-				inset: 0;
-				background: ${gradient} border-box;
-				border-width: ${borderWidth};
-				border-style: solid;
-				border-color: transparent;
-				border-radius: inherit;
-				pointer-events: none;
-				-webkit-mask: linear-gradient(white 0 0) padding-box, linear-gradient(white 0 0);
-				-webkit-mask-composite: xor;
-				mask-composite: exclude;
-			}
-		`;
-	},
-	/**
 	 * Cancel the focus ring style of the parent element, and forward it to a child element to apply the focus ring style.
 	 * @param childSelector - Child element selector.
 	 * @param inset - Makes focus ring inside the element.

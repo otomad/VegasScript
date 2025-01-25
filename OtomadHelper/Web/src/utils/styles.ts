@@ -333,7 +333,8 @@ export function zoomDomRect(rect: DOMRect, zoom: number) {
  */
 export function getContrastiveColor(colorVar: string, alpha: number = 1) {
 	if (!colorVar.startsWith("--")) colorVar = "--" + colorVar;
-	return `oklab(from var(${colorVar}) calc(1 - ((L - 0.65) * infinity + 0.5)) 0 0 / ${alpha})`;
+	return `oklch(from var(${colorVar}) calc(1 - round(to-zero, L / 0.65)) 0 0 / ${alpha})`;
+	// Cannot use `infinity`.
 }
 
 /**

@@ -4,16 +4,17 @@ export /* @internal */ const musicalNotationSystems = ["scientific", "helmholtz"
 
 export default function Shupelunker() {
 	const { enabled, presetTemplate } = selectConfig(c => c.lyrics);
-	const { enabled: karaokeEnabled, futureFill, pastFill } = selectConfig(c => c.lyrics.karaoke);
+	const { enabled: karaokeEnabled, futureFill: [futureFill, setFutureFill], pastFill: [pastFill, setPastFill] } = selectConfig(c => c.lyrics.karaoke);
 	const { enabled: notationEnabled, type } = selectConfig(c => c.lyrics.pitchNotation);
 
 	mutexSwitches(karaokeEnabled, notationEnabled);
 
 	const { changePage } = useSnapshot(pageStore);
 
+	const previewKaraoke = <PreviewKaraoke reset={!enabled[0]} {...(karaokeEnabled[0] ? { futureFill, pastFill } : null)} />;
 	return (
 		<div className="container">
-			<SettingsPageControl image={tipsImage} imageOverlay={<PreviewKaraoke reset={!enabled[0]} />} learnMoreLink="">{t.descriptions.lyrics}</SettingsPageControl>
+			<SettingsPageControl image={tipsImage} imageOverlay={previewKaraoke} learnMoreLink="">{t.descriptions.lyrics}</SettingsPageControl>
 
 			<SettingsCardToggleSwitch title={t.enabled} icon="enabled" on={enabled} resetTransitionOnChanging />
 			<EmptyMessage.Typical icon="lyrics" title="lyrics" enabled={enabled}>
@@ -26,10 +27,10 @@ export default function Shupelunker() {
 					<SettingsCardToggleSwitch title={t.lyrics.enableMode({ mode: t.lyrics.karaoke })} details={t.descriptions.lyrics.karaoke} icon="mic" on={karaokeEnabled} />
 					<Disabled disabled={!karaokeEnabled[0]}>
 						<SettingsCard icon="karaoke_future_fill" title={t.lyrics.karaoke.futureFill} details={t.descriptions.lyrics.karaoke.futureFill}>
-							<ColorPicker color={futureFill} />
+							<ColorPicker color={[futureFill, setFutureFill]} />
 						</SettingsCard>
 						<SettingsCard icon="karaoke_past_fill" title={t.lyrics.karaoke.pastFill} details={t.descriptions.lyrics.karaoke.pastFill}>
-							<ColorPicker color={pastFill} />
+							<ColorPicker color={[pastFill, setPastFill]} />
 						</SettingsCard>
 					</Disabled>
 

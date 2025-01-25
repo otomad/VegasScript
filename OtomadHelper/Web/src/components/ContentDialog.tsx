@@ -73,8 +73,8 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 	/** Action buttons. */
 	buttons?: ReactNode | ((close: () => void) => ReactNode);
 }, "div">) {
-	const close = (): void => void setShown?.(false);
-	const closeWhenNonStatic = (): void => void (!isStatic && close());
+	const close = () => { setShown?.(false); };
+	const closeWhenNonStatic = () => { !isStatic && close(); };
 
 	useEventListener(window, "keydown", e => e.code === "Escape" && closeWhenNonStatic());
 

@@ -9,6 +9,8 @@ const StyledTabItem = styled.button`
 	display: flex;
 	align-items: center;
 	width: -webkit-fill-available;
+	width: -moz-available;
+	width: fill-available;
 	min-height: 30px;
 	overflow-x: hidden;
 	border-radius: 3px;
@@ -136,7 +138,7 @@ export /* @internal */ default function TabItem({ icon, animatedIcon, children, 
 	ariaCurrentWhenSelected?: React.AriaAttributes["aria-current"];
 	/** @private Use the vertical NavigationView style? */
 	_vertical?: boolean;
-}, "section">) {
+}, GenericElement>) {
 	const tabItemEl = useDomRef<"button">();
 
 	const scrollIntoView = () => {

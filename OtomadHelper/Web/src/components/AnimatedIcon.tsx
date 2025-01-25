@@ -118,11 +118,11 @@ function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) 
 	}
 
 	function clearAll() {
-		setSequence(sequence => void sequence.clearAll());
+		setSequence(sequence => { sequence.clearAll(); });
 	}
 
 	function shift() {
-		setSequence(sequence => void sequence.shift());
+		setSequence(sequence => { sequence.shift(); });
 	}
 
 	function goToAndStop(state: LottieStateMarker | number, reversed: boolean = false) {

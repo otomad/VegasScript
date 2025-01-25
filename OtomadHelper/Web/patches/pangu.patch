@@ -16,7 +16,7 @@ index 3466bbadfb74e01ada397f81866e6b972f24ad68..e3d15dac971be0181ab979436549c11f
      "pack:chrome": "npm run build:browser && cp -rf ./dist/browser/pangu.min.js ./browser_extensions/chrome/vendors/pangu/pangu.min.js && cd ./browser_extensions/chrome/ && zip -q -r -0 ../paranoid-auto-spacing.zip . && zip -j ../paranoid-auto-spacing.zip ~/Dropbox/Projects/paranoid-auto-spacing/key.pem",
      "pack:firefox": "node ./browser_extensions/firefox/pack.js",
 diff --git a/src/shared/core.js b/src/shared/core.js
-index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..3ee499a78e583577f8f7e8c252755054bd2e99cc 100644
+index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..5e6688657462976aee502f0daca963899b3734a4 100644
 --- a/src/shared/core.js
 +++ b/src/shared/core.js
 @@ -1,3 +1,18 @@
@@ -51,7 +51,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..3ee499a78e583577f8f7e8c252755054
  
  // ANS is short for Alphabets, Numbers, and Symbols.
  //
-@@ -26,50 +45,50 @@ const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u
+@@ -26,50 +45,51 @@ const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u
  //
  // some S below does not include all symbols
  
@@ -99,17 +99,19 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..3ee499a78e583577f8f7e8c252755054
  const FIX_SLASH_AS = /([/]) ([a-z\-_\./]+)/g;
  const FIX_SLASH_AS_SLASH = /([/\.])([A-Za-z\-_\./]+) ([/])/g;
  
- // the bracket part only includes ( ) [ ] { } < > “ ”
+-// the bracket part only includes ( ) [ ] { } < > “ ”
 -const CJK_LEFT_BRACKET = new RegExp(`([${CJK}])([\\(\\[\\{<>\u201c])`, 'g');
 -const RIGHT_BRACKET_CJK = new RegExp(`([\\)\\]\\}<>\u201d])([${CJK}])`, 'g');
 -const FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET = /([\(\[\{<\u201c]+)[ ]*(.+?)[ ]*([\)\]\}>\u201d]+)/;
 -const ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET = new RegExp(`([A-Za-z0-9${CJK}])[ ]*([\u201c])([A-Za-z0-9${CJK}\\-_ ]+)([\u201d])`, 'g');
 -const LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK = new RegExp(`([\u201c])([A-Za-z0-9${CJK}\\-_ ]+)([\u201d])[ ]*([A-Za-z0-9${CJK}])`, 'g');
-+const CJK_LEFT_BRACKET = $r(`([${CJK}])([\\(\\[\\{<>“])`);
-+const RIGHT_BRACKET_CJK = $r(`([\\)\\]\\}<>”])([${CJK}])`);
-+const FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET = /([\(\[\{<“]+)[ ]*(.+?)[ ]*([\)\]\}>”]+)/;
-+const ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET = $r(`([A-Za-z0-9${CJK}])[ ]*([“])([A-Za-z0-9${CJK}\\-_ ]+)([”])`);
-+const LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK = $r(`([“])([A-Za-z0-9${CJK}\\-_ ]+)([”])[ ]*([A-Za-z0-9${CJK}])`);
++// the bracket part only includes ( ) [ ] { } < >
++// Removed: “ ” ‘ ’
++const CJK_LEFT_BRACKET = $r(`([${CJK}])([\\(\\[\\{<>])`);
++const RIGHT_BRACKET_CJK = $r(`([\\)\\]\\}<>])([${CJK}])`);
++const FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET = /([\(\[\{<]+)[ ]*(.+?)[ ]*([\)\]\}>]+)/;
++// const ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET = $r(`([A-Za-z0-9${CJK}])[ ]*([“])([A-Za-z0-9${CJK}\\-_ ]+)([”])`);
++// const LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK = $r(`([“])([A-Za-z0-9${CJK}\\-_ ]+)([”])[ ]*([A-Za-z0-9${CJK}])`);
  
  const AN_LEFT_BRACKET = /([A-Za-z0-9])([\(\[\{])/g;
  const RIGHT_BRACKET_AN = /([\)\]\}])([A-Za-z0-9])/g;
@@ -126,7 +128,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..3ee499a78e583577f8f7e8c252755054
  
  class Pangu {
    constructor() {
-@@ -125,38 +144,38 @@ class Pangu {
+@@ -125,38 +145,38 @@ class Pangu {
        return `${cjk}${fullwidthSymbols}`;
      });
  
@@ -168,8 +170,8 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..3ee499a78e583577f8f7e8c252755054
      newText = newText.replace(FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1$2$3');
 -    newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1 $2$3$4');
 -    newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, '$1$2$3 $4');
-+    newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, `$1${PUNCSP}$2$3$4`);
-+    newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, `$1$2$3${PUNCSP}$4`);
++    // newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, `$1${PUNCSP}$2$3$4`);
++    // newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, `$1$2$3${PUNCSP}$4`);
  
      newText = newText.replace(AN_LEFT_BRACKET, '$1 $2');
      newText = newText.replace(RIGHT_BRACKET_AN, '$1 $2');
@@ -181,7 +183,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..3ee499a78e583577f8f7e8c252755054
  
      newText = newText.replace(S_A, '$1 $2');
  
-@@ -189,3 +208,7 @@ const pangu = new Pangu();
+@@ -189,3 +209,7 @@ const pangu = new Pangu();
  module.exports = pangu;
  module.exports.default = pangu;
  module.exports.Pangu = Pangu;

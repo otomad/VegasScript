@@ -38,6 +38,11 @@ const StyledPreviewKaraoke = styled.div`
 		}
 	}
 
+	&.custom > p {
+		color: var(--color);
+		-webkit-text-stroke-color: ${getContrastiveColor("color")};
+	}
+
 	main.page.enter-done &:not(.reset) {
 		&.future,
 		&.past:dir(rtl) {
@@ -51,9 +56,13 @@ const StyledPreviewKaraoke = styled.div`
 	}
 `;
 
-export default function PreviewKaraoke({ reset }: FCP<{
+export default function PreviewKaraoke({ reset, futureFill, pastFill }: FCP<{
 	/** Reset the karaoke lyrics progress? */
 	reset?: boolean;
+	/** Future text fill color. */
+	futureFill?: string;
+	/** Past text fill color. */
+	pastFill?: string;
 }>) {
 	const [textEls, setTextEl] = useDomRefs<"p">();
 
@@ -67,8 +76,19 @@ export default function PreviewKaraoke({ reset }: FCP<{
 	});
 
 	return (["future", "past"] as const).map((tense, index) => (
-		<StyledPreviewKaraoke key={tense} className={[tense, { reset }]}>
-			<p ref={setTextEl(index)}>{t.lyrics.sampleLyrics}</p>
+		<StyledPreviewKaraoke
+			key={tense}
+			className={[tense, {
+				reset,
+				custom: tense === "future" && futureFill || tense === "past" && pastFill,
+			}]}
+		>
+			<p
+				ref={setTextEl(index)}
+				style={{ "--color": tense === "future" ? futureFill : pastFill }}
+			>
+				{t.lyrics.sampleLyrics}
+			</p>
 		</StyledPreviewKaraoke>
 	));
 }
