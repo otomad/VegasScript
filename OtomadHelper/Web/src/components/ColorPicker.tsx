@@ -24,15 +24,18 @@ const StyledColorPicker = styled(StyledButton)`
 		border-radius: 4px;
 	}
 
-	.icon {
+	.animated-icon {
 		position: absolute;
 		color: ${getContrastiveColor("color")};
 		font-size: 16px;
-		opacity: 0;
+
+		&:not(.animating) {
+			opacity: 0;
+		}
 	}
 
 	&:hover {
-		.icon {
+		.animated-icon {
 			opacity: 1;
 		}
 
@@ -45,7 +48,8 @@ const StyledColorPicker = styled(StyledButton)`
 		--border-outline-color: ${c("fill-color-subtle-tertiary")};
 		background-color: ${c("fill-color-subtle-secondary")};
 
-		.icon {
+		.animated-icon {
+			--state: pressed;
 			opacity: ${c("pressed-text-opacity")};
 		}
 
@@ -63,7 +67,7 @@ const StyledColorPicker = styled(StyledButton)`
 		opacity: 0.5;
 		filter: grayscale(0.5);
 	}
-`; // TODO: pencel (edit) lottie icon
+`;
 
 export default function ColorPicker({ color: [color, setColor], ...htmlAttrs }: FCP<{
 	/** Color. */
@@ -71,6 +75,8 @@ export default function ColorPicker({ color: [color, setColor], ...htmlAttrs }: 
 	children?: never;
 }, "button">) {
 	const inputColorEl = useDomRef<"input">();
+	const [isEditIconAnimating, setIsEditIconAnimating] = useState(false);
+	// The edit icon will keep showing until the animation finishes playing.
 
 	const handleClick: MouseEventHandler = async e => {
 		e.stopPropagation();
@@ -81,7 +87,7 @@ export default function ColorPicker({ color: [color, setColor], ...htmlAttrs }: 
 	return (
 		<StyledColorPicker {...htmlAttrs} style={{ "--color": color }} onClick={handleClick}>
 			<div className="fill" />
-			<Icon name="edit" />
+			<AnimatedIcon name="edit" className={{ animating: isEditIconAnimating }} onPlayStateChange={setIsEditIconAnimating} />
 			{!window.isWebView && <input ref={inputColorEl} type="color" value={color} onChange={e => setColor?.(e.currentTarget.value)} />}
 		</StyledColorPicker>
 	);

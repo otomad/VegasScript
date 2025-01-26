@@ -70,7 +70,7 @@ const StyledAnimatedIcon = styled.div<{
 type LottieStateMarker = `${string}To${string}`;
 type MarkerFromTo = Partial<{ from: string; to: string }> | undefined;
 
-function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) {
+function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>, actions: LottieInternalActions) {
 	const [sequence, setSequence] = useImmer<LottieStateMarker[]>([]);
 
 	function findMarker(callback: string | ((name: string) => boolean)) {
@@ -113,7 +113,7 @@ function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) 
 
 			const anim = animationItem.current;
 			if (isPaused && anim && state[0])
-				anim.goToAndPlay(state[0], true);
+				actions.goToAndPlay(state[0], true);
 		});
 	}
 
@@ -130,13 +130,13 @@ function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) 
 		const anim = animationItem.current;
 		if (!anim) return;
 		if (typeof state === "string")
-			if (!reversed) anim.goToAndStop(state);
+			if (!reversed) actions.goToAndStop(state);
 			else {
 				const markerItem = findMarker(state);
 				if (markerItem)
-					anim.goToAndStop(markerItem.time + markerItem.duration - 1);
+					actions.goToAndStop(markerItem.time + markerItem.duration - 1);
 			}
-		else anim.goToAndStop(state);
+		else actions.goToAndStop(state);
 	}
 
 	function onAnimationComplete() {
@@ -145,11 +145,24 @@ function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>) 
 			const nextState = sequence[0];
 			const anim = animationItem.current;
 			if (nextState && anim)
-				anim.goToAndPlay(nextState, true);
+				actions.goToAndPlay(nextState, true);
 		});
+		actions.setIsPlaying(false);
 	}
 
 	return { sequence, findMarker, push, clearAll, shift, goToAndStop, onAnimationComplete };
+}
+
+interface LottieActions {
+	play(): void;
+	pause(): void;
+	stop(): void;
+	goToAndPlay: AnimationItem["goToAndPlay"];
+	goToAndStop: AnimationItem["goToAndStop"];
+}
+
+interface LottieInternalActions extends Pick<LottieActions, "goToAndPlay" | "goToAndStop"> {
+	setIsPlaying: SetState<boolean>;
 }
 
 const iconsImport = import.meta.glob<AnyObject>("/src/assets/lotties/**/*.json", { import: "default", eager: true, query: "?lottie" });
@@ -164,6 +177,7 @@ export default function AnimatedIcon({
 	showFallbackIcon = false,
 	onInit,
 	onClick,
+	onPlayStateChange,
 	ref,
 	...htmlAttrs
 }: FCP<{
@@ -190,15 +204,26 @@ export default function AnimatedIcon({
 	onInit?(anim?: AnimationItem): void;
 	/** Click event. */
 	onClick?(anim?: AnimationItem): void;
+	/** Occurs when the animation played, paused, or stopped. */
+	onPlayStateChange?(isPlaying: boolean): void;
 	children?: never;
-	ref?: ForwardedRef<{
-		play(): void;
-		pause(): void;
-		stop(): void;
-	}>;
+	ref?: ForwardedRef<LottieActions>;
 }, "div">) {
 	const animationItem = useRef<AnimationItem>(undefined);
-	const { findMarker, onAnimationComplete, ...sequence } = useLottieSequence(animationItem);
+	const [isPlaying, setIsPlaying] = useState(false);
+
+	const stop = () => { animationItem.current?.stop(); setIsPlaying(false); };
+	const play = () => { animationItem.current?.play(); setIsPlaying(true); };
+	const pause = () => { animationItem.current?.pause(); setIsPlaying(false); };
+	const goToAndStop: AnimationItem["goToAndStop"] = (...args) => { animationItem.current?.goToAndStop(...args); setIsPlaying(false); };
+	const goToAndPlay: AnimationItem["goToAndPlay"] = (...args) => { animationItem.current?.goToAndPlay(...args); setIsPlaying(true); };
+	const handleSpeedChange = () => animationItem.current?.setSpeed(speed);
+
+	useImperativeHandle(ref, () => ({ play, pause, stop, goToAndPlay, goToAndStop }), []);
+
+	const { findMarker, onAnimationComplete, ...sequence } = useLottieSequence(animationItem, { goToAndPlay, goToAndStop, setIsPlaying });
+
+	useEffect(() => { onPlayStateChange?.(isPlaying); }, [isPlaying]);
 
 	/**
 	 * Gets the icon as a filename.
@@ -236,11 +261,6 @@ export default function AnimatedIcon({
 		onClick?.(animationItem.current);
 	};
 
-	const stop = () => animationItem.current?.stop();
-	const play = () => animationItem.current?.play();
-	const pause = () => animationItem.current?.pause();
-	const handleSpeedChange = () => animationItem.current?.setSpeed(speed);
-
 	/**
 	 * Control status information.
 	 */
@@ -258,8 +278,8 @@ export default function AnimatedIcon({
 			anim.playDirection = Math.sign(speed);
 		}
 		if (!marker)
-			if (speed === 0) anim.pause();
-			else anim.play();
+			if (speed === 0) pause();
+			else play();
 		else {
 			let markerItem = findMarker(marker);
 			if (!markerItem)
@@ -311,10 +331,6 @@ export default function AnimatedIcon({
 		handleSpeedChange();
 		onInit?.(anim);
 	}
-
-	useImperativeHandle(ref, () => ({
-		play, pause, stop,
-	}), []);
 
 	return (
 		<StyledAnimatedIcon $clipped={clipped} {...htmlAttrs}>
