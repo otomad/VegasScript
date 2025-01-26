@@ -302,7 +302,7 @@ export default function Audio() {
 								/>
 							</Expander.Item>
 							<ToggleSwitch icon="relative" on={basePitchBased} details={t.descriptions.stream.tuning.basePitch.based}>{t.stream.tuning.basePitch.based}</ToggleSwitch>
-							<ToggleSwitch icon="tuning_sparkle" on={[false]} disabled details={<p style={{ color: c("fill-color-system-critical") }}>{t.underConstruction}</p>}>{t.stream.tuning.basePitch.auto}</ToggleSwitch>
+							<ToggleSwitch icon="tuning_sparkle" on={[false]} disabled selectInfo={t.underConstruction}>{t.stream.tuning.basePitch.auto}</ToggleSwitch>
 						</Expander>
 						<Expander
 							title={t.stream.tuning.prelisten}

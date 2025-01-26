@@ -11,9 +11,9 @@ patchedDependencies:
   babel-plugin-styled-components@2.1.4:
     hash: c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610
     path: patches/babel-plugin-styled-components@2.1.4.patch
-  babel-plugin-transform-jsx-classnames@1.2.2:
-    hash: ad302aee87925a45109f937c018f6cae24e3882bc037eaabc21b610a43639ae0
-    path: patches/babel-plugin-transform-jsx-classnames@1.2.2.patch
+  babel-plugin-transform-jsx-classnames:
+    hash: 3261c0fb8fd9750eb153af71ac2bebf9f5bf26eefba4c76cc91d7cf4af24efd1
+    path: patches/babel-plugin-transform-jsx-classnames.patch
   license-checker@25.0.1:
     hash: 9ae5a5e9ecb07508572ba682e27b17c8d752965f06b1833d82072559fed81923
     path: patches/license-checker@25.0.1.patch
@@ -42,7 +42,7 @@ patchedDependencies:
     hash: d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91
     path: patches/react@19.0.0.patch
   styled-components@6.1.13:
-    hash: 02b69552388f73bdb1e5f6faf728b871d5cb35b5cdbcfdcdabe8cf39ff8fe6c0
+    hash: 2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291
     path: patches/styled-components@6.1.13.patch
   vite-plugin-image-optimizer@1.1.8:
     hash: 31ee3d991bfd591319b2dafde4065eb99830c75e27c590eaabca0df303e615fc
@@ -123,7 +123,7 @@ importers:
         version: 4.5.3(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
       styled-components:
         specifier: ^6.1.13
-        version: 6.1.13(patch_hash=02b69552388f73bdb1e5f6faf728b871d5cb35b5cdbcfdcdabe8cf39ff8fe6c0)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
       styled-tools:
         specifier: ^1.7.2
         version: 1.7.2
@@ -187,10 +187,10 @@ importers:
         version: 4.3.4(vite@6.0.3(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
       babel-plugin-styled-components:
         specifier: ^2.1.4
-        version: 2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=02b69552388f73bdb1e5f6faf728b871d5cb35b5cdbcfdcdabe8cf39ff8fe6c0)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))
+        version: 2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))
       babel-plugin-transform-jsx-classnames:
         specifier: ^1.2.2
-        version: 1.2.2(patch_hash=ad302aee87925a45109f937c018f6cae24e3882bc037eaabc21b610a43639ae0)
+        version: 1.2.2(patch_hash=3261c0fb8fd9750eb153af71ac2bebf9f5bf26eefba4c76cc91d7cf4af24efd1)
       click-to-react-component:
         specifier: ^1.1.2
         version: 1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
@@ -6320,20 +6320,20 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  babel-plugin-styled-components@2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=02b69552388f73bdb1e5f6faf728b871d5cb35b5cdbcfdcdabe8cf39ff8fe6c0)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))):
+  babel-plugin-styled-components@2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))):
     dependencies:
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-module-imports': 7.24.3
       '@babel/plugin-syntax-jsx': 7.24.1(@babel/core@7.24.4)
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 6.1.13(patch_hash=02b69552388f73bdb1e5f6faf728b871d5cb35b5cdbcfdcdabe8cf39ff8fe6c0)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      styled-components: 6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
     transitivePeerDependencies:
       - '@babel/core'
 
   babel-plugin-syntax-jsx@6.18.0: {}
 
-  babel-plugin-transform-jsx-classnames@1.2.2(patch_hash=ad302aee87925a45109f937c018f6cae24e3882bc037eaabc21b610a43639ae0):
+  babel-plugin-transform-jsx-classnames@1.2.2(patch_hash=3261c0fb8fd9750eb153af71ac2bebf9f5bf26eefba4c76cc91d7cf4af24efd1):
     dependencies:
       babel-plugin-syntax-jsx: 6.18.0
 
@@ -9449,7 +9449,7 @@ snapshots:
 
   style-search@0.1.0: {}
 
-  styled-components@6.1.13(patch_hash=02b69552388f73bdb1e5f6faf728b871d5cb35b5cdbcfdcdabe8cf39ff8fe6c0)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
     dependencies:
       '@emotion/is-prop-valid': 1.2.2
       '@emotion/unitless': 0.8.1

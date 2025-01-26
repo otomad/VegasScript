@@ -1,5 +1,6 @@
 import { StyledCard } from "components/Card";
 import { styledExpanderItemBase, styledExpanderItemContent } from "components/Expander/ExpanderItem";
+import SettingsCardSelectInfo from "./SettingsCardSelectInfo";
 
 const isPressed = (ampersand = "&") => `${ampersand}:not(:has(:is(button, input):active)):active, .sortable-overlay:not(.dropping) > ${ampersand}`;
 
@@ -11,7 +12,6 @@ const StyledSettingsCard = styled(StyledCard)<{
 
 	${$trailingGap !== undefined && css`
 		.trailing {
-			content: "jb";
 			gap: ${styles.toValue($trailingGap)};
 		}
 	`}
@@ -19,14 +19,6 @@ const StyledSettingsCard = styled(StyledCard)<{
 	> .base {
 		${styledExpanderItemBase};
 		position: relative;
-
-		.select-info {
-			color: ${c("accent-color")};
-
-			&.invalid {
-				color: ${c("fill-color-system-critical")};
-			}
-		}
 
 		> .trailing {
 			max-inline-size: 100%;
@@ -41,12 +33,9 @@ const StyledSettingsCard = styled(StyledCard)<{
 	&[disabled] > .base {
 		background-color: ${c("fill-color-control-disabled")};
 
-		> :not(.trailing) {
+		> .leading > .icon,
+		> .leading > .text > :not(.select-info) {
 			opacity: ${c("disabled-text-opacity")};
-
-			&.contents > * {
-				opacity: inherit;
-			}
 		}
 
 		> .trailing {
@@ -135,7 +124,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 
 	> .base > .leading > .text {
 		min-height: 20px;
-		overflow: hidden;
+		overflow-y: clip;
 		transition: ${fallbackTransitions}, height ${eases.easeOutMaterialEmphasized} 250ms;
 	}
 
@@ -211,7 +200,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 								<div className="text">
 									<p className="title" id={`${ariaId}-title`} aria-hidden><Preserves>{title}</Preserves></p>
 									<p className="details" id={`${ariaId}-details`} aria-hidden><Preserves>{details}</Preserves></p>
-									<p className={["details", "select-info", { invalid: !selectValid }]}><Preserves>{selectInfo}</Preserves></p>
+									<SettingsCardSelectInfo valid={selectValid}>{selectInfo}</SettingsCardSelectInfo>
 								</div>
 							</Transitions.DynamicAutoSize>
 						</>
@@ -285,3 +274,4 @@ function SettingsCardBase({ threshold = SETTINGS_CARD_TRAILING_MAX_WIDTH, leadin
 }
 
 SettingsCard.Base = SettingsCardBase;
+SettingsCard.SelectInfo = SettingsCardSelectInfo;

@@ -58,7 +58,7 @@ export function important(priority: number = 1) {
 	return ":not(#\\#)".repeat(priority);
 }
 
-function toValue_css(value: string | number) {
+function toValue_css(value: string | number | undefined) {
 	return typeof value === "number" ? value + "px" : value;
 }
 

@@ -52,8 +52,6 @@ const StyledToggleSwitchLabel = styled.button`
 		&:last-child {
 			border-radius: inherit;
 		}
-
-		&
 	}
 
 	&:not(.expander-child-items &) {
@@ -130,12 +128,12 @@ const StyledToggleSwitchLabel = styled.button`
 		}
 
 
-		.icon,
+		> .icon,
 		.text {
 			color: ${c("fill-color-text-disabled")};
 		}
 
-		.text .details {
+		.text .details:not(.select-info) {
 			opacity: ${c("disabled-text-opacity")};
 		}
 	}
@@ -199,7 +197,7 @@ const StyledToggleSwitchLabel = styled.button`
 	}
 `;
 
-export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = [], hideLabel, as, details, resetTransitionOnChanging = false, color, lock, icon, children, ...htmlAttrs }: FCP<{
+export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = [], hideLabel, as, details, resetTransitionOnChanging = false, color, lock, icon, selectInfo, selectValid = false, children, ...htmlAttrs }: FCP<{
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled */
@@ -229,6 +227,10 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	lock?: boolean | null;
 	/** Icon. */
 	icon?: DeclaredIcons;
+	/** Specifies the display string of the selection of tracks or track events. */
+	selectInfo?: ReactNode;
+	/** Specifies whether the selection is valid if it's boolean, or the number of selection is not 0 if it's number. */
+	selectValid?: boolean | number;
 }, "button">) {
 	const on = typeof lock === "boolean" ? lock : _on!;
 	const disabled = typeof lock === "boolean" || _disabled;
@@ -313,6 +315,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 				<div className="text" aria-hidden>
 					{children && <p className="title" id={`${ariaId}-title`}>{children}</p>}
 					{details && <p className="details" id={`${ariaId}-details`}>{details}</p>}
+					<SettingsCard.SelectInfo valid={selectValid}>{selectInfo}</SettingsCard.SelectInfo>
 				</div>
 			)}
 			<div className="right">

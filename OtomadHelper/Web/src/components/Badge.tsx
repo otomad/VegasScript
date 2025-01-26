@@ -18,11 +18,12 @@ const StyledBadge = styled.div<{
 	${styles.mixins.oval()};
 	${styles.mixins.flexCenter()};
 	${styles.effects.text.caption};
+	--size: 16px;
 	display: inline-flex;
 	flex-shrink: 0;
 	padding: 0 3px;
-	block-size: 16px;
-	min-inline-size: 16px;
+	block-size: var(--size);
+	min-inline-size: var(--size);
 	text-align: center;
 	background-color: ${c("fill-color-system-solid-neutral-background")};
 	scale: 1;
@@ -33,7 +34,7 @@ const StyledBadge = styled.div<{
 	}
 
 	&.icon-only {
-		inline-size: 16px;
+		inline-size: var(--size);
 	}
 
 	${tgs()} {
@@ -51,7 +52,7 @@ const StyledBadge = styled.div<{
 	}
 
 	.icon {
-		font-size: 12px;
+		font-size: calc(var(--size) * 0.75);
 	}
 
 	&.beacon {
@@ -62,20 +63,31 @@ const StyledBadge = styled.div<{
 	}
 `;
 
-export default function Badge({ children, status = "info", hidden, transitionOnAppear = true, className, ref, ...htmlAttrs }: FCP<{
+export default function Badge({ children, status = "info", colorOverride, hidden, transitionOnAppear = true, size, className, ref, ...htmlAttrs }: FCP<{
 	/** The state of the badge, that is, the color. */
 	status?: Status;
+	/** Replace the default color of `status` prop with a different status color. */
+	colorOverride?: Status;
 	/** Hidden? */
 	hidden?: boolean;
 	/** Play transition when the badge is appeared? */
 	transitionOnAppear?: boolean;
+	/** Badge size. */
+	size?: Numberish;
 }, "div">) {
 	if (children === false) hidden = true;
+	colorOverride ??= status;
 	const iconName = `badge/${status.in("neutual", "accent") ? "info" : status}` as const;
 	const beacon = typeof children === "boolean";
 	return (
 		<CssTransition in={!hidden} unmountOnExit appear={transitionOnAppear}>
-			<StyledBadge $status={status} ref={ref} className={[{ iconOnly: children === undefined, beacon }, className]} {...htmlAttrs}>
+			<StyledBadge
+				ref={ref}
+				$status={colorOverride}
+				className={[{ iconOnly: children === undefined, beacon }, className]}
+				style={{ "--size": styles.toValue(size) }}
+				{...htmlAttrs}
+			>
 				{!beacon && (children != null ? <span className="text">{children}</span> : <Icon name={iconName} />)}
 			</StyledBadge>
 		</CssTransition>

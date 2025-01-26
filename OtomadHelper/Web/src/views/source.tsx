@@ -53,10 +53,6 @@ export default function Source() {
 
 	const lockRemoveOrSelectSourceClips = sourceFrom[0] !== "trackEvent" ? false : null;
 
-	const underVegas16 = isUnderVegas16 ?
-		<p style={{ color: c("fill-color-system-critical") }}>{t.descriptions.source.preferredTrack.belowAdjustmentTracks.versionRequest({ version: 16 })}</p> :
-		undefined;
-
 	return (
 		<div className="container">
 			<Card className="media-pool">
@@ -111,7 +107,7 @@ export default function Source() {
 				</Expander.Item>
 				<ToggleSwitch
 					on={belowAdjustmentTracks}
-					details={underVegas16}
+					selectInfo={isUnderVegas16 && t.descriptions.source.preferredTrack.belowAdjustmentTracks.versionRequest({ version: 16 })}
 					icon="layer_sparkle_add_below"
 					lock={isUnderVegas16 ? false : null}
 				>

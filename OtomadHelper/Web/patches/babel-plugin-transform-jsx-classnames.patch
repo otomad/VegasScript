@@ -1,5 +1,5 @@
 diff --git a/cx.js b/cx.js
-index f743a8df9375d8919d473dacab9640c6e66752c1..211e2cc53d22dc4b2517ffbbd4653dd1c6194cfb 100644
+index f743a8df9375d8919d473dacab9640c6e66752c1..3435cfb53589fff6f938364e0cc99dd9ff4b5e73 100644
 --- a/cx.js
 +++ b/cx.js
 @@ -1,6 +1,7 @@
@@ -10,15 +10,6 @@ index f743a8df9375d8919d473dacab9640c6e66752c1..211e2cc53d22dc4b2517ffbbd4653dd1
  
  function getClass(arg) {
    if (typeof arg === 'string') return arg
-@@ -12,7 +13,7 @@ function getClass(arg) {
-       if ((s = arg[k]))
-         if ((s = getClass(s))) {
-           if (className) className += ' '
--          className += s
-+          className += kebabize(s)
-         }
-     }
-     return className
 @@ -23,7 +24,7 @@ function getClass(arg) {
          /* istanbul ignore next */
          if (HAS_OWN.call(arg, s)) {
@@ -37,12 +28,3 @@ index f743a8df9375d8919d473dacab9640c6e66752c1..211e2cc53d22dc4b2517ffbbd4653dd1
            }
          }
        }
-@@ -58,7 +59,7 @@ module.exports = function (arg0) {
-     if ((str = arguments[i]))
-       if ((str = getClass(str))) {
-         if (className) className += ' '
--        className += str
-+        className += kebabize(str)
-       }
-   }
-   return className
