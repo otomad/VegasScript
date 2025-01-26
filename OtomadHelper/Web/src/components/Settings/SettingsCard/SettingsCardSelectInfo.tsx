@@ -1,7 +1,7 @@
 const StyledSettingsCardSelectInfo = styled.p`
 	color: ${c("accent-color")} !important;
 
-	&&.invalid {
+	&.invalid {
 		color: ${c("fill-color-system-critical")} !important;
 	}
 

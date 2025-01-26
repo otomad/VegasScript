@@ -3,6 +3,7 @@ import { StyledButton } from "./Button";
 const PADDING = 3;
 
 const StyledColorPicker = styled(StyledButton)`
+	--border-highlight-y-offset: 0 !important;
 	position: relative;
 	aspect-ratio: 1 / 1;
 	margin: ${-PADDING}px !important;
@@ -41,6 +42,9 @@ const StyledColorPicker = styled(StyledButton)`
 	}
 
 	&:active {
+		--border-outline-color: ${c("fill-color-subtle-tertiary")};
+		background-color: ${c("fill-color-subtle-secondary")};
+
 		.icon {
 			opacity: ${c("pressed-text-opacity")};
 		}
