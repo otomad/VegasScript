@@ -19,7 +19,7 @@ export default function LetterByLetter({ as: As = "p", children = "", granularit
 	}, [children]);
 
 	return (
-		<As className={[className, nameof({ LetterByLetter })]} {...htmlAttrs as object}>
+		<As className={[className, nameof.kebab({ LetterByLetter })]} {...htmlAttrs as object}>
 			{characters}
 		</As>
 	);

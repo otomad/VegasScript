@@ -1,6 +1,6 @@
 export { };
 
-declare global {
+declare module "react/jsx-runtime" {
 	namespace JSX {
 		interface IntrinsicElements {
 			// MathML

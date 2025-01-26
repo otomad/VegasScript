@@ -12,6 +12,8 @@ type UnionToTuple<T> = UnionToIntersection<T extends Any ? (t: T) => T : never> 
 /**
  * Get the name of a variable. The prescribed syntax format must be followed when using.
  *
+ * @deprecated
+ *
  * @param oneProperty
  * * An object that only contains the only one variable.
  * * An arrow function that returns the descendant of an object.
@@ -39,3 +41,8 @@ export default function nameof(object: {}): unknown {
 		return keyList.length === 1 ? keyList[0] : undefined;
 	}
 }
+
+nameof.kebab = (object => {
+	const name = nameof(object) as string;
+	return new VariableName(name).kebab;
+}) as typeof nameof;
