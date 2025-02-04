@@ -9,6 +9,7 @@ const StyledAnimatedIcon = styled.div<{
 		--selected: false;
 	}
 
+	${styles.effects.text.icon};
 	display: contents;
 
 	&,
@@ -16,6 +17,11 @@ const StyledAnimatedIcon = styled.div<{
 	.lottie {
 		display: inline-block;
 		line-height: 0;
+	}
+
+	.icon-box,
+	.lottie {
+		font-size: inherit;
 	}
 
 	.icon-box {
@@ -39,7 +45,6 @@ const StyledAnimatedIcon = styled.div<{
 		}
 
 		.lottie {
-			${styles.effects.text.icon};
 			${styles.mixins.square("1em")};
 
 			&:not(.filled) {

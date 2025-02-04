@@ -9,7 +9,11 @@ const StyledColorPicker = styled(StyledButton)`
 	margin: ${-PADDING}px !important;
 	padding: ${PADDING}px;
 	min-inline-size: 40px;
-	border-radius: 6px;
+
+	&,
+	.fill {
+		${styles.mixins.circle()};
+	}
 
 	input {
 		visibility: hidden;
@@ -21,7 +25,6 @@ const StyledColorPicker = styled(StyledButton)`
 		background-color: ${c("color")};
 		/* border: 1px solid ${c("foreground-color", 37)}; */
 		border: 1px solid ${getContrastiveColor("color", 0.37)};
-		border-radius: 4px;
 	}
 
 	.animated-icon {
