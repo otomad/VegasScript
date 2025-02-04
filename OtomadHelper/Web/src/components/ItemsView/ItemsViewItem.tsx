@@ -277,7 +277,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	useEffect(() => onSelectedChange?.(id, selected), [selected]);
 
 	return (
-		<ItemsViewItemStateContext.Provider value={{ hover }}>
+		<ItemsViewItemStateContext value={{ hover }}>
 			<EventInjector onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
 				<StyledItemsViewItem
 					$view={view!}
@@ -321,7 +321,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 					)}
 				</StyledItemsViewItem>
 			</EventInjector>
-		</ItemsViewItemStateContext.Provider>
+		</ItemsViewItemStateContext>
 	);
 }
 

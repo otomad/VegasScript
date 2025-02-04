@@ -72,7 +72,7 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 	}, [children]);
 
 	return (
-		<SortableItemContext.Provider value={context}>
+		<SortableItemContext value={context}>
 			<StyledSortableItem
 				ref={setNodeRef}
 				className={{ dragging: isDragging }}
@@ -86,7 +86,7 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 			>
 				{children}
 			</StyledSortableItem>
-		</SortableItemContext.Provider>
+		</SortableItemContext>
 	);
 }
 
