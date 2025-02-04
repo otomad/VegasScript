@@ -1,5 +1,3 @@
-/// <reference path="array.d.ts" />
-
 { // Init array extensions
 	Array.prototype.removeAt = function (index) {
 		this.splice(index, 1);

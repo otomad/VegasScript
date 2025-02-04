@@ -1,5 +1,3 @@
-/// <reference path="misc.d.ts" />
-
 {
 	Response.prototype.xml = async function () {
 		const text = await this.text();

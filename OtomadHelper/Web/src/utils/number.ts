@@ -1,5 +1,3 @@
-/// <reference path="number.d.ts" />
-
 { // Init number extensions
 	defineGetterInPrototype(Number, "isPositive", function () {
 		return +this > 0 || Object.is(+this, +0);

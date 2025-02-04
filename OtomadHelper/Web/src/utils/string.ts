@@ -1,5 +1,3 @@
-/// <reference path="string.d.ts" />
-
 import dedent from "dedent";
 
 { // Init string extensions
