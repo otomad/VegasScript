@@ -24,7 +24,7 @@ class PrveClass {
 		new PrveClass("rotation", "rotate", $s(1, "rotate")),
 		new PrveClass("scale", "resize_image", $s(1, "zoomOutIn")),
 		new PrveClass("mirror", "image_reflection", [...$s(2, "hMirror", "vMirror"), ...$s(4, "ccwMirror", "cwMirror")]),
-		new PrveClass("invert", "invert_color", [...$s(2, "negative", "luminInvert", "negativeFade", "negativeLuma")]),
+		new PrveClass("invert", "invert_color", [...$s(2, "negative", "luminInvert", "negativeFade", "negativeLuma"), ...$s(4, "rotInvertHue", "rotInvertLumin", "altInvertHue", "altInvertLumin")]),
 		new PrveClass("hue", "hue", [...$s(2, "hueInvert"), ...forMapFromTo(3, 8, frames => ({ effect: STEP_CHANGE_HUE + frames, frames }))]),
 		new PrveClass("chromatic", "black_and_white", $s(2, "chromatic", "chromaticFade")),
 		new PrveClass("time", "timer", $s(2, "pingpong", "whirl")),
@@ -179,7 +179,6 @@ export default function Prve() {
 							<Expander.Item title={t.prve.initialValue} icon="replay">
 								{(() => {
 									const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) < 2;
-									console.log(invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1));
 									return (
 										<SliderWithBox
 											value={invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1)}

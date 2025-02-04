@@ -270,6 +270,50 @@ const StyledPreviewPrve = styled.div<{
 						`} alternate;
 					}
 				`,
+				rotInvertHue: css`
+					img {
+						filter: hue-rotate(180deg);
+						animation: ${keyframes`
+							0%, 100% { filter: hue-rotate(180deg); }
+							25% { filter: invert(1); }
+							50% { filter: invert(1) hue-rotate(180deg); }
+							75% { filter: none; }
+						`};
+					}
+				`,
+				rotInvertLumin: css`
+					img {
+						filter: invert(1) hue-rotate(180deg);
+						animation: ${keyframes`
+							0%, 100% { filter: invert(1) hue-rotate(180deg); }
+							25% { filter: invert(1); }
+							50% { filter: hue-rotate(180deg); }
+							75% { filter: none; }
+						`};
+					}
+				`,
+				altInvertHue: css`
+					img {
+						filter: invert(1);
+						animation: ${keyframes`
+							0%, 100% { filter: invert(1); }
+							25% { filter: hue-rotate(180deg); }
+							50% { filter: invert(1) hue-rotate(180deg); }
+							75% { filter: none; }
+						`};
+					}
+				`,
+				altInvertLumin: css`
+					img {
+						filter: invert(1);
+						animation: ${keyframes`
+							0%, 100% { filter: invert(1); }
+							25% { filter: invert(1) hue-rotate(180deg); }
+							50% { filter: hue-rotate(180deg); }
+							75% { filter: none; }
+						`};
+					}
+				`,
 				hueInvert: css`
 					img {
 						filter: hue-rotate(180deg);
