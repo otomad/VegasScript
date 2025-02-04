@@ -235,6 +235,9 @@ ignoreWords:
   - menuitemcheckbox
   - menuitemradio
   - ized
+  - gongshang
+  - lyulyu
+  - lülü
 flagWords:
   - colour -> color
   - canot -> cannot

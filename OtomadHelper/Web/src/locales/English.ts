@@ -456,6 +456,8 @@ export default {
 				solfege: "Solfège Syllable",
 				numbered: "Numbered Musical Notation",
 				gongche: "Gongche Notation",
+				gongshang: "Gongshang Notation",
+				lyulyu: "Lülü Notation",
 			},
 		},
 		shupelunker: {

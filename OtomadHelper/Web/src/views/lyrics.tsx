@@ -1,6 +1,6 @@
 import tipsImage from "assets/images/tips/bathroom_mirror.jpg";
 
-export /* @internal */ const musicalNotationSystems = ["scientific", "helmholtz", "solfege", "numbered", "gongche"] as const;
+export /* @internal */ const musicalNotationSystems = ["scientific", "helmholtz", "solfege", "numbered", "gongche", "gongshang", "lyulyu"] as const;
 
 export default function Shupelunker() {
 	const { enabled, presetTemplate } = selectConfig(c => c.lyrics);

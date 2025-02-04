@@ -70,7 +70,7 @@ export default function Settings() {
 								displayValue={i => (i * 100 | 0) + "%"}
 							/>
 						</Expander.Item>
-						<Expander.Item title={t.settings.appearance.backgroundImage.tint} icon="saturation">
+						<Expander.Item title={t.settings.appearance.backgroundImage.tint} icon="shape_intersect">
 							<Slider
 								value={backgroundImageTint}
 								min={0}
