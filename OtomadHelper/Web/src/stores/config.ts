@@ -253,8 +253,8 @@ export const configStore = createStore({
 		affix: "prefix",
 		unallocated: {
 			octaves: true,
-			lowerNeighbors: true,
-			higherNeighbors: true,
+			fillUp: true,
+			fillDown: true,
 			default: true,
 		},
 		exclusiveTrack: true,

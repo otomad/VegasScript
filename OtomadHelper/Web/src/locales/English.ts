@@ -469,8 +469,8 @@ export default {
 			unallocated: {
 				_: "Unallocated",
 				octaves: "Octaves",
-				lowerNeighbors: "Lower neighbors",
-				higherNeighbors: "Higher neighbors",
+				fillUp: "Fill up",
+				fillDown: "Fill down",
 				default: "Default full coverage",
 			},
 			exclusiveTrack: "Exclusive track",
@@ -910,9 +910,9 @@ export default {
 				affix: "The base pitches of the clips need to be detected by naming them, please specify whether the pitch info should be a prefix or suffix to the clip name",
 				unallocated: {
 					_: "Specifies how to fill the vacancies if the sources do not cover all keys",
-					octaves: "Uses the clips with the nearest higher or lower octave, this has the highest priority, useful for sources with sung solfèges",
-					lowerNeighbors: "Uses lower neighbors, but the lowest keys are filled from their nearest higher neighbor, this has higher priority than the higher neighbors",
-					higherNeighbors: "Uses higher neighbors, but the highest keys are filled from their nearest lower neighbor",
+					octaves: "Fills in with the nearest higher or lower octave clips, this has the highest priority, useful for sources with sung solfèges",
+					fillUp: "Fills the missing higher keys with their lower neighbors, but the lowest keys are filled from their nearest higher neighbor, this has higher priority than “Fill down”",
+					fillDown: "Fills the missing lower keys with their higher neighbors, but the highest keys are filled from their nearest lower neighbor",
 					default: "Uses the first clip without any affixes to cover all remaining vacancies, this has the lowest priority",
 				},
 				exclusiveTrack: "Ensure that each clip of the source remains in the same position, but if there are too many clips, they will take up too much space",

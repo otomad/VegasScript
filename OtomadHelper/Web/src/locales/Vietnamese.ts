@@ -25,10 +25,12 @@ export default {
 			mosh_full: "Datamosh",
 			tools: "Công cụ",
 			settings: "Cài đặt",
+			staff_full: "Staff Visualizer",
 			pixelScaling: "Tỷ lệ pixel",
 			parameters: "Thông số",
 			track: "Các track",
 			mosh: "Mosh",
+			effect: "Hiệu ứng",
 			prve: "Hiệu ứng nhịp điệu hình ảnh PV",
 		},
 		source: {
@@ -66,6 +68,7 @@ export default {
 		navigation: "Điều hướng",
 		selectAll: "Chọn tất cả",
 		invertSelection: "Đảo lựa chọn",
+		ok: "OK",
 		infoBar: {
 			warning: "Nhắc nhở",
 		},
@@ -131,7 +134,9 @@ export default {
 				},
 			},
 			box3d: {
-				faces: {},
+				faces: {
+					back: "Trở lại",
+				},
 			},
 			gradient: {
 				effects: {},
@@ -265,11 +270,15 @@ export default {
 				fully: {},
 			},
 		},
-		menu: {},
+		menu: {
+			delete: "&Xoá",
+		},
 	},
 	csharp: {
 		host: {
-			toolTip: {},
+			toolTip: {
+				importToHere: "Nhập %1",
+			},
 		},
 		contentDialog: {
 			button: {
@@ -296,7 +305,9 @@ export default {
 			axisAbbrs: {},
 		},
 		flyout: {
-			confirmDelete: {},
+			confirmDelete: {
+				title: "Xoá?",
+			},
 		},
 		keybindings: {
 			commands: {},
