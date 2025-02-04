@@ -61,7 +61,7 @@ const StyledPreviewLanguage = styled.div`
 	}
 `;
 
-const approvalProgresses = atomWithImmer(new Map<string, number>());
+const approvalProgresses = atomWithStorageAndImmer("translationProgress", new Map<string, number>());
 approvalProgresses.onMount = setProgress => {
 	fetch("/api/crowdin")
 		.then(response => response.json())

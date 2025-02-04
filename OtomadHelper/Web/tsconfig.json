@@ -22,6 +22,7 @@
 		"noEmit": true,
 		"allowUnreachableCode": true,
 		"allowJs": true,
+		"noErrorTruncation": true,
 		"baseUrl": ".",
 		"paths": {
 			"assets/*": ["src/assets/*"],

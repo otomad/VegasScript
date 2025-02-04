@@ -104,6 +104,7 @@ const GlobalStyle = createGlobalStyle<{
 		margin: 0;
 		padding: 0;
 		color: var(--foreground-color);
+		font-feature-settings: "halt";
 		font-kerning: normal;
 		font-synthesis: none;
 		font-variant-ligatures: common-ligatures historical-ligatures contextual;

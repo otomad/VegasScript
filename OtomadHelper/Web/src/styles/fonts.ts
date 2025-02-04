@@ -16,7 +16,7 @@ export const fonts = [
 
 	new FontFace("Open Huninn", `url("${openHuninn}") format("woff2")`),
 
-	new FontFace("Yozora Sans", `url("${yozoraSans}") format("woff2")`),
+	new FontFace("Yozora Sans", `url("${yozoraSans}") format("woff2")`, { weight: "250 900" }),
 ];
 
 { // Init fonts
