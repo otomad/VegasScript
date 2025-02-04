@@ -249,7 +249,12 @@ export function useDomRef<TElement extends keyof ElementTagNameMap | Element>(in
  * ```
  */
 export function useDomRefState<TElement extends keyof ElementTagNameMap | Element>(initialValue: TagNameToElement<TElement> | null = null) {
-	return useState<TagNameToElement<TElement> | null>(initialValue);
+	type El = typeof initialValue;
+	const [el, setEl] = useState<TagNameToElement<TElement> | null>(initialValue);
+	return [el, (el: El) => {
+		setEl(el);
+		return () => setEl(null);
+	}] as const;
 }
 
 /**
