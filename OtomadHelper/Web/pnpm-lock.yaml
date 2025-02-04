@@ -21,7 +21,7 @@ patchedDependencies:
     hash: 8478d38bb7fb10aa0308e4c9d5c978124785085e970180c6a774f340ab7f7906
     path: patches/lottie-web@5.12.2.patch
   pangu:
-    hash: 81bbdc96ab3c0d5dcaa0240ee5c64c23532f50e6734d340f45c63a3211fac93d
+    hash: 80e2f20e0629ef30dd6abfd22b2ea1c51bf18454a249bb2ed43156b39caa96e4
     path: patches/pangu.patch
   postcss-selector-parser@6.1.2:
     hash: 95d44ecd87b2f8615a9d13fe20bf343fa0f9bc6a8831354069c9cd35365f3a5f
@@ -105,7 +105,7 @@ importers:
         version: 3.0.1
       pangu:
         specifier: ^4.0.7
-        version: 4.0.7(patch_hash=81bbdc96ab3c0d5dcaa0240ee5c64c23532f50e6734d340f45c63a3211fac93d)
+        version: 4.0.7(patch_hash=80e2f20e0629ef30dd6abfd22b2ea1c51bf18454a249bb2ed43156b39caa96e4)
       react:
         specifier: ^19.0.0
         version: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
@@ -8693,7 +8693,7 @@ snapshots:
 
   package-name-regex@2.0.6: {}
 
-  pangu@4.0.7(patch_hash=81bbdc96ab3c0d5dcaa0240ee5c64c23532f50e6734d340f45c63a3211fac93d): {}
+  pangu@4.0.7(patch_hash=80e2f20e0629ef30dd6abfd22b2ea1c51bf18454a249bb2ed43156b39caa96e4): {}
 
   param-case@3.0.4:
     dependencies:
