@@ -23,7 +23,7 @@ export default function Settings() {
 		<div className="container">
 			<SettingsAbout />
 			<ExpanderRadio
-				title={t.settings.language}
+				title={t.settings.language + (isEnglish(language ?? "en") ? "" : " / Language")}
 				icon="globe"
 				items={languages}
 				expanded

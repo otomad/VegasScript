@@ -133,7 +133,7 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 	const nextDisplayName = useCallback(() => setDisplayName(name => {
 		const getNext = (current: typeof name) => languageDisplayNames[(languageDisplayNames.indexOf(current) + 1) % languageDisplayNames.length];
 		let next = getNext(name);
-		if (currentLanguage === "en" && next === "english") next = getNext(next);
+		if (isEnglish(currentLanguage) && next === "english") next = getNext(next);
 		return next;
 	}), [currentLanguage]);
 	const languageNames = availableLanguageNames[displayName];

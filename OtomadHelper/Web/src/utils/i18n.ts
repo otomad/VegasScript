@@ -133,3 +133,19 @@ export function useCurrentLanguage() {
 
 	return language;
 }
+
+/**
+ * Check if the provided language is English? Whether it is American English, British English, or something else.
+ * @param lang - Language tag string or Intl.Locale object.
+ * @returns The provided language is English?
+ */
+export function isEnglish(lang: string | Intl.Locale) {
+	if (typeof lang === "string")
+		try {
+			lang = new Intl.Locale(lang);
+		} catch {
+			return false;
+		}
+	lang = lang.maximize();
+	return lang.language === "en";
+}

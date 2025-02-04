@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle<{
 		scroll-behavior: smooth;
 		font-family: "Yozora Sans", "Segoe UI Variable", "Segoe UI", var(--cjk-font-family), "Microsoft YaHei UI", sans-serif;
 		hyphens: auto;
+		hyphenate-limit-chars: 10;
 		user-select: none;
 		transition: ${fallbackTransitions};
 		-webkit-tap-highlight-color: transparent;
