@@ -179,7 +179,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 					</CssTransition>
 				)}
 			</ExpanderParent>
-			<CssTransition in={internalExpanded} unmountOnExit>
+			<CssTransition in={internalExpanded} unmountOnExit transitionEndProperty={["height", "block-size"]}>
 				<ExpanderChild
 					disabled={disabled || childrenDisabled}
 					className={{ clipChildren }}

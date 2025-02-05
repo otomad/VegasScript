@@ -202,7 +202,7 @@ export default function Visual() {
 					<SettingsCardToggleSwitch
 						title={t.stream.playingTechniques.glissando}
 						details={t.descriptions.stream.playingTechniques.glissando}
-						icon="swirl"
+						icon="slide_note"
 						on={glissando}
 					>
 						<Expander.Item icon="sparkle" title={t.titles.effect}>
