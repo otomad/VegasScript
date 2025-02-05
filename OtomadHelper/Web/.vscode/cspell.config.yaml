@@ -9,6 +9,7 @@ includeRegExpList:
 words:
   - abbrs
   - ack
+  - amoled
   - ani
   - apng
   - appcache

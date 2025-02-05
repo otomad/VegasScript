@@ -108,16 +108,18 @@ export default colors;
 export function globalColors() {
 	let css = "";
 	for (let i = 0; i < 3; i++) {
-		const selector = [':root[data-scheme="light"]', ":root", "@media (forced-colors: active) or (prefers-contrast: more) {\n:root, :root[data-scheme]"][i];
+		const selector = [':root[data-scheme~="light"]', ":root", "@media (forced-colors: active) or (prefers-contrast: more) {\n:root, :root[data-scheme]"][i];
 		css += selector + " {\n";
 		for (const [key, values] of Object.entries(colors))
 			if (values[i])
 				css += `\t--${key}: ${values[i]};\n`;
 		css += i === 2 ? "}\n}\n" : "}\n";
 	}
+	css += ':root[data-scheme~="dark"][data-scheme~="black"] {\n\t--background-color: black;}\n';
 	return css;
 }
 // TODO: `light-dark`, `prefers-color-scheme`.
+// TODO: AMOLED dark scheme.
 
 type SystemColors =
 	"ActiveText" | "ButtonFace" | "ButtonText" | "Canvas" | "CanvasText" | "Field" | "FieldText" | "GrayText" | "Highlight" | "HighlightText" | "LinkText" | "VisitedText" | // Standard

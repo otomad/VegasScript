@@ -1,4 +1,6 @@
 const StyledContentDialog = styled.div`
+	display: flex;
+	flex-direction: column;
 	min-width: min(500px, 100dvw);
 	max-width: 100dvw;
 	max-height: 100dvh;
@@ -15,6 +17,7 @@ const StyledContentDialog = styled.div`
 		flex-direction: column;
 		gap: 12px;
 		padding: 24px;
+		overflow-y: auto;
 
 		> * {
 			${styles.mixins.hideIfEmpty()};

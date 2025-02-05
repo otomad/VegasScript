@@ -39,8 +39,8 @@ export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alph
  * https://developer.mozilla.org/docs/Web/CSS/@media/prefers-color-scheme
  */
 export const ifColorScheme = {
-	light: '[data-scheme="light"]',
-	dark: '[data-scheme="dark"]',
+	light: '[data-scheme~="light"]',
+	dark: '[data-scheme~="dark"]',
 };
 
 /**

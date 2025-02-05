@@ -7,7 +7,7 @@ const StyledDynamicAccentColor = createGlobalStyle<{
 		--colorization: ${$palette.colorization};
 		--accent-color: ${$palette.darkAccentColor};
 
-		&[data-scheme="light"] {
+		&[data-scheme~="light"] {
 			--accent-color: ${$palette.lightAccentColor};
 		}
 	}

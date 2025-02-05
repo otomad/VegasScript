@@ -20,7 +20,7 @@ const StyledPreviewColorScheme = styled.div.attrs({
 	}
 
 	${actualColorSchemes.map((scheme, i) => css`
-		.container[data-scheme="${scheme}"] {
+		.container[data-scheme~="${scheme}"] {
 			background-color: ${colors["background-color"][i]};
 
 			button {
