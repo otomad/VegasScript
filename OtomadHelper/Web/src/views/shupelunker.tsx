@@ -25,7 +25,7 @@ export default function Shupelunker() {
 						view="tile"
 						idField="id"
 						nameField={t.shupelunker.affix}
-						iconField={item => <span lang="en">{item.symbol}</span>}
+						iconField={item => <span lang="en" className="no-yozora">{item.symbol}</span>}
 					/>
 					<Expander title={t.shupelunker.unallocated} details={t.descriptions.shupelunker.unallocated} icon="unallocated">
 						<ToggleSwitch on={octaves} details={t.descriptions.shupelunker.unallocated.octaves} icon="unallocated_octaves">{t.shupelunker.unallocated.octaves}</ToggleSwitch>

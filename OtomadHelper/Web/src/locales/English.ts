@@ -455,9 +455,9 @@ export default {
 				helmholtz: "Helmholtz Pitch Notation",
 				solfege: "Solfège Syllable",
 				numbered: "Numbered Musical Notation",
-				gongche: "Gongche Notation",
-				gongshang: "Gongshang Notation",
-				lyulyu: "Lülü Notation",
+				gongche: "Gōngchě Notation",
+				gongshang: "Gōngshāng Notation",
+				lyulyu: "Lǜlǚ Notation",
 			},
 		},
 		shupelunker: {

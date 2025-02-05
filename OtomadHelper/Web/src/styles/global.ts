@@ -57,6 +57,17 @@ const GlobalStyle = createGlobalStyle<{
 		}
 	}
 
+	.no-yozora {
+		&,
+		* {
+			&,
+			&::before,
+			&::after {
+				font-family: "Segoe UI Variable", "Segoe UI", sans-serif;
+			}
+		}
+	}
+
 	code,
 	pre,
 	kbd,

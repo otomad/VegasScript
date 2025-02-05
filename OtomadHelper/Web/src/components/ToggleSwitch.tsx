@@ -319,7 +319,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 				</div>
 			)}
 			<div className="right">
-				{!hideLabel && <span className="text">{textLabel}</span>}
+				{!hideLabel && <span className="text" aria-hidden>{textLabel}</span>}
 				<div className={["stroke", "toggle-switch-base", { pressing: isPressing }]}>
 					<div className="base">
 						<div className="thumb" style={thumbStyle} onPointerDown={onThumbDown} />

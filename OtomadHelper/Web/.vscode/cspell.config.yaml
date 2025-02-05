@@ -238,6 +238,9 @@ ignoreWords:
   - gongshang
   - lyulyu
   - lülü
+  - gōngchě
+  - gōngshāng
+  - lǜlǚ
 flagWords:
   - colour -> color
   - canot -> cannot

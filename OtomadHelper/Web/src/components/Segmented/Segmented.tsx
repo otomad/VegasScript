@@ -211,7 +211,7 @@ export default function Segmented<T extends string = string>({ current: [current
 				})}
 			</div>
 			<div className="thumb" onPointerDown={handleDrag} tabIndex={0} onKeyDown={handleArrowKeyDown} />
-			<div className="thumb-content">
+			<div className="thumb-content" aria-hidden>
 				{items.map(child => React.cloneElement(child))}
 			</div>
 		</StyledSegmented>
