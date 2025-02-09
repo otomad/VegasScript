@@ -1,17 +1,17 @@
 export default {
 	javascript: {
 		metadata: {
-			__translator__: "",
-			name: "English",
-			culture: "en-US",
+			__translator__: "", // Enter the name of the translator (i.e. you) that will be displayed in the translator of the UI.\nIf there are multiple translators, please separate them with line breaks.
+			name: "English", // The name of the language in the language.
+			culture: "en-US", // The ISO 639 language code for that language; note that it must include the region code.
 		},
-		colon: ": ",
-		semicolon: "; ",
-		enumerationComma: ", ",
-		rangeDash: " – ",
+		colon: ": ", // The colon character in this language.\nIf a space needs to be added after the colon, it should be included.
+		semicolon: "; ", // The semicolon character in this language.\nIf a space needs to be added after the semicolon, it should be included.
+		enumerationComma: ", ", // The symbol used to separate items in a list, which is a comma in English, 在中文中为顿号, 日本語では中点です.\nIf a space needs to be added after the symbol, it should be included.\nFor example: apple, orange, pear.
+		rangeDash: " – ", // The symbol used to represent a range of numerical values, which is an en dash in English, 在中文中为波浪号, 日本語では波線です.\nIf spaces need to be added at both ends of the symbol, they should be included.\nFor example: page 1 – 4.
 		titles: {
 			home: "Home",
-			source: "Source",
+			source: "Source", // Aka Material.
 			score: "Score",
 			audio: "Audio",
 			visual: "Visual",
@@ -19,19 +19,19 @@ export default {
 			track_other: "Tracks",
 			sonar: "Sonar",
 			lyrics: "Lyrics",
-			shupelunker: "Shupelunker",
-			shupelunker_full: "Shupelunker Tactics",
+			shupelunker: "Shupelunker", // It is a parody of Shu (Shuzo Matsuoka) with Spelunker (game).\nIf your language has different translations for those words, try using their correct translations to create a new term instead of simply copying names from English.
+			shupelunker_full: "Shupelunker Tactics", // It is a parody of Shu (Shuzo Matsuoka) with Spelunker (game).\nIf your language has different translations for those words, try using their correct translations to create a new term instead of simply copying names from English.
 			ytp: "YTP",
 			ytp_full: "YouTube Poop",
-			mosh: "Mosh",
+			mosh: "Mosh", // This is the abbreviated form of Datamosh.\nIf there is no plural in your language, please try translating based on the singular form "Mosh" instead of "Moshes".
 			mosh_other: "Moshes",
-			mosh_full: "Datamoshes",
+			mosh_full: "Datamoshes", // If there is no plural in your language, please try translating based on the singular form "Datamosh" instead of "Datamoshes".
 			tools: "Tools",
 			management: "Management",
 			settings: "Settings",
 			effect: "Effect",
 			effect_other: "Effects",
-			prve: "PV Rhythm Visual Effect",
+			prve: "PV Rhythm Visual Effect", // "PV" stands for Promotion Video.
 			prve_other: "PV Rhythm Visual Effects",
 			staff: "Staff",
 			staff_full: "Staff Visualizer",
@@ -93,15 +93,14 @@ export default {
 			},
 			consonant: "Consonant time",
 		},
-		on: "On",
-		off: "Off",
+		on: "On", // The label next to a toggle switch.
+		off: "Off", // The label next to a toggle switch.
 		custom: "Custom",
 		enabled: "Enabled",
 		enable: "Enable",
 		learnMore: "Learn more",
 		condition: "Condition",
 		underConstruction: "Under construction…",
-		allFiles: "All Files",
 		systemDefault: "System default",
 		complete: "Complete",
 		dragToImport: "Drag and drop to import as {{item, lowercase}}",
@@ -111,30 +110,30 @@ export default {
 		navigation: "Navigation",
 		selectAll: "Select all",
 		invertSelection: "Invert selection",
-		variableBeginWith: "Variable from {{first, lowercase}}",
+		variableBeginWith: "Variable from {{first, lowercase}}", // For example, if the panning of a score gradually changes from the left channel to the right channel, it will be displayed as "Variable from left".
 		reset: "Reset",
 		preset: "Preset",
 		preset_other: "Presets",
-		new: "New",
+		new: "New", // Verb. Create new.
 		etc: "{{examples}}, etc.",
 		offset: "Offset",
 		unselected: "Unselected",
-		topPriority: "{{item}} first",
-		browse: "Browse",
+		topPriority: "{{item}} first", // Used for sorting forms, if the order of its content is watch, phone, flashlight, it will display as "watch first".
+		browse: "Browse", // Browse files or folders.
 		ok: "OK",
 		descending: "Descending",
 		ascending: "Ascending",
-		view: "View",
-		size: "Size",
+		view: "View", // Generally, it is the name of the first item in the context menu of a Windows directory, which includes tiles, lists, icons, etc.
+		size: "Size", // Indicate image size or icon size, etc.
 		disabled: "Disabled",
 		apply: "Apply",
-		unset: "Unset",
+		unset: "Unset", // Aka do not modify.
 		infoBar: {
 			warning: "Warning",
 		},
 		selectionMode: {
-			single: "Single",
-			multiple: "Multiple",
+			single: "Single", // Aka single select.
+			multiple: "Multiple", // Aka multi-select.
 		},
 		subheaders: {
 			moreOptions: "More options",
@@ -144,7 +143,7 @@ export default {
 			seeAlso: "See also",
 		},
 		units: {
-			piece: "",
+			piece: "", // If your language can represent units without names, please fill in.
 			millisecond: "ms",
 			percent: "%",
 			pixel: "px",
@@ -156,7 +155,7 @@ export default {
 			beat: "beat",
 			beat_other: "beats",
 			densityIndependentPixel: "dp",
-			times: "×",
+			times: "×", // Eg: speed 1×, 1.5×, 2×.
 			cent: "cent",
 			cent_other: "cents",
 		},
@@ -178,13 +177,13 @@ export default {
 			allFiles: "All Files",
 			txt: "Text Documents",
 			midi: "MIDI Sequence Files",
-			singthesis: "All Supported Singthesis (Text Synthesis / Singing Voice Synthesizer Software Project) Files",
+			singthesis: "All Supported Singthesis (Text Synthesis / Singing Voice Synthesizer Software Project) Files", // Singthesis = Sing + Synthesizer.
 			ust: "UTAU/OpenUTAU Sequence Text Files",
 			vsq: "Vocaloid Sequence Files",
 		},
 		score: {
 			midi: "MIDI",
-			singthesis: "Singthesis",
+			singthesis: "Singthesis", // Singing Synthesizer.
 			refOtherTracks: "Refer to other tracks",
 			tts: "Text to speech",
 			pureNotes: "Pure notes",
@@ -235,8 +234,8 @@ export default {
 			},
 			normalize: {
 				_: "Normalize",
-				once: "Once",
-				always: "Always",
+				once: "Once", // Normalize only once.
+				always: "Always", // Normalize every time.
 			},
 			staticVisual: "Static visual",
 			truncate: {
@@ -259,7 +258,7 @@ export default {
 			createGroups: "Create groups",
 			autoPan: "Auto pan",
 			stack: "Stack",
-			timeUnremapping: "Time unremapping",
+			timeUnremapping: "Time unremapping", // Time un-remap-(p)ing.
 			resampleImitatively: "Resample imitatively",
 			transformMethod: {
 				_: "Transform method",
@@ -294,7 +293,7 @@ export default {
 					elastic: "Élastique",
 					classic: "Classic",
 					scaleless: "Scaleless",
-					acid: "ACID",
+					acid: "ACID", // Indicate MAGIX ACID Pro.
 				},
 				stretchAttributes: {
 					_: "Stretch attributes",
@@ -440,7 +439,7 @@ export default {
 		},
 		lyrics: {
 			useStaticText: "Insert subtitles directly from static text",
-			sampleLyrics: "Spicy chicken",
+			sampleLyrics: "Spicy chicken", // An sample text of karaoke lyrics, you can use any lyrics in your language or translate directly from the original text "Spicy Hotpot Chicken". Note that the content should not be too long.
 			presetTemplate: "Preset template",
 			enableMode: "Enable {{mode, lowercase}} mode",
 			karaoke: {
@@ -451,13 +450,13 @@ export default {
 			pitchNotation: {
 				_: "Pitch notation",
 				system: "Musical notation system",
-				scientific: "Scientific Pitch Notation",
-				helmholtz: "Helmholtz Pitch Notation",
-				solfege: "Solfège Syllable",
-				numbered: "Numbered Musical Notation",
-				gongche: "Gōngchě Notation",
-				gongshang: "Gōngshāng Notation",
-				lyulyu: "Lǜlǚ Notation",
+				scientific: "Scientific Pitch Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				helmholtz: "Helmholtz Pitch Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				solfege: "Solfège Syllable", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				numbered: "Numbered Musical Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				gongche: "Gōngchě Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				gongshang: "Gōngshāng Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				lyulyu: "Lǜlǚ Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 			},
 		},
 		shupelunker: {
@@ -997,7 +996,7 @@ export default {
 			},
 		},
 		menu: {
-			delete: "&Delete",
+			delete: "&Delete", // Add "&" before a letter to indicate the access key.
 		},
 	},
 	csharp: {
@@ -1008,10 +1007,10 @@ export default {
 		},
 		contentDialog: {
 			button: {
-				ok: "&OK",
-				cancel: "&Cancel",
-				close: "&Close",
-				learnMore: "&Learn more",
+				ok: "&OK", // Add "&" before a letter to indicate the access key.
+				cancel: "&Cancel", // Add "&" before a letter to indicate the access key.
+				close: "&Close", // Add "&" before a letter to indicate the access key.
+				learnMore: "&Learn more", // Add "&" before a letter to indicate the access key.
 			},
 			expander: {
 				expandDetails: "Expand details",

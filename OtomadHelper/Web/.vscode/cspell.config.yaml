@@ -93,6 +93,7 @@ words:
   - ltr
   - luma
   - lumin
+  - magix
   - mathml
   - mht
   - mhtml
@@ -267,3 +268,4 @@ flagWords:
   - evaluatable -> evaluable
   - accidently -> accidentally
   - infomation -> information
+  - paning -> panning

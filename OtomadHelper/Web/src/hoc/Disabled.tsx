@@ -12,7 +12,7 @@ export default function Disabled({ children, disabled = true as boolean | undefi
 	return (
 		<Container {...htmlAttrs}>
 			{React.Children.map(children, child =>
-				React.cloneElement(child as ReactElement, {
+				React.cloneElement(child as ReactElement<FCP<{}, "section">>, {
 					disabled,
 					"aria-disabled": disabled,
 				}),

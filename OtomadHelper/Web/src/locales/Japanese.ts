@@ -99,7 +99,6 @@ export default {
 		learnMore: "もっと詳しく",
 		condition: "条件",
 		underConstruction: "工事中⋯⋯",
-		allFiles: "すべてのファイル",
 		systemDefault: "システムのデフォルト",
 		complete: "完了",
 		dragToImport: "ドラッグ＆ドロップで {{item, lowercase}} としてインポート",

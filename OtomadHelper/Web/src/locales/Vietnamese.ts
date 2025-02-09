@@ -60,7 +60,6 @@ export default {
 		learnMore: "Tìm hiểu thêm",
 		condition: "Điều kiện",
 		underConstruction: "Đang trong quá trình phát triển…",
-		allFiles: "Tất cả các file",
 		systemDefault: "Mặc định hệ thống",
 		complete: "Hoàn tất",
 		save: "Lưu",
