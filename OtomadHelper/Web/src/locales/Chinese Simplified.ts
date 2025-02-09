@@ -10,7 +10,7 @@ export default {
 		colon: "：",
 		semicolon: "；",
 		enumerationComma: "、",
-		rangeDash: "~",
+		rangeDash: " ~ ",
 		titles: {
 			home: "主页",
 			source: "素材",
@@ -79,7 +79,7 @@ export default {
 				score: "乐曲文件名",
 				unnamed: "未命名",
 			},
-			blindBox: {
+			secretBox: {
 				_: "素材盲盒",
 				track: "为每条音轨或通道",
 				marker: "每处标记切换一次",
@@ -699,7 +699,7 @@ export default {
 				trackName: {
 					_: "为生成的轨道或轨道组命名",
 				},
-				blindBox: {
+				secretBox: {
 					_: "随机化素材入点。\n这可能会导致随机选取的素材片段具有不同的原始音高，因此只能用来做成搞笑视频供娱乐，几乎不能做成高品质视频。",
 					track: "究竟是音轨还是通道取决于乐曲配置",
 					marker: "当在乐曲中遇到标记时，就会变更一次素材入点。如果某些标记具有相同的非空名称，它们将会使用相同的素材入点。",
@@ -713,7 +713,7 @@ export default {
 				consonant: {
 					_: "为防止辅音被拉伸或延迟，可以将同一音视频素材的辅音与元音部分分割开，以便于为素材的辅音部分应用特殊优化。\n若至少选中两段音频剪辑或视频剪辑，则第一段被视为辅音部分，而第二段被视为元音部分。",
 					ytpEnabled: "YTP功能启用时不支持本功能。",
-					blindBoxEnabled: "盲盒功能启用时不支持本功能。",
+					secretBoxEnabled: "盲盒功能启用时不支持本功能。",
 					manualEnabled: "人力模式下已自动启用本功能。",
 				},
 			},

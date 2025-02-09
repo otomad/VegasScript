@@ -10,6 +10,7 @@ export default {
 		colon: ": ",
 		semicolon: "; ",
 		enumerationComma: ", ",
+		rangeDash: " – ",
 		titles: {
 			home: "Trang chủ",
 			source: "Nguồn",
@@ -47,7 +48,7 @@ export default {
 			preferredTrack: {},
 			trackGroup: {},
 			trackName: {},
-			blindBox: {
+			secretBox: {
 				barOrBeat: {},
 			},
 		},
@@ -160,7 +161,9 @@ export default {
 			sideEffects: {},
 		},
 		mosh: {},
-		tools: {},
+		tools: {
+			clawer: "Máy gắp thú",
+		},
 		selectInfo: {},
 		prve: {
 			control: {},
@@ -200,7 +203,7 @@ export default {
 				},
 				trackGroup: {},
 				trackName: {},
-				blindBox: {
+				secretBox: {
 					barOrBeat: {},
 				},
 				consonant: {},

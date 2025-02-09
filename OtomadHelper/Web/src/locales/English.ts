@@ -8,7 +8,7 @@ export default {
 		colon: ": ",
 		semicolon: "; ",
 		enumerationComma: ", ",
-		rangeDash: "–",
+		rangeDash: " – ",
 		titles: {
 			home: "Home",
 			source: "Source",
@@ -81,8 +81,8 @@ export default {
 				score: "Score file name",
 				unnamed: "Unnamed",
 			},
-			blindBox: {
-				_: "Blind box",
+			secretBox: {
+				_: "Secret box",
 				track: "For each track or channel",
 				marker: "Switch once per marker",
 				barOrBeat: {
@@ -718,7 +718,7 @@ export default {
 				trackName: {
 					_: "Specifies the name for the generated tracks or track groups",
 				},
-				blindBox: {
+				secretBox: {
 					_: "Randomizes in points for the source.\nThis can result in randomly selected source clips having different base pitches, making it useful only for creating funny videos for entertainment purposes, and barely used for creating high-caliber videos.",
 					track: "Whether track or channel depends on the Score",
 					marker: "When a marker is encountered in the score, the in point of the source will be changed once. If several markers have the same non-empty name, they will use the same in point of the source.",
@@ -732,7 +732,7 @@ export default {
 				consonant: {
 					_: "To prevent consonants from being stretched or delayed, you can separate the consonant and vowel parts of the same audio or video source so that special optimization can be applied to the consonant part of the source.\nIf at least two audio or video clips are selected, the first clip is considered the consonant part and the second clip is considered the vowel part.",
 					ytpEnabled: "YTP feature is enabled and this feature is currently unavailable.",
-					blindBoxEnabled: "Blind box feature is enabled and this feature is currently unavailable.",
+					secretBoxEnabled: "Secret box feature is enabled and this feature is currently unavailable.",
 					manualEnabled: "In Sentence Mixing mode, this feature is enabled automatically.",
 				},
 			},
