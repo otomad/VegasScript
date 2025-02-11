@@ -95,6 +95,7 @@
 		"eslint-plugin-react": "^7.37.3",
 		"eslint-plugin-react-hooks": "^5.1.0",
 		"eslint-plugin-react-refresh": "^0.4.16",
+		"eslint-plugin-unicorn": "^56.0.1",
 		"extract-zip": "^2.0.1",
 		"husky": "latest",
 		"inquirer": "^9.0.0",

@@ -321,4 +321,16 @@ public static partial class Extensions {
 				return true;
 		return false;
 	}
+
+	/// <summary>
+	/// Read the text from a <see cref="Stream" />.
+	/// </summary>
+	/// <param name="stream">The stream to read the text.</param>
+	/// <param name="encoding">The encoding to read the text. Defaults to UTF-8.</param>
+	/// <returns>String text.</returns>
+	public static string ReadText(this Stream stream, Encoding? encoding = null) {
+		encoding ??= Encoding.UTF8;
+		using StreamReader reader = new(stream, encoding);
+		return reader.ReadToEnd();
+	}
 }

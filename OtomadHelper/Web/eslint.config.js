@@ -3,9 +3,11 @@ import globals from "globals";
 // extends
 import eslint from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin";
-import reactRefresh from "eslint-plugin-react-refresh";
 import reactRecommended from "eslint-plugin-react/configs/recommended.js";
 import tseslint from "typescript-eslint";
+// plugins
+import reactRefresh from "eslint-plugin-react-refresh";
+import unicorn from "eslint-plugin-unicorn";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
@@ -36,6 +38,7 @@ export default [
 		files: ["**/*.{js,jsx,ts,tsx}"],
 		plugins: {
 			"react-refresh": reactRefresh,
+			unicorn,
 		},
 		rules: {
 			"@stylistic/indent": ["error", "tab", {
@@ -75,7 +78,7 @@ export default [
 			"@stylistic/no-extra-semi": "error",
 			"no-irregular-whitespace": "error",
 			"no-unreachable": "warn",
-			"use-isnan": "error",
+			"use-isnan": ["error", { "enforceForSwitchCase": true, "enforceForIndexOf": true }],
 			"valid-typeof": "error",
 			"curly": ["error", "multi"],
 			"no-lonely-if": "off",
@@ -145,7 +148,7 @@ export default [
 			"no-labels": "off",
 			"default-case-last": "off",
 			"no-useless-constructor": "off", // private constructor() { } 你跟我说无用？
-			"@stylistic/no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0, maxBOF: 0 }],
+			"@stylistic/no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
 			"@stylistic/max-statements-per-line": "off",
 			"no-useless-assignment": "error",
 			"no-control-regex": "off",
@@ -157,19 +160,27 @@ export default [
 			"n/no-callback-literal": "off", // 这是啥？
 			"unicorn/escape-case": "off", // 暂时禁用，待修复。
 			"unicorn/number-literal-case": "off", // 同上，你真的觉得大写很好看吗？
+			"unicorn/prefer-code-point": "error",
+			"unicorn/better-regex": "error",
+			"unicorn/consistent-empty-array-spread": "error",
+			"unicorn/consistent-existence-index-check": "error",
+			"unicorn/explicit-length-check": "error",
+			"unicorn/no-array-push-push": "error",
+			"unicorn/no-console-spaces": "error",
+			"unicorn/no-document-cookie": "error",
 			"@typescript-eslint/no-unused-vars": ["warn", { // 非要使用未使用变量，前面加下划线。
 				"argsIgnorePattern": "^_",
 				"varsIgnorePattern": "^_",
 				"caughtErrorsIgnorePattern": "^_",
 			}],
 			"no-unused-private-class-members": "warn",
-			"@typescript-eslint/no-inferrable-types": ["error", { ignoreParameters: true, ignoreProperties: true }],
+			"@typescript-eslint/no-inferrable-types": ["error", { "ignoreParameters": true, "ignoreProperties": true }],
 			"@typescript-eslint/no-non-null-assertion": "off",
 			"@typescript-eslint/triple-slash-reference": "off",
 			"@typescript-eslint/ban-ts-comment": "off",
 			"@typescript-eslint/ban-types": "off",
 			"@typescript-eslint/no-namespace": "off",
-			"@typescript-eslint/consistent-type-assertions": ["error", { assertionStyle: "as" }],
+			"@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "as" }],
 			"@typescript-eslint/no-confusing-non-null-assertion": "error",
 			"@typescript-eslint/no-duplicate-enum-values": "error",
 			"@typescript-eslint/no-empty-interface": "off",
@@ -184,7 +195,7 @@ export default [
 				},
 			}],
 			"@typescript-eslint/no-explicit-any": "error",
-			"@typescript-eslint/no-use-before-define": ["warn", {
+			"@typescript-eslint/no-use-before-define": ["off", {
 				"functions": false,
 			}],
 			"@typescript-eslint/no-empty-function": "off",
@@ -214,17 +225,17 @@ export default [
 			"@typescript-eslint/no-unnecessary-template-expression": "error",
 			"@typescript-eslint/no-unnecessary-qualifier": "off", // 开启后，某些包含复杂类型的特殊文件会把 eslint 弄崩。
 			"@typescript-eslint/no-unnecessary-parameter-property-assignment": "error",
-			"@typescript-eslint/no-unnecessary-condition": ["off", { allowConstantLoopConditions: true }],
+			"@typescript-eslint/no-unnecessary-condition": ["off", { "allowConstantLoopConditions": true }],
 			"@typescript-eslint/no-empty-object-type": "off",
 			"react-refresh/only-export-components": [
 				"off",
-				{ allowConstantExport: true },
+				{ "allowConstantExport": true },
 			],
 			"@typescript-eslint/no-unsafe-function-type": "off",
 			"@typescript-eslint/no-unused-expressions": ["error", {
-				allowShortCircuit: true,
-				allowTernary: true,
-				enforceForJSX: true,
+				"allowShortCircuit": true,
+				"allowTernary": true,
+				"enforceForJSX": true,
 			}],
 			// "@typescript-eslint/prefer-readonly-parameter-types": "error",
 			"@typescript-eslint/prefer-reduce-type-parameter": "error",
@@ -245,9 +256,9 @@ export default [
 			"@stylistic/jsx-equals-spacing": ["error", "never"],
 			"@stylistic/jsx-first-prop-new-line": ["error", "multiline"],
 			"@stylistic/jsx-indent-props": ["error", "tab"],
-			"@stylistic/jsx-indent": ["error", "tab", { checkAttributes: true, indentLogicalExpressions: true }],
+			"@stylistic/jsx-indent": ["error", "tab", { "checkAttributes": true, "indentLogicalExpressions": true }],
 			"@stylistic/jsx-max-props-per-line": ["error", { "maximum": 5 }],
-			"@stylistic/jsx-pascal-case": ["error", { allowLeadingUnderscore: true, allowNamespace: true }],
+			"@stylistic/jsx-pascal-case": ["error", { "allowLeadingUnderscore": true, "allowNamespace": true }],
 			"@stylistic/jsx-props-no-multi-spaces": "error",
 			"@stylistic/jsx-tag-spacing": ["error", {
 				"closingSlash": "never",
@@ -301,9 +312,18 @@ export default [
 				property: "__defineSetter__",
 				message: "Please use Object.defineProperty instead.",
 			}, {
+				property: "__lookupGetter__",
+				message: "Please use Object.getOwnPropertyDescriptor instead.",
+			}, {
+				property: "__lookupSetter__",
+				message: "Please use Object.getOwnPropertyDescriptor instead.",
+			}, {
+				property: "__proto__",
+				message: "Please use Object.getPrototypeOf instead.",
+			}, {
 				object: "Math",
 				property: "pow",
-				message: "Use the exponentiation operator (**) instead.",
+				message: "Please use the exponentiation operator (**) instead.",
 			}],
 			"no-restricted-globals": ["error", {
 				name: "arguments",
