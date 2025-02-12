@@ -121,7 +121,7 @@ export function globalColors() {
 // TODO: `light-dark`, `prefers-color-scheme`.
 // TODO: AMOLED dark scheme.
 
-type SystemColors =
+export type SystemColors =
 	"ActiveText" | "ButtonFace" | "ButtonText" | "Canvas" | "CanvasText" | "Field" | "FieldText" | "GrayText" | "Highlight" | "HighlightText" | "LinkText" | "VisitedText" | // Standard
 	"AccentColor" | "AccentColorText" | "Mark" | "MarkText" | "ButtonBorder" | // Experimental
 	"ActiveBorder" | "ActiveCaption" | "AppWorkspace" | "Background" | "ButtonHighlight" | "ButtonShadow" | "CaptionText" | "InactiveBorder" | "InactiveCaption" | "InactiveCaptionText" | "InfoBackground" | "InfoText" | "Menu" | "MenuText" | "Scrollbar" | "ThreeDDarkShadow" | "ThreeDFace" | "ThreeDHighlight" | "ThreeDLightShadow" | "ThreeDShadow" | "Window" | "WindowFrame" | "WindowText" | // Deprecated

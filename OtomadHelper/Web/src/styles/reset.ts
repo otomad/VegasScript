@@ -137,13 +137,4 @@ export default css`
 			}
 		}
 	}
-
-	// System requested high contrast theme.
-	@media (forced-colors: active) or (prefers-contrast: more) {
-		*,
-		::before,
-		::after {
-			backdrop-filter: none !important;
-		}
-	}
 `;

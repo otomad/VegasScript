@@ -32,6 +32,10 @@ const StyledSlider = styled.div`
 			content: "";
 			display: block;
 			background-color: ${c("fill-color-control-strong-default")};
+
+			${ifColorScheme.contrast} {
+				background-color: ${cc("FieldText")};
+			}
 		}
 	}
 
@@ -63,6 +67,7 @@ const StyledSlider = styled.div`
 			0 0 0 1px ${c("stroke-color-control-stroke-default")},
 			0 1px 0 ${c("stroke-color-control-stroke-default")};
 		transition: ${fallbackTransitions}, ${styles.effects.focusRingTransitions}, inset-inline-start 0s !important;
+		forced-color-adjust: none;
 
 		&::after {
 			content: "";

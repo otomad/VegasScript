@@ -352,6 +352,9 @@ export default [
 			}, {
 				name: "open",
 				message: "Please use window.open instead.",
+			}, {
+				name: "matchMedia",
+				message: "Please use window.matchMedia instead.",
 			}],
 			"no-restricted-syntax": ["error", {
 				selector: ":not(ForOfStatement, ForInStatement) > VariableDeclaration[kind = 'let'] > VariableDeclarator[init = null]:not([id.typeAnnotation])",

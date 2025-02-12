@@ -89,6 +89,10 @@ const StyledToggleSwitchLabel = styled.button`
 			background-color: transparent;
 			scale: 10 3;
 		}
+
+		${ifColorScheme.contrast} {
+			background-color: ${cc("ButtonText")};
+		}
 	}
 
 	${isHoverPseudo} {
@@ -153,6 +157,10 @@ const StyledToggleSwitchLabel = styled.button`
 			inset-inline-start: calc(100% - ${THUMB_SIZE}px);
 			background-color: ${c("fill-color-text-on-accent-primary")};
 			outline: 1px solid ${c("stroke-color-control-stroke-secondary")};
+
+			${ifColorScheme.contrast} {
+				outline: none;
+			}
 		}
 
 		${isHoverPseudo} {
@@ -244,6 +252,8 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		insetInlineStart: thumbLeft + "px",
 		transition: "none",
 	} as CSSProperties, [thumbLeft]);
+	const isContrast = useIsContrastScheme();
+	if (isContrast) color = undefined;
 
 	const { resetTransition } = useSnapshot(pageStore);
 	useUpdateEffect(() => {

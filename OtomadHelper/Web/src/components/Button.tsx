@@ -185,7 +185,28 @@ export /* @internal */ const StyledButton = styled.button<{
 				}
 			}
 		}
+
+		${ifColorScheme.contrast} {
+			background-color: ${cc("ActiveText")};
+		}
 	`}
+
+	${ifColorScheme.contrast} {
+		--border-highlight-y-offset: 0 !important;
+		color: ${cc("ButtonText")};
+		forced-color-adjust: none;
+
+		&:hover,
+		&${isPressed} {
+			--border-outline-color: ${cc("Highlight")};
+			color: ${cc("HighlightText")};
+			background-color: ${cc("Highlight")} !important;
+		}
+
+		&${isPressed} {
+			--border-outline-color: ${cc("ButtonFace")};
+		}
+	}
 
 	@layer components {
 		&:not(.min-width-unbounded) {

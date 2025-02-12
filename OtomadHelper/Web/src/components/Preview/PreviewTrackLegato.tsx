@@ -63,6 +63,7 @@ const StyledPreviewTrackLegato = styled.div<{
 		background-image: linear-gradient(to right, ${c("stroke-color-surface-stroke-default")} 50%, transparent 0%);
 		background-repeat: repeat-x;
 		background-size: 20px 2px;
+		forced-color-adjust: none;
 
 		&:nth-of-type(2) {
 			background-position: left bottom;

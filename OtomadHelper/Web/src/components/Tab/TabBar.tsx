@@ -34,6 +34,11 @@ const Indicator = styled.div.attrs(({ $vertical }) => ({
 		${$vertical ? "inset-block-start" : "left"}: ${$appearingPosition[0]}px;
 		${$vertical ? "inset-block-end" : "right"}: ${$appearingPosition[1]}px;
 	`};
+	${({ $vertical }) => $vertical && css`
+		${ifColorScheme.contrast} {
+			background-color: ${cc("HighlightText")};
+		}
+	`}
 `;
 
 const StyledTabBar = styled.nav`

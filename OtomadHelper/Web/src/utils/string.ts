@@ -38,7 +38,7 @@ import dedent from "dedent";
 	};
 
 	String.prototype.dedent = function () {
-		return dedent(this as string);
+		return dedent(this.valueOf());
 	};
 
 	String.prototype.toCapitalized = function (keepCase = false) {
@@ -52,6 +52,16 @@ import dedent from "dedent";
 
 	String.prototype.nowrapPerChar = function () {
 		return this.inTwo("\u2060");
+	};
+
+	String.prototype.replaceStart = function (start, replacement = "") {
+		if (!this.startsWith(start)) return this.valueOf();
+		else return replacement + this.slice(start.length);
+	};
+
+	String.prototype.replaceEnd = function (end, replacement = "") {
+		if (!this.endsWith(end)) return this.valueOf();
+		else return this.slice(0, -end.length) + replacement;
 	};
 
 	makePrototypeKeysNonEnumerable(String);

@@ -176,6 +176,7 @@ const GlobalStyle = createGlobalStyle<{
 	// Additional calculated colors
 	:root {
 		--fill-color-system-accent-background: rgb(from var(--accent-color) r g b / 15%);
+		--fallback-transitions-for-contrast-scheme: content 0s; // Placeholder for a invalid property.
 	}
 
 	// Color mode transition
@@ -208,6 +209,19 @@ const GlobalStyle = createGlobalStyle<{
 				animation-duration: 0s !important;
 				animation-delay: 0s !important;
 			}
+		}
+	}
+
+	// System requested high contrast theme.
+	${ifColorScheme.contrast} {
+		*,
+		::before,
+		::after {
+			backdrop-filter: none !important;
+		}
+
+		:root {
+			--fallback-transitions-for-contrast-scheme: color 0s, background-color 0s, border-color 0s;
 		}
 	}
 

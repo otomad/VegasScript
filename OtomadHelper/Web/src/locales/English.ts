@@ -766,7 +766,7 @@ export default {
 					once: "Normalizes only the first time and use the gain after the first normalization for all subsequent clips. This is faster and ensures a consistent gain for all the same clips. But changing the duration may cause other clips to be inappropriate for the gain. (Recommended)",
 					always: "Normalizes every time to ensure that each duration of clip has a more appropriate gain. But it is slower and may result in inconsistent gains for all the same clips.",
 				},
-				staticVisual: "Freezes the frame at the beginning of the clip",
+				staticVisual: "Freezes the frame at the in point of the clip",
 				truncate: {
 					_: "Attempts to freeze at the out point of the clip to avoid accidentally playing the part beyond the trimming time when some notes are too long",
 					lengthenable: "Lengthens the duration if the note is longer than the clip",

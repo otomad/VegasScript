@@ -23,6 +23,25 @@ const StyledTabItem = styled.button`
 		&:hover,
 		&.selected {
 			background-color: ${c("fill-color-subtle-secondary")};
+
+			${ifColorScheme.contrast} {
+				background-color: ${cc("Highlight")} !important;
+
+				* {
+					color: ${cc("HighlightText")} !important;
+					forced-color-adjust: none;
+				}
+
+				.badge {
+					background-color: ${cc("HighlightText")};
+					outline: 1px solid ${cc("Highlight")};
+
+					&,
+					* {
+						color: ${cc("Highlight")} !important;
+					}
+				}
+			}
 		}
 
 		&:not(.selected):active,

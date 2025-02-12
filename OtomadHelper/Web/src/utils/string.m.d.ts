@@ -170,4 +170,22 @@ declare interface String {
 	 * This will insert a Word Joiner (U+2060; formerly Zero-Width No-Break Space, U+FEFF) character between any two characters in the string.
 	 */
 	nowrapPerChar(): string;
+
+	/**
+	 * Check if the string starts with the specified substring. If it is, replace it with a new substring.
+	 * @param start - The starting substring to check.
+	 * @param replacement - The new substring to replace. Defaults to empty string.
+	 * @returns If the string does not start with the specified substring, return the original string;
+	 * otherwise, return the replaced new string.
+	 */
+	replaceStart(start: string, replacement: string = ""): string;
+
+	/**
+	 * Check if the string ends with the specified substring. If it is, replace it with a new substring.
+	 * @param end - The ending substring to check.
+	 * @param replacement - The new substring to replace. Defaults to empty string.
+	 * @returns If the string does not end with the specified substring, return the original string;
+	 * otherwise, return the replaced new string.
+	 */
+	replaceEnd(end: string, replacement?: string = ""): string;
 }

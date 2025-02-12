@@ -38,6 +38,10 @@ const StyledSegmented = styled.div<{
 				height: 100%;
 				padding: 4px ${ITEM_BASE_PADDING_X_WIDTH}px;
 				border-radius: 2px;
+
+				${ifColorScheme.contrast} {
+					color: ${cc("ButtonText")};
+				}
 			}
 
 			p {
@@ -97,6 +101,7 @@ const StyledSegmented = styled.div<{
 		border: 1px solid ${c("stroke-color-control-stroke-default")};
 		border-radius: inherit;
 		transition: ${fallbackTransitions}, inset-inline-start ${THUMB_TRANSITION_OPTION};
+		forced-color-adjust: none;
 
 		${({ $itemCount = 0, $selectedIndex = -1 }) => !$itemCount ? css`
 			inset-inline-start: 0;
@@ -113,6 +118,10 @@ const StyledSegmented = styled.div<{
 
 		${ifColorScheme.light} &:not(:active, [disabled]) {
 			border-bottom-color: ${c("stroke-color-control-stroke-secondary")};
+		}
+
+		${ifColorScheme.contrast} {
+			background-color: transparent;
 		}
 
 		&::after {
@@ -152,6 +161,10 @@ const StyledSegmented = styled.div<{
 		transition: ${fallbackTransitions}, clip-path ${THUMB_TRANSITION_OPTION};
 
 		${ifColorScheme.dark} & {
+			display: none;
+		}
+
+		${ifColorScheme.contrast} & {
 			display: none;
 		}
 	}

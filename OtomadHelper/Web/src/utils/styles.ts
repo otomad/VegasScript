@@ -2,16 +2,17 @@
  * Forward modules from the `styles` directory.
  */
 
-import type { ColorNames } from "styles/colors";
+import type { ColorNames, SystemColors } from "styles/colors";
 import eases from "styles/eases";
 import effects from "styles/effects";
 import { STATUS_PREFIX, type AvailableLottieStatus } from "styles/fake-animations";
 import mixins from "styles/mixins";
 
-export const fallbackTransitions = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s` as const;
+export const fallbackTransitions = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s, var(--fallback-transitions-for-contrast-scheme)` as const;
 
 /**
  * Apply the theme color.
+ * @remarks "c" stands for "color".
  * @param cssVarName - The CSS property name of the color. Does not need to add "--" before it. It can also be `white` or `black`.
  * @param alpha - Alpha value, note that it is a percentage value rather than a decimal value between 0 and 1. If left blank, it indicates an opaque color.
  * @returns The custom property solid color called by `var()`, or the translucent color encapsulated by relative color function `rgba(from ...)`.
@@ -35,13 +36,24 @@ export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alph
 }
 
 /**
- * @deprecated Respects color-scheme inherited from parent\
+ * Apply the system color which used in high contrast color theme.
+ * @remarks "cc" stands for "contrast color".
+ * @param systemColor - CSS system color name.
+ * @returns System color.
+ */
+export const cc = (systemColor: SystemColors) => systemColor;
+
+/**
+ * @notdeprecated Respects color-scheme inherited from parent\
  * https://developer.mozilla.org/docs/Web/CSS/@media/prefers-color-scheme
  */
 export const ifColorScheme = {
 	light: '[data-scheme~="light"]',
 	dark: '[data-scheme~="dark"]',
-};
+	black: '[data-scheme~="dark"][data-scheme~="black"]',
+	contrast: "@media (forced-colors: active) or (prefers-contrast: more)",
+	notContrast: "@media not ((forced-colors: active) and (prefers-contrast: more))",
+} as const;
 
 /**
  * Make your selector higher in priority.
@@ -357,4 +369,23 @@ export function getContrastiveColor(colorVar: string, alpha: number = 1) {
  */
 export function convertCamelStylePropertyToKebab(camel: string) {
 	return camel.startsWith("--") ? camel : new VariableName(camel).cssProperty;
+}
+
+/**
+ * A hook to get if the system color scheme is forced-colors or prefers-contrast.
+ * @returns Is high contrast color scheme?
+ */
+export function useIsContrastScheme() {
+	const mediaQuery = ifColorScheme.contrast.replaceStart("@media ");
+	const getMedia = () => window.matchMedia(mediaQuery);
+
+	const [contrast, setContrast] = useState(getMedia().matches);
+
+	useMountEffect(() => {
+		const media = getMedia();
+		media.onchange = ({ matches }) => setContrast(matches);
+		return () => { media.onchange = null; };
+	});
+
+	return contrast;
 }

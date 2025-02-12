@@ -3,6 +3,7 @@ const StyledPreviewKaraoke = styled.div`
 	position: absolute;
 	inset: 0;
 	transition: ${fallbackTransitions}, clip-path linear 1s;
+	forced-color-adjust: none;
 
 	&.reset {
 		transition: ${fallbackTransitions}, clip-path linear 250ms;

@@ -107,6 +107,10 @@ const StyledSettingsCard = styled(StyledCard)<{
 			background-color: ${c("fill-color-subtle-secondary")};
 			border-radius: 4px;
 			opacity: 0;
+
+			${ifColorScheme.contrast} {
+				display: none;
+			}
 		}
 
 		&:hover:not(:active)::after {

@@ -72,6 +72,7 @@ const StyledTimecodeBox = styled.div`
 			height: 100%;
 			padding-inline: 5px;
 			border-radius: ${BUTTON_BORDER_RADIUS}px;
+			forced-color-adjust: none;
 
 			&:focus {
 				color: ${c("fill-color-text-on-accent-selected-text")};
@@ -268,7 +269,7 @@ function TimecodeItemValue({ lastIndex, children, onChange, onFinishInput, onReq
 			});
 			return;
 		}
-		const number = e.code.match(/^(Digit|Numpad)(?<number>\d)$/i)?.groups?.number;
+		const number = e.code.match(/^(digit|numpad)(?<number>\d)$/i)?.groups?.number;
 		if (number !== undefined)
 			new Promise<string>(resolve =>
 				setUserInput(userInput => {
@@ -361,6 +362,6 @@ function getTimecodeTokens(timecode?: string) {
 		token = charToken;
 		value += char;
 	}
-	if (value.length) addItem(value, token);
+	if (value.length > 0) addItem(value, token);
 	return tokens;
 }

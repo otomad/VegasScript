@@ -10,6 +10,7 @@ const StyledPreviewGraph = styled.i.attrs({
 	padding: ${CONTAINER_PADDING}px;
 	background-color: ${getContrastiveColor("color", 0.5)};
 	border-radius: 2px;
+	forced-color-adjust: none;
 
 	svg {
 		${styles.mixins.square("54px")};

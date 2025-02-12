@@ -110,6 +110,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 	border-radius: 4px;
 	box-shadow: 0 0 0 1px ${c("stroke-color-control-stroke-default")} inset;
 	cursor: text;
+	forced-color-adjust: none;
 
 	.wrapper {
 		display: flex;
@@ -206,6 +207,10 @@ export /* @internal */ const StyledTextBox = styled.div`
 		.stripes * {
 			scale: 0;
 		}
+	}
+
+	${ifColorScheme.contrast} {
+		color: ${cc("ButtonText")};
 	}
 
 	[aria-readonly="true"] &,

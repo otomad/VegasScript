@@ -28,6 +28,7 @@ const StyledBadge = styled.div<{
 	background-color: ${c("fill-color-system-solid-neutral-background")};
 	scale: 1;
 	transition: ${fallbackTransitions}, scale ${eases.easeOutBackSmooth} 250ms;
+	forced-color-adjust: none;
 
 	&.exit {
 		transition: ${fallbackTransitions}, scale ${eases.easeOutMax} 250ms;
@@ -60,6 +61,11 @@ const StyledBadge = styled.div<{
 		block-size: 4px;
 		inline-size: 4px;
 		min-inline-size: unset;
+	}
+
+	${ifColorScheme.contrast} {
+		color: ${cc("HighlightText")};
+		background-color: ${cc("Highlight")};
 	}
 `;
 
