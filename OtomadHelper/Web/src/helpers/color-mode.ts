@@ -1,6 +1,7 @@
 export type ColorScheme = "light" | "dark" | "auto";
+export const highContrastMediaQuery = "(forced-colors: active) or (prefers-contrast: more)";
 const lightModePreference = window.matchMedia("(prefers-color-scheme: light)");
-const highContrastPreference = window.matchMedia("(forced-colors: active) or (prefers-contrast: more)");
+const highContrastPreference = window.matchMedia(highContrastMediaQuery);
 
 let lastClickMouseEvent: MouseEvent | undefined;
 ["mousedown", "mouseup", "mousemove"].forEach(type => document.addEventListener(type as "mousedown", e => lastClickMouseEvent = e, true));
@@ -22,16 +23,22 @@ export function changeColorScheme(scheme?: ColorScheme, amoledDark?: boolean, co
 	scheme = scheme === "auto" || !scheme ? systemScheme : scheme;
 	contrast ??= highContrastPreference.matches;
 	const { dataset } = document.documentElement;
-	const lightOrDark = contrast ? systemScheme : scheme;
-	const newThemeSettings = classNames(
-		lightOrDark,
+	const updateThemeSettings = () => dataset.scheme = classNames(
+		scheme,
 		{
-			black: lightOrDark === "dark" && amoledDark,
+			black: scheme === "dark" && amoledDark,
 			contrast,
 		},
 	);
-	const updateThemeSettings = () => dataset.scheme = newThemeSettings;
-	const IsColorSchemeNotChanged = dataset.scheme === newThemeSettings;
+	const IsColorSchemeChanged = (() => {
+		const schemes = (dataset.scheme ?? "").split(" ");
+		const prevAmoledDark = schemes.includes("black"), prevContrast = schemes.includes("contrast");
+		const prevScheme = schemes.includes("light") ? "light" : "dark";
+		if (prevScheme !== scheme) return scheme === "light" ? 1 : -1;
+		else if (prevAmoledDark !== amoledDark) return !amoledDark ? 1 : -1;
+		else if (prevContrast !== contrast) return contrast ? 1 : -1;
+		return 0;
+	})();
 	const afterUpdateThemeSettings = () => {
 		const { backgroundColor } = getComputedStyle(document.body);
 		if (backgroundColor !== "rgba(0, 0, 0, 0)")
@@ -43,12 +50,12 @@ export function changeColorScheme(scheme?: ColorScheme, amoledDark?: boolean, co
 		return;
 	} else if (mode === "auto")
 		lastClickMouseEvent = undefined;
-	if (IsColorSchemeNotChanged || mode === "refresh") {
+	if (IsColorSchemeChanged === 0 || mode === "refresh") {
 		afterUpdateThemeSettings();
 		return;
 	}
 
-	startCircleViewTransition(scheme === "light", updateThemeSettings).then(afterUpdateThemeSettings);
+	startCircleViewTransition(IsColorSchemeChanged > 0, updateThemeSettings).then(afterUpdateThemeSettings);
 }
 
 export function startCircleViewTransition(isSpread: boolean, changeFunc: () => MaybePromise<void | unknown>) {
@@ -83,7 +90,7 @@ export function startCircleViewTransition(isSpread: boolean, changeFunc: () => M
 
 { // Init color mode
 	const update = (mode: ChangeColorSchemeMode) => changeColorScheme(
-		colorModeStore.scheme === "auto" || colorModeStore.contrast || highContrastPreference.matches ? lightModePreference.matches ? "light" : "dark" : colorModeStore.scheme,
+		colorModeStore.scheme === "auto" ? lightModePreference.matches ? "light" : "dark" : colorModeStore.scheme,
 		colorModeStore.amoledDark,
 		colorModeStore.contrast || highContrastPreference.matches,
 		mode,
@@ -94,5 +101,4 @@ export function startCircleViewTransition(isSpread: boolean, changeFunc: () => M
 		if (operations.flatMap(operation => operation[1]).every(path => path === "backgroundColor")) return;
 		update("manual");
 	});
-	// subscribeStoreKey(colorModeStore, "scheme", scheme => changeColorScheme(scheme));
 }

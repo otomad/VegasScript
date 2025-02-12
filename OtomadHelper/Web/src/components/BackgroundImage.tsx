@@ -20,6 +20,7 @@ const StyledBackgroundImage = styled.div`
 		position: absolute;
 		background-color: ${c("colorization")};
 		mix-blend-mode: screen;
+		forced-color-adjust: none;
 	}
 `;
 

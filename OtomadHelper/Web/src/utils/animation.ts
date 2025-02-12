@@ -12,7 +12,7 @@ export function removeExistAnimations(...elements: Element[]) {
 	for (const element of elements) {
 		if (!element) continue;
 		const existAnimations = element.getAnimations();
-		if (existAnimations.length !== 0) {
+		if (existAnimations.length > 0) {
 			hasExistAnimations = true;
 			existAnimations.forEach(animation => animation.cancel());
 		}
@@ -408,6 +408,7 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 	});
 
 	document.head.removeChild(style);
+	document.querySelectorAll(`style#${STOP_TRANSITION_ID}`).forEach(node => node.remove());
 }
 
 export function forthBack_keyframes<Props extends object = object>(strings: TemplateStringsArray, ...interpolations: Array<Styled.Interpolation<Props>>) {

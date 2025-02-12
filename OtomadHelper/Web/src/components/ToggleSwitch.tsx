@@ -252,7 +252,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		insetInlineStart: thumbLeft + "px",
 		transition: "none",
 	} as CSSProperties, [thumbLeft]);
-	const isContrast = useIsContrastScheme();
+	const isContrast = useSnapshot(colorModeStore).contrast;
 	if (isContrast) color = undefined;
 
 	const { resetTransition } = useSnapshot(pageStore);

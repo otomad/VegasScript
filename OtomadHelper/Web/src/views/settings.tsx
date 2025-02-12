@@ -1,8 +1,9 @@
 export default function Settings() {
 	const [language, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
-	const schemes = ["light", "dark", "black", "contrast", "auto", "auto-black"] as const;
-	const [scheme, setScheme] = colorModeStore.useSchemes();
+	const systemContrast = useIsSystemContrastScheme();
+	const schemes = ["light", "dark", "auto"] as const;
+	const { scheme: [scheme, setScheme], amoledDark, contrast } = useStoreState(colorModeStore);
 	const {
 		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur,
@@ -93,31 +94,32 @@ export default function Settings() {
 					</>
 				)}
 			</ExpanderRadio>
-			{/* <ExpanderRadio
-				title={t.settings.appearance.colorScheme}
-				icon="paint_brush"
-				items={schemes}
-				expanded
-				view="grid"
-				value={[scheme, setScheme]}
-				idField
-				nameField={t.settings.appearance.colorScheme}
-				imageField={colorScheme => <PreviewColorScheme colorScheme={colorScheme} currentColorScheme={scheme} />}
-				itemsViewItemAttrs={{ withBorder: true }}
-				itemWidth={112}
-			/> */}
-			<ExpanderRadio
-				title={t.settings.appearance.colorScheme}
-				icon="paint_brush"
-				items={schemes}
-				expanded
-				view="tile"
-				value={[scheme, setScheme]}
-				idField
-				nameField={t.settings.appearance.colorScheme}
-				// itemsViewItemAttrs={{ withBorder: true }}
-				// itemWidth={112}
-			/>
+			{systemContrast ? ( // TODO
+				<Expander
+					title={t.settings.appearance.colorScheme}
+					icon="paint_brush"
+					expanded
+				>
+					High Contrast
+				</Expander>
+			) : (
+				<ExpanderRadio
+					title={t.settings.appearance.colorScheme}
+					icon="paint_brush"
+					items={schemes}
+					expanded
+					view="grid"
+					value={[scheme, setScheme]}
+					idField
+					nameField={t.settings.appearance.colorScheme}
+					imageField={colorScheme => <PreviewColorScheme colorScheme={colorScheme} currentColorScheme={scheme} />}
+					itemsViewItemAttrs={{ withBorder: true }}
+					itemWidth={112}
+				>
+					<ToggleSwitch on={amoledDark}>Black</ToggleSwitch>
+					<ToggleSwitch on={contrast}>High Contrast</ToggleSwitch>
+				</ExpanderRadio>
+			)}
 			<Expander
 				title={t.settings.appearance.uiScale}
 				icon="zoom_in"
