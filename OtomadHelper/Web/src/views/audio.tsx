@@ -319,7 +319,7 @@ export default function Audio() {
 							<Expander.Item icon="table_column_top_bottom" title={t.stream.tuning.prelisten.engine}>
 								<ComboBox current={engine} ids={beepEngines} options={beepEngines} />
 							</Expander.Item>
-							<Expander.Item icon="sound_wave" title={t.stream.tuning.prelisten.waveform}>
+							<Expander.Item icon="pulse" title={t.stream.tuning.prelisten.waveform}>
 								<ComboBox
 									current={waveform}
 									ids={beepWaveforms}

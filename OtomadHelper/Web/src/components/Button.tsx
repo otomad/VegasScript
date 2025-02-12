@@ -186,12 +186,12 @@ export /* @internal */ const StyledButton = styled.button<{
 			}
 		}
 
-		${ifColorScheme.contrast} {
+		${ifColorScheme.contrast} & {
 			background-color: ${cc("ActiveText")};
 		}
 	`}
 
-	${ifColorScheme.contrast} {
+	${ifColorScheme.contrast} & {
 		--border-highlight-y-offset: 0 !important;
 		color: ${cc("ButtonText")};
 		forced-color-adjust: none;

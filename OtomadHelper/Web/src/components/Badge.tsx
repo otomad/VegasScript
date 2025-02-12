@@ -63,7 +63,7 @@ const StyledBadge = styled.div<{
 		min-inline-size: unset;
 	}
 
-	${ifColorScheme.contrast} {
+	${ifColorScheme.contrast} & {
 		color: ${cc("HighlightText")};
 		background-color: ${cc("Highlight")};
 	}

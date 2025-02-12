@@ -10,7 +10,7 @@ export default function App() {
 	useMountEffect(() => {
 		delay(100).then(() => setReady(true));
 		document.documentElement.style.removeProperty("background-color");
-		changeColorScheme(undefined, "refresh");
+		changeColorScheme(undefined, undefined, undefined, "refresh");
 	});
 
 	const { i18n } = useTranslation();

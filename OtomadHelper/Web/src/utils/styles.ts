@@ -3,10 +3,13 @@
  */
 
 import type { ColorNames, SystemColors } from "styles/colors";
+import { ifColorScheme } from "styles/colors";
 import eases from "styles/eases";
 import effects from "styles/effects";
 import { STATUS_PREFIX, type AvailableLottieStatus } from "styles/fake-animations";
 import mixins from "styles/mixins";
+
+export { ifColorScheme } from "styles/colors";
 
 export const fallbackTransitions = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s, var(--fallback-transitions-for-contrast-scheme)` as const;
 
@@ -42,18 +45,6 @@ export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alph
  * @returns System color.
  */
 export const cc = (systemColor: SystemColors) => systemColor;
-
-/**
- * @notdeprecated Respects color-scheme inherited from parent\
- * https://developer.mozilla.org/docs/Web/CSS/@media/prefers-color-scheme
- */
-export const ifColorScheme = {
-	light: '[data-scheme~="light"]',
-	dark: '[data-scheme~="dark"]',
-	black: '[data-scheme~="dark"][data-scheme~="black"]',
-	contrast: "@media (forced-colors: active) or (prefers-contrast: more)",
-	notContrast: "@media not ((forced-colors: active) and (prefers-contrast: more))",
-} as const;
 
 /**
  * Make your selector higher in priority.

@@ -108,7 +108,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 			border-radius: 4px;
 			opacity: 0;
 
-			${ifColorScheme.contrast} {
+			${ifColorScheme.contrast} & {
 				display: none;
 			}
 		}

@@ -5,11 +5,9 @@ const LavContainer = styled.div.attrs({
 })`
 	&,
 	* {
-		${ifColorScheme.notContrast} {
-			transition: color ${eases.easeOutMax} 100ms;
-		}
+		transition: color ${eases.easeOutMax} 100ms;
 
-		${ifColorScheme.contrast} {
+		${ifColorScheme.contrast} & {
 			transition: none;
 		}
 	}

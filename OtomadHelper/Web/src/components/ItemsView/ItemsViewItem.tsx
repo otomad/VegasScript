@@ -77,7 +77,7 @@ const StyledItemsViewItem = styled.button<{
 				box-shadow: 0 0 0 1px ${c("stroke-color-control-stroke-on-accent-tertiary")} inset;
 			`}
 
-			${ifColorScheme.contrast} {
+			${ifColorScheme.contrast} & {
 				background-color: transparent;
 			}
 		}
@@ -89,7 +89,7 @@ const StyledItemsViewItem = styled.button<{
 		&${isPressed} .selection {
 			background-color: ${c("fill-color-subtle-tertiary")};
 
-			${ifColorScheme.contrast} {
+			${ifColorScheme.contrast} & {
 				background-color: transparent;
 			}
 		}

@@ -209,7 +209,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 		}
 	}
 
-	${ifColorScheme.contrast} {
+	${ifColorScheme.contrast} & {
 		color: ${cc("ButtonText")};
 	}
 

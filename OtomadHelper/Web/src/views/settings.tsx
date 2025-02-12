@@ -1,8 +1,8 @@
 export default function Settings() {
 	const [language, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
-	const schemes = ["light", "dark", "auto"] as const;
-	const { scheme: [scheme, setScheme] } = useStoreState(colorModeStore);
+	const schemes = ["light", "dark", "black", "contrast", "auto", "auto-black"] as const;
+	const [scheme, setScheme] = colorModeStore.useSchemes();
 	const {
 		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur,
@@ -93,7 +93,7 @@ export default function Settings() {
 					</>
 				)}
 			</ExpanderRadio>
-			<ExpanderRadio
+			{/* <ExpanderRadio
 				title={t.settings.appearance.colorScheme}
 				icon="paint_brush"
 				items={schemes}
@@ -105,6 +105,18 @@ export default function Settings() {
 				imageField={colorScheme => <PreviewColorScheme colorScheme={colorScheme} currentColorScheme={scheme} />}
 				itemsViewItemAttrs={{ withBorder: true }}
 				itemWidth={112}
+			/> */}
+			<ExpanderRadio
+				title={t.settings.appearance.colorScheme}
+				icon="paint_brush"
+				items={schemes}
+				expanded
+				view="tile"
+				value={[scheme, setScheme]}
+				idField
+				nameField={t.settings.appearance.colorScheme}
+				// itemsViewItemAttrs={{ withBorder: true }}
+				// itemWidth={112}
 			/>
 			<Expander
 				title={t.settings.appearance.uiScale}

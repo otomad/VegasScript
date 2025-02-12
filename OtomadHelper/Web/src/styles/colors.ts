@@ -103,17 +103,29 @@ const colors = {
 	"disabled-text-opacity": ["0.3614", "0.3628"],
 } satisfies Record<string, [string, string] | [string, string, SystemColors]>;
 
+/**
+ * @notdeprecated Respects color-scheme inherited from parent\
+ * https://developer.mozilla.org/docs/Web/CSS/@media/prefers-color-scheme
+ */
+export const ifColorScheme = {
+	light: '[data-scheme~="light"]',
+	dark: '[data-scheme~="dark"]',
+	black: '[data-scheme~="dark"][data-scheme~="black"]',
+	// contrast: "@media (forced-colors: active) or (prefers-contrast: more)",
+	contrast: '[data-scheme~="contrast"]',
+} as const;
+
 export type ColorNames = keyof typeof colors;
 export default colors;
 export function globalColors() {
 	let css = "";
 	for (let i = 0; i < 3; i++) {
-		const selector = [':root[data-scheme~="light"]', ":root", "@media (forced-colors: active) or (prefers-contrast: more) {\n:root, :root[data-scheme]"][i];
+		const selector = [`:root${ifColorScheme.light}`, ":root", `:root${ifColorScheme.contrast}`][i];
 		css += selector + " {\n";
 		for (const [key, values] of Object.entries(colors))
 			if (values[i])
 				css += `\t--${key}: ${values[i]};\n`;
-		css += i === 2 ? "}\n}\n" : "}\n";
+		css += "}\n";
 	}
 	css += ':root[data-scheme~="dark"][data-scheme~="black"] {\n\t--background-color: black;}\n';
 	return css;

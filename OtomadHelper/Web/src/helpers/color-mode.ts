@@ -1,27 +1,37 @@
 export type ColorScheme = "light" | "dark" | "auto";
 const lightModePreference = window.matchMedia("(prefers-color-scheme: light)");
+const highContrastPreference = window.matchMedia("(forced-colors: active) or (prefers-contrast: more)");
 
 let lastClickMouseEvent: MouseEvent | undefined;
 ["mousedown", "mouseup", "mousemove"].forEach(type => document.addEventListener(type as "mousedown", e => lastClickMouseEvent = e, true));
 
+type ChangeColorSchemeMode = "initial" | "auto" | "manual" | "refresh";
+
 /**
  * Changes the color scheme of the website.
- * @param isLight - Whether to use the light color scheme or the dark color scheme. If not specified, the color scheme will be automatically determined based on the user's system preferences.
+ * @param scheme - Whether to use the light color scheme or the dark color scheme.
+ * If not specified, the color scheme will be automatically determined based on the user's system preferences.
  * @param mode - The mode to use when changing the color scheme. Possible values are:
  * - `"initial"`: The color scheme will be updated immediately without any animation.
  * - `"auto"`: The color scheme will be updated based on the user's system preferences.
  * - `"manual"`: The color scheme will be updated with an animation.
  * - `"refresh"`: The color scheme will be updated with an animation, even if it is already set to the desired value.
  */
-export function changeColorScheme(isLight?: boolean | ColorScheme, mode: "initial" | "auto" | "manual" | "refresh" = "manual") {
-	if (typeof isLight === "string")
-		isLight = isLight === "light" ? true : isLight === "dark" ? false : undefined;
-	if (isLight === undefined) isLight = lightModePreference.matches;
-	const isPreviousLight = (() => {
-		const { scheme } = document.documentElement.dataset;
-		return ["light", "dark"].includes(scheme!) ? scheme === "light" : undefined;
-	})();
-	const updateThemeSettings = () => document.documentElement.dataset.scheme = isLight ? "light" : "dark";
+export function changeColorScheme(scheme?: ColorScheme, amoledDark?: boolean, contrast?: boolean, mode: ChangeColorSchemeMode = "manual") {
+	const systemScheme = lightModePreference.matches ? "light" : "dark";
+	scheme = scheme === "auto" || !scheme ? systemScheme : scheme;
+	contrast ??= highContrastPreference.matches;
+	const { dataset } = document.documentElement;
+	const lightOrDark = contrast ? systemScheme : scheme;
+	const newThemeSettings = classNames(
+		lightOrDark,
+		{
+			black: lightOrDark === "dark" && amoledDark,
+			contrast,
+		},
+	);
+	const updateThemeSettings = () => dataset.scheme = newThemeSettings;
+	const IsColorSchemeNotChanged = dataset.scheme === newThemeSettings;
 	const afterUpdateThemeSettings = () => {
 		const { backgroundColor } = getComputedStyle(document.body);
 		if (backgroundColor !== "rgba(0, 0, 0, 0)")
@@ -33,12 +43,12 @@ export function changeColorScheme(isLight?: boolean | ColorScheme, mode: "initia
 		return;
 	} else if (mode === "auto")
 		lastClickMouseEvent = undefined;
-	if (isPreviousLight === isLight || mode === "refresh") {
+	if (IsColorSchemeNotChanged || mode === "refresh") {
 		afterUpdateThemeSettings();
 		return;
 	}
 
-	startCircleViewTransition(isLight, updateThemeSettings).then(afterUpdateThemeSettings);
+	startCircleViewTransition(scheme === "light", updateThemeSettings).then(afterUpdateThemeSettings);
 }
 
 export function startCircleViewTransition(isSpread: boolean, changeFunc: () => MaybePromise<void | unknown>) {
@@ -72,7 +82,17 @@ export function startCircleViewTransition(isSpread: boolean, changeFunc: () => M
 }
 
 { // Init color mode
-	lightModePreference.addEventListener("change", e => colorModeStore.scheme === "auto" && changeColorScheme(e.matches, "auto"));
-	changeColorScheme(colorModeStore.scheme, "initial");
-	subscribeStoreKey(colorModeStore, "scheme", scheme => changeColorScheme(scheme));
+	const update = (mode: ChangeColorSchemeMode) => changeColorScheme(
+		colorModeStore.scheme === "auto" || colorModeStore.contrast || highContrastPreference.matches ? lightModePreference.matches ? "light" : "dark" : colorModeStore.scheme,
+		colorModeStore.amoledDark,
+		colorModeStore.contrast || highContrastPreference.matches,
+		mode,
+	);
+	[lightModePreference, highContrastPreference].forEach(media => media.addEventListener("change", () => update("auto")));
+	changeColorScheme(colorModeStore.scheme, colorModeStore.amoledDark, colorModeStore.contrast, "initial");
+	subscribeStore(colorModeStore, operations => {
+		if (operations.flatMap(operation => operation[1]).every(path => path === "backgroundColor")) return;
+		update("manual");
+	});
+	// subscribeStoreKey(colorModeStore, "scheme", scheme => changeColorScheme(scheme));
 }

@@ -39,7 +39,7 @@ const StyledSegmented = styled.div<{
 				padding: 4px ${ITEM_BASE_PADDING_X_WIDTH}px;
 				border-radius: 2px;
 
-				${ifColorScheme.contrast} {
+				${ifColorScheme.contrast} & {
 					color: ${cc("ButtonText")};
 				}
 			}
@@ -120,7 +120,7 @@ const StyledSegmented = styled.div<{
 			border-bottom-color: ${c("stroke-color-control-stroke-secondary")};
 		}
 
-		${ifColorScheme.contrast} {
+		${ifColorScheme.contrast} & {
 			background-color: transparent;
 		}
 
