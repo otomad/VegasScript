@@ -35,11 +35,11 @@ export default function Source() {
 		sourceFrom, trimStart, trimEnd, startTime, customStartTime,
 		belowAdjustmentTracks, preferredTrack: [preferredTrack, setPreferredTrack],
 		trackGroup, collapseTrackGroup, trackName, consonant,
-		blindBoxForTrack, blindBoxForMarker, blindBoxForBarOrBeat, blindBoxForBarOrBeatPeriod, blindBoxForBarOrBeatPreparation,
+		secretBoxForTrack, secretBoxForMarker, secretBoxForBarOrBeat, secretBoxForBarOrBeatPeriod, secretBoxForBarOrBeatPreparation,
 	} = selectConfig(c => c.source);
 	const { removeSourceClips, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = selectConfig(c => c.source.afterCompletion);
 	const { enabled: [ytpEnabled] } = selectConfig(c => c.ytp);
-	const blindBoxEnabled = blindBoxForTrack[0] || blindBoxForMarker[0] || blindBoxForBarOrBeat[0];
+	const secretBoxEnabled = secretBoxForTrack[0] || secretBoxForMarker[0] || secretBoxForBarOrBeat[0];
 	/** @deprecated */ const manualEnabled = false;
 
 	mutexSwitches(removeSourceClips, selectSourceClips);
@@ -130,23 +130,23 @@ export default function Source() {
 			/>
 
 			<Expander
-				title={t.source.blindBox}
-				details={t.descriptions.source.blindBox}
-				selectInfo={ytpEnabled && t.descriptions.source.blindBox.ytpEnabled}
+				title={t.source.secretBox}
+				details={t.descriptions.source.secretBox}
+				selectInfo={ytpEnabled && t.descriptions.source.secretBox.ytpEnabled}
 				disabled={ytpEnabled}
 				icon="dice"
-				checkInfo={blindBoxEnabled ? t.on : t.off}
+				checkInfo={secretBoxEnabled ? t.on : t.off}
 				alwaysShowCheckInfo
 			>
-				<ToggleSwitch on={blindBoxForTrack} details={t.descriptions.source.blindBox.track} icon="layer">{t.source.blindBox.track}</ToggleSwitch>
-				<ToggleSwitch on={blindBoxForMarker} details={t.descriptions.source.blindBox.marker} icon="marker">{t.source.blindBox.marker}</ToggleSwitch>
-				<ToggleSwitch on={blindBoxForBarOrBeat} details={t.descriptions.source.blindBox.barOrBeat} icon="music_bar">{t.source.blindBox.barOrBeat}</ToggleSwitch>
-				<Disabled disabled={!blindBoxForBarOrBeat[0]}>
-					<Expander.Item title={t.source.blindBox.barOrBeat.period} details={t.descriptions.source.blindBox.barOrBeat.period} icon="timer">
-						<TextBox.NumberUnit value={blindBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={1} />
+				<ToggleSwitch on={secretBoxForTrack} details={t.descriptions.source.secretBox.track} icon="layer">{t.source.secretBox.track}</ToggleSwitch>
+				<ToggleSwitch on={secretBoxForMarker} details={t.descriptions.source.secretBox.marker} icon="marker">{t.source.secretBox.marker}</ToggleSwitch>
+				<ToggleSwitch on={secretBoxForBarOrBeat} details={t.descriptions.source.secretBox.barOrBeat} icon="music_bar">{t.source.secretBox.barOrBeat}</ToggleSwitch>
+				<Disabled disabled={!secretBoxForBarOrBeat[0]}>
+					<Expander.Item title={t.source.secretBox.barOrBeat.period} details={t.descriptions.source.secretBox.barOrBeat.period} icon="timer">
+						<TextBox.NumberUnit value={secretBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={1} />
 					</Expander.Item>
-					<Expander.Item title={t.source.blindBox.barOrBeat.preparation} details={t.descriptions.source.blindBox.barOrBeat.preparation} icon="hourglass">
-						<TextBox.NumberUnit value={blindBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={0} />
+					<Expander.Item title={t.source.secretBox.barOrBeat.preparation} details={t.descriptions.source.secretBox.barOrBeat.preparation} icon="hourglass">
+						<TextBox.NumberUnit value={secretBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={0} />
 					</Expander.Item>
 				</Disabled>
 			</Expander>
@@ -156,9 +156,9 @@ export default function Source() {
 				details={t.descriptions.source.consonant}
 				icon="consonant"
 				on={consonant}
-				lock={ytpEnabled || blindBoxEnabled ? false : manualEnabled ? true : null}
-				selectInfo={withObject(t.descriptions.source.consonant, t => ytpEnabled ? t.ytpEnabled : blindBoxEnabled ? t.blindBoxEnabled : manualEnabled ? t.manualEnabled : undefined)}
-				selectValid={!(ytpEnabled || blindBoxEnabled)}
+				lock={ytpEnabled || secretBoxEnabled ? false : manualEnabled ? true : null}
+				selectInfo={withObject(t.descriptions.source.consonant, t => ytpEnabled ? t.ytpEnabled : secretBoxEnabled ? t.secretBoxEnabled : manualEnabled ? t.manualEnabled : undefined)}
+				selectValid={!(ytpEnabled || secretBoxEnabled)}
 			/>
 
 			<DragToImport>{t.titles.source}</DragToImport>
