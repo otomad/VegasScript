@@ -182,6 +182,7 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 }
 
 const StyledAboutInformation = styled(StyledTableBase)`
+	${styles.effects.text.body}
 	grid-template-columns: auto 1fr;
 
 	> :nth-child(2n + 1) {
@@ -201,8 +202,8 @@ function AboutInformation() {
 		<StyledAboutInformation>
 			{data.map(([key, value]) => (
 				<Fragment key={key}>
-					<p>{key}</p>
-					<p>{value}</p>
+					<tt>{key}</tt>
+					<tt>{value}</tt>
 				</Fragment>
 			))}
 		</StyledAboutInformation>

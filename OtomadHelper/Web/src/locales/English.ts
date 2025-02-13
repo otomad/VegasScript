@@ -675,7 +675,7 @@ export default {
 					dark: "Dark",
 					auto: "Auto",
 					black: "Black",
-					black_option: "Black (for Dark only)",
+					black_option: "Black (for dark only)",
 					contrast: "High Contrast",
 				},
 				uiScale: "UI scale",

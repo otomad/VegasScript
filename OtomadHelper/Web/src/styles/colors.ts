@@ -135,7 +135,6 @@ export function globalColors() {
 	return css;
 }
 // TODO: `light-dark`, `prefers-color-scheme`.
-// TODO: AMOLED dark scheme.
 
 export type SystemColors =
 	"ActiveText" | "ButtonFace" | "ButtonText" | "Canvas" | "CanvasText" | "Field" | "FieldText" | "GrayText" | "Highlight" | "HighlightText" | "LinkText" | "VisitedText" | // Standard

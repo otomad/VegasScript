@@ -14,6 +14,15 @@ declare module "react" {
 	}
 }
 
+declare module "react/jsx-runtime" {
+	namespace JSX {
+		interface IntrinsicElements {
+			tt: IntrinsicElements["pre"];
+			xmp: IntrinsicElements["pre"];
+		}
+	}
+}
+
 declare module "csstype" {
 	interface Properties {
 		/**
