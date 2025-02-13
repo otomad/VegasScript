@@ -674,6 +674,9 @@ export default {
 					light: "Light",
 					dark: "Dark",
 					auto: "Auto",
+					black: "Black",
+					black_option: "Black (for Dark only)",
+					contrast: "High Contrast",
 				},
 				uiScale: "UI scale",
 				backgroundImage: {
@@ -971,6 +974,11 @@ export default {
 			settings: {
 				about: "Otomad Helper is a YTPMV/YTP extension for VEGAS Pro that enables VEGAS to accept scores such as MIDI sequence files as input and automatically generate YTPMV tracks.",
 				translation: "If you would like to participate in the translation, you are welcome to join as well.",
+				appearance: {
+					colorScheme: {
+						systemContrast: "The system high contrast theme has been turned on and the color scheme cannot be changed at this time.",
+					},
+				},
 				preference: {
 					autoSwitchSourceFrom: "Changes the source from automatically based on the last selected content",
 					autoCollapsePrveClasses: "Collapses other expanded $t(titles.prve) classes automatically when expanding a class",

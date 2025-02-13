@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle<{
 		hyphenate-limit-chars: 10;
 		user-select: none;
 		transition: ${fallbackTransitions};
+		forced-color-adjust: none;
 		-webkit-tap-highlight-color: transparent;
 
 		:where(&) {
@@ -220,8 +221,16 @@ const GlobalStyle = createGlobalStyle<{
 			backdrop-filter: none !important;
 		}
 
-		:root {
+		:root& {
 			--fallback-transitions-for-contrast-scheme: color 0s, background-color 0s, border-color 0s;
+		}
+	}
+
+	@media (prefers-reduced-transparency: reduce) {
+		*,
+		::before,
+		::after {
+			backdrop-filter: none !important;
 		}
 	}
 

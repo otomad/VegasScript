@@ -82,6 +82,10 @@ const StyledInfoBar = styled.div<{
 		${styles.mixins.square("16px")};
 		margin-top: ${(20 - 16) / 2}px;
 	}
+
+	.expander-child-items > & {
+		border-radius: 0;
+	}
 `;
 
 export default function InfoBar({ status, title, children, button, className, ...htmlAttrs }: FCP<{

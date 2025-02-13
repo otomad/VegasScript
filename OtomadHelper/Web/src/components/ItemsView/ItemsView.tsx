@@ -63,11 +63,15 @@ const StyledItemsView = styled.div<{
 export default function ItemsView<
 	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: [current, setCurrent], itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, ...htmlAttrs }: FCP<{
+>({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
-	/** The identifier of the currently selected item. */
-	current: StateProperty<T>;
+	/**
+	 * The identifier of the currently selected item.
+	 *
+	 * If it is `null`, items view will not select its items, and you can control them by yourself.
+	 */
+	current: StateProperty<T> | null;
 	/** In grid view, the width of the child element image. */
 	itemWidth?: number;
 	/** Multiple selection mode? */
@@ -84,6 +88,8 @@ export default function ItemsView<
 	/** Enable transition group for items view items. Passing a string represents it as the transition name. */
 	transition?: boolean | string;
 }, "div">) {
+	const [current, setCurrent] = _current ?? [];
+
 	const isSelected = (id: PropertyKey) => {
 		if (multiple)
 			if (Array.isArray(current)) return current.includes(id);
@@ -112,10 +118,12 @@ export default function ItemsView<
 					const id = child.props.id;
 					const onParentClick = child.props.onClick;
 					const item = React.cloneElement(child, {
-						selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includes(id) ? "indeterminate" : "checked",
 						_view: view,
 						_multiple: multiple,
-						onClick: (...e: Parameters<OnItemsViewItemClickEventHandler>) => { handleClick(id); onParentClick?.(...e); },
+						..._current !== null && {
+							selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includes(id) ? "indeterminate" : "checked",
+							onClick: (...e: Parameters<OnItemsViewItemClickEventHandler>) => { handleClick(id); onParentClick?.(...e); },
+						},
 					});
 					if (!transition) return item;
 					else return <CssTransition key={id as string} classNames={typeof transition === "string" ? transition : undefined} unmountOnExit>{item}</CssTransition>;

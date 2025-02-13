@@ -1,7 +1,4 @@
 import type { ColorScheme } from "helpers/color-mode";
-import colors from "styles/colors";
-
-const actualColorSchemes = ["light", "dark"] as const;
 
 const StyledPreviewColorScheme = styled.div.attrs({
 	inert: true,
@@ -10,8 +7,12 @@ const StyledPreviewColorScheme = styled.div.attrs({
 
 	&,
 	.container {
-		${styles.mixins.gridCenter()};
 		${styles.mixins.square("100%")};
+		display: flex;
+		gap: 12px;
+		padding: 1px;
+		background-color: ${c("background-color")};
+		zoom: 0.65;
 	}
 
 	.container:nth-child(2) {
@@ -19,54 +20,104 @@ const StyledPreviewColorScheme = styled.div.attrs({
 		clip-path: polygon(30% 100%, 100% 100%, 100% 0%, 70% 0%);
 	}
 
-	${actualColorSchemes.map((scheme, i) => css`
-		.container[data-scheme~="${scheme}"] {
-			background-color: ${colors["background-color"][i]};
+	.tab-bar {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5px;
+		margin: 4px 5px;
+	}
 
-			button {
-				${styles.mixins.square("60%")};
-				min-inline-size: unset;
-				background-color: ${colors["fill-color-control-default"][i]};
-				border-color: ${colors["stroke-color-control-stroke-default"][i]};
+	.vertical-spring {
+		height: 100%;
+	}
 
-				${scheme === "dark" ? css`
-					border-top-color: ${colors["stroke-color-control-stroke-secondary"][i]};
-				` : css`
-					border-bottom-color: ${colors["stroke-color-control-stroke-secondary"][i]};
-				`}
-			}
+	.tab-item {
+		${styles.mixins.gridCenter()};
+		position: relative;
+		padding: 9px 12px;
+		color: ${c("foreground-color")};
+		border-radius: 4px;
 
-			.radio-button-label:has(input:not(:checked)) {
-				.bullet {
-					background-color: ${colors["fill-color-text-on-accent-primary"][i]};
-					outline: 1px solid ${colors["stroke-color-control-stroke-secondary"][i]};
-				}
+		&.disabled {
+			color: ${c("foreground-color")};
+			opacity: ${c("disabled-text-opacity")};
+		}
 
-				.base {
-					background-color: ${colors["fill-color-control-alt-secondary"][i]};
-					outline: 1px solid ${colors["stroke-color-control-strong-stroke-default"][i]};
-				}
+		&.selected {
+			background-color: ${c("fill-color-subtle-secondary")};
+
+			&::before {
+				${styles.mixins.oval()}
+				content: "";
+				position: absolute;
+				inset-inline-start: 0;
+				block-size: 20px;
+				inline-size: 3px;
+				background-color: ${c("accent-color")};
 			}
 		}
-	`)}
+	}
+
+	.container${ifColorScheme.contrast} .tab-item.selected {
+		color: ${cc("HighlightText")};
+		background-color: ${cc("Highlight")};
+
+		&::before {
+			background-color: ${cc("HighlightText")};
+		}
+	}
+
+	.main {
+		${styles.mixins.square("100%")};
+	}
+
+	.text {
+		--font-size: 12px;
+		block-size: var(--font-size);
+		inline-size: 100%;
+		border-radius: 4px;
+
+		&.heading {
+			margin-block: calc((42px - var(--font-size)) / 2);
+			inline-size: 4em;
+			background-color: ${c("foreground-color")};
+		}
+	}
 `;
 
-export default function PreviewColorScheme({ colorScheme, currentColorScheme }: FCP<{
+type ColorSchemeEx = ColorScheme | "black" | "contrast";
+
+export default function PreviewColorScheme({ colorScheme: value }: FCP<{
 	/** Color scheme. */
-	colorScheme: ColorScheme;
-	/** Current color scheme. */
-	currentColorScheme: ColorScheme;
+	colorScheme: ColorSchemeEx;
 	children?: never;
 }>) {
+	const { amoledDark } = useSnapshot(colorModeStore);
+	const scheme = value === "black" ? "dark black" : value;
+
 	return (
 		<StyledPreviewColorScheme>
-			{actualColorSchemes.map(scheme => (colorScheme === scheme || colorScheme === "auto") && (
-				<div className="container" data-scheme={scheme} key={scheme} inert>
-					<Button>
-						<RadioButton id={colorScheme} value={[currentColorScheme]} plain />
-					</Button>
-				</div>
-			))}
+			{value === "auto" ? (
+				<>
+					<PreviewColorSchemeContent scheme="light" />
+					<PreviewColorSchemeContent scheme={amoledDark ? "dark black" : "dark"} />
+				</>
+			) : <PreviewColorSchemeContent scheme={scheme} />}
 		</StyledPreviewColorScheme>
+	);
+}
+
+function PreviewColorSchemeContent({ scheme }: { scheme: string }) {
+	return (
+		<div className="container" data-scheme={scheme} inert>
+			<div className="tab-bar">
+				{(["back", "global_nav_button", "home", "placeholder", "placeholder", "", "settings"] as DeclaredIcons[]).map((icon, index) =>
+					!icon ? <div key={index} className="vertical-spring" /> :
+					<div className={["tab-item", { disabled: icon === "back", selected: icon === "home" }]} key={index}><Icon name={icon} /></div>)}
+			</div>
+			<div className="main">
+				<div className="text heading" />
+			</div>
+		</div>
 	);
 }

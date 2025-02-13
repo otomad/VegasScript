@@ -245,7 +245,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	/** Identifier. */
 	id: PropertyKey;
 	/** Selected? */
-	selected?: CheckState;
+	selected?: CheckState | StateProperty<boolean>;
 	/** Detailed description. */
 	details?: ReactNode;
 	/** The other action control area on the right side of the component. */
@@ -263,6 +263,12 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	/** Occurs when user click it. */
 	onClick?: OnItemsViewItemClickEventHandler;
 }, "button">) {
+	let setSelected: SetStateNarrow<boolean> | undefined;
+	if (Array.isArray(selected)) {
+		setSelected = selected[1] as never;
+		selected = selected[0] ? "checked" : "unchecked";
+	}
+
 	const ariaId = useId();
 	const textPart = (children || details) && (
 		<div className="text" aria-hidden>
@@ -297,7 +303,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 					aria-checked={checkStateToAriaChecked(selected)}
 					aria-labelledby={`${ariaId}-title`}
 					aria-describedby={`${ariaId}-details`}
-					onClick={e => onClick?.(id, selected, e)}
+					onClick={e => { onClick?.(id, selected, e); setSelected?.(selected => !selected); }}
 					{...htmlAttrs}
 				>
 					<div className="base">

@@ -76,10 +76,20 @@ export default function SettingsAbout() {
 					<Translators shown={[showTranslators, setShowTranslators]} />
 				</div>
 			</StyledSettingsAbout>
-			<SettingsCard title={t.settings.about.version} icon="sync">
-				<p>v{version}</p>
-				<Button onClick={() => checkForUpdates(version)}>{t.settings.about.checkForUpdates}</Button>
-			</SettingsCard>
+			<Expander
+				title={t.settings.about.version}
+				icon="sync"
+				actions={(
+					<>
+						<p>v{version}</p>
+						<Button onClick={() => checkForUpdates(version)}>{t.settings.about.checkForUpdates}</Button>
+					</>
+				)}
+			>
+				<Expander.ChildWrapper>
+					<AboutInformation />
+				</Expander.ChildWrapper>
+			</Expander>
 		</>
 	);
 }
@@ -96,11 +106,13 @@ async function checkForUpdates(currentVersion: string) {
 	console.log(tagName, compare);
 }
 
-const StyledTranslatorsTable = styled.div`
+const StyledTableBase = styled.div`
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	column-gap: 10px;
+`;
 
+const StyledTranslatorsTable = styled(StyledTableBase)`
 	p:nth-child(2n + 1) {
 		text-align: end;
 	}
@@ -166,5 +178,33 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 			</StyledTranslatorsTable>
 			<p>{t.descriptions.settings.translation}</p>
 		</ContentDialog>
+	);
+}
+
+const StyledAboutInformation = styled(StyledTableBase)`
+	grid-template-columns: auto 1fr;
+
+	> :nth-child(2n + 1) {
+		${styles.effects.text.bodyStrong}
+	}
+`;
+
+function AboutInformation() {
+	const { appName, version } = useAboutApp();
+
+	const data = [
+		[appName, "v" + version],
+		["React", "v" + React.version],
+	] as [string, string][];
+
+	return (
+		<StyledAboutInformation>
+			{data.map(([key, value]) => (
+				<Fragment key={key}>
+					<p>{key}</p>
+					<p>{value}</p>
+				</Fragment>
+			))}
+		</StyledAboutInformation>
 	);
 }

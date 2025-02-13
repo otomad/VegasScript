@@ -3,7 +3,7 @@ export default function Settings() {
 	const languages = useLanguageTags();
 	const systemContrast = useIsSystemContrastScheme();
 	const schemes = ["light", "dark", "auto"] as const;
-	const { scheme: [scheme, setScheme], amoledDark, contrast } = useStoreState(colorModeStore);
+	const { scheme: [scheme, setScheme], amoledDark: [amoledDark, setAmoledDark], contrast: [contrast, setContrast] } = useStoreState(colorModeStore);
 	const {
 		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur,
@@ -94,32 +94,52 @@ export default function Settings() {
 					</>
 				)}
 			</ExpanderRadio>
-			{systemContrast ? ( // TODO
-				<Expander
-					title={t.settings.appearance.colorScheme}
-					icon="paint_brush"
-					expanded
-				>
-					High Contrast
-				</Expander>
-			) : (
-				<ExpanderRadio
-					title={t.settings.appearance.colorScheme}
-					icon="paint_brush"
-					items={schemes}
-					expanded
-					view="grid"
-					value={[scheme, setScheme]}
-					idField
-					nameField={t.settings.appearance.colorScheme}
-					imageField={colorScheme => <PreviewColorScheme colorScheme={colorScheme} currentColorScheme={scheme} />}
-					itemsViewItemAttrs={{ withBorder: true }}
-					itemWidth={112}
-				>
-					<ToggleSwitch on={amoledDark}>Black</ToggleSwitch>
-					<ToggleSwitch on={contrast}>High Contrast</ToggleSwitch>
-				</ExpanderRadio>
-			)}
+			<Expander
+				title={t.settings.appearance.colorScheme}
+				icon="paint_brush"
+				checkInfo={withObject(t.settings.appearance.colorScheme, t => contrast || systemContrast ? t.contrast : scheme === "dark" && amoledDark ? t.black : t[scheme])}
+				expanded
+			>
+				{!systemContrast ? (
+					<>
+						<ItemsView
+							view="grid"
+							current={[scheme, setScheme]}
+						>
+							{schemes.map(scheme =>
+								<ItemsView.Item id={scheme} key={scheme} withBorder image={<PreviewColorScheme colorScheme={scheme} />}>{t.settings.appearance.colorScheme[scheme]}</ItemsView.Item>)}
+						</ItemsView>
+						<ItemsView
+							view="grid"
+							current={null}
+							multiple
+						>
+							<ItemsView.Item
+								id="black"
+								key="black"
+								selected={[amoledDark, setAmoledDark]}
+								image={<PreviewColorScheme colorScheme="black" />}
+								data-scheme={classNames("dark black", { contrast })}
+								style={{ opacity: scheme === "light" ? 0.5 : undefined }}
+							>
+								{t({ context: "option" }).settings.appearance.colorScheme.black}
+							</ItemsView.Item>
+							<ItemsView.Item id="contrast" key="contrast" selected={[contrast, setContrast]} image={<PreviewColorScheme colorScheme="contrast" />}>{t.settings.appearance.colorScheme.contrast}</ItemsView.Item>
+						</ItemsView>
+					</>
+				) : (
+					<>
+						<InfoBar status="warning">{t.descriptions.settings.appearance.colorScheme.systemContrast}</InfoBar>
+						<ItemsView
+							view="grid"
+							current={null}
+							multiple
+						>
+							<ItemsView.Item id="contrast" key="contrast" selected="checked" image={<PreviewColorScheme colorScheme="contrast" />}>{t.settings.appearance.colorScheme.contrast}</ItemsView.Item>
+						</ItemsView>
+					</>
+				)}
+			</Expander>
 			<Expander
 				title={t.settings.appearance.uiScale}
 				icon="zoom_in"

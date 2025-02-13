@@ -120,14 +120,18 @@ export default colors;
 export function globalColors() {
 	let css = "";
 	for (let i = 0; i < 3; i++) {
-		const selector = [`:root${ifColorScheme.light}`, ":root", `:root${ifColorScheme.contrast}`][i];
+		const selector = [
+			`:root${ifColorScheme.light}, ${ifColorScheme.light}`,
+			`:root, ${ifColorScheme.dark}`,
+			`:root${ifColorScheme.contrast}, ${ifColorScheme.contrast}`,
+		][i];
 		css += selector + " {\n";
 		for (const [key, values] of Object.entries(colors))
 			if (values[i])
 				css += `\t--${key}: ${values[i]};\n`;
 		css += "}\n";
 	}
-	css += ':root[data-scheme~="dark"][data-scheme~="black"] {\n\t--background-color: black;}\n';
+	css += `:root${ifColorScheme.black}, ${ifColorScheme.black} {\n\t--background-color: black;}\n`;
 	return css;
 }
 // TODO: `light-dark`, `prefers-color-scheme`.
