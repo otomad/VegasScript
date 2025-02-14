@@ -1,3 +1,5 @@
+import { spacing } from "pangu";
+
 /**
  * Initialize global variables that need to be declared in the console in the development environment.
  */
@@ -16,5 +18,9 @@ if (import.meta.env.DEV) {
 	globals.toast = (message: string, status?: Status) => {
 		useEvent("app:toast", message, status);
 	};
+	// #endregion
+
+	// #region Pangu spacing
+	globals.spacing = spacing;
 	// #endregion
 }

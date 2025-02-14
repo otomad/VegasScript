@@ -27,8 +27,9 @@ i18n
 			format: formatInterpolation,
 		},
 		postProcess: [
-			panguProcessor.name,
+			// Fullwidth quotes should run before pangu, otherwise it won't work.
 			fullwidthQuotesProcessor.name,
+			panguProcessor.name,
 		],
 		resources: allLanguages,
 	});
