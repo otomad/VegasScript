@@ -1,6 +1,6 @@
 import tipsImage from "assets/images/tips/bathroom_mirror.jpg";
 
-export /* @internal */ const musicalNotationSystems = ["scientific", "helmholtz", "solfege", "numbered", "gongche", "gongshang", "lyulyu"] as const;
+export /* @internal */ const musicalNotationSystems = ["scientific", "helmholtz", "solfege", "numbered", "gongche", "gongshang", "lyulyu", "midiNumber", "frequency"] as const;
 
 export default function Shupelunker() {
 	const { enabled, presetTemplate } = selectConfig(c => c.lyrics);
@@ -45,7 +45,7 @@ export default function Shupelunker() {
 							value={type}
 							view="tile"
 							idField
-							iconField={id => "notation_" + id}
+							iconField={id => "notation_" + new VariableName(id).snake}
 							nameField={id => t.lyrics.pitchNotation[id].toString().split("\n")[0]}
 							detailsField={id => t.lyrics.pitchNotation[id].toString().split("\n")[1]}
 							checkInfoCondition={id => t.lyrics.pitchNotation[id!].toString().split("\n")[0]}

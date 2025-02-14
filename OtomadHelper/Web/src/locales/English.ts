@@ -457,6 +457,8 @@ export default {
 				gongche: "Gōngchě Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 				gongshang: "Gōngshāng Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 				lyulyu: "Lǜlǚ Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				midiNumber: "MIDI Pitch Number", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				frequency: "Frequency", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 			},
 		},
 		shupelunker: {

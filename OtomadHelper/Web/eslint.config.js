@@ -161,7 +161,7 @@ export default [
 			"unicorn/escape-case": "off", // 暂时禁用，待修复。
 			"unicorn/number-literal-case": "off", // 同上，你真的觉得大写很好看吗？
 			"unicorn/prefer-code-point": "error",
-			"unicorn/better-regex": "error",
+			"unicorn/better-regex": "off",
 			"unicorn/consistent-empty-array-spread": "error",
 			"unicorn/consistent-existence-index-check": "error",
 			"unicorn/explicit-length-check": "error",
