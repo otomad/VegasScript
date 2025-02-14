@@ -116,7 +116,7 @@ const StyledSliderWrapper = styled.div`
 	}
 `;
 
-export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, keyLargeStepMultiple = 10, displayValueStep, smoothDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChanged, onDisplayValueChanged }: FCP<{
+export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, keyLargeStepMultiple = 10, displayValueStep, smoothDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChange, onDisplayValueChanged }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
 	/** Slider minimum value. */
@@ -153,7 +153,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	/** The slider is dragging event. */
 	onChanging?(value: number): void;
 	/** The slider is lifted after being dragged event. */
-	onChanged?(value: number): void;
+	onChange?(value: number): void;
 	/** Occurs when you want to get the display value. */
 	onDisplayValueChanged?(value: Readable | undefined): void;
 }>) {
@@ -180,7 +180,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		if (defaultValue !== undefined && Number.isFinite(defaultValue)) {
 			setValue?.(defaultValue);
 			onChanging?.(defaultValue);
-			onChanged?.(defaultValue);
+			onChange?.(defaultValue);
 		}
 	}
 
@@ -210,7 +210,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 			thumb.removeEventListener("pointermove", pointerMove);
 			thumb.removeEventListener("pointerup", pointerUp);
 			thumb.releasePointerCapture(e.pointerId);
-			onChanged?.(value!);
+			onChange?.(value!);
 			nextAnimationTick().then(() => {
 				setPressed(false);
 			});

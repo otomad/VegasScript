@@ -63,6 +63,8 @@ export default function Prve() {
 	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation } = selectConfig(c => c.visual.prve[controlMode].amounts);
 	const selectionMode = useSelectionMode(isMultiple);
 	const effectLength = effects[0].length;
+	const shouldHideSelectionBadge = effectLength <= 0 || effectLength === 1 && (effects[0][0].fx === DEFAULT_EFFECT || !isMultiple[0]);
+	console.log(effects[0]);
 	const selectPrve = (klass: PrveClassType): StateProperty<PrveEffectType> => {
 		const classEffects = PrveClass.findClassEffects(klass);
 		const flipEffects = PrveClass.findClassEffects("flip");
@@ -103,6 +105,7 @@ export default function Prve() {
 	);
 
 	const rotationStep = useStateSelector(rotation, angle => angle === 0 ? 0 : 360 / angle, step => step === 0 ? 0 : Math.round(360 / step));
+	const setIsCurrentEffectRotation = (yes: boolean) => selectPrve("rotation")[1]!(yes ? "rotate" : "normal");
 
 	return (
 		<div className="container">
@@ -125,7 +128,7 @@ export default function Prve() {
 			/>
 			<Subheader>
 				{t.prve.classes}
-				<Badge style={{ marginInlineStart: "12px" }} hidden={effectLength <= 1}>{effectLength}</Badge>
+				<Badge style={{ marginInlineStart: "12px" }} hidden={shouldHideSelectionBadge}>{effectLength}</Badge>
 			</Subheader>
 
 			<Expander.Group autoCollapse={autoCollapsePrveClasses}>
@@ -146,7 +149,7 @@ export default function Prve() {
 									null! : currentEffect,
 								(rotate: string) => {
 									if (rotate.in("ccwRotate", "cwRotate", "turned")) {
-										currentEffectState[1]!("rotate");
+										setIsCurrentEffectRotation(true);
 										rotation[1](rotate === "ccwRotate" ? -90 : rotate === "cwRotate" ? 90 : 180);
 									} else currentEffectState[1]!(rotate);
 								},
@@ -166,6 +169,7 @@ export default function Prve() {
 									decimalPlaces={0}
 									defaultValue={0}
 									suffix={t.units.degree}
+									onChanging={value => setIsCurrentEffectRotation(value !== 0)}
 								/>
 							</Expander.Item>
 							<Expander.Item title={t.prve.amounts.rotationStep} icon="turntable">
@@ -174,6 +178,7 @@ export default function Prve() {
 									min={-360}
 									max={360}
 									defaultValue={0}
+									onChanging={value => setIsCurrentEffectRotation(value !== 0)}
 								/>
 							</Expander.Item>
 							<Expander.Item title={t.prve.initialValue} icon="replay">
@@ -188,6 +193,7 @@ export default function Prve() {
 											defaultValue={0}
 											disabled={invalidValue || currentEffect === "normal"}
 											// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
+											onChanging={() => setIsCurrentEffectRotation(true)}
 										/>
 									);
 								})()}
@@ -220,7 +226,7 @@ export default function Prve() {
 										currentEffect === "radialBlur" ? $a(t.settings.appearance.backgroundImage.blur, "blur", radialBlur, defaultPrveAmounts.radialBlur, 0, 1) : undefined :
 									klass === "ec" ?
 										currentEffect === "puyo" ? $a(tAmounts.puyo, "puyo", puyo, defaultPrveAmounts.puyo, 0.5, 1) :
-										currentEffect.in("slantDown", "slantUp") ? $a(tAmounts.compression, "slant", slant, defaultPrveAmounts.slant, 0.5, 1) :
+										currentEffect.in("slantDown", "slantUp") ? $a(tAmounts.puyo, "slant", slant, defaultPrveAmounts.slant, 0.5, 1) :
 										currentEffect.in("vExpansion", "vExpansionBounce", "vCompression", "vCompressionBounce", "vBounce") ? $a(tAmounts.compression, "compression", compression, defaultPrveAmounts.compression, 0.5, 1) : undefined :
 									undefined;
 									/* eslint-enable @stylistic/indent */
@@ -342,5 +348,5 @@ function useIsForceStretch() {
 	const timeEffects = PrveClass.findClassEffects("time");
 	const prve = useSnapshot(configStore.visual.prve);
 	const effects = Object.values(prve).flatMap(control => control.effects);
-	return !(effects.map(effect => effect.fx).intersection(timeEffects).length === 0);
+	return effects.map(effect => effect.fx).intersection(timeEffects).length > 0;
 }
