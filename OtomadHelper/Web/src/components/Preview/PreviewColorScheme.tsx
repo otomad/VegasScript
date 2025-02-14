@@ -110,13 +110,14 @@ const StyledPreviewColorScheme = styled.div.attrs({
 		margin-block: 8px 10px;
 
 		.icon {
-			font-size: 64px;
+			font-size: 40px;
 		}
 
 		.texts {
 			display: flex;
 			flex-direction: column;
 			gap: 8px;
+			margin-block: 2px;
 			inline-size: 100%;
 		}
 
@@ -130,15 +131,24 @@ const StyledPreviewColorScheme = styled.div.attrs({
 				}
 			`)}
 		}
+
+		.card {
+			${styles.mixins.square("64px")};
+			${styles.mixins.gridCenter()};
+			flex-shrink: 0;
+		}
 	}
 
 	.card {
-		margin-block-start: 6px;
-		block-size: 35px;
-		inline-size: 100%;
 		background-color: ${c("background-fill-color-card-background-default")};
 		border: 1px solid ${c("stroke-color-card-stroke-default")};
 		border-radius: 4px;
+
+		&.settings-card {
+			margin-block-start: 6px;
+			block-size: 35px;
+			inline-size: 100%;
+		}
 	}
 
 	.command-bar {
@@ -222,12 +232,14 @@ function PreviewColorSchemeContent({ scheme, icon }: {
 			<div className="main">
 				<div className="text heading" />
 				<div className="page-control">
-					<Icon name={icon} />
+					<div className="card">
+						<Icon name={icon} />
+					</div>
 					<div className="texts">
 						{forMap(5, i => <div className="text" key={i} />)}
 					</div>
 				</div>
-				{forMap(2, i => <div className="card" key={i} />)}
+				{forMap(2, i => <div className="card settings-card" key={i} />)}
 				<div className="vertical-spring" />
 				<div className="command-bar">
 					<div className="button accent" />
