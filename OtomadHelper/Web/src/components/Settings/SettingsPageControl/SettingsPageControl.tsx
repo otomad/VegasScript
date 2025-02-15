@@ -37,7 +37,7 @@ const StyledSettingsPageControl = styled.div<{
 	}
 
 	> p {
-		${styles.effects.text.body};
+		${styles.effects.text.caption};
 		margin-block-start: -4px;
 	}
 `;
