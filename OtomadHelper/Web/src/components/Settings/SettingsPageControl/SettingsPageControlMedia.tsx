@@ -45,6 +45,10 @@ const StyledSettingsPageControlMedia = styled(Card)<{
 		opacity: 0.3;
 		filter: blur(30px);
 		pointer-events: none;
+
+		${ifColorScheme.contrast} & {
+			filter: blur(30px) url("#posterize");
+		}
 	}
 
 	.toggle-switch-label {
@@ -91,6 +95,19 @@ export default function SettingsPageControlMedia({ stream, fileName, enabled, th
 					<Button icon="play">{t.stream.preview}</Button>
 				</div>
 			</div>
+			<SvgFilters />
 		</StyledSettingsPageControlMedia>
+	);
+}
+
+function SvgFilters() {
+	return (
+		<DefineSvgFilter id="posterize">
+			<feComponentTransfer>
+				<feFuncR type="discrete" tableValues="0.25 0.4 0.5 0.75 1" />
+				<feFuncG type="discrete" tableValues="0.25 0.4 0.5 0.75 1" />
+				<feFuncB type="discrete" tableValues="0.25 0.4 0.5 0.75 1" />
+			</feComponentTransfer>
+		</DefineSvgFilter>
 	);
 }

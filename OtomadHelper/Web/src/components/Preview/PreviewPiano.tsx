@@ -50,6 +50,7 @@ const strokes = colors["stroke-color-card-stroke-default"];
 const strokeDarkWhite = "rgba(0, 0, 0, 0.12)";
 
 const StyledPianoKey = styled.div`
+	${styles.effects.text.caption};
 	${styles.mixins.square("100%")};
 	position: relative;
 
@@ -61,7 +62,7 @@ const StyledPianoKey = styled.div`
 		align-items: flex-end;
 		contain: strict;
 		color: ${c("foreground-color")};
-		font-variant-numeric: tabular-nums;
+		/* font-variant-numeric: tabular-nums; */
 		background-color: color-mix(in srgb, var(--fill), var(--highlight) var(--level-highlight));
 		border: 1px solid;
 
