@@ -129,10 +129,11 @@ export default function Settings() {
 								details={t.descriptions.settings.appearance.colorScheme.black}
 								style={{ opacity: scheme === "light" ? 0.5 : undefined }}
 								baseAttrs={{ "data-scheme": classNames("dark black", { contrast }) }}
+								disableCheckmarkTransition
 							>
 								{t.settings.appearance.colorScheme.black}
 							</ItemsView.Item>
-							<ItemsView.Item id="contrast" key="contrast" selected={[contrast, setContrast]} image={<PreviewColorScheme colorScheme="contrast" />}>{t.settings.appearance.colorScheme.contrast}</ItemsView.Item>
+							<ItemsView.Item id="contrast" key="contrast" selected={[contrast, setContrast]} image={<PreviewColorScheme colorScheme="contrast" />} disableCheckmarkTransition>{t.settings.appearance.colorScheme.contrast}</ItemsView.Item>
 						</ItemsView>
 					</>
 				) : (

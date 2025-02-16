@@ -63,7 +63,7 @@
 		"react-dom": "^19.0.0",
 		"react-flip-move": "^3.0.5",
 		"react-i18next": "^15.1.0",
-		"react-transition-group-fc": "^4.5.4",
+		"react-transition-group-fc": "^4.5.5",
 		"styled-components": "^6.1.13",
 		"styled-tools": "^1.7.2",
 		"use-immer": "^0.10.0",

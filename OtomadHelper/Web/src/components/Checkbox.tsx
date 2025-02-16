@@ -6,7 +6,7 @@ const iconExiting = ":has(.icon.exit, .icon.enter-done)";
 const pressed = ":active:not(:has(.actions:active))";
 
 const StyledCheckboxLabel = styled.label<{
-	/** Include just the checkbox itself, not the text label? */
+	/** Include just the checkbox itself, without the text label? */
 	$plain?: boolean;
 }>(({ $plain }) => css`
 	display: flex;
@@ -63,10 +63,14 @@ const StyledCheckboxLabel = styled.label<{
 		}
 	}
 
-	input${checkedOrIndet} ~ .base,
-	.base${iconExiting} {
+	input${checkedOrIndet} ~ .base:has(.icon),
+	.base.disable-checkmark-transition${iconExiting} {
 		background-color: ${c("accent-color")} !important;
 		outline-color: ${c("accent-color")} !important;
+	}
+
+	.base${iconExiting} {
+		transition: ${fallbackTransitions}, background-color ${eases.easeInSmooth} 250ms, outline-color ${eases.easeInSmooth} 250ms, var(--fallback-transitions-for-contrast-scheme);
 	}
 
 	&:hover,
@@ -130,12 +134,19 @@ interface SharedProps {
 	disabled?: boolean;
 	/** Detailed description. */
 	details?: ReactNode;
-	/** Include just the checkbox itself, not the text label? */
+	/** Include just the checkbox itself, without the text label? */
 	plain?: boolean;
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/** Icon. */
 	icon?: DeclaredIcons;
+	/**
+	 * Temporarily disable the transition of the checkbox's checkmark icon?
+	 *
+	 * It is as well to disable the checkmark transition when it appears abnormal or affects the user experience
+	 * (for example, when executing the `startViewTransition` function in the View Transition API simultaneously).
+	 */
+	disableCheckmarkTransition?: boolean;
 }
 
 export default function Checkbox<T>(props: FCP<{
@@ -158,7 +169,7 @@ export default function Checkbox(props: FCP<{
 	/** State change event. */
 	onChange?(e: { checkState: CheckState; checked: boolean | null }): void;
 } & SharedProps, "label">): JSX.Element;
-export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, icon, ref, ...htmlAttrs }: FCP<{
+export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, icon, disableCheckmarkTransition, ref, ...htmlAttrs }: FCP<{
 	id?: T;
 	value: StateProperty<T[]> | StateProperty<boolean> | StateProperty<CheckState>;
 	onChange?: Function;
@@ -224,15 +235,13 @@ export default function Checkbox<T>({ children, id, value: [value, setValue], di
 			<input
 				type="checkbox"
 				checked={checked}
-				className={{ testChecked: checked }}
 				onChange={e => handleCheck(e.target.checked)}
 				disabled={disabled}
 				ref={checkboxEl}
 			/>
-			<div className="base">
+			<div className={["base", { disableCheckmarkTransition }]}>
 				<SwitchTransition>
-					<CssTransition key={checkMarkName} maxTimeout={500}>
-						{/* TODO: Temporarily disable transition. */}
+					<CssTransition key={checkMarkName} maxTimeout={500} disabled={disableCheckmarkTransition}>
 						<Icon name={checkMarkName} />
 					</CssTransition>
 				</SwitchTransition>

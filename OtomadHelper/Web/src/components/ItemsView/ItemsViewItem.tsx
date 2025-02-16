@@ -7,7 +7,7 @@ const isPressed = ":active:not(:has(button:active))";
 const StyledItemsViewItem = styled.button<{
 	/** View mode: list, tile, grid. */
 	$view: ItemView;
-	/** Additional border on normal state of the image wrapper. */
+	/** Add additional borders to the normal state of the image wrapper? */
 	$withBorder?: boolean;
 }>`
 	${styles.mixins.forwardFocusRing()};
@@ -67,7 +67,7 @@ const StyledItemsViewItem = styled.button<{
 		}
 
 		&:not(.selected) .selection {
-			transition: ${fallbackTransitions}, box-shadow ${eases.easeInSmooth} 250ms;
+			transition: ${fallbackTransitions}, box-shadow ${eases.easeOutQuad} 250ms;
 		}
 
 		&:hover .selection {
@@ -237,7 +237,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -250,12 +250,21 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	details?: ReactNode;
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
-	/** Additional border on normal state of the image wrapper. */
+	/** Add additional borders to the normal state of the image wrapper? */
 	withBorder?: boolean;
 	/** `list`, `tile` - Top alignment the icon? */
 	topAlignIcon?: boolean;
 	/** Additional attributes for the base element of the items view item. */
 	baseAttrs?: Partial<FCP<{}, "div">> & Record<string, Any>;
+	/**
+	 * Temporarily disable the transition of the checkbox's checkmark icon?
+	 *
+	 * It is as well to disable the checkmark transition when it appears abnormal or affects the user experience
+	 * (for example, when executing the `startViewTransition` function in the View Transition API simultaneously).
+	 *
+	 * Effective only in multiple selection mode.
+	 */
+	disableCheckmarkTransition?: boolean;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -280,7 +289,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	);
 	const checkbox = (
 		<CssTransition in={multiple} unmountOnExit>
-			<Checkbox value={[selected]} plain inert />
+			<Checkbox value={[selected]} plain inert disableCheckmarkTransition={disableCheckmarkTransition} />
 		</CssTransition>
 	);
 	const iconOrElement = typeof icon === "string" ? <Icon name={icon} /> : icon;
