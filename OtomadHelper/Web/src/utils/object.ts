@@ -82,12 +82,13 @@ export function forMap<T>(length: number, callback: (index: number, length: numb
  * Map an array from the given start value to the end value.
  * @param start - Start value.
  * @param end - End value.
+ * @param step - Step value.
  * @param callback - `map` callback.
  * @returns An array of objects repeated a specified number of times.
  */
-export function forMapFromTo<T>(start: number, end: number, callback: (index: number) => T) {
+export function forMapFromTo<T>(start: number, end: number, step: number, callback: (index: number) => T) {
 	const result: T[] = [];
-	for (let i = start; i <= end; i++)
+	for (let i = start; i <= end; i += step)
 		result.push(callback(i));
 	return result;
 }

@@ -33,6 +33,8 @@ words:
   - contenteditable
   - cooldown
   - cqh
+  - cqmax
+  - cqmin
   - cqw
   - csstype
   - cw

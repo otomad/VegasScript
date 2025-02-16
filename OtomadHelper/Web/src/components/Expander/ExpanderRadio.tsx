@@ -12,7 +12,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	 * - If it is `{ id: TKey; name: string }`, the required name value is looked up based on the current state of the object.
 	 * - If it is a callback function, get the required value through the callback function.
 	 */
-	checkInfoCondition?: string | { id: TKey; name: string } | true | ((value: TKey | undefined, items: TItem[]) => Readable | undefined);
+	checkInfoCondition?: string | { id: TKey; name: string } | true | ((value: TKey | undefined, items: TItem[]) => ReactNode | undefined);
 	/**
 	 * The identifier field for the radio item.
 	 * - If it is a string, it represents the value of the specified field name of the currently selected object.
@@ -38,8 +38,12 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	view?: ItemView | "radio";
 	/** Detailed description. */
 	details?: ReactNode | ((value: TKey | undefined, items: TItem[]) => ReactNode);
-	/** The width of the child element image when using the grid view component. */
-	itemWidth?: number;
+	/**
+	 * The width of the child element image when using the grid view component.
+	 *
+	 * If it is "square", it will result the image of the grid view item become square.
+	 */
+	itemWidth?: PropsOf<typeof ItemsView>["itemWidth"];
 	/** Radio button group name, optional. */
 	radioGroup?: string;
 	/** Additional attributes for the items view item. */

@@ -3,6 +3,7 @@ import { deepClone } from "valtio/utils";
 import type { beepEngines, normalizeTimes } from "views/audio";
 import type { musicalNotationSystems } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
+import type { systemBackdrops } from "views/settings";
 import type { barOrBeatUnitTypes, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { trackLegatoModes } from "views/track";
 import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
@@ -30,6 +31,7 @@ type GridFitType = typeof fitTypes[number];
 type GridParityType = typeof parityTypes[number];
 type TrackLegatoMode = typeof trackLegatoModes[number];
 type NormalizeTime = typeof normalizeTimes[number]["id"];
+type SystemBackdrop = typeof systemBackdrops[number]["name"];
 
 const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 const defaultPrve = {
@@ -271,6 +273,7 @@ export const configStore = createStore({
 		backgroundImageOpacity: 0.2,
 		backgroundImageTint: 0,
 		backgroundImageBlur: 0,
+		systemBackdrop: "acrylic" as SystemBackdrop,
 		uiScale: 100,
 		get uiScale1() { return this.uiScale / 100; },
 		hideUseTips: false,

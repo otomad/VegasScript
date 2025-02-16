@@ -6,7 +6,7 @@ import { highContrastMediaQuery } from "helpers/color-mode";
 import type { ColorNames, SystemColors } from "styles/colors";
 import eases from "styles/eases";
 import effects from "styles/effects";
-import { STATUS_PREFIX, type AvailableLottieStatus } from "styles/fake-animations";
+import { type AvailableLottieStatus, STATUS_PREFIX } from "styles/fake-animations";
 import mixins from "styles/mixins";
 
 export { ifColorScheme } from "styles/colors";
@@ -20,22 +20,16 @@ export const fallbackTransitions = `all ${eases.easeOutMax} 250ms, color ${eases
  * @param alpha - Alpha value, note that it is a percentage value rather than a decimal value between 0 and 1. If left blank, it indicates an opaque color.
  * @returns The custom property solid color called by `var()`, or the translucent color encapsulated by relative color function `rgba(from ...)`.
  */
-export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alpha?: number) {
-	if (alpha !== undefined && (alpha < 0 || alpha > 100))
+export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alpha?: number | string) {
+	if (typeof alpha === "number" && (Number.isNaN(alpha) || alpha < 0 || alpha > 100) || alpha === "")
 		throw RangeError("The alpha parameter should be in range [0, 100]");
-	if (cssVarName === "white" || cssVarName === "black" || cssVarName.startsWith("#")) {
-		let rgb = (cssVarName === "white" ? "f" : "0").repeat(6);
-		if (cssVarName.startsWith("#")) {
-			cssVarName = cssVarName.slice(1);
-			if (cssVarName.length === 6) rgb = cssVarName;
-			else if (cssVarName.length === 3) rgb = Array.from("001122", i => cssVarName[+i]).join("");
-			else throw new RangeError("The color hex string length must be 3 or 6");
-		}
+	if (cssVarName === "white" || cssVarName === "black")
 		return alpha === undefined ? cssVarName :
-			"#" + rgb + Math.round(alpha / 100 * 255).toString(16).padStart(2, "0");
-	}
+			typeof alpha === "number" ?
+				"#" + (cssVarName === "white" ? "f" : "0").repeat(6) + Math.round(alpha / 100 * 255).toString(16).padStart(2, "0") :
+				`rgb(${cssVarName === "white" ? "255 255 255" : "0 0 0"} / ${alpha})`;
 	return alpha === undefined ? `var(--${cssVarName})` :
-		`rgb(from var(--${cssVarName}) r g b / calc(alpha * ${alpha}%))`;
+		`rgb(from var(--${cssVarName}) r g b / calc(alpha * ${typeof alpha === "number" ? alpha + "%" : alpha}))`;
 }
 
 /**

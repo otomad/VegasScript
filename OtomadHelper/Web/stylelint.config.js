@@ -67,6 +67,8 @@ export default {
 		"rule-empty-line-before": null,
 		"no-invalid-double-slash-comments": null,
 		"number-max-precision": null,
+		"media-query-no-invalid": null, // 不支持 Styled Components 的 ${} 插值。
+		// "alpha-value-notation": ["percentage", { "exceptProperties": "opacity" }],
 		// "property-disallowed-list": ["direction"],
 		"@stylistic/declaration-block-trailing-semicolon": "always",
 		"@stylistic/declaration-block-semicolon-space-after": "always-single-line",

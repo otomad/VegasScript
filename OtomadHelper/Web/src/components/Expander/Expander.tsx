@@ -9,8 +9,6 @@ const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when sc
 	/** Make expander child items disabled. */
 	$childrenDisabled?: boolean;
 }>`
-	backdrop-filter: blur(4px);
-
 	.check-info {
 		${tgs()} {
 			translate: 0 16px;
@@ -116,7 +114,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	/** Expanded initially? */
 	expanded?: boolean;
 	/** The text that displays the selected status of a radio button or checkbox in the expander, which is only displayed when the expander is closed. */
-	checkInfo?: Readable;
+	checkInfo?: ReactNode;
 	/** Regardless of whether the expander is on or off, the selected display text is always displayed. */
 	alwaysShowCheckInfo?: boolean;
 	/** Make sure expander children won't exceed the area. */

@@ -10,6 +10,8 @@ const StyledSettingsCard = styled(StyledCard)<{
 }>(({ $trailingGap }) => css`
 	${styledExpanderItemContent};
 
+	backdrop-filter: blur(4px);
+
 	${$trailingGap !== undefined && css`
 		.trailing {
 			gap: ${styles.toValue($trailingGap)};

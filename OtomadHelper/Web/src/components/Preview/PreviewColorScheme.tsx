@@ -174,7 +174,6 @@ const StyledPreviewColorScheme = styled.div.attrs({
 		border-block-end-color: ${c("stroke-color-control-stroke-secondary-on-default")};
 
 		&.accent {
-			background-color: ${c("accent-color")};
 			border-block-end-color: ${c("stroke-color-control-stroke-on-accent-secondary")};
 		}
 	}
@@ -183,7 +182,6 @@ const StyledPreviewColorScheme = styled.div.attrs({
 		border-block-start-color: ${c("stroke-color-control-stroke-secondary-on-default")};
 
 		&.accent {
-			background-color: ${c("accent-color")};
 			border-block-start-color: ${c("stroke-color-control-stroke-on-accent-secondary")};
 		}
 	}

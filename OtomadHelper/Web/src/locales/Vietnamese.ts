@@ -186,10 +186,11 @@ export default {
 				vi: "Tiếng Việt",
 			},
 			appearance: {
+				backgroundImage: {},
 				colorScheme: {
 					auto: "Tự động",
 				},
-				backgroundImage: {},
+				dialogMaterial: {},
 			},
 			preference: {},
 			config: {},
@@ -262,6 +263,9 @@ export default {
 			},
 			pixelScaling: {},
 			settings: {
+				appearance: {
+					colorScheme: {},
+				},
 				preference: {},
 			},
 		},

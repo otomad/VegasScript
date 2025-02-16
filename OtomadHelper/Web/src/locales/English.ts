@@ -671,6 +671,12 @@ export default {
 			},
 			appearance: {
 				_: "Appearance",
+				backgroundImage: {
+					_: "Background image",
+					opacity: "Opacity",
+					tint: "Tint",
+					blur: "Blurriness",
+				},
 				colorScheme: {
 					_: "Color scheme",
 					light: "Light",
@@ -679,13 +685,14 @@ export default {
 					black: "Black",
 					contrast: "High Contrast",
 				},
-				uiScale: "UI scale",
-				backgroundImage: {
-					_: "Background image",
-					opacity: "Opacity",
-					tint: "Tint",
-					blur: "Blurriness",
+				dialogMaterial: {
+					_: "Dialog material",
+					acrylic: "Acrylic",
+					mica: "Mica",
+					micaAlt: "Mica Alt",
+					solid: "Solid",
 				},
+				uiScale: "UI scale",
 			},
 			preference: {
 				_: "Preference",

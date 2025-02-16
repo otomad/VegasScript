@@ -1,4 +1,4 @@
-import ItemsViewItem, { type OnItemsViewItemClickEventHandler } from "./ItemsViewItem";
+import ItemsViewItem, { GRID_VIEW_ITEM_HEIGHT, type OnItemsViewItemClickEventHandler } from "./ItemsViewItem";
 
 const StyledItemsView = styled.div<{
 	/** In grid view, the width of the child element image. Defaults to 200px. */
@@ -72,8 +72,12 @@ export default function ItemsView<
 	 * If it is `null`, items view will not select its items, and you can control them by yourself.
 	 */
 	current: StateProperty<T> | null;
-	/** In grid view, the width of the child element image. */
-	itemWidth?: number;
+	/**
+	 * In grid view, the width of the child element image.
+	 *
+	 * If it is "square", it will result the image of the grid view item become square.
+	 */
+	itemWidth?: number | "square";
 	/** Multiple selection mode? */
 	multiple?: M;
 	/** Specifies which items are set to an indeterminate state. */
@@ -88,6 +92,8 @@ export default function ItemsView<
 	/** Enable transition group for items view items. Passing a string represents it as the transition name. */
 	transition?: boolean | string;
 }, "div">) {
+	if (itemWidth === "square") itemWidth = GRID_VIEW_ITEM_HEIGHT;
+
 	const [current, setCurrent] = _current ?? [];
 
 	const isSelected = (id: PropertyKey) => {

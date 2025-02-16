@@ -1,3 +1,10 @@
+export /* @internal */ const systemBackdrops = [
+	{ name: "acrylic", enum: "TransientWindow" },
+	{ name: "mica", enum: "MainWindow" },
+	{ name: "micaAlt", enum: "TabbedWindow" },
+	{ name: "solid", enum: "None" },
+] as const;
+
 export default function Settings() {
 	const [language, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
@@ -6,7 +13,7 @@ export default function Settings() {
 	const { scheme: [scheme, setScheme], amoledDark: [amoledDark, setAmoledDark], contrast: [contrast, setContrast] } = useStoreState(colorModeStore);
 	const {
 		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
-		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur,
+		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop,
 	} = selectConfig(c => c.settings);
 	const backgroundImages = useBackgroundImages();
 	const showBackgroundImage = backgroundImages.backgroundImage[0] !== -1;
@@ -141,6 +148,19 @@ export default function Settings() {
 					</>
 				)}
 			</Expander>
+			<ExpanderRadio
+				title={t.settings.appearance.dialogMaterial}
+				icon="glass"
+				alwaysShowCheckInfo
+				expanded
+				view="grid"
+				itemWidth="square"
+				items={systemBackdrops}
+				value={systemBackdrop}
+				idField="name"
+				nameField={t.settings.appearance.dialogMaterial}
+				imageField={({ name }) => <PreviewBackdrop type={name} />}
+			/>
 			<Expander
 				title={t.settings.appearance.uiScale}
 				icon="zoom_in"

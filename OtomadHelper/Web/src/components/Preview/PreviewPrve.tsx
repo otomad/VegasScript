@@ -1,7 +1,7 @@
 import prvePingpongImage from "assets/images/effects/prve_pingpong.gif";
 import prveWhirlImage from "assets/images/effects/prve_whirl.webp";
 import { freezeframes } from "helpers/freezeframe";
-import { initWebgl2, type WebGLFilter } from "hooks/webgl/render";
+import { type WebGLFilter, initWebgl2 } from "hooks/webgl/render";
 import { getStepChangeHueStep } from "views/visual/prve";
 const prvePingpongStaticImage = freezeframes["effects/prve_pingpong.gif"];
 const prveWhirlStaticImage = freezeframes["effects/prve_whirl.webp"];
@@ -60,7 +60,7 @@ const StyledPreviewPrve = styled.div<{
 					img {
 						filter: hue-rotate(${360 / stepChangeHueStep}deg);
 						animation: ${keyframes`
-							${forMapFromTo(1, stepChangeHueStep, i => {
+							${forMapFromTo(1, stepChangeHueStep, 1, i => {
 								const offset = 100 / stepChangeHueStep * (i - 1);
 								return `${offset === 0 ? "0%, 100%" : offset + "%"} { filter: hue-rotate(${360 / stepChangeHueStep * i}deg); }`;
 							})}
