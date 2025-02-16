@@ -23,14 +23,3 @@ export function MathFormulaFor39() {
 		</math>
 	);
 }
-
-export function MathFormulaFor24() {
-	return (
-		<math>
-			<mrow>
-				<mo>±</mo>
-				<mn>24</mn>
-			</mrow>
-		</math>
-	);
-}

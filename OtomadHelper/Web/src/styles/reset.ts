@@ -136,5 +136,12 @@ export default css`
 				transition: ${fallbackTransitions};
 			}
 		}
+
+		// Do not change font in math.
+		math {
+			font-weight: inherit;
+			line-height: inherit;
+			word-spacing: inherit;
+		}
 	}
 `;

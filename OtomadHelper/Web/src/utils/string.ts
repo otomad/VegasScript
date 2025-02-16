@@ -21,8 +21,8 @@ import dedent from "dedent";
 		return Array.from(this);
 	};
 
-	String.prototype.inTwo = function (sep = ",") {
-		return Array.from(this).join(sep);
+	String.prototype.interpose = function (separator = ",") {
+		return Array.from(this).join(separator);
 	};
 
 	String.prototype.in = function (this: undefined, ...list) {
@@ -51,7 +51,7 @@ import dedent from "dedent";
 	};
 
 	String.prototype.nowrapPerChar = function () {
-		return this.inTwo("\u2060");
+		return this.interpose("\u2060");
 	};
 
 	String.prototype.replaceStart = function (start, replacement = "") {

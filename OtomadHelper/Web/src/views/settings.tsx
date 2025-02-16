@@ -120,8 +120,8 @@ export default function Settings() {
 								selected={[amoledDark, setAmoledDark]}
 								image={<PreviewColorScheme colorScheme="black" />}
 								details={t.descriptions.settings.appearance.colorScheme.black}
-								data-scheme={classNames("dark black", { contrast })}
 								style={{ opacity: scheme === "light" ? 0.5 : undefined }}
+								baseAttrs={{ "data-scheme": classNames("dark black", { contrast }) }}
 							>
 								{t.settings.appearance.colorScheme.black}
 							</ItemsView.Item>

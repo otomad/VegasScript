@@ -47,3 +47,23 @@ CSS.registerProperty({
 	inherits: true,
 	initialValue: "1",
 });
+
+/**
+ * The transparency (not opacity) of the gradient mask at the start of the scrolling area.
+ */
+CSS.registerProperty({
+	name: "--scroll-start-mask-transparency",
+	syntax: "<number> | <percentage>",
+	inherits: true,
+	initialValue: "1",
+});
+
+/**
+ * The transparency (not opacity) of the gradient mask at the end of the scrolling area.
+ */
+CSS.registerProperty({
+	name: "--scroll-end-mask-transparency",
+	syntax: "<number> | <percentage>",
+	inherits: true,
+	initialValue: "1",
+});

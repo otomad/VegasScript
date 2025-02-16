@@ -278,7 +278,7 @@ export default function Audio() {
 								<TransInterpolation
 									i18nKey={t => t.descriptions.stream.tuning.alternativeForExceedTheRange[item.id]}
 									formulaFor39={<MathFormulaFor39 />}
-									formulaFor24={<MathFormulaFor24 />}
+									formulaFor24="±24"
 								/>
 							)}
 							checkInfoCondition={id => getExceedsName(id, tuningMethod[0])}

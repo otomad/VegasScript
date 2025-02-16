@@ -37,11 +37,7 @@ export default {
 		"import-notation": null,
 		"at-rule-no-unknown": null,
 		"function-no-unknown": null,
-		"property-no-unknown": [true, {
-			"ignoreProperties": [
-				"interpolate-size", // WARN: 等 StyleLint 支持该新属性后移除。
-			],
-		}],
+		"property-no-unknown": true,
 		"declaration-empty-line-before": null,
 		"custom-property-empty-line-before": null,
 		"selector-pseudo-class-no-unknown": [true, {
@@ -55,7 +51,7 @@ export default {
 		"keyframe-block-no-duplicate-selectors": true,
 		"custom-property-no-missing-var-function": true,
 		"keyframe-declaration-no-important": true,
-		"font-family-no-missing-generic-family-keyword": [true, { "ignoreFontFamilies": "math" }],
+		"font-family-no-missing-generic-family-keyword": true,
 		"font-family-name-quotes": "always-where-recommended",
 		"comment-empty-line-before": null,
 		"function-calc-no-unspaced-operator": null, // 暂时解决一打 calc() 还没打完内容右下角就开始疯狂报错的问题。

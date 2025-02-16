@@ -1,4 +1,4 @@
-export /* @internal */ const PREVIEW_IMAGE_HEIGHT = 120;
+export /* @internal */ const PREVIEW_IMAGE_HEIGHT = 121;
 
 const StyledSettingsPageControlPreviewImage = styled.div<{
 	/** Pass a React node as image instead of a pure image. */

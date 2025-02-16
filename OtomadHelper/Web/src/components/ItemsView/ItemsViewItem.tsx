@@ -237,7 +237,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -254,6 +254,8 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	withBorder?: boolean;
 	/** `list`, `tile` - Top alignment the icon? */
 	topAlignIcon?: boolean;
+	/** Additional attributes for the base element of the items view item. */
+	baseAttrs?: Partial<FCP<{}, "div">> & Record<string, Any>;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -306,7 +308,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 					onClick={e => { onClick?.(id, selected, e); setSelected?.(selected => !selected); }}
 					{...htmlAttrs}
 				>
-					<div className="base">
+					<div className="base" {...baseAttrs}>
 						{view === "grid" ? (
 							<>
 								<div className="image-wrapper">

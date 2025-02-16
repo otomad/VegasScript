@@ -11,7 +11,7 @@ export default function Shupelunker() {
 
 	const { changePage } = useSnapshot(pageStore);
 
-	const previewKaraoke = <PreviewKaraoke reset={!enabled[0]} {...(karaokeEnabled[0] ? { futureFill, pastFill } : null)} />;
+	const previewKaraoke = <PreviewKaraoke reset={!enabled[0]} {...karaokeEnabled[0] ? { futureFill, pastFill } : null} />;
 	return (
 		<div className="container">
 			<SettingsPageControl image={tipsImage} imageOverlay={previewKaraoke} learnMoreLink="">{t.descriptions.lyrics}</SettingsPageControl>
@@ -46,7 +46,7 @@ export default function Shupelunker() {
 							view="tile"
 							idField
 							iconField={id => "notation_" + new VariableName(id).snake}
-							nameField={id => t.lyrics.pitchNotation[id].toString().split("\n")[0]}
+							nameField={id => <Preserves>{t.lyrics.pitchNotation[id].toString().split("\n")[0]}</Preserves>}
 							detailsField={id => t.lyrics.pitchNotation[id].toString().split("\n")[1]}
 							checkInfoCondition={id => t.lyrics.pitchNotation[id!].toString().split("\n")[0]}
 						/>

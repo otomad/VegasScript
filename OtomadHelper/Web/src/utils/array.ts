@@ -144,6 +144,11 @@
 		return Promise.all(this.map(callbackfn, thisArg));
 	};
 
+	Array.prototype.interpose = function (...separators) {
+		const getSeparators = separators.length === 1 && typeof separators[0] === "function" ? separators[0] as Function : undefined;
+		return this.reduce((result, current, index) => (result.push(...[...index ? getSeparators ? wrapIfNotArray(getSeparators(index, current, this)) : separators : [], current]), result), []);
+	};
+
 	makePrototypeKeysNonEnumerable(Array);
 }
 
@@ -202,6 +207,17 @@
  */
 export function mapObjectConst<const T extends string, U>(array: T[], callbackFn: (value: T, index: number, array: T[]) => U) {
 	return Object.fromEntries(array.map((value, index, array) => ([value, callbackFn(value, index, array)] as [T, U]))) as Record<T, U>;
+}
+
+/**
+ * If the passed parameter is not an array, wrap it into an array that only one element,
+ * otherwise return the array parameter itself.\
+ * To ensure that the returned object is always an array.
+ * @param maybeArray - Maybe an array, or something else.
+ * @returns The original array or an array containing only one original parameter.
+ */
+export function wrapIfNotArray<T>(maybeArray: T): T extends Any[] ? T : T[] {
+	return (Array.isArray(maybeArray) ? maybeArray : [maybeArray]) as never;
 }
 
 /** Creates a new tuple that is correctly recognized by TypeScript. */

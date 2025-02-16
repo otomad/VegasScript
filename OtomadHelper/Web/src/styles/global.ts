@@ -16,7 +16,8 @@ const GlobalStyle = createGlobalStyle<{
 		--cjk-font-family: "Microsoft YaHei UI";
 		box-sizing: border-box;
 		scroll-behavior: smooth;
-		font-family: "Yozora Sans", "Segoe UI Variable", "Segoe UI", var(--cjk-font-family), "Microsoft YaHei UI", sans-serif;
+		font-family: "Yozora Sans", Inter, "Segoe UI Variable", "Segoe UI", var(--cjk-font-family), "Microsoft YaHei UI", sans-serif;
+		font-optical-sizing: auto;
 		hyphens: auto;
 		hyphenate-limit-chars: 10;
 		user-select: none;
@@ -88,7 +89,7 @@ const GlobalStyle = createGlobalStyle<{
 	math {
 		&,
 		* {
-			font-family: math;
+			font-family: "Lete Sans Math", math;
 		}
 	}
 

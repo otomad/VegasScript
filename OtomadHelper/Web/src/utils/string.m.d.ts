@@ -63,17 +63,17 @@ declare interface String {
 	toArray(): string[];
 
 	/**
-	 * Insert a character between every two characters in a string.
+	 * Insert a separator between every two characters in a string.
 	 *
-	 * @param sep - Separator. Defaults to `,`.
+	 * @param separator - Separator. Defaults to `,`.
 	 * @returns The processed string.
 	 *
 	 * @example
 	 * ```javascript
-	 * console.log("hello world!".inTwo("|")); // Output: "h|e|l|l|o| |w|o|r|l|d|!"
+	 * console.log("hello world!".interpose("|")); // Output: "h|e|l|l|o| |w|o|r|l|d|!"
 	 * ```
 	 */
-	inTwo(sep?: string): string;
+	interpose(separator?: string): string;
 
 	/**
 	 * Is the string a certain string in the function parameters.

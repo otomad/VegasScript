@@ -83,7 +83,9 @@ declare interface Array<T> {
 
 	/**
 	 * Get the last element of the array.
-	 * @remarks If the array is empty, it will return undefined. However, at the TypeScript type level, there is an implicit empty removal, which is consistent with the type got when accessing elements directly using index values in `[]`. But if the type of the array already contains undefined, it will not remove empty.
+	 * @remarks If the array is empty, it will return undefined. However, at the TypeScript type level, there is an implicit empty removal,
+	 * which is consistent with the type got when accessing elements directly using index values in `[]`. But if the type of the array
+	 * already contains undefined, it will not remove empty.
 	 * @return The last element of the array.
 	 */
 	last(): T;
@@ -140,6 +142,39 @@ declare interface Array<T> {
 	 * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
 	 */
 	asyncMap<U>(callbackfn: (value: T, index: number, array: T[]) => MaybePromise<U>, thisArg?: any): Promise<U[]>;
+
+	/**
+	 * Insert separators between every two elements in an array.
+	 *
+	 * @param separators - Get separators with its previous element and the index.
+	 * @returns The processed new array, whose element type is a union of the type of the element in the original array and the type of the separators.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log("foo\nbar\nbaz".split("\n").interpose(i => document.createElement("h" + i)));
+	 * // Output: ["foo", <h1>, "bar", <h2>, "baz"]
+	 *
+	 * console.log("foo\nbar\nbaz".split("\n").interpose(i => [document.createElement("h" + i), document.createElement("h" + i * 2)]));
+	 * // Output: ["foo", <h1>, <h2>, "bar", <h2>, <h4>, "baz"]
+	 * ```
+	 */
+	interpose<TSeparator>(separators: (index: number, previous: T, array: T[]) => TSeparator | TSeparator[]): (T | TSeparator)[];
+	/**
+	 * Insert separators between every two elements in an array.
+	 *
+	 * @param separators - Separators.
+	 * @returns The processed new array, whose element type is a union of the type of the element in the original array and the type of the separators.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log("foo\nbar\nbaz".split("\n").interpose(document.createElement("br")));
+	 * // Output: ["foo", <br>, "bar", <br>, "baz"]
+	 *
+	 * console.log("foo\nbar\nbaz".split("\n").interpose(document.createElement("br"), document.createElement("br")));
+	 * // Output: ["foo", <br>, <br>, "bar", <br>, <br>, "baz"]
+	 * ```
+	 */
+	interpose<TSeparator>(...separators: TSeparator[]): (T | TSeparator)[];
 }
 
 declare interface ReadonlyArray<T> extends Pick<Array<T>,

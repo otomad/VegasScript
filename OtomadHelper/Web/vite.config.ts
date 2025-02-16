@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // noinspection ES6PreferShortImport
 
+import { resolve as _resolve } from "path";
 import react from "@vitejs/plugin-react";
 import { transform as transformCSS } from "lightningcss";
-import { resolve as _resolve } from "path";
 import license from "rollup-plugin-license";
 import autoImport from "unplugin-auto-import/vite";
 import turboConsole from "unplugin-turbo-console/vite";

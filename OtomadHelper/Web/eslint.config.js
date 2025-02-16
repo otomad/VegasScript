@@ -1,19 +1,21 @@
 // env
-import globals from "globals";
 // extends
 import eslint from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin";
+import importPlugin from "eslint-plugin-import";
 import reactRecommended from "eslint-plugin-react/configs/recommended.js";
-import tseslint from "typescript-eslint";
 // plugins
 import reactRefresh from "eslint-plugin-react-refresh";
 import unicorn from "eslint-plugin-unicorn";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
 	eslint.configs.recommended,
 	...tseslint.configs.recommended,
 	reactRecommended,
+	importPlugin.flatConfigs.warnings,
 	stylistic.configs.customize({
 		indent: "tab",
 		quotes: "double",
@@ -161,7 +163,10 @@ export default [
 			"@stylistic/max-statements-per-line": "off",
 			"no-useless-assignment": "error",
 			"no-control-regex": "off",
-			"import/order": "off", // 与 VSCode 内置导入排序特性打架。
+			"import/order": ["warn", {
+				"alphabetize": { "order": "asc", "orderImportKind": "asc", "caseInsensitive": false },
+				"named": true,
+			}],
 			"import/first": "off", // 与 Vue 特性冲突。
 			"import/named": "off", // 与 TypeScript 特性冲突。
 			"import/no-named-as-default": "off", // 似乎与文件命名方式有点出入。
@@ -375,6 +380,7 @@ export default [
 		files: ["*.config.{js,ts}"],
 		rules: {
 			"@stylistic/quote-props": "off",
+			"import/order": "off",
 		},
 	},
 	{
