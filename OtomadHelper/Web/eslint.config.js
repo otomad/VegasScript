@@ -40,6 +40,15 @@ export default [
 			"react-refresh": reactRefresh,
 			unicorn,
 		},
+		linterOptions: {
+			reportUnusedInlineConfigs: "error",
+			reportUnusedDisableDirectives: "error",
+		},
+		settings: {
+			react: {
+				version: "detect",
+			},
+		},
 		rules: {
 			"@stylistic/indent": ["error", "tab", {
 				"SwitchCase": 1,

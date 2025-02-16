@@ -177,13 +177,13 @@ export default {
 			allFiles: "All Files",
 			txt: "Text Documents",
 			midi: "MIDI Sequence Files",
-			singthesis: "All Supported Singthesis (Text Synthesis / Singing Voice Synthesizer Software Project) Files", // Singthesis = Sing + Synthesizer.
+			singthesis: "All Supported Singthesis (Text Synthesis / Singing Voice Synthesizer Software Project) Files", // Singthesis = Sing + Synthesizer
 			ust: "UTAU/OpenUTAU Sequence Text Files",
 			vsq: "Vocaloid Sequence Files",
 		},
 		score: {
 			midi: "MIDI",
-			singthesis: "Singthesis", // Singing Synthesizer.
+			singthesis: "Singthesis", // Singing Voice Synthesizer.
 			refOtherTracks: "Refer to other tracks",
 			tts: "Text to speech",
 			pureNotes: "Pure notes",
@@ -454,9 +454,9 @@ export default {
 				helmholtz: "Helmholtz Pitch Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 				solfege: "Solfège Syllable", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 				numbered: "Numbered Musical Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
-				gongche: "Gōngchě Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
-				gongshang: "Gōngshāng Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
-				lyulyu: "Lǜlǚ Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				gongche: "*Gōngchě* Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				gongshang: "*Gōngshāng* Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
+				lyulyu: "*Lǜlǚ* Notation", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 				midiNumber: "MIDI Pitch Number", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 				frequency: "Frequency", // If you want to have more explanations for the musical notation system in the language, please line break after translating the text and write detailed information on the second line.
 			},
@@ -677,7 +677,6 @@ export default {
 					dark: "Dark",
 					auto: "Auto",
 					black: "Black",
-					black_option: "Black (for dark only)",
 					contrast: "High Contrast",
 				},
 				uiScale: "UI scale",
@@ -782,7 +781,7 @@ export default {
 					freezeToPreset: "If the note is longer than the clip, splits from the clip’s out point, then freezes the latter’s in point, and next applies a custom preset to the latter",
 				},
 				legato: "Fills in the gaps between notes",
-				truncateAndLegatoConflictInAudio: "Truncation and Legato are conflicting in Audio, you cannot enable them simultaneously!",
+				truncateAndLegatoConflictInAudio: "Truncating and Legato are conflicting in Audio, you cannot enable them simultaneously!",
 				multitrackForChords: "Creates multiple tracks for chords",
 				createGroups: "Creates groups for video and audio clips represented by one note",
 				autoPan: "Pans the audio using envelope automation",
@@ -856,7 +855,7 @@ export default {
 				},
 			},
 			track: {
-				_: "Layout is one of the core points in the visual production process of YTPMV. Learn about composition, knowing how to make a good visual layout for a YTPMV will make it much more enjoyable to watch than you would expect.\nBasically, make sure your melody sample is the most prominent thing in the visuals.",
+				_: "In YTPMV creation, layout and composition design are the core links of visual logic. Its main goal is to deeply integrate multisource with music rhythm through dynamic composition, which not only creates confusion and impact, but also maintains the readability of visuals. Knowing how to make a good visual layout for YTPMV will make it more interesting than you think.\nAs the core of the visual, the source corresponding to the melody sample needs to be enlarged, topped, or given a high-contrast color to enhance the sense of existence. Then use dynamic hierarchical management to distinguish between primary and secondary elements. For example, the background source can reduce transparency to avoid domination. You can try non-linear arrangement, break the traditional grid layout, and use random stacking, displacement overlapping, or other techniques to mimic the visual tension of “information overload”. Establish a hidden order by repeating certain elements, and create a sense of surprise by adding local mutations. For example, repeat the avatar as a visual anchor, but overlay different effects each time it appears.\nThe layout and composition design of YTPMV is essentially “controlled chaos” that endows the content with internal structure through basic design principles such as contrast and alignment. This design not only requires technology, but also relies on the intuitive grasp of cultural aesthetics in its creation, and ultimately realizes the unique experience of “order in disorder”.",
 				grid: {
 					square: "Creates a standard grid layout such as 2×2, 3×3, etc. based on the number of tracks.",
 					custom: "Customizes the columns and rows of the grid layout. The rows will automatically adapt to the columns and vice versa.",
@@ -888,7 +887,7 @@ export default {
 				descending: "Reverses the order in which the tracks are applied",
 			},
 			sonar: {
-				_: "Sonar is a visual effect that utilizes Cookie Cutter shapes to create beat-style visual motion graphics. This feature allows you to assign different shapes or effects to various percussion instruments of a drum kit (channel 10) in the score.\nA common Otomad genre is to create Motion Graphics (Mograph) by adding various shapes, such as diffuse circles, to the visual based on the beats. Mograph is a product between graphic design and animation design, a form of visual expression based on the flow of time, and a kind of video art. The term “motion graphics” refers to graphics that are deformed by the flow of time. A single Otomad video containing only mographs is often titled “Graphs” or “Shapes”.",
+				_: "Sonar (Motion Graphics generation feature) is a tool that automatically generates Mographs based on the music rhythm, using the shapes of “Cookie Cutter” effect. The trigger signals of various percussion instruments are linked to preset graphic elements via the score (especially the data of channel 10, where the drum kit is located). These graphics change with the rhythm to create the rhythm-driven “visual beat” effect. For example, the kick generates an enlarged square, the snare drives a rotating diamond, and the crash triggers a diffuse circle, forming an immersive experience of “sound visualization”.\nMotion Graphics (Mograph) is an art form that combines graphic design and animation to convey information or emotion through the motion of graphics, text, and other elements. In the creation of Otomad, Mographs are often used to replace traditional source editing, and abstract graphics are used to create a purely visual rhythmic expression. For example, the visuals may be filled with dense geometric shapes during the climax of the music, while a sense of breathing is created by slowly deforming fluid patterns during the soothing paragraphs. Such creations are often titled *Graphics* or *Shapes* to emphasize the core concept of “playing music with visuals”.",
 				// The name of this effect, “Sonar”, was coined by Motosai.
 				enabled: "Enables sonar effects if the active tracks in the score contain drum kits",
 				separateDrums: "Places each drum on its own track",
@@ -896,7 +895,7 @@ export default {
 				shadow: "Adds shadows to graphs",
 			},
 			lyrics: {
-				_: "When the score contains lyrics, such as sequence text, lyrics subtitles can be automatically generated at the same time.\nIf the score does not contain lyrics, you can still generate the pitch notation for use.",
+				_: "If the score contains lyrics data, such as a singing voice synthesizer software project file, it can automatically generate dynamic subtitles to achieve an immersive experience of audio and visual synchronization. This feature includes the following sub-modes:\nKaraoke mode can generate word-for-word synchronized dynamic subtitles. The lyrics are presented as colored progress bars. The currently sung words are highlighted in real time (e.g. change from white to fluorescent). The unsung part retains its basic color, precisely for the duration of each syllable.\nIn Pitch Notation mode, if the score does not contain lyrics, the note pitches can be converted into subtitles that jump with the performance in real time. This mode supports multiple notation systems.",
 				presetTemplate: "Select a Title & Text Media Generator preset to use as a template for lyrics",
 				karaoke: {
 					_: "Uses karaoke style subtitles, the color indicator would reflect the progress of the current phrase",
@@ -909,7 +908,7 @@ export default {
 				},
 			},
 			shupelunker: {
-				_: "Shupelunker Tactics is an unpitched YTPMV/Otomad tactic. It is used to play the melody by using a clip of the source (usually a vocal) at the same pitch as the melody, i.e. the source clip itself is pitched to match the melody.\nIf the pitch of the clip does not match the melody, “Tartar Tactics” is generated. It is also unpitched and allows you to choose where the clip is cut (usually at a dialog), often using audio stretching and rewinding, as well as adding sixteenth to sixty-fourth rests. During production, the clips are matched to the rhythm for vocal sense.",
+				_: "Shupelunker Tactics is a kind of YTPMV/Otomad creation technique that subverts the traditional tuning logic. The core is to directly use the base pitch of the audio source to achieve harmony with the melody of the music through precise editing. When creating, it is necessary to select the pieces from the source that fully match the target scale and arrange them in melodic order to form a performance effect similar to LaunchPad. Since the whole process is unpitched, the base pitch of the source must be highly consistent with the melody of the music, so the breadth of the source library is required to be wide. Its characteristic is that through fragmented editing and high-speed switching, it not only retains the real texture of the base pitch of the source, but also creates a sense of galloping like incantation chanting, which is especially suitable for songs with compact rhythms and rich scale changes.\nIn contrast, if the pitch of the source clip does not match the melody, “Tartar Tactics” will be generated. It is also unpitched, and synchronization is achieved through extreme rhythmic control, such as articulating clips in portato, stretching or reversing clips, and forcing the source rhythm to match the original song. Inspired by the breakbeat logic of Drum ’n’ Bass, it creates a mechanical impulse like audio-visual impact through high-frequency fragmented editing. Although the content of the production is “meaningless incantation”, it can produce a unique sense of rhythm through the precise arrangement of the rhythm.",
 				// The name of this tactic originated in Otomad, whose first creation using this tactic had the title of being a parody of Shu (Shuzo Matsuoka) netaed with Spelunker (game), hence the name. This method was also used in early YTPMV, but it never had an official name or method title, it is more like a meme to use this method in a similar way that most YTPMV from the late 2000s to mid 2010s would use.
 				affix: "The base pitches of the clips need to be detected by naming them, please specify whether the pitch info should be a prefix or suffix to the clip name",
 				unallocated: {
@@ -923,7 +922,7 @@ export default {
 				offset: "Offsets the clips corresponding to the keys as a whole",
 			},
 			ytp: {
-				_: "YouTube Poop (YTP) is used to create nonsensical videos using various effects known in the YTP genre. YTP supports multisource.\nYTP is a Neo-Dada art form that consists of absurd remixes that imitate and mock the lowest technical and aesthetic standards of remix culture in order to comment on remix culture itself. It consists of video remixes edited from a variety of video clips to confuse, stun, or amuse the viewer. The sources can be mashed all together into a nonsensical crossover story, or simply repeated footage of the characters gesticulating oddly.",
+				_: "YouTube Poop (YTP) uses various effects to create videos with deconstruction, collage and absurdism at its core. YTP supports multisource.\nYTP is a Neo-Dada art practice in the digital era. Through editing, repetition, speed change, inversion and other technologies, the sources are reassembled into an illogical “video remix”, deliberately imitating the low-quality, low-technology aesthetic style to tease the seriousness and standardization of mainstream video culture. For example, the actions of the characters are played circularly, the lines with broken meanings are superimposed, or the abrupt sound effects are inserted to create an audio-visual effect that is both absurd and humorous.\nYTP rebelled against traditional narrative logic and challenged the audience’s inherent perception of “meaning”. Deconstructing the content of mainstream media through digital editing technology, and transforming cultural symbols into meaningless “electronic garbage”. Their works often follow the principle of “chaos is aesthetics”, such as an endless cycle of absurd clips or distorted role dialogues, forming a unique postmodern art language. YTP’s creative threshold is low, but its artistic value lies in reflecting on the essence of media — highlighting the vulnerability of digital media due to technical defects. Although YTP is an Internet meme, it is actually a continuous digital art experiment that redefines the boundary between entertainment and criticism.",
 				constrain: "Controls the length of the clips to be generated",
 				clips: "Sets the number of the clips to generate",
 				effects: "Specifies the effects for YTP",
@@ -932,7 +931,7 @@ export default {
 				normal: "Datamosh is a technique of damaging clips to create glitchy effects.",
 				// cspell:disable-next-line
 				glitchy: "Ða̵̝̻͔͎͋̇͑̆ƭą̬͉̫̐͑̓̄ͅa̸͎͇͗̌͂̈̀ą̸̝̼̦̤̇̐ǎ̛͍́̑a̸̲͙͛̐̄̎̚͜a̢̨̝̟͎̾̔̊ǎ̤̞͈͑a͈̪̣̍₥o̻̪̬̘̲͆͂͠o̸͍̞͔̓̆̊̀o̗͊̇̇̈́̇ǫ͇͗̏̕͜ơ̬͍͚̦̯̓̊͌ò͈̦̫̈́̓o̦̣̲̊̀o̪̪͚̺̘͛̽̏̈́ƨλ ïƨ á ƭèçλñï9úè ôƒ δá₥áϱïñϱ çℓïƥƨ ƭô çřèáƭè ϱℓïƭçλ¥ èƒƒèçƭƨ.",
-				additional: "In video art, there is a technique called datamoshing. Where two videos are interleaved so that intermediate frames are interpolated from two separate sources. And it exploits the difference in how the separate video codecs process motion and color information.",
+				additional: "Datamosh creates visual distortions, color distortions, pixel misplacements, and other visual effects, as well as the blurred screen state when the electronic device suddenly fails. Unlike conventional filters or effects, Datamosh directly modifies the underlying coding structure of the video, such as deliberately disrupting the frame sequence of the video or mixing data streams from different clips, making the visuals appear as illogical dynamic splices during playback, forming a “digital tearing sensation” similar to signal interference. For example, the characters’ actions suddenly split into overlapping remnants.\nAlthough the operating principle of Datamosh involves technical details, its aesthetic core is very intuitive: it transforms “errors” into a stylized visual language. Like the noise screen that appears when the signal from an analog TV is bad, the error effect of Datamosh is no longer a problem to be repaired, but a digital aesthetic symbol to be actively pursued. This technology is particularly suitable for creating scenes that need to show cyberpunk, retro technology, or abstract narration, so that the audience can feel an alternative artistic tension from the cracks of broken data.",
 				datamosh: "Datamoshes the video, preferably on the timeline with lots of moving visuals",
 				datamix: "Applies the motion of one clip to the visual of another clip",
 				layer: "Makes multilayering by copying the video clip repeatedly",
@@ -959,7 +958,7 @@ export default {
 				},
 			},
 			staff: {
-				_: "Staff Visualizer is designed to use custom patterns as notes to draw visuals similar fashion to piano staff sheets based on the melody of the score.\nThis visual effect style mimics the videos of YouTuber @grantwoolard, who showed the use of musician avatars to draw the piano staff sheets of classical music.",
+				_: "Staff Visualizer is a visual effect that transforms musical symbols into creative visual graphics. At its core, it replaces traditional notes with custom patterns (e.g. avatars, geometric shapes, etc.) and places them at the proper pitch of the staff based on the melody of the music, forming a dynamic visual with both artistry and functionality. This visual effect style is inspired by the combination of digital art and music, the creations of YouTuber Grant Woolard. His video is characterized by transforming musicians’ avatars into notes, dynamically arranging them on the staff, and playing classical music. It not only preserves the pitch logic of the score, but also gives it a personalized visual narrative.\nThis effect can be used for artistic creation and performance visual design, such as transforming the artist’s performance into a dynamic staff art projection, or creating interactive music animations for digital album covers. Its innovation lies in breaking the static limit of traditional music scores, reinterpreting the musical structure with visual language, and transforming abstract melodies into perceptible “visual melodies”.",
 			},
 			prve: {
 				control: {
@@ -971,13 +970,14 @@ export default {
 				forceStretch_other: "The currently used $t(titles.prve, { 'count': {{count}} }) include the Time Class effects, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending, nowrapPerWord)” when in these effects, and not controlled by your settings",
 			},
 			pixelScaling: {
-				_: "Pixel Scaling feature can enlarge the pixel image of the source to avoid the pixel distortion problem caused by rescaling the original pixel image using smooth gradient algorithm due to VEGAS Pan/Crop. To use it, you can add FFmpeg to the system environment variable, or you can install Datamosh Extension Pack directly.\nPixel Scaling feature will use FFmpeg to enlarge the source file using the nearest neighbor interpolation algorithm to fit the current project size, and then replace the source media file in VEGAS with the newly generated media file. The newly generated file will be identified by adding the suffix “_Scaled” to its name. This feature theoretically supports any image/video file format, including image sequence files imported into VEGAS using conventional methods.",
+				_: "Pixel Scaling feature is a lossless scaling technology designed for pixel art or images that require sharp edges. Its purpose is to solve the pixel blurring problem caused by VEGAS’s built-in bilinear interpolation scaling algorithm, which creates a gradual transition by mixing the colors of adjacent pixels and destroys the clear boundary of pixel art. This feature is scaled by the nearest neighbor interpolation algorithm, which directly copies the color value of the nearest pixel, and ensures that the scaled image edge maintains the “hard cut” effect to avoid blurring.\nThis feature is especially applicable to retro game resources, low-resolution UI or scenes that need to enhance pixel style. For example, when scaling an 8-bit game character animation, it can prevent the character contour from being “softened” by smoothing, and ensure that each pixel block is still clear and legible after scaling. Note that you need to configure the FFmpeg environment or install the Datamosh Extension Pack in advance to enable the core processing function.\nAccording to the project resolution, this feature generates a new file of appropriate size using the nearest neighbor interpolation algorithm, and the filename is identified with the suffix “_Scaled”. This process supports any image/video format as well as image sequence files imported into VEGAS.",
 			},
 			settings: {
 				about: "Otomad Helper is a YTPMV/YTP extension for VEGAS Pro that enables VEGAS to accept scores such as MIDI sequence files as input and automatically generate YTPMV tracks.",
 				translation: "If you would like to participate in the translation, you are welcome to join as well.",
 				appearance: {
 					colorScheme: {
+						black: "for AMOLED dark only",
 						systemContrast: "The system high contrast theme has been turned on and the color scheme cannot be changed at this time.",
 					},
 				},
