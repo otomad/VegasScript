@@ -1,5 +1,7 @@
 import crypto from "crypto";
 import esbuild from "esbuild";
+import htmlMinifierTerser from "html-minifier-terser";
+import { transform as transformCSS, transformStyleAttribute } from "lightningcss";
 import ts from "typescript";
 
 /**
@@ -48,4 +50,25 @@ export function wrapIife(source: string, useStrict: boolean = true) {
  */
 export function createHash(data: string | crypto.BinaryLike, algorithm: "sha256" | "md5", encoding: crypto.BinaryToTextEncoding = "base64url") {
 	return crypto.createHash(algorithm).update(data).digest(encoding);
+}
+
+/**
+ * Minify HTML source code.
+ * @param source - Source code.
+ * @returns Minified code.
+ */
+export async function minifyHtml(source: string) {
+	return await htmlMinifierTerser.minify(source, {
+		collapseWhitespace: true,
+		keepClosingSlash: false,
+		removeComments: true,
+		removeRedundantAttributes: true,
+		removeScriptTypeAttributes: true,
+		removeStyleLinkTypeAttributes: true,
+		removeEmptyAttributes: true,
+		useShortDoctype: true,
+		minifyCSS: (text: string) => (text.match(/^[\w-]+: /) ? transformStyleAttribute : transformCSS)({ minify: true, code: Buffer.from(text), filename: "index.html" }).code.toString(),
+		minifyJS: true,
+		minifyURLs: true,
+	});
 }

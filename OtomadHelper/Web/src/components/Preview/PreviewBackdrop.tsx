@@ -65,18 +65,11 @@ const StyledPreviewBackdrop = styled.div`
 				--mix: 30%;
 
 				&::before {
-					--dpi: 1;
 					content: "";
 					background: url("${noise}") left top repeat;
 					background-size: calc(256px / var(--dpi));
 					opacity: 0.125;
 					mix-blend-mode: multiply;
-
-					${forMapFromTo(1.25, 5, 0.25, dpi => css`
-						@media (resolution >= ${dpi}x) {
-							--dpi: ${dpi};
-						}
-					`)}
 				}
 			}
 

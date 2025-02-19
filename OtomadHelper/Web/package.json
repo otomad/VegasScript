@@ -79,6 +79,7 @@
 		"@stylistic/eslint-plugin": "latest",
 		"@stylistic/stylelint-plugin": "latest",
 		"@tonejs/midi": "^2.0.28",
+		"@types/html-minifier-terser": "^7.0.2",
 		"@types/jsdom": "^21.1.7",
 		"@types/license-checker": "^25.0.6",
 		"@types/lodash-es": "^4.17.12",

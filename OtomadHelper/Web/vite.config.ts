@@ -3,13 +3,11 @@
 
 import { resolve as _resolve } from "path";
 import react from "@vitejs/plugin-react";
-import { transform as transformCSS, transformStyleAttribute } from "lightningcss";
 import license from "rollup-plugin-license";
 import autoImport from "unplugin-auto-import/vite";
 import turboConsole from "unplugin-turbo-console/vite";
 import { defineConfig } from "vite";
 import glsl from "vite-plugin-glsl";
-import htmlMinifier from "vite-plugin-html-minifier";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import noBundlePlugin from "vite-plugin-no-bundle";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
@@ -85,21 +83,6 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 				{ src: "./src/priors/init-background-color.ts", inline: true },
 				{ src: "./src/priors/dpi.ts", type: "iife" },
 			]),
-			htmlMinifier({
-				minify: {
-					collapseWhitespace: true,
-					keepClosingSlash: false,
-					removeComments: true,
-					removeRedundantAttributes: true,
-					removeScriptTypeAttributes: true,
-					removeStyleLinkTypeAttributes: true,
-					removeEmptyAttributes: true,
-					useShortDoctype: true,
-					minifyCSS: (text: string) => (text.match(/^[\w-]+: /) ? transformStyleAttribute : transformCSS)({ minify: true, code: Buffer.from(text), filename: "index.html" }).code.toString(),
-					minifyJS: true,
-					minifyURLs: true,
-				},
-			}),
 			glsl({
 				compress: PROD,
 			}),

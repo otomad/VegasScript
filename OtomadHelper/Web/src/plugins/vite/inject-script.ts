@@ -1,16 +1,17 @@
 import { readFile } from "fs/promises";
 import path, { posix, resolve as resolve_ } from "path";
+import { JSDOM } from "jsdom";
 import type { HtmlTagDescriptor } from "vite";
-import { compileTypeScript, createHash, minifyJavaScript, wrapIife } from "./utils";
 import "../../utils/object";
+import { compileTypeScript, minifyHtml, minifyJavaScript, wrapIife } from "./utils";
 
 export default (scripts: (string | PriorScript)[]): VitePlugin => {
 	let config: VitePluginConfig;
 	const resolve = (...paths: string[]) => resolve_(config.root, ...paths);
 	let isDev: boolean;
-	let assetFileNames: string | undefined;
 	let scripts_: (PriorScript & { source: string })[];
 	const filters: Filter[] = [];
+	const bundles = new Map<string, string>();
 
 	return {
 		name: "vite-plugin-inject-script",
@@ -19,10 +20,6 @@ export default (scripts: (string | PriorScript)[]): VitePlugin => {
 		async configResolved(resolvedConfig) {
 			config = resolvedConfig;
 			isDev = config.command === "serve";
-			let output = config.build.rollupOptions.output!;
-			if (Array.isArray(output)) output = output[0];
-			if (typeof output.assetFileNames === "string") assetFileNames = output.assetFileNames;
-			console.log(" assetFileNames", assetFileNames);
 
 			scripts_ = await Promise.all(scripts.map(async script => {
 				if (typeof script === "string") script = { src: script };
@@ -42,49 +39,72 @@ export default (scripts: (string | PriorScript)[]): VitePlugin => {
 		},
 
 		generateBundle() {
-			if (!assetFileNames) return;
 			for (const { src, source, inline } of scripts_) {
 				if (inline) continue;
-				const fileName = getBundleName(src, isDev, assetFileNames);
-				this.emitFile({
+				const name = path.parse(src).name + ".js";
+				const referenceId = this.emitFile({
 					type: "asset",
-					fileName,
+					name,
 					source,
 				});
+				bundles.set(src, this.getFileName(referenceId));
 			}
 		},
 
 		configureServer(server) {
 			for (const { src, source, inline } of scripts_) {
 				if (inline) continue;
-				const route = getBundleName(src, isDev, assetFileNames);
+				let route = posix.join("/@inject-script", src);
+				route = posix.format({ ...path.parse(route), base: "", ext: ".js" });
 				server.middlewares.use(route, (_, res) => {
 					res.setHeader("Content-Type", "text/javascript");
 					res.end(source);
 				});
+				bundles.set(src, route);
 			}
 		},
 
 		transformIndexHtml: {
-			order: "pre",
-			handler(_html, { filename }) {
-				if (!isDev && !assetFileNames) return;
+			order: "post",
+			async handler(html, { filename, path }) {
 				if (!filterHtmlFilename(filename, filters as never)) return;
+
 				const tags = scripts_.map(script => {
 					const { src, type, injectTo, modify: _modify, filterHtml, inline, blocking, source, ...attrs } = script;
 					if (!filterHtmlFilename(filename, filterHtml)) return undefined!;
 
 					if (blocking) attrs.blocking = blocking.join(" ");
-					if (!inline) attrs.src = getBundleName(src, isDev, assetFileNames);
+					if (!inline) attrs.src = bundles.get(src);
 					attrs.type = type === "script" || type === "iife" ? undefined : type;
-					Object.compactUndefined(attrs);
 
-					const result: HtmlTagDescriptor = { tag: "script", attrs };
-					result.injectTo = injectTo === "head-append" ? "head" : injectTo === "body-append" ? "body" : injectTo;
-					if (inline) result.children = source;
+					const result: Tag = { tag: "script", injectTo: injectTo!, attrs, children: inline ? source : undefined };
 					return result;
 				}).filter(Boolean);
-				return tags;
+				const group = Object.groupBy(tags, ({ injectTo }) => injectTo);
+
+				const dom = new JSDOM(html);
+				const { document } = dom.window;
+				const entry = dom.window.document.head.querySelector('script[type="module"][crossorigin][src$="index.js"]');
+				const createElement = (tag: Tag) => {
+					const script = document.createElement(tag.tag) as HTMLScriptElement;
+					if (tag.children) script.textContent = tag.children;
+					for (const [attr, value] of Object.entries(tag.attrs ?? {}))
+						if (value != null && value !== false)
+							script.setAttribute(attr, value === true ? "" : value);
+					return script;
+				};
+				group["head-prepend"]?.toReversed().forEach(tag => document.head.prepend(createElement(tag)));
+				group["body-prepend"]?.toReversed().forEach(tag => document.body.prepend(createElement(tag)));
+				group["body-append"]?.forEach(tag => document.body.append(createElement(tag)));
+				group["head-append"]?.forEach(tag => {
+					const script = createElement(tag);
+					if (!entry) document.head.append(script);
+					else document.head.insertBefore(script, entry);
+				});
+
+				let newHtml = dom.serialize();
+				newHtml = await minifyHtml(newHtml);
+				return newHtml;
 			},
 		},
 	};
@@ -99,18 +119,6 @@ function filterHtmlFilename(filename: string, filter?: Filter): boolean {
 	return true;
 }
 
-function getBundleName(src: string, isDev: boolean, assetFileNames?: string) {
-	if (!isDev) {
-		const name = path.parse(src).name;
-		const hash = createHash(src, "md5").slice(0, 8);
-		return assetFileNames!.replaceAll("[name]", name).replaceAll("[hash]", hash).replaceAll("[ext]", "js");
-	} else {
-		let route = posix.join("/@inject-script", src);
-		route = posix.format({ ...path.parse(route), base: "", ext: ".js" });
-		return route;
-	}
-}
-
 interface PriorScript {
 	/** Path to the script (js/ts/jsx/tsx). */
 	src: string;
@@ -121,7 +129,7 @@ interface PriorScript {
 	 * - Others - Directly pass to the type attribute.
 	 */
 	type?: "script" | "module" | "iife" | (string & {});
-	/** Select where to insert the script. Defaults to "headAppend". */
+	/** Select where to insert the script. Defaults to "body-append". */
 	injectTo?: "head-prepend" | "head-append" | "body-prepend" | "body-append";
 	/** Modify the source script content. */
 	modify?(html: string): string;
@@ -150,3 +158,5 @@ interface PriorScript {
 	/** Any other custom attributes. */
 	[x: string]: Any;
 }
+
+type Tag = Override<HtmlTagDescriptor, { injectTo: NonNull<PriorScript["injectTo"]>; children?: string }>;
