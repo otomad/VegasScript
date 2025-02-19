@@ -1,11 +1,10 @@
 import { readFile } from "fs/promises";
 import { JSDOM } from "jsdom";
-import type { Plugin } from "vite";
 
 const getSvgPath = (id: string, ext: RegExp) => ext.test(id) ? id.replace(/\?.*/, "") : false;
 
 const svgCursorExt = /\.svg\?cursor$/i;
-export const svgCursor = (): Plugin => {
+export const svgCursor = (): VitePlugin => {
 	return {
 		name: "vite-plugin-svg-cursor",
 		enforce: "pre",
@@ -24,7 +23,7 @@ export const svgCursor = (): Plugin => {
 };
 
 const svgDatasetExt = /\.svg\?dataset$/i;
-export const svgDataset = (): Plugin => {
+export const svgDataset = (): VitePlugin => {
 	return {
 		name: "vite-plugin-svg-dataset",
 		enforce: "pre",

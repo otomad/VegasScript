@@ -72,7 +72,7 @@ const StyledPreviewBackdrop = styled.div`
 					opacity: 0.125;
 					mix-blend-mode: multiply;
 
-					${forMapFromTo(1, 5, 0.25, dpi => css`
+					${forMapFromTo(1.25, 5, 0.25, dpi => css`
 						@media (resolution >= ${dpi}x) {
 							--dpi: ${dpi};
 						}

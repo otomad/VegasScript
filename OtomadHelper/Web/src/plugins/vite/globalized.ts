@@ -1,10 +1,9 @@
-import dedent from "dedent";
 import { lstat, readdir, writeFile } from "fs/promises";
-import { throttle } from "lodash-es";
 import { parse, resolve } from "path";
-import type { Plugin } from "vite";
+import dedent from "dedent";
+import { throttle } from "lodash-es";
 
-export default (): Plugin => {
+export default (): VitePlugin => {
 	const root = process.cwd().replaceAll("\\", "/");
 
 	const registered = {

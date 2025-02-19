@@ -1,6 +1,5 @@
-import { lstat, readdir, readFile } from "fs/promises";
+import { lstat, readFile, readdir } from "fs/promises";
 import { parse, resolve } from "path";
-import type { Plugin } from "vite";
 import loadShader from "../../../node_modules/vite-plugin-glsl/src/loadShader";
 import VariableName from "../../classes/VariableName";
 import replacerWithGroups from "../../helpers/replacerWithGroups";
@@ -11,7 +10,7 @@ function eval2(x: string) {
 	return new Function("return " + x)();
 }
 
-export default (): Plugin => {
+export default (): VitePlugin => {
 	const pluginName = "fragment-filters";
 	const virtualModuleId = "virtual:" + pluginName;
 	const resolvedVirtualModuleId = "\0" + virtualModuleId;

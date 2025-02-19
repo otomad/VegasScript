@@ -86,4 +86,11 @@ declare interface ObjectConstructor {
 	 * @returns The entry (a tuple of key and value) of the object, or empty array if cannot be found.
 	 */
 	indexOf<T extends object>(object: T, index: number): [key: keyof T, value: T[keyof T]];
+
+	/**
+	 * Delete all properties with `undefined` values from the object.
+	 * @note This will modify the original object.
+	 * @param object - The object to compact.
+	 */
+	compactUndefined(object: T): void;
 }

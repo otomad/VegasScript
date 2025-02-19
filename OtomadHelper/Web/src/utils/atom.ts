@@ -1,7 +1,6 @@
-import { withImmer } from "jotai-immer";
 import { atomWithStorage as _atomWithStorage } from "jotai/utils";
-import type { WritableAtom } from "jotai/vanilla";
-import type { AsyncStorage, SyncStorage } from "jotai/vanilla/utils/atomWithStorage";
+import type { SyncStorage } from "jotai/vanilla/utils/atomWithStorage";
+import { withImmer } from "jotai-immer";
 
 type UnknownMap = Map<unknown, unknown>;
 // The serialize and deserialize methods of map.

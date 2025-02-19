@@ -3,21 +3,20 @@
  * However it would break the lottie behavior.
  */
 
-import esbuild from "esbuild";
 import { readFile } from "fs/promises";
 import { noop } from "lodash-es";
-import type { Plugin } from "vite";
+import { minifyJavaScript } from "./utils";
 
 const lottieJsonExt = /\.json\?lottie$/i;
 const getPath = (id: string) => lottieJsonExt.test(id) ? id.replace(/\?.*/, "") : false;
 
-export default (): Plugin => {
-	// @ts-ignore
-	let config: Parameters<Plugin["configResolved"]>[0];
+export default (): VitePlugin => {
+	let config: VitePluginConfig;
 
 	return {
 		name: "vite-plugin-minify-lottie-json",
 		enforce: "pre",
+		apply: "build",
 
 		configResolved(resolvedConfig) {
 			config = resolvedConfig;
@@ -50,7 +49,7 @@ function walk(json: AnyObject) {
 			if (isObject(value))
 				promises.push(...walk(value));
 			if (key === "x" && typeof value === "string" && value.startsWith("var $bm_rt")) {
-				const minified = minify(value).then(min => json[key] = min.trimEnd()).catch(noop);
+				const minified = minifyJavaScript(value).then(min => json[key] = min.trimEnd()).catch(noop);
 				promises.push(minified);
 			} else if (key === "cm" && typeof value === "string")
 				try {
@@ -59,11 +58,4 @@ function walk(json: AnyObject) {
 				} catch { }
 		}
 	return promises;
-}
-
-async function minify(code: string) {
-	return (await esbuild.transform(code, {
-		minify: true,
-		charset: "utf8",
-	})).code;
 }

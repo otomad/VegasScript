@@ -3,7 +3,7 @@
 
 import { resolve as _resolve } from "path";
 import react from "@vitejs/plugin-react";
-import { transform as transformCSS } from "lightningcss";
+import { transform as transformCSS, transformStyleAttribute } from "lightningcss";
 import license from "rollup-plugin-license";
 import autoImport from "unplugin-auto-import/vite";
 import turboConsole from "unplugin-turbo-console/vite";
@@ -22,8 +22,8 @@ import fragmentFiltersVirtualFile from "./src/plugins/vite/fragment-filters";
 import globalized from "./src/plugins/vite/globalized";
 import midiKeyframes from "./src/plugins/vite/midi";
 import minifyLottieJson from "./src/plugins/vite/minify-lottie-json";
-import queryNoContent from "./src/plugins/vite/query-nocontent";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
+import injectScript from "./src/plugins/vite/inject-script";
 
 const ENABLE_MINIFY = true;
 const NO_BUNDLE = false;
@@ -81,6 +81,10 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 				include: "**/*.svg?react",
 			}),
 			tsconfigPaths(),
+			injectScript([
+				{ src: "./src/priors/init-background-color.ts", inline: true },
+				{ src: "./src/priors/dpi.ts", type: "iife" },
+			]),
 			htmlMinifier({
 				minify: {
 					collapseWhitespace: true,
@@ -91,7 +95,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 					removeStyleLinkTypeAttributes: true,
 					removeEmptyAttributes: true,
 					useShortDoctype: true,
-					minifyCSS: (text: string) => transformCSS({ minify: true, code: Buffer.from(text), filename: "index.html" }).code.toString(),
+					minifyCSS: (text: string) => (text.match(/^[\w-]+: /) ? transformStyleAttribute : transformCSS)({ minify: true, code: Buffer.from(text), filename: "index.html" }).code.toString(),
 					minifyJS: true,
 					minifyURLs: true,
 				},
@@ -109,7 +113,6 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			}), */
 			turboConsole(),
 			midiKeyframes(),
-			queryNoContent(),
 			ViteImageOptimizer({
 				test: /\.(svg|gif)$/i, // test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
 			}),

@@ -1,4 +1,5 @@
 import type { ContextMenuOutput } from "utils/context-menu";
+import type * as Vite from "vite";
 
 export { };
 
@@ -66,6 +67,14 @@ declare global {
 	 * Built in timer object.
 	 */
 	interface Timer extends NodeJS.Timer { }
+	/**
+	 * Vite plugin.
+	 */
+	type VitePlugin = Vite.Plugin;
+	/**
+	 * Vite plugin resolved config.
+	 */
+	type VitePluginConfig = Parameters<VitePlugin["configResolved"]>[0];
 
 	interface Window {
 		/**

@@ -1,6 +1,5 @@
-import _Midi from "@tonejs/midi";
 import { readFile } from "fs/promises";
-import type { Plugin } from "vite";
+import _Midi from "@tonejs/midi";
 
 const { Midi } = _Midi;
 const midiExt = /\.midi?($|\?.*$)/i;
@@ -9,7 +8,7 @@ const getPath = (id: string) => midiExt.test(id) ? id.replace(/\?.*/, "") : fals
 
 const TICK_GAP = 1;
 
-export default (): Plugin => {
+export default (): VitePlugin => {
 	return {
 		name: "vite-plugin-midi",
 		enforce: "pre",

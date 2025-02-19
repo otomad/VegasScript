@@ -1,3 +1,5 @@
+import lodash from "lodash";
+
 /**
  * Returns an array whose elements are arrays corresponding to the enumerable string-keyed
  * property key-value pairs found directly upon `object`. This is the same as iterating with a `for...in` loop,
@@ -88,6 +90,12 @@ export function assign<TTarget extends object>(target: TTarget, ...sources: Part
 	Object.indexOf = function (object, index) {
 		const key = Reflect.ownKeys(object)[index] as keyof typeof object;
 		return [key, object[key]];
+	};
+
+	Object.compactUndefined = function (object) {
+		for (const key of Reflect.ownKeys(object))
+			if (object[key] === undefined)
+				delete object[key];
 	};
 }
 
