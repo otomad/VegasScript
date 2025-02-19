@@ -163,6 +163,7 @@ export default [
 			"@stylistic/max-statements-per-line": "off",
 			"no-useless-assignment": "error",
 			"no-control-regex": "off",
+			"prefer-numeric-literals": "error",
 			"import/order": ["warn", {
 				"alphabetize": { "order": "asc", "orderImportKind": "asc", "caseInsensitive": false },
 				"named": true,
@@ -182,6 +183,7 @@ export default [
 			"unicorn/no-array-push-push": "error",
 			"unicorn/no-console-spaces": "error",
 			"unicorn/no-document-cookie": "error",
+			"unicorn/prefer-string-replace-all": "error",
 			"@typescript-eslint/no-unused-vars": ["warn", { // 非要使用未使用变量，前面加下划线。
 				"argsIgnorePattern": "^_",
 				"varsIgnorePattern": "^_",

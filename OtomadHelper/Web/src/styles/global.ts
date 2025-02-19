@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle<{
 		--cjk-font-family: "Microsoft YaHei UI";
 		box-sizing: border-box;
 		scroll-behavior: smooth;
+		// Kick out the \`system-ui\`.
 		font-family: "Yozora Sans", Inter, "Segoe UI Variable", "Segoe UI", var(--cjk-font-family), "Microsoft YaHei UI", sans-serif;
 		font-optical-sizing: auto;
 		hyphens: auto;

@@ -13,7 +13,7 @@ export function createPersistStore<TState extends object>(name: string, initialO
 	subscribeStore(store, () => {
 		let partialStore: object = store;
 		if (options.partialize)
-			partialStore = typeof options.partialize === "function" ? options.partialize(store) : objectFilterKeys(store, options.partialize);
+			partialStore = typeof options.partialize === "function" ? options.partialize(store) : Object.pick(store, options.partialize);
 		localStorage.setItem(name, JSON.stringify(partialStore));
 	});
 	return store;

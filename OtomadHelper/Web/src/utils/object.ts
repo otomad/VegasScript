@@ -6,6 +6,9 @@
  *
  * Compared to `Object.entries`, the types of values returned in TypeScript are less disgusting.
  *
+ * @note
+ * `Object.entries` will not get the entries with symbol keys, this function will also contain the entries with symbol keys.
+ *
  * @template TKey - The key enumeration type of the object.
  * @template TValue - The value type of the object.
  * @param obj - An object that can return key value pairs of its enumerable properties.
@@ -15,7 +18,7 @@
  * second element is the property value.
  */
 export function entries<TKey extends string | number | symbol, TValue>(obj: { [s in TKey]?: TValue }) {
-	return Object.entries(obj) as [TKey, TValue][];
+	return Reflect.ownKeys(obj).map(key => [key, obj[key as TKey]] as [TKey, TValue]);
 }
 
 /**
@@ -23,11 +26,14 @@ export function entries<TKey extends string | number | symbol, TValue>(obj: { [s
  *
  * Compared to `Object.keys`, the types of values returned in TypeScript are less disgusting.
  *
+ * @note
+ * `Object.keys` will not get the symbol keys, this function will also contain the symbol keys.
+ *
  * @param obj - An object.
  * @returns An array of strings representing the given object's own enumerable string-keyed property keys.
  */
 export function keys<TKey extends object>(obj: TKey) {
-	return Object.keys(obj) as (keyof TKey)[];
+	return Reflect.ownKeys(obj) as (keyof TKey)[];
 }
 
 /**
@@ -59,6 +65,47 @@ export function hasOwn<T extends object>(obj: T, key: PropertyKey): key is keyof
  */
 export function assign<TTarget extends object>(target: TTarget, ...sources: Partial<TTarget>[]): TTarget {
 	return Object.assign(target, ...sources);
+}
+
+{ // Init object extensions
+	Object.pick = function <T>(object: T, predicate: ObjectPickOmitPredicate<T> = [], thisArg?: unknown) {
+		return _objectPickOrOmit(true, object, predicate, thisArg);
+	};
+
+	Object.omit = function <T>(object: T, predicate: ObjectPickOmitPredicate<T> = [], thisArg?: unknown) {
+		return _objectPickOrOmit(false, object, predicate, thisArg);
+	};
+
+	Object.replaceKeys = function (object, replacement) {
+		return Object.create({}, Object.fromEntries(entries(Object.getOwnPropertyDescriptors(object)).map(([key, descriptor]) => [replacement(key as keyof typeof object), descriptor] as const)));
+	};
+
+	Object.clear = function (object) {
+		for (const prop of Reflect.ownKeys(object))
+			delete object[prop];
+	};
+
+	Object.indexOf = function (object, index) {
+		const key = Reflect.ownKeys(object)[index] as keyof typeof object;
+		return [key, object[key]];
+	};
+}
+
+type ObjectPickOmitPredicate<T> = (keyof T)[] | ((currentValue: T[keyof T], key: keyof T, object: T) => boolean);
+function _objectPickOrOmit<T>(isPick: boolean, object: T, predicate: ObjectPickOmitPredicate<T>, thisArg?: unknown): Partial<T> {
+	if (typeof predicate !== "function") {
+		const keys = predicate;
+		predicate = (_, key) => keys.includes(key);
+	}
+	if (thisArg != null) predicate = predicate.bind(thisArg);
+	const descriptors = Object.getOwnPropertyDescriptors(object) as Record<string | symbol, PropertyDescriptor>;
+	for (const key of Reflect.ownKeys(descriptors)) {
+		const descriptor = descriptors[key];
+		const value = "value" in descriptor ? descriptor.value : descriptor.get?.();
+		const predicted = predicate(value, key as keyof T, object);
+		if (isPick !== predicted) delete descriptors[key];
+	}
+	return Object.create(Object.getPrototypeOf(object), descriptors);
 }
 
 /**
@@ -508,52 +555,6 @@ export function mutexSwitches(...switches: (StateProperty<boolean> | StateProper
 }
 
 /**
- * Filters the keys of an object based on a provided list of keys.
- * Creates a new object with only the filtered keys and their corresponding values.
- *
- * @param object - The object to filter keys from.
- * @param filteredKeys - An array of keys to filter from the object.
- * @returns A new object containing only the filtered keys and their corresponding values.
- *
- * @example
- * ```typescript
- * const originalObject = { a: 1, b: 2, c: 3 };
- * const filteredKeys = ['a', 'c'];
- * const result = objectFilterKeys(originalObject, filteredKeys);
- * // result: { a: 1, c: 3 }
- * ```
- */
-export function objectFilterKeys(object: object, filteredKeys: PropertyKey[]) {
-	const copiedObject: object = {};
-	const ownedKeys = Reflect.ownKeys(object);
-	for (const key of ownedKeys)
-		if (filteredKeys.includes(key))
-			Reflect.defineProperty(copiedObject, key, Reflect.getOwnPropertyDescriptor(object, key)!);
-	return copiedObject;
-}
-
-/**
- * Replaces the keys of an object with new keys obtained from a provided function.
- * Creates a new object with the replaced keys and their corresponding values.
- *
- * @template T - The type of the input object. Must be an object type.
- * @param object - The object whose keys need to be replaced.
- * @param replacement - A function that takes an old key as input and returns the new key.
- * @returns A new object with the replaced keys and their corresponding values.
- *
- * @example
- * ```typescript
- * const originalObject = { a: 1, b: 2, c: 3 };
- * const replacementFunction = (oldKey: string) => oldKey.toUpperCase();
- * const result = objectReplaceKeys(originalObject, replacementFunction);
- * // result: { A: 1, B: 2, C: 3 }
- * ```
- */
-export function objectReplaceKeys<T extends object>(object: T, replacement: (oldKey: string) => string) {
-	return Object.fromEntries(Object.entries(object).map(([key, value]) => [replacement(key), value] as const)) as T;
-}
-
-/**
  * Like JavaScript `with` syntax, but safer.
  *
  * @param object - A long name object.
@@ -577,15 +578,6 @@ export function withObject<TObject, TReturn>(object: TObject, getter: (object: T
  */
 export function isStateProperty<T>(object: unknown): object is StateProperty<T> {
 	return Array.isArray(object) && object.length === 2 && typeof object[1] === "function";
-}
-
-/**
- * Clear all keys of an object.
- * @param object - Object.
- */
-export function clearObject(object: AnyObject) {
-	for (const prop of Object.getOwnPropertyNames(object))
-		delete object[prop];
 }
 
 /**

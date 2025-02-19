@@ -118,7 +118,7 @@ declare interface String {
 	/**
 	 * The hole is `[holeStart, holeEnd)`.
 	 *
-	 * And `String.prototype.holeString(holeStart, holeEnd)` will create a substring which contains `[0, holeStart) + [holeEnd, end]`.
+	 * And `String.prototype.holeString(holeStart, holeEnd)` will create a substring which contains `[0, holeStart) ∪ [holeEnd, end]`.
 	 *
 	 * @example
 	 * ```javascript
@@ -126,6 +126,15 @@ declare interface String {
 	 * ```
 	 */
 	holeString(holeStart: number, holeEnd: number): string;
+	/**
+	 * Create a substring which contains `[0, hole) ∪ (hole, end]`.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log("hello world!".holeString(4)); // Output: "hell world!"
+	 * ```
+	 */
+	holeString(hole: number): string;
 
 	/**
 	 * A string that gets so long you need to break it over multiple lines.
@@ -188,4 +197,28 @@ declare interface String {
 	 * otherwise, return the replaced new string.
 	 */
 	replaceEnd(end: string, replacement?: string = ""): string;
+
+	/**
+	 * Similar to C, replacing the character of an index in a string.
+	 *
+	 * @remarks
+	 * Copies the string, then overwrites the character at the provided index with the given value.
+	 * If the index is negative, then it replaces from the end of the array.
+	 *
+	 * @note
+	 * Since the string in JavaScript belong to primitive type, it cannot be directly modified like C,
+	 * and must be assigned to itself.
+	 *
+	 * @example
+	 * ```javascript
+	 * let str = "hello world!";
+	 * str = str.with(1, "a"); // "hallo world!"
+	 * ```
+	 *
+	 * @param index The index of the character to overwrite.
+	 * If the index is negative, then it replaces from the end of the string.
+	 * @param value The character to write into the copied string.
+	 * @returns The copied string with the updated character.
+	 */
+	with(index: number, character: string): string;
 }

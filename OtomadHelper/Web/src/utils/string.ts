@@ -30,11 +30,11 @@ import dedent from "dedent";
 	} as string["in"];
 
 	String.prototype.removeSpace = function () {
-		return this.replace(/\s/g, "");
+		return this.replaceAll(/\s/g, "");
 	};
 
-	String.prototype.holeString = function (start, end) {
-		return this.slice(0, start) + this.slice(end);
+	String.prototype.holeString = function (start, end?: number) {
+		return this.slice(0, start) + this.slice(end ?? start + 1);
 	};
 
 	String.prototype.dedent = function () {
@@ -62,6 +62,10 @@ import dedent from "dedent";
 	String.prototype.replaceEnd = function (end, replacement = "") {
 		if (!this.endsWith(end)) return this.valueOf();
 		else return this.slice(0, -end.length) + replacement;
+	};
+
+	String.prototype.with = function (index, character) {
+		return Array.from(this).with(index, String(character)).join("");
 	};
 
 	makePrototypeKeysNonEnumerable(String);

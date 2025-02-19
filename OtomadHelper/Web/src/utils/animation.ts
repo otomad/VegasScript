@@ -443,7 +443,7 @@ export async function setStyleTemporarily(element: HTMLElement, style: CSSProper
 	const { promise, resolve } = Promise.withResolvers<void>();
 	setStyleTemporarilyQueue.push(promise);
 
-	style = objectReplaceKeys(style, convertCamelStylePropertyToKebab);
+	style = Object.replaceKeys(style, convertCamelStylePropertyToKebab);
 	// Convert property names to kebab case or Element.style.setProperty won't recognize them.
 	if (!("transition" in style)) style.transition = "none";
 
