@@ -1,17 +1,16 @@
 import { readFile } from "fs/promises";
 import path, { posix, resolve as resolve_ } from "path";
 import type { HtmlTagDescriptor } from "vite";
-import { compileTypeScript, minifyJavaScript, wrapIife } from "./utils";
+import { compileTypeScript, createHash, minifyJavaScript, wrapIife } from "./utils";
 import "../../utils/object";
 
 export default (scripts: (string | PriorScript)[]): VitePlugin => {
 	let config: VitePluginConfig;
 	const resolve = (...paths: string[]) => resolve_(config.root, ...paths);
 	let isDev: boolean;
-	// let assetsDir: string[];
+	let assetFileNames: string | undefined;
 	let scripts_: (PriorScript & { source: string })[];
 	const filters: Filter[] = [];
-	const bundles = new Map<string, string>();
 
 	return {
 		name: "vite-plugin-inject-script",
@@ -20,6 +19,10 @@ export default (scripts: (string | PriorScript)[]): VitePlugin => {
 		async configResolved(resolvedConfig) {
 			config = resolvedConfig;
 			isDev = config.command === "serve";
+			let output = config.build.rollupOptions.output!;
+			if (Array.isArray(output)) output = output[0];
+			if (typeof output.assetFileNames === "string") assetFileNames = output.assetFileNames;
+			console.log(" assetFileNames", assetFileNames);
 
 			scripts_ = await Promise.all(scripts.map(async script => {
 				if (typeof script === "string") script = { src: script };
@@ -39,41 +42,40 @@ export default (scripts: (string | PriorScript)[]): VitePlugin => {
 		},
 
 		generateBundle() {
+			if (!assetFileNames) return;
 			for (const { src, source, inline } of scripts_) {
 				if (inline) continue;
-				const name = path.parse(src).name + ".js";
-				const referenceId = this.emitFile({
+				const fileName = getBundleName(src, isDev, assetFileNames);
+				this.emitFile({
 					type: "asset",
-					name,
+					fileName,
 					source,
 				});
-				bundles.set(src, this.getFileName(referenceId));
 			}
 		},
 
 		configureServer(server) {
 			for (const { src, source, inline } of scripts_) {
 				if (inline) continue;
-				let route = posix.join("/@inject-script", src);
-				route = posix.format({ ...path.parse(route), base: "", ext: ".js" });
+				const route = getBundleName(src, isDev, assetFileNames);
 				server.middlewares.use(route, (_, res) => {
 					res.setHeader("Content-Type", "text/javascript");
 					res.end(source);
 				});
-				bundles.set(src, route);
 			}
 		},
 
 		transformIndexHtml: {
 			order: "pre",
 			handler(_html, { filename }) {
+				if (!isDev && !assetFileNames) return;
 				if (!filterHtmlFilename(filename, filters as never)) return;
 				const tags = scripts_.map(script => {
 					const { src, type, injectTo, modify: _modify, filterHtml, inline, blocking, source, ...attrs } = script;
 					if (!filterHtmlFilename(filename, filterHtml)) return undefined!;
 
 					if (blocking) attrs.blocking = blocking.join(" ");
-					if (!inline) attrs.src = bundles.get(src);
+					if (!inline) attrs.src = getBundleName(src, isDev, assetFileNames);
 					attrs.type = type === "script" || type === "iife" ? undefined : type;
 					Object.compactUndefined(attrs);
 
@@ -95,6 +97,18 @@ function filterHtmlFilename(filename: string, filter?: Filter): boolean {
 	if (typeof filter === "string") return filename === filter;
 	if (Array.isArray(filter) && filter.length > 0) return filter.some(oneFilter => filterHtmlFilename(filename, oneFilter));
 	return true;
+}
+
+function getBundleName(src: string, isDev: boolean, assetFileNames?: string) {
+	if (!isDev) {
+		const name = path.parse(src).name;
+		const hash = createHash(src, "md5").slice(0, 8);
+		return assetFileNames!.replaceAll("[name]", name).replaceAll("[hash]", hash).replaceAll("[ext]", "js");
+	} else {
+		let route = posix.join("/@inject-script", src);
+		route = posix.format({ ...path.parse(route), base: "", ext: ".js" });
+		return route;
+	}
 }
 
 interface PriorScript {
