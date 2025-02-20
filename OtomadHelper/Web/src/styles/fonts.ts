@@ -20,8 +20,8 @@ export const fonts = [
 	// new FontFace("Segoe UI Variable", 'local("Segoe UI Black Italic")', { weight: "900", style: "italic" }),
 	// #endregion
 
-	new FontFace("Inter", `url("${inter}") format("woff2")`, { weight: "100 900", style: "normal" }),
-	new FontFace("Inter", `url("${interItalic}") format("woff2")`, { weight: "100 900", style: "italic" }),
+	new FontFace("Inter", `url("${inter}") format("woff2")`, { weight: "100 900", style: "normal", sizeAdjust: "95%" }),
+	new FontFace("Inter", `url("${interItalic}") format("woff2")`, { weight: "100 900", style: "italic", sizeAdjust: "95%" }),
 
 	new FontFace("Lete Sans Math", `url("${leteSansMath}") format("woff2")`, { weight: "normal" }),
 	new FontFace("Lete Sans Math", `url("${leteSansMathBold}") format("woff2")`, { weight: "bold" }),

@@ -40,6 +40,15 @@ declare global {
 	 * >     Type 'IterableIterator<[number, number]>' is missing the following properties from type 'ArrayIterator<[number, number]>': map, filter, take, drop, and 9 more.
 	 */
 	interface IterableIterator<T, U> extends ArrayIterator<T> { }
+
+	interface FontFaceDescriptors {
+		/**
+		 * I don't know why MDN missing the JS FontFace version of `size-adjust`.
+		 *
+		 * [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/@font-face/size-adjust)
+		 */
+		sizeAdjust?: string;
+	}
 }
 // #endregion
 
