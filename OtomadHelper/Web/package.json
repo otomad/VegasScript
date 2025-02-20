@@ -55,6 +55,7 @@
 		"jotai": "^2.10.3",
 		"jotai-immer": "^0.4.1",
 		"jotai-valtio": "^0.5.0",
+		"lenis": "^1.1.20",
 		"lodash-es": "^4.17.21",
 		"lottie-web": "^5.12.2",
 		"mitt": "^3.0.1",

@@ -9,23 +9,23 @@ const NavButton = styled(Button).attrs({
 	subtle: true,
 })`
 	position: absolute;
-	width: ${navButtonSize.width}px;
-	height: ${navButtonSize.height}px;
+	block-size: ${navButtonSize.height}px;
+	inline-size: ${navButtonSize.width}px;
 	min-inline-size: unset;
 `;
 
 const StyledTopLeftButtons = styled.div`
 	z-index: 10;
-	height: ${navButtonSize.height}px;
 	margin-block: 4px 1px;
 	margin-inline: 9px 5px;
+	block-size: ${navButtonSize.height}px;
 
 	&.vertical {
-		height: ${navButtonSize.height * 2}px;
 		margin-inline-start: 5px;
+		block-size: ${navButtonSize.height * 2}px;
 
 		${NavButton} {
-			width: 52px;
+			inline-size: 52px;
 		}
 	}
 
@@ -112,20 +112,20 @@ const StyledNavigationView = styled.div<{
 
 	> .left {
 		flex-shrink: 0;
-		width: 320px;
-		max-width: calc(100dvw / var(--zoom));
-		height: 100%;
-		padding-bottom: 4px;
+		padding-block-end: 4px;
+		block-size: 100%;
+		inline-size: 320px;
+		max-inline-size: calc(100dvw / var(--zoom));
 
 		@media (horizontal-viewport-segments >= 2) {
-			width: calc((env(viewport-segment-left 1 0) - env(viewport-segment-left 0 0)) / var(--zoom, 1));
+			inline-size: calc((env(viewport-segment-left 1 0) - env(viewport-segment-left 0 0)) / var(--zoom, 1));
 
 			&.expanded:not(.flyout) {
 				padding-inline-end: calc((env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)) / var(--zoom, 1));
 			}
 
 			&.expanded.flyout {
-				width: calc((env(viewport-segment-right 0 0) - env(viewport-segment-left 0 0)) / var(--zoom, 1));
+				inline-size: calc((env(viewport-segment-right 0 0) - env(viewport-segment-left 0 0)) / var(--zoom, 1));
 			}
 		}
 
@@ -135,11 +135,11 @@ const StyledNavigationView = styled.div<{
 
 		.nav-items {
 			flex-shrink: 1;
-			height: 100%;
+			block-size: 100%;
 			overflow-y: auto;
 
 			&.overflowing {
-				border-bottom: 1px solid ${c("stroke-color-divider-stroke-default")};
+				border-block-end: 1px solid ${c("stroke-color-divider-stroke-default")};
 			}
 		}
 
@@ -153,11 +153,11 @@ const StyledNavigationView = styled.div<{
 		}
 
 		&.compact {
-			width: ${COMPACT_WIDTH}px;
+			inline-size: ${COMPACT_WIDTH}px;
 		}
 
 		&.minimal {
-			width: 0;
+			inline-size: 0;
 
 			&:not(.flyout) {
 				translate: -${COMPACT_WIDTH}px;
@@ -185,7 +185,7 @@ const StyledNavigationView = styled.div<{
 	}
 
 	> .right {
-		width: 100%;
+		inline-size: 100%;
 
 		&.hairtail {
 			> .title-wrapper,
@@ -193,9 +193,9 @@ const StyledNavigationView = styled.div<{
 				scrollbar-gutter: stable;
 
 				> * {
-					width: 100%;
-					max-width: 1000px;
 					margin: 0 auto;
+					inline-size: 100%;
+					max-inline-size: 1000px;
 				}
 			}
 		}
@@ -209,7 +209,7 @@ const StyledNavigationView = styled.div<{
 		}
 
 		&.minimal > .title-wrapper {
-			margin-top: 40px;
+			margin-block-start: 40px;
 		}
 
 		.title-wrapper {
@@ -223,8 +223,8 @@ const StyledNavigationView = styled.div<{
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				width: 100%;
-				height: ${TITLE_LINE_HEIGHT}px;
+				block-size: ${TITLE_LINE_HEIGHT}px;
+				inline-size: 100%;
 
 				> div {
 					${styles.mixins.square("100%")};
@@ -232,7 +232,7 @@ const StyledNavigationView = styled.div<{
 
 				.command-bar {
 					flex-shrink: 0;
-					height: 100%;
+					block-size: 100%;
 				}
 			}
 		}
@@ -304,7 +304,7 @@ const StyledNavigationView = styled.div<{
 		}
 
 		.page-content {
-			height: 100%;
+			block-size: 100%;
 			overflow: hidden auto;
 			overscroll-behavior: contain;
 
@@ -316,12 +316,12 @@ const StyledNavigationView = styled.div<{
 				display: flex;
 				flex-direction: column;
 				gap: 6px;
-				width: 100%;
-				margin-top: 2px;
+				margin-block-start: 2px;
+				inline-size: 100%;
 
 				&::after {
 					content: "";
-					height: 18px;
+					block-size: 18px;
 				}
 
 				.card.media-pool > .base {
@@ -377,7 +377,7 @@ const StyledNavigationView = styled.div<{
 const StyledPage = styled.main`
 	container: page / inline-size;
 	display: flex;
-	min-height: 100%;
+	min-block-size: 100%;
 
 	&.exit {
 		pointer-events: none; // Prevent users from quickly clicking buttons to enter sub-pages.
@@ -522,7 +522,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 
 const StyledBreadCrumbChevronRight = styled.div`
 	${styles.mixins.flexCenter()};
-	margin-top: 4px;
+	margin-block-start: 4px;
 
 	.icon {
 		color: ${c("fill-color-text-secondary")};

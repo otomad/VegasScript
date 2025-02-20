@@ -1,11 +1,11 @@
 export /* @internal */ const settingsCardPadding = [13, 15] as const;
 
 export /* @internal */ const StyledCard = styled.div`
-	width: 100cqw;
+	inline-size: 100cqw;
 	text-align: initial;
 	border: 1px solid ${c("stroke-color-card-stroke-default")};
 	border-radius: 3px;
-	transition: ${fallbackTransitions}, width 0s;
+	transition: ${fallbackTransitions}, inline-size 0s;
 
 	> .base {
 		padding: ${settingsCardPadding[0]}px ${settingsCardPadding[1]}px;
