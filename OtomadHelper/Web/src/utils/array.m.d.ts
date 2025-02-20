@@ -70,10 +70,10 @@ declare interface Array<T> {
 	toUnique(): T[];
 
 	/**
-	 * Returns a new array that will exclude any falsy values, such as undefined, null, false, "", ±0, ±0n。
+	 * Remove any falsy values, such as undefined, null, false, "", ±0, ±0n. This will return a new array.
 	 * @returns A new array without any falsy values.
 	 */
-	toRemoveFalsy(): NonFalsy<T>[];
+	toCompacted(): NonFalsy<T>[];
 
 	/**
 	 * Determine whether two arrays are equal, including positional order.

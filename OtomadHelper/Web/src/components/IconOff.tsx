@@ -81,7 +81,7 @@ export default function IconOff({ name: _name }: FCP<{
 }
 
 const corrections = Object.keys(import.meta.glob("/src/assets/icons/off_slash_correction/**/*", { eager: true }))
-	.map(path => path.match(new RegExp("/src/assets/icons/off_slash_correction/(.*).svg"))?.[1]).toRemoveFalsy();
+	.map(path => path.match(new RegExp("/src/assets/icons/off_slash_correction/(.*).svg"))?.[1]).toCompacted();
 
 /**
  * Some icons will become strange while the off slash shown,

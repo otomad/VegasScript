@@ -77,7 +77,7 @@
 		return [...new Set(this)];
 	};
 
-	Array.prototype.toRemoveFalsy = function () {
+	Array.prototype.toCompacted = function () {
 		return this.filter(Boolean);
 	};
 
