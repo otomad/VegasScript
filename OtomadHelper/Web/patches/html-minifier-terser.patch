@@ -1,0 +1,36 @@
+diff --git a/dist/htmlminifier.cjs b/dist/htmlminifier.cjs
+index c876d7223bb03d5ab59eb8abe7fed4db5700ed67..0af942d33a3fc14419d81459faf8462b4f8c576b 100644
+--- a/dist/htmlminifier.cjs
++++ b/dist/htmlminifier.cjs
+@@ -695,11 +695,11 @@ function isStyleSheet(tag, attrs) {
+   return true;
+ }
+ 
+-const isSimpleBoolean = new Set(['allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'compact', 'controls', 'declare', 'default', 'defaultchecked', 'defaultmuted', 'defaultselected', 'defer', 'disabled', 'enabled', 'formnovalidate', 'hidden', 'indeterminate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nohref', 'noresize', 'noshade', 'novalidate', 'nowrap', 'open', 'pauseonexit', 'readonly', 'required', 'reversed', 'scoped', 'seamless', 'selected', 'sortable', 'truespeed', 'typemustmatch', 'visible']);
++const isSimpleBoolean = new Set(['allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'compact', 'controls', 'declare', 'default', 'defaultchecked', 'defaultmuted', 'defaultselected', 'defer', 'disabled', 'enabled', 'formnovalidate', 'hidden', 'indeterminate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nohref', 'nomodule', 'noresize', 'noshade', 'novalidate', 'nowrap', 'open', 'pauseonexit', 'playsinline', 'readonly', 'required', 'reversed', 'scoped', 'seamless', 'selected', 'sortable', 'truespeed', 'typemustmatch', 'visible']);
+ const isBooleanValue = new Set(['true', 'false']);
+ 
+ function isBooleanAttribute(attrName, attrValue) {
+-  return isSimpleBoolean.has(attrName) || (attrName === 'draggable' && !isBooleanValue.has(attrValue));
++  return isSimpleBoolean.has(attrName) || (attrName === 'draggable' && !isBooleanValue.has(attrValue)) || attrValue === '';
+ }
+ 
+ function isUriTypeAttribute(attrName, tag) {
+diff --git a/src/htmlminifier.js b/src/htmlminifier.js
+index 6c2d6ddf5500bbfa9bfb428f0b3aafaeb6b41725..0d47a2b19e3d1b20ca9a9364a4cbf678d04a9c01 100644
+--- a/src/htmlminifier.js
++++ b/src/htmlminifier.js
+@@ -207,11 +207,11 @@ function isStyleSheet(tag, attrs) {
+   return true;
+ }
+ 
+-const isSimpleBoolean = new Set(['allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'compact', 'controls', 'declare', 'default', 'defaultchecked', 'defaultmuted', 'defaultselected', 'defer', 'disabled', 'enabled', 'formnovalidate', 'hidden', 'indeterminate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nohref', 'noresize', 'noshade', 'novalidate', 'nowrap', 'open', 'pauseonexit', 'readonly', 'required', 'reversed', 'scoped', 'seamless', 'selected', 'sortable', 'truespeed', 'typemustmatch', 'visible']);
++const isSimpleBoolean = new Set(['allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'compact', 'controls', 'declare', 'default', 'defaultchecked', 'defaultmuted', 'defaultselected', 'defer', 'disabled', 'enabled', 'formnovalidate', 'hidden', 'indeterminate', 'inert', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nohref', 'nomodule', 'noresize', 'noshade', 'novalidate', 'nowrap', 'open', 'pauseonexit', 'playsinline', 'readonly', 'required', 'reversed', 'scoped', 'seamless', 'selected', 'sortable', 'truespeed', 'typemustmatch', 'visible']);
+ const isBooleanValue = new Set(['true', 'false']);
+ 
+ function isBooleanAttribute(attrName, attrValue) {
+-  return isSimpleBoolean.has(attrName) || (attrName === 'draggable' && !isBooleanValue.has(attrValue));
++  return isSimpleBoolean.has(attrName) || (attrName === 'draggable' && !isBooleanValue.has(attrValue)) || attrValue === '';
+ }
+ 
+ function isUriTypeAttribute(attrName, tag) {

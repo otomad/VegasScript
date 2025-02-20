@@ -14,6 +14,9 @@ patchedDependencies:
   babel-plugin-transform-jsx-classnames:
     hash: 3261c0fb8fd9750eb153af71ac2bebf9f5bf26eefba4c76cc91d7cf4af24efd1
     path: patches/babel-plugin-transform-jsx-classnames.patch
+  html-minifier-terser:
+    hash: 3fe9cc1b32a68ef076f3ee2cca3bf57b2d6f105256826c548cceb18008f3a01c
+    path: patches/html-minifier-terser.patch
   license-checker@25.0.1:
     hash: 9ae5a5e9ecb07508572ba682e27b17c8d752965f06b1833d82072559fed81923
     path: patches/license-checker@25.0.1.patch
@@ -221,6 +224,9 @@ importers:
       extract-zip:
         specifier: ^2.0.1
         version: 2.0.1
+      html-minifier-terser:
+        specifier: ^7.2.0
+        version: 7.2.0(patch_hash=3fe9cc1b32a68ef076f3ee2cca3bf57b2d6f105256826c548cceb18008f3a01c)
       husky:
         specifier: latest
         version: 9.1.7
@@ -284,9 +290,6 @@ importers:
       vite-plugin-glsl:
         specifier: ^1.3.1
         version: 1.3.1(rollup@4.34.8)(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
-      vite-plugin-html-minifier:
-        specifier: ^1.0.5
-        version: 1.0.5(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
       vite-plugin-image-optimizer:
         specifier: ^1.1.8
         version: 1.1.8(patch_hash=31ee3d991bfd591319b2dafde4065eb99830c75e27c590eaabca0df303e615fc)(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
@@ -4922,12 +4925,6 @@ packages:
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
 
-  vite-plugin-html-minifier@1.0.5:
-    resolution: {integrity: sha512-Yv50z65w4wTyu799Iw8f5jb3rkYJM4LllPdxU1GLXkqrn/GGPmIJlFwEvS6Pnxl5CCn7JkIWvoxPp+zGSuowDQ==}
-    engines: {node: '>=20.10.0', pnpm: '>=9.0.4'}
-    peerDependencies:
-      vite: '>=3.0.0'
-
   vite-plugin-image-optimizer@1.1.8:
     resolution: {integrity: sha512-40bYRDHQLUOrIwJIJQqyKJHrfgVshqzDLtMy8SEgf+fB7PnppslSTTkY7PJFrBGqgbCdOdN9KkqsvccXmnEa5Q==}
     engines: {node: '>=14'}
@@ -8053,7 +8050,7 @@ snapshots:
     dependencies:
       whatwg-encoding: 3.1.1
 
-  html-minifier-terser@7.2.0:
+  html-minifier-terser@7.2.0(patch_hash=3fe9cc1b32a68ef076f3ee2cca3bf57b2d6f105256826c548cceb18008f3a01c):
     dependencies:
       camel-case: 4.1.2
       clean-css: 5.3.3
@@ -10330,11 +10327,6 @@ snapshots:
       vite: 6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0)
     transitivePeerDependencies:
       - rollup
-
-  vite-plugin-html-minifier@1.0.5(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0)):
-    dependencies:
-      html-minifier-terser: 7.2.0
-      vite: 6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0)
 
   vite-plugin-image-optimizer@1.1.8(patch_hash=31ee3d991bfd591319b2dafde4065eb99830c75e27c590eaabca0df303e615fc)(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0)):
     dependencies:
