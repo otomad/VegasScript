@@ -72,7 +72,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 		}
 	}
 
-	&.expander {
+	&.expander-parent {
 		&:not(:has(.trailing > :not(.${TRAILING_EXEMPTION}):hover)):hover {
 			.trailing-icon {
 				background-color: ${c("fill-color-subtle-secondary")};
@@ -182,7 +182,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	return (
 		<StyledSettingsCard
 			as={type === "container" ? "div" : "button"}
-			className={[className, type === "container-but-button" ? "container" : type, { secondary: appearance === "secondary" }]}
+			className={[className, type === "container-but-button" ? "container" : type === "expander" ? "expander-parent" : type, { secondary: appearance === "secondary" }]}
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
 			aria-labelledby={`${ariaId}-title`}

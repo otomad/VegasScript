@@ -12,7 +12,7 @@ const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when sc
 	.check-info {
 		${tgs()} {
 			translate: 0 16px;
-			opacity: 0;
+			opacity: 0 !important;
 		}
 
 		&.enter-active {
@@ -170,7 +170,6 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 						in={!internalExpanded || alwaysShowCheckInfo}
 						onEntered={() => resetLockExpanderParentContentSize()}
 						onExited={() => resetLockExpanderParentContentSize()}
-						moreCoherentWhenCombo
 						hiddenOnExit
 					>
 						<div className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</div>

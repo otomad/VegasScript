@@ -152,7 +152,6 @@ export default function Settings() {
 			<ExpanderRadio
 				title={t.settings.appearance.dialogMaterial}
 				icon="glass"
-				alwaysShowCheckInfo
 				expanded
 				view="grid"
 				itemWidth="square"

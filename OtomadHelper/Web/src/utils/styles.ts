@@ -103,6 +103,7 @@ enum TransitionGroupState {
 	enter = 0b010,
 	exit = 0b100,
 
+	appearEnter = 0b011,
 	enterExit = 0b110,
 	all = 0b111,
 }
@@ -131,6 +132,7 @@ export function tgs(states: TransitionGroupState = TransitionGroupState.all, nam
 tgs.appear = TransitionGroupState.appear;
 tgs.enter = TransitionGroupState.enter;
 tgs.exit = TransitionGroupState.exit;
+tgs.appearEnter = TransitionGroupState.appearEnter;
 tgs.enterExit = TransitionGroupState.enterExit;
 tgs.all = TransitionGroupState.all;
 

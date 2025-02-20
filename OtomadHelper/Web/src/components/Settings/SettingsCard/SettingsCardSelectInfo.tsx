@@ -9,6 +9,10 @@ const StyledSettingsCardSelectInfo = styled.p`
 		--size: 12px;
 		margin-inline-end: 5px;
 	}
+
+	&:not(.invalid) .badge {
+		background-color: ${c("accent-color")};
+	}
 `;
 
 export /* @internal */ default function SettingsCardSelectInfo({ valid = true, children, ...htmlAttrs }: FCP<{
