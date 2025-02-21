@@ -378,6 +378,7 @@ const StyledPage = styled.main`
 	container: page / inline-size;
 	display: flex;
 	min-block-size: 100%;
+	transition: none;
 
 	&.exit {
 		pointer-events: none; // Prevent users from quickly clicking buttons to enter sub-pages.
@@ -706,7 +707,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 				</div>
 				<div className={["page-content", transitionName]} ref={pageContentEl} id={pageContentId}>
 					<SwitchTransition mode={transitionName === "jump" ? "out-in" : "out-in-preload"}>
-						<CssTransition key={pagePath} onEnter={scrollToTopOrPrevious}>
+						<CssTransition key={pagePath} onEnter={scrollToTopOrPrevious} moreCoherentWhenCombo>
 							<StyledPage>
 								{children}
 							</StyledPage>

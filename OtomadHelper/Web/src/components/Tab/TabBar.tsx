@@ -10,36 +10,45 @@ const Indicator = styled.div.attrs(({ $vertical }) => ({
 	className: $vertical ? "vertical" : "horizontal",
 }))<{
 	/** Position (a tuple of distances from the container in the upper and lower directions). */
-	$position?: TwoD;
+	// $position?: TwoD;
 	/** Starting position. */
-	$appearingPosition?: TwoD;
+	// $appearingPosition?: TwoD;
 	/** Vertical tabs? */
 	$vertical?: boolean;
 	/** The tab bar movement. */
-	$movement?: TabBarMovement;
-}>`
-	${styles.mixins.oval()}
-	${({ $vertical }) => $vertical ? "inline" : "block"}-size: ${THICKNESS}px;
-	position: absolute;
-	background-color: ${c("accent-color")};
-	${({ $vertical }) => $vertical ? css`inset-inline-start: 5px;` : css`inset-block-end: 0;`}
-	transition: ${fallbackTransitions}${({ $movement, $vertical }) => !$movement?.in("next", "previous") ? "" :
-		`, ${$movement === "next" ? $vertical ? "inset-block-start" : "left" : $vertical ? "inset-block-end" : "right"} ${eases.easeOutMax} 250ms ${DELAY}ms`};
-	${({ $position, $vertical }) => $position && css`
-		${$vertical ? "inset-block-start" : "left"}: ${$position[0] ?? 0}px;
-		${$vertical ? "inset-block-end" : "right"}: ${isUndefinedNullNaN($position[1]) ? "100%" : $position[1] + "px"};
-	`};
-	${({ $appearingPosition, $vertical }) => $appearingPosition && css`
-		transition: none !important;
-		${$vertical ? "inset-block-start" : "left"}: ${$appearingPosition[0]}px;
-		${$vertical ? "inset-block-end" : "right"}: ${$appearingPosition[1]}px;
-	`};
-	${({ $vertical }) => $vertical && css`
-		${ifColorScheme.contrast} & {
-			background-color: ${cc("HighlightText")};
+	// $movement?: TabBarMovement;
+}>(({ $vertical }) => {
+	const start = $vertical ? "inset-block-start" : "left", end = $vertical ? "inset-block-end" : "right";
+	return css`
+		/** Position (a tuple of distances from the container in the upper and lower directions). */
+		--position-s: 0;
+		--position-e: 100%;
+
+		--delayed-property: content;
+
+		${styles.mixins.oval()};
+		${$vertical ? "inline" : "block"}-size: ${THICKNESS}px;
+		position: absolute;
+		background-color: ${c("accent-color")};
+		${$vertical ? css`inset-inline-start: 5px;` : css`inset-block-end: 0;`}
+		${start}: var(--position-s);
+		${end}: var(--position-e);
+		transition:
+			all ${eases.easeOutCirc} 300ms,
+			${fallbackTransitions.replace(/all.*?ms,\s*/, "")},
+			scale ${eases.easeInOutMaterialEmphasized} 350ms,
+			var(--delayed-property) ${eases.easeInOutMaterialEmphasized} 500ms 50ms;
+
+		&.appearing {
+			transition: none !important;
 		}
-	`}
-`;
+		${$vertical && css`
+			${ifColorScheme.contrast} & {
+				background-color: ${cc("HighlightText")};
+			}
+		`}
+	`;
+});
 
 const StyledTabBar = styled(HorizontalScroll).attrs({
 	container: "nav",
@@ -168,10 +177,22 @@ export default function TabBar<T extends string = string>({ current: [current, s
 				</div>
 				<Indicator
 					ref={indicatorEl}
-					$position={position}
-					$appearingPosition={appearingPosition}
+					className={{ appearing: appearingPosition }}
+					style={{
+						...!appearingPosition ? {
+							"--position-s": (position[0] ?? 0) + "px",
+							"--position-e": isUndefinedNullNaN(position[1]) ? "100%" : position[1] + "px",
+						} : {
+							"--position-s": appearingPosition[0] + "px",
+							"--position-e": appearingPosition[1] + "px",
+						},
+						"--delayed-property":
+							!_movement.in("next", "previous") ? undefined :
+							_movement === "next" ?
+								vertical ? "inset-block-start" : "left" :
+								vertical ? "inset-block-end" : "right",
+					}}
 					$vertical={vertical}
-					$movement={_movement}
 				/>
 			</div>
 		</StyledTabBar>
