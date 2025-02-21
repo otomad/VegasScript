@@ -627,7 +627,7 @@ function WebglFilter({ src, effect, step }: {
 			animationId.current = requestAnimationFrame(animation);
 		};
 		animation();
-		return () => cancelAnimationFrame(animationId.current!);
+		return () => cancelAnimationFrame(animationId.current);
 	}, [usingStaticUniformValue, uniformKeyframes, step]);
 
 	useEffect(() => {

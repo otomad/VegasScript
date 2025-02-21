@@ -1,52 +1,64 @@
-/**
- * @see https://stackoverflow.com/a/70226036/19553213
- */
-export default function HorizontalScroll({ enabled = true, children, ref }: FCP<{
+export default function HorizontalScroll<TContainer extends AsTarget>({ enabled = true, children, ref, as = "div" as TContainer, container, ...htmlAttrs }: {
 	/** When user use mouse wheel to scroll, should it scroll horizontally instead of default vertically? */
 	enabled?: boolean;
-}, "section">) {
-	const _el = useDomRef<"section">();
-	useImperativeHandleRef(ref, _el);
-	/** Max `scrollLeft` value */
-	const scrollWidth = useRef(0);
-	/** Desired scroll distance per animation frame. You can adjust to your wish */
-	const getScrollStep = () => scrollWidth.current * getFrameInterval() / 500;
-	/** Target value for `scrollLeft`. */
-	const targetLeft = useRef(0);
+	/** Modify the container type. Defaults to `React.Fragment` (aka nothing). */
+	as?: TContainer;
+	/** Same as `as`, but compatible with Styled Components. */
+	container?: TContainer;
+	children?: ReactNode;
+	ref?: React.Ref<Any>;
+}) {
+	const Container = (container ?? as) as GetReactElementFromTag<"div">;
+	if (Container === Fragment) htmlAttrs = {};
 
-	function scrollLeft() {
-		const container = _el.current;
-		if (!container) return;
+	if (!enabled) return <Container {...htmlAttrs}>{children}</Container>;
 
-		const beforeLeft = container.scrollLeft;
-		const wantDeltaX = getScrollStep();
-		const diff = targetLeft.current - container.scrollLeft;
-		const deltaX = wantDeltaX >= Math.abs(diff) ? diff : Math.sign(diff) * wantDeltaX;
+	const el = useDomRef<"div">();
+	useImperativeHandleRef(ref, el);
 
-		// Performing horizontal scroll
-		container.scrollBy({ left: deltaX, top: 0, behavior: "instant" });
-		// Break if smaller `diff` instead of `wantDeltaX` was used
-		if (deltaX === diff) return;
-		// Break if can't scroll anymore or target reached
-		if (beforeLeft === container.scrollLeft || container.scrollLeft === targetLeft.current) return;
+	const scrollTarget = useRef(0);
+	const scrollValue = useRef(0);
+	const animationId = useRef<number>(undefined);
+	const isUpdating = () => animationId.current !== undefined;
+	const spring = 0.5;
 
-		requestAnimationFrame(scrollLeft);
+	const stopUpdating = useCallback(() => {
+		cancelAnimationFrame(animationId.current);
+		animationId.current = undefined;
+	}, []);
+
+	function update() {
+		stopUpdating();
+		if (!enabled) return;
+		scrollValue.current += (scrollTarget.current - scrollValue.current) * spring * getFrameInterval60();
+		animationId.current = requestAnimationFrame(update);
+		// eslint-disable-next-line curly
+		if (Math.abs(scrollValue.current - scrollTarget.current) <= 1e-2) {
+			// scrollValue.current = scrollTarget.current;
+			stopUpdating();
+		}
+		el.current?.scrollTo({ left: scrollValue.current, behavior: "instant" });
 	}
 
-	const onWheel = useCallback<WheelEventHandler<HTMLElement>>(e => {
-		const el = e.currentTarget;
-		if (!el) return;
-		_el.current = el;
-		if (!enabled || el.scrollWidth <= el.clientWidth) return;
+	const onWheel: WheelEventHandler = e => {
+		if (e.deltaX || !e.deltaY || e.shiftKey || e.ctrlKey || !el.current || !enabled) {
+			stopUpdating();
+			return;
+		}
 		e.preventDefault();
-		scrollWidth.current = el.scrollWidth - el.clientWidth;
-		targetLeft.current = clamp(el.scrollLeft + (e.deltaX || e.deltaY), 0, scrollWidth.current);
-		requestAnimationFrame(scrollLeft);
+		if (!isUpdating()) scrollTarget.current = scrollValue.current = el.current.scrollLeft;
+		const scrollRight = el.current.scrollWidth - el.current.clientWidth;
+		scrollTarget.current = clamp(scrollTarget.current + e.deltaY, 0, scrollRight);
+		update();
+	};
+
+	useEffect(() => {
+		return () => stopUpdating();
 	}, [enabled]);
 
 	return (
-		<EventInjector ref={_el} onWheel={onWheel}>
-			{children as ReactElement}
+		<EventInjector ref={el} onWheel={onWheel} onPointerDown={stopUpdating}>
+			<Container {...htmlAttrs}>{children}</Container>
 		</EventInjector>
 	);
 }

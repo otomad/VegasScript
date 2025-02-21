@@ -49,6 +49,13 @@ declare global {
 		 */
 		sizeAdjust?: string;
 	}
+
+	/**
+	 * Fix: `cancelAnimationFrame` will accept `undefined` value.
+	 *
+	 * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DedicatedWorkerGlobalScope/cancelAnimationFrame)
+	 */
+	declare function cancelAnimationFrame(handle: number | undefined): void;
 }
 // #endregion
 

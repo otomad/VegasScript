@@ -124,7 +124,7 @@ declare global {
 	 *
 	 * @template TElement - HTML DOM element.
 	 */
-	type DomRef<TElement extends Element> = RefObject<TElement | null>;
+	type DomRef<TElement extends keyof ElementTagNameMap | Element> = RefObject<TElement extends string ? TagNameToElement<TElement> : TElement | null>;
 
 	/**
 	 * Get the type of a function based on the specified parameters and return value.

@@ -1,4 +1,4 @@
-import type { EffectCallback, KeyboardEvent, KeyboardEventHandler } from "react";
+import type { DependencyList, EffectCallback, KeyboardEvent, KeyboardEventHandler } from "react";
 type EffectCallbackWithAsync = EffectCallback | (() => (() => Promise<void>) | void | Promise<void>);
 
 /**

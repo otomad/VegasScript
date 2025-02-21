@@ -4,7 +4,7 @@ const intervalPattern = "全全半全全全半".replaceAll("全", "10").replaceA
 const LENGTH = 128;
 const BLACK_KEY_WIDTH = 60;
 
-const Wrapper = styled.div`
+const Wrapper = styled(HorizontalScroll)`
 	overflow-x: auto;
 	border-radius: 6px;
 
@@ -30,17 +30,15 @@ export default function PreviewPiano({ ...htmlAttrs }: FCP<{}, "div">) {
 	const [activeKey, setActiveKey] = useState("");
 
 	return (
-		<HorizontalScroll>
-			<Wrapper>
-				<StyledPreviewPiano {...htmlAttrs}>
-					{forMap(LENGTH, i => {
-						if (intervalPattern[(i + 1) % 12] === "0") return;
-						const isBlackNext = intervalPattern[i % 12] === "0" && i < LENGTH - 2;
-						return <PianoKey key={i} isBlackNext={isBlackNext} midiNote={i} showCOnly activeKey={[activeKey, setActiveKey]} />;
-					})}
-				</StyledPreviewPiano>
-			</Wrapper>
-		</HorizontalScroll>
+		<Wrapper>
+			<StyledPreviewPiano {...htmlAttrs}>
+				{forMap(LENGTH, i => {
+					if (intervalPattern[(i + 1) % 12] === "0") return;
+					const isBlackNext = intervalPattern[i % 12] === "0" && i < LENGTH - 2;
+					return <PianoKey key={i} isBlackNext={isBlackNext} midiNote={i} showCOnly activeKey={[activeKey, setActiveKey]} />;
+				})}
+			</StyledPreviewPiano>
+		</Wrapper>
 	);
 }
 

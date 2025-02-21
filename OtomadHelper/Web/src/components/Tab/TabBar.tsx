@@ -41,11 +41,13 @@ const Indicator = styled.div.attrs(({ $vertical }) => ({
 	`}
 `;
 
-const StyledTabBar = styled.nav`
+const StyledTabBar = styled(HorizontalScroll).attrs({
+	container: "nav",
+})`
 	${styles.mixins.square("100%")};
 	scroll-padding: 0;
 
-	> .scroll {
+	> .scroll-target {
 		position: relative;
 		overscroll-behavior: contain;
 	}
@@ -77,7 +79,7 @@ const StyledTabBar = styled.nav`
 		padding: 4px;
 		overflow-x: auto;
 
-		> .scroll {
+		> .scroll-target {
 			width: min-content;
 		}
 
@@ -150,32 +152,29 @@ export default function TabBar<T extends string = string>({ current: [current, s
 	}, [current, children]);
 
 	return (
-		<HorizontalScroll enabled={!vertical}>
-			{/* Vertical tab bar (navigation view) do not care about horizontal scrolling. */}
-			<StyledTabBar role="tablist" className={[vertical ? "vertical" : "horizontal", { disablePressIndicatorStyle }]} {...htmlAttrs}>
-				<div className="scroll">
-					<div className="items">
-						{React.Children.map(children, child => {
-							if (!isReactInstance(child, TabItem)) return child;
-							const id = child.props.id as T;
-							return React.cloneElement(child, {
-								collapsed,
-								_vertical: vertical,
-								selected: current === id,
-								onClick: () => setCurrent?.(id),
-							});
-						})}
-					</div>
-					<Indicator
-						ref={indicatorEl}
-						$position={position}
-						$appearingPosition={appearingPosition}
-						$vertical={vertical}
-						$movement={_movement}
-					/>
+		<StyledTabBar enabled={!vertical} role="tablist" className={[vertical ? "vertical" : "horizontal", { disablePressIndicatorStyle }]} {...htmlAttrs}>
+			<div className="scroll-target">
+				<div className="items">
+					{React.Children.map(children, child => {
+						if (!isReactInstance(child, TabItem)) return child;
+						const id = child.props.id as T;
+						return React.cloneElement(child, {
+							collapsed,
+							_vertical: vertical,
+							selected: current === id,
+							onClick: () => setCurrent?.(id),
+						});
+					})}
 				</div>
-			</StyledTabBar>
-		</HorizontalScroll>
+				<Indicator
+					ref={indicatorEl}
+					$position={position}
+					$appearingPosition={appearingPosition}
+					$vertical={vertical}
+					$movement={_movement}
+				/>
+			</div>
+		</StyledTabBar>
 	);
 }
 

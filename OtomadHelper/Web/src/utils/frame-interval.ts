@@ -9,7 +9,7 @@ const store = createStore({
 	get intervalWindowLength(): number { return store.intervalWindow.toTrimmed().length; },
 });
 
-export const getFrameInterval = () => store.intervalWindowLength === 0 ? FROM_60FPS :
+const getFrameInterval = () => store.intervalWindowLength === 0 ? FROM_60FPS :
 	Math.min(store.intervalWindow.reduce((a, b) => a + b) / store.intervalWindowLength, FROM_60FPS);
 export const getFrameInterval60 = () => getFrameInterval() / FROM_60FPS;
 

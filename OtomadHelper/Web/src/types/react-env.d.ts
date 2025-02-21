@@ -141,6 +141,12 @@ declare global {
 	export type GetReactElementFromFC<TComponent> = ReactElement<PropsOf<TComponent>, TComponent>;
 
 	/**
+	 * Get React Element type for the HTML element.
+	 * @template TTagName - HTML tag name.
+	 */
+	export type GetReactElementFromTag<TTagName extends keyof ElementTagNameMap> = FC<{}, TTagName>;
+
+	/**
 	 * Get the parameter types for Zustand store state.
 	 * @template TStore - Zustand store object。
 	 */

@@ -68,7 +68,7 @@ export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, spee
 			animationId.current = requestAnimationFrame(animation); // Note that `requestAnimationFrame` speed depends on your monitor FPS.
 		};
 		animation();
-		return () => cancelAnimationFrame(animationId.current!);
+		return () => cancelAnimationFrame(animationId.current);
 	}, [current, speed]);
 	return smoothValue;
 }
