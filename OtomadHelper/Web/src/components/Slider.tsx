@@ -101,6 +101,16 @@ const StyledSlider = styled.div`
 		}
 	}
 
+	&:hover {
+		.thumb {
+			will-change: inset-inline-start;
+		}
+
+		.passed {
+			will-change: width;
+		}
+	}
+
 	${styles.mixins.forwardFocusRing(".thumb")};
 `;
 

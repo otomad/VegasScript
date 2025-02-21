@@ -305,6 +305,13 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		thumb.addEventListener("pointerup", pointerUp);
 	}, []);
 
+	const textEl = useDomRef<"div">();
+	useEffect(() => {
+		// HACK: Mystery code. After the following code, it will become less laggy.
+		// The current use case is that if there is a slider below the toggle switch, it can prevent the slider from getting stuck when sliding.
+		if (textEl.current?.parentNode) textEl.current.outerHTML = textEl.current.outerHTML;
+	}, [children, details, selectInfo, selectValid]);
+
 	return (
 		<StyledToggleSwitchLabel
 			as={as as "button"}
@@ -322,7 +329,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		>
 			{icon && <Icon name={icon} />}
 			{(children || details) && (
-				<div className="text" aria-hidden>
+				<div className="text" aria-hidden ref={textEl}>
 					{children && <p className="title" id={`${ariaId}-title`}>{children}</p>}
 					{details && <p className="details" id={`${ariaId}-details`}>{details}</p>}
 					<SettingsCard.SelectInfo valid={selectValid}>{selectInfo}</SettingsCard.SelectInfo>

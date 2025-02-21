@@ -4,6 +4,7 @@ export default function Home() {
 	const pitch = useState("C5");
 	const timecode = useState("00:00:03.000");
 	const options = ["foo", "bar", "baz", "hello", "world"];
+	const slider = useState(50);
 
 	return (
 		<div className="container">
@@ -26,6 +27,8 @@ export default function Home() {
 			<PitchPicker spn={pitch} style={{ maxWidth: "300px" }} />
 
 			<TimecodeBox timecode={timecode} />
+
+			<Slider value={slider} defaultValue={50} />
 		</div>
 	);
 }
