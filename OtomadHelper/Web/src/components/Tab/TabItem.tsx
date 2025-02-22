@@ -8,10 +8,10 @@ const StyledTabItem = styled.button`
 	position: relative;
 	display: flex;
 	align-items: center;
-	width: -webkit-fill-available;
-	width: -moz-available;
-	width: fill-available;
-	min-height: 30px;
+	min-block-size: 30px;
+	inline-size: -webkit-fill-available;
+	inline-size: -moz-available;
+	inline-size: fill-available;
 	overflow-x: hidden;
 	border-radius: 3px;
 
@@ -73,7 +73,7 @@ const StyledTabItem = styled.button`
 	}
 
 	.fill {
-		width: 100%;
+		inline-size: 100%;
 		text-align: start;
 	}
 
@@ -82,13 +82,11 @@ const StyledTabItem = styled.button`
 
 		.badge {
 			position: absolute;
-			top: 0;
-			right: 0;
+			inset-block-start: 0;
+			inset-inline-end: 0;
 			translate: 50% -50%;
 
 			&:dir(rtl) {
-				right: auto;
-				left: 0;
 				translate: -50% -50%;
 			}
 		}

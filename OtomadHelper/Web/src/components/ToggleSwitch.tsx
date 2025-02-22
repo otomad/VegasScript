@@ -205,7 +205,7 @@ const StyledToggleSwitchLabel = styled.button`
 	}
 `;
 
-export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = [], hideLabel, as, details, resetTransitionOnChanging = false, color, lock, icon, selectInfo, selectValid = false, children, ...htmlAttrs }: FCP<{
+export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = [], hideLabel, as, details, resetTransitionOnChanging = false, color, lock, icon, selectInfo, selectValid = false, _reduceLag, children, ...htmlAttrs }: FCP<{
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled */
@@ -239,6 +239,12 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	selectInfo?: ReactNode;
 	/** Specifies whether the selection is valid if it's boolean, or the number of selection is not 0 if it's number. */
 	selectValid?: boolean | number;
+	/**
+	 * HACK: Become less laggy.\
+	 * The current use case is that if there is a slider below the toggle switch, it can prevent the slider from getting stuck when sliding.\
+	 * But this will cause the content to become static.
+	 */
+	_reduceLag?: boolean;
 }, "button">) {
 	const on = typeof lock === "boolean" ? lock : _on!;
 	const disabled = typeof lock === "boolean" || _disabled;
@@ -309,8 +315,8 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	useEffect(() => {
 		// HACK: Mystery code. After the following code, it will become less laggy.
 		// The current use case is that if there is a slider below the toggle switch, it can prevent the slider from getting stuck when sliding.
-		if (textEl.current?.parentNode) textEl.current.outerHTML = textEl.current.outerHTML;
-	}, [children, details, selectInfo, selectValid]);
+		if (_reduceLag && textEl.current?.parentNode) textEl.current.outerHTML = textEl.current.outerHTML;
+	}, [children, details, selectInfo, selectValid, _reduceLag]);
 
 	return (
 		<StyledToggleSwitchLabel

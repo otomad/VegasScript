@@ -7,14 +7,9 @@ const StyledDisabledButtonWrapper = styled.div`
 
 	.badge {
 		position: absolute;
-		top: -2px;
-		right: -2px;
+		inset-block-start: -2px;
+		inset-inline-end: -2px;
 		cursor: pointer;
-
-		&:dir(rtl) {
-			right: auto;
-			left: -2px;
-		}
 	}
 `;
 

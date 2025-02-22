@@ -74,12 +74,13 @@ const StyledCube = styled.div`
 				}
 
 				&:not(.selected) {
-					&:hover {
+					&:hover,
+					&:active {
 						color: ${c("accent-color")};
 					}
 
 					&:active {
-						color: ${c("accent-color", 50)};
+						opacity: 0.5;
 					}
 				}
 

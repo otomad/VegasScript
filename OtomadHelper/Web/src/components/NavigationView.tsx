@@ -4,6 +4,7 @@ const navButtonSize = { width: 44, height: 40 };
 const CONTENT_ITEMS_ASSUMED_COUNT = 20;
 const NAV_ITEMS_ASSUMED_COUNT = 20;
 const NAV_ITEMS_BOTTOM_ASSUMED_COUNT = 3;
+const TITLE_ANCHOR_NAME = "--navigation-view-title";
 
 const NavButton = styled(Button).attrs({
 	subtle: true,
@@ -219,12 +220,13 @@ const StyledNavigationView = styled.div<{
 			overflow: hidden;
 			font-weight: 600;
 
-			> div {
+			> .title-wrapper-inner {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 				block-size: ${TITLE_LINE_HEIGHT}px;
 				inline-size: 100%;
+				anchor-name: ${TITLE_ANCHOR_NAME};
 
 				> div {
 					${styles.mixins.square("100%")};
@@ -232,9 +234,21 @@ const StyledNavigationView = styled.div<{
 
 				.command-bar {
 					flex-shrink: 0;
-					block-size: 100%;
+					block-size: ${TITLE_LINE_HEIGHT}px;
+					transition: ${fallbackTransitions}, inset-inline 0s;
+
+					@supports (anchor-name: ${TITLE_ANCHOR_NAME}) {
+						position: fixed;
+						inset-block-start: 12px;
+						inset-inline-end: anchor(end);
+						position-anchor: ${TITLE_ANCHOR_NAME};
+					}
 				}
 			}
+		}
+
+		&.minimal .command-bar {
+			inset-block-start: 4px !important;
 		}
 
 		.title-wrapper .title {
@@ -670,7 +684,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 				onClick={hideFlyoutNavMenu}
 			>
 				<div className="title-wrapper">
-					<div>
+					<div className="title-wrapper-inner">
 						<div>
 							<TransitionGroup>
 								<CssTransition key={pageTitleKey.join()}>
