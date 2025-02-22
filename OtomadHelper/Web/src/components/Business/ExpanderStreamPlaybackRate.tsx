@@ -24,7 +24,7 @@ export default function ExpanderStreamPlaybackRate({ stream }: FCP<{
 			icon="play_circle_hint_half"
 			trailingGap={8}
 			actions={(
-				<StackPanel>
+				<>
 					<TextBox.Number
 						value={value}
 						min={0}
@@ -35,7 +35,7 @@ export default function ExpanderStreamPlaybackRate({ stream }: FCP<{
 					<Tooltip title={t.reset} placement="y">
 						<Button icon="arrow_reset" subtle minWidthUnbounded onClick={() => value[1](1)} />
 					</Tooltip>
-				</StackPanel>
+				</>
 			)}
 		>
 			<ToggleSwitch on={stream === "audio" ? audioBased : visualBased} details={t.descriptions.stream.playbackRate.based} icon="relative">{t.stream.playbackRate.based}</ToggleSwitch>

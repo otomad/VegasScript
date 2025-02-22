@@ -7,7 +7,7 @@ const StyledSpinner = styled.div`
 	${styles.mixins.flexCenter()};
 	position: absolute;
 	inset-block-start: 50%;
-	inset-inline-end: 14px;
+	inset-inline-end: 16px;
 	z-index: 6; // Above ExpanderParent
 	contain: size;
 
@@ -235,7 +235,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 			margin-inline-start: 10px;
 		}
 
-		.expander:has(&) {
+		:is(.expander, .settings-card):has(&) {
 			z-index: 1;
 		}
 	}

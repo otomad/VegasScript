@@ -73,6 +73,16 @@ const StyledCube = styled.div`
 					}
 				}
 
+				&:not(.selected) {
+					&:hover {
+						color: ${c("accent-color")};
+					}
+
+					&:active {
+						color: ${c("accent-color", 50)};
+					}
+				}
+
 				&.front {
 					transform: translateZ(calc(var(--side-length) / 2));
 				}
@@ -112,6 +122,11 @@ export default function Box3d() { // BUG: When drag the box to the top or bottom
 	const rotationCss = useMemo(() => ({ "--rotate-x": rotation.x + "deg", "--rotate-y": rotation.y + "deg" }), [rotation]);
 	const [isMoved, setIsMoved] = useState(false);
 
+	const reset = () => {
+		setPosition(Point.zero);
+		setRotation(DEFAULT_ROTATION);
+	};
+
 	const onDragStart: PointerEventHandler<HTMLDivElement> = e => {
 		setPosition(new Point(Math.round(e.clientX), Math.round(e.clientY)));
 		e.currentTarget.setPointerCapture(e.pointerId);
@@ -127,7 +142,7 @@ export default function Box3d() { // BUG: When drag the box to the top or bottom
 		));
 		const newPosition = new Point(Math.round(e.clientX), Math.round(e.clientY));
 		setPosition(newPosition);
-		if (!isMoved && newPosition.distance(position) > 2) setIsMoved(true);
+		if (!isMoved && newPosition.distance(position) >= 1) setIsMoved(true);
 	};
 
 	const onDragEnd: PointerEventHandler<HTMLDivElement> = e => {
@@ -135,19 +150,16 @@ export default function Box3d() { // BUG: When drag the box to the top or bottom
 		e.currentTarget.releasePointerCapture(e.pointerId);
 		const target = document.elementFromPoint(e.pageX, e.pageY); // The cube capture the mouse, so cannot get e.target directly.
 		const face = target?.closest(".face");
-		if (!isMoved && face instanceof HTMLElement) face.click();
+		// eslint-disable-next-line @stylistic/brace-style
+		if (e.button === 1 || e.button === 2) { if (!isMoved) reset(); }
+		else if (!isMoved && face instanceof HTMLElement) face.click();
 		setIsMoved(false);
-	};
-
-	const reset = () => {
-		setPosition(Point.zero);
-		setRotation(DEFAULT_ROTATION);
 	};
 	// #endregion
 
 	return (
 		<div className="container">
-			<StyledCube onPointerDown={onDragStart} onPointerMove={onDrag} onPointerUp={onDragEnd} onAuxClick={reset}>
+			<StyledCube onPointerDown={onDragStart} onPointerMove={onDrag} onPointerUp={onDragEnd}>
 				<div className="container-outer">
 					<div className="container" style={rotationCss}>
 						{faces.map(face => <div key={face} className={[face, "face", { selected: selectedFace === face }]} onClick={() => setSelectedFace(face)}>{t.track.box3d.faces[face]}</div>)}
