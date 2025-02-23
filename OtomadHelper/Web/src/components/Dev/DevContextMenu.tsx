@@ -41,7 +41,7 @@ export default function DevContextMenu() {
 
 	const [location, setLocation] = useState<TwoD>([NaN, NaN]);
 	const [menu, setMenu] = useState<ContextMenuOutput>();
-	const isMenuShown = useMemo(() => menu != null && menu.items.length !== 0, [menu]);
+	const isMenuShown = useMemo(() => menu != null && menu.items.length > 0, [menu]);
 	const menuEl = useDomRef<"menu">();
 	const ifFinite = (value: number) => Number.isFinite(value) ? value + "px" : undefined;
 	function clearMenu() {

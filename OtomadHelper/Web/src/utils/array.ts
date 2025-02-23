@@ -222,3 +222,5 @@ export function wrapIfNotArray<T>(maybeArray: T): T extends Any[] ? T : T[] {
 
 /** Creates a new tuple that is correctly recognized by TypeScript. */
 export const Tuple = <T extends Any[]>(...args: T): T => args;
+
+export const NEVER_MIND = [] as never;

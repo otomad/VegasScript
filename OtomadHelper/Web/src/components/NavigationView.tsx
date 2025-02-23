@@ -322,7 +322,8 @@ const StyledNavigationView = styled.div<{
 			overflow: hidden auto;
 			overscroll-behavior: contain;
 
-			&:has(> .enter, > .exit) {
+			&:has(> .enter, > .exit),
+			&:has(> main > .container-preview) {
 				overflow-y: hidden;
 			}
 
@@ -463,12 +464,6 @@ const StyledPage = styled.main`
 	}
 	// #endregion
 `;
-
-const useWindowWidth = () => {
-	const [width, setWidth] = useState(window.innerWidth);
-	useEventListener(window, "resize", () => setWidth(window.innerWidth), undefined, [width]);
-	return width;
-};
 
 function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent, currentNavTab, navItems, navItemsId, flyout, isCompact }: FCP<{
 	paneDisplayMode: PaneDisplayMode;

@@ -10,6 +10,7 @@ export type ApplicationEvents = {
 	"host:triggerKeybinding": [WebMessageEvents.TriggerKeybinding];
 	"dev:showContextMenu": [e: MouseEvent, menu: typeof window["contextMenu"] & {}];
 	"app:toast": [message: string, status?: Status];
+	"app:hideOtherFlyouts": [exceptId?: string];
 };
 
 expectType<Record<string, unknown[]>>(undefined! as ApplicationEvents);

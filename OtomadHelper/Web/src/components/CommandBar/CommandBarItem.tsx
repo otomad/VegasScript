@@ -1,46 +1,82 @@
 import { CommandBarAnchorContext } from "./CommandBar";
 
-export /* @internal */ function CommandBarItem({ icon, caption, details, iconOnly, children, canBeDisabled, disabled, onClick, ...buttonAndTransitionAttrs }: FCP<{
+const HIDE_DELAY = 500;
+
+const $p = (test?: boolean) => test ? "true" : undefined;
+
+export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, onClick, ...buttonAndTransitionAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Caption. */
 	caption?: ReactNode;
+	/** Alternate caption. */
+	altCaption?: ReactNode;
 	/** Detailed description. */
 	details?: ReactNode;
 	/** Hide the caption and show the icon only? */
 	iconOnly?: boolean;
 	/** Can be disabled? */
 	canBeDisabled?: boolean;
+	/** Open flyout by hovering instead of clicking. */
+	hovering?: boolean;
 }, "section"> & TransitionProps) {
 	const { transitionAttrs, htmlAttrs } = separateTransitionAttrs(buttonAndTransitionAttrs);
+	const { anchorName: commandBarAnchorName, position, tooNarrow } = useContext(CommandBarAnchorContext);
 	if (!caption) iconOnly = true;
-	const [showFlyout, setShowFlyout] = useState(false);
 	const anchorName = useUniqueId("--command-bar-item");
-	const { anchorName: commandBarAnchorName, position } = useContext(CommandBarAnchorContext);
-	const tooltip = !iconOnly ? details : <Tooltip.Content title={caption}>{details}</Tooltip.Content>;
+	const [flyoutShown, setFlyoutShown] = useState(false);
+	const hideTimeout = useRef<Timeout>(undefined);
+	const showFlyout = () => { clearTimeout(hideTimeout.current); if (children) { useEvent("app:hideOtherFlyouts", anchorName); setFlyoutShown(true); } };
+	const hideFlyoutLater = () => { hideTimeout.current = setTimeout(() => setFlyoutShown(false), HIDE_DELAY); };
+	useListen("app:hideOtherFlyouts", exceptId => { if (exceptId !== anchorName) { clearTimeout(hideTimeout.current); setFlyoutShown(false); } });
+
+	const tooltip = iconOnly || altCaption ? <Tooltip.Content title={caption}>{details}</Tooltip.Content> : details;
 	const button = (
 		<Button
 			icon={icon}
 			subtle="small-icon"
 			disabled={disabled}
-			minWidthUnbounded={iconOnly}
-			onClick={e => { onClick?.(e); if (children) setShowFlyout(true); }}
+			onMouseEnter={() => { if (hovering) showFlyout(); }}
+			onMouseLeave={() => { if (hovering) hideFlyoutLater(); }}
+			onClick={e => { if (hovering || !children) onClick?.(e); showFlyout(); }}
 			{...htmlAttrs}
 		>
-			{!iconOnly && caption}
+			{altCaption || caption}
 		</Button>
 	);
 
 	return (
-		<Tooltip title={tooltip} placement="y">
+		<Tooltip title={tooltip} placement="y" disabled={hovering}>
 			<CssTransition {...transitionAttrs}>
-				<div className="command-bar-item" style={{ anchorName }}>
+				<div className="command-bar-item" style={{ anchorName, "--icon-only": $p(iconOnly), "--too-narrow": $p(tooNarrow) }}>
 					{!canBeDisabled ? button : (
 						<DisabledButtonWrapper key="complete" disabled={disabled} onClick={onClick}>
 							{button}
 						</DisabledButtonWrapper>
 					)}
-					{children && <Flyout shown={[showFlyout, setShowFlyout]} anchorName={anchorName} position="bottom" _commandBarAnchorName={commandBarAnchorName} _horizontalPosition={position}>{children}</Flyout>}
+					{children && (
+						<Flyout
+							shown={[flyoutShown, setFlyoutShown]}
+							anchorName={anchorName}
+							position="bottom"
+							autoInert={!hovering}
+							_commandBarAnchorName={commandBarAnchorName}
+							_horizontalPosition={position}
+							onMouseEnter={() => { if (hovering) showFlyout(); }}
+							onMouseLeave={() => { if (hovering) hideFlyoutLater(); }}
+						>
+							{hovering && (
+								<>
+									<div className="descriptions">
+										{(iconOnly || altCaption || tooNarrow) && <h6>{caption}</h6>}
+										<p>{details}</p>
+									</div>
+									<hr />
+								</>
+							)}
+							{children}
+						</Flyout>
+					)}
 				</div>
 			</CssTransition>
 		</Tooltip>

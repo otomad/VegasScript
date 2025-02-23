@@ -186,6 +186,18 @@ const StyledItemsViewItem = styled.button<{
 				margin-top: 5px;
 			}
 		}
+
+		.flyout & {
+			padding: 0 4px;
+
+			> .base {
+				gap: 12px;
+				min-height: unset;
+				padding-block: 8px;
+				padding-inline: 13px 12px;
+				border-radius: 4px;
+			}
+		}
 	`}
 
 	.text > * {
@@ -284,7 +296,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	const textPart = (children || details) && (
 		<div className="text" aria-hidden>
 			{children && <p className="title" id={`${ariaId}-title`}>{children}</p>}
-			{details && <p className="details" id={`${ariaId}-details`}>{details}</p>}
+			{details && <p className="details" id={`${ariaId}-details`}><Preserves>{details}</Preserves></p>}
 		</div>
 	);
 	const checkbox = (

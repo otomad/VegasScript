@@ -101,7 +101,7 @@ const filters = {
 				for (; y < centerY + radius; y++) addPoint(x, y);
 				for (; x > centerX - radius; x--) addPoint(x, y);
 				for (; y > centerY - radius; y--) addPoint(x, y);
-				if (!points.length) break;
+				if (points.length === 0) break;
 				yield points;
 			}
 		}

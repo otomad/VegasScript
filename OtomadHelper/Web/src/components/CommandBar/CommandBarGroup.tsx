@@ -1,11 +1,11 @@
 const StyledCommandBarGroup = styled(StackPanel)`
 	justify-content: space-between;
 
-	&:has(> .left:only-child) {
+	&:has(> .left):not(:has(> .right)) {
 		justify-content: flex-start;
 	}
 
-	&:has(> .right:only-child) {
+	&:has(> .right):not(:has(> .left)) {
 		justify-content: flex-end;
 	}
 

@@ -3,6 +3,10 @@ import CommandBarGroup from "./CommandBarGroup";
 import { CommandBarItem } from "./CommandBarItem";
 
 const StyledCommandBar = styled.div`
+	@layer props {
+		--icon-only: false;
+	}
+
 	position: relative;
 	padding: 4px;
 	background-color: ${c("background-fill-color-acrylic-background-command-bar")};
@@ -23,6 +27,22 @@ const StyledCommandBar = styled.div`
 
 	.command-bar-item {
 		transition: all ${eases.easeInOutFluent} 500ms;
+
+		main.page:is(.enter, .exit) & {
+			--too-narrow: false !important;
+		}
+
+		.button {
+			transition: ${fallbackTransitions}, min-inline-size 0s;
+
+			@container style(--icon-only: true) or style(--too-narrow: true) {
+				min-inline-size: unset;
+
+				span {
+					display: none;
+				}
+			}
+		}
 
 		&.enter,
 		&.exit {
@@ -56,31 +76,71 @@ const StyledCommandBar = styled.div`
 		border: none;
 		border-inline-start: 1px solid ${c("stroke-color-divider-stroke-default")};
 	}
+
+	&.shadow {
+		position: absolute;
+		visibility: hidden;
+	}
 `;
 
 export /* @internal */ const CommandBarAnchorContext = createContext<{
 	anchorName: string;
 	position?: Position;
+	tooNarrow?: boolean;
 }>(null!);
 
 type Position = "left" | "center" | "right";
 
-export default function CommandBar({ position, children, className, style, ...htmlAttrs }: FCP<{
+export default function CommandBar({ position, autoCollapse, children, className, style, ...htmlAttrs }: FCP<{
 	/** Position the command bar to somewhere. */
 	position?: Position;
+	/** Auto collapse command bar if too narrow. */
+	autoCollapse?: boolean;
 }, "div">) {
+	const [commandBarEl, setCommandBarEl] = useDomRefs<"div">();
 	const anchorName = useUniqueId("--command-bar");
 	const childFactory: TransitionGroupProps["childFactory"] = child => child.type === "hr" ? <hr key={child.key} /> : child;
-	return (
-		<StyledCommandBar role="toolbar" aria-label="Command Bar" className={[className, position]} style={{ ...style, anchorName }} {...htmlAttrs}>
-			<CommandBarAnchorContext value={{ anchorName, position }}>
+	const overflowed = useIsCommandBarOverflowed(commandBarEl.current[1]);
+
+	return forMap(autoCollapse ? 2 : 1, i => (
+		<StyledCommandBar
+			key={i}
+			ref={setCommandBarEl(i)}
+			role="toolbar"
+			aria-label="Command Bar"
+			className={[className, position, { shadow: i !== 0 }]}
+			style={{ ...style, anchorName }}
+			{...htmlAttrs}
+		>
+			<CommandBarAnchorContext value={i === 0 ? { anchorName, position, tooNarrow: autoCollapse && overflowed } : {} as never}>
 				<TransitionGroup childFactory={childFactory}>
 					{children}
 				</TransitionGroup>
 			</CommandBarAnchorContext>
 		</StyledCommandBar>
-	);
+	));
 }
 
 CommandBar.Item = CommandBarItem;
 CommandBar.Group = CommandBarGroup;
+
+function useIsCommandBarOverflowed(element: MaybeRef<HTMLElement | null>) {
+	const [overflowed, setOverflowed] = useState(false);
+
+	useEffect(() => {
+		const el = toValue(element);
+		if (!el) return;
+
+		const observer = new IntersectionObserver(
+			([e]) => setOverflowed(e.intersectionRatio < 1),
+			{
+				// rootMargin: "-1px 0px 0px 0px",
+				threshold: [1],
+			},
+		);
+		observer.observe(el);
+		return () => observer.disconnect();
+	});
+
+	return overflowed;
+}

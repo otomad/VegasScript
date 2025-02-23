@@ -65,7 +65,7 @@ function getScrollParent(element: Element) {
 	return null;
 }
 
-export function useIsVisible(element: RefObject<HTMLElement | null>) {
+export function useIsVisible(element: MaybeRef<HTMLElement | null>) {
 	const [visible, setVisible] = useState(!!toValue(element)?.checkVisibility());
 
 	useMountEffect(() => {

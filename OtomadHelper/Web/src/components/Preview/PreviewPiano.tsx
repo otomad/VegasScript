@@ -147,7 +147,7 @@ const StyledPianoKey = styled.div`
 	}
 `;
 
-function PianoKey({ isBlackNext, midiNote, showCOnly, activeKey: [activeKey, setActiveKey] = [] }: {
+function PianoKey({ isBlackNext, midiNote, showCOnly, activeKey: [activeKey, setActiveKey] = NEVER_MIND }: {
 	/** Is the next key a black key? */
 	isBlackNext: boolean;
 	/** MIDI note number. */
