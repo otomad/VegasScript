@@ -1,3 +1,5 @@
+import FlyoutItem from "./FlyoutItem";
+
 const StyledFlyout = styled.div`
 	position: fixed;
 	right: calc(anchor(center) - var(--width) / 2);
@@ -76,3 +78,5 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 		</Portal>
 	);
 }
+
+Flyout.Item = FlyoutItem;

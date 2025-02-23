@@ -39,6 +39,17 @@ export default function Gradient() {
 						<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
 						<ToggleSwitch on={viewSquare} icon="grid">{t.track.grid.square}</ToggleSwitch>
 						<ToggleSwitch on={viewMirrorEdges} icon="image_reflection" lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
+						<Flyout.Item icon="resize" title={t.size} />
+						<Flyout.Item style={{ paddingBlockStart: "4px" }}>
+							<Slider
+								value={viewSize}
+								min={200}
+								max={487}
+								step={1}
+								defaultValue={DEFAULT_ITEM_WIDTH}
+								displayValue
+							/>
+						</Flyout.Item>
 					</CommandBar.Item>
 				</CommandBar>
 			</CommandBar.Group>

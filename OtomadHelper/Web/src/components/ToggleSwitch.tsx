@@ -59,9 +59,14 @@ const StyledToggleSwitchLabel = styled.button`
 		padding-inline-end: 5px;
 	}
 
+	&:has(> .icon) {
+		padding-inline-start: ${expanderItemWithIconPaddingInlineStart}px;
+	}
+
 	.flyout & {
 		margin-inline: 4px;
-		padding: 8px 12px;
+		padding-block: 8px;
+		padding-inline: 13px 12px;
 		inline-size: calc(100% - 4px * 2);
 		border-radius: 4px;
 
@@ -213,10 +218,6 @@ const StyledToggleSwitchLabel = styled.button`
 				border-color: ${c("highlight-color")};
 			}
 		}
-	}
-
-	&:has(> .icon) {
-		padding-inline-start: ${expanderItemWithIconPaddingInlineStart}px;
 	}
 `;
 
