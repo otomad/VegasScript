@@ -31,19 +31,17 @@ export default function Gradient() {
 			</Expander>
 			<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} /> */}
 
-			<StickyPerceptibility method="scroll">
-				<StackPanel $align="flex-end" $sticky>
-					<CommandBar>
-						<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
-						<hr />
-						<CommandBar.Item iconOnly icon="apps_list" caption={t.view} details={t.descriptions.track.view}>
-							<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
-							<ToggleSwitch on={viewSquare} icon="grid">{t.track.grid.square}</ToggleSwitch>
-							<ToggleSwitch on={viewMirrorEdges} icon="image_reflection" lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
-						</CommandBar.Item>
-					</CommandBar>
-				</StackPanel>
-			</StickyPerceptibility>
+			<CommandBar.Group>
+				<CommandBar position="right">
+					<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
+					<hr />
+					<CommandBar.Item iconOnly icon="apps_list" caption={t.view} details={t.descriptions.track.view}>
+						<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
+						<ToggleSwitch on={viewSquare} icon="grid">{t.track.grid.square}</ToggleSwitch>
+						<ToggleSwitch on={viewMirrorEdges} icon="image_reflection" lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
+					</CommandBar.Item>
+				</CommandBar>
+			</CommandBar.Group>
 
 			<ItemsView view="grid" current={effect} itemWidth={viewSize[0]}>
 				{gradients.map(id => (

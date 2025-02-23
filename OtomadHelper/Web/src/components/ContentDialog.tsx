@@ -81,11 +81,6 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 
 	useEventListener(window, "keydown", e => e.code === "Escape" && closeWhenNonStatic());
 
-	const setRootInert = (inert: boolean) => {
-		const root = document.getElementById("root");
-		if (root) root.inert = inert;
-	};
-
 	useEffect(() => {
 		if (shown)
 			setRootInert(true);

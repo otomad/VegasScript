@@ -54,9 +54,24 @@ const StyledToggleSwitchLabel = styled.button`
 		}
 	}
 
-	&:not(.expander-child-items &) {
+	&:where(:not(.expander-child-items &)) {
 		margin-inline-end: -5px;
 		padding-inline-end: 5px;
+	}
+
+	.flyout & {
+		margin-inline: 4px;
+		padding: 8px 12px;
+		inline-size: calc(100% - 4px * 2);
+		border-radius: 4px;
+
+		&:hover {
+			background-color: ${c("fill-color-subtle-secondary")};
+		}
+
+		&:active {
+			background-color: ${c("fill-color-subtle-tertiary")};
+		}
 	}
 
 	.stroke {

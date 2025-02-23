@@ -286,3 +286,11 @@ export function flattenReactChildren(children: ReactNode) {
 	});
 	return flattened;
 }
+
+/**
+ * Makes the browser "ignore" user input events for the element?
+ */
+export function setRootInert(inert: boolean) {
+	const root = document.getElementById("root");
+	if (root) root.inert = inert;
+}

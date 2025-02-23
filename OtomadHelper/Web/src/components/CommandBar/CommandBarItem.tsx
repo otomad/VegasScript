@@ -1,3 +1,5 @@
+import { CommandBarAnchorContext } from "./CommandBar";
+
 export /* @internal */ function CommandBarItem({ icon, caption, details, iconOnly, children, canBeDisabled, disabled, onClick, ...buttonAndTransitionAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
@@ -14,6 +16,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, details, iconOnl
 	if (!caption) iconOnly = true;
 	const [showFlyout, setShowFlyout] = useState(false);
 	const anchorName = useUniqueId("--command-bar-item");
+	const { anchorName: commandBarAnchorName, position } = useContext(CommandBarAnchorContext);
 	const tooltip = !iconOnly ? details : <Tooltip.Content title={caption}>{details}</Tooltip.Content>;
 	const button = (
 		<Button
@@ -37,7 +40,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, details, iconOnl
 							{button}
 						</DisabledButtonWrapper>
 					)}
-					{children && <Flyout shown={[showFlyout, setShowFlyout]} anchorName={anchorName} position="bottom">{children}</Flyout>}
+					{children && <Flyout shown={[showFlyout, setShowFlyout]} anchorName={anchorName} position="bottom" _commandBarAnchorName={commandBarAnchorName} _horizontalPosition={position}>{children}</Flyout>}
 				</div>
 			</CssTransition>
 		</Tooltip>
