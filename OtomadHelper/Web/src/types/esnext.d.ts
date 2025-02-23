@@ -56,6 +56,35 @@ declare global {
 	 * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DedicatedWorkerGlobalScope/cancelAnimationFrame)
 	 */
 	declare function cancelAnimationFrame(handle: number | undefined): void;
+
+	interface CSSStyleDeclaration {
+		[x: string]: string;
+	}
+}
+// #endregion
+
+// #region New CSS Properties
+declare global {
+	interface CSSStyleDeclaration {
+		[x: string]: string;
+	}
+}
+
+declare module "csstype" {
+	interface Properties {
+		/**
+		 * **Custom properties** (sometimes referred to as **CSS variables** or
+		 * **cascading variables**) are entities defined by CSS authors that contain
+		 * specific values to be reused throughout a document. They are set using
+		 * custom property notation (e.g., `--main-color: black;`) and are accessed
+		 * using the `var()` function (e.g., `color: var(--main-color);`).
+		 *
+		 * @see https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties
+		 */
+		[customProperty: `--${string}`]: string | number | undefined;
+
+		[any: string]: string;
+	}
 }
 // #endregion
 
