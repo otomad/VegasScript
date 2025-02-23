@@ -85,10 +85,13 @@ export default function ShellPage() {
 				<CommandBar>
 					{
 						...autoLayoutTracksMode ? [
-							<CommandBar.Item key="save" icon="save" onClick={() => { onSave?.(); back(); }}>{t.save}</CommandBar.Item>,
-							<CommandBar.Item key="applyToSelectedTracks" icon="arrow_sync_checkmark">{t.track.applyToSelectedTracks}</CommandBar.Item>,
+							<CommandBar.Item key="save" icon="save" caption={t.save} onClick={() => { onSave?.(); back(); }} />,
+							<CommandBar.Item key="applyToSelectedTracks" caption={t.track.applyToSelectedTracks} icon="arrow_sync_checkmark" />,
 						] : [
-							<CommandBar.Item key="complete" icon="checkmark" disabled={completeDisabled} canBeDisabled onClick={() => completeDisabled && alert("Cannot complete!")}>{t.complete}</CommandBar.Item>,
+							<CommandBar.Item
+								key="complete" icon="checkmark" caption={t.complete} disabled={completeDisabled} canBeDisabled
+								onClick={() => completeDisabled && alert("Cannot complete!")}
+							/>,
 						]
 					}
 				</CommandBar>

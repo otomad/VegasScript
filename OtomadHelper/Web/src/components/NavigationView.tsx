@@ -247,7 +247,7 @@ const StyledNavigationView = styled.div<{
 			}
 		}
 
-		&.minimal .command-bar {
+		&.minimal .title-wrapper > .title-wrapper-inner .command-bar {
 			inset-block-start: 4px !important;
 		}
 
@@ -326,41 +326,53 @@ const StyledNavigationView = styled.div<{
 				overflow-y: hidden;
 			}
 
-			> * > .container {
-				display: flex;
-				flex-direction: column;
-				gap: 6px;
-				margin-block-start: 2px;
-				inline-size: 100%;
-
-				&::after {
-					content: "";
-					block-size: 18px;
-				}
-
-				.card.media-pool > .base {
-					padding: 2px;
-				}
-
-				${({ $transitionName }) => forMap(CONTENT_ITEMS_ASSUMED_COUNT, i => css`
-					> :nth-child(${i}) {
-						animation: ${$transitionName === "jump" ? floatUp : ""}
-							300ms ${50 * (i - 1)}ms ${eases.easeOutMax} backwards;
+			> main {
+				@layer layout {
+					> * {
+						display: flex;
+						flex-direction: column;
+						gap: 6px;
+						inline-size: 100%;
 					}
-				`, 1)}
-
-				> .contents > * {
-					animation: inherit;
 				}
 
-				> div:is(:not([class]), .stack-panel):has(> button) {
-					display: flex;
-					flex-wrap: wrap;
-					gap: 8px;
+				> .container {
+					margin-block-start: 2px;
 
-					> button {
-						min-inline-size: 120px;
+					&::after {
+						content: "";
+						block-size: 18px;
 					}
+
+					.card.media-pool > .base {
+						padding: 2px;
+					}
+
+					${({ $transitionName }) => forMap(CONTENT_ITEMS_ASSUMED_COUNT, i => css`
+						> :nth-child(${i}) {
+							animation: ${$transitionName === "jump" ? floatUp : ""}
+								300ms ${50 * (i - 1)}ms ${eases.easeOutMax} backwards;
+						}
+					`, 1)}
+
+					> .contents > * {
+						animation: inherit;
+					}
+
+					> div:is(:not([class]), .stack-panel):has(> button) {
+						display: flex;
+						flex-wrap: wrap;
+						gap: 8px;
+
+						> button {
+							min-inline-size: 120px;
+						}
+					}
+				}
+
+				> .container-preview {
+					${styles.mixins.square("100%")};
+					position: absolute;
 				}
 			}
 
@@ -390,6 +402,7 @@ const StyledNavigationView = styled.div<{
 
 const StyledPage = styled.main`
 	container: page / inline-size;
+	position: relative;
 	display: flex;
 	min-block-size: 100%;
 	transition: none;

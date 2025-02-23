@@ -1,4 +1,6 @@
-// TODO: CSS Anchor Positioning API
+/** Only used for debugging during development, please ensure to be `false` in production. */
+const DEBUG_MODE = false;
+
 const StyledTooltip = styled.div<{
 	/** Tooltip offset (animation only). */
 	$offset: number;
@@ -7,24 +9,26 @@ const StyledTooltip = styled.div<{
 	position: fixed;
 	z-index: 80;
 	display: flex;
-	pointer-events: none;
 	transition: ${fallbackTransitions}, left 0s, top 0s;
+	${!DEBUG_MODE && css`pointer-events: none;`};
 
 	.base {
 		flex-shrink: 0;
 		max-width: 50dvw;
 		height: max-content;
 		padding: 6px 8px;
+		overflow: clip;
 		word-wrap: break-word;
 		overflow-wrap: break-word;
 		background-color: ${c("background-fill-color-acrylic-background-default")};
-		border: 1px solid ${c("stroke-color-surface-stroke-flyout")};
-		border-radius: 3px;
+		border-radius: 4px;
+		outline: 1px solid ${c("stroke-color-surface-stroke-flyout")};
 		box-shadow: 0 4px 8px ${c("shadows-flyout")};
 		backdrop-filter: blur(60px);
 
-		&:has(img) {
-			border-radius: 5px;
+		&:has(.tooltip-content) {
+			padding: 0;
+			border-radius: 7px;
 		}
 	}
 
@@ -81,7 +85,10 @@ const StyledTooltip = styled.div<{
 	}
 `;
 
-export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, children, ref }: FCP<{
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
+const canToString = (test: Object | undefined | null): test is string => !!test && !test.toString().match(/^\[object .*\]$/);
+
+export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, unwrapped, children, ref }: FCP<{
 	/** Tooltip content. */
 	title: ReactNode;
 	/** Tooltip placement. */
@@ -94,6 +101,8 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	disabled?: boolean;
 	/** Auto apply the tooltip title to aria label attribute of the target element? Defaults to true. */
 	applyAriaLabel?: boolean;
+	/** Do not wrap the child with a child wrapper. Please ensure that your child is exactly one element and forward the ref correctly. */
+	unwrapped?: boolean;
 	ref?: ForwardedRef<"section">;
 }>) {
 	const [shown, setShown] = useState(false);
@@ -114,9 +123,11 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 
 	useEffect(() => {
 		if (dom && title && applyAriaLabel) {
-			const ariaLabel = title.toString();
-			if (!ariaLabel.match(/^\[object .*\]$/))
-				dom.ariaLabel = ariaLabel;
+			if (canToString(title)) dom.ariaLabel = title.toString();
+			if (isReactInstance(title, TooltipContent)) {
+				if (canToString(title.props.title)) dom.ariaLabel = title.props.title.toString();
+				if (canToString(title.props.children)) dom.ariaDescription = title.props.children.toString();
+			}
 		}
 	}, [dom, title, applyAriaLabel]);
 
@@ -138,6 +149,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 
 	const handleUnhover = () => {
 		clearTimeout(shownTimeout.current);
+		if (DEBUG_MODE) return;
 		setShown(false);
 	};
 
@@ -148,10 +160,12 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 
 	return (
 		<>
-			<Contents className="tooltip-child-wrapper" ref={setContentsEl}>
-				{children}
-			</Contents>
-			{!disabled && (
+			{!unwrapped ? (
+				<Contents className="tooltip-child-wrapper" ref={setContentsEl}>
+					{children}
+				</Contents>
+			) : takeoverRef(children, setContentsEl)}
+			{!disabled && title && (
 				<Portal>
 					<CssTransition in={shown} unmountOnExit>
 						<StyledTooltip role="tooltip" $offset={offset} className={actualPlacement} style={position}>
@@ -169,11 +183,19 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 const StyledTooltipContent = styled.figure`
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
 
 	img {
 		max-width: 250px;
-		border-radius: 3px;
+	}
+
+	figcaption {
+		${styles.effects.text.body}
+		padding-block: 7px 9px;
+		padding-inline: 12px;
+
+		h6 {
+			${styles.effects.text.bodyStrong}
+		}
 	}
 
 	:only-child > img {
@@ -181,14 +203,21 @@ const StyledTooltipContent = styled.figure`
 	}
 `;
 
-function TooltipContent({ image, children, ...htmlAttrs }: FCP<{
+function TooltipContent({ image, title, children, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string;
+	/** Title. */
+	title?: ReactNode;
 }, "figure">) {
 	return (
 		<StyledTooltipContent {...htmlAttrs}>
 			{image && <Img src={image} />}
-			{children && <figcaption>{children}</figcaption>}
+			{(title || children) && (
+				<figcaption>
+					{title && <h6>{title}</h6>}
+					{children}
+				</figcaption>
+			)}
 		</StyledTooltipContent>
 	);
 }

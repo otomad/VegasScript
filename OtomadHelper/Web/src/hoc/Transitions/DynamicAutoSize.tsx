@@ -18,10 +18,5 @@ export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 			content.style.width = isStale ? content.offsetWidth + "px" : null!;
 	});
 
-	return React.Children.map(deferredChildren, child => {
-		if (!isValidElement(child)) return child;
-		return React.cloneElement(child as ReactElementWithDomRef, {
-			ref: el,
-		});
-	});
+	return takeoverRef(deferredChildren, el);
 }

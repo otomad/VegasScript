@@ -30,6 +30,10 @@ const StyledItemsView = styled.div<{
 		justify-content: center;
 		align-items: start;
 		transition: ${fallbackTransitions}, --grid-template-width ${eases.easeOutMax} 250ms;
+
+		&.auto-fill {
+			grid-template-columns: repeat(auto-fill, minmax(var(--grid-template-width), 1fr));
+		}
 	}
 
 	&:empty {
@@ -63,7 +67,7 @@ const StyledItemsView = styled.div<{
 export default function ItemsView<
 	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, ...htmlAttrs }: FCP<{
+>({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/**
@@ -91,6 +95,10 @@ export default function ItemsView<
 	role?: AriaRole | null;
 	/** Enable transition group for items view items. Passing a string represents it as the transition name. */
 	transition?: boolean | string;
+	/** Inline alignment (justify content). */
+	inlineAlignment?: CSSProperties["justifyContent"];
+	/** Auto fill items (grid view only). */
+	autoFill?: boolean;
 }, "div">) {
 	if (itemWidth === "square") itemWidth = GRID_VIEW_ITEM_HEIGHT;
 
@@ -113,9 +121,10 @@ export default function ItemsView<
 
 	return (
 		<StyledItemsView
-			className={[className, view]}
+			className={[className, view, { autoFill }]}
 			$itemWidth={itemWidth}
 			role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
+			style={{ ...style, justifyContent: inlineAlignment }}
 			{...htmlAttrs}
 		>
 			{(() => {

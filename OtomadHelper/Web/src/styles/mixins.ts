@@ -1,5 +1,4 @@
-import type { RuleSet } from "styled-components";
-import { setBorderRadius, type BorderRadiusPosition } from "./internal";
+import { type BorderRadiusPosition, setBorderRadius } from "./internal";
 
 type ResponsiveUnit = "v" | "dv" | "lv" | "sv" | "cq";
 
@@ -49,8 +48,8 @@ export default {
 					height: calc(var(--size) * 1${responsiveUnit}h);
 				`
 	) as {
-		(size: string, withSizeVar?: boolean): RuleSet<object>;
-		(size: number, withSizeVar: boolean, responsiveUnit?: ResponsiveUnit): RuleSet<object>;
+		(size: string, withSizeVar?: boolean): RuleSet;
+		(size: number, withSizeVar: boolean, responsiveUnit?: ResponsiveUnit): RuleSet;
 	},
 	/**
 	 * Become a oval.

@@ -18,7 +18,7 @@ const defaultClassName = {
  * @see [How to detect CSS flex wrap event](https://stackoverflow.com/q/40012428)
  * @see [flex wrap layout](https://github.com/tkrotoff/flex-wrap-layout)
  */
-export function useDetectWrappedElements(ref: RefObject<HTMLElement>, {
+export function useDetectWrappedElements(ref: RefObject<HTMLElement | null>, {
 	nextIsWrapped: nextIsWrappedClassName = defaultClassName.nextIsWrapped,
 	hasChildWrapped: hasChildWrappedClassName = defaultClassName.hasChildWrapped,
 } = {}) {

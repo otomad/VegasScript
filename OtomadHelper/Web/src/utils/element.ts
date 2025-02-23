@@ -50,18 +50,22 @@ export function hasRefInReactNode(reactNode: unknown): reactNode is { ref: RefOb
 	return !!(isObject(reactNode) && "props" in reactNode && isObject(reactNode.props) && "ref" in reactNode.props && reactNode.props.ref);
 }
 
+type AdditionalProps = AnyObject | ((props: AnyObject, element: ReactElement) => AnyObject);
+
 /**
  * Clones the provided children, replacing any refs with the provided nodeRef.
+ * @remark Both render tree parent and declaration tree parent own the ref of child.
  * @param children - The ReactNode to clone and replace refs.
  * @param nodeRef - The RefObject to use as the new ref for any cloned elements with a ref.
+ * @param additionalProps - Add additional custom props. You can also use a handler to return by getting the exist props, or keys.
  * @returns The cloned children with updated refs.
  */
-export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>) {
+export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>, additionalProps?: AdditionalProps): ReactNode {
 	return h(
 		Fragment,
 		null,
 		React.Children.map(children, (child: ReactNode) => {
-			if (!isValidElement(child)) return child;
+			if (!isValidElement<RefAttributes>(child)) return child;
 			if (hasRefInReactNode(child)) {
 				// useImperativeHandle(child.ref, () => nodeRef.current!, []);
 				// child.ref.current = nodeRef.current;
@@ -73,11 +77,27 @@ export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>
 					set: value => nodeRef.current = value,
 				});
 			}
-			return React.cloneElement(child as ReactElementWithDomRef, {
-				ref: nodeRef,
-			});
+			if (typeof additionalProps === "function") additionalProps = additionalProps(child.props, child);
+			return React.cloneElement(child, { ref: nodeRef, ...additionalProps });
 		}),
 	);
+}
+
+/**
+ * Clones the provided children, replacing any refs with the provided nodeRef.
+ * @remark This is a simple version of `cloneRef`.
+ * Only render tree parent take over the ref of child. Declaration tree parent will lose the ref of child.
+ * @param children - The ReactNode to clone and replace refs.
+ * @param nodeRef - The RefObject to use as the new ref for any cloned elements with a ref.
+ * @param additionalProps - Add additional custom props. You can also use a handler to return by getting the exist props, or keys.
+ * @returns The cloned children with updated refs.
+ */
+export function takeoverRef(children: ReactNode, nodeRef: React.Ref<Element | null>, additionalProps?: AdditionalProps): ReactNode {
+	return React.Children.map(children, child => {
+		if (!isValidElement<RefAttributes>(child)) return child;
+		if (typeof additionalProps === "function") additionalProps = additionalProps(child.props, child);
+		return React.cloneElement(child, { ref: nodeRef, ...additionalProps });
+	});
 }
 
 type TargetType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | null | undefined;

@@ -154,7 +154,7 @@ export default [
 			"no-return-assign": "off",
 			"no-redeclare": "off",
 			"@stylistic/no-mixed-operators": "off",
-			"@stylistic/no-extra-parens": ["error", "all", { "ignoreJSX": "multi-line" }],
+			"@stylistic/no-extra-parens": ["error", "all", { "ignoreJSX": "multi-line", "conditionalAssign": false }],
 			"no-void": ["off", { "allowAsStatement": true }], // 我就是要使用 void。
 			"no-labels": "off",
 			"default-case-last": "off",

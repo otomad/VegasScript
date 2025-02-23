@@ -3,8 +3,7 @@ import type _Immer from "immer";
 import type _LottieWeb from "lottie-web";
 import type React from "react";
 import type _ReactTransitionGroup from "react-transition-group-fc";
-import type * as ReactTransitionGroupCssTransition from "react-transition-group-fc/CSSTransition";
-import type * as ReactTransitionGroupTransition from "react-transition-group-fc/Transition";
+import type * as ReactTransitionGroup from "react-transition-group-fc";
 import type _StyledComponents from "styled-components";
 import type { StoreApi, UseBoundStore } from "zustand";
 
@@ -161,8 +160,8 @@ declare global {
 	export type ForwardedRef<T> = T extends keyof ElementTagNameMap ? React.ForwardedRef<ElementTagNameMap[T]> : React.ForwardedRef<T>;
 	export type AsTarget = keyof JSX.IntrinsicElements | React.ComponentType<PropsWithChildren>; // keyof JSX.IntrinsicElements ?≠ keyof ElementTagNameMap
 
-	export type CSSTransitionProps = Partial<ReactTransitionGroupCssTransition.CSSTransitionProps>;
-	export type TransitionProps = Partial<ReactTransitionGroupTransition.TransitionProps>;
+	export type CSSTransitionProps = Partial<ReactTransitionGroup.CSSTransitionProps>;
+	export type TransitionProps = Partial<ReactTransitionGroup.TransitionProps>;
 
 	export type { DropAnimationSideEffects } from "@dnd-kit/core";
 	export type { Property as CSSProperty } from "csstype";

@@ -4,6 +4,7 @@ const StackPanel = styled.div<{
 	$align?: CSSProperties["justifyContent"];
 	$endAlignWhenWrap?: boolean;
 	$nowrap?: boolean;
+	$sticky?: boolean;
 }>`
 	display: flex;
 	flex-direction: ${({ $direction = "horizontal" }) => $direction === "vertical" ? "column" : "row"};
@@ -21,6 +22,12 @@ const StackPanel = styled.div<{
 		> :not(:first-child) {
 			margin-inline-start: auto;
 		}
+	`)}
+
+	${ifProp("$sticky", css`
+		position: sticky;
+		top: 0;
+		z-index: 1;
 	`)}
 `;
 

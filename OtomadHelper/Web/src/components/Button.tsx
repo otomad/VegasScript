@@ -86,7 +86,7 @@ export /* @internal */ const StyledButton = styled.button<{
 	}
 
 	&.subtle {
-		.icon:has(+ :empty) {
+		&:not(.small-icon) .icon:has(+ :empty) {
 			font-size: 20px;
 		}
 
@@ -233,7 +233,7 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 	/** Button animated icon. */
 	animatedIcon?: DeclaredLotties;
 	/** Use background-less button? */
-	subtle?: boolean;
+	subtle?: boolean | "small-icon";
 	/** Use hyperlink button? */
 	hyperlink?: boolean;
 	/** Attach accent color to the button? */
@@ -259,7 +259,17 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 			ref={ref}
 			type="button"
 			role={hyperlink ? "link" : undefined}
-			className={[className, { subtle, hyperlink, extruded, minWidthUnbounded }, accent && typeof accent === "string" ? accent : "accent"]}
+			className={[
+				className,
+				{
+					subtle,
+					smallIcon: subtle === "small-icon",
+					hyperlink,
+					extruded,
+					minWidthUnbounded,
+				},
+				accent && typeof accent === "string" ? accent : "accent",
+			]}
 			$fillColorName={fillColorName}
 			$subtleFillColorName={subtleFillColorName}
 			$dirBased={dirBased}

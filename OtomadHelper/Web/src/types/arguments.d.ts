@@ -9,6 +9,26 @@ declare global {
 	/** Check box selection status. */
 	type CheckState = "unchecked" | "indeterminate" | "checked";
 
+	/** Positions from all sides. */
+	type Position =
+		/* eslint-disable @stylistic/no-multi-spaces */
+		|    "top left"   |    "top center" |    "top right"
+		| "center left"   | "center center" | "center right"
+		| "bottom left"   | "bottom center" | "bottom right"
+
+		|   "left top"    | "center top"    |  "right top"
+		|   "left center" | "center center" |  "right center"
+		|   "left bottom" | "center bottom" |  "right bottom"
+
+		|                        "top"
+		|          "left" |     "center"    | "right"
+		|                       "bottom"
+
+		|  "start start"  |  "start center" |  "start end"
+		| "center start"  | "center center" | "center end"
+		|    "end start"  |    "end center" |    "end end";
+		/* eslint-enable  @stylistic/no-multi-spaces */
+
 	type AnimatedIconState = AnimatedIconStateNS.Tuple | AnimatedIconStateNS.Object;
 
 	/** The status of info bar, badge, etc. */
@@ -77,8 +97,15 @@ declare global {
 	 */
 	type AriaRole = React.AriaRole;
 
-	/** React element with a HTML DOM element ref prop. */
-	type ReactElementWithDomRef = ReactElement<{ ref?: RefObject<Element | null> }>;
+	/**
+	 * The props any HTML DOM element accepting refs can receive.
+	 * @example
+	 * ```typescript
+	 * if (!React.isValidElement<RefAttributes>(child)) return child;
+	 * React.cloneElement(child, { ref })); // Now child has `ref` prop.
+	 * ```
+	 */
+	type RefAttributes = { ref?: Ref<Element | null> };
 
 	/** Audio or Visual. */
 	type StreamKind = "audio" | "visual";

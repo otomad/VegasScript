@@ -13,8 +13,8 @@ export default function Gradient() {
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
 
 	return (
-		<div className="container">
-			<Expander title={t.view} icon="apps_list" details={t.descriptions.track.view}>
+		<div className="container" style={{ marginBlockStart: 0 }}>
+			{/* <Expander title={t.view} icon="apps_list" details={t.descriptions.track.view}>
 				<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
 				<ToggleSwitch on={viewSquare} icon="grid">{t.track.grid.square}</ToggleSwitch>
 				<ToggleSwitch on={viewMirrorEdges} icon="image_reflection" lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
@@ -29,7 +29,17 @@ export default function Gradient() {
 					/>
 				</Expander.Item>
 			</Expander>
-			<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} />
+			<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} /> */}
+
+			<StickyPerceptibility method="scroll">
+				<StackPanel $align="flex-end" $sticky>
+					<CommandBar>
+						<CommandBar.Item icon="descending" caption={t.descending} details={t.descriptions.track.descending} />
+						<hr />
+						<CommandBar.Item iconOnly icon="apps_list" caption={t.view} details={t.descriptions.track.view} />
+					</CommandBar>
+				</StackPanel>
+			</StickyPerceptibility>
 
 			<ItemsView view="grid" current={effect} itemWidth={viewSize[0]}>
 				{gradients.map(id => (
