@@ -1,22 +1,15 @@
 /** Only used for debugging during development, please ensure to be `false` in production. */
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 
 const StyledTooltip = styled.div<{
 	/** Tooltip offset (animation only). */
-	// $offset: number;
+	$offset: number;
 }>`
+	${styles.mixins.square("0")};
 	position: fixed;
 	z-index: 80;
 	display: flex;
-	justify-self: anchor-center;
-	overflow: clip;
-	border: 1px solid ${c("stroke-color-surface-stroke-flyout")};
-	border-radius: 4px;
-	box-shadow: 0 4px 8px ${c("shadows-flyout")};
-	transition: ${fallbackTransitions}, inset 0s, margin 0s;
-	position-anchor: var(--anchor);
-	/* position-area: top; */
-	/* position-try-fallbacks: flip-block, flip-inline; */
+	transition: ${fallbackTransitions}, left 0s, top 0s;
 	${!DEBUG_MODE && css`pointer-events: none;`};
 
 	.base {
@@ -24,39 +17,22 @@ const StyledTooltip = styled.div<{
 		max-width: 50dvw;
 		height: max-content;
 		padding: 6px 8px;
+		overflow: clip;
 		word-wrap: break-word;
 		overflow-wrap: break-word;
 		background-color: ${c("background-fill-color-acrylic-background-default")};
+		border-radius: 4px;
+		outline: 1px solid ${c("stroke-color-surface-stroke-flyout")};
+		box-shadow: 0 4px 8px ${c("shadows-flyout")};
 		backdrop-filter: blur(60px);
 
 		&:has(.tooltip-content) {
 			padding: 0;
+			border-radius: 7px;
 		}
 	}
 
-	&:has(.tooltip-content) {
-		border-radius: 7px;
-	}
-
-	&.top {
-		bottom: anchor(top);
-		margin-bottom: var(--offset);
-		position-try-fallbacks: flip-block;
-	}
-
-	&.bottom {
-		top: anchor(bottom);
-		margin-top: var(--offset);
-		position-try-fallbacks: flip-block;
-	}
-
-	&.y {
-		bottom: anchor(top);
-		margin-bottom: var(--offset);
-		position-try-fallbacks: flip-block;
-	}
-
-	/* ${tgs()} {
+	${tgs()} {
 		.base {
 			opacity: 0;
 		}
@@ -80,7 +56,15 @@ const StyledTooltip = styled.div<{
 		`}
 	}
 
+	&.top {
+		justify-content: center;
+		align-items: flex-end;
+	}
 
+	&.bottom {
+		justify-content: center;
+		align-items: flex-start;
+	}
 
 	&.right {
 		justify-content: flex-start;
@@ -98,13 +82,13 @@ const StyledTooltip = styled.div<{
 		&:dir(rtl) {
 			justify-content: flex-start;
 		}
-	} */
+	}
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 const canToString = (test: Object | undefined | null): test is string => !!test && !test.toString().match(/^\[object .*\]$/);
 
-export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, children, ref }: FCP<{
+export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, unwrapped = true, children, ref }: FCP<{
 	/** Tooltip content. */
 	title: ReactNode;
 	/** Tooltip placement. */
@@ -117,17 +101,26 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	disabled?: boolean;
 	/** Auto apply the tooltip title to aria label attribute of the target element? Defaults to true. */
 	applyAriaLabel?: boolean;
+	/** Do not wrap the child with a child wrapper. Please ensure that your child is exactly one element and forward the ref correctly. */
+	unwrapped?: boolean;
 	ref?: ForwardedRef<"section">;
 }>) {
 	const [shown, setShown] = useState(false);
-	const [dom, setDom] = useDomRefState<"div">(); // Use state instead of ref to make sure change it to rerender.
-	// const tooltipEl = useDomRef<"div">();
-	// const [actualPlacement, setActualPlacement] = useState(placement);
-	// const [position, setPosition] = useState<CSSProperties>();
+	const [contentsEl, setContentsEl] = useDomRefState<"div">(); // Use state instead of ref to make sure change it to rerender.
+	const tooltipEl = useDomRef<"div">();
+	const [actualPlacement, setActualPlacement] = useState(placement);
+	const [position, setPosition] = useState<CSSProperties>();
 	const shownTimeout = useRef<Timeout>(undefined);
-	const anchorName = useUniqueId("--tooltip-anchor");
 
-	useImperativeHandle(ref, () => dom!);
+	useImperativeHandle(ref, () => contentsEl!);
+
+	const dom = useMemo(() => {
+		if (unwrapped) return contentsEl;
+		let dom = contentsEl?.firstElementChild;
+		while (dom && (getComputedStyle(dom).display === "contents" || dom.classList.contains("expander")))
+			dom = dom.firstElementChild;
+		return dom as HTMLElement | null;
+	}, [contentsEl]);
 
 	useEffect(() => {
 		if (dom && title && applyAriaLabel) {
@@ -144,14 +137,14 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 		if (!dom || !isInPath(e, dom)) return;
 		shownTimeout.current = setTimeout(async () => {
 			if (!dom) return;
-			// const options = getPosition(dom, placement, offset);
-			// setActualPlacement(options.placement);
-			// setPosition(options.style);
-			// setShown(true);
+			const options = getPosition(dom, placement, offset);
+			setActualPlacement(options.placement);
+			setPosition(options.style);
+			setShown(true);
 			await nextAnimationTick();
-			// const tooltip = tooltipEl.current;
-			// if (!tooltip) return;
-			// setPosition(moveIntoPage(tooltip, tooltip.parentElement!));
+			const tooltip = tooltipEl.current;
+			if (!tooltip) return;
+			setPosition(moveIntoPage(tooltip, tooltip.parentElement!, 1));
 		}, timeout);
 	};
 
@@ -161,23 +154,27 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 		setShown(false);
 	};
 
-	useEventListener(dom, "mouseenter", handleHover, undefined, [dom, title, placement, offset, timeout, disabled, children]);
-	useEventListener(dom, "mouseleave", handleUnhover, undefined, [dom]);
-	useEventListener(dom, "click", handleUnhover, undefined, [dom]);
-	useEventListener(window, "keydown", e => e.code === "Escape" && handleUnhover(), undefined, [dom]);
+	useEventListener(dom, "mouseenter", handleHover, undefined, [contentsEl, title, placement, offset, timeout, disabled, children]);
+	useEventListener(dom, "mouseleave", handleUnhover, undefined, [contentsEl]);
+	useEventListener(dom, "click", handleUnhover, undefined, [contentsEl]);
+	useEventListener(window, "keydown", e => e.code === "Escape" && handleUnhover(), undefined, [contentsEl]);
 
 	return (
 		<>
-			{takeoverRef(children, setDom, ({ style }) => ({ style: { ...style, anchorName } }))}
+			{!unwrapped ? (
+				<Contents className="tooltip-child-wrapper" ref={setContentsEl}>
+					{children}
+				</Contents>
+			) : takeoverRef(children, setContentsEl)}
 			{!disabled && title && (
 				<Portal>
-					{(shown || true) && (
-						<StyledTooltip role="tooltip" className={placement ?? "unknown"} style={{ "--anchor": anchorName, "--offset": offset + "px" }}>
-							<div className="base">
+					<CssTransition in={shown} unmountOnExit>
+						<StyledTooltip role="tooltip" $offset={offset} className={actualPlacement} style={position}>
+							<div className="base" ref={tooltipEl}>
 								{title}
 							</div>
 						</StyledTooltip>
-					)}
+					</CssTransition>
 				</Portal>
 			)}
 		</>

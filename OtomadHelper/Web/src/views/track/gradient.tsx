@@ -9,9 +9,7 @@ export default function Gradient() {
 		effect, descending: [descending, setDescending],
 		viewOverlay, viewSquare, viewMirrorEdges, viewSize,
 	} = selectConfig(c => c.track.gradient);
-
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
-
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
 
 	return (
@@ -38,7 +36,11 @@ export default function Gradient() {
 					<CommandBar>
 						<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
 						<hr />
-						<CommandBar.Item iconOnly icon="apps_list" caption={t.view} details={t.descriptions.track.view} />
+						<CommandBar.Item iconOnly icon="apps_list" caption={t.view} details={t.descriptions.track.view}>
+							<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
+							<ToggleSwitch on={viewSquare} icon="grid">{t.track.grid.square}</ToggleSwitch>
+							<ToggleSwitch on={viewMirrorEdges} icon="image_reflection" lock={viewOverlay[0] ? false : null}>{t.track.grid.mirrorEdges}</ToggleSwitch>
+						</CommandBar.Item>
 					</CommandBar>
 				</StackPanel>
 			</StickyPerceptibility>

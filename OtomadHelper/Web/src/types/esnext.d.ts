@@ -83,7 +83,7 @@ declare module "csstype" {
 		 */
 		[customProperty: `--${string}`]: string | number | undefined;
 
-		[any: string]: string;
+		[any: string]: string | number | undefined;
 	}
 }
 // #endregion

@@ -196,14 +196,14 @@ export function getPosition(rect: MaybeRef<DOMRect | Element>, placement?: Place
  * @param size - The dimensions of the element (only supported for tuple types).
  * @returns The new coordinates after moving into the page.
  */
-function moveIntoPage_tuple(location: TwoD, size: TwoD) {
+function moveIntoPage_tuple(location: TwoD, size: TwoD, outline: number = 0) {
 	const result = [...location] as typeof location;
 	const windowSize = [window.innerWidth, window.innerHeight];
 	for (let i = 0; i < 2; i++) {
-		if (result[i] + size[i] > windowSize[i])
-			result[i] = windowSize[i] - size[i];
-		if (result[i] < 0)
-			result[i] = 0;
+		if (result[i] + size[i] > windowSize[i] - outline)
+			result[i] = windowSize[i] - outline - size[i];
+		if (result[i] < outline)
+			result[i] = outline;
 	}
 	return result;
 }
@@ -214,7 +214,7 @@ function moveIntoPage_tuple(location: TwoD, size: TwoD) {
  * @param size - Tuple type dimensions of the element.
  * @returns The new coordinates after moving into the page.
  */
-export function moveIntoPage(location: MaybeRef<TwoD>, size?: MaybeRef<TwoD | DOMRect | undefined>): TwoD;
+export function moveIntoPage(location: MaybeRef<TwoD>, size?: MaybeRef<TwoD | DOMRect | undefined>, outline?: number): TwoD;
 /**
  * Detect element overflow. If the element exceeds the scope of the page, move it within the page.
  * @param element - HTML DOM element.
@@ -227,14 +227,14 @@ export function moveIntoPage(element: MaybeRef<HTMLElement>): { top: string; lef
  * @param adjustElement - The HTML DOM element to reposition.
  * @returns The new coordinate style declaration after moving into the page.
  */
-export function moveIntoPage(measureElement: MaybeRef<HTMLElement>, adjustElement?: MaybeRef<HTMLElement | undefined>): { top: string; left: string };
+export function moveIntoPage(measureElement: MaybeRef<HTMLElement>, adjustElement?: MaybeRef<HTMLElement | undefined>, outline?: number): { top: string; left: string };
 /**
  * Detect element overflow. If the element exceeds the scope of the page, move it within the page.
  * @param location - The coordinates of the element.
  * @param size - The dimensions of the element.
  * @returns The new coordinates after moving into the page.
  */
-export function moveIntoPage(location: MaybeRef<TwoD | HTMLElement>, size?: MaybeRef<TwoD | DOMRect | HTMLElement | undefined>) {
+export function moveIntoPage(location: MaybeRef<TwoD | HTMLElement>, size?: MaybeRef<TwoD | DOMRect | HTMLElement | undefined>, outline: number = 0) {
 	location = toValue(location);
 	size = toValue(size);
 	const adjustElementStyle = size instanceof Element && size.style;
@@ -247,7 +247,7 @@ export function moveIntoPage(location: MaybeRef<TwoD | HTMLElement>, size?: Mayb
 	}
 	if (size instanceof DOMRect)
 		size = [size.width, size.height];
-	const result = moveIntoPage_tuple(location, size as TwoD);
+	const result = moveIntoPage_tuple(location, size as TwoD, outline);
 	if (adjustElementStyle) {
 		const adjustment = (["left", "top"] as const).map(pos => parseFloat(adjustElementStyle[pos])) as TwoD;
 		location.forEach((original, i) => result[i] += adjustment[i] - original);

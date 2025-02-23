@@ -12,16 +12,16 @@ export /* @internal */ function CommandBarItem({ icon, caption, details, iconOnl
 }, "section"> & TransitionProps) {
 	const { transitionAttrs, htmlAttrs } = separateTransitionAttrs(buttonAndTransitionAttrs);
 	if (!caption) iconOnly = true;
-
+	const [showFlyout, setShowFlyout] = useState(false);
+	const anchorName = useUniqueId("--command-bar-item");
 	const tooltip = !iconOnly ? details : <Tooltip.Content title={caption}>{details}</Tooltip.Content>;
-
 	const button = (
 		<Button
 			icon={icon}
 			subtle="small-icon"
 			disabled={disabled}
 			minWidthUnbounded={iconOnly}
-			onClick={onClick}
+			onClick={e => { onClick?.(e); if (children) setShowFlyout(true); }}
 			{...htmlAttrs}
 		>
 			{!iconOnly && caption}
@@ -31,12 +31,13 @@ export /* @internal */ function CommandBarItem({ icon, caption, details, iconOnl
 	return (
 		<Tooltip title={tooltip} placement="y">
 			<CssTransition {...transitionAttrs}>
-				<div className="command-bar-item">
+				<div className="command-bar-item" style={{ anchorName }}>
 					{!canBeDisabled ? button : (
 						<DisabledButtonWrapper key="complete" disabled={disabled} onClick={onClick}>
 							{button}
 						</DisabledButtonWrapper>
 					)}
+					{children && <Flyout shown={[showFlyout, setShowFlyout]} anchorName={anchorName} position="bottom">{children}</Flyout>}
 				</div>
 			</CssTransition>
 		</Tooltip>
