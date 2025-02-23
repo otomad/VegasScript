@@ -6,11 +6,13 @@ const DEFAULT_ITEM_WIDTH = 325;
 
 export default function Gradient() {
 	const {
-		effect, descending,
+		effect, descending: [descending, setDescending],
 		viewOverlay, viewSquare, viewMirrorEdges, viewSize,
 	} = selectConfig(c => c.track.gradient);
 
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
+
+	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
 
 	return (
 		<div className="container" style={{ marginBlockStart: 0 }}>
@@ -34,7 +36,7 @@ export default function Gradient() {
 			<StickyPerceptibility method="scroll">
 				<StackPanel $align="flex-end" $sticky>
 					<CommandBar>
-						<CommandBar.Item icon="descending" caption={t.descending} details={t.descriptions.track.descending} />
+						<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
 						<hr />
 						<CommandBar.Item iconOnly icon="apps_list" caption={t.view} details={t.descriptions.track.view} />
 					</CommandBar>
@@ -53,7 +55,7 @@ export default function Gradient() {
 								mirrorEdges={viewMirrorEdges[0]}
 								overlay={viewOverlay[0]}
 								effect={id}
-								descending={descending[0]}
+								descending={descending}
 							/>
 						)}
 					>

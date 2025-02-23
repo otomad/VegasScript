@@ -29,7 +29,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, details, iconOnl
 	);
 
 	return (
-		<Tooltip title={tooltip} placement="y" unwrapped>
+		<Tooltip title={tooltip} placement="y">
 			<CssTransition {...transitionAttrs}>
 				<div className="command-bar-item">
 					{!canBeDisabled ? button : (

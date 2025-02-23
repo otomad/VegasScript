@@ -108,7 +108,7 @@ const ExpanderChildWrapper = styled.div`
 	}
 `;
 
-export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childItemsRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled, onToggle }: FCP<Override<PropsOf<typeof SettingsCard>, {
+export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childItemsRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled, onToggle, ref }: FCP<Override<PropsOf<typeof SettingsCard>, {
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/** Expanded initially? */
@@ -154,6 +154,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 		<div className="expander">
 			<ExpanderParent
 				{...settingsCardProps}
+				ref={ref}
 				type={childrenDisabled ? onClickWhenChildrenDisabled ? "button" : "container-but-button" : "expander"}
 				trailingIcon="chevron_down"
 				id={`${ariaId}-parent`}

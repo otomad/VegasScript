@@ -39,12 +39,12 @@ const StyledTopLeftButtons = styled.div`
 		position: relative;
 	}
 
-	&:not(.vertical) :nth-of-type(2) > ${NavButton} {
+	&:not(.vertical) ${NavButton}:nth-of-type(2) {
 		inset-block-start: 0;
 		inset-inline-start: ${navButtonSize.width}px;
 	}
 
-	&.vertical :nth-of-type(2) > ${NavButton} {
+	&.vertical ${NavButton}:nth-of-type(2) {
 		inset-block-start: ${navButtonSize.height}px;
 		inset-inline-start: 0;
 	}

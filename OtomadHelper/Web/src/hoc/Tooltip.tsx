@@ -88,7 +88,7 @@ const StyledTooltip = styled.div<{
 // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 const canToString = (test: Object | undefined | null): test is string => !!test && !test.toString().match(/^\[object .*\]$/);
 
-export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, unwrapped, children, ref }: FCP<{
+export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, unwrapped = true, children, ref }: FCP<{
 	/** Tooltip content. */
 	title: ReactNode;
 	/** Tooltip placement. */
@@ -115,6 +115,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	useImperativeHandle(ref, () => contentsEl!);
 
 	const dom = useMemo(() => {
+		if (unwrapped) return contentsEl;
 		let dom = contentsEl?.firstElementChild;
 		while (dom && (getComputedStyle(dom).display === "contents" || dom.classList.contains("expander")))
 			dom = dom.firstElementChild;
@@ -190,7 +191,7 @@ const StyledTooltipContent = styled.figure`
 
 	figcaption {
 		${styles.effects.text.body}
-		padding-block: 7px 9px;
+		padding-block: 8px;
 		padding-inline: 12px;
 
 		h6 {

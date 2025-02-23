@@ -143,7 +143,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ref, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -189,6 +189,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 			aria-describedby={`${ariaId}-details`}
 			tabIndex={tabIndex ?? type.in("container", "container-but-button") ? -1 : 0}
 			$trailingGap={trailingGap}
+			ref={ref}
 			{...htmlAttrs}
 		>
 			<div className="base">
