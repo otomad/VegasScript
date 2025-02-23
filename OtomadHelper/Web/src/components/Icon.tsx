@@ -31,12 +31,12 @@ export default function Icon(props: FCP<{
 	/** Keep the color of the icon itself? */
 	filled?: boolean;
 	children?: never;
-}, "i">): JSX.Element;
+}, "i">): React.JSX.Element;
 export default function Icon(props: FCP<{
 	/** Hold the place, but nothing shown? */
 	shadow: boolean;
 	children?: never;
-}, "i">): JSX.Element;
+}, "i">): React.JSX.Element;
 export default function Icon({ name, filled, shadow, className, ref, ...htmlAttrs }: FCP<{
 	/**
 	 * Icon file name.
