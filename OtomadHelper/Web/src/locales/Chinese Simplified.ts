@@ -666,7 +666,7 @@ export default {
 					black: "黑色",
 					contrast: "高对比度",
 				},
-				dialogMaterial: {
+				transparency: {
 					_: "对话框材质",
 					acrylic: "亚克力",
 					mica: "云母",
@@ -962,7 +962,11 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "AMOLED屏深色时",
-						systemContrast: "系统高对比度主题已打开，此时无法更改配色方案。",
+						systemContrast: "系统高对比度主题已启用，此时无法更改配色方案。",
+					},
+					transparency: {
+						reducedTransparency: "系统已禁用透明效果，此时该选项不一定生效。",
+						systemContrast: "系统高对比度主题已启用，此时该选项不一定生效。",
 					},
 				},
 				preference: {

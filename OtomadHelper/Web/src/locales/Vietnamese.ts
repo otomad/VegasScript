@@ -190,7 +190,7 @@ export default {
 				colorScheme: {
 					auto: "Tự động",
 				},
-				dialogMaterial: {},
+				transparency: {},
 			},
 			preference: {},
 			config: {},
@@ -265,6 +265,7 @@ export default {
 			settings: {
 				appearance: {
 					colorScheme: {},
+					transparency: {},
 				},
 				preference: {},
 			},

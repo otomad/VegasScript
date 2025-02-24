@@ -339,7 +339,7 @@ export function useSelectAll<T>([selected, setSelected]: StateProperty<T[]>, all
 }
 
 /**
- * Make `keydown` event fire only once.
+ * Make `keydown` event occur only once.
  * @param callback
  */
 export function useKeyDownOnce(callback: (e: KeyboardEvent, isMouseDown: boolean) => void, deps: DependencyList = []) {

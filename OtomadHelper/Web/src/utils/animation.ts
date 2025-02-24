@@ -93,12 +93,6 @@ export async function resetAnimation(element: HTMLElement) {
 	element.style.animation = null!;
 }
 
-/**
- * Did the user request to reduce the dynamic effect?
- * @returns User requested to reduce dynamic effects.
- */
-export const isPrefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 type StyleProperties = string & keyof FilterValueType<CSSStyleDeclaration, string>;
 type Keyframe = Partial<Override<Record<StyleProperties, Numberish>, { offset: number }>>;
 type Keyframes = Keyframe[];
@@ -199,7 +193,7 @@ export async function* animateSizeGenerator(
 ): AsyncGenerator<void, Animation | void, boolean> {
 	element = toValue(element);
 	if (!element) return;
-	if (isPrefersReducedMotion()) duration = 0;
+	if (useMediaQuery.reduceMotion({ noHook: true })) duration = 0;
 	let isHeightChanged = specified === "height" || specified === "both",
 		isWidthChanged = specified === "width" || specified === "both";
 	// element.classList.add("calc-size");

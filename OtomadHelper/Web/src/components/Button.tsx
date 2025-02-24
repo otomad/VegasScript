@@ -227,7 +227,7 @@ export /* @internal */ const StyledButton = styled.button<{
 	}
 `;
 
-export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, className, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
+export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, ariaHiddenForChildren, className, disabled, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Button animated icon. */
@@ -246,6 +246,8 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 	extruded?: boolean;
 	/** No min width? */
 	minWidthUnbounded?: boolean;
+	/** Add aria-hidden to children to prevent them from being read by screen readers. */
+	ariaHiddenForChildren?: boolean;
 	/** Mouse release button event. Only works with `RepeatButton`. */
 	onRelease?: BaseEventHandler;
 }, "button">) {
@@ -259,6 +261,8 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 			ref={ref}
 			type="button"
 			role={hyperlink ? "link" : undefined}
+			disabled={disabled}
+			aria-disabled={disabled}
 			className={[
 				className,
 				{
@@ -280,7 +284,7 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 			<StackPanel className="content" $nowrap>
 				{icon && <Icon name={icon} />}
 				{animatedIcon && <AnimatedIcon name={animatedIcon} />}
-				<span>{children}</span>
+				<span aria-hidden={ariaHiddenForChildren || undefined}>{children}</span>
 			</StackPanel>
 		</StyledButton>
 	);

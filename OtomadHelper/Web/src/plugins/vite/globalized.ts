@@ -101,7 +101,7 @@ export default (): VitePlugin => {
 
 		handleHotUpdate({ file }) {
 			file = file.replace(root, "");
-			const path = file.split("/").filter(folder => folder);
+			const path = file.split("/").filter(Boolean);
 			if (path[0] !== "src" || !path[1]) return;
 			throttledFn(path);
 		},

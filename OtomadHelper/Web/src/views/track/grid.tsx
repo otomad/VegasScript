@@ -42,23 +42,63 @@ const PreviewGrid = styled.div<{
 	}
 `;
 
+const xWidth = "1.25ex";
 const Determinant = styled.div`
 	display: grid;
 	grid-template-columns: 1fr auto 1fr;
 	gap: 6px;
-	align-self: center;
 	margin-block: 4px 16px;
 
-	p {
+	> * {
+		display: grid;
+		gap: inherit;
+	}
+
+	> :first-child {
+		grid-column: 2;
+		grid-template-columns: 1fr ${xWidth} 1fr;
+	}
+
+	> :last-child {
+		grid-column: 3;
+		grid-template-columns: ${xWidth} 1fr;
+		margin-inline-start: auto;
+	}
+
+	label {
+		${styles.effects.text.body};
 		align-content: center;
 	}
 
 	.multiply {
+		${styles.mixins.flexCenter()};
 		padding-block-end: 3px;
+		inline-size: ${xWidth};
+
+		&.shadow {
+			visibility: hidden;
+		}
 	}
 
 	.text-box {
 		inline-size: 200px;
+		transition: ${fallbackTransitions}, inline-size 0s;
+	}
+
+	@media (width < 750px) {
+		grid-template-columns: 1fr ${xWidth} 1fr ${xWidth} 1fr;
+
+		> * {
+			display: contents;
+		}
+
+		> :first-child {
+			${forMapFromTo(1, 3, 1, i => css`> :nth-child(${i - 1 + 4}) { grid-area: 2 / ${i}; }`)}
+		}
+
+		.text-box {
+			inline-size: unset;
+		}
 	}
 `;
 
@@ -69,11 +109,11 @@ export default function Grid() {
 	const radicand = Math.ceil(Math.sqrt(count));
 	const square = array[0] === "square";
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
+	const id = useId();
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
 
 	const setColumns = setStateInterceptor(_setColumns, input => clamp(input, 1, 100));
-
 	const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
 		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped : t.track.grid.mirrorEdges[direction][parity];
 	const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
@@ -143,12 +183,25 @@ export default function Grid() {
 				</PreviewGridContainer>
 
 				<Determinant>
-					<p>{t(square ? radicand : columns).track.grid.column}</p>
-					<p />
-					<p>{t(square ? radicand : rows).track.grid.row}</p>
-					<TextBox.Number value={square ? [radicand] : [columns, setColumns]} min={1} max={100} readOnly={square} />
-					<p className="multiply">×</p>
-					<TextBox.Number value={[rows]} min={1} max={100} readOnly />
+					<div>
+						<label htmlFor={id + "-column"}>{t(square ? radicand : columns).track.grid.column}</label>
+						<div />
+						<label htmlFor={id + "-row"}>{t(square ? radicand : rows).track.grid.row}</label>
+						<TextBox.Number id={id + "-column"} value={square ? [radicand] : [columns, setColumns]} min={1} max={100} readOnly={square} />
+						<label className="multiply">×</label>
+						<TextBox.Number id={id + "-row"} value={[rows]} min={1} max={100} readOnly />
+					</div>
+					<div>
+						<div />
+						<label htmlFor={id + "-padding"}>{t(padding[0]).track.grid.padding}</label>
+						<label className="multiply shadow" />
+						<Tooltip title={t.descriptions.track.grid.padding} placement="top" offset={28} unwrapped={false}>
+							<TextBox.Number
+								id={id + "-padding"} value={padding} min={0} max={50} defaultValue={0}
+								suffix={t.units.densityIndependentPixel}
+							/>
+						</Tooltip>
+					</div>
 				</Determinant>
 
 				{/* <SettingsCard title={t.track.grid.fastFill} icon="edit_lightning" disabled={square} appearance="secondary">
@@ -163,8 +216,7 @@ export default function Grid() {
 
 				<SettingsCard title={t.track.grid.padding} icon="image_border" details={t.descriptions.track.grid.padding}>
 					<TextBox.Number value={padding} min={0} max={50} defaultValue={0} suffix={t.units.densityIndependentPixel} />
-				</SettingsCard>
-				<SettingsCardToggleSwitch on={descending} title={t.descending} icon="descending" details={t.descriptions.track.descending} /> */}
+				</SettingsCard> */}
 			</div>
 		</>
 	);

@@ -36,6 +36,10 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 			icon={icon}
 			subtle="small-icon"
 			disabled={disabled}
+			aria-label={canToString(caption) ? caption : undefined}
+			aria-description={canToString(details) ? details : undefined}
+			aria-haspopup={!!children}
+			ariaHiddenForChildren
 			onMouseEnter={() => { if (hovering) showFlyout(); }}
 			onMouseLeave={() => { if (hovering) hideFlyoutLater(); }}
 			onClick={e => { if (hovering || !children) onClick?.(e); showFlyout(); }}
@@ -46,7 +50,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	);
 
 	return (
-		<Tooltip title={tooltip} placement="y" disabled={hovering}>
+		<Tooltip title={tooltip} placement="y" disabled={hovering} applyAriaLabel={false}>
 			<CssTransition {...transitionAttrs}>
 				<div className="command-bar-item" style={{ anchorName, "--icon-only": $p(iconOnly), "--too-narrow": $p(tooNarrow) }}>
 					{!canBeDisabled ? button : (

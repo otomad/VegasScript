@@ -685,7 +685,7 @@ export default {
 					black: "Black",
 					contrast: "High Contrast",
 				},
-				dialogMaterial: {
+				transparency: {
 					_: "Dialog material",
 					acrylic: "Acrylic",
 					mica: "Mica",
@@ -985,7 +985,11 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "for AMOLED dark only",
-						systemContrast: "The system high contrast theme has been turned on and the color scheme cannot be changed at this time.",
+						systemContrast: "The system high contrast theme is enabled and the color scheme cannot be changed at this time.",
+					},
+					transparency: {
+						reducedTransparency: "The transparency effects are disabled by the system and this option may not be effective at this time.",
+						systemContrast: "The system high contrast theme is enabled and this option may not be effective at this time.",
 					},
 				},
 				preference: {

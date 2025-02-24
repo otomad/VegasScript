@@ -49,6 +49,10 @@ const StyledSettingsPageControlMedia = styled(Card)<{
 		${ifColorScheme.contrast} & {
 			filter: blur(30px) url("#posterize");
 		}
+
+		@media (prefers-reduced-transparency: reduce) {
+			filter: none !important;
+		}
 	}
 
 	.toggle-switch-label {

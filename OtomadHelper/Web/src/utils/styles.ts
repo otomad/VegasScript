@@ -2,7 +2,6 @@
  * Forward modules from the `styles` directory.
  */
 
-import { highContrastMediaQuery } from "helpers/color-mode";
 import type { ColorNames, SystemColors } from "styles/colors";
 import eases from "styles/eases";
 import effects from "styles/effects";
@@ -356,23 +355,4 @@ export function getContrastiveColor(colorVar: string, alpha: number = 1) {
  */
 export function convertCamelStylePropertyToKebab(camel: string) {
 	return camel.startsWith("--") ? camel : new VariableName(camel).cssProperty;
-}
-
-/**
- * A hook to get if the system color scheme is forced-colors or prefers-contrast.
- * @note This is the system setting, not the manual setting.
- * @returns Is high contrast color scheme?
- */
-export function useIsSystemContrastScheme() {
-	const getMedia = () => window.matchMedia(highContrastMediaQuery);
-
-	const [contrast, setContrast] = useState(getMedia().matches);
-
-	useMountEffect(() => {
-		const media = getMedia();
-		media.onchange = ({ matches }) => setContrast(matches);
-		return () => { media.onchange = null; };
-	});
-
-	return contrast;
 }

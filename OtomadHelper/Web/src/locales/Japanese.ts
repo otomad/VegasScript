@@ -666,7 +666,7 @@ export default {
 					black: "ブラック",
 					contrast: "ハイコントラスト",
 				},
-				dialogMaterial: {
+				transparency: {
 					_: "ダイアログ素材",
 					acrylic: "アクリル",
 					mica: "マイカ",
@@ -962,7 +962,11 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "AMOLED ダークのみ",
-						systemContrast: "システムのハイコントラストテーマがオンになっており、現時点ではカラースキームを変更できません。",
+						systemContrast: "システムのハイコントラストテーマが有効になっており、現時点ではカラースキームを変更できません。",
+					},
+					transparency: {
+						reducedTransparency: "透過効果はシステムによって無効になっており、現時点ではこのオプションは有効になっていない場合があります。",
+						systemContrast: "システムのハイコントラストテーマが有効になっており、このオプションは現時点では有効になっていない可能性があります。",
 					},
 				},
 				preference: {

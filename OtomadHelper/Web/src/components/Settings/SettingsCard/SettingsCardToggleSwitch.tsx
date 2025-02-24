@@ -44,7 +44,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 						disabled={disabled}
 						resetTransitionOnChanging={resetTransitionOnChanging}
 						aria-label={applyAriaLabel(title)}
-						aria-hidden={!(isExpander && on)}
+						aria-hidden={!(isExpander && on) || undefined}
 					/>
 					{actions}
 				</>

@@ -1,7 +1,7 @@
 export function DoesBrowserSupportACertainFeature() {
 	return [
 		CSS.supports("interpolate-size: allow-keywords"),
-	].every(item => item);
+	].every(Boolean);
 }
 
 export function getBrowserName() {
@@ -9,11 +9,11 @@ export function getBrowserName() {
 	if (userAgent.includes("Edg"))
 		return "Microsoft Edge";
 	else if (userAgent.includes("Chrome"))
-		return "Chrome";
+		return "Google Chrome";
 	else if (userAgent.includes("Firefox"))
-		return "Firefox";
+		return "Mozilla Firefox";
 	else if (userAgent.includes("Safari"))
-		return "Safari";
+		return "Apple Safari";
 	else if (userAgent.includes("Opera"))
 		return "Opera";
 	else if (userAgent.includes("Trident") || userAgent.includes("MSIE"))

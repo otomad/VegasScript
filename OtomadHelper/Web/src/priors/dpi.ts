@@ -1,3 +1,7 @@
+/*
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio#monitoring_screen_resolution_or_zoom_level_changes
+ */
+
 let remove: (() => void) | null = null;
 
 const updatePixelRatio = () => {

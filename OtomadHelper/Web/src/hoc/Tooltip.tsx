@@ -85,9 +85,6 @@ const StyledTooltip = styled.div<{
 	}
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
-const canToString = (test: Object | undefined | null): test is string => !!test && !test.toString().match(/^\[object .*\]$/);
-
 export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, unwrapped = true, children, ref }: FCP<{
 	/** Tooltip content. */
 	title: ReactNode;
@@ -99,7 +96,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	timeout?: number;
 	/** Do not show the tooltip? */
 	disabled?: boolean;
-	/** Auto apply the tooltip title to aria label attribute of the target element? Defaults to true. */
+	/** Automatically apply the tooltip title to the target element's aria label attribute unless it already has the attribute or it is aria hidden? Defaults to true. */
 	applyAriaLabel?: boolean;
 	/** Do not wrap the child with a child wrapper. Please ensure that your child is exactly one element and forward the ref correctly. */
 	unwrapped?: boolean;
@@ -124,10 +121,10 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 
 	useEffect(() => {
 		if (dom && title && applyAriaLabel) {
-			if (canToString(title)) dom.ariaLabel = title.toString();
+			if (canToString(title)) dom.ariaLabel ||= title.toString();
 			if (isReactInstance(title, TooltipContent)) {
-				if (canToString(title.props.title)) dom.ariaLabel = title.props.title.toString();
-				if (canToString(title.props.children)) dom.ariaDescription = title.props.children.toString();
+				if (canToString(title.props.title)) dom.ariaLabel ||= title.props.title.toString();
+				if (canToString(title.props.children)) dom.ariaDescription ||= title.props.children.toString();
 			}
 		}
 	}, [dom, title, applyAriaLabel]);
@@ -157,7 +154,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	useEventListener(dom, "mouseenter", handleHover, undefined, [contentsEl, title, placement, offset, timeout, disabled, children]);
 	useEventListener(dom, "mouseleave", handleUnhover, undefined, [contentsEl]);
 	useEventListener(dom, "click", handleUnhover, undefined, [contentsEl]);
-	useEventListener(window, "keydown", e => e.code === "Escape" && handleUnhover(), undefined, [contentsEl]);
+	useEventListener(window, "keydown", handleUnhover, { capture: true }, [contentsEl]);
 
 	return (
 		<>

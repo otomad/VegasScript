@@ -28,9 +28,9 @@ const StyledCommandBar = styled.div`
 	.command-bar-item {
 		transition: all ${eases.easeInOutFluent} 500ms;
 
-		main.page:is(.enter, .exit) & {
+		/* main.page:is(.enter, .exit) & {
 			--too-narrow: false !important;
-		}
+		} */
 
 		.button {
 			transition: ${fallbackTransitions}, min-inline-size 0s;
@@ -131,15 +131,31 @@ function useIsCommandBarOverflowed(element: MaybeRef<HTMLElement | null>) {
 		const el = toValue(element);
 		if (!el) return;
 
-		const observer = new IntersectionObserver(
-			([e]) => setOverflowed(e.intersectionRatio < 1),
-			{
-				// rootMargin: "-1px 0px 0px 0px",
-				threshold: [1],
-			},
-		);
-		observer.observe(el);
-		return () => observer.disconnect();
+		const page = el.closest("main.page");
+		if (page) { // In special circumstances of laziness, determine whether it is in the main page.
+			const determine = () => {
+				const { left, right } = el.getBoundingClientRect();
+				const { left: pageLeft, right: pageRight } = page.getBoundingClientRect();
+				setOverflowed(left < pageLeft || right > pageRight);
+			};
+			const observer = new MutationObserver(determine);
+			observer.observe(page, { attributeFilter: ["class"] });
+			window.addEventListener("resize", determine);
+			return () => {
+				observer.disconnect();
+				window.removeEventListener("resize", determine);
+			};
+		} else {
+			const observer = new IntersectionObserver(
+				([e]) => setOverflowed(e.intersectionRatio < 1),
+				{
+					// rootMargin: "-1px 0px 0px 0px",
+					threshold: [1],
+				},
+			);
+			observer.observe(el);
+			return () => observer.disconnect();
+		}
 	});
 
 	return overflowed;

@@ -71,4 +71,12 @@ import dedent from "dedent";
 	makePrototypeKeysNonEnumerable(String);
 }
 
+/**
+ * Verify that the object's toString output is meaningful and human-readable, rather than the default implementation "[object *]".
+ * @param test - The object to test.
+ * @returns The object's toString output doesn't match "[object *]".
+ */
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
+export const canToString = (test: Object | undefined | null): test is string => !!test && !test.toString().match(/^\[object .*\]$/);
+
 export { default as replacerWithGroups } from "helpers/replacerWithGroups";

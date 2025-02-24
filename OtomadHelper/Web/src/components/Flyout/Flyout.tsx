@@ -84,7 +84,9 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	shown?: StateProperty<boolean>;
 	/** Auto set root inert when flyout shown? */
 	autoInert?: boolean;
+	/** @private */
 	_commandBarAnchorName?: string;
+	/** @private */
 	_horizontalPosition?: Position;
 }, "div">) {
 	const flyoutEl = useDomRef<"div">();

@@ -7,6 +7,9 @@ const GlobalStyle = createGlobalStyle<{
 	/** Has the page loaded completely? */
 	$ready?: boolean;
 }>`
+	/* stylelint-disable selector-id-pattern */
+	/* stylelint-disable selector-class-pattern */
+
 	${globalColors()};
 	${fakeAnimations};
 

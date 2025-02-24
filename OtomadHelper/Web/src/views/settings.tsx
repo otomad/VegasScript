@@ -8,7 +8,8 @@ export /* @internal */ const systemBackdrops = [
 export default function Settings() {
 	const [language, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
-	const systemContrast = useIsSystemContrastScheme();
+	const systemContrast = useMediaQuery.contrast();
+	const reduceTransparency = useMediaQuery.reduceTransparency();
 	const schemes = ["light", "dark", "auto"] as const;
 	const { scheme: [scheme, setScheme], amoledDark: [amoledDark, setAmoledDark], contrast: [contrast, setContrast] } = useStoreState(colorModeStore);
 	const {
@@ -150,7 +151,7 @@ export default function Settings() {
 				)}
 			</Expander>
 			<ExpanderRadio
-				title={t.settings.appearance.dialogMaterial}
+				title={t.settings.appearance.transparency}
 				icon="glass"
 				expanded
 				view="grid"
@@ -158,8 +159,12 @@ export default function Settings() {
 				items={systemBackdrops}
 				value={systemBackdrop}
 				idField="name"
-				nameField={t.settings.appearance.dialogMaterial}
+				nameField={t.settings.appearance.transparency}
 				imageField={({ name }) => <PreviewBackdrop type={name} />}
+				before={
+					reduceTransparency && <InfoBar status="warning">{t.descriptions.settings.appearance.transparency.reducedTransparency}</InfoBar> ||
+					systemContrast && <InfoBar status="warning">{t.descriptions.settings.appearance.transparency.systemContrast}</InfoBar>
+				}
 			/>
 			<Expander
 				title={t.settings.appearance.uiScale}

@@ -266,7 +266,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 	}
 `;
 
-export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, _inputAttrs: inputAttrs, onChange, onChanging, onInput, onKeyDown, ref, ...htmlAttrs }: FCP<{
+export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, id, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, _inputAttrs: inputAttrs, onChange, onChanging, onInput, onKeyDown, ref, ...htmlAttrs }: FCP<{
 	/** The value of the input box. */
 	value: StateProperty<string>;
 	/** Content placeholder. */
@@ -294,7 +294,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 	"aria-disabled"?: never;
 	"aria-readonly"?: never;
 }, "div">) {
-	const inputId = useId();
+	const inputId = id || useId();
 	const inputEl = useDomRef<"input">();
 	useImperativeHandleRef(ref, inputEl);
 

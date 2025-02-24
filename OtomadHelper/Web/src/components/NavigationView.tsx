@@ -201,14 +201,6 @@ const StyledNavigationView = styled.div<{
 			}
 		}
 
-		&.show-flyout {
-			*,
-			::before,
-			::after {
-				pointer-events: none !important;
-			}
-		}
-
 		&.minimal > .title-wrapper {
 			margin-block-start: 40px;
 		}
@@ -478,6 +470,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	const [isNavItemsOverflowing, setIsNavItemsOverflowing] = useState(false);
 	const navItemsEl = useDomRef<"div">();
 	const focusable = !flyout && paneDisplayMode === "minimal" ? false : isFlyoutShown === flyout;
+	const covered = !flyout && isFlyoutShown;
 
 	const getNavItemNode = useCallback((item: typeof navItems[number], index: number) => {
 		if ("type" in item) return item.type === "hr" ? <hr key={index} /> : undefined;
@@ -516,7 +509,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	}, []);
 
 	return (
-		<div className={["left", paneDisplayMode, { flyout, covered: !flyout && isFlyoutShown }]} aria-hidden={paneDisplayMode === "minimal"}>
+		<div className={["left", paneDisplayMode, { flyout, covered }]} aria-hidden={paneDisplayMode === "minimal" || covered}>
 			<TopLeftButtons shadow paneDisplayMode={isCompact ? "compact" : paneDisplayMode} />
 			<div
 				ref={navItemsEl}
@@ -686,56 +679,57 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 					"hairtail",
 					{
 						minimal: paneDisplayMode === "minimal",
-						showFlyout: flyoutDisplayMode !== "minimal",
 					},
 				]}
 				onClick={hideFlyoutNavMenu}
 			>
-				<div className="title-wrapper">
-					<div className="title-wrapper-inner">
-						<div>
-							<TransitionGroup>
-								<CssTransition key={pageTitleKey.join()}>
-									<h1 className="title" role="navigation" aria-label="Breadcrumb">
-										<TransitionGroup>
-											{titles.flatMap((title, i, { length }) => {
-												const last = i === length - 1;
-												const crumb = (
-													<div
-														key={i}
-														className={["crumb", { parent: !last }]}
-														tabIndex={last ? -1 : 0}
-														role="link"
-														aria-current={last && "page"}
-														onClick={() => title.link?.length && currentNav[1]?.(title.link)}
-													>
-														{title.name}
-													</div>
-												);
-												const result = [crumb];
-												if (!last) result.push(<BreadCrumbChevronRight key={i + "-chevron"} />);
-												return result.map((node, j) =>
-													<CssTransition key={i + "-" + j}>{node}</CssTransition>);
-											})}
-										</TransitionGroup>
-									</h1>
-								</CssTransition>
-							</TransitionGroup>
+				<Inert inert={flyoutDisplayMode !== "minimal"}>
+					<div className="title-wrapper">
+						<div className="title-wrapper-inner">
+							<div>
+								<TransitionGroup>
+									<CssTransition key={pageTitleKey.join()}>
+										<h1 className="title" role="navigation" aria-label="Breadcrumb">
+											<TransitionGroup>
+												{titles.flatMap((title, i, { length }) => {
+													const last = i === length - 1;
+													const crumb = (
+														<div
+															key={i}
+															className={["crumb", { parent: !last }]}
+															tabIndex={last ? -1 : 0}
+															role="link"
+															aria-current={last && "page"}
+															onClick={() => title.link?.length && currentNav[1]?.(title.link)}
+														>
+															{title.name}
+														</div>
+													);
+													const result = [crumb];
+													if (!last) result.push(<BreadCrumbChevronRight key={i + "-chevron"} />);
+													return result.map((node, j) =>
+														<CssTransition key={i + "-" + j}>{node}</CssTransition>);
+												})}
+											</TransitionGroup>
+										</h1>
+									</CssTransition>
+								</TransitionGroup>
+							</div>
+							<section className="command-bar">
+								{commandBar}
+							</section>
 						</div>
-						<section className="command-bar">
-							{commandBar}
-						</section>
 					</div>
-				</div>
-				<div className={["page-content", transitionName]} ref={pageContentEl} id={pageContentId}>
-					<SwitchTransition mode={transitionName === "jump" ? "out-in" : "out-in-preload"}>
-						<CssTransition key={pagePath} onEnter={scrollToTopOrPrevious} moreCoherentWhenCombo>
-							<StyledPage>
-								{children}
-							</StyledPage>
-						</CssTransition>
-					</SwitchTransition>
-				</div>
+					<div className={["page-content", transitionName]} ref={pageContentEl} id={pageContentId}>
+						<SwitchTransition mode={transitionName === "jump" ? "out-in" : "out-in-preload"}>
+							<CssTransition key={pagePath} onEnter={scrollToTopOrPrevious} moreCoherentWhenCombo>
+								<StyledPage>
+									{children}
+								</StyledPage>
+							</CssTransition>
+						</SwitchTransition>
+					</div>
+				</Inert>
 			</div>
 		</StyledNavigationView>
 	);

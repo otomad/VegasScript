@@ -70,7 +70,7 @@ export default function SettingsAbout() {
 						<Link href="https://github.com/otomad/OtomadHelper">{t.settings.about.repositoryLink}</Link>
 						<Link href="https://github.com/otomad/OtomadHelper/issues">{t.settings.about.feedback}</Link>
 						<Link href="https://www.gnu.org/licenses/gpl-3.0.html">{t.settings.about.license}</Link>
-						<Link onClick={() => setShowTranslators(true)}>{t.settings.about.translators}</Link>
+						<Link onClick={() => setShowTranslators(true)} aria-haspopup="dialog">{t.settings.about.translators}</Link>
 						<Link href={CONTRIBUTE_TRANSLATION_LINK}>{t.settings.about.translation}</Link>
 					</div>
 					<Translators shown={[showTranslators, setShowTranslators]} />
