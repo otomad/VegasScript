@@ -130,6 +130,7 @@ const GlobalStyle = createGlobalStyle<{
 		text-rendering: optimizeLegibility;
 		tab-size: 4;
 		background-color: var(--background-color);
+		touch-action: manipulation;
 		transition: ${fallbackTransitions}, width 0s, height 0s;
 		color-scheme: dark;
 		accent-color: var(--accent-color);

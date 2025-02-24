@@ -29,24 +29,29 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	const showFlyout = () => { clearTimeout(hideTimeout.current); if (children) { useEvent("app:hideOtherFlyouts", anchorName); setFlyoutShown(true); } };
 	const hideFlyoutLater = () => { hideTimeout.current = setTimeout(() => setFlyoutShown(false), HIDE_DELAY); };
 	useListen("app:hideOtherFlyouts", exceptId => { if (exceptId !== anchorName) { clearTimeout(hideTimeout.current); setFlyoutShown(false); } });
+	const [isMouse, _setIsMouse] = useState(true);
+	const checkIsMouse = (e: PointerEvent) => { const result = e.pointerType === "mouse"; _setIsMouse(result); return result; };
 
 	const tooltip = iconOnly || altCaption ? <Tooltip.Content title={caption}>{details}</Tooltip.Content> : details;
 	const button = (
-		<Button
-			icon={icon}
-			subtle="small-icon"
-			disabled={disabled}
-			aria-label={canToString(caption) ? caption : undefined}
-			aria-description={canToString(details) ? details : undefined}
-			aria-haspopup={!!children}
-			ariaHiddenForChildren
-			onMouseEnter={() => { if (hovering) showFlyout(); }}
-			onMouseLeave={() => { if (hovering) hideFlyoutLater(); }}
-			onClick={e => { if (hovering || !children) onClick?.(e); showFlyout(); }}
-			{...htmlAttrs}
+		<ClickOnSameElement
+			onClick={e => { if (hovering && checkIsMouse(e) || !children) onClick?.(e); showFlyout(); }}
 		>
-			{altCaption || caption}
-		</Button>
+			<Button
+				icon={icon}
+				subtle="small-icon"
+				disabled={disabled}
+				aria-label={canToString(caption) ? caption : undefined}
+				aria-description={canToString(details) ? details : undefined}
+				aria-haspopup={!!children}
+				ariaHiddenForChildren
+				onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyout(); }}
+				onPointerLeave={e => { if (hovering && checkIsMouse(e)) hideFlyoutLater(); }}
+				{...htmlAttrs}
+			>
+				{altCaption || caption}
+			</Button>
+		</ClickOnSameElement>
 	);
 
 	return (
@@ -63,13 +68,13 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 							shown={[flyoutShown, setFlyoutShown]}
 							anchorName={anchorName}
 							position="bottom"
-							autoInert={!hovering}
+							autoInert={!(hovering && isMouse)}
 							_commandBarAnchorName={commandBarAnchorName}
 							_horizontalPosition={position}
-							onMouseEnter={() => { if (hovering) showFlyout(); }}
-							onMouseLeave={() => { if (hovering) hideFlyoutLater(); }}
+							onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyout(); }}
+							onPointerLeave={e => { if (hovering && checkIsMouse(e)) hideFlyoutLater(); }}
 						>
-							{hovering && (
+							{(hovering || !isMouse) && (
 								<>
 									<div className="descriptions">
 										{(iconOnly || altCaption || tooNarrow) && <h6>{caption}</h6>}

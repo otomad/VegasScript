@@ -137,7 +137,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	const flyoutEl = useDomRef<"div">();
 	const close = () => setShown?.(false);
 	useEventListener(window, "keydown", e => e.code === "Escape" && close());
-	useEventListener(window, "pointerdown", e => autoInert && !isInPath(e, flyoutEl) && close(), { capture: true });
+	useEventListener(window, "pointerdown", e => autoInert && !isInPath(e, flyoutEl) && close(), { capture: true }, [autoInert]);
 
 	useEffect(() => {
 		if (!autoInert) return;

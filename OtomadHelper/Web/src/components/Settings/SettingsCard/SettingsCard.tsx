@@ -143,7 +143,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ref, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ref, onClick, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -180,66 +180,68 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	const ariaId = useId();
 
 	return (
-		<StyledSettingsCard
-			as={type === "container" ? "div" : "button"}
-			className={[className, type === "container-but-button" ? "container" : type === "expander" ? "expander-parent" : type, { secondary: appearance === "secondary" }]}
-			disabled={disabled}
-			aria-disabled={disabled || undefined}
-			aria-labelledby={`${ariaId}-title`}
-			aria-describedby={`${ariaId}-details`}
-			tabIndex={tabIndex ?? type.in("container", "container-but-button") ? -1 : 0}
-			$trailingGap={trailingGap}
-			ref={ref}
-			{...htmlAttrs}
-		>
-			<div className="base">
-				<SettingsCardBase
-					leading={(
-						<>
-							{dragHandle && (
-								<>
-									<div className="drag-handle-shadow" ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
-									<Icon name="reorder_dots" className="drag-handle-icon" />
-								</>
-							)}
-							{typeof icon === "object" ? icon : <Icon name={icon} />}
-							<Transitions.DynamicAutoSize specified="height" lockSize={_lockContentSize}>
-								<div className="text">
-									<p className="title" id={`${ariaId}-title`} aria-hidden><Preserves>{title}</Preserves></p>
-									<p className="details" id={`${ariaId}-details`} aria-hidden><Preserves>{details}</Preserves></p>
-									<SettingsCardSelectInfo valid={selectValid}>{selectInfo}</SettingsCardSelectInfo>
-								</div>
-							</Transitions.DynamicAutoSize>
-						</>
-					)}
-					trailing={(
-						<>
-							{flattenReactChildren(children).map((child, i) => {
-								const propsWithDisabled = {
-									key: (() => {
-										const key = isObject(child) && "key" in child && child.key;
-										return key == null || key === false ? i : key;
-									})(),
-									disabled: disabled ?? false,
-									"aria-disabled": disabled || undefined,
-								};
-								// React dislike using key with spread operator in JSX, but in React.cloneElement you have to do this,
-								// so treat it individually.
-								const { key: _key, ...propsWithDisabledWithoutKey } = propsWithDisabled;
-								return !isValidElement(child) ?
-									!child ? child : <p key={i} {...propsWithDisabledWithoutKey}>{child}</p> :
-									React.cloneElement(child, propsWithDisabled);
-							})}
-							{trailingIcon && typeof trailingIcon === "string" && (
-								<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>
-									<Icon name={trailingIcon} />
-								</div>
-							)}
-						</>
-					)}
-				/>
-			</div>
-		</StyledSettingsCard>
+		<ClickOnSameElement onClick={onClick as never}>
+			<StyledSettingsCard
+				as={type === "container" ? "div" : "button"}
+				className={[className, type === "container-but-button" ? "container" : type === "expander" ? "expander-parent" : type, { secondary: appearance === "secondary" }]}
+				disabled={disabled}
+				aria-disabled={disabled || undefined}
+				aria-labelledby={`${ariaId}-title`}
+				aria-describedby={`${ariaId}-details`}
+				tabIndex={tabIndex ?? type.in("container", "container-but-button") ? -1 : 0}
+				$trailingGap={trailingGap}
+				ref={ref}
+				{...htmlAttrs}
+			>
+				<div className="base">
+					<SettingsCardBase
+						leading={(
+							<>
+								{dragHandle && (
+									<>
+										<div className="drag-handle-shadow" ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
+										<Icon name="reorder_dots" className="drag-handle-icon" />
+									</>
+								)}
+								{typeof icon === "object" ? icon : <Icon name={icon} />}
+								<Transitions.DynamicAutoSize specified="height" lockSize={_lockContentSize}>
+									<div className="text">
+										<p className="title" id={`${ariaId}-title`} aria-hidden><Preserves>{title}</Preserves></p>
+										<p className="details" id={`${ariaId}-details`} aria-hidden><Preserves>{details}</Preserves></p>
+										<SettingsCardSelectInfo valid={selectValid}>{selectInfo}</SettingsCardSelectInfo>
+									</div>
+								</Transitions.DynamicAutoSize>
+							</>
+						)}
+						trailing={(
+							<>
+								{flattenReactChildren(children).map((child, i) => {
+									const propsWithDisabled = {
+										key: (() => {
+											const key = isObject(child) && "key" in child && child.key;
+											return key == null || key === false ? i : key;
+										})(),
+										disabled: disabled ?? false,
+										"aria-disabled": disabled || undefined,
+									};
+									// React dislike using key with spread operator in JSX, but in React.cloneElement you have to do this,
+									// so treat it individually.
+									const { key: _key, ...propsWithDisabledWithoutKey } = propsWithDisabled;
+									return !isValidElement(child) ?
+										!child ? child : <p key={i} {...propsWithDisabledWithoutKey}>{child}</p> :
+										React.cloneElement(child, propsWithDisabled);
+								})}
+								{trailingIcon && typeof trailingIcon === "string" && (
+									<div className={["trailing-icon", TRAILING_EXEMPTION]} data-type={type}>
+										<Icon name={trailingIcon} />
+									</div>
+								)}
+							</>
+						)}
+					/>
+				</div>
+			</StyledSettingsCard>
+		</ClickOnSameElement>
 	);
 }
 
