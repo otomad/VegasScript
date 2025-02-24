@@ -2,10 +2,18 @@ const StyledFlyoutItem = styled.div`
 	display: flex;
 	gap: 12px;
 	align-items: center;
-	margin-inline: 4px;
 	padding-block: 8px;
 	padding-inline: 13px 12px;
 	border-radius: 4px;
+
+	@layer layout {
+		margin-inline: 4px;
+
+		.flyout.padding-x &,
+		.flyout.padding-xy & {
+			margin-inline: 0;
+		}
+	}
 
 	p.title {
 		${styles.mixins.hideIfEmpty()};

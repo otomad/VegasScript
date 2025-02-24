@@ -76,7 +76,8 @@ export const styles = {
 	 *
 	 * @param value
 	 * - If the value passed in is a number, its corresponding pixel value is returned;
-	 * if the value passed in is a string, the original string value is retained.
+	 * if the value passed in is a string, the original string value is returned;
+	 * if the value passed in is an undefined, the undefined is returned.
 	 * - The CSS value, a number (treat as px unit) or a string.
 	 *
 	 * @returns The CSS value of the given value.

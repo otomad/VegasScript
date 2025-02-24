@@ -8,8 +8,10 @@ export default function Portal({ container = "#popovers", children }: FCP<{
 	 *
 	 * In addition, passing strings directly is also supported, and `document.querySelector()` will be called automatically.
 	 */
-	container?: Element | DocumentFragment | string;
-}>): React.ReactPortal {
+	container?: Element | DocumentFragment | string | false;
+}>) {
+	if (container === false) return children;
+
 	if (typeof container === "string")
 		container = document.querySelector(container)!;
 

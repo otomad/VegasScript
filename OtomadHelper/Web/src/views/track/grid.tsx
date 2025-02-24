@@ -102,6 +102,7 @@ const Determinant = styled.div`
 	}
 `;
 
+const TOOLTIP_OFFSET = 28;
 export default function Grid() {
 	const { columns: [columns, _setColumns], array, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding } = selectConfig(c => c.track.grid);
 	const count = 25;
@@ -109,7 +110,10 @@ export default function Grid() {
 	const radicand = Math.ceil(Math.sqrt(count));
 	const square = array[0] === "square";
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
-	const id = useId();
+	const id = useUniqueId("grid-view"), columnAnchorName = "--" + id + "-column";
+	const [fastFillShown, setFastFillShown] = useState(false);
+	const columnReadonly = square;
+	const columnInputRef = useDomRef<"input">();
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
 
@@ -118,6 +122,31 @@ export default function Grid() {
 		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped : t.track.grid.mirrorEdges[direction][parity];
 	const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
 		parity === "unflipped" ? "prohibited" : `parity_${parity}_${field}s`;
+
+	const fastFillFlyout = (
+		<Flyout
+			anchorName={columnAnchorName}
+			position="top"
+			shown={[fastFillShown, setFastFillShown]}
+			autoPadding="xy"
+			portal={false}
+			hideDelay={50}
+			offset={TOOLTIP_OFFSET}
+		>
+			<Flyout.Item icon="edit_lightning" title={t.track.grid.fastFill} style={{ paddingInlineStart: "12px" }} />
+			<div className="items">
+				<FastFillOptions
+					columns={[columns, setColumns]} inputRef={columnInputRef} options={[
+						{ id: "min", value: 1 },
+						{ id: "max", value: 100 },
+						{ id: "square", value: radicand },
+						{ id: "transpose", value: rows, unselected: true },
+						{ id: "numberOfSelectedTracks", value: count },
+					]}
+				/>
+			</div>
+		</Flyout>
+	);
 
 	return (
 		<>
@@ -187,7 +216,12 @@ export default function Grid() {
 						<label htmlFor={id + "-column"}>{t(square ? radicand : columns).track.grid.column}</label>
 						<div />
 						<label htmlFor={id + "-row"}>{t(square ? radicand : rows).track.grid.row}</label>
-						<TextBox.Number id={id + "-column"} value={square ? [radicand] : [columns, setColumns]} min={1} max={100} readOnly={square} />
+						<EventInjector onFocusIn={() => !columnReadonly && setFastFillShown(true)} onFocusOut={() => setFastFillShown(false)}>
+							<TextBox.Number
+								id={id + "-column"} value={square ? [radicand] : [columns, setColumns]} min={1} max={100} readOnly={columnReadonly}
+								style={{ anchorName: columnAnchorName }} customFlyout={fastFillFlyout} inputRef={columnInputRef}
+							/>
+						</EventInjector>
 						<label className="multiply">×</label>
 						<TextBox.Number id={id + "-row"} value={[rows]} min={1} max={100} readOnly />
 					</div>
@@ -195,7 +229,7 @@ export default function Grid() {
 						<div />
 						<label htmlFor={id + "-padding"}>{t(padding[0]).track.grid.padding}</label>
 						<label className="multiply shadow" />
-						<Tooltip title={t.descriptions.track.grid.padding} placement="top" offset={28} unwrapped={false}>
+						<Tooltip title={t.descriptions.track.grid.padding} placement="top" offset={TOOLTIP_OFFSET} unwrapped={false}>
 							<TextBox.Number
 								id={id + "-padding"} value={padding} min={0} max={50} defaultValue={0}
 								suffix={t.units.densityIndependentPixel}
@@ -203,21 +237,33 @@ export default function Grid() {
 						</Tooltip>
 					</div>
 				</Determinant>
-
-				{/* <SettingsCard title={t.track.grid.fastFill} icon="edit_lightning" disabled={square} appearance="secondary">
-					<Disabled as={StackPanel} $gap={4}>
-						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(1)}>{t.track.grid.min}</Button>
-						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(100)}>{t.track.grid.max}</Button>
-						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(radicand)}>{t.track.grid.square}</Button>
-						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(rows)}>{t.track.grid.transpose}</Button>
-						<Button subtle minWidthUnbounded accent onPointerDown={() => setColumns(count)}>{t.track.grid.numberOfSelectedTracks}</Button>
-					</Disabled>
-				</SettingsCard>
-
-				<SettingsCard title={t.track.grid.padding} icon="image_border" details={t.descriptions.track.grid.padding}>
-					<TextBox.Number value={padding} min={0} max={50} defaultValue={0} suffix={t.units.densityIndependentPixel} />
-				</SettingsCard> */}
 			</div>
 		</>
 	);
+}
+
+const StyledFastFillOption = styled(Button)`
+	margin: 0 !important;
+	padding-block: 0 !important;
+	box-shadow: none !important;
+`;
+
+function FastFillOptions({ columns: [columns, setColumns], options, inputRef }: {
+	columns: StatePropertyNonNull<number>;
+	options: { id: string; value: number; unselected?: boolean }[];
+	inputRef: RefObject<HTMLInputElement | null>;
+}) {
+	const focus = () => inputRef?.current?.focus();
+	return options.map(({ id, value, unselected }) => (
+		<StyledFastFillOption
+			key={id}
+			subtle={unselected || !(columns === value)}
+			minWidthUnbounded
+			accent
+			onPointerDown={() => { setColumns(value); focus(); }}
+			onPointerUp={focus}
+		>
+			{t.track.grid[id]}
+		</StyledFastFillOption>
+	));
 }

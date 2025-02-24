@@ -13,6 +13,8 @@ type AllEvents = FilterOnEvents<React.DOMAttributes<HTMLElement> & {
 	// For events which are not shown in the DOM attributes.
 	onAnimationCancel: AnimationEventHandler<HTMLElement>;
 	onScrollEnd: BaseEventHandler<HTMLElement>;
+	onFocusIn: FocusEventHandler<HTMLElement>;
+	onFocusOut: FocusEventHandler<HTMLElement>;
 }>;
 
 type Options = boolean | AddEventListenerOptions | EventListenerOptions;

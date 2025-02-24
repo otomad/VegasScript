@@ -264,9 +264,14 @@ export /* @internal */ const StyledTextBox = styled.div`
 			}
 		}
 	}
+
+	.custom-flyout {
+		position: absolute !important;
+		cursor: default;
+	}
 `;
 
-export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, id, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, _inputAttrs: inputAttrs, onChange, onChanging, onInput, onKeyDown, ref, ...htmlAttrs }: FCP<{
+export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, id, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, inputAttrs, customFlyout, onChange, onChanging, onInput, onKeyDown, ref, inputRef, ...htmlAttrs }: FCP<{
 	/** The value of the input box. */
 	value: StateProperty<string>;
 	/** Content placeholder. */
@@ -281,8 +286,12 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 	_spinner?(inputId: string): ReactNode;
 	/** @private Show the positive sign? */
 	_showPositiveSign?: boolean;
-	/** @private Set the attributes for the input element. */
-	_inputAttrs?: FCP<{}, "input">;
+	/** Set the attributes for the input element. */
+	inputAttrs?: FCP<{}, "input">;
+	/** Ref to the input element. */
+	inputRef?: React.Ref<HTMLInputElement>;
+	/** Add your own flyout inside the textbox, must be absolute or fixed position. */
+	customFlyout?: ReactNode;
 	/** Text change event. Only occurs after pasting text or after the input box is out of focus. */
 	onChange?: BaseEventHandler<HTMLInputElement>;
 	/** Text changing event. Occurs any time the text changes. */
@@ -296,7 +305,9 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 }, "div">) {
 	const inputId = id || useId();
 	const inputEl = useDomRef<"input">();
-	useImperativeHandleRef(ref, inputEl);
+	const wrapperEl = useDomRef<"div">();
+	useImperativeHandleRef(ref, wrapperEl);
+	useImperativeHandleRef(inputRef, inputEl);
 
 	const setValue = (value: string | undefined | ((value: string) => string | undefined)) =>
 		value == null || _setValue?.(value as string);
@@ -330,6 +341,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 
 	return (
 		<StyledTextBox
+			ref={wrapperEl}
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
 			onClick={e => e.stopPropagation()}
@@ -362,12 +374,13 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 				<div className="large-stripe" />
 				<div className="focus-stripe" />
 			</div>
+			{customFlyout && <div className="custom-flyout">{customFlyout}</div>}
 		</StyledTextBox>
 	);
 }
 
 type NumberLike = number | bigint;
-function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, keyLargeStepMultiple, positiveSign, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
+function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, keyLargeStepMultiple, positiveSign, inputRef, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
 	/** The value of the number, which can be number or bigint type. */
 	value: StateProperty<TNumber>;
 	/** The number of decimal places, leaving blank means no limit. */
@@ -389,6 +402,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 	positiveSign?: boolean;
 }>) {
 	const inputEl = useDomRef<"input">();
+	useImperativeHandleRef(inputRef, inputEl);
 	const bigIntMode = typeof value === "bigint";
 	keyLargeStepMultiple ??= (bigIntMode ? 10n : 10) as TNumber;
 	const intMode = bigIntMode || decimalPlaces === 0;
@@ -526,7 +540,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 			disabled={disabled}
 			readOnly={readOnly}
 			value={[displayValue ?? "", setValueFromTextBox]}
-			ref={inputEl}
+			inputRef={inputEl}
 			_showPositiveSign={positiveSign && value! > 0}
 			onChange={handleBlurChange}
 			onInput={handleInput}

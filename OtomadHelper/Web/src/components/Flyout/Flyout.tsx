@@ -1,11 +1,9 @@
 import FlyoutItem from "./FlyoutItem";
 
+const PADDING = "4px";
 const StyledFlyout = styled.div`
 	position: fixed;
-	right: calc(anchor(center) - var(--width) / 2);
-	width: var(--width);
 	max-width: 100dvw;
-	padding-block: 4px;
 	overflow: clip;
 	background-color: ${c("background-fill-color-acrylic-background-default")};
 	border-radius: 8px;
@@ -20,23 +18,42 @@ const StyledFlyout = styled.div`
 		opacity: 0;
 	}
 
-	&.enter,
-	&.exit {
-		pointer-events: none; // Otherwise, when mouse is located between the button and the flyout, it will repeatedly fidget.
+	&.in-command-bar {
+		right: calc(anchor(center) - var(--width) / 2);
+		width: var(--width);
+
+		&.enter,
+		&.exit {
+			pointer-events: none; // Otherwise, when mouse is located between the button and the flyout, it will repeatedly fidget.
+		}
+
+		&.top {
+			bottom: anchor(top);
+			margin-bottom: var(--offset);
+		}
+
+		&.bottom {
+			top: anchor(bottom);
+			margin-top: var(--offset);
+		}
+
+		&.command-bar-right {
+			right: max(calc(anchor(center) - var(--width) / 2), anchor(var(--constrain) right));
+		}
 	}
 
-	&.top {
-		bottom: anchor(top);
-		margin-bottom: var(--offset);
-	}
+	&:not(.in-command-bar) {
+		justify-self: anchor-center;
 
-	&.bottom {
-		top: anchor(bottom);
-		margin-top: var(--offset);
-	}
+		&.top {
+			margin-bottom: var(--offset);
+			position-area: top;
+		}
 
-	&.command-bar-right {
-		right: max(calc(anchor(center) - var(--width) / 2), anchor(var(--constrain) right));
+		&.bottom {
+			margin-top: var(--offset);
+			position-area: bottom;
+		}
 	}
 
 	.descriptions {
@@ -73,22 +90,50 @@ const StyledFlyout = styled.div`
 		border: none;
 		border-top: 1px solid ${c("stroke-color-divider-stroke-default")};
 	}
+
+	&.padding-x {
+		padding-inline: 4px;
+	}
+
+	&.padding-y {
+		padding-block: 4px;
+	}
+
+	&.padding-xy {
+		padding: 4px;
+	}
 `;
 
-export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, autoInert = true, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
+function isValidAnchorName(anchorName: string) {
+	return !!anchorName.match(/^--[\w-]+$/);
+}
+
+const DEFAULT_OFFSET = 11;
+export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", portal, hideDelay = 0, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
 	/** Anchor name. */
 	anchorName: string;
 	/** Position. */
 	position: "top" | "bottom";
+	/** Offset. */
+	offset?: Numberish;
 	/** Shown. */
 	shown?: StateProperty<boolean>;
 	/** Auto set root inert when flyout shown? */
 	autoInert?: boolean;
+	/** Auto add padding with default size to which direction? Defaults to `y`. */
+	autoPadding?: "x" | "y" | "xy" | "";
+	/** Customize where to teleport the flyout. */
+	portal?: PropsOf<typeof Portal>["container"];
+	/** When request to hide the flyout, it will be delayed for milliseconds before hiding. If it is reshowed during this period, it will not hide. */
+	hideDelay?: number;
 	/** @private */
 	_commandBarAnchorName?: string;
 	/** @private */
 	_horizontalPosition?: Position;
 }, "div">) {
+	if (!isValidAnchorName(anchorName)) throw new TypeError(`Invalid anchor name: ${anchorName}`);
+	if (_commandBarAnchorName && !isValidAnchorName(_commandBarAnchorName)) throw new TypeError(`Invalid command bar anchor name: ${_commandBarAnchorName}`);
+
 	const flyoutEl = useDomRef<"div">();
 	const close = () => setShown?.(false);
 	useEventListener(window, "keydown", e => e.code === "Escape" && close());
@@ -102,17 +147,32 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 			setRootInert(false);
 	}, [shown, autoInert]);
 
+	const [delayedShown, setDelayedShown] = useState(shown);
+	const hideTimeout = useRef<Timeout>(undefined);
+	useEffect(() => {
+		clearTimeout(hideTimeout.current);
+		if (hideDelay <= 0) return;
+		if (shown) setDelayedShown(true);
+		else hideTimeout.current = setTimeout(() => setDelayedShown(false), hideDelay);
+	}, [hideDelay, shown]);
+
 	return (
-		<Portal>
-			<CssTransition in={shown} unmountOnExit>
+		<Portal container={portal}>
+			<CssTransition in={hideDelay > 0 ? delayedShown : shown} unmountOnExit>
 				<StyledFlyout
 					ref={flyoutEl}
-					className={[className, position, _horizontalPosition && "command-bar-" + _horizontalPosition]}
+					className={[
+						className,
+						position,
+						_horizontalPosition && "command-bar-" + _horizontalPosition,
+						{ inCommandBar: _commandBarAnchorName },
+						autoPadding && "padding-" + autoPadding,
+					]}
 					style={{
 						...style,
 						positionAnchor: anchorName,
+						"--offset": styles.toValue(offset),
 						"--width": "300px",
-						"--offset": "11px",
 						"--constrain": _commandBarAnchorName,
 					}}
 					{...htmlAttrs}
