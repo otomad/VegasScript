@@ -683,7 +683,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 				]}
 				onClick={hideFlyoutNavMenu}
 			>
-				<Inert inert={flyoutDisplayMode !== "minimal"}>
+				<Attrs inert={flyoutDisplayMode !== "minimal"}>
 					<div className="title-wrapper">
 						<div className="title-wrapper-inner">
 							<div>
@@ -729,7 +729,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 							</CssTransition>
 						</SwitchTransition>
 					</div>
-				</Inert>
+				</Attrs>
 			</div>
 		</StyledNavigationView>
 	);

@@ -141,14 +141,14 @@ export default function Source() {
 				<ToggleSwitch on={secretBoxForTrack} details={t.descriptions.source.secretBox.track} icon="layer">{t.source.secretBox.track}</ToggleSwitch>
 				<ToggleSwitch on={secretBoxForMarker} details={t.descriptions.source.secretBox.marker} icon="marker">{t.source.secretBox.marker}</ToggleSwitch>
 				<ToggleSwitch on={secretBoxForBarOrBeat} details={t.descriptions.source.secretBox.barOrBeat} icon="music_bar">{t.source.secretBox.barOrBeat}</ToggleSwitch>
-				<Disabled disabled={!secretBoxForBarOrBeat[0]}>
+				<Attrs disabled={!secretBoxForBarOrBeat[0]}>
 					<Expander.Item title={t.source.secretBox.barOrBeat.period} details={t.descriptions.source.secretBox.barOrBeat.period} icon="timer">
 						<TextBox.NumberUnit value={secretBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={1} />
 					</Expander.Item>
 					<Expander.Item title={t.source.secretBox.barOrBeat.preparation} details={t.descriptions.source.secretBox.barOrBeat.preparation} icon="hourglass">
 						<TextBox.NumberUnit value={secretBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={0} />
 					</Expander.Item>
-				</Disabled>
+				</Attrs>
 			</Expander>
 
 			<SettingsCardToggleSwitch

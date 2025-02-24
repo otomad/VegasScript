@@ -25,18 +25,18 @@ export default function Shupelunker() {
 
 					<Subheader>{t.lyrics.karaoke.toString()}</Subheader>
 					<SettingsCardToggleSwitch title={t.lyrics.enableMode({ mode: t.lyrics.karaoke })} details={t.descriptions.lyrics.karaoke} icon="mic_handheld" on={karaokeEnabled} />
-					<Disabled disabled={!karaokeEnabled[0]}>
+					<Attrs disabled={!karaokeEnabled[0]}>
 						<SettingsCard icon="karaoke_future_fill" title={t.lyrics.karaoke.futureFill} details={t.descriptions.lyrics.karaoke.futureFill}>
 							<ColorPicker color={[futureFill, setFutureFill]} />
 						</SettingsCard>
 						<SettingsCard icon="karaoke_past_fill" title={t.lyrics.karaoke.pastFill} details={t.descriptions.lyrics.karaoke.pastFill}>
 							<ColorPicker color={[pastFill, setPastFill]} />
 						</SettingsCard>
-					</Disabled>
+					</Attrs>
 
 					<Subheader>{t.lyrics.pitchNotation}</Subheader>
 					<SettingsCardToggleSwitch title={t.lyrics.enableMode({ mode: t.lyrics.pitchNotation })} details={t.descriptions.lyrics.pitchNotation} icon="genre" on={notationEnabled} />
-					<Disabled disabled={!notationEnabled[0]}>
+					<Attrs disabled={!notationEnabled[0]}>
 						<ExpanderRadio
 							title={t.lyrics.pitchNotation.system}
 							details={t.descriptions.lyrics.pitchNotation.system}
@@ -50,7 +50,7 @@ export default function Shupelunker() {
 							detailsField={id => t.lyrics.pitchNotation[id].toString().split("\n")[1]}
 							checkInfoCondition={id => <Preserves>{t.lyrics.pitchNotation[id!].toString().split("\n")[0]}</Preserves>}
 						/>
-					</Disabled>
+					</Attrs>
 
 					<Subheader>{t.subheaders.seeAlso}</Subheader>
 					<div>

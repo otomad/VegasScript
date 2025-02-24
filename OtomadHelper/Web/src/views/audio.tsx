@@ -38,9 +38,7 @@ const buildInPresets = ["normal", "fadeOut"];
 
 const TooltipPartial = Tooltip.with({ placement: "y" });
 
-const PrelistenActions = styled(Disabled).attrs({
-	container: StackPanel,
-})`
+const PrelistenActions = styled(StackPanel)`
 	position: relative;
 	display: flex;
 	align-items: stretch;
@@ -253,7 +251,7 @@ export default function Audio() {
 						<ToggleSwitch on={tuningMethodAcid} lock={tuningMethod[0] !== "noTuning" ? null : false} icon="acid" details={t.descriptions.stream.tuning.tuningMethod.acid}>{t.stream.tuning.tuningMethod.acid}</ToggleSwitch>
 						<ToggleSwitch on={tuningMethodScaleless} lock={tuningMethod[0].in("unset", "elastic", "classic") ? null : false} icon="scaleless" details={t.descriptions.stream.tuning.tuningMethod.scaleless}>{t.stream.tuning.tuningMethod.scaleless}</ToggleSwitch>
 					</ExpanderRadio>
-					<Disabled disabled={tuningMethod[0].in("noTuning", "scaleless")}>
+					<Attrs disabled={tuningMethod[0].in("noTuning", "scaleless")}>
 						<ExpanderRadio
 							title={t.stream.tuning.stretchAttributes}
 							details={t.descriptions.stream.tuning.stretchAttributes}
@@ -342,7 +340,7 @@ export default function Audio() {
 							</Expander.Item>
 							<ToggleSwitch icon="remix_add" on={adjustAudioToBasePitch} details={t.descriptions.stream.tuning.prelisten.adjustAudioToBasePitch}>{t.stream.tuning.prelisten.adjustAudioToBasePitch}</ToggleSwitch>
 						</Expander>
-					</Disabled>
+					</Attrs>
 
 					<Subheader>{t.stream.mapping}</Subheader>
 					<Expander title={t.stream.mapping.velocity} icon="signal" />
