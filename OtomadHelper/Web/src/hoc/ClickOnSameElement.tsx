@@ -15,7 +15,7 @@ export default function ClickOnSameElement({ bubbling = true, children, onClick,
 	const target = useDomRef<"section">();
 	const isPressed = useRef(false);
 	useImperativeHandleRef(ref, target);
-	const stopAt = ["button", "input", "textarea", "datalist", "select"];
+	const stopAt = ["button", "input", "textarea", "datalist", "select", ".toggle-switch-label"];
 	const checkSame = (target: EventTarget | null, current: EventTarget | null) =>
 		bubbling ? isInPath(target, current, { stopAt }) : target === current;
 
@@ -25,10 +25,11 @@ export default function ClickOnSameElement({ bubbling = true, children, onClick,
 	};
 
 	useEventListener(document, "pointerup", e => {
+		if (e.target === document) return;
 		if (isPressed.current && checkSame(e.target, target.current) && e.button === 0)
 			onClick?.(e as React.PointerEvent<HTMLElement>);
 		isPressed.current = false;
-	});
+	}, undefined, null);
 
 	return (
 		<EventInjector ref={target} onPointerDown={onPointerDown}>

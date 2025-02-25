@@ -152,7 +152,7 @@ export function useEventListener<K extends keyof WindowEventMap>(target: Window,
  * });
  * ```
  */
-export function useEventListener<K extends keyof DocumentEventMap>(target: Document, event: K, callback: (this: Document, ev: DocumentEventMap[K]) => void, options?: Options, deps?: DependencyList): void;
+export function useEventListener<K extends keyof DocumentEventMap>(target: Document, event: K, callback: (this: Document, ev: DocumentEventMap[K]) => void, options?: Options, deps?: DependencyList | null): void;
 /**
  * A hook to add an event listener to the specified target element, with both addEventListener and removeEventListener in the lifecycle.
  *
@@ -162,7 +162,7 @@ export function useEventListener<K extends keyof DocumentEventMap>(target: Docum
  * @param event - The type of the event to listen for. Must be a key of `HTMLElementEventMap`.
  * @param callback - The function to be called when the event is triggered.
  * @param options - An optional object containing an `immediate` property, which when `true`, will immediately call the `callback` function when the event listener is added.
- * @param deps - An optional array of dependencies. When any of the dependencies change, the event listener will be added or removed.
+ * @param deps - An optional array of dependencies. When any of the dependencies change, the event listener will be added or removed. If it is null, every changes will update it.
  *
  * @example
  * ```typescript
@@ -171,7 +171,7 @@ export function useEventListener<K extends keyof DocumentEventMap>(target: Docum
  * });
  * ```
  */
-export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: E | null, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList): void;
+export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: E | null, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList | null): void;
 /**
  * A hook to add an event listener to the specified target element, with both addEventListener and removeEventListener in the lifecycle.
  *
@@ -181,7 +181,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * @param event - The type of the event to listen for. Must be a key of `HTMLElementEventMap`.
  * @param callback - The function to be called when the event is triggered.
  * @param options - An optional object containing an `immediate` property, which when `true`, will immediately call the `callback` function when the event listener is added.
- * @param deps - An optional array of dependencies. When any of the dependencies change, the event listener will be added or removed.
+ * @param deps - An optional array of dependencies. When any of the dependencies change, the event listener will be added or removed. If it is null, every changes will update it.
  *
  * @example
  * ```typescript
@@ -190,7 +190,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * });
  * ```
  */
-export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: RefObject<E | null>, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList): void;
+export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: RefObject<E | null>, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList | null): void;
 /**
  * A hook to add an event listener to the specified target element, with both addEventListener and removeEventListener in the lifecycle.
  *
@@ -200,7 +200,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * @param event - The type of the event to listen for. Must be a key of `HTMLElementEventMap`.
  * @param callback - The function to be called when the event is triggered.
  * @param options - An optional object containing an `immediate` property, which when `true`, will immediately call the `callback` function when the event listener is added.
- * @param deps - An optional array of dependencies. When any of the dependencies change, the event listener will be added or removed.
+ * @param deps - An optional array of dependencies. When any of the dependencies change, the event listener will be added or removed. If it is null, every changes will update it.
  *
  * @example
  * ```typescript
@@ -209,7 +209,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * });
  * ```
  */
-export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: E | Window | Document | null, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options: Options = {}, deps: DependencyList = []): void {
+export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: E | Window | Document | null, event: K, callback: (this: E, ev: HTMLElementEventMap[K]) => void, options: Options = {}, deps: DependencyList | null = []): void {
 	// If you want, you can also use CSS selectors in string form to find the target DOM element.
 	useEffect(() => {
 		target = toValue(target);
@@ -217,7 +217,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
 		if (options.immediate) callback();
 		target?.addEventListener(event, callback, options);
 		return () => target?.removeEventListener(event, callback, options);
-	}, deps);
+	}, deps ?? undefined);
 }
 
 /**

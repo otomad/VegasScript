@@ -29,9 +29,23 @@ const StyledToggleSwitchLabel = styled.button`
 		align-items: center;
 		margin-inline-start: auto;
 
-		.text {
-			width: unset !important;
-			white-space: nowrap;
+		.text.label {
+			${styles.effects.text.body};
+			block-size: 1lh;
+			inline-size: unset !important;
+			overflow: clip;
+			text-align: end;
+
+			.label-container {
+				--progress: 0;
+				translate: 0 calc(var(--progress) * -1lh);
+			}
+
+			span {
+				display: block;
+				overflow-y: clip;
+				white-space: nowrap;
+			}
 		}
 	}
 
@@ -183,6 +197,10 @@ const StyledToggleSwitchLabel = styled.button`
 			}
 		}
 
+		.label-container${important()} {
+			--progress: 1;
+		}
+
 		${isHoverPseudo} {
 			opacity: 0.9;
 		}
@@ -264,9 +282,9 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 }, "button">) {
 	const on = typeof lock === "boolean" ? lock : _on!;
 	const disabled = typeof lock === "boolean" || _disabled;
-	const textLabel = on ? t.on : t.off;
 	const [isDragging, setIsDragging] = useState(false);
 	const [thumbLeft, setThumbLeft] = useState<number>();
+	const [labelTranslate, setLabelTranslate] = useState<number>();
 	const [pressed, setPressed] = useState(false);
 	const ariaId = useId();
 	// Note: Parameter changes using styled-components directly will affect performance.
@@ -303,6 +321,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		const pointerMove = (e: PointerEvent) => {
 			if (Math.abs(e.clientX - clientX) > 2) isMoved = true; // anti-shake
 			let value = clamp(e.pageX - left - x, 0, max);
+			setLabelTranslate(value / max);
 			if (isRtl()) value = max - value;
 			setThumbLeft(value);
 			prevE = e;
@@ -316,6 +335,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			if (isRtl()) isOn = !isOn;
 			handleCheck(isOn);
 			setThumbLeft(undefined);
+			setLabelTranslate(undefined);
 			setIsDragging(isMoved); // Define recognition as drag instead of click.
 			nextAnimationTick().then(() => {
 				setPressed(false);
@@ -358,7 +378,14 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 				</div>
 			)}
 			<div className="right">
-				{!hideLabel && <span className="text" aria-hidden>{textLabel}</span>}
+				{!hideLabel && (
+					<div className="text label" aria-hidden>
+						<div className="label-container" style={{ "--progress": labelTranslate }}>
+							<span className="off">{t.off}</span>
+							<span className="on">{t.on}</span>
+						</div>
+					</div>
+				)}
 				<div className={["stroke", "toggle-switch-base", { pressing: isPressing }]}>
 					<div className="base">
 						<div className="thumb" style={thumbStyle} onPointerDown={onThumbDown} />
