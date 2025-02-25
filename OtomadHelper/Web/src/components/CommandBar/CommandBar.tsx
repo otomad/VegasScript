@@ -28,11 +28,9 @@ const StyledCommandBar = styled.div`
 	.command-bar-item {
 		transition: all ${eases.easeInOutFluent} 500ms;
 
-		/* main.page:is(.enter, .exit) & {
-			--too-narrow: false !important;
-		} */
-
 		.button {
+			margin: 0;
+			box-shadow: none !important;
 			transition: ${fallbackTransitions}, min-inline-size 0s;
 
 			@container style(--icon-only: true) or style(--too-narrow: true) {
@@ -58,6 +56,10 @@ const StyledCommandBar = styled.div`
 			scale: 0.5;
 			opacity: 0;
 		}
+	}
+
+	&.gaps .command-bar-item:not(:last-child, :has(+ hr)) {
+		margin-inline-end: 1px;
 	}
 
 	.sticky &,
@@ -91,11 +93,13 @@ export /* @internal */ const CommandBarAnchorContext = createContext<{
 
 type Position = "left" | "center" | "right";
 
-export default function CommandBar({ position, autoCollapse, children, className, style, ...htmlAttrs }: FCP<{
+export default function CommandBar({ position, autoCollapse, addGaps, children, className, style, ...htmlAttrs }: FCP<{
 	/** Position the command bar to somewhere. */
 	position?: Position;
 	/** Auto collapse command bar if too narrow. */
 	autoCollapse?: boolean;
+	/** Add gaps between each command bar items? */
+	addGaps?: boolean;
 }, "div">) {
 	const [commandBarEl, setCommandBarEl] = useDomRefs<"div">();
 	const anchorName = useUniqueId("--command-bar");
@@ -108,7 +112,7 @@ export default function CommandBar({ position, autoCollapse, children, className
 			ref={setCommandBarEl(i)}
 			role="toolbar"
 			aria-label="Command Bar"
-			className={[className, position, { shadow: i !== 0 }]}
+			className={[className, position, { shadow: i !== 0, gaps: addGaps }]}
 			style={{ ...style, anchorName }}
 			{...htmlAttrs}
 		>

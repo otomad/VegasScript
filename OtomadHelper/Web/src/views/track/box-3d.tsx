@@ -160,6 +160,13 @@ export default function Box3d() { // BUG: When drag the box to the top or bottom
 
 	return (
 		<div className="container">
+			<CommandBar.Group>
+				<CommandBar position="left" addGaps>
+					<CommandBar.Item icon="delete" caption={t.track.box3d.deleteTracks} details={t.descriptions.track.box3d.deleteTracks} on={deleteTracks} />
+					<CommandBar.Item icon="codepen" caption={t.track.box3d.useLongerSide} details={t.descriptions.track.box3d.useLongerSide} on={useLongerSide} />
+				</CommandBar>
+			</CommandBar.Group>
+
 			<StyledCube onPointerDown={onDragStart} onPointerMove={onDrag} onPointerUp={onDragEnd}>
 				<div className="container-outer">
 					<div className="container" style={rotationCss}>
@@ -167,9 +174,6 @@ export default function Box3d() { // BUG: When drag the box to the top or bottom
 					</div>
 				</div>
 			</StyledCube>
-
-			<SettingsCardToggleSwitch on={deleteTracks} title={t.track.box3d.deleteTracks} details={t.descriptions.track.box3d.deleteTracks} icon="delete" />
-			<SettingsCardToggleSwitch on={useLongerSide} title={t.track.box3d.useLongerSide} details={t.descriptions.track.box3d.useLongerSide} icon="codepen" />
 		</div>
 	);
 }

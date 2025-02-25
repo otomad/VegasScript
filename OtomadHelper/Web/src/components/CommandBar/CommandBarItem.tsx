@@ -4,7 +4,7 @@ const HIDE_DELAY = 500;
 
 const $p = (test?: boolean) => test ? "true" : undefined;
 
-export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, onClick, ...buttonAndTransitionAttrs }: FCP<{
+export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, onClick, ...buttonAndTransitionAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Caption. */
@@ -19,6 +19,8 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	canBeDisabled?: boolean;
 	/** Open flyout by hovering instead of clicking. */
 	hovering?: boolean;
+	/** Use as a toggle button. */
+	on?: boolean | StatePropertyNonNull<boolean>;
 }, "section"> & TransitionProps) {
 	const { transitionAttrs, htmlAttrs } = separateTransitionAttrs(buttonAndTransitionAttrs);
 	const { anchorName: commandBarAnchorName, position, tooNarrow } = useContext(CommandBarAnchorContext);
@@ -31,22 +33,26 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	useListen("app:hideOtherFlyouts", exceptId => { if (exceptId !== anchorName) { clearTimeout(hideTimeout.current); setFlyoutShown(false); } });
 	const [isMouse, _setIsMouse] = useState(true);
 	const checkIsMouse = (e: PointerEvent) => { const result = e.pointerType === "mouse"; _setIsMouse(result); return result; };
+	let setOn: SetStateNarrow<boolean> | undefined;
+	if (Array.isArray(on)) { setOn = on[1]; on = on[0]; }
 
 	const tooltip = iconOnly || altCaption ? <Tooltip.Content title={caption}>{details}</Tooltip.Content> : details;
 	const button = (
 		<ClickOnSameElement
-			onClick={e => { if (hovering && checkIsMouse(e) || !children) onClick?.(e); showFlyout(); }}
+			onClick={e => { if (hovering && checkIsMouse(e) || !children) { onClick?.(e); setOn?.(on => !on); } showFlyout(); }}
 		>
 			<Button
 				icon={icon}
 				subtle="small-icon"
 				disabled={disabled}
+				toggleable={on !== undefined}
 				aria-label={canToString(caption) ? caption : undefined}
 				aria-description={canToString(details) ? details : undefined}
 				aria-haspopup={!!children}
 				ariaHiddenForChildren
 				onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyout(); }}
 				onPointerLeave={e => { if (hovering && checkIsMouse(e)) hideFlyoutLater(); }}
+				{...on && { subtle: false, accent: true }}
 				{...htmlAttrs}
 			>
 				{altCaption || caption}

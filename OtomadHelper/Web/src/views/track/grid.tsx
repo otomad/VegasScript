@@ -242,12 +242,6 @@ export default function Grid() {
 	);
 }
 
-const StyledFastFillOption = styled(Button)`
-	margin: 0 !important;
-	padding-block: 0 !important;
-	box-shadow: none !important;
-`;
-
 function FastFillOptions({ columns: [columns, setColumns], options, inputRef }: {
 	columns: StatePropertyNonNull<number>;
 	options: { id: string; value: number; unselected?: boolean }[];
@@ -255,15 +249,16 @@ function FastFillOptions({ columns: [columns, setColumns], options, inputRef }: 
 }) {
 	const focus = () => inputRef?.current?.focus();
 	return options.map(({ id, value, unselected }) => (
-		<StyledFastFillOption
+		<Button
 			key={id}
 			subtle={unselected || !(columns === value)}
 			minWidthUnbounded
 			accent
+			toggleable
 			onPointerDown={() => { setColumns(value); focus(); }}
 			onPointerUp={focus}
 		>
 			{t.track.grid[id]}
-		</StyledFastFillOption>
+		</Button>
 	));
 }

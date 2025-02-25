@@ -225,9 +225,15 @@ export /* @internal */ const StyledButton = styled.button<{
 			}
 		}
 	}
+
+	&.toggleable {
+		margin: 0 !important;
+		padding-block: 0 !important;
+		box-shadow: none !important;
+	}
 `;
 
-export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, ariaHiddenForChildren, className, disabled, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
+export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, ariaHiddenForChildren, toggleable, className, disabled, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Button animated icon. */
@@ -248,6 +254,8 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 	minWidthUnbounded?: boolean;
 	/** Add aria-hidden to children to prevent them from being read by screen readers. */
 	ariaHiddenForChildren?: boolean;
+	/** Can be toggled? */
+	toggleable?: boolean;
 	/** Mouse release button event. Only works with `RepeatButton`. */
 	onRelease?: BaseEventHandler;
 }, "button">) {
@@ -271,6 +279,7 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 					hyperlink,
 					extruded,
 					minWidthUnbounded,
+					toggleable,
 				},
 				accent && typeof accent === "string" ? accent : "accent",
 			]}

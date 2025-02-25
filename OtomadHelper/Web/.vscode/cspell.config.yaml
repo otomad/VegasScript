@@ -181,6 +181,7 @@ words:
   - svgs
   - timecode
   - timecodes
+  - toggleable
   - touchpad
   - tsc
   - tt
@@ -291,3 +292,4 @@ flagWords:
   - expoer -> export
   - interger -> integer
   - intergers -> integers
+  - togglable -> toggleable
