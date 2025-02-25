@@ -1,4 +1,5 @@
 import type _DndKitCore from "@dnd-kit/core";
+import type _CSSType from "csstype";
 import type _Immer from "immer";
 import type _LottieWeb from "lottie-web";
 import type React from "react";
@@ -149,7 +150,7 @@ declare global {
 	export type TransitionProps = Partial<ReactTransitionGroup.TransitionProps>;
 
 	export type { DropAnimationSideEffects } from "@dnd-kit/core";
-	export type { Property as CSSProperty } from "csstype";
+	export type { PropertiesHyphen as CSSPropertiesHyphen, Property as CSSProperty } from "csstype";
 	export type { Draft } from "immer";
 	export type { AnimationItem } from "lottie-web";
 	export type { AnimationEventHandler, CSSProperties, ChangeEventHandler, DragEventHandler, EventHandler, FocusEventHandler, FormEventHandler, KeyboardEventHandler, MouseEventHandler, PointerEventHandler, PropsWithChildren, ReactElement, ReactNode, RefObject, RefObject, SyntheticEvent, UIEventHandler, WheelEventHandler, default as React, dependency_list } from "react";

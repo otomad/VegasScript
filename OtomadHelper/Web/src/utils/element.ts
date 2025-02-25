@@ -102,6 +102,10 @@ export function takeoverRef(children: ReactNode, nodeRef: React.Ref<Element | nu
 
 type TargetType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | null | undefined;
 type DetectInPathType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | string | null | undefined;
+interface IsInPathOptions {
+	/** If the detection requirements are still not met after bubbling to these HTML DOM nodes, stop bubbling. */
+	stopAt?: DetectInPathType[];
+}
 
 /**
  * Get an array from the specified element that traces back to the root element.
@@ -132,20 +136,36 @@ export function getPath(target: TargetType): Element[] {
  * to be queried.
  * @returns The element to be queried is or is its ancestor node.
  */
-export function isInPath(target: TargetType, ...elements: DetectInPathType[]): boolean {
+export function isInPath(target: TargetType, ...elements: DetectInPathType[]): boolean;
+export function isInPath(...args: [target: TargetType, ...elements: DetectInPathType[], options: IsInPathOptions]): boolean;
+export function isInPath(target: TargetType, ...args: (DetectInPathType | IsInPathOptions)[]): boolean {
 	const path = getPath(target);
-	return elements.some(element => {
-		if (isRef(element)) element = toValue(element);
-		if (isObject(element) && "target" in element) element = element.target;
-		if (typeof element === "string") {
-			for (const el of path)
-				if (el.matches(element))
-					return true;
-			return false;
-		}
-		if (!(element instanceof Element)) return false;
-		return path.includes(element);
+	const [elements, stopAt] = (() => {
+		const [elements, { stopAt = [] }] = (() => {
+			const last = args.last();
+			let options: IsInPathOptions = {}, elements = args as DetectInPathType[];
+			if (isObject(last) && typeof last !== "string" && !(last instanceof EventTarget) && !("preventDefault" in last) && !isRef(last)) {
+				options = last;
+				elements = args.toPopped() as DetectInPathType[];
+			}
+			return [elements, options] as const;
+		})();
+		const filter = (element: DetectInPathType) => {
+			if (isRef(element)) element = toValue(element);
+			if (isObject(element) && "target" in element) element = element.target;
+			if (typeof element === "string" || element instanceof Element) return element;
+		};
+		return [elements.map(filter).toCompacted(), stopAt.map(filter).toCompacted()];
+	})();
+	const matches = (parent: Element, elements: (string | Element)[]) => elements.some(element => {
+		if (typeof element === "string") return parent.matches(element);
+		return parent === element;
 	});
+	for (const parent of path) {
+		if (matches(parent, elements)) return true;
+		if (matches(parent, stopAt)) return false;
+	}
+	return false;
 }
 
 /**

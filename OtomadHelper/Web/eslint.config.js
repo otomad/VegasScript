@@ -354,6 +354,9 @@ export default [
 				name: "addEventListener",
 				message: "Please use window.addEventListener instead.",
 			}, {
+				name: "removeEventListener",
+				message: "Please use window.removeEventListener instead.",
+			}, {
 				name: "innerHeight",
 				message: "Please use window.innerHeight instead.",
 			}, {
@@ -371,6 +374,9 @@ export default [
 			}, {
 				name: "matchMedia",
 				message: "Please use window.matchMedia instead.",
+			}, {
+				name: "print",
+				message: "Please use window.print instead.",
 			}],
 			"no-restricted-syntax": ["error", {
 				selector: ":not(ForOfStatement, ForInStatement) > VariableDeclaration[kind = 'let'] > VariableDeclarator[init = null]:not([id.typeAnnotation])",

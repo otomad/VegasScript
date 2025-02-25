@@ -1,7 +1,6 @@
 import ColoredLogo from "assets/svg/Otomad Helper Colored.svg?react";
 import MonoLogo from "assets/svg/Otomad Helper Mono.svg?react";
-
-const CONTRIBUTE_TRANSLATION_LINK = "https://crowdin.com/project/otomadhelper";
+import { contributeTranslationLink } from "helpers/crowdin-link";
 
 const StyledSettingsAbout = styled.div`
 	display: flex;
@@ -53,6 +52,7 @@ export default function SettingsAbout() {
 	if (t.metadata.__translator__.toString()) pairs.set(t.settings.about.translator, t.metadata.__translator__);
 	const { version } = useAboutApp();
 	const [showTranslators, setShowTranslators] = useState(false);
+	const currentLanguage = useCurrentLanguage();
 
 	return (
 		<>
@@ -71,7 +71,7 @@ export default function SettingsAbout() {
 						<Link href="https://github.com/otomad/OtomadHelper/issues">{t.settings.about.feedback}</Link>
 						<Link href="https://www.gnu.org/licenses/gpl-3.0.html">{t.settings.about.license}</Link>
 						<Link onClick={() => setShowTranslators(true)} aria-haspopup="dialog">{t.settings.about.translators}</Link>
-						<Link href={CONTRIBUTE_TRANSLATION_LINK}>{t.settings.about.translation}</Link>
+						<Link href={contributeTranslationLink[currentLanguage]}>{t.settings.about.translation}</Link>
 					</div>
 					<Translators shown={[showTranslators, setShowTranslators]} />
 				</div>
@@ -158,7 +158,7 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 			title={t.settings.about.translators}
 			buttons={close => (
 				<>
-					<Button onClick={() => window.open(CONTRIBUTE_TRANSLATION_LINK)}>{t.settings.about.translation}</Button>
+					<Button onClick={() => window.open(contributeTranslationLink[currentLanguage])}>{t.settings.about.translation}</Button>
 					<Button autoFocus accent onClick={close}>{t.ok}</Button>
 				</>
 			)}

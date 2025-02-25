@@ -91,7 +91,7 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 	return (
 		<Portal>
 			<CssTransition in={shown} unmountOnExit appear>
-				<ClickOnSameElement onClick={closeWhenNonStatic}>
+				<ClickOnSameElement bubbling={false} onClick={closeWhenNonStatic}>
 					<Mask>
 						<StyledContentDialog
 							role="dialog"

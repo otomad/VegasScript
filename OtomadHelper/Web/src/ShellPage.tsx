@@ -33,7 +33,7 @@ const getTitle = (viewName: string, full: boolean = false, plural?: number) => {
 };
 
 export default function ShellPage() {
-	const { page, changePage, pagePath, transition, canBack, back, onSave, reset, setPageContentId, poppedScroll } = useSnapshot(pageStore);
+	const { page, changePage, pagePath, transition, canBack, back, reset, setPageContentId, poppedScroll } = useSnapshot(pageStore);
 	const pageTitles = page.map((crumb, i, { length }) => {
 		try {
 			return {
@@ -85,7 +85,7 @@ export default function ShellPage() {
 				<CommandBar>
 					{
 						...autoLayoutTracksMode ? [
-							<CommandBar.Item key="save" icon="save" caption={t.save} onClick={() => { onSave?.(); back(); }} />,
+							<CommandBar.Item key="save" icon="save" caption={t.save} onClick={() => { pageStore.onSave?.(); back(); }} />,
 							<CommandBar.Item key="applyToSelectedTracks" caption={t.track.applyToSelectedTracks} icon="arrow_sync_checkmark" />,
 						] : [
 							<CommandBar.Item

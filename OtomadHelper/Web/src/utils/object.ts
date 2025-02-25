@@ -229,8 +229,8 @@ export function useStateSelector<TOld, TNew>(
  * console.log(isRef(notRef)); // Output: false
  * ```
  */
-export function isRef<T>(ref: MaybeRef<T>): ref is RefObject<T> {
-	return ref && Object.hasOwn(ref, "current") && Object.keys(ref).length === 1;
+export function isRef<T>(ref: unknown): ref is RefObject<T> {
+	return isObject(ref) && Object.hasOwn(ref, "current") && Object.keys(ref).length === 1;
 }
 
 /**
