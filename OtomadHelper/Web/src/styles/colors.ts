@@ -113,25 +113,47 @@ export const ifColorScheme = {
 	black: '[data-scheme~="dark"][data-scheme~="black"]',
 	// contrast: "@media (forced-colors: active) or (prefers-contrast: more)",
 	contrast: '[data-scheme~="contrast"]',
+	reduceTransparency: "@media (prefers-reduced-transparency: reduce)",
+	reduceMotion: "@media (prefers-reduced-motion: reduce)",
 } as const;
 
 export type ColorNames = keyof typeof colors;
 export default colors;
 export function globalColors() {
 	let css = "";
+	// Light, Dark, High Contrast
 	for (let i = 0; i < 3; i++) {
 		const selector = [
 			`:root${ifColorScheme.light}, ${ifColorScheme.light}`,
 			`:root, ${ifColorScheme.dark}`,
 			`:root${ifColorScheme.contrast}, ${ifColorScheme.contrast}`,
 		][i];
-		css += selector + " {\n";
+		css += selector + "{";
 		for (const [key, values] of Object.entries(colors))
 			if (values[i])
-				css += `\t--${key}: ${values[i]};\n`;
-		css += "}\n";
+				css += `--${key}: ${values[i]};`;
+		css += "}";
 	}
-	css += `:root${ifColorScheme.black}, ${ifColorScheme.black} {\n\t--background-color: black;}\n`;
+	// Black (AMOLED)
+	css += `:root${ifColorScheme.black}, ${ifColorScheme.black} {--background-color: black;}`;
+	// Reduce Transparency: Light, Dark
+	css += ifColorScheme.reduceTransparency + "{";
+	for (let i = 0; i < 2; i++) {
+		const selector = [
+			`:root${ifColorScheme.light}:not(${ifColorScheme.contrast}), ${ifColorScheme.light}:not(${ifColorScheme.contrast})`,
+			`:root:not(${ifColorScheme.contrast}), ${ifColorScheme.dark}:not(${ifColorScheme.contrast})`,
+		][i];
+		css += selector + "{";
+		for (const [key, values] of Object.entries(colors)) {
+			const rgba = values[i].match(/rgba\(([\d.]+),\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\)/);
+			if (rgba && key !== "background-color") {
+				const [, r, g, b, a] = rgba;
+				css += `--${key}: color-mix(in srgb, rgb(${r} ${g} ${b}) ${+a * 100}%, var(--background-color));`;
+			}
+		}
+		css += "}";
+	}
+	css += "}";
 	return css;
 }
 // TODO: `light-dark`, `prefers-color-scheme`.

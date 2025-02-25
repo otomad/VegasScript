@@ -123,3 +123,50 @@ export function floorMod(x: number, y: number) {
 		result += y;
 	return result;
 }
+
+/**
+ * Sums up a list of numbers.
+ * @param numbers - Numbers.
+ * @return Sum in number type.
+ */
+export function sum(...numbers: number[]): number;
+/**
+ * Sums up a list of big integers.
+ * @param bigints - Big integers.
+ * @return Sum in big integer type.
+ */
+export function sum(...bigints: bigint[]): bigint;
+/**
+ * Sums up a list of mixed numbers and big integers.
+ * @note Mixing numbers and big integers will return a number type.
+ * @param numbers - Numbers or big integers.
+ * @return Sum in number type.
+ */
+export function sum(...numbers: (number | bigint)[]): number;
+export function sum(...numbers: (number | bigint)[]): number | bigint {
+	const returnsBigInt = numbers.every(number => typeof number === "bigint");
+	return numbers.reduce((/** accumulator */ a, /** currentValue */ b) =>
+		returnsBigInt ? BigInt(a) + BigInt(b) : Number(a) + Number(b),
+	returnsBigInt ? 0n : 0);
+}
+
+/**
+ * Gets the average of a list of numbers.
+ * @param numbers - Numbers.
+ * @returns Average in number type.
+ */
+export function average(...numbers: number[]) {
+	if (numbers.length === 0) return NaN;
+	return numbers.reduce((a, b) => a + b, 0) / numbers.length;
+}
+
+/**
+ * Gets the median of a list of numbers.
+ * @param numbers - Numbers.
+ * @returns Median in number type.
+ */
+export function median(...numbers: number[]) {
+	numbers.sort((a, b) => a - b);
+	const mid = Math.floor(numbers.length / 2);
+	return numbers.length % 2 ? numbers[mid] : (numbers[mid - 1] + numbers[mid]) / 2;
+}

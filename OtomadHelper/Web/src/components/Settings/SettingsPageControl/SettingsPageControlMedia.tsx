@@ -50,7 +50,7 @@ const StyledSettingsPageControlMedia = styled(Card)<{
 			filter: blur(30px) url("#posterize");
 		}
 
-		@media (prefers-reduced-transparency: reduce) {
+		${ifColorScheme.reduceTransparency} {
 			filter: none !important;
 		}
 	}

@@ -441,7 +441,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 	function handleInput(text: string) {
 		if (text === "")
 			return;
-		else if (text.match(/[^\d.-]/) || text.indexOf("-", 1) >= 0 || text.countChar(".") >= 2)
+		else if (text.match(/[^\d.-]/) || text.indexOf("-", 1) >= 0 || text.count(".") >= 2)
 			return false;
 		const value = text.match(/-?\d*\.?\d*/)?.[0].replace(/(?<=^-?)0+(?=\d)/, "");
 		if (!value) // undefined or ""

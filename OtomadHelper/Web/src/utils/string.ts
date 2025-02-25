@@ -1,12 +1,8 @@
 import dedent from "dedent";
 
 { // Init string extensions
-	String.prototype.countChar = function (...chars) {
-		let count = 0;
-		for (const char of this)
-			if (chars.includes(char))
-				count++;
-		return count;
+	String.prototype.count = function (...substrings) {
+		return sum(...substrings.map(substring => this.split(substring).length - 1));
 	};
 
 	String.prototype.reverse = function () {

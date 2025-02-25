@@ -152,31 +152,33 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 
 	return (
 		<div className="expander">
-			<ExpanderParent
-				{...settingsCardProps}
-				ref={ref}
-				type={childrenDisabled ? onClickWhenChildrenDisabled ? "button" : "container-but-button" : "expander"}
-				trailingIcon="chevron_down"
-				id={`${ariaId}-parent`}
-				aria-controls={`${ariaId}-child`}
-				aria-expanded={internalExpanded}
-				$expanded={internalExpanded}
-				$childrenDisabled={childrenDisabled}
-				_lockContentSize={lockExpanderParentContentSize}
-				onClick={handleClick}
-			>
-				{actions}
-				{checkInfo != null && (
-					<CssTransition
-						in={!internalExpanded || alwaysShowCheckInfo}
-						onEntered={() => resetLockExpanderParentContentSize()}
-						onExited={() => resetLockExpanderParentContentSize()}
-						hiddenOnExit
-					>
-						<div className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</div>
-					</CssTransition>
-				)}
-			</ExpanderParent>
+			<StickyPerceptibility method="intersection">
+				<ExpanderParent
+					{...settingsCardProps}
+					ref={ref}
+					type={childrenDisabled ? onClickWhenChildrenDisabled ? "button" : "container-but-button" : "expander"}
+					trailingIcon="chevron_down"
+					id={`${ariaId}-parent`}
+					aria-controls={`${ariaId}-child`}
+					aria-expanded={internalExpanded}
+					$expanded={internalExpanded}
+					$childrenDisabled={childrenDisabled}
+					_lockContentSize={lockExpanderParentContentSize}
+					onClick={handleClick}
+				>
+					{actions}
+					{checkInfo != null && (
+						<CssTransition
+							in={!internalExpanded || alwaysShowCheckInfo}
+							onEntered={() => resetLockExpanderParentContentSize()}
+							onExited={() => resetLockExpanderParentContentSize()}
+							hiddenOnExit
+						>
+							<div className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</div>
+						</CssTransition>
+					)}
+				</ExpanderParent>
+			</StickyPerceptibility>
 			<CssTransition in={internalExpanded} unmountOnExit transitionEndProperty={["height", "block-size"]}>
 				<ExpanderChild
 					disabled={disabled || childrenDisabled}

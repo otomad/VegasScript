@@ -205,7 +205,7 @@ const GlobalStyle = createGlobalStyle<{
 	}
 
 	// User requested to reduce dynamic effects
-	@media (prefers-reduced-motion: reduce) {
+	${ifColorScheme.reduceMotion} {
 		${important(2)} {
 			&,
 			&::before,
@@ -232,7 +232,7 @@ const GlobalStyle = createGlobalStyle<{
 		}
 	}
 
-	@media (prefers-reduced-transparency: reduce) {
+	${ifColorScheme.reduceTransparency} {
 		*,
 		::before,
 		::after {

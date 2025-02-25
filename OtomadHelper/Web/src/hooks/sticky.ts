@@ -22,13 +22,21 @@ export function useIsSticky(element: RefObject<HTMLElement | null>, method: Stic
 
 		switch (method) {
 			case "intersection": {
-				const observer = new IntersectionObserver(
-					([e]) => setIsSticky(e.intersectionRatio < 1),
-					{
-						// rootMargin: "-1px 0px 0px 0px",
-						threshold: [1],
-					},
-				);
+				const observer = new IntersectionObserver(([entry]) => {
+					const style = getComputedStyle(entry.target);
+					const detectAbove = style.top !== "auto", detectBelow = style.bottom !== "auto";
+					const intersection = entry.isIntersecting ? "visible" :
+						entry.intersectionRect.bottom === entry.rootBounds?.bottom ? "below" :
+						entry.intersectionRect.top === entry.rootBounds?.top ? "above" : "both";
+					setIsSticky(intersection !== "visible" && (
+						intersection === "both" ||
+						detectAbove && intersection === "above" ||
+						detectBelow && intersection === "below"
+					));
+				}, {
+					// rootMargin: "-1px 0px 0px 0px",
+					threshold: [1],
+				});
 				observer.observe(el);
 				return () => observer.disconnect();
 			}

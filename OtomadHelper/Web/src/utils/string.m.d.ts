@@ -1,16 +1,17 @@
 declare interface String {
 	/**
-	 * Find the number of times a specified character appears in a string.
+	 * Count the number of specific characters or substrings in a string.
 	 *
-	 * @param chars - The characters to search for.
-	 * @returns Find the number of specified characters.
+	 * @param substrings - The characters or substrings to search for.
+	 * @returns Number of occurrences.
 	 *
 	 * @example
 	 * ```javascript
-	 * console.log("hello world!".countChar("l")); // Output: 3
+	 * console.log("hello world!".count("l")); // Output: 3
+	 * console.log("pen pineapple apple pen".count("apple")); // Output: 2
 	 * ```
 	 */
-	countChar(...chars: string[]): number;
+	count(...substrings: string[]): number;
 
 	/**
 	 * Reverse the order of strings.

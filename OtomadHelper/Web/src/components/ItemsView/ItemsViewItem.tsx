@@ -76,10 +76,6 @@ const StyledItemsViewItem = styled.button<{
 			${!$withBorder && css`
 				box-shadow: 0 0 0 1px ${c("stroke-color-control-stroke-on-accent-tertiary")} inset;
 			`}
-
-			${ifColorScheme.contrast} & {
-				background-color: transparent;
-			}
 		}
 
 		&:not(.selected):has(.image-wrapper .no-border) .selection {
@@ -88,8 +84,14 @@ const StyledItemsViewItem = styled.button<{
 
 		&${isPressed} .selection {
 			background-color: ${c("fill-color-subtle-tertiary")};
+		}
 
+		&:is(:hover, ${isPressed}) .selection {
 			${ifColorScheme.contrast} & {
+				background-color: transparent;
+			}
+
+			${ifColorScheme.reduceTransparency} {
 				background-color: transparent;
 			}
 		}

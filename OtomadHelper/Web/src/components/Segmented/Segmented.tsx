@@ -103,6 +103,10 @@ const StyledSegmented = styled.div<{
 		transition: ${fallbackTransitions}, inset-inline-start ${THUMB_TRANSITION_OPTION};
 		forced-color-adjust: none;
 
+		${ifColorScheme.reduceTransparency} {
+			background-color: transparent;
+		}
+
 		${({ $itemCount = 0, $selectedIndex = -1 }) => !$itemCount ? css`
 			inset-inline-start: 0;
 			width: 0;

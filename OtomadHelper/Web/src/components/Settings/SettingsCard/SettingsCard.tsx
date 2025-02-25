@@ -48,6 +48,16 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 
 	button&:not(.container) {
+		&.sticky { // TODO: The mixed color seems not right.
+			> .base {
+				background-color: color-mix(in srgb, ${c("background-fill-color-card-background-default")}, ${c("background-color")} 50%);
+			}
+
+			&:hover > .base {
+				background-color: color-mix(in srgb, ${c("fill-color-control-secondary")}, ${c("background-color")} 50%);
+			}
+		}
+
 		&:hover,
 		${isPressed()} {
 			border-color: ${c("stroke-color-control-stroke-default")};
@@ -61,6 +71,10 @@ const StyledSettingsCard = styled(StyledCard)<{
 		${isPressed("&:has(.trailing .toggle-switch-base:not(:active, .pressing, .pressed))")} {
 			> .base {
 				background-color: ${c("fill-color-control-tertiary")};
+			}
+
+			&.sticky > .base {
+				background-color: color-mix(in srgb, ${c("fill-color-control-tertiary")}, ${c("background-color")} 50%);
 			}
 
 			> .base > .leading > .icon,
