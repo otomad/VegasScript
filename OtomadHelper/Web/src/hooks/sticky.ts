@@ -1,5 +1,8 @@
 export type StickyDetectionMethod = "intersection" | "scroll";
 
+// Backdoors
+const isExpander = (el: Element) => el.matches(".expander-parent");
+
 /**
  * Event to detect when `position: sticky` is triggered.
  * @note Currently only supports top sticky.
@@ -18,12 +21,18 @@ export function useIsSticky(element: RefObject<HTMLElement | null>, method: Stic
 
 	useEffect(() => {
 		const el = toValue(element);
-		if (!el || !visible || getComputedStyle(el).position !== "sticky") return;
+		if (
+			!el ||
+			!visible && method === "scroll" ||
+			getComputedStyle(el).position !== "sticky" && !isExpander(el)
+		) return;
 
 		switch (method) {
 			case "intersection": {
 				const observer = new IntersectionObserver(([entry]) => {
-					const style = getComputedStyle(entry.target);
+					const el = entry.target;
+					if (isExpander(el) && !el.ariaExpanded?.toBoolean()) { setIsSticky(false); return; }
+					const style = getComputedStyle(el);
 					const detectAbove = style.top !== "auto", detectBelow = style.bottom !== "auto";
 					const intersection = entry.isIntersecting ? "visible" :
 						entry.intersectionRect.bottom === entry.rootBounds?.bottom ? "below" :
