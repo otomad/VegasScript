@@ -1,4 +1,4 @@
-import type { TransitionGroupProps } from "react-transition-group-fc";
+import type { TransitionGroupChildFactory } from "react-transition-group-fc";
 import CommandBarGroup from "./CommandBarGroup";
 import { CommandBarItem } from "./CommandBarItem";
 
@@ -103,7 +103,7 @@ export default function CommandBar({ position, autoCollapse, addGaps, children, 
 }, "div">) {
 	const [commandBarEl, setCommandBarEl] = useDomRefs<"div">();
 	const anchorName = useUniqueId("--command-bar");
-	const childFactory: TransitionGroupProps["childFactory"] = child => child.type === "hr" ? <hr key={child.key} /> : child;
+	const childFactory: TransitionGroupChildFactory = child => child.type === "hr" ? <hr key={child.key} /> : child;
 	const overflowed = useIsCommandBarOverflowed(commandBarEl.current[1]);
 
 	return forMap(autoCollapse ? 2 : 1, i => (

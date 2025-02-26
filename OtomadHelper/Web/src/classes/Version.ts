@@ -16,7 +16,7 @@ export default class Version {
 	}
 
 	private static checkIsValidVersion(version: number[]) {
-		if (!version.length || version.some(v => !Number.isFinite(v)))
+		if (version.length === 0 || version.some(v => !Number.isFinite(v)))
 			throw new Error(`Invalid version: ${version}`);
 	}
 

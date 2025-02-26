@@ -40,6 +40,24 @@ const StyledFlyout = styled.div`
 		&.command-bar-right {
 			right: max(calc(anchor(center) - var(--width) / 2), anchor(var(--constrain) right));
 		}
+
+		&.command-bar-left {
+			right: auto;
+			left: max(calc(anchor(center) - var(--width) / 2), anchor(var(--constrain) left));
+		}
+
+		&.command-bar-center {
+			right: unset;
+			justify-self: anchor-center;
+
+			&.top {
+				position-area: top;
+			}
+
+			&.bottom {
+				position-area: bottom;
+			}
+		}
 	}
 
 	&:not(.in-command-bar) {
@@ -92,15 +110,15 @@ const StyledFlyout = styled.div`
 	}
 
 	&.padding-x {
-		padding-inline: 4px;
+		padding-inline: ${PADDING};
 	}
 
 	&.padding-y {
-		padding-block: 4px;
+		padding-block: ${PADDING};
 	}
 
 	&.padding-xy {
-		padding: 4px;
+		padding: ${PADDING};
 	}
 `;
 
