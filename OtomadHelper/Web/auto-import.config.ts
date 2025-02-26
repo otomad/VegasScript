@@ -79,6 +79,9 @@ export default [
 		"jotai-immer": [
 			"atomWithImmer",
 		],
+		"variable-name-conversion": [
+			["default", "VariableName"],
+		],
 	},
 	/* {
 		from: "react",

@@ -3,8 +3,8 @@ import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+import VariableName from "variable-name-conversion";
 import { create } from "xmlbuilder2";
-import VariableName from "../src/classes/VariableName";
 
 import allLanguages from "../src/locales/all";
 

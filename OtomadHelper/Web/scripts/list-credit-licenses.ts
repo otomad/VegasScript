@@ -1,7 +1,7 @@
 import { exec as execSync } from "child_process";
 import { readFile, writeFile } from "fs/promises";
-import checker from "license-checker";
 import { resolve } from "path";
+import checker from "license-checker";
 
 const exec = (command: string) => new Promise<string>((resolve, reject) => execSync(command, (_err, stdout, stderr) => {
 	if (stderr) reject(stderr);

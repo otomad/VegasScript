@@ -39,12 +39,12 @@ DependencyPropertyGenerator | havendv | MIT
 [NAudio.WinForms](https://github.com/naudio/NAudio) | Mark Heath | MIT
 [NAudio.WinMM](https://github.com/naudio/NAudio) | NAudio.WinMM | MIT
 [PanguSpacing](https://github.com/otomad/pangu.cs) | yozora | MIT
-[System.Buffers](https://dot.net/) | Microsoft | MIT
+[System.Buffers](https://github.com/dotnet/maintenance-packages) | Microsoft | MIT
 [System.ComponentModel.Annotations](https://github.com/dotnet/runtime) | Microsoft | MIT
 [System.IO.Pipelines](https://dot.net/) | Microsoft | MIT
-[System.Memory](https://dot.net/) | Microsoft | MIT
-[System.Numerics.Vectors](https://dot.net/) | Microsoft | MIT
-[System.Runtime.CompilerServices.Unsafe](https://dot.net/) | Microsoft | MIT
+[System.Memory](https://github.com/dotnet/maintenance-packages) | Microsoft | MIT
+[System.Numerics.Vectors](https://github.com/dotnet/maintenance-packages) | Microsoft | MIT
+[System.Runtime.CompilerServices.Unsafe](https://github.com/dotnet/maintenance-packages) | Microsoft | MIT
 [System.Security.AccessControl](https://github.com/dotnet/corefx) | Microsoft | MIT
 [System.Security.Principal.Windows](https://github.com/dotnet/corefx) | Microsoft | MIT
 [System.Text.Encodings.Web](https://dot.net/) | Microsoft | MIT
@@ -156,9 +156,12 @@ Project | Authors | License
 [@oozcitak/infra](https://github.com/oozcitak/infra) | Ozgur Ozcitak | MIT
 [@oozcitak/url](https://github.com/oozcitak/url) | Ozgur Ozcitak | MIT
 [@oozcitak/util](https://github.com/oozcitak/util) | Ozgur Ozcitak | MIT
+[@oxc-parser/binding-win32-x64-msvc](https://github.com/oxc-project/oxc) | Boshen and oxc contributors | MIT
+[@oxc-project/types](https://github.com/oxc-project/oxc) | Boshen and oxc contributors | MIT
 [@pkgjs/parseargs](https://github.com/pkgjs/parseargs) |  | MIT
 [@rollup/pluginutils](https://github.com/rollup/plugins) | Rich Harris | MIT
 [@rollup/rollup-win32-x64-msvc](https://github.com/rollup/rollup) | Lukas Taegert-Atkinson | MIT
+[@rtsao/scc](https://github.com/rtsao/scc) |  | MIT
 [@styled/typescript-styled-plugin](https://github.com/styled-components/typescript-styled-plugin) | Styled Components | MIT
 [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic) | Anthony Fu | MIT
 [@stylistic/stylelint-plugin](https://github.com/stylelint-stylistic/stylelint-stylistic) | Sergey Artemov | MIT
@@ -182,12 +185,15 @@ Project | Authors | License
 [@types/babel__traverse](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/conventional-commits-parser](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/estree](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
+[@types/html-minifier-terser](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/jsdom](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/json-schema](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
+[@types/json5](https://github.com/DefinitelyTyped/DefinitelyTyped) | Jason Swearingen | MIT
 [@types/license-checker](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/lodash-es](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/lodash](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
+[@types/normalize-package-data](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/pangu](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/prop-types](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/react-dom](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
@@ -197,11 +203,11 @@ Project | Authors | License
 [@types/tough-cookie](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@types/yauzl](https://github.com/DefinitelyTyped/DefinitelyTyped) |  | MIT
 [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
-[@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) |  | BSD-2-Clause
+[@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
 [@typescript-eslint/scope-manager](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
 [@typescript-eslint/type-utils](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
 [@typescript-eslint/types](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
-[@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) |  | BSD-2-Clause
+[@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
 [@typescript-eslint/utils](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
 [@typescript-eslint/visitor-keys](https://github.com/typescript-eslint/typescript-eslint) |  | MIT
 [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react) | Evan You | MIT
@@ -231,13 +237,13 @@ Project | Authors | License
 [array-union](https://github.com/sindresorhus/array-union) | Sindre Sorhus | MIT
 [array-unique](https://github.com/jonschlinkert/array-unique) | Jon Schlinkert | MIT
 [array.prototype.findlast](https://github.com/es-shims/Array.prototype.findLast) | Jordan Harband | MIT
+[array.prototype.findlastindex](https://github.com/es-shims/Array.prototype.findLastIndex) | Jordan Harband | MIT
 [array.prototype.flat](https://github.com/es-shims/Array.prototype.flat) | Jordan Harband | MIT
 [array.prototype.flatmap](https://github.com/es-shims/Array.prototype.flatMap) | Jordan Harband | MIT
 [array.prototype.tosorted](https://github.com/es-shims/Array.prototype.toSorted) | Jordan Harband | MIT
 [arraybuffer.prototype.slice](https://github.com/es-shims/ArrayBuffer.prototype.slice) | Jordan Harband | MIT
 [asap](https://github.com/kriskowal/asap) |  | MIT
 [assign-symbols](https://github.com/jonschlinkert/assign-symbols) | Jon Schlinkert | MIT
-[ast-kit](https://github.com/sxzz/ast-kit) |  | MIT
 [astral-regex](https://github.com/kevva/astral-regex) | Kevin Mårtensson | MIT
 [asynckit](https://github.com/alexindigo/asynckit) | Alex Indigo | MIT
 [at-least-node](https://github.com/RyanZim/at-least-node) | Ryan Zimmerman | ISC
@@ -260,10 +266,13 @@ Project | Authors | License
 [buffer-crc32](https://github.com/brianloveswords/buffer-crc32) | Brian J. Brennan | MIT
 [buffer-from](https://github.com/LinusU/buffer-from) |  | MIT
 [buffer](https://github.com/feross/buffer) | Feross Aboukhadijeh | MIT
+[builtin-modules](https://github.com/sindresorhus/builtin-modules) | Sindre Sorhus | MIT
 [byte-data](https://github.com/rochars/byte-data) | Rafael da Silva Rocha | MIT
 [cache-base](https://github.com/jonschlinkert/cache-base) | Jon Schlinkert | MIT
 [cachedir](https://github.com/LinusU/node-cachedir) | Linus Unnebäck | MIT
+[call-bind-apply-helpers](https://github.com/ljharb/call-bind-apply-helpers) | Jordan Harband | MIT
 [call-bind](https://github.com/ljharb/call-bind) | Jordan Harband | MIT
+[call-bound](https://github.com/ljharb/call-bound) | Jordan Harband | MIT
 [callsites](https://github.com/sindresorhus/callsites) | Sindre Sorhus | MIT
 [camel-case](https://github.com/blakeembrey/change-case) | Blake Embrey | MIT
 [camelcase](https://github.com/sindresorhus/camelcase) | Sindre Sorhus | MIT
@@ -271,9 +280,11 @@ Project | Authors | License
 [caniuse-lite](https://github.com/browserslist/caniuse-lite) | Ben Briggs | CC-BY-4.0
 [chalk](https://github.com/chalk/chalk) |  | MIT
 [chardet](https://github.com/runk/node-chardet) | Dmitry Shirokov | MIT
+[ci-info](https://github.com/watson/ci-info) | Thomas Watson Steen | MIT
 [class-utils](https://github.com/jonschlinkert/class-utils) | Jon Schlinkert | MIT
 [classnames](https://github.com/JedWatson/classnames) | Jed Watson | MIT
 [clean-css](https://github.com/clean-css/clean-css) | Jakub Pawlowicz | MIT
+[clean-regexp](https://github.com/SamVerschueren/clean-regexp) | Sam Verschueren | MIT
 [cli-cursor](https://github.com/sindresorhus/cli-cursor) | Sindre Sorhus | MIT
 [cli-spinners](https://github.com/sindresorhus/cli-spinners) | Sindre Sorhus | MIT
 [cli-width](https://github.com/knownasilya/cli-width) | Ilya Radchenko | ISC
@@ -302,6 +313,7 @@ Project | Authors | License
 [convert-source-map](https://github.com/thlorenz/convert-source-map) | Thorsten Lorenz | MIT
 [cookie-es](https://github.com/unjs/cookie-es) |  | MIT
 [copy-descriptor](https://github.com/jonschlinkert/copy-descriptor) | Jon Schlinkert | MIT
+[core-js-compat](https://github.com/zloirock/core-js) | Denis Pushkarev | MIT
 [cors](https://github.com/expressjs/cors) | Troy Goode | MIT
 [cosmiconfig-typescript-loader](https://github.com/Codex-/cosmiconfig-typescript-loader) | Alex Miller | MIT
 [cosmiconfig](https://github.com/cosmiconfig/cosmiconfig) | Daniel Fischer | MIT
@@ -323,7 +335,7 @@ Project | Authors | License
 [data-view-buffer](https://github.com/ljharb/data-view-buffer) | Jordan Harband | MIT
 [data-view-byte-length](https://github.com/ljharb/data-view-byte-length) | Jordan Harband | MIT
 [data-view-byte-offset](https://github.com/ljharb/data-view-byte-offset) | Jordan Harband | MIT
-[debug](https://github.com/debug-js/debug) | Josh Junon | MIT
+[debug](https://github.com/visionmedia/debug) | TJ Holowaychuk | MIT
 [debuglog](https://github.com/sam-github/node-debuglog) | Sam Roberts | MIT
 [decimal.js](https://github.com/MikeMcl/decimal.js) | Michael Mclaughlin | MIT
 [decode-uri-component](https://github.com/SamVerschueren/decode-uri-component) | Sam Verschueren | MIT
@@ -348,6 +360,7 @@ Project | Authors | License
 [domutils](https://github.com/fb55/domutils) | Felix Boehm | BSD-2-Clause
 [dot-case](https://github.com/blakeembrey/change-case) | Blake Embrey | MIT
 [dot-prop](https://github.com/sindresorhus/dot-prop) | Sindre Sorhus | MIT
+[dunder-proto](https://github.com/es-shims/dunder-proto) | Jordan Harband | MIT
 [eastasianwidth](https://github.com/komagata/eastasianwidth) | Masaki Komagata | MIT
 [electron-to-chromium](https://github.com/kilian/electron-to-chromium) | Kilian Valkhof | ISC
 [emmet](https://github.com/emmetio/emmet) | Sergey Chikuyonok | MIT
@@ -369,9 +382,13 @@ Project | Authors | License
 [esbuild](https://github.com/evanw/esbuild) |  | MIT
 [escalade](https://github.com/lukeed/escalade) | Luke Edwards | MIT
 [escape-string-regexp](https://github.com/sindresorhus/escape-string-regexp) | Sindre Sorhus | MIT
+[eslint-import-resolver-node](https://github.com/import-js/eslint-plugin-import) | Ben Mosher | MIT
+[eslint-module-utils](https://github.com/import-js/eslint-plugin-import) | Ben Mosher | MIT
+[eslint-plugin-import](https://github.com/import-js/eslint-plugin-import) | Ben Mosher | MIT
 [eslint-plugin-react-hooks](https://github.com/facebook/react) |  | MIT
 [eslint-plugin-react-refresh](https://github.com/ArnaudBarre/eslint-plugin-react-refresh) | Arnaud Barré | MIT
 [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) | Yannick Croissant | MIT
+[eslint-plugin-unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn) | Sindre Sorhus | MIT
 [eslint-scope](https://github.com/eslint/js) |  | BSD-2-Clause
 [eslint-visitor-keys](https://github.com/eslint/js) | Toru Nagashima | Apache-2.0
 [eslint](https://github.com/eslint/eslint) | Nicholas C. Zakas | MIT
@@ -415,7 +432,7 @@ Project | Authors | License
 [fragment-cache](https://github.com/jonschlinkert/fragment-cache) | Jon Schlinkert | MIT
 [fs-extra](https://github.com/jprichardson/node-fs-extra) | JP Richardson | MIT
 [fs.realpath](https://github.com/isaacs/fs.realpath) | Isaac Z. Schlueter | ISC
-[fullwidth-quotes](https://github.com/otomad/fullwidth-quotes) | lunate | MIT
+[fullwidth-quotes](https://github.com/otomad/fullwidth-quotes.js) | lunate | MIT
 [function-bind](https://github.com/Raynos/function-bind) | Raynos | MIT
 [function.prototype.name](https://github.com/es-shims/Function.prototype.name) | Jordan Harband | MIT
 [functions-have-names](https://github.com/inspect-js/functions-have-names) | Jordan Harband | MIT
@@ -475,6 +492,7 @@ Project | Authors | License
 [import-fresh](https://github.com/sindresorhus/import-fresh) | Sindre Sorhus | MIT
 [import-meta-resolve](https://github.com/wooorm/import-meta-resolve) | Titus Wormer | MIT
 [imurmurhash](https://github.com/jensyt/imurmurhash-js) | Jens Taylor | MIT
+[indent-string](https://github.com/sindresorhus/indent-string) | Sindre Sorhus | MIT
 [inflight](https://github.com/npm/inflight) | Isaac Z. Schlueter | ISC
 [inherits](https://github.com/isaacs/inherits) |  | ISC
 [ini](https://github.com/isaacs/ini) | Isaac Z. Schlueter | ISC
@@ -489,6 +507,7 @@ Project | Authors | License
 [is-bigint](https://github.com/inspect-js/is-bigint) | Jordan Harband | MIT
 [is-boolean-object](https://github.com/inspect-js/is-boolean-object) | Jordan Harband | MIT
 [is-buffer](https://github.com/feross/is-buffer) | Feross Aboukhadijeh | MIT
+[is-builtin-module](https://github.com/sindresorhus/is-builtin-module) | Sindre Sorhus | MIT
 [is-callable](https://github.com/inspect-js/is-callable) | Jordan Harband | MIT
 [is-core-module](https://github.com/inspect-js/is-core-module) | Jordan Harband | MIT
 [is-data-descriptor](https://github.com/inspect-js/is-data-descriptor) | Jon Schlinkert | MIT
@@ -580,6 +599,7 @@ Project | Authors | License
 [magic-string](https://github.com/rich-harris/magic-string) | Rich Harris | MIT
 [map-cache](https://github.com/jonschlinkert/map-cache) | Jon Schlinkert | MIT
 [map-visit](https://github.com/jonschlinkert/map-visit) | Jon Schlinkert | MIT
+[math-intrinsics](https://github.com/es-shims/math-intrinsics) | Jordan Harband | MIT
 [mathml-tag-names](https://github.com/wooorm/mathml-tag-names) | Titus Wormer | MIT
 [mdn-data](https://github.com/mdn/data) | Mozilla Developer Network | CC0-1.0
 [meow](https://github.com/sindresorhus/meow) | Sindre Sorhus | MIT
@@ -592,6 +612,7 @@ Project | Authors | License
 [mime-types](https://github.com/jshttp/mime-types) |  | MIT
 [mime](https://github.com/broofa/mime) | Robert Kieffer | MIT
 [mimic-fn](https://github.com/sindresorhus/mimic-fn) | Sindre Sorhus | MIT
+[min-indent](https://github.com/thejameskyle/min-indent) | James Kyle | MIT
 [minimatch](https://github.com/isaacs/minimatch) | Isaac Z. Schlueter | ISC
 [minimist](https://github.com/minimistjs/minimist) | James Halliday | MIT
 [minipass](https://github.com/isaacs/minipass) | Isaac Z. Schlueter | ISC
@@ -622,6 +643,7 @@ Project | Authors | License
 [object.assign](https://github.com/ljharb/object.assign) | Jordan Harband | MIT
 [object.entries](https://github.com/es-shims/Object.entries) | Jordan Harband | MIT
 [object.fromentries](https://github.com/es-shims/Object.fromEntries) | Jordan Harband | MIT
+[object.groupby](https://github.com/es-shims/Object.groupBy) | Jordan Harband | MIT
 [object.pick](https://github.com/jonschlinkert/object.pick) | Jon Schlinkert | MIT
 [object.values](https://github.com/es-shims/Object.values) | Jordan Harband | MIT
 [ohash](https://github.com/unjs/ohash) |  | MIT
@@ -633,8 +655,10 @@ Project | Authors | License
 [os-tmpdir](https://github.com/sindresorhus/os-tmpdir) | Sindre Sorhus | MIT
 [osenv](https://github.com/npm/osenv) | Isaac Z. Schlueter | ISC
 [otomad-helper](https://github.com/otomad/OtomadHelper) | Rantetsu Inori | GPL-3.0-or-later
+[oxc-parser](https://github.com/oxc-project/oxc) | Boshen and oxc contributors | MIT
 [p-limit](https://github.com/sindresorhus/p-limit) | Sindre Sorhus | MIT
 [p-locate](https://github.com/sindresorhus/p-locate) | Sindre Sorhus | MIT
+[p-try](https://github.com/sindresorhus/p-try) | Sindre Sorhus | MIT
 [package-json-from-dist](https://github.com/isaacs/package-json-from-dist) | Isaac Z. Schlueter | BlueOak-1.0.0
 [package-name-regex](https://github.com/dword-design/package-name-regex) | Sebastian Landwehr | MIT
 [pangu](https://github.com/vinta/pangu.js) | Vinta Chen | MIT
@@ -656,6 +680,7 @@ Project | Authors | License
 [picocolors](https://github.com/alexeyraspopov/picocolors) | Alexey Raspopov | ISC
 [picomatch](https://github.com/micromatch/picomatch) | Jon Schlinkert | MIT
 [pkg-types](https://github.com/unjs/pkg-types) |  | MIT
+[pluralize](https://github.com/blakeembrey/pluralize) | Blake Embrey | MIT
 [point-in-polygon](https://github.com/substack/point-in-polygon) | James Halliday | MIT
 [posix-character-classes](https://github.com/jonschlinkert/posix-character-classes) | Jon Schlinkert | MIT
 [possible-typed-array-names](https://github.com/ljharb/possible-typed-array-names) | Jordan Harband | MIT
@@ -691,12 +716,16 @@ Project | Authors | License
 [react](https://github.com/facebook/react) |  | MIT
 [read-installed](https://github.com/isaacs/read-installed) | Isaac Z. Schlueter | ISC
 [read-package-json](https://github.com/npm/read-package-json) | Isaac Z. Schlueter | ISC
+[read-pkg-up](https://github.com/sindresorhus/read-pkg-up) | Sindre Sorhus | MIT
+[read-pkg](https://github.com/sindresorhus/read-pkg) | Sindre Sorhus | MIT
 [readable-stream](https://github.com/nodejs/readable-stream) |  | MIT
 [readdir-scoped-modules](https://github.com/npm/readdir-scoped-modules) | Isaac Z. Schlueter | ISC
 [reflect.getprototypeof](https://github.com/es-shims/Reflect.getPrototypeOf) | Jordan Harband | MIT
 [regenerator-runtime](https://github.com/facebook/regenerator/tree/main/packages/runtime) | Ben Newman | MIT
 [regex-not](https://github.com/jonschlinkert/regex-not) | Jon Schlinkert | MIT
+[regexp-tree](https://github.com/DmitrySoshnikov/regexp-tree) | Dmitry Soshnikov | MIT
 [regexp.prototype.flags](https://github.com/es-shims/RegExp.prototype.flags) | Jordan Harband | MIT
+[regjsparser](https://github.com/jviereck/regjsparser) | 'Julian Viereck' | BSD-2-Clause
 [relateurl](https://github.com/stevenvachon/relateurl) | Steven Vachon | MIT
 [repeat-element](https://github.com/jonschlinkert/repeat-element) | Jon Schlinkert | MIT
 [repeat-string](https://github.com/jonschlinkert/repeat-string) | Jon Schlinkert | MIT
@@ -734,6 +763,9 @@ Project | Authors | License
 [shebang-command](https://github.com/kevva/shebang-command) | Kevin Mårtensson | MIT
 [shebang-regex](https://github.com/sindresorhus/shebang-regex) | Sindre Sorhus | MIT
 [shell-quote](https://github.com/ljharb/shell-quote) | James Halliday | MIT
+[side-channel-list](https://github.com/ljharb/side-channel-list) | Jordan Harband | MIT
+[side-channel-map](https://github.com/ljharb/side-channel-map) | Jordan Harband | MIT
+[side-channel-weakmap](https://github.com/ljharb/side-channel-weakmap) | Jordan Harband | MIT
 [side-channel](https://github.com/ljharb/side-channel) | Jordan Harband | MIT
 [signal-exit](https://github.com/tapjs/signal-exit) | Ben Coe | ISC
 [simple-swizzle](https://github.com/qix-/node-simple-swizzle) | Qix | MIT
@@ -775,6 +807,7 @@ Project | Authors | License
 [strip-ansi](https://github.com/chalk/strip-ansi) | Sindre Sorhus | MIT
 [strip-ansi](https://github.com/chalk/strip-ansi) | Sindre Sorhus | MIT
 [strip-bom](https://github.com/sindresorhus/strip-bom) | Sindre Sorhus | MIT
+[strip-indent](https://github.com/sindresorhus/strip-indent) | Sindre Sorhus | MIT
 [strip-json-comments](https://github.com/sindresorhus/strip-json-comments) | Sindre Sorhus | MIT
 [strip-literal](https://github.com/antfu/strip-literal) | Anthony Fu | MIT
 [style-search](https://github.com/davidtheclark/style-search) | David Clark | ISC
@@ -811,6 +844,7 @@ Project | Authors | License
 [treeify](https://github.com/notatestuser/treeify) | Luke Plaster | MIT
 [ts-api-utils](https://github.com/JoshuaKGoldberg/ts-api-utils) | JoshuaKGoldberg | MIT
 [tsconfck](https://github.com/dominikg/tsconfck) | dominikg | MIT
+[tsconfig-paths](https://github.com/dividab/tsconfig-paths) | Jonas Kello | MIT
 [tslib](https://github.com/Microsoft/tslib) | Microsoft Corp. | 0BSD
 [type-check](https://github.com/gkz/type-check) | George Zahariev | MIT
 [type-fest](https://github.com/sindresorhus/type-fest) | Sindre Sorhus | (MIT OR CC0-1.0)
@@ -846,9 +880,9 @@ Project | Authors | License
 [util-extend](https://github.com/isaacs/util-extend) |  | MIT
 [validate-npm-package-license](https://github.com/kemitchell/validate-npm-package-license.js) | Kyle E. Mitchell | Apache-2.0
 [valtio](https://github.com/pmndrs/valtio) | Daishi Kato | MIT
+[variable-name-conversion](https://github.com/otomad/variable-name-conversion) | lunate | MIT
 [vary](https://github.com/jshttp/vary) | Douglas Christopher Wilson | MIT
 [vite-plugin-glsl](https://github.com/UstymUkhman/vite-plugin-glsl) | Ustym Ukhman | MIT
-[vite-plugin-html-minifier](https://github.com/erm1116/vite-plugin-html-minifier) | erm1116 | MIT
 [vite-plugin-image-optimizer](https://github.com/FatehAK/vite-plugin-image-optimizer) | fatehak | MIT
 [vite-plugin-no-bundle](https://github.com/ManBearTM/vite-plugin-no-bundle) | ManBearTM | Unlicense
 [vite-plugin-svg-icons](https://github.com/anncwb/vite-plugin-svg-icons) | Vben | MIT

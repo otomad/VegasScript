@@ -355,5 +355,5 @@ export function getContrastiveColor(colorVar: string, alpha: number = 1) {
  * @returns Kebab case CSS style property name.
  */
 export function convertCamelStylePropertyToKebab(camel: string) {
-	return camel.startsWith("--") ? camel : new VariableName(camel).cssProperty;
+	return camel.startsWith("--") ? camel : new VariableName(camel).cssProp;
 }

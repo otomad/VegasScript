@@ -1,7 +1,7 @@
 import { lstat, readFile, readdir } from "fs/promises";
 import { parse, resolve } from "path";
+import VariableName from "variable-name-conversion";
 import loadShader from "../../../node_modules/vite-plugin-glsl/src/loadShader";
-import VariableName from "../../classes/VariableName";
 import replacerWithGroups from "../../helpers/replacerWithGroups";
 
 export type FragmentDefaults = Record<string, Record<string, { type: string; value: number | number[] }>>;

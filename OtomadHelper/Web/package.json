@@ -67,7 +67,8 @@
 		"styled-components": "^6.1.13",
 		"styled-tools": "^1.7.2",
 		"use-immer": "^0.10.0",
-		"valtio": "^2.1.2"
+		"valtio": "^2.1.2",
+		"variable-name-conversion": "^1.5.0"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "latest",

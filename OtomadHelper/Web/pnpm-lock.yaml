@@ -136,6 +136,9 @@ importers:
       valtio:
         specifier: ^2.1.2
         version: 2.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      variable-name-conversion:
+        specifier: ^1.5.0
+        version: 1.5.0
     devDependencies:
       '@commitlint/cli':
         specifier: latest
@@ -4954,6 +4957,9 @@ packages:
         optional: true
       react:
         optional: true
+
+  variable-name-conversion@1.5.0:
+    resolution: {integrity: sha512-KuaPpCid8eIAezvdmgNms/a21rwVFtIOLw9sbr/dFUHPbM0LR1D0BQh1a0OkzrR4XPFvM4HQNxGZgVFx9apGdQ==}
 
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
@@ -10393,6 +10399,8 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc)
       react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+
+  variable-name-conversion@1.5.0: {}
 
   vary@1.1.2: {}
 
