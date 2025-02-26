@@ -52,7 +52,7 @@ export function useIsSticky(element: RefObject<HTMLElement | null>, method: Stic
 			default:
 				break;
 		}
-	}, [visible]);
+	});
 
 	return isSticky;
 }

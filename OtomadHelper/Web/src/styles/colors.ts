@@ -1,10 +1,10 @@
 /* eslint-disable @stylistic/quote-props */
 
 const colors = {
-	"background-color": ["#f3f3f3", "#202020", "Canvas"],
+	"background-color": ["rgb(243, 243, 243)", "rgb(32, 32, 32)", "Canvas", "black"],
 	"foreground-color": ["rgba(0, 0, 0, 0.9)", "rgb(255, 255, 255)", "CanvasText"], // fill-color-text-primary
-	"accent-color": ["#005fb8", "#60cdff", "Highlight"],
-	"colorization": ["#0078d4", "#0078d4", "transparent"],
+	"accent-color": ["rgb(0, 95, 184)", "rgb(96, 205, 255)", "Highlight"],
+	"colorization": ["rgb(0, 120, 212)", "rgb(0, 120, 212)", "transparent"],
 	"fill-color-text-primary-solid": ["rgba(24, 24, 24)", "rgb(255, 255, 255)", "CanvasText"],
 	"fill-color-text-secondary": ["rgba(0, 0, 0, 0.61)", "rgba(255, 255, 255, 0.79)", "CanvasText"],
 	"fill-color-text-tertiary": ["rgba(0, 0, 0, 0.45)", "rgba(255, 255, 255, 0.54)", "CanvasText"],
@@ -76,6 +76,10 @@ const colors = {
 	"background-fill-color-card-background-default": ["rgba(255, 255, 255, 0.7)", "rgba(255, 255, 255, 0.05)", "ButtonFace"],
 	"background-fill-color-card-background-secondary": ["rgba(246, 246, 246, 0.5)", "rgba(255, 255, 255, 0.03)", "ButtonFace"],
 	"background-fill-color-card-background-tertiary": ["rgb(255, 255, 255)", "rgba(255, 255, 255, 0.07)", "ButtonFace"],
+	"background-fill-color-expander-sticky-background-default": ["rgba(255, 255, 255, 0.7)", "rgba(54, 54, 54, 0.5)", "ButtonFace", "rgba(26, 26, 26, 0.5)"], // Based on background-fill-color-card-background-default, formula: newFgColor = (oldAlpha / newAlpha) * (fgColor - bgColor) + bgColor.
+	"background-fill-color-expander-sticky-background-secondary": ["rgba(248, 248, 248, 0.65)", "rgba(62, 62, 62, 0.6)", "ButtonFace", "rgba(34, 34, 34, 0.6)"], // Based on fill-color-control-secondary
+	"background-fill-color-expander-sticky-background-tertiary": ["rgba(246, 246, 246, 0.568)", "rgba(44, 44, 44, 0.55)", "ButtonFace", "rgba(14, 14, 14, 0.55)"], // Based on fill-color-control-tertiary
+	"background-fill-color-expander-sticky-background-disabled": ["rgba(246, 246, 246, 0.6)", "rgba(46, 46, 46, 0.625)", "ButtonFace", "rgba(16, 16, 16, 0.625)"], // Based on fill-color-control-disabled
 	"background-fill-color-smoke-default": ["rgba(255, 255, 255, 0.5)", "rgba(0, 0, 0, 0.3)", "ButtonFace"],
 	"background-fill-color-layer-default": ["rgba(255, 255, 255, 0.5)", "rgba(58, 58, 58, 0.3)", "ButtonFace"],
 	"background-fill-color-layer-alt": ["rgb(255, 255, 255)", "rgba(255, 255, 255, 0.05)", "ButtonFace"],
@@ -87,7 +91,7 @@ const colors = {
 	"background-fill-color-layer-on-mica-base-alt-secondary": ["rgba(0, 0, 0, 0.04)", "rgba(255, 255, 255, 0.06)", "ButtonFace"],
 	"background-fill-color-layer-on-mica-base-alt-tertiary": ["rgb(249, 249, 249)", "rgb(44, 44, 44)", "ButtonFace"],
 	"background-fill-color-acrylic-background-default": ["rgba(252, 252, 252, 0.85)", "rgba(44, 44, 44, 0.96)", "ButtonFace"],
-	"background-fill-color-acrylic-background-command-bar": ["rgba(252, 252, 252, 0.4)", "rgba(44, 44, 44, 0.7)", "ButtonFace"],
+	"background-fill-color-acrylic-background-command-bar": ["rgba(252, 252, 252, 0.4)", "rgba(44, 44, 44, 0.7)", "ButtonFace", "rgba(16, 16, 16, 0.7)"],
 	"background-fill-color-acrylic-background-base": ["rgba(243, 243, 243, 0.9)", "rgba(32, 32, 32, 0.96)", "ButtonFace"],
 	"background-fill-color-mica-background-base": ["rgb(243, 243, 243)", "rgb(32, 32, 32)", "ButtonFace"],
 	"background-fill-color-mica-background-base-alt": ["rgb(218, 218, 218)", "rgb(10, 10, 10)", "ButtonFace"],
@@ -101,7 +105,7 @@ const colors = {
 	"shadows-flyout": ["rgba(0, 0, 0, 0.14)", "rgba(0, 0, 0, 0.26)"],
 	"pressed-text-opacity": ["0.6063", "0.786"],
 	"disabled-text-opacity": ["0.3614", "0.3628"],
-} satisfies Record<string, [string, string] | [string, string, SystemColors]>;
+} satisfies Record<string, [string, string] | [string, string, SystemColors] | [string, string, SystemColors, string]>;
 
 /**
  * @notdeprecated Respects color-scheme inherited from parent\
@@ -121,12 +125,13 @@ export type ColorNames = keyof typeof colors;
 export default colors;
 export function globalColors() {
 	let css = "";
-	// Light, Dark, High Contrast
-	for (let i = 0; i < 3; i++) {
+	// Light, Dark, High Contrast, Black (AMOLED)
+	for (let i = 0; i < 4; i++) {
 		const selector = [
 			`:root${ifColorScheme.light}, ${ifColorScheme.light}`,
 			`:root, ${ifColorScheme.dark}`,
 			`:root${ifColorScheme.contrast}, ${ifColorScheme.contrast}`,
+			`:root${ifColorScheme.black}, ${ifColorScheme.black}`,
 		][i];
 		css += selector + "{";
 		for (const [key, values] of Object.entries(colors))
@@ -134,8 +139,6 @@ export function globalColors() {
 				css += `--${key}: ${values[i]};`;
 		css += "}";
 	}
-	// Black (AMOLED)
-	css += `:root${ifColorScheme.black}, ${ifColorScheme.black} {--background-color: black;}`;
 	// Reduce Transparency: Light, Dark
 	css += ifColorScheme.reduceTransparency + "{";
 	for (let i = 0; i < 2; i++) {
