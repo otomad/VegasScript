@@ -144,6 +144,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	portal?: PropsOf<typeof Portal>["container"];
 	/** When request to hide the flyout, it will be delayed for milliseconds before hiding. If it is reshowed during this period, it will not hide. */
 	hideDelay?: number;
+	// Backdoors
 	/** @private */
 	_commandBarAnchorName?: string;
 	/** @private */
