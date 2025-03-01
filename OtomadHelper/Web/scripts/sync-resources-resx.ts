@@ -1,14 +1,12 @@
 import { readFile, writeFile } from "fs/promises";
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { resolve } from "path";
 
 import VariableName from "variable-name-conversion";
 import { create } from "xmlbuilder2";
 
 import allLanguages from "../src/locales/all";
 
-const template_string = await readFile(resolve(__dirname, "Resources.resx.template.xml"), "utf-8");
+const template_string = await readFile(resolve(import.meta.dirname, "Resources.resx.template.xml"), "utf-8");
 const template = create(template_string);
 
 function flattenObject(object: AnyObject, context: string[] = []) {
@@ -36,5 +34,5 @@ for (const language of languages) {
 		indent: "\t",
 		spaceBeforeSlash: true,
 	});
-	writeFile(resolve(__dirname, "../../Strings", `${language.culture}.resw`), result, "utf-8");
+	writeFile(resolve(import.meta.dirname, "../../Strings", `${language.culture}.resw`), result, "utf-8");
 }

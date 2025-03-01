@@ -168,7 +168,7 @@
 		</None>
 	</ItemGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="powershell $(SolutionDir)versioning.ps1" />
+		<Exec Command="powershell -ExecutionPolicy Bypass -File $(SolutionDir)versioning.ps1" />
 	</Target>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<!--<Exec Command="$(ProjectDir)\Properties\InsertIcons.exe $(TargetPath) $(ProjectDir)Icons" />-->
