@@ -12,22 +12,7 @@ Copyright © 2021, Rantetsu Inori - Licensed under GPLv3
 >
 > You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-<p>
-<details>
-<summary>Chinese Layman's Version</summary>
-
-> 本程序是一个自由的软件，你可以重新分发它，可以魔改它，但要遵守 GPL 3.0 版本或者后续其它版本。
->
-> 我们希望本程序是有用的，但是我们不保证它能用，不保证它好用，我们不提供任何保证。
->
-> 更多请见 GPL 全文，如果理解不了，找人话版看看：<https://zhuanlan.zhihu.com/p/185628074>
->
-> 按道理你在得到本软件时，应该已经得到了一份 GPL，如果你没找到，写信给自由软件基金会 (FSF)：\
-> 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
->
-> 要是嫌运费或漫游费太贵就点击这里吧：<https://www.gnu.org/licenses/>
-</details>
-</p>
+[Chinese Version (Layman)](LICENSE.zh-CN.md)
 
 This project references the following open source code:\
 We would like to thank their authors and contributors for their contributions to the open source cause!
