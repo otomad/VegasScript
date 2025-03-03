@@ -150,7 +150,7 @@ export default {
 			times: "×",
 			bar: "小节",
 			beat: "拍",
-			cent: "音分 ",
+			cent: "音分",
 		},
 		confirm: {
 			delete: {
@@ -170,13 +170,13 @@ export default {
 			allFiles: "所有文件",
 			txt: "文本文档",
 			midi: "MIDI序列文件",
-			singthesis: "所有受支持的歌声合成软件工程文件",
+			singthesis: "所有受支持的虚拟歌姬软件工程文件",
 			ust: "UTAU/OpenUTAU序列文本文件",
 			vsq: "Vocaloid序列文件",
 		},
 		score: {
 			midi: "MIDI",
-			singthesis: "歌声合成",
+			singthesis: "虚拟歌姬",
 			refOtherTracks: "引用其它轨道",
 			tts: "文字转语音",
 			pureNotes: "纯音符",
@@ -424,7 +424,7 @@ export default {
 			separateDrums: "分离不同鼓声",
 			differenceCompositeMode: "差值合成模式",
 			shadow: "阴影",
-			graphs: "图形 ",
+			graphs: "图形",
 		},
 		lyrics: {
 			useStaticText: "从静态文本直接插入字幕",
