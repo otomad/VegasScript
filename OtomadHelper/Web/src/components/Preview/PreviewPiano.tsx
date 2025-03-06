@@ -17,6 +17,10 @@ const Wrapper = styled(HorizontalScroll)`
 			border-end-start-radius: inherit;
 		}
 	}
+
+	&:hover {
+		will-change: scroll-position;
+	}
 `;
 
 const StyledPreviewPiano = styled.div`
