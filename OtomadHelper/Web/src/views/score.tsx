@@ -142,7 +142,7 @@ export default function Score() {
 			tracks[index]?.toggle(item);
 			setSelectedTrack?.(produce(selectedTrack => {
 				if (typeof selectedTrack !== "number")
-					if (!tracks[index].size) selectedTrack.removeItem(index);
+					if (tracks[index].size === 0) selectedTrack.removeItem(index);
 					else selectedTrack.pushUniquely(index);
 			}));
 		});
@@ -161,7 +161,7 @@ export default function Score() {
 	const selectAll = (() => {
 		const selected = selectedTrack as number[], setSelected = setSelectedTrack, allSelection = [...tracks.keys()];
 		return [
-			!selected.length ? "unchecked" : selected.length - indeterminatenesses.length === allSelection.length ? "checked" : "indeterminate",
+			selected.length === 0 ? "unchecked" : selected.length - indeterminatenesses.length === allSelection.length ? "checked" : "indeterminate",
 			(checkState: CheckState) => {
 				if (checkState === "unchecked") {
 					setSelected([]);
@@ -175,7 +175,7 @@ export default function Score() {
 				const selectedDraft: typeof selected = [];
 				setSelectTrackItems(items => Object.entries(items).forEach(([index, set]) => {
 					multipleSelectTrackItems.forEach(item => set.toggle(item));
-					if (set.size) selectedDraft.push(+index);
+					if (set.size > 0) selectedDraft.push(+index);
 				}));
 				setSelected(selectedDraft);
 			},
@@ -256,7 +256,7 @@ export default function Score() {
 				</Segmented>
 			</SettingsCard>
 
-			{!!tracks.length && (
+			{tracks.length > 0 && (
 				<>
 					<Subheader>{withObject(t(tracks.length).score, t => trackOrChannel[0] === "channel" ? t.channel : t.musicalTrack)}</Subheader>
 					<TrackToolbar>
@@ -324,3 +324,6 @@ export default function Score() {
 		</div>
 	);
 }
+// TODO: 修剪 → 筛选
+// MIDI 裁剪改成筛选/过滤，然后新增选取音域范围、指定倍数（奇偶性）的音符。
+// 筛选/过滤只提供小于或小于等于，可只填写一边（左侧0，右侧无穷大），两者填一样表示等于。

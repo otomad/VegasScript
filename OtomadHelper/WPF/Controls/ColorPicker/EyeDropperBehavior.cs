@@ -36,7 +36,7 @@ public class EyeDropperBehavior : Behavior<Button> {
 	private Window? window;
 	private Window Window => window ??= Window.GetWindow(AssociatedObject);
 	private double CurrentWindowLeft { get; set; }
-	private const double InvisibleWindowLeft = 65536;
+	private const double InvisibleWindowLeft = 65536; // TODO: -32000 (minimize to taskbar position)
 
 	private EyeDropperPreview Preview { get; } = new();
 

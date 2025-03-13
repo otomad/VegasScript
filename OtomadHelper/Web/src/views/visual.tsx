@@ -283,3 +283,6 @@ export default function Visual() {
 		</div>
 	);
 }
+// TODO: 随机化正负角度 (±15°)
+// 将在 -15° 至 15° 范围之间的非零角度随机浮动
+// 0°时禁用
