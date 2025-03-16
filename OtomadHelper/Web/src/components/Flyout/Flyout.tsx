@@ -144,10 +144,10 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	portal?: PropsOf<typeof Portal>["container"];
 	/** When request to hide the flyout, it will be delayed for milliseconds before hiding. If it is reshowed during this period, it will not hide. */
 	hideDelay?: number;
-	// Backdoors
-	/** @private */
+	// Specialized Interfaces
+	/** @private This property is designed specifically for `CommandBarItem`, operating directly may result in undefined behavior! */
 	_commandBarAnchorName?: string;
-	/** @private */
+	/** @private This property is designed specifically for `CommandBarItem`, operating directly may result in undefined behavior! */
 	_horizontalPosition?: Position;
 }, "div">) {
 	if (!isValidAnchorName(anchorName)) throw new TypeError(`Invalid anchor name: ${anchorName}`);

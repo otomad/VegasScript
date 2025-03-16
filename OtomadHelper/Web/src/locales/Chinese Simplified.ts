@@ -225,7 +225,7 @@ export default {
 			},
 			normalize: {
 				_: "规范化音频",
-				once: "一次",
+				once: "首次",
 				always: "每次",
 			},
 			staticVisual: "静态画面",
@@ -249,8 +249,8 @@ export default {
 			createGroups: "创建分组",
 			autoPan: "自动声像",
 			stack: "堆积",
-			timeUnremapping: "时间解除重映射",
-			resampleImitatively: "模拟重采样音频",
+			persistentTimeflow: "持续时间流",
+			resampleImitatively: "模拟重采样调速",
 			transformMethod: {
 				_: "变换方法",
 				panCrop: "平移/裁切",
@@ -320,7 +320,7 @@ export default {
 						sawtooth: "锯齿波",
 					},
 					duration: "持续时间",
-					volume: "音量",
+					volumeForBasePitch: "预听标准音高时的音量",
 					adjustAudioToBasePitch: "调整音频到主音高",
 				},
 			},
@@ -577,7 +577,7 @@ export default {
 				rotate: "旋转",
 				ccwRotate: "逆时针旋转",
 				cwRotate: "顺时针旋转",
-				turned: "颠倒",
+				turned: "倒转",
 				zoomOutIn: "缩小后放大",
 				hMirror: "水平镜像",
 				vMirror: "垂直镜像",
@@ -739,9 +739,9 @@ export default {
 				stretch: {
 					_: "拉伸剪辑而不是改变剪辑的持续时间",
 					noStretching: "不允许拉伸，仅更改持续时间",
-					flexingAndExtending: "无论音符是否比剪辑更长都会拉伸",
-					extendingOnly: "当音符比剪辑更长时才拉伸，反之则缩短持续时间",
-					flexingOnly: "当音符比剪辑更短时才拉伸，反之则延长持续时间",
+					flexingAndExtending: "无论音符是否比剪辑更长或更短都会拉伸",
+					extendingOnly: "仅当音符比剪辑更长时才拉伸，反之则缩短持续时间",
+					flexingOnly: "仅当音符比剪辑更短时才拉伸，反之则延长持续时间",
 				},
 				loop: {
 					_: "当剪辑延长到源媒体的末尾后，将会重头开始播放",
@@ -755,8 +755,8 @@ export default {
 				},
 				normalize: {
 					_: "适用于音频太安静的素材",
-					once: "仅在第一次时标准化，后续剪辑均采用第一次标准化后的增益。它更快且可确保所有同一剪辑的增益一致。但如果改变持续时间则有可能导致其它剪辑不适合该增益。（推荐）",
-					always: "每一次都标准化，以确保任何持续时间的剪辑都有更合适的增益。但是它更慢，而且可能会导致所有同一剪辑的增益不一致。",
+					once: "仅在第一次时规范化，后续剪辑均采用第一次规范化后的增益。它更快且可确保所有同一剪辑的增益一致。但如果改变持续时间则有可能导致其它剪辑不适合该增益。（推荐）",
+					always: "每一次都规范化，以确保任何持续时间的剪辑都有更合适的增益。但是它更慢，而且可能会导致所有同一剪辑的增益不一致。",
 				},
 				staticVisual: "在剪辑入点处冻结帧",
 				truncate: {
@@ -773,8 +773,8 @@ export default {
 				multitrackForChords: "为和弦创建多条轨道",
 				createGroups: "将一个音符所表示的视频与音频剪辑创建分组",
 				autoPan: "自动化控制音频的声像包络",
-				stack: "将片段尽可能紧密地堆积在一条轨道上，而不根据乐曲的音轨分轨放置",
-				timeUnremapping: "音符开时将不会重置剪辑的入点时间，而是继续播放，适用于如仅对素材应用效果",
+				stack: "将剪辑尽可能紧密地堆积在一条轨道上，而不根据乐曲的音轨分轨放置",
+				persistentTimeflow: "音符开时将不会重置剪辑的入点时间，而是继续播放，适用于如仅对素材应用效果",
 				resampleImitatively: {
 					_: "在画面中模仿重采样音频的行为，使拉伸值随着音高的升高而缩短",
 					auto: "这将取决于是否在音频中启用重采样音频功能以确保画面与音频同步",
@@ -818,7 +818,7 @@ export default {
 						wrap: "返回到 {{formulaFor24}} 音域范围内的最高或最低音调",
 						silent: "将那些音符静音",
 					},
-					resample: "锁定伸缩与音调，调整伸缩以改变音调",
+					resample: "调整拉伸以联动改变音高，使拉伸值随着音高的升高而缩短，呈现经典磁带机声效",
 					preserveFormant: "调音时保持语音音色特征不变",
 					basePitch: {
 						_: "指定音频剪辑的原始音高",

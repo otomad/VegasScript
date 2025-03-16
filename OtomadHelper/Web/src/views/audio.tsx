@@ -4,7 +4,7 @@ const truncatesInAudio = truncates.filter(item => item.availableInAudio);
 
 export /* @internal */ const tuningMethods = [
 	{ id: "noTuning", icon: "prohibited" },
-	{ id: "unset", icon: "line-horizontal" },
+	{ id: "unset", icon: "line_horizontal" },
 	{ id: "pitchShift", icon: "plugin" },
 	{ id: "elastic", icon: "plus_minus" },
 	{ id: "classic", icon: "history" },
@@ -79,7 +79,7 @@ const TuningMethodEvaluation = styled.ul`
 export default function Audio() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, normalize, truncate, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
+		stretch, loop, normalize, truncate, legato, multitrackForChords, stack, persistentTimeflow, autoPan, autoPanCurve,
 		tuningMethod, tuningMethodAcid, tuningMethodScaleless,
 		stretchAttribute, alternativeForExceedTheRange, resample, preserveFormant, currentPreset,
 		basePitch, basePitchBased, cent,
@@ -147,7 +147,7 @@ export default function Audio() {
 					selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.unset}
 					icon="loop"
 				>
-					<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line-horizontal" />
+					<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line_horizontal" />
 				</SettingsCard>
 				<EmptyMessage.YtpDisabled>
 					<ExpanderRadio
@@ -204,10 +204,10 @@ export default function Audio() {
 						on={stack}
 					/>
 					<SettingsCardToggleSwitch
-						title={t.stream.timeUnremapping}
-						details={t.descriptions.stream.timeUnremapping}
+						title={t.stream.persistentTimeflow}
+						details={t.descriptions.stream.persistentTimeflow}
 						icon="timer_off"
-						on={timeUnremapping}
+						on={persistentTimeflow}
 					/>
 					<SettingsCardToggleSwitch
 						title={t.stream.autoPan}
@@ -265,7 +265,7 @@ export default function Audio() {
 						<ExpanderRadio
 							title={t.stream.tuning.alternativeForExceedTheRange}
 							details={t.descriptions.stream.tuning.alternativeForExceedTheRange}
-							icon="exceeds"
+							icon="tuning_warning"
 							items={exceeds}
 							value={alternativeForExceedTheRange}
 							view="list"
@@ -281,7 +281,7 @@ export default function Audio() {
 							)}
 							checkInfoCondition={id => getExceedsName(id, tuningMethod[0])}
 						/>
-						<SettingsCardToggleSwitch title={t.stream.tuning.resample} details={t.descriptions.stream.tuning.resample} icon="lock" on={resample} />
+						<SettingsCardToggleSwitch title={t.stream.tuning.resample} details={t.descriptions.stream.tuning.resample} icon="link_multiple" on={resample} />
 						<SettingsCardToggleSwitch title={t.stream.tuning.preserveFormant} details={t.descriptions.stream.tuning.preserveFormant} icon="speech" on={preserveFormant} />
 						<Expander
 							title={t.stream.tuning.basePitch}
@@ -328,7 +328,7 @@ export default function Audio() {
 							<Expander.Item icon="timer" title={t.stream.tuning.prelisten.duration}>
 								<TextBox.Number value={beepDuration} min={0} decimalPlaces={0} spinnerStep={100} suffix={t.units.millisecond} />
 							</Expander.Item>
-							<Expander.Item icon="volume" title={t.stream.tuning.prelisten.volume}>
+							<Expander.Item icon="volume" title={t.stream.tuning.prelisten.volumeForBasePitch}>
 								<Slider
 									value={beepVolume}
 									min={0}

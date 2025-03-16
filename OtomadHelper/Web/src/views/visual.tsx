@@ -43,7 +43,7 @@ const TooltipPartial = Tooltip.with({ placement: "y" });
 export default function Visual() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, staticVisual, truncate, legato, multitrackForChords, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
+		stretch, loop, staticVisual, truncate, legato, multitrackForChords, transformMethod, currentPreset, stack, persistentTimeflow, resampleImitatively,
 		glissando, glissandoEffect, glissandoAmount, appoggiatura, arpeggio, arpeggioNegative, activeParameterScheme,
 	} = selectConfig(c => c.visual);
 	// const activeParameterScheme = selectConfigArray(c => c.visual.activeParameterScheme);
@@ -84,7 +84,7 @@ export default function Visual() {
 						selectInfo={loop[0] === "auto" && t.descriptions.stream.loop.unset}
 						icon="loop"
 					>
-						<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line-horizontal" />
+						<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line_horizontal" />
 					</SettingsCard>
 				</TooltipPartial>
 				<EmptyMessage.YtpDisabled>
@@ -147,16 +147,16 @@ export default function Visual() {
 						on={stack}
 					/>
 					<SettingsCardToggleSwitch
-						title={t.stream.timeUnremapping}
-						details={t.descriptions.stream.timeUnremapping}
+						title={t.stream.persistentTimeflow}
+						details={t.descriptions.stream.persistentTimeflow}
 						icon="timer_off"
-						on={timeUnremapping}
+						on={persistentTimeflow}
 					/>
 					<SettingsCard
 						title={t.stream.resampleImitatively}
 						details={t.descriptions.stream.resampleImitatively}
 						selectInfo={resampleImitatively[0] === "auto" && t.descriptions.stream.resampleImitatively.auto}
-						icon="lock"
+						icon="link_multiple"
 					>
 						<ThreeStageSwitch current={resampleImitatively} />
 					</SettingsCard>

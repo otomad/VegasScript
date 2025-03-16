@@ -1,6 +1,6 @@
 export type StickyDetectionMethod = "intersection" | "scroll";
 
-// Backdoors
+// Specialized Interfaces
 const isExpander = (el: Element) => el.matches(".expander-parent");
 
 /**

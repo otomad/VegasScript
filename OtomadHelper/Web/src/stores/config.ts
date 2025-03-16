@@ -88,7 +88,7 @@ export const configStore = createStore({
 		legato: "portato" as Legato,
 		multitrackForChords: false,
 		stack: false,
-		timeUnremapping: false,
+		persistentTimeflow: false,
 		autoPan: true,
 		autoPanCurve: "linear" as CurveType,
 		tuningMethod: "elastic",
@@ -127,7 +127,7 @@ export const configStore = createStore({
 		legato: "upToOneBeat" as Legato,
 		multitrackForChords: false,
 		stack: false,
-		timeUnremapping: false,
+		persistentTimeflow: false,
 		resampleImitatively: "auto" as TrueFalseAuto,
 		transformMethod: ["panCrop", "pictureInPicture", "transformOfx"] as TransformMethod[],
 		prve: {

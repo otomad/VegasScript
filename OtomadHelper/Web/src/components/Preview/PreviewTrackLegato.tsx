@@ -1,7 +1,7 @@
 // cspell:disable-next-line
-import Waveform1 from "assets/svg/waveform_benfuxingkong_dong.svg?react";
+import Waveform1 from "assets/svg/waveform_dong.svg?react";
 // cspell:disable-next-line
-import Waveform2 from "assets/svg/waveform_nianshanhai.svg?react";
+import Waveform2 from "assets/svg/waveform_shuo.svg?react";
 import type { trackLegatoModes } from "views/track";
 
 type TrackLegatoMode = typeof trackLegatoModes[number];

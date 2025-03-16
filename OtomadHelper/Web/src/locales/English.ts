@@ -258,7 +258,7 @@ export default {
 			createGroups: "Create groups",
 			autoPan: "Auto pan",
 			stack: "Stack",
-			timeUnremapping: "Time unremapping", // Time un-remap-(p)ing.
+			persistentTimeflow: "Persistent timeflow",
 			resampleImitatively: "Resample imitatively",
 			transformMethod: {
 				_: "Transform method",
@@ -329,7 +329,7 @@ export default {
 						sawtooth: "Sawtooth",
 					},
 					duration: "Duration",
-					volume: "Volume",
+					volumeForBasePitch: "Volume when prelistening base pitch",
 					adjustAudioToBasePitch: "Adjust audio to base pitch",
 				},
 			},
@@ -759,8 +759,8 @@ export default {
 					_: "Stretches the clip instead of changing its duration",
 					noStretching: "No stretching allowed, only changes the duration",
 					flexingAndExtending: "Stretches whether the note is longer than the clip or not",
-					extendingOnly: "Stretches if the note is longer than the clip, otherwise shortens the duration",
-					flexingOnly: "Stretches if the note is shorter than the clip, otherwise lengthens the duration",
+					extendingOnly: "Stretches if only the note is longer than the clip, otherwise shortens the duration",
+					flexingOnly: "Stretches if only the note is shorter than the clip, otherwise lengthens the duration",
 				},
 				loop: {
 					_: "When the clip is lengthened to the end of the source media, playback starts over",
@@ -793,9 +793,9 @@ export default {
 				createGroups: "Creates groups for video and audio clips represented by one note",
 				autoPan: "Pans the audio using envelope automation",
 				stack: "Stacks the clips as tightly as possible on one track, rather than placing the results on separate tracks according to the score track",
-				timeUnremapping: "The clip will not reset its in point time when note on occurs, but will continue to play, useful if you only want to apply the effects to the source",
+				persistentTimeflow: "The clip will not reset its in point time when note on occurs, but will continue to play, useful if you only want to apply the effects to the source",
 				resampleImitatively: {
-					_: "Imitate the resampling behavior in the Visual, causing the stretching to flexing as the pitch increases",
+					_: "Imitate the resampling behavior in the Visual, causing the stretch to flex as the pitch increases",
 					auto: "This will depend on whether resampling is enabled in Audio to ensure that the visual is sync with the audio",
 				},
 				transformMethod: "Specifies the priority order of target properties for applying transformation keyframes",
@@ -837,7 +837,7 @@ export default {
 						wrap: "Returns to the highest or lowest key within the range of {{formulaFor24}}",
 						silent: "Mutes those notes",
 					},
-					resample: "Locks stretch and pitch, adjusts stretch to change pitch",
+					resample: "Adjusts stretch to change pitch in sync, causing the stretch to flex as the pitch increases, presenting a classic tape recorder style",
 					preserveFormant: "Maintains voice tone characteristics while tuning",
 					basePitch: {
 						_: "Specifies the base pitch of the audio clip",

@@ -136,7 +136,7 @@ export default function Score() {
 		});
 	});
 
-	const indeterminatenesses = typeof selectedTrack === "number" ? undefined! : selectedTrack.filter(index => !selectTrackItems[index]?.isSupersetOf(allMultipleSelectTrackItemSet));
+	const indeterminatenesses = typeof selectedTrack === "number" ? [] : selectedTrack.filter(index => !selectTrackItems[index]?.isSupersetOf(allMultipleSelectTrackItemSet));
 	function handleTrackItemsClick(index: number, item: typeof multipleSelectTrackItems[number]) {
 		setSelectTrackItems(tracks => {
 			tracks[index]?.toggle(item);
