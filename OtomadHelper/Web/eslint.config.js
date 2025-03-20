@@ -1,4 +1,5 @@
 // env
+import globals from "globals";
 // extends
 import eslint from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin";
@@ -7,7 +8,6 @@ import reactRecommended from "eslint-plugin-react/configs/recommended.js";
 // plugins
 import reactRefresh from "eslint-plugin-react-refresh";
 import unicorn from "eslint-plugin-unicorn";
-import globals from "globals";
 import tseslint from "typescript-eslint";
 
 /** @type {import("eslint").Linter.Config[]} */

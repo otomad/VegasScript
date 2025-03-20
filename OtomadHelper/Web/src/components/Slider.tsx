@@ -119,7 +119,7 @@ const StyledSliderWrapper = styled.div`
 	gap: 8px;
 	align-items: center;
 
-	.display-value {
+	output {
 		${styles.effects.text.body};
 		color: ${c("fill-color-text-secondary")};
 		font-variant-numeric: tabular-nums;
@@ -184,6 +184,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	const smoothValue = staticInterval === 0 ? sharpValue : useSmoothValue(sharpValue, 0.5, { staticInterval });
 	// Modify this parameter to adjust the smooth movement value of the slider.
 	const [pressed, setPressed] = useState(false);
+	const id = useId();
 
 	function resetToDefault(e: MouseEvent) {
 		e.preventDefault();
@@ -269,7 +270,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 
 	return (
 		<StyledSliderWrapper>
-			{hasValue(displayValue) && !onDisplayValueChanged && <span className="display-value" aria-hidden>{displayValue}</span>}
+			{hasValue(displayValue) && !onDisplayValueChanged && <output htmlFor={id} aria-hidden>{displayValue}</output>}
 			<StyledSlider
 				tabIndex={0}
 				style={{
@@ -280,6 +281,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 				onKeyDown={onKeyDown}
 				onAuxClick={resetToDefault}
 				onContextMenu={stopEvent}
+				id={id}
 				role="slider"
 				aria-valuemin={min}
 				aria-valuemax={max}

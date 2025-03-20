@@ -174,7 +174,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 							onExited={() => resetLockExpanderParentContentSize()}
 							hiddenOnExit
 						>
-							<div className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</div>
+							<output className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</output>
 						</CssTransition>
 					)}
 				</ExpanderParent>

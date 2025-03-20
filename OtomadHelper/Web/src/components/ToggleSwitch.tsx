@@ -379,12 +379,12 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			)}
 			<div className="right">
 				{!hideLabel && (
-					<div className="text label" aria-hidden>
+					<output className="text label" aria-hidden>
 						<div className="label-container" style={{ "--progress": labelTranslate }}>
 							<span className="off">{t.off}</span>
 							<span className="on">{t.on}</span>
 						</div>
-					</div>
+					</output>
 				)}
 				<div className={["stroke", "toggle-switch-base", { pressing: isPressing }]}>
 					<div className="base">
