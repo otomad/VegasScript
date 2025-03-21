@@ -109,7 +109,7 @@ async function checkForUpdates(currentVersion: string) {
 const StyledTableBase = styled.div`
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	column-gap: 10px;
+	column-gap: 12px;
 `;
 
 const StyledTranslatorsTable = styled(StyledTableBase)`
@@ -185,14 +185,14 @@ const StyledAboutInformation = styled(StyledTableBase)`
 	${styles.effects.text.body}
 	grid-template-columns: auto 1fr;
 
-	> :nth-child(2n + 1) {
-		${styles.effects.text.bodyStrong}
+	> :nth-child(2n + 2) {
+		color: ${c("fill-color-text-secondary")};
 	}
 `;
 
 function AboutInformation() {
+	const Cell = "samp";
 	const { appName, version } = useAboutApp();
-
 	const data = [
 		[appName, "v" + version],
 		["React", "v" + React.version],
@@ -202,8 +202,8 @@ function AboutInformation() {
 		<StyledAboutInformation>
 			{data.map(([key, value]) => (
 				<Fragment key={key}>
-					<tt>{key}</tt>
-					<tt>{value}</tt>
+					<Cell>{key}</Cell>
+					<Cell>{value}</Cell>
 				</Fragment>
 			))}
 		</StyledAboutInformation>
