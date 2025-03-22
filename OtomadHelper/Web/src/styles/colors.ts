@@ -119,6 +119,7 @@ export const ifColorScheme = {
 	contrast: '[data-scheme~="contrast"]',
 	reduceTransparency: "@media (prefers-reduced-transparency: reduce)",
 	reduceMotion: "@media (prefers-reduced-motion: reduce)",
+	forceMotion: "force-motion",
 } as const;
 
 export type ColorNames = keyof typeof colors;

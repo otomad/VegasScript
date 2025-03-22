@@ -1,3 +1,12 @@
+const RangeDash = styled.div.attrs({
+	children: t.rangeDash,
+})`
+	${styles.effects.text.body};
+	margin-block-end: 1.5px;
+	font-feature-settings: "case" on;
+	transition: ${fallbackTransitions}, margin 0s;
+`;
+
 const StyledExpanderChildTrim = styled(Expander.ChildWrapper)`
 	justify-content: space-between;
 
@@ -9,12 +18,11 @@ const StyledExpanderChildTrim = styled(Expander.ChildWrapper)`
 		align-items: center;
 	}
 
-	.timecodes.has-child-wrapped .range-dash {
+	.timecodes.has-child-wrapped ${RangeDash} {
+		font-feature-settings: "case" on, "vert" on;
 		writing-mode: vertical-rl;
 	}
 `;
-
-const RangeDash = () => <div className="range-dash">{t.rangeDash}</div>;
 
 function ExpanderChildTrimTimecode({ start, end }: FCP<{
 	children?: never;

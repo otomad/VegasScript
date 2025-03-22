@@ -22,7 +22,6 @@ const StyledSettingsPageControl = styled.div<{
 
 	> .paragraph-wrapper {
 		${styles.effects.text.caption};
-		overflow-y: clip;
 
 		> .scroll-wrapper {
 			--scroll-mask-height: 1.75em;
@@ -94,7 +93,7 @@ export default function SettingsPageControl({ image, imageOverlay, learnMoreLink
 		>
 			{image && <SettingsPageControlPreviewImage image={image}>{imageOverlay}</SettingsPageControlPreviewImage>}
 			<div className="paragraph-wrapper">
-				<div className="scroll-wrapper">
+				<div className={["scroll-wrapper", ifColorScheme.forceMotion]}>
 					<p><Preserves spacing>{children}</Preserves></p>
 				</div>
 				{learnMoreLink !== undefined && <div className="learn-more-wrapper"><LearnMore>{t.learnMore}</LearnMore></div>}

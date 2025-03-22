@@ -9,7 +9,7 @@ export default function Mosh() {
 	return (
 		<div className="container">
 			<div>
-				<SettingsPageControl image={tipsImage} learnMoreLink="" clearFloat ref={tipsEl}>
+				<SettingsPageControl image={tipsImage} learnMoreLink="" ref={tipsEl}>
 					<GlitchyText normal={t.descriptions.mosh.normal} glitchy={t.descriptions.mosh.glitchy} />
 					<br />
 					{t.descriptions.mosh.additional}

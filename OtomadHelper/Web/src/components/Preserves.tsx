@@ -1,4 +1,4 @@
-type RTFs = (string | JSX.Element)[];
+type RTFs = (string | React.JSX.Element)[];
 
 function replaceLfToBr(longText: string | string[], spacing?: string | boolean) {
 	longText = wrapIfNotArray(longText);
@@ -36,6 +36,9 @@ export default function Preserves({ spacing, autoItalic = true, children }: FCP<
 			let result = replaceLfToBr(child.toString(), spacing);
 			if (autoItalic) result = replaceAsteriskToEm(result);
 			return result;
+		} else if (spacing && React.isValidElement<FCP<{}, "br">>(child) && child.type === "br") {
+			const { key, props: { children: _0, ...props } } = child;
+			return <Br key={key} spacing={spacing} {...props} />;
 		} else return child;
 	});
 }

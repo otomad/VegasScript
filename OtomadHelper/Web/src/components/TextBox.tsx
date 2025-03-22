@@ -138,11 +138,6 @@ export /* @internal */ const StyledTextBox = styled.div`
 			color: ${c("fill-color-text-secondary")};
 		}
 
-		&::selection {
-			color: ${c("fill-color-text-on-accent-selected-text")};
-			background-color: ${c("accent-color")};
-		}
-
 		&:disabled::selection { // Have fixed the issue where text can still be selected even though the input box is disabled.
 			color: inherit;
 			background-color: transparent;

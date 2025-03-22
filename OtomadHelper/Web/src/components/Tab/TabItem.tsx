@@ -102,21 +102,11 @@ const StyledTabItem = styled.button`
 		padding: 14px 12px;
 
 		&:hover {
-			opacity: 0.79;
+			color: ${c("fill-color-text-secondary")};
 		}
 
 		&:active {
-			opacity: 0.54;
-		}
-
-		${ifColorScheme.light} & {
-			&:hover {
-				opacity: 0.61;
-			}
-
-			&:active {
-				opacity: 0.45;
-			}
+			color: ${c("fill-color-text-tertiary")};
 		}
 	}
 
@@ -133,7 +123,7 @@ const StyledTabItem = styled.button`
 	}
 `;
 
-const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [false] }: { hidden?: boolean; badge?: BadgeArgs }) =>
+const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [false] as never }: { hidden?: boolean; badge?: BadgeArgs }) =>
 	<Badge status={status ?? "accent"} hidden={hidden || layoutHidden}>{badge}</Badge>;
 
 export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, ariaCurrentWhenSelected, _vertical: vertical, ...htmlAttrs }: FCP<{

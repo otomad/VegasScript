@@ -6,11 +6,12 @@ import type { ColorNames, SystemColors } from "styles/colors";
 import eases from "styles/eases";
 import effects from "styles/effects";
 import { type AvailableLottieStatus, STATUS_PREFIX } from "styles/fake-animations";
+import type { FALLBACK_TRANSITIONS } from "styles/global";
 import mixins from "styles/mixins";
 
 export { ifColorScheme } from "styles/colors";
 
-export const fallbackTransitions = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s, var(--fallback-transitions-for-contrast-scheme)` as const;
+export const fallbackTransitions = "var(--fallback-transitions)" as typeof FALLBACK_TRANSITIONS;
 
 /**
  * Apply the theme color.

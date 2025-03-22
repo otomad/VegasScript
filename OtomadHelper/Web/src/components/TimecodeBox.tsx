@@ -30,10 +30,11 @@ const StyledTimecodeBox = styled.div`
 
 	.mark {
 		grid-row: span 3;
+		padding-block-end: 2px;
+		font-feature-settings: "case" on;
 
 		&:is(.text-box + .mark) {
 			margin-inline-start: 8px;
-			padding-block-end: 2px;
 		}
 	}
 
@@ -79,6 +80,10 @@ const StyledTimecodeBox = styled.div`
 				background-color: ${c("accent-color")};
 				box-shadow: none;
 			}
+
+			&:not(:focus) {
+				transition-delay: 50ms; // When clicking the spinner buttons, the textbox will briefly lose focus, thus delaying its blurring time.
+			}
 		}
 	}
 
@@ -90,9 +95,13 @@ const StyledTimecodeBox = styled.div`
 
 	${StyledTextBox} {
 		position: absolute;
-		z-index: -1;
+		z-index: 0;
 		height: ${TEXTBOX_BASE_HEIGHT}px;
 		pointer-events: none;
+
+		~ * {
+			z-index: 1;
+		}
 	}
 
 	&[disabled],
@@ -215,6 +224,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 							className="up"
 							repeat
 							tabIndex={-1}
+							aria-label="Increase"
 							onClick={() => handleSpinnerClick(lastIndex, 1)}
 						/>
 						<TimecodeItemValue
@@ -233,6 +243,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 							className="down"
 							repeat
 							tabIndex={-1}
+							aria-label="Decrease"
 							onClick={() => handleSpinnerClick(lastIndex, -1)}
 						/>
 					</Fragment>
@@ -316,7 +327,9 @@ function TimecodeItemValue({ lastIndex, children, onChange, onFinishInput, onReq
 
 function getSupposedTimecode(input?: string, increment?: string) {
 	function getSeconds(timecode?: string) {
-		const hms = timecode?.match(/(((?<h>[\d-]+):)?(?<m>[\d-]+):)?(?<s>[\d-]*\.[\d-]+|[\d-]+)/)?.groups as
+		const hms = timecode
+			?.replaceAll(/(?<=:)(?=:)/g, "0") // 10::50 → 10:0:50
+			.match(/(((?<h>[\d-]+):)?(?<m>[\d-]+):)?(?<s>[\d-]*\.[\d-]+|[\d-]+)/)?.groups as
 			Record<"h" | "m" | "s", string | undefined> ?? {};
 		const negative = !(+(hms.h || 0)).isPositive;
 		const seconds = +(hms.s || 0) + +(hms.m || 0) * 60 + Math.abs(+(hms.h || 0)) * 3600;

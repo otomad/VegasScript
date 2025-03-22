@@ -37,6 +37,7 @@ const StyledSegmented = styled.div<{
 				gap: 10px;
 				height: 100%;
 				padding: 4px ${ITEM_BASE_PADDING_X_WIDTH}px;
+				color: ${c("foreground-color")};
 				border-radius: 2px;
 
 				${ifColorScheme.contrast} & {
@@ -152,6 +153,10 @@ const StyledSegmented = styled.div<{
 	[disabled] & {
 		.thumb::after {
 			background-color: ${c("fill-color-accent-disabled")};
+		}
+
+		:is(.items, .thumb-content) .item > .base {
+			color: ${c("fill-color-text-disabled")};
 		}
 	}
 

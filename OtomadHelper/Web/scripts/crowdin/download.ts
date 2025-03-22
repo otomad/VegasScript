@@ -1,9 +1,9 @@
-import extract from "extract-zip";
 import { createWriteStream, existsSync } from "fs";
 import { copyFile, mkdir, readdir, stat } from "fs/promises";
 import https from "https";
 import { tmpdir } from "os";
 import { join, resolve } from "path";
+import extract from "extract-zip";
 import { rimraf } from "rimraf";
 import consoleColors from "../console-colors";
 import { translationsApi } from "./crowdin";
@@ -65,7 +65,7 @@ async function moveLocaleFiles(extractedPath: string, projectFolderName: string)
 	let path = extractedPath;
 	while (true) {
 		const files = await readdir(path);
-		if (!files.length) throw new Error(`Could not find any files in ${path}`);
+		if (files.length === 0) throw new Error(`Could not find any files in ${path}`);
 		path = resolve(path, files[0]);
 		if (files[0] === projectFolderName) break;
 	}

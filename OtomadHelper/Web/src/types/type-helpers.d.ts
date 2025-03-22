@@ -258,7 +258,7 @@ declare global {
 	 * declare function MyComponent<T>({ foo, bar, ...otherProps }: WithOtherProperties<{
 	 *     foo: () => void;
 	 *     bar?: number;
-	 * }, string, T>): JSX.Element;
+	 * }, string, T>): React.JSX.Element;
 	 * ```
 	 *
 	 * @template KnownProps - All known fixed properties types.

@@ -93,6 +93,8 @@ export async function resetAnimation(element: HTMLElement) {
 	element.style.animation = null!;
 }
 
+const isReduceMotion = () => useMediaQuery.reduceMotion({ noHook: true });
+
 type StyleProperties = string & keyof FilterValueType<CSSStyleDeclaration, string>;
 type Keyframe = Partial<Override<Record<StyleProperties, Numberish>, { offset: number }>>;
 type Keyframes = Keyframe[];
@@ -193,7 +195,7 @@ export async function* animateSizeGenerator(
 ): AsyncGenerator<void, Animation | void, boolean> {
 	element = toValue(element);
 	if (!element) return;
-	if (useMediaQuery.reduceMotion({ noHook: true })) duration = 0;
+	if (isReduceMotion()) duration = 0;
 	let isHeightChanged = specified === "height" || specified === "both",
 		isWidthChanged = specified === "width" || specified === "both";
 	// element.classList.add("calc-size");
@@ -358,7 +360,7 @@ export const STOP_TRANSITION_ID = "stop-transition";
  * @returns The destructor can be executed after the animation is completed.
  */
 export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions][]) {
-	if (!document.startViewTransition) {
+	if (!document.startViewTransition || isReduceMotion()) {
 		await changeFunc();
 		return;
 	}

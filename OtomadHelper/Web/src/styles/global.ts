@@ -3,6 +3,8 @@ import eases from "./eases";
 import fakeAnimations from "./fake-animations";
 import reset from "./reset";
 
+export /* @internal */ const FALLBACK_TRANSITIONS = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s` as const;
+
 const GlobalStyle = createGlobalStyle<{
 	/** Has the page loaded completely? */
 	$ready?: boolean;
@@ -60,17 +62,6 @@ const GlobalStyle = createGlobalStyle<{
 		&::before,
 		&::after {
 			--cjk-font-family: "Malgun Gothic";
-		}
-	}
-
-	.no-yozora {
-		&,
-		* {
-			&,
-			&::before,
-			&::after {
-				font-family: "Segoe UI Variable", "Segoe UI", sans-serif;
-			}
 		}
 	}
 
@@ -180,9 +171,15 @@ const GlobalStyle = createGlobalStyle<{
 		transition: ${fallbackTransitions}, color 0s;
 	}
 
+	::selection {
+		color: ${c("fill-color-text-on-accent-selected-text")};
+		background-color: ${c("accent-color")};
+	}
+
 	// Additional calculated colors
 	:root {
 		--fill-color-system-accent-background: rgb(from var(--accent-color) r g b / 15%);
+		--fallback-transitions: ${FALLBACK_TRANSITIONS};
 		--fallback-transitions-for-contrast-scheme: content 0s; // Placeholder for a invalid property.
 	}
 
@@ -206,7 +203,7 @@ const GlobalStyle = createGlobalStyle<{
 
 	// User requested to reduce dynamic effects
 	${ifColorScheme.reduceMotion} {
-		${important(2)} {
+		${important(2)}:not(.${ifColorScheme.forceMotion}, .${ifColorScheme.forceMotion} *) {
 			&,
 			&::before,
 			&::after {
@@ -229,6 +226,7 @@ const GlobalStyle = createGlobalStyle<{
 
 		:root& {
 			--fallback-transitions-for-contrast-scheme: color 0s, background-color 0s, border-color 0s;
+			--fallback-transitions: ${FALLBACK_TRANSITIONS}, var(--fallback-transitions-for-contrast-scheme);
 		}
 	}
 

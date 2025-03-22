@@ -64,7 +64,6 @@ export default function Prve() {
 	const selectionMode = useSelectionMode(isMultiple);
 	const effectLength = effects[0].length;
 	const shouldHideSelectionBadge = effectLength <= 0 || effectLength === 1 && (effects[0][0].fx === DEFAULT_EFFECT || !isMultiple[0]);
-	console.log(effects[0]);
 	const selectPrve = (klass: PrveClassType): StateProperty<PrveEffectType> => {
 		const classEffects = PrveClass.findClassEffects(klass);
 		const flipEffects = PrveClass.findClassEffects("flip");
@@ -290,7 +289,7 @@ function InitialValue({ klass, effect, initialValue }: FCP<{
 	const frames = PrveClass.findClass(klass)?.findEffectFrames(effect) ?? 1;
 
 	return (
-		<StyledInitialValue title={t.prve.initialValue} icon="replay" role="region">
+		<StyledInitialValue title={t.prve.initialValue} icon="replay" role="region" className={ifColorScheme.forceMotion}>
 			<ItemsView className="initial-value-items" view="grid" current={initialValue} itemWidth={100} aria-label={t.prve.initialValue}>
 				{forMap(frames, j => {
 					const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.

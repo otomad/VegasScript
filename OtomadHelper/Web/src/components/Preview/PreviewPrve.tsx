@@ -540,13 +540,27 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, ...htmlAt
 	);
 }
 
+/**
+ * Custom hook that checks if the Items View Item is hovered and if the user does not prefer reduced motion.
+ *
+ * This hook uses the `ItemsView.Item.StateContext` to get the hover state and checks the user's
+ * preference for reduced motion using the `prefers-reduced-motion` media query.
+ *
+ * @returns The hover state if the user prefers motion, otherwise `false`.
+ */
+function useHoverWhenPreferringMotion() {
+	const { hover } = useContext(ItemsView.Item.StateContext);
+	const prefersMotion = !useMediaQuery.reduceMotion();
+	return prefersMotion ? hover : false;
+}
+
 function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
 	/** Static image source path. */
 	staticSrc: string;
 	/** Animated picture source path. */
 	animatedSrc: string;
 }>) {
-	const { hover } = useContext(ItemsView.Item.StateContext);
+	const hover = useHoverWhenPreferringMotion();
 
 	return <img src={hover ? animatedSrc : staticSrc} />;
 }
@@ -561,7 +575,7 @@ function WebglFilter({ src, effect, step }: {
 }) {
 	const canvas = useDomRef<"canvas">();
 	const filter = useRef<WebGLFilter>(undefined);
-	const { hover } = useContext(ItemsView.Item.StateContext);
+	const hover = useHoverWhenPreferringMotion();
 	const [isMounted, setIsMounted] = useState(false);
 	const [uniformName, setUniformName] = useState<string>();
 	const [staticUniformValue, setStaticUniformValue] = useState(0);

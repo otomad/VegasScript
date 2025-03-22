@@ -156,19 +156,19 @@ export default function Checkbox<T>(props: FCP<{
 	value: StateProperty<T[]>;
 	/** State change event. */
 	onChange?(e: { id: T; value: T[]; checkState: CheckState; checked: boolean }): void;
-} & SharedProps, "label">): JSX.Element;
+} & SharedProps, "label">): React.JSX.Element;
 export default function Checkbox(props: FCP<{
 	/** Is the checkbox currently selected? */
 	value: StateProperty<boolean>;
 	/** State change event. */
 	onChange?(e: { checkState: CheckState; checked: boolean }): void;
-} & SharedProps, "label">): JSX.Element;
+} & SharedProps, "label">): React.JSX.Element;
 export default function Checkbox(props: FCP<{
 	/** Checked status. */
 	value: StateProperty<CheckState>;
 	/** State change event. */
 	onChange?(e: { checkState: CheckState; checked: boolean | null }): void;
-} & SharedProps, "label">): JSX.Element;
+} & SharedProps, "label">): React.JSX.Element;
 export default function Checkbox<T>({ children, id, value: [value, setValue], disabled = false, onChange, details, plain = false, actions, icon, disableCheckmarkTransition, ref, ...htmlAttrs }: FCP<{
 	id?: T;
 	value: StateProperty<T[]> | StateProperty<boolean> | StateProperty<CheckState>;
