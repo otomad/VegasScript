@@ -1,4 +1,4 @@
-export function DoesBrowserSupportACertainFeature() {
+export function doesBrowserSupportACertainFeature() {
 	return [
 		CSS.supports("interpolate-size: allow-keywords"),
 	].every(Boolean);

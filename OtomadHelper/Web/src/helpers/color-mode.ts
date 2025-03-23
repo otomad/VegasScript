@@ -60,8 +60,11 @@ export function changeColorScheme(scheme?: ColorScheme, amoledDark?: boolean, co
 
 export function startCircleViewTransition(isSpread: boolean, changeFunc: () => MaybePromise<void | unknown>) {
 	return new Promise<void>(resolve => {
+		// It is difficult to get 100lvh (large viewport) height in JavaScript.
+		const lvsEl = document.getElementById("large-viewport-size");
+		const lvh = lvsEl?.offsetHeight ?? window.innerHeight, lvw = lvsEl?.offsetWidth ?? window.innerWidth;
 		const { x, y } = lastClickMouseEvent ?? { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-		const endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+		const endRadius = Math.hypot(Math.max(x, lvw - x), Math.max(y, lvh - y));
 		const clipPath = [
 			`circle(0px at ${x}px ${y}px)`,
 			`circle(${endRadius}px at ${x}px ${y}px)`,

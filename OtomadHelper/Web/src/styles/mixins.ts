@@ -25,31 +25,43 @@ export default {
 	 * @param size - Side length.
 	 * @param withSizeVar - Create a CSS custom property named `--size` to make it easier for other components to modify its size?
 	 */
-	square: ((size: string, withSizeVar: boolean = false, responsiveUnit?: ResponsiveUnit) =>
-		!responsiveUnit ?
+	square: ((size: string, withSizeVar: boolean = false, responsiveUnitOrLogicalProperties?: ResponsiveUnit | true) =>
+		responsiveUnitOrLogicalProperties === true ?
 			!withSizeVar ?
 				css`
-					width: ${size};
-					height: ${size};
+					block-size: ${size};
+					inline-size: ${size};
 				` :
 				css`
 					--size: ${size};
-					width: var(--size);
-					height: var(--size);
+					block-size: var(--size);
+					inline-size: var(--size);
 				` :
-			!withSizeVar ?
-				css`
-					width: ${size}${responsiveUnit}w;
-					height: ${size}${responsiveUnit}h;
-				` :
-				css`
-					--size: ${size};
-					width: calc(var(--size) * 1${responsiveUnit}w);
-					height: calc(var(--size) * 1${responsiveUnit}h);
-				`
+			!responsiveUnitOrLogicalProperties ?
+				!withSizeVar ?
+					css`
+						width: ${size};
+						height: ${size};
+					` :
+					css`
+						--size: ${size};
+						width: var(--size);
+						height: var(--size);
+					` :
+				!withSizeVar ?
+					css`
+						width: ${size}${responsiveUnitOrLogicalProperties}w;
+						height: ${size}${responsiveUnitOrLogicalProperties}h;
+					` :
+					css`
+						--size: ${size};
+						width: calc(var(--size) * 1${responsiveUnitOrLogicalProperties}w);
+						height: calc(var(--size) * 1${responsiveUnitOrLogicalProperties}h);
+					`
 	) as {
 		(size: string, withSizeVar?: boolean): RuleSet;
 		(size: number, withSizeVar: boolean, responsiveUnit?: ResponsiveUnit): RuleSet;
+		(size: string, withSizeVar: boolean, logicalProperties?: boolean): RuleSet;
 	},
 	/**
 	 * Become a oval.

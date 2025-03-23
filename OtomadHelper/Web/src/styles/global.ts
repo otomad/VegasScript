@@ -176,6 +176,15 @@ const GlobalStyle = createGlobalStyle<{
 		background-color: ${c("accent-color")};
 	}
 
+	#large-viewport-size {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100lvw;
+		height: 100lvh;
+		visibility: hidden;
+	}
+
 	// Additional calculated colors
 	:root {
 		--fill-color-system-accent-background: rgb(from var(--accent-color) r g b / 15%);

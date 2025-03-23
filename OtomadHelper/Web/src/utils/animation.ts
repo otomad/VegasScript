@@ -369,9 +369,14 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 	style.id = STOP_TRANSITION_ID;
 	style.textContent = String(css`
 		*,
-		*::before,
-		*::after,
-		*::-webkit-progress-value {
+		::before,
+		::after,
+		::-webkit-progress-value {
+			transition: none !important;
+		}
+
+		// Chromium doesn't want to write webkit and moz together.
+		::-moz-progress-bar {
 			transition: none !important;
 		}
 

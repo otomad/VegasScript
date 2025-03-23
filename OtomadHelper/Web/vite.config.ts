@@ -12,6 +12,7 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import noBundlePlugin from "vite-plugin-no-bundle";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import svgr from "vite-plugin-svgr";
+import { qrcode } from "vite-plugin-qrcode";
 import tsconfigPaths from "vite-tsconfig-paths";
 import autoImportConfig from "./auto-import.config";
 import { author, displayName, github, homepage, project, version } from "./package.json";
@@ -117,6 +118,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			}),
 			minifyLottieJson(),
 			NO_BUNDLE && noBundlePlugin(),
+			qrcode(),
 		],
 		base: "",
 		publicDir: "src/public",
@@ -150,7 +152,6 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			keepNames: true, // When enabled, not only keep the class names, but also unexpectedly keep the function names.
 		},
 		assetsInclude: [
-			"**/*.cur",
 			"**/*.ani",
 		],
 		define: {

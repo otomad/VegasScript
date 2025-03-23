@@ -358,3 +358,52 @@ export function getContrastiveColor(colorVar: string, alpha: number = 1) {
 export function convertCamelStylePropertyToKebab(camel: string) {
 	return camel.startsWith("--") ? camel : new VariableName(camel).cssProp;
 }
+
+/**
+ * Define styles for the filled-in portion of the bar of a <progress> element.
+ * The bar represents the amount of progress that has been made.
+ *
+ * It represents `::-webkit-progress-value` pseudo-element for webkit and
+ * `::-moz-progress-bar` pseudo-element for mozilla.
+ *
+ * @example
+ * ```typescript
+ * progressFinishedPart`
+ *     background-color: currentColor;
+ * `
+ * ```
+ * Equivalent to (in theory, but not work)
+ * ```css
+ * &::-webkit-progress-value,
+ * &::-moz-progress-bar {
+ *     background-color: currentColor;
+ * }
+ * ```
+ *
+ * @remarks
+ * Why use this function? In fact, this theoretically equivalent CSS code cannot work properly on Chromium,
+ * but it can work properly on Firefox. This is because Chromium is **very arrogant** and unwilling to write
+ * `webkit` and `moz` together separated by commas. If you write them together, Chromium will not recognize
+ * them. So you have to write theme separately.
+ *
+ * Equivalent code that can actually work
+ * ```css
+ * &::-webkit-progress-value {
+ *     background-color: currentColor;
+ * }
+ *
+ * &::-moz-progress-bar {
+ *     background-color: currentColor;
+ * }
+ * ```
+ */
+export const progressFinishedPart: typeof css<object> = (...style) => {
+	return [
+		"&::-webkit-progress-value",
+		"&::-moz-progress-bar",
+	].map(finishedPart => css`
+		${finishedPart} {
+			${css(...style)}
+		}
+	`);
+};

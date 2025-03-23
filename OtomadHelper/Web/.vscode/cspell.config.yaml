@@ -102,6 +102,9 @@ words:
   - ltr
   - luma
   - lumin
+  - lvh
+  - lvs
+  - lvw
   - magix
   - mathml
   - mht
@@ -158,6 +161,7 @@ words:
   - puyo
   - pv
   - pxify
+  - qrcode
   - quarternary
   - resw
   - resx
@@ -183,6 +187,8 @@ words:
   - subheaders
   - svgr
   - svgs
+  - svh
+  - svw
   - timecode
   - timecodes
   - timeflow

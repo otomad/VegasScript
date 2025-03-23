@@ -32,18 +32,22 @@ const StyledPreviewLanguage = styled.div`
 		height: 8px;
 
 		.items-view-item.selected & {
-			&::-webkit-progress-value {
+			${progressFinishedPart`
 				border-start-start-radius: 0;
 				border-end-start-radius: 0;
-			}
+			`}
 
-			&[value="100"]::-webkit-progress-value {
-				border-radius: none;
+			&[value="100"] {
+				${progressFinishedPart`
+					border-radius: none;
+				`}
 			}
 		}
 
-		.items-view-item:not(.selected) &::-webkit-progress-value {
-			background-color: ${c("fill-color-text-secondary")};
+		.items-view-item:not(.selected) & {
+			${progressFinishedPart`
+				background-color: ${c("fill-color-text-secondary")};
+			`}
 		}
 	}
 

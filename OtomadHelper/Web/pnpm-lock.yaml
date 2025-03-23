@@ -299,6 +299,9 @@ importers:
       vite-plugin-no-bundle:
         specifier: ^4.0.0
         version: 4.0.0
+      vite-plugin-qrcode:
+        specifier: ^0.2.4
+        version: 0.2.4(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
       vite-plugin-svg-icons:
         specifier: ^2.0.1
         version: 2.0.1(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
@@ -4096,6 +4099,10 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
+  qrcode-terminal@0.12.0:
+    resolution: {integrity: sha512-EXtzRZmC+YGmGlDFbXKxQiMZNwCLEO6BANKXG4iCtSIM0yqc/pappSx3RIKr4r0uh5JsBckOXeKrB3Iz7mdQpQ==}
+    hasBin: true
+
   query-string@4.3.4:
     resolution: {integrity: sha512-O2XLNDBIg1DnTOa+2XrIwSiXEV8h2KImXUnjhhn2+UsvZ+Es2uyd5CCRTNQlDGbzUQOW3aYCBx9rVA6dzsiY7Q==}
     engines: {node: '>=0.10.0'}
@@ -4996,6 +5003,12 @@ packages:
 
   vite-plugin-no-bundle@4.0.0:
     resolution: {integrity: sha512-DXsJGXtp/QLWNFBfBqr+arxaTHEgiPCAgf9bcOPGv4n3AsFigsFj+oL95nFdMt8cRbgRDtvyTX802IZNBGg3Xg==}
+
+  vite-plugin-qrcode@0.2.4:
+    resolution: {integrity: sha512-XFNNSCTXdxCZFJrVVJlwFD6yk3jhf14xDFImI9y34FpIcRPjGcdmXXZ6V8YO6LUisB+n5AMbYITe2J7rOxwhmA==}
+    engines: {node: ^14.13.1 || ^16.0.0 || >=18}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
 
   vite-plugin-svg-icons@2.0.1:
     resolution: {integrity: sha512-6ktD+DhV6Rz3VtedYvBKKVA2eXF+sAQVaKkKLDSqGUfnhqXl3bj5PPkVTl3VexfTuZy66PmINi8Q6eFnVfRUmA==}
@@ -9347,6 +9360,8 @@ snapshots:
 
   punycode@2.3.1: {}
 
+  qrcode-terminal@0.12.0: {}
+
   query-string@4.3.4:
     dependencies:
       object-assign: 4.1.1
@@ -10464,6 +10479,11 @@ snapshots:
     dependencies:
       fast-glob: 3.3.2
       micromatch: 4.0.8
+
+  vite-plugin-qrcode@0.2.4(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0)):
+    dependencies:
+      qrcode-terminal: 0.12.0
+      vite: 6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0)
 
   vite-plugin-svg-icons@2.0.1(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0)):
     dependencies:

@@ -123,18 +123,20 @@ export default css`
 		// Progress bar style.
 		progress {
 			width: 100%;
+			border: none;
 			appearance: none;
 
-			&::-webkit-progress-bar {
+			&::-webkit-progress-bar,
+			& {
 				background-color: transparent;
 				transition: ${fallbackTransitions};
 			}
 
-			&::-webkit-progress-value {
+			${progressFinishedPart`
 				${styles.mixins.oval()};
 				background-color: ${c("accent-color")};
 				transition: ${fallbackTransitions};
-			}
+			`}
 		}
 
 		// Do not change font in math.

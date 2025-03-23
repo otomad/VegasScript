@@ -5,6 +5,7 @@ const CONTENT_ITEMS_ASSUMED_COUNT = 20;
 const NAV_ITEMS_ASSUMED_COUNT = 20;
 const NAV_ITEMS_BOTTOM_ASSUMED_COUNT = 3;
 const TITLE_ANCHOR_NAME = "--navigation-view-title";
+const hasUnsupportedBrowserInfoBar = `body:has(.${nameof.kebab({ UnsupportedBrowserInfoBar })}) &`;
 
 const NavButton = styled(Button).attrs({
 	subtle: true,
@@ -103,8 +104,12 @@ const COMPACT_WIDTH = 62;
 const StyledNavigationView = styled.div<{
 	$transitionName: string;
 }>`
-	${styles.mixins.square("100%")};
+	${styles.mixins.square("100%", false, true)};
 	display: flex;
+
+	${hasUnsupportedBrowserInfoBar} {
+		block-size: calc(100% - ${UnsupportedBrowserInfoBar.height}px);
+	}
 
 	> * {
 		display: flex;
@@ -116,7 +121,7 @@ const StyledNavigationView = styled.div<{
 		padding-block-end: 4px;
 		block-size: 100%;
 		inline-size: 320px;
-		max-inline-size: calc(100dvw / var(--zoom));
+		max-inline-size: calc(100dvw / var(--zoom, 1));
 
 		@media (horizontal-viewport-segments >= 2) {
 			inline-size: calc((env(viewport-segment-left 1 0) - env(viewport-segment-left 0 0)) / var(--zoom, 1));
@@ -176,12 +181,20 @@ const StyledNavigationView = styled.div<{
 		&.flyout {
 			position: fixed;
 			z-index: 8;
-			/* background-color: ${c("background-fill-color-acrylic-background-default")}; */
+			background-color: ${c("background-fill-color-acrylic-background-default")};
 			border-radius: 0 8px 8px 0;
 			outline: 1px solid ${c("stroke-color-surface-stroke-flyout-navigation-panel")};
 			box-shadow: 0 8px 16px ${c("shadows-flyout")};
 			backdrop-filter: blur(60px);
 			transition-behavior: allow-discrete;
+
+			${hasUnsupportedBrowserInfoBar} {
+				block-size: calc(100% - ${UnsupportedBrowserInfoBar.height}px);
+			}
+
+			body:has(.background-image) & {
+				background-color: transparent;
+			}
 		}
 	}
 
@@ -225,22 +238,27 @@ const StyledNavigationView = styled.div<{
 				}
 
 				.command-bar {
+					--inset-block-start: 12px;
 					flex-shrink: 0;
 					block-size: ${TITLE_LINE_HEIGHT}px;
 					transition: ${fallbackTransitions}, inset-inline 0s;
 
 					@supports (anchor-name: ${TITLE_ANCHOR_NAME}) {
 						position: fixed;
-						inset-block-start: 12px;
+						inset-block-start: var(--inset-block-start);
 						inset-inline-end: anchor(end);
 						position-anchor: ${TITLE_ANCHOR_NAME};
+
+						${hasUnsupportedBrowserInfoBar} {
+							inset-block-start: calc(var(--inset-block-start) + ${UnsupportedBrowserInfoBar.height}px);
+						}
 					}
 				}
 			}
 		}
 
 		&.minimal .title-wrapper > .title-wrapper-inner .command-bar {
-			inset-block-start: 4px !important;
+			--inset-block-start: 4px !important;
 		}
 
 		.title-wrapper .title {
