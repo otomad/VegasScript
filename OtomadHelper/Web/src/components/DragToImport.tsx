@@ -48,6 +48,7 @@ const StyledDragToImport = styled.div`
 					filter: blur(2px);
 				}
 			`} 500ms ${eases.easeOutBackSmooth} calc(var(--i, 0) * (50ms / var(--length, 7) * 7)) backwards;
+			will-change: opacity, transform, filter;
 		}
 	}
 
@@ -83,6 +84,7 @@ const StyledDragToImport = styled.div`
 
 		> .background-image {
 			scale: 1.08;
+			transition-duration: 500ms !important;
 		}
 	}
 `;
@@ -98,6 +100,8 @@ export default function DragToImport({ children }: FCP<{
 		setDrop(e.isDragging === false);
 	});
 
+	useOnDrag_dev(setShown, setDrop);
+
 	const title = t.dragToImport({ item: children });
 
 	return (
@@ -111,4 +115,33 @@ export default function DragToImport({ children }: FCP<{
 			</CssTransition>
 		</Portal>
 	);
+}
+
+// Only work for testing in development mode.
+function useOnDrag_dev(setShown: SetState<boolean>, setDrop: SetState<boolean>) {
+	if (window.isWebView) return;
+
+	function onDragOver(e: DragEvent) {
+		if (!e.dataTransfer) return;
+		stopEvent(e);
+		if (e.dataTransfer.items[0]?.kind !== "file") {
+			e.dataTransfer.dropEffect = "none";
+			return;
+		}
+		e.dataTransfer.dropEffect = "copy";
+		console.log(e.dataTransfer.items[0]);
+		setShown(true);
+	}
+
+	function onDragEnd(e: DragEvent) {
+		stopEvent(e);
+		setShown(false);
+		setDrop(e.type === "drop");
+	}
+
+	useEventListener(document, "dragover", onDragOver);
+	useEventListener(document, "dragstart", onDragOver);
+	useEventListener(document, "dragleave", onDragEnd);
+	useEventListener(document, "dragend", onDragEnd);
+	useEventListener(document, "drop", onDragEnd);
 }
