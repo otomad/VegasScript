@@ -907,7 +907,7 @@ export default {
 				karaoke: {
 					_: "Uses karaoke style subtitles, the color indicator would reflect the progress of the current phrase",
 					futureFill: "Specifies the text fill color for the lyrics that have not yet been sung",
-					pastFill: "Specifies the text fill color for the lyrics that have been being sung",
+					pastFill: "Specifies the text fill color for the lyrics that have been being sung", // Present Perfect Continuous Tense Passive Voice.
 				},
 				pitchNotation: {
 					_: "Visualizes the pitch of the current note as text",

@@ -173,8 +173,8 @@ export default [
 			"import/no-named-as-default": "off", // 似乎与文件命名方式有点出入。
 			"import/no-named-as-default-member": "off", // 某些库在导出成员时用 TS 命名空间欺诈。
 			"n/no-callback-literal": "off", // 这是啥？
-			"unicorn/escape-case": "off", // 暂时禁用，待修复。
-			"unicorn/number-literal-case": "off", // 同上，你真的觉得大写很好看吗？
+			"unicorn/escape-case": ["error", "lowercase"],
+			"unicorn/number-literal-case": ["error", { "hexadecimalValue": "lowercase" }],
 			"unicorn/prefer-code-point": "error",
 			"unicorn/better-regex": "off",
 			"unicorn/consistent-empty-array-spread": "error",
