@@ -49,18 +49,15 @@ export function useBackgroundImages() {
 		setItems([{ imageData: null!, filename: "", url: "", key: -1, displayIndex: -1 }, ...items]);
 	}
 
-	async function reorderItems() {
+	async function reorderItems(getIndex: (oldIndex: number) => number | undefined) {
 		if (!store.current?.isDatabaseOpen) return;
 		const requests = [];
-		let i = 0;
-		for await (const cursor of store.current.sortedCursor("displayIndex")) {
-			console.log(cursor.value.displayIndex);
-			if (cursor.value.displayIndex !== i) {
-				cursor.value.displayIndex = i;
-				const request = cursor.update(cursor.value);
-				requests.push(IndexedDBStore.getResult(request));
-			}
-			i++;
+		for await (const cursor of store.current.cursor()) {
+			const oldIndex = cursor.value.displayIndex, newIndex = getIndex(oldIndex);
+			if (newIndex === undefined || newIndex === oldIndex) continue;
+			cursor.value.displayIndex = newIndex;
+			const request = cursor.update(cursor.value);
+			requests.push(IndexedDBStore.getResult(request));
 		}
 		return Promise.all(requests);
 	}
@@ -78,12 +75,14 @@ export function useBackgroundImages() {
 
 	async function delete_(key: number) {
 		if (!store.current || +key < 0) return;
+		const currentIndex = items.find(row => row.key === key)?.displayIndex ?? NaN;
 		setBackgroundImage(backgroundImage => backgroundImage === key ? -1 : backgroundImage);
 		await nextAnimationTick();
 		URL.revokeObjectURL(keyToUrl.get(key) ?? "");
 		keyToUrl.delete(key);
 		await store.current.delete(+key);
-		await reorderItems();
+		if (Number.isFinite(currentIndex))
+			await reorderItems(index => { if (index > currentIndex) return index - 1; });
 		await updateItems();
 	}
 
@@ -94,8 +93,12 @@ export function useBackgroundImages() {
 		newIndex = clamp(newIndex, 0, length - 1);
 		const oldIndex = items.find(row => row.key === key)?.displayIndex ?? -1;
 		if (oldIndex === newIndex || oldIndex === -1) return;
-		await store.current.set("displayIndex", newIndex + (oldIndex <= newIndex ? -0.5 : 0.5), +key);
-		await reorderItems();
+		const min = Math.min(oldIndex, newIndex), max = Math.max(oldIndex, newIndex);
+		await reorderItems(index => {
+			if (index < min || index > max) return;
+			else if (index === oldIndex) return newIndex;
+			else return index + (oldIndex <= newIndex ? -1 : 1);
+		});
 		await updateItems();
 	}
 
