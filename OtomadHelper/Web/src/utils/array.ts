@@ -220,6 +220,13 @@ export function wrapIfNotArray<T>(maybeArray: T): T extends Any[] ? T : T[] {
 	return (Array.isArray(maybeArray) ? maybeArray : [maybeArray]) as never;
 }
 
+export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, callbackfn: (value: TIn) => MaybePromise<TOut>) {
+	const promises = [];
+	for await (const value of asyncIter)
+		promises.push(callbackfn(value));
+	return await Promise.all(promises);
+}
+
 /** Creates a new tuple that is correctly recognized by TypeScript. */
 export const Tuple = <T extends Any[]>(...args: T): T => args;
 

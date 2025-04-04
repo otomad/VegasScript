@@ -141,7 +141,16 @@ export default function ItemsView<
 						},
 					});
 					if (!transition) return item;
-					else return <CssTransition key={id as string} classNames={typeof transition === "string" ? transition : undefined} unmountOnExit>{item}</CssTransition>;
+					else return (
+						<CssTransition
+							key={id as string}
+							classNames={typeof transition === "string" ? transition : undefined}
+							unmountOnExit
+							maxTimeout={250}
+						>
+							{item}
+						</CssTransition>
+					);
 				});
 				if (!transition) return items;
 				else return <TransitionGroup component={null}>{items}</TransitionGroup>;

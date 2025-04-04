@@ -1018,6 +1018,8 @@ export default {
 		},
 		menu: {
 			delete: "&Delete", // Add "&" before a letter to indicate the access key.
+			moveForward: "Move &forward", // Add "&" before a letter to indicate the access key.
+			moveBackward: "Move &backward", // Add "&" before a letter to indicate the access key.
 		},
 	},
 	csharp: {

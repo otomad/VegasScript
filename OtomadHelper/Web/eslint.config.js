@@ -184,6 +184,7 @@ export default [
 			"unicorn/no-console-spaces": "error",
 			"unicorn/no-document-cookie": "error",
 			"unicorn/prefer-string-replace-all": "error",
+			"unicorn/no-useless-length-check": "error",
 			"@typescript-eslint/no-unused-vars": ["warn", { // 非要使用未使用变量，前面加下划线。
 				"argsIgnorePattern": "^_",
 				"varsIgnorePattern": "^_",

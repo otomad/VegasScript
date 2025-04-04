@@ -58,6 +58,8 @@ export default function Settings() {
 				transition
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([
+						{ label: t.menu.moveForward, onClick: () => backgroundImages.reorder(item.key, item.displayIndex - 1) },
+						{ label: t.menu.moveBackward, onClick: () => backgroundImages.reorder(item.key, item.displayIndex + 1) },
 						{ label: t.menu.delete, onClick: () => backgroundImages.delete(item.key), confirmDeleteMessage: t.confirm.delete.backgroundImage },
 					])(e);
 				}}

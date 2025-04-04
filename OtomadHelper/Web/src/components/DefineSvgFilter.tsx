@@ -7,7 +7,7 @@ function SvgFilterPortal() {
 		<Portal container={document.body}>
 			<svg id="svg-filters" width={0} height={0}>
 				<defs>
-					{Map.prototype.map.call(snapFilters, (id, [svgAttrs, filter]) => <filter key={id} id={id} {...svgAttrs}>{filter}</filter>)}
+					{snapFilters.map((id, [svgAttrs, filter]) => <filter key={id} id={id} {...svgAttrs}>{filter}</filter>)}
 				</defs>
 			</svg>
 		</Portal>

@@ -33,6 +33,14 @@ const StyledContextMenu = styled.menu`
 				opacity: ${c("pressed-text-opacity")};
 			}
 		}
+
+		&[disabled] {
+			background-color: transparent !important;
+
+			.content {
+				opacity: ${c("disabled-text-opacity")};
+			}
+		}
 	}
 `;
 

@@ -1,4 +1,5 @@
 import { flushSync as reactDomFlushSync } from "react-dom";
+import { config as reactTransitionGroupConfig } from "react-transition-group-fc";
 import type * as Styled from "styled-components";
 import "utils/array";
 
@@ -395,6 +396,8 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 		}
 	`);
 	document.head.appendChild(style);
+	const previousReactTransitionGroupDisabled = reactTransitionGroupConfig.disabled;
+	reactTransitionGroupConfig.disabled = true;
 
 	const transition = document.startViewTransition(changeFunc);
 	await transition.ready;
@@ -410,6 +413,7 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 
 	document.head.removeChild(style);
 	document.querySelectorAll(`style#${STOP_TRANSITION_ID}`).forEach(node => node.remove());
+	reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
 }
 
 export function forthBack_keyframes<Props extends object = object>(strings: TemplateStringsArray, ...interpolations: Array<Styled.Interpolation<Props>>) {
