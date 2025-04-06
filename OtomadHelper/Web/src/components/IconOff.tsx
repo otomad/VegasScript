@@ -53,7 +53,7 @@ export default function IconOff({ name: _name }: FCP<{
 	if (shouldDelayToShow) return;
 
 	return (
-		<StyledIconOff ref={comp} role="img" aria-label={ariaLabel} aria-hidden>
+		<StyledIconOff ref={comp} role="img" aria-description={ariaLabel} aria-hidden>
 			<svg width={ICON_INITIAL_SIZE} height={ICON_INITIAL_SIZE} viewBox={`0 0 ${ICON_INITIAL_SIZE} ${ICON_INITIAL_SIZE}`} xmlns="http://www.w3.org/2000/svg">
 				<mask id={maskId}>
 					<g fill="white" dangerouslySetInnerHTML={{ __html: svgPath }} />

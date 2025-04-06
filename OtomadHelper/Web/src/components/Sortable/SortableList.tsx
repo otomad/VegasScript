@@ -55,7 +55,7 @@ export function SortableList<T extends BaseItem>({ items: itemsStateProperty, ov
 	const setActive = setStateInterceptor(_setActive, undefined, active => forceCursor(active ? nsResizeDraggingCur : null));
 	const activeItem = useMemo(() => {
 		const index = items.findIndex(item => getItemId(item) === active?.id);
-		if (index === -1) return null;
+		if (!~index) return null;
 		return [states[index], index, items[index]] as const;
 	}, [active, items]);
 	const sensors = useSensors(

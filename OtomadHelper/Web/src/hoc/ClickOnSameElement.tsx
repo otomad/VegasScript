@@ -24,15 +24,17 @@ export default function ClickOnSameElement({ bubbling = true, children, onClick,
 			isPressed.current = true;
 	};
 
-	useEventListener(document, "pointerup", e => {
+	const onPointerUp = (e: PointerEvent) => {
 		if (e.target === document) return;
-		if (isPressed.current && checkSame(e.target, target.current) && e.button === 0)
+		if (e.type !== "pointerup" || isPressed.current && checkSame(e.target, target.current) && e.button === 0)
 			onClick?.(e as React.PointerEvent<HTMLElement>);
 		isPressed.current = false;
-	}, undefined, null);
+	};
+
+	useEventListener(document, "pointerup", onPointerUp, undefined, null);
 
 	return (
-		<EventInjector ref={target} onPointerDown={onPointerDown}>
+		<EventInjector ref={target} onPointerDown={onPointerDown} onKeyUp={e => e.code.in("Space", "Enter") && onPointerUp(e as never)}>
 			{children}
 		</EventInjector>
 	);

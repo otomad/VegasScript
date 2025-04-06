@@ -63,7 +63,7 @@
 		"react-dom": "^19.0.0",
 		"react-flip-move": "^3.0.5",
 		"react-i18next": "^15.1.0",
-		"react-transition-group-fc": "^4.5.7",
+		"react-transition-group-fc": "^4.5.8",
 		"styled-components": "^6.1.13",
 		"styled-tools": "^1.7.2",
 		"use-immer": "^0.10.0",
@@ -147,7 +147,8 @@
 			"pangu": "patches/pangu.patch",
 			"babel-plugin-transform-jsx-classnames": "patches/babel-plugin-transform-jsx-classnames.patch",
 			"html-minifier-terser": "patches/html-minifier-terser.patch",
-			"valtio": "patches/valtio.patch"
+			"valtio": "patches/valtio.patch",
+			"vite-plugin-svg-icons": "patches/vite-plugin-svg-icons.patch"
 		},
 		"allowNonAppliedPatches": false
 	},

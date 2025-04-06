@@ -79,10 +79,10 @@ function TopLeftButtons({ shadow, paneDisplayMode, canBack = true, onBack, onNav
 			{!shadow && (
 				<div className="base">
 					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.back} shortcut="Alt + ←" />}>
-						<NavButton animatedIcon="back" disabled={!canBack} onClick={onBack} aria-label="Back" dirBased />
+						<NavButton animatedIcon="back" disabled={!canBack} onClick={onBack} aria-label={t.back} dirBased />
 					</Tooltip>
 					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.navigation} shortcut="Alt + H" />}>
-						<NavButton animatedIcon="global_nav_button" onClick={onNavButton} aria-label="Navigation" />
+						<NavButton animatedIcon="global_nav_button" onClick={onNavButton} aria-label={t.navigation} />
 					</Tooltip>
 				</div>
 			)}
@@ -237,7 +237,7 @@ const StyledNavigationView = styled.div<{
 					${styles.mixins.square("100%")};
 				}
 
-				.command-bar {
+				.command-bar-wrapper {
 					--inset-block-start: 12px;
 					flex-shrink: 0;
 					block-size: ${TITLE_LINE_HEIGHT}px;
@@ -257,7 +257,7 @@ const StyledNavigationView = styled.div<{
 			}
 		}
 
-		&.minimal .title-wrapper > .title-wrapper-inner .command-bar {
+		&.minimal .title-wrapper > .title-wrapper-inner .command-bar-wrapper {
 			--inset-block-start: 4px !important;
 		}
 
@@ -491,7 +491,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	const covered = !flyout && isFlyoutShown;
 
 	const getNavItemNode = useCallback((item: typeof navItems[number], index: number) => {
-		if ("type" in item) return item.type === "hr" ? <hr key={index} /> : undefined;
+		if ("type" in item) return item.type === "hr" ? <hr key={index} aria-hidden /> : undefined;
 		const { text, icon, animatedIcon, id, badge } = item;
 		return (
 			<TabBar.Item
@@ -527,7 +527,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	}, []);
 
 	return (
-		<div className={["left", paneDisplayMode, { flyout, covered }]} aria-hidden={paneDisplayMode === "minimal" || covered}>
+		<div className={["left", paneDisplayMode, { flyout, covered }]} aria-hidden={paneDisplayMode === "minimal" || covered} aria-label={t.aria.navMenu}>
 			<TopLeftButtons shadow paneDisplayMode={isCompact ? "compact" : paneDisplayMode} />
 			<div
 				ref={navItemsEl}
@@ -537,14 +537,14 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 				onScroll={onNavItemsScroll}
 			>
 				{customContent}
-				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical role="navigation">
+				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
 					{navItems.map((item, index) => {
 						if (!item.bottom) return getNavItemNode(item, index);
 					})}
 				</TabBar>
 			</div>
 			<div className="nav-items-bottom">
-				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical role="navigation">
+				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
 					{navItems.map((item, index) => {
 						if (item.bottom) return getNavItemNode(item, index);
 					})}
@@ -606,7 +606,7 @@ const usePaneDisplayMode = () => {
 	return paneDisplayMode;
 };
 
-export default function NavigationView({ currentNav, navItems = [], titles, transitionName = "", children, customContent, canBack = true, onBack, commandBar, pageContentId, poppedScroll, ...htmlAttrs }: FCP<{
+export default function NavigationView({ currentNav: [currentNav, setCurrentNav], navItems = [], titles, transitionName = "", children, customContent, canBack = true, onBack, commandBar, pageContentId, poppedScroll, ...htmlAttrs }: FCP<{
 	/** Current navigation page status parameters. */
 	currentNav: StateProperty<string[]>;
 	/** All navigation items. */
@@ -628,8 +628,8 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 	/** The page scroll value popped from the stack. */
 	poppedScroll?: PageScroll;
 }, "div">) {
-	const currentNavTab = useStateSelector(currentNav, nav => nav[0], value => [value]);
-	const pagePath = currentNav.join("/");
+	const currentNavTab = useStateSelector([currentNav, setCurrentNav], nav => nav[0], value => [value]);
+	const pagePath = currentNav!.join("/");
 	const responsive = usePaneDisplayMode();
 	const [flyoutDisplayMode, setFlyoutDisplayMode] = useState<PaneDisplayMode>("minimal");
 	const [isExpandedInExpandedMode, setIsExpandedInExpandedMode] = useState(true);
@@ -707,7 +707,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 							<div>
 								<TransitionGroup>
 									<CssTransition key={pageTitleKey.join()}>
-										<h1 className="title" role="navigation" aria-label="Breadcrumb">
+										<h1 className="title" role="navigation" aria-label={t.aria.breadcrumb}>
 											<TransitionGroup>
 												{titles.flatMap((title, i, { length }) => {
 													const last = i === length - 1;
@@ -718,7 +718,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 															tabIndex={last ? -1 : 0}
 															role="link"
 															aria-current={last && "page"}
-															onClick={() => title.link?.length && currentNav[1]?.(title.link)}
+															onClick={() => title.link?.length && setCurrentNav?.(title.link)}
 														>
 															{title.name}
 														</div>
@@ -733,7 +733,7 @@ export default function NavigationView({ currentNav, navItems = [], titles, tran
 									</CssTransition>
 								</TransitionGroup>
 							</div>
-							<section className="command-bar">
+							<section className="command-bar-wrapper">
 								{commandBar}
 							</section>
 						</div>

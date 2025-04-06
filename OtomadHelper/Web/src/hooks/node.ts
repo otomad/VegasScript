@@ -10,68 +10,6 @@ export function useForceUpdate() {
 }
 
 /**
- * A custom hook that controls the keyboard events for radio and checkbox elements.
- *
- * @param element - A reference to the HTML DOM element.
- * @param type - The type of the element, either "radio" or "checkbox".
- * @param handleCheck - A function that handles the change of the checkbox or radio button state.
- *
- * @returns A cleanup function that removes the event listeners when the component unmounts.
- */
-export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, type: "radio" | "checkbox", handleCheck: (checked?: boolean) => void) {
-	useEffect(() => {
-		const el = element.current;
-		const CUSTOM_CHANGE_EVENT = "customchange";
-		if (!el) return;
-
-		const onKeydown = (e: KeyboardEvent) => {
-			if (e.code === "Space") {
-				stopEvent(e);
-				return;
-			}
-			const movePrev = e.code === "ArrowUp" || e.code === "ArrowLeft";
-			const moveNext = e.code === "ArrowDown" || e.code === "ArrowRight";
-			if (!movePrev && !moveNext) return;
-			stopEvent(e);
-			let thisComponent = e.currentTarget as HTMLElement;
-			let thatComponent: HTMLElement | null;
-			while (true) {
-				const _thatComponent = thisComponent[movePrev ? "previousElementSibling" : "nextElementSibling"];
-				if (!(_thatComponent instanceof HTMLElement)) break;
-				const input = _thatComponent.querySelector<HTMLInputElement>(`:scope > input[type=${type}]`);
-				if (!input) break;
-				thisComponent = _thatComponent;
-				if (input.disabled) continue;
-				thatComponent = _thatComponent;
-				break;
-			}
-			thatComponent ??= thisComponent;
-			thatComponent.focus();
-			if (type === "radio") thatComponent.dispatchEvent(new CustomEvent(CUSTOM_CHANGE_EVENT));
-		};
-
-		const onKeyup = (e: KeyboardEvent) => {
-			if (e.code === "Space") {
-				stopEvent(e);
-				handleCheck();
-			}
-		};
-
-		const onCustomChange = () => handleCheck();
-
-		el.addEventListener("keydown", onKeydown);
-		el.addEventListener("keyup", onKeyup);
-		el.addEventListener(CUSTOM_CHANGE_EVENT, onCustomChange);
-
-		return () => {
-			el.removeEventListener("keydown", onKeydown);
-			el.removeEventListener("keyup", onKeyup);
-			el.removeEventListener(CUSTOM_CHANGE_EVENT, onCustomChange);
-		};
-	}, []);
-}
-
-/**
  * Forward the ref from a local ref.
  * @param forwardedRef - Forwarded ref argument from the `forwardRef` function.
  * @param localRef - Local `useDomRef` variable.
@@ -88,10 +26,64 @@ export function useOnNestedButtonClick(handler?: MouseEventHandler) {
 	return useCallback<MouseEventHandler>(e => {
 		const path = getPath(e);
 		const currentTargetIndex = path.indexOf(e.currentTarget);
-		if (currentTargetIndex !== -1) {
+		if (~currentTargetIndex) {
 			if (path.slice(0, currentTargetIndex).find(element => element.tagName === "BUTTON")) return;
 			if (path.slice(currentTargetIndex + 1).find(element => element.tagName === "BUTTON")) stopEvent(e);
 		}
 		handler?.(e);
 	}, [handler]);
+}
+
+/**
+ * A custom hook that controls the keyboard events for radio and checkbox elements.
+ *
+ * @param element - A reference to the HTML DOM element.
+ * @param type - The type of the element, either "radio" or "checkbox".
+ * @param handleCheck - A function that handles the change of the checkbox or radio button state.
+ *
+ * @returns A cleanup function that removes the event listeners when the component unmounts.
+ */
+export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, handleCheck?: (() => void) | null, { parent: parentSelector, item: itemSelector = "*", focus: focusSelector = itemSelector, changeWhenMoveFocus, preventSpace = !!handleCheck, disableUpDown = false }: {
+	parent?: string;
+	item?: string;
+	focus?: string;
+	changeWhenMoveFocus?: boolean;
+	preventSpace?: boolean;
+	disableUpDown?: boolean;
+} = {}) {
+	const CUSTOM_CHANGE_EVENT = "customchange";
+
+	useEventListener(element, "keydown", e => {
+		const { code } = e;
+		if (preventSpace && code === "Space") {
+			stopEvent(e);
+			return;
+		}
+		if (code.in("ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "Home", "End")) {
+			if (disableUpDown && code.in("ArrowUp", "ArrowDown")) return;
+			e.preventDefault();
+			const target = (e.currentTarget ?? e.target) as HTMLElement | null;
+			const parent = parentSelector ? target?.closest(parentSelector) : target?.parentElement;
+			const index = target?.indexIn(parent) ?? -1;
+			if (!~index || !parent || !target) return;
+			const items = [...parent.children].filter(element => element.matches(itemSelector) && !element.hasAttribute("disabled"));
+			const immediate = parent.children[index] as HTMLElement;
+			const indexInItems = items.indexOf(immediate);
+			if (!~indexInItems) return;
+			const itemEl = code === "Home" ? items[0] : code === "End" ? items[items.length - 1] :
+				getLayoutNeighbor(immediate, ({ ArrowLeft: "left", ArrowRight: "right", ArrowUp: "top", ArrowDown: "bottom" } as const)[code], items);
+			const focusEl = itemEl?.querySelectorWithSelf(focusSelector) as HTMLElement;
+			focusEl?.focus?.();
+			if (changeWhenMoveFocus) itemEl?.dispatchEvent(new CustomEvent(CUSTOM_CHANGE_EVENT));
+		}
+	});
+
+	useEventListener(element, "keyup", e => {
+		if (preventSpace && e.code.in("Space", "Enter")) {
+			stopEvent(e);
+			handleCheck?.();
+		}
+	});
+
+	useEventListener(element, CUSTOM_CHANGE_EVENT, () => handleCheck?.());
 }

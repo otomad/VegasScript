@@ -280,6 +280,7 @@ export default {
 		menu: {
 			delete: "&Xoá",
 		},
+		aria: {},
 	},
 	csharp: {
 		host: {

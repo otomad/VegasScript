@@ -95,6 +95,17 @@ export function isRtl(container?: Element | null) {
 }
 
 /**
+ * Swaps the "ArrowLeft" and "ArrowRight" key codes if the current layout is right-to-left (RTL).
+ *
+ * @template T - A string type representing the key code.
+ * @param code - The key code to potentially swap.
+ * @returns The original key code if the layout is not RTL, or the swapped key code if the layout is RTL.
+ */
+export function swapArrowLeftRightIfRtl<T extends string>(code: T) {
+	return !isRtl() ? code : (code === "ArrowLeft" ? "ArrowRight" : code === "ArrowRight" ? "ArrowLeft" : code) as T;
+}
+
+/**
  * Returns a string with a language-specific representation of the list.
  * @param list - An iterable object, such as an Array.
  * @param type - The format of output message.

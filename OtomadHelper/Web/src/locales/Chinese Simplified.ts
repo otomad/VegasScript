@@ -124,6 +124,8 @@ export default {
 		disabled: "禁用",
 		apply: "应用",
 		unset: "不变",
+		increase: "增加",
+		decrease: "减少",
 		infoBar: {
 			warning: "警告",
 		},
@@ -995,6 +997,13 @@ export default {
 		},
 		menu: {
 			delete: "删除(&D)",
+			moveForward: "往前挪(&F)",
+			moveBackward: "往后挪(&B)",
+		},
+		aria: {
+			navMenu: "导航菜单",
+			breadcrumb: "面包屑",
+			commandBar: "命令栏",
 		},
 		preset: "预设",
 	},

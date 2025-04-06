@@ -5,7 +5,7 @@ function SvgFilterPortal() {
 
 	return (
 		<Portal container={document.body}>
-			<svg id="svg-filters" width={0} height={0}>
+			<svg id="svg-filters" width={0} height={0} aria-hidden>
 				<defs>
 					{snapFilters.map((id, [svgAttrs, filter]) => <filter key={id} id={id} {...svgAttrs}>{filter}</filter>)}
 				</defs>

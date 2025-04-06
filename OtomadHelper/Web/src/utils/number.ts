@@ -29,7 +29,7 @@
 		const str = this.toString();
 		if (str.includes(".") && str.includes("-"))
 			return +str.split("-")[1] || 0;
-		else if (str.indexOf(".") !== -1)
+		else if (~str.indexOf("."))
 			return str.split(".")[1].length || 0;
 		else
 			return +str.split("-")[1] || 0;
@@ -45,7 +45,11 @@
  */
 export function normalizeNumber(num: number | bigint | string) {
 	let s = String(num);
-	const regexp = (num: string) => num.trim().toLowerCase().replace(/\+/g, "").replace(/(?<=e|-|^)0*|(?<=\.[^e]*)0*(?=e|$)/g, "").replace(/(?<=-|^)\./, "0.").replace(/\.(?=e|$)/g, "");
+	const regexp = (num: string) => num.trim().toLowerCase()
+		.replaceAll("+", "")
+		.replaceAll(/(?<=e|-|^)0*|(?<=\.[^e]*)0*(?=e|$)/g, "")
+		.replace(/(?<=-|^)\./, "0.")
+		.replaceAll(/\.(?=e|$)/g, "");
 	s = regexp(s);
 	if (s.includes("e")) {
 		let [base, exp_str] = s.split("e");
@@ -53,7 +57,7 @@ export function normalizeNumber(num: number | bigint | string) {
 		const move = (float: string, direct: number) => {
 			float += "";
 			let dot = float.indexOf(".");
-			if (dot === -1) dot = float.length;
+			if (!~dot) dot = float.length;
 			dot = direct > 0 ? dot + 1 : dot - 1;
 			float = float.replace(".", "");
 			if (dot === float.length) void 0;

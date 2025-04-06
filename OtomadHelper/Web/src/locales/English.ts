@@ -42,6 +42,7 @@ export default {
 			gradient: "Gradient Tracks",
 		},
 		source: {
+			from: "Source from",
 			trackEvent: "Track event",
 			projectMedia: "Project media",
 			browseFile: "Browse file",
@@ -128,6 +129,8 @@ export default {
 		disabled: "Disabled",
 		apply: "Apply",
 		unset: "Unset", // Aka do not modify.
+		increase: "Increase",
+		decrease: "Decrease",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -182,6 +185,7 @@ export default {
 			vsq: "Vocaloid Sequence Files",
 		},
 		score: {
+			from: "Score from",
 			midi: "MIDI",
 			singthesis: "Singthesis", // Singing Voice Synthesizer.
 			refOtherTracks: "Refer to other tracks",
@@ -1020,6 +1024,11 @@ export default {
 			delete: "&Delete", // Add "&" before a letter to indicate the access key.
 			moveForward: "Move &forward", // Add "&" before a letter to indicate the access key.
 			moveBackward: "Move &backward", // Add "&" before a letter to indicate the access key.
+		},
+		aria: {
+			navMenu: "Navigation menu",
+			breadcrumb: "Breadcrumb",
+			commandBar: "Command bar",
 		},
 	},
 	csharp: {

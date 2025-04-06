@@ -32,7 +32,7 @@ declare interface ObjectConstructor {
 	 * Creates a new object composed of the own and inherited enumerable properties of `object` that are not omitted.
 	 * @category Object
 	 * @param object - The source object.
-	 * @param pickedKeys - keys of properties you want to omit from the object, specified in arrays.
+	 * @param omittedKeys - keys of properties you want to omit from the object, specified in arrays.
 	 * @returns Returns the new object.
 	 * @example
 	 * ```javascript
@@ -52,7 +52,7 @@ declare interface ObjectConstructor {
 	 * @returns Returns the new object.
 	 * @example
 	 * ```javascript
-	 * Object.pick({ a: 1, b: "2", c: 3 }, x => typeof x === "number"); // { b: "2" }
+	 * Object.omit({ a: 1, b: "2", c: 3 }, x => typeof x === "number"); // { b: "2" }
 	 * ```
 	 */
 	omit<T extends object>(object: T, predicate: (currentValue: T[keyof T], key: keyof T, object: T) => boolean, thisArg?: any): Partial<T>;

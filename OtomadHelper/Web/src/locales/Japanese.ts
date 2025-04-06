@@ -124,6 +124,8 @@ export default {
 		disabled: "無効",
 		apply: "適用",
 		unset: "未設定",
+		increase: "増加",
+		decrease: "減らす",
 		infoBar: {
 			warning: "警告",
 		},
@@ -995,6 +997,13 @@ export default {
 		},
 		menu: {
 			delete: "削除(&D)",
+			moveForward: "前に移動(&F)",
+			moveBackward: "後方に移動(&B)",
+		},
+		aria: {
+			navMenu: "Navigation menu",
+			breadcrumb: "パンくずリスト",
+			commandBar: "コマンドバー",
 		},
 		preset: "プリセット",
 	},

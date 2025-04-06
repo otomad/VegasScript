@@ -127,7 +127,7 @@ function isValidAnchorName(anchorName: string) {
 }
 
 const DEFAULT_OFFSET = 11;
-export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", portal, hideDelay = 0, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
+export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", portal, hideDelay = 0, target, onShown, onHidden, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
 	/** Anchor name. */
 	anchorName: string;
 	/** Position. */
@@ -144,6 +144,12 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	portal?: PropsOf<typeof Portal>["container"];
 	/** When request to hide the flyout, it will be delayed for milliseconds before hiding. If it is reshowed during this period, it will not hide. */
 	hideDelay?: number;
+	/** (Optional) Target of the flyout. */
+	target?: MaybeRef<HTMLElement | null>;
+	/** Occurs when shown. */
+	onShown?(): void;
+	/** Occurs when hidden. */
+	onHidden?(): void;
 	// Specialized Interfaces
 	/** @private This property is designed specifically for `CommandBarItem`, operating directly may result in undefined behavior! */
 	_commandBarAnchorName?: string;
@@ -159,8 +165,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	useEventListener(window, "pointerdown", e => autoInert && !isInPath(e, flyoutEl) && close(), { capture: true }, [autoInert]);
 
 	useEffect(() => {
-		if (!autoInert) return;
-		if (shown)
+		if (autoInert && shown)
 			setRootInert(true);
 		else if (document.querySelectorAll("#popovers .flyout").length <= 1)
 			setRootInert(false);
@@ -175,9 +180,23 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 		else hideTimeout.current = setTimeout(() => setDelayedShown(false), hideDelay);
 	}, [hideDelay, shown]);
 
+	const inProp = hideDelay > 0 ? delayedShown : shown;
+	useEffect(() => {
+		if (inProp) {
+			onShown?.();
+			if (flyoutEl.current)
+				(getFirstFocusableElement(flyoutEl.current) as HTMLElement)?.focus?.();
+		} else {
+			onHidden?.();
+			target = toValue(target);
+			if (target && (document.activeElement === document.body || flyoutEl.current?.contains(document.activeElement)))
+				target.focus();
+		}
+	}, [inProp]);
+
 	return (
 		<Portal container={portal}>
-			<CssTransition in={hideDelay > 0 ? delayedShown : shown} unmountOnExit>
+			<CssTransition in={inProp} unmountOnExit maxTimeout={250}>
 				<StyledFlyout
 					ref={flyoutEl}
 					className={[

@@ -7,19 +7,16 @@ const StyledCommandBar = styled.div`
 		--icon-only: false;
 	}
 
+	${styles.effects.text.body};
 	position: relative;
+	display: flex;
+	align-items: center;
 	padding: 4px;
+	block-size: 100%;
 	background-color: ${c("background-fill-color-acrylic-background-command-bar")};
 	border: 1px solid ${c("stroke-color-surface-stroke-flyout")};
 	border-radius: 6px;
 	backdrop-filter: blur(10px);
-
-	> * {
-		${styles.effects.text.body};
-		display: flex;
-		align-items: center;
-		block-size: 100%;
-	}
 
 	* {
 		white-space: nowrap;
@@ -29,8 +26,6 @@ const StyledCommandBar = styled.div`
 		transition: all ${eases.easeInOutFluent} 500ms;
 
 		.button {
-			margin: 0;
-			box-shadow: none !important;
 			transition: ${fallbackTransitions}, min-inline-size 0s;
 
 			@container style(--icon-only: true) or style(--too-narrow: true) {
@@ -111,13 +106,13 @@ export default function CommandBar({ position, autoCollapse, addGaps, children, 
 			key={i}
 			ref={setCommandBarEl(i)}
 			role="toolbar"
-			aria-label="Command Bar"
+			aria-label={t.aria.commandBar}
 			className={[className, position, { shadow: i !== 0, gaps: addGaps }]}
 			style={{ ...style, anchorName }}
 			{...htmlAttrs}
 		>
 			<CommandBarAnchorContext value={i === 0 ? { anchorName, position, tooNarrow: autoCollapse && overflowed } : {} as never}>
-				<TransitionGroup childFactory={childFactory}>
+				<TransitionGroup childFactory={childFactory} component={null}>
 					{children}
 				</TransitionGroup>
 			</CommandBarAnchorContext>

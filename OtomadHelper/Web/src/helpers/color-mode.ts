@@ -4,7 +4,8 @@ const lightModePreference = window.matchMedia("(prefers-color-scheme: light)");
 const highContrastPreference = window.matchMedia(highContrastMediaQuery);
 
 let lastClickMouseEvent: MouseEvent | undefined;
-["mousedown", "mouseup", "mousemove"].forEach(type => document.addEventListener(type as "mousedown", e => lastClickMouseEvent = e, true));
+["mousedown", "mouseup", "mousemove", "mouseenter"].forEach(type => document.addEventListener(type as "mousedown", e => lastClickMouseEvent = e, true));
+document.addEventListener("mouseleave", () => lastClickMouseEvent = undefined);
 
 type ChangeColorSchemeMode = "initial" | "auto" | "manual" | "refresh";
 

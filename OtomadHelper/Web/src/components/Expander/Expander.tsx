@@ -108,7 +108,7 @@ const ExpanderChildWrapper = styled.div`
 	}
 `;
 
-export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childItemsRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled, onToggle, ref }: FCP<Override<PropsOf<typeof SettingsCard>, {
+export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled, onToggle, ref }: FCP<Override<PropsOf<typeof SettingsCard>, {
 	/** The other action control area on the right side of the component. */
 	actions?: ReactNode;
 	/** Expanded initially? */
@@ -121,8 +121,8 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	clipChildren?: boolean;
 	/** Make expander child items disabled. */
 	childrenDisabled?: boolean;
-	/** Define the role of expander child items. */
-	childItemsRole?: AriaRole;
+	/** Define the role of expander child. */
+	childRole?: AriaRole;
 	/** Occurs when the expander parent has been clicked where the child items disabled. */
 	onClickWhenChildrenDisabled?(): void;
 	/** Occurs when the expander expanded or collapsed. */
@@ -148,7 +148,8 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
 	useEffect(() => onToggle?.(internalExpanded), [internalExpanded]);
 	useEffect(() => { if (disabled || childrenDisabled) _setInternalExpanded(false); }, [disabled, childrenDisabled]);
-	const ariaId = useId();
+	const ariaId = useRef<string>(null);
+	const withAriaId = (suffix: string) => !ariaId.current ? undefined : ariaId.current + suffix;
 
 	return (
 		<div className="expander">
@@ -158,8 +159,8 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 					ref={ref}
 					type={childrenDisabled ? onClickWhenChildrenDisabled ? "button" : "container-but-button" : "expander"}
 					trailingIcon="chevron_down"
-					id={`${ariaId}-parent`}
-					aria-controls={`${ariaId}-child`}
+					ariaIdRef={ariaId}
+					aria-controls={withAriaId("-child")}
 					aria-expanded={internalExpanded}
 					$expanded={internalExpanded}
 					$childrenDisabled={childrenDisabled}
@@ -183,11 +184,11 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 				<ExpanderChild
 					disabled={disabled || childrenDisabled}
 					className={{ clipChildren }}
-					role="region"
-					id={`${ariaId}-child`}
-					aria-labelledby={`${ariaId}-parent`}
+					role={childRole || "region"}
+					id={withAriaId("-child")}
+					aria-labelledby={withAriaId("-title")}
 				>
-					<div className="expander-child-items" role={childItemsRole}>
+					<div className="expander-child-items">
 						{children}
 					</div>
 				</ExpanderChild>

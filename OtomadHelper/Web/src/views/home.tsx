@@ -5,6 +5,7 @@ export default function Home() {
 	const timecode = useState("00:00:03.000");
 	const options = ["foo", "bar", "baz", "hello", "world"];
 	const slider = useState(50);
+	const checkboxModel = useState<string[]>([]);
 
 	return (
 		<div className="container">
@@ -29,6 +30,13 @@ export default function Home() {
 			<TimecodeBox timecode={timecode} />
 
 			<Slider value={slider} defaultValue={50} />
+
+			<Expander icon="single_select" title="Radio buttons">
+				{options.map(option => <RadioButton key={option} id={option} value={[text, setText]}>{option}</RadioButton>)}
+			</Expander>
+			<Expander icon="multiselect" title="Checkboxes">
+				{options.map(option => <Checkbox key={option} id={option} value={checkboxModel}>{option}</Checkbox>)}
+			</Expander>
 		</div>
 	);
 }

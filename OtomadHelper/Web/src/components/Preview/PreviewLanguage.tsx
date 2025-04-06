@@ -92,7 +92,7 @@ export default function PreviewLanguage({ language }: FCP<{
 	return (
 		<StyledPreviewLanguage lang={language}>
 			<div className="text">{languageName}</div>
-			<progress value={progress} max={100} />
+			<progress value={progress} max={100} aria-hidden />
 			{showProgressPercentage && (
 				<div className="approval-progress">
 					<Icon name="logo/crowdin" />

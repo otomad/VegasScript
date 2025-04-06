@@ -57,8 +57,8 @@ export default function SettingsAbout() {
 	return (
 		<>
 			<StyledSettingsAbout>
-				<MonoLogo className="logo dark" />
-				<ColoredLogo className="logo light" />
+				<MonoLogo className="logo dark" aria-hidden />
+				<ColoredLogo className="logo light" aria-hidden />
 				<div className="right">
 					<p>{t.descriptions.settings.about}</p>
 					<div className="pairs">

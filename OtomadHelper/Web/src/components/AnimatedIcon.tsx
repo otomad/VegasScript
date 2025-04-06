@@ -89,13 +89,13 @@ function useLottieSequence(animationItem: RefObject<AnimationItem | undefined>, 
 
 	function push(...state: LottieStateMarker[]) {
 		setSequence(sequence => {
-			const isPaused = !sequence.length;
+			const isPaused = sequence.length === 0;
 			sequence.push(...state);
 			for (let index = sequence.length - 1; index >= 1; index--) {
 				const state = sequence[index];
-				const previouses = sequence.slice(0, index);
-				const duplicateIndex = previouses.indexOf(state);
-				if (duplicateIndex !== -1) {
+				const previousStates = sequence.slice(0, index);
+				const duplicateIndex = previousStates.indexOf(state);
+				if (~duplicateIndex) {
 					const deleteCount = index - duplicateIndex;
 					sequence.splice(duplicateIndex, deleteCount);
 					index = duplicateIndex;

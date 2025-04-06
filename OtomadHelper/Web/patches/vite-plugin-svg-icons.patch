@@ -1,0 +1,24 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index 24eb9b391793067a216ce8577b297b2313f8d150..b23cc70253e90fc5654cd6fa1e929628d365cb7f 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -115,6 +115,7 @@ async function createModuleCode(cache, svgoOptions, options) {
+              svgDom.id = '${options.customDomId}';
+              svgDom.setAttribute('xmlns','${XMLNS}');
+              svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
++             svgDom.ariaHidden = true;
+            }
+            svgDom.innerHTML = ${JSON.stringify(html)};
+            ${domInject(options.inject)}
+diff --git a/dist/index.mjs b/dist/index.mjs
+index e160cd1d574b30cace7825be7c4e967558b3f6aa..a66f32608eefb10c82e64fb9af7dc6fe93274312 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -101,6 +101,7 @@ async function createModuleCode(cache, svgoOptions, options) {
+              svgDom.id = '${options.customDomId}';
+              svgDom.setAttribute('xmlns','${XMLNS}');
+              svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
++             svgDom.ariaHidden = true;
+            }
+            svgDom.innerHTML = ${JSON.stringify(html)};
+            ${domInject(options.inject)}

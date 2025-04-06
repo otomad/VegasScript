@@ -7,7 +7,7 @@
 		let successes = 0;
 		for (const item of items) {
 			const index = this.indexOf(item);
-			if (index === -1) continue;
+			if (!~index) continue;
 			this.splice(index, 1);
 			successes++;
 		}
@@ -18,7 +18,7 @@
 		for (const item of items)
 			while (true) {
 				const index = this.indexOf(item);
-				if (index === -1) break;
+				if (!~index) break;
 				this.splice(index, 1);
 			}
 	};
@@ -43,7 +43,7 @@
 
 	Array.prototype.toggle = function (item) {
 		const index = this.indexOf(item);
-		if (index === -1)
+		if (!~index)
 			this.push(item);
 		else
 			this.removeAt(index);

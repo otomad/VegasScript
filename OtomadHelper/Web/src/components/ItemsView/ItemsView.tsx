@@ -124,6 +124,7 @@ export default function ItemsView<
 			className={[className, view, { autoFill }]}
 			$itemWidth={itemWidth}
 			role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
+			aria-hidden={false}
 			style={{ ...style, justifyContent: inlineAlignment }}
 			{...htmlAttrs}
 		>

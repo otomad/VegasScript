@@ -64,7 +64,7 @@ export default function Icon({ name, filled, shadow, className, ref, ...htmlAttr
 			{...htmlAttrs}
 			ref={ref}
 			role="img"
-			aria-label={ariaLabel}
+			aria-description={ariaLabel}
 			aria-hidden
 		>
 			<svg aria-hidden>

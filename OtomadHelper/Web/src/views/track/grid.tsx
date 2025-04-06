@@ -254,7 +254,6 @@ function FastFillOptions({ columns: [columns, setColumns], options, inputRef }: 
 			subtle={unselected || !(columns === value)}
 			minWidthUnbounded
 			accent
-			toggleable
 			onPointerDown={() => { setColumns(value); focus(); }}
 			onPointerUp={focus}
 		>

@@ -307,6 +307,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 		</CssTransition>
 	);
 	const iconOrElement = typeof icon === "string" ? <Icon name={icon} /> : icon;
+	const el = useDomRef<"button">();
 
 	const [hover, setHover] = useState(false);
 	const handleAnimation = useCallback((e: AnimationEvent, isAnimationStart: boolean) => {
@@ -316,10 +317,13 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 
 	useEffect(() => onSelectedChange?.(id, selected), [selected]);
 
+	useOnFormKeyDown(el, null);
+
 	return (
 		<ItemsViewItemStateContext value={{ hover }}>
 			<EventInjector onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
 				<StyledItemsViewItem
+					ref={el}
 					$view={view!}
 					$withBorder={withBorder}
 					className={[className, view, { selected: selected !== "unchecked" }]}

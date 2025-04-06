@@ -187,7 +187,7 @@ export default function Score() {
 			{ytpEnabled && <InfoBar status="warning" title={t.descriptions.score.ytpEnabled} button={<EmptyMessage.YtpDisabled.Buttons />} />}
 
 			<Card className="media-pool">
-				<TabBar current={format}>
+				<TabBar current={format} aria-label={t.score.from}>
 					<TabBar.Item id="midi" icon="midi">{t.score.midi}</TabBar.Item>
 					<TabBar.Item id="singthesis" icon="ust">{t.score.singthesis}</TabBar.Item>
 					<TabBar.Item id="refOtherTracks" icon="ref_other_tracks">{t.score.refOtherTracks}</TabBar.Item>
@@ -298,10 +298,10 @@ export default function Score() {
 										<MultipleSelectTrackItemsContainer>
 											{multipleSelectTrackItems.map(item => (
 												<Tooltip key={item} placement="y" title={t.titles[item]}>
-													<Button
+													<ToggleButton
 														icon={redirectIcon(item)}
-														subtle
-														accent={selectTrackItems[index]?.has(item) ? true : "neutral"}
+														appearance="subtle"
+														checked={[selectTrackItems[index]?.has(item)]}
 														onClick={() => handleTrackItemsClick(index, item)}
 													/>
 												</Tooltip>

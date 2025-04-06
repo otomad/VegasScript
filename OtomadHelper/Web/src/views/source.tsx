@@ -56,7 +56,7 @@ export default function Source() {
 	return (
 		<div className="container">
 			<Card className="media-pool">
-				<TabBar current={sourceFrom}>
+				<TabBar current={sourceFrom} aria-label={t.source.from}>
 					<TabBar.Item id="trackEvent" icon="track_event">{t.source.trackEvent}</TabBar.Item>
 					<TabBar.Item id="projectMedia" icon="media">{t.source.projectMedia}</TabBar.Item>
 					<TabBar.Item id="browseFile" icon="open_file">{t.source.browseFile}</TabBar.Item>

@@ -161,7 +161,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ref, onClick, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ariaIdRef, ref, onClick, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -189,6 +189,8 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	appearance?: "primary" | "secondary";
 	/** Override the default trailing gap. */
 	trailingGap?: number | string;
+	/** Pass settings card aria ID to the parent component. */
+	ariaIdRef?: RefObject<string | undefined | null>;
 	/** @private Temperately lock the content size? */
 	_lockContentSize?: boolean;
 }, "div">) {
@@ -196,6 +198,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 		type === "expander" ? "chevron_down" : undefined;
 	const dragHandleContext = useContext(SortableList.Item.Context);
 	const ariaId = useId();
+	useImperativeHandle(ariaIdRef, () => ariaId, [ariaId]);
 
 	return (
 		<ClickOnSameElement onClick={onClick as never}>

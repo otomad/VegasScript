@@ -17,7 +17,7 @@ export default function Settings() {
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop,
 	} = selectConfig(c => c.settings);
 	const backgroundImages = useBackgroundImages();
-	const showBackgroundImage = backgroundImages.backgroundImage[0] !== -1;
+	const showBackgroundImage = !!~backgroundImages.backgroundImage[0];
 	const [displayUiScale, setDisplayUiScale] = useState<Readable | undefined>(uiScale[0]);
 
 	// Dev mode
@@ -32,7 +32,7 @@ export default function Settings() {
 		<div className="container">
 			<SettingsAbout />
 			<ExpanderRadio
-				title={t.settings.language + (isEnglish(language ?? "en") ? "" : " / Language")}
+				title={<>{t.settings.language}{!isEnglish(language ?? "en") && <span lang="en"> / Language</span>}</>}
 				icon="globe"
 				items={languages}
 				expanded
@@ -55,7 +55,7 @@ export default function Settings() {
 				idField="key"
 				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
-				transition
+				// transition // FIXME: enable transition will break form keydown, unknown reason.
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([
 						{ label: t.menu.moveForward, enabled: item.displayIndex > 0, onClick: () => backgroundImages.reorder(item.key, item.displayIndex - 1) },

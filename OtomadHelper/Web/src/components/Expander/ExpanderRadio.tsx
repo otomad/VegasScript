@@ -94,7 +94,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	return (
 		<Expander
 			{...settingsCardProps}
-			childItemsRole="radiogroup"
+			childRole="radiogroup"
 			title={title}
 			checkInfo={checkInfo}
 			details={details}

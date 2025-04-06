@@ -86,7 +86,7 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 			<StyledComboBox
 				as="select"
 				role="combobox"
-				defaultValue={current}
+				value={current}
 				onChange={e => setCurrent?.(e.currentTarget.value as T)}
 				{...htmlAttrs}
 			>

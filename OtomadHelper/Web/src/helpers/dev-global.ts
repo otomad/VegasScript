@@ -23,4 +23,11 @@ if (import.meta.env.DEV) {
 	// #region Pangu spacing
 	globals.spacing = spacing;
 	// #endregion
+
+	// #region Temporarily set theme
+	globals.setTheme = function (...themes: string[]) {
+		const html = document.documentElement;
+		html.dataset.scheme = themes.join(" ");
+	};
+	// #endregion
 }

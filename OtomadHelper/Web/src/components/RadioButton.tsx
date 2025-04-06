@@ -137,7 +137,7 @@ export default function RadioButton<T>({ children, id, value: [value, setValue],
 		}
 	};
 
-	useOnFormKeyDown(labelEl, "radio", handleCheck);
+	useOnFormKeyDown(labelEl, handleCheck, { changeWhenMoveFocus: true });
 
 	return (
 		<StyledRadioButtonLabel

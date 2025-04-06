@@ -114,7 +114,7 @@ const StyledSegmented = styled.div<{
 		` : css`
 			inset-inline-start: calc((100% + ${2 * THUMB_BORDER_WIDTH}px) / ${$itemCount} * ${$selectedIndex});
 			width: calc((100% + ${2 * THUMB_BORDER_WIDTH}px) / ${$itemCount});
-			${$selectedIndex === -1 && css`opacity: 0;`}
+			${!~$selectedIndex && css`opacity: 0;`}
 		`}
 
 		${ifColorScheme.dark} &:not(:active, [disabled]) {
@@ -164,7 +164,7 @@ const StyledSegmented = styled.div<{
 		position: absolute;
 		top: 0;
 		pointer-events: none;
-		clip-path: inset(${({ $itemCount = 0, $selectedIndex = -1 }) => !$itemCount || $selectedIndex === -1 ? "0 100% 0 0" : !isRtl() ?
+		clip-path: inset(${({ $itemCount = 0, $selectedIndex = -1 }) => !$itemCount || !~$selectedIndex ? "0 100% 0 0" : !isRtl() ?
 			`0 calc((1 - (${$selectedIndex} + 1) / ${$itemCount}) * 100%) 0 calc(${$selectedIndex} / ${$itemCount} * 100%)` :
 			`0 calc(${$selectedIndex} / ${$itemCount} * 100%) 0 calc((1 - (${$selectedIndex} + 1) / ${$itemCount}) * 100%)`} round 4px);
 		transition: ${fallbackTransitions}, clip-path ${THUMB_TRANSITION_OPTION};
@@ -208,9 +208,10 @@ export default function Segmented<T extends string = string>({ current: [current
 		document.addEventListener("pointerup", pointerUp);
 	}, [children]);
 
-	const handleArrowKeyDown = useDebounceCallback<KeyboardEventHandler<HTMLDivElement>>(e => {
-		const direction = ["ArrowRight", "ArrowDown"].includes(e.code) ? 1 :
-			["ArrowLeft", "ArrowUp"].includes(e.code) ? -1 : 0;
+	const handleArrowKeyDown = useDebounceCallback<KeyboardEventHandler<HTMLDivElement>>(({ code }) => {
+		code = swapArrowLeftRightIfRtl(code);
+		const direction = ["ArrowRight", "ArrowDown"].includes(code) ? 1 :
+			["ArrowLeft", "ArrowUp"].includes(code) ? -1 : 0;
 		if (!direction) return;
 		const newIndex = floorMod(selectedIndex + direction, itemCount);
 		setCurrentByIndex(newIndex);

@@ -78,7 +78,7 @@ export function cloneRef(children: ReactNode, nodeRef: RefObject<Element | null>
 				});
 			}
 			if (typeof additionalProps === "function") additionalProps = additionalProps(child.props, child);
-			return React.cloneElement(child, { ref: nodeRef, ...additionalProps });
+			return React.cloneElement(child, { ref: nodeRef, key: child.key, ...additionalProps });
 		}),
 	);
 }
@@ -96,7 +96,7 @@ export function takeoverRef(children: ReactNode, nodeRef: React.Ref<Element | nu
 	return React.Children.map(children, child => {
 		if (!isValidElement<RefAttributes>(child)) return child;
 		if (typeof additionalProps === "function") additionalProps = additionalProps(child.props, child);
-		return React.cloneElement(child, { ref: nodeRef, ...additionalProps });
+		return React.cloneElement(child, { ref: nodeRef, key: child.key, ...additionalProps });
 	});
 }
 
@@ -313,4 +313,53 @@ export function flattenReactChildren(children: ReactNode) {
 export function setRootInert(inert: boolean) {
 	const root = document.getElementById("root");
 	if (root) root.inert = inert;
+}
+
+/**
+ * Get the first focusable element in the container.
+ * @param container - The container element to search within.
+ * @returns The first focusable element, or null if none is found.
+ */
+export function getFirstFocusableElement(container: MaybeRef<Element | null>) {
+	container = toValue(container);
+	const focusableSelectors = [
+		"a[href]",
+		"button",
+		"textarea",
+		"input:not([type='hidden'])",
+		"select",
+		"[tabindex]",
+	];
+	return container?.querySelector(`:is(${focusableSelectors.join(",")}):not([disabled], [hidden], [inert], [tabindex="-1"])`) ?? null;
+}
+
+export function getLayoutNeighbor(el: Element | null, neighbor: "left" | "right" | "top" | "bottom", siblings?: Element[]) {
+	const parent = el?.parentElement;
+	if (!el || !parent) return null;
+	siblings ??= [...parent.children];
+	const index = siblings.indexOf(el);
+	if (index === -1) return null;
+	const { display, flexDirection } = getComputedStyle(parent);
+	if (display !== "grid") {
+		let left = siblings[index - 1] ?? null, top = left;
+		let right = siblings[index + 1] ?? null, bottom = right;
+		if (display === "flex")
+			if (flexDirection === "row-reverse") [left, right] = [right, left];
+			else if (flexDirection === "column-reverse") [top, bottom] = [bottom, top];
+		if (isRtl()) [left, right] = [right, left];
+		return { left, right, top, bottom }[neighbor];
+	} else {
+		const opposite = ({ left: "right", right: "left", top: "bottom", bottom: "top" } as const)[neighbor];
+		const isLeftTop = neighbor.in("left", "top") ? -1 : 1;
+		const currentRect = el.getBoundingClientRect();
+		const siblingRects = siblings
+			.map(sibling => [sibling.getBoundingClientRect(), sibling] as const)
+			.filter(([rect]) => (rect[opposite] - currentRect[neighbor]) * isLeftTop >= 0)
+			.sort(([a], [b]) => (a[opposite] - b[opposite]) * isLeftTop)
+			.sort(([a], [b]) => neighbor.in("left", "right") ?
+				Math.hypot(a.top - currentRect.top, a.bottom - currentRect.bottom) - Math.hypot(b.top - currentRect.top, b.bottom - currentRect.bottom) :
+				Math.hypot(a.left - currentRect.left, a.right - currentRect.right) - Math.hypot(b.left - currentRect.left, b.right - currentRect.right));
+
+		return siblingRects[0]?.[1] ?? null;
+	}
 }

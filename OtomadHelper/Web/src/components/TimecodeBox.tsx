@@ -224,7 +224,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 							className="up"
 							repeat
 							tabIndex={-1}
-							aria-label="Increase"
+							aria-label={t.increase}
 							onClick={() => handleSpinnerClick(lastIndex, 1)}
 						/>
 						<TimecodeItemValue
@@ -243,7 +243,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 							className="down"
 							repeat
 							tabIndex={-1}
-							aria-label="Decrease"
+							aria-label={t.decrease}
 							onClick={() => handleSpinnerClick(lastIndex, -1)}
 						/>
 					</Fragment>

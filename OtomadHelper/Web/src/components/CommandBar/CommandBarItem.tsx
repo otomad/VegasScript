@@ -1,10 +1,11 @@
+import { transitionPropKeys } from "react-transition-group-fc";
 import { CommandBarAnchorContext } from "./CommandBar";
 
 const HIDE_DELAY = 500;
 
 const $p = (test?: boolean) => test ? "true" : undefined;
 
-export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, onClick, ...buttonAndTransitionAttrs }: FCP<{
+export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, onClick, onKeyDown, ...buttonAndTransitionAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Caption. */
@@ -35,34 +36,36 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	const checkIsMouse = (e: PointerEvent) => { const result = e.pointerType === "mouse"; _setIsMouse(result); return result; };
 	let setOn: SetStateNarrow<boolean> | undefined;
 	if (Array.isArray(on)) { setOn = on[1]; on = on[0]; }
+	const buttonEl = useDomRef<"button">();
+
+	useOnFormKeyDown(buttonEl, null, { parent: ".command-bar", item: ".command-bar-item", focus: "button", disableUpDown: true });
 
 	const tooltip = iconOnly || altCaption ? <Tooltip.Content title={caption}>{details}</Tooltip.Content> : details;
 	const button = (
 		<ClickOnSameElement
 			onClick={e => { if (hovering && checkIsMouse(e) || !children) { onClick?.(e); setOn?.(on => !on); } showFlyout(); }}
 		>
-			<Button
+			<ToggleButton
+				ref={buttonEl}
+				checked={[on]}
 				icon={icon}
-				subtle="small-icon"
 				disabled={disabled}
-				toggleable={on !== undefined}
 				aria-label={canToString(caption) ? caption : undefined}
 				aria-description={canToString(details) ? details : undefined}
 				aria-haspopup={!!children}
 				ariaHiddenForChildren
 				onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyout(); }}
 				onPointerLeave={e => { if (hovering && checkIsMouse(e)) hideFlyoutLater(); }}
-				{...on && { subtle: false, accent: true }}
 				{...htmlAttrs}
 			>
 				{altCaption || caption}
-			</Button>
+			</ToggleButton>
 		</ClickOnSameElement>
 	);
 
 	return (
 		<Tooltip title={tooltip} placement="y" disabled={hovering} applyAriaLabel={false}>
-			<CssTransition {...transitionAttrs}>
+			<CssTransition {...transitionAttrs} requestAnimationFrame>
 				<div className="command-bar-item" style={{ anchorName, "--icon-only": $p(iconOnly), "--too-narrow": $p(tooNarrow) }}>
 					{!canBeDisabled ? button : (
 						<DisabledButtonWrapper key="complete" disabled={disabled} onClick={onClick}>
@@ -75,6 +78,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 							anchorName={anchorName}
 							position="bottom"
 							autoInert={!(hovering && isMouse)}
+							target={buttonEl}
 							_commandBarAnchorName={commandBarAnchorName}
 							_horizontalPosition={position}
 							onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyout(); }}
@@ -100,10 +104,9 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 
 function separateTransitionAttrs(buttonAndTransitionAttrs: object) {
 	type HTMLElementAttrs = FCP<{}, "button">;
-	const transitionAttrKeys = ["in", "mountOnEnter", "unmountOnExit", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"];
 	const transitionAttrs: TransitionProps = {}, htmlAttrs: HTMLElementAttrs = {};
 	for (const [key, value] of entries(buttonAndTransitionAttrs))
-		if (transitionAttrKeys.includes(key)) transitionAttrs[key] = value;
+		if (transitionPropKeys.includes(key)) transitionAttrs[key] = value;
 		else htmlAttrs[key] = value;
 	return { transitionAttrs, htmlAttrs };
 }

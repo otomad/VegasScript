@@ -67,7 +67,7 @@ export default function DevContextMenu() {
 
 	return (
 		<Portal>
-			<StyledContextMenu ref={menuEl} role={menu?.items.length ? "menu" : undefined} style={{ left: ifFinite(location[0]), top: ifFinite(location[1]) }}>
+			<StyledContextMenu ref={menuEl} role={menu?.items.length ? "menu" : undefined} style={{ left: ifFinite(location[0]), top: ifFinite(location[1]) }} aria-hidden={!menu?.items.length}>
 				{menu && menu.items.map((item, i) =>
 					item.kind === "command" ? <li key={i} role="menuitem" disabled={item.enabled === false} onClick={() => { clearMenu(); item.command?.(); }}><span className="content">{processAccessKey(item.label)}</span></li> :
 					item.kind === "separator" ? <hr key={i} role="separator" /> : undefined,
