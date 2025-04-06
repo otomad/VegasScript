@@ -322,9 +322,8 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 
 	return (
 		<ItemsViewItemStateContext value={{ hover }}>
-			<EventInjector onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
+			<EventInjector ref={el} onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
 				<StyledItemsViewItem
-					ref={el}
 					$view={view}
 					$withBorder={withBorder}
 					className={[className, view, { selected: selected !== "unchecked" }]}

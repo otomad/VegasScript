@@ -11,5 +11,5 @@ export default function StickyPerceptibility({ token = "sticky", method, childre
 
 	const sticky = useIsSticky(el, method);
 
-	return takeoverRef(children, el, ({ className }) => ({ className: classNames(className, { [token]: sticky }) }));
+	return cloneRef(children, el, ({ className }) => ({ className: classNames(className, { [token]: sticky }) }));
 }

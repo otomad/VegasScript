@@ -6,7 +6,7 @@ export default function HorizontalScroll<TContainer extends AsTarget>({ enabled 
 	/** Same as `as`, but compatible with Styled Components. */
 	container?: TContainer;
 	children?: ReactNode;
-	ref?: React.Ref<Any>;
+	ref?: MiscRef<Any>;
 }) {
 	const Container = (container ?? as) as GetReactElementFromTag<"div">;
 	if (Container === Fragment) htmlAttrs = {};

@@ -282,7 +282,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 	/** Set the attributes for the input element. */
 	inputAttrs?: FCP<{}, "input">;
 	/** Ref to the input element. */
-	inputRef?: React.Ref<HTMLInputElement>;
+	inputRef?: MiscRef<HTMLInputElement>;
 	/** Add your own flyout inside the textbox, must be absolute or fixed position. */
 	customFlyout?: ReactNode;
 	/** Text change event. Only occurs after pasting text or after the input box is out of focus. */

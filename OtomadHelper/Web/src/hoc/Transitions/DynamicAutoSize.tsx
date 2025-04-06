@@ -18,5 +18,5 @@ export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 			content.style.width = isStale ? content.offsetWidth + "px" : null!;
 	});
 
-	return takeoverRef(deferredChildren, el);
+	return cloneRef(deferredChildren, el);
 }

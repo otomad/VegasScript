@@ -162,7 +162,7 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 				<Contents className="tooltip-child-wrapper" ref={setContentsEl}>
 					{children}
 				</Contents>
-			) : takeoverRef(children, setContentsEl)}
+			) : cloneRef(children, setContentsEl)}
 			{!disabled && title && (
 				<Portal>
 					<CssTransition in={shown} unmountOnExit>

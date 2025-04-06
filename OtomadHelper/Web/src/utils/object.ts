@@ -310,7 +310,7 @@ export function useDomRefState<TElement extends keyof ElementTagNameMap | Elemen
 	const [el, setEl] = useState<TagNameToElement<TElement> | null>(initialValue);
 	return [el, (el: El) => {
 		setEl(el);
-		return () => setEl(null);
+		// return () => setEl(null); // It seems that unmount effect is useless.
 	}] as const;
 }
 
