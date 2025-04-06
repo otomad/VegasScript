@@ -130,7 +130,7 @@ const StyledExpanderItem = styled.div<{
 	`)}
 `;
 
-export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, children, disabled, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, children, disabled = false, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons | ReactElement;
 	/** Title. */
@@ -142,20 +142,23 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 	/** As sub title style? */
 	asSubtitle?: boolean;
 }, "div">) {
+	disabled = useContext(InteractionStateContext).disabled || disabled;
 	return (
 		<StyledExpanderItem $clickable={clickable} $asSubtitle={asSubtitle} disabled={disabled} {...htmlAttrs}>
-			<SettingsCard.Base
-				leading={(
-					<>
-						{icon ? typeof icon === "string" ? <Icon name={icon} /> : icon : <Icon shadow />}
-						<div className="text">
-							<p className="title"><Preserves>{title}</Preserves></p>
-							<p className="details"><Preserves>{details}</Preserves></p>
-						</div>
-					</>
-				)}
-				trailing={children}
-			/>
+			<InteractionStateContext value={{ disabled }}>
+				<SettingsCard.Base
+					leading={(
+						<>
+							{icon ? typeof icon === "string" ? <Icon name={icon} /> : icon : <Icon shadow />}
+							<div className="text">
+								<p className="title"><Preserves>{title}</Preserves></p>
+								<p className="details"><Preserves>{details}</Preserves></p>
+							</div>
+						</>
+					)}
+					trailing={children}
+				/>
+			</InteractionStateContext>
 		</StyledExpanderItem>
 	);
 }

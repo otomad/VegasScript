@@ -70,7 +70,7 @@ export interface SortableOverlayEmits {
 export /* @internal */ default function SortableOverlay({ children, ...emits }: FCP<SortableOverlayEmits>) {
 	return (
 		<Portal container={document.body}>
-			<StyledSortableOverlay dropAnimation={dropAnimationConfig(emits)} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>{children}</StyledSortableOverlay>
+			<StyledSortableOverlay className={ifColorScheme.forceMotion} dropAnimation={dropAnimationConfig(emits)} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>{children}</StyledSortableOverlay>
 		</Portal>
 	);
 }

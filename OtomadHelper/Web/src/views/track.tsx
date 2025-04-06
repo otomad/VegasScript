@@ -9,13 +9,21 @@ const StyledDeactivateButton = styled(Button).attrs({
 	&.hidden {
 		scale: 0.9;
 		opacity: 0;
+		content-visibility: hidden;
 		pointer-events: none;
+		transition-behavior: allow-discrete;
 	}
 `;
 
-const DeactivateButton = ({ deactivated: [deactivated, setDeactivated] }: { deactivated: StatePropertyNonNull<boolean> }) => (
+const DeactivateButton = ({ activated: [activated, setActivated] }: { activated: StatePropertyNonNull<boolean> }) => (
 	<Tooltip placement="y" title={t.descriptions.track.deactivate}>
-		<StyledDeactivateButton className={{ hidden: !deactivated }} onClick={() => setDeactivated(false)}>{t.track.deactivate}</StyledDeactivateButton>
+		<StyledDeactivateButton
+			className={{ hidden: !activated }}
+			tabIndex={activated ? 0 : -1}
+			onClick={() => setActivated(false)}
+		>
+			{t.track.deactivate}
+		</StyledDeactivateButton>
 	</Tooltip>
 );
 
@@ -39,7 +47,7 @@ export default function Track() {
 				icon="grid"
 				onClick={() => pushPage("grid")}
 			>
-				<DeactivateButton deactivated={layoutEnabled.grid} />
+				<DeactivateButton activated={layoutEnabled.grid} />
 			</SettingsCard>
 			<SettingsCard
 				title={t.titles.box3d}
@@ -47,7 +55,7 @@ export default function Track() {
 				icon="cube"
 				onClick={() => pushPage("box-3d")}
 			>
-				<DeactivateButton deactivated={layoutEnabled.box3d} />
+				<DeactivateButton activated={layoutEnabled.box3d} />
 			</SettingsCard>
 			<SettingsCard
 				title={t.titles.gradient}
@@ -56,7 +64,7 @@ export default function Track() {
 				icon="highlight"
 				onClick={() => pushPage("gradient")}
 			>
-				<DeactivateButton deactivated={layoutEnabled.gradient} />
+				<DeactivateButton activated={layoutEnabled.gradient} />
 			</SettingsCard>
 
 			<div>

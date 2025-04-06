@@ -1,7 +1,36 @@
 /**
- * A utility class representing an Indexed DB store.
+ * A generic utility class for managing data in an IndexedDB object store.
  *
- * @template T - The type of the objects stored in the IndexedDB store.
+ * @template T - The type of objects stored in the IndexedDB object store.
+ *
+ * @remarks
+ * This class provides a high-level abstraction for working with IndexedDB, including methods for
+ * adding, retrieving, updating, and deleting records, as well as iterating over records in various ways.
+ * It supports both synchronous and asynchronous iteration, and includes utility methods for mapping
+ * and sorting records.
+ *
+ * The class is designed to be flexible and reusable, allowing you to define the schema of the object
+ * store and interact with it using strongly-typed methods.
+ *
+ * @example
+ * ```typescript
+ * interface User {
+ *   id: number;
+ *   name: string;
+ *   email: string;
+ * }
+ *
+ * const userStore = new IndexedDBStore<User>('MyDatabase', 1, 'users', {
+ *   keyPath: 'id',
+ *   name: null,
+ *   email: null,
+ * });
+ *
+ * await userStore.open();
+ * await userStore.add({ id: 1, name: 'John Doe', email: 'john.doe@example.com' });
+ * const user = await userStore.get(1);
+ * console.log(user); // { id: 1, name: 'John Doe', email: 'john.doe@example.com' }
+ * ```
  */
 export default class IndexedDBStore<T extends object> {
 	/**
@@ -337,6 +366,21 @@ export default class IndexedDBStore<T extends object> {
 			yield [cursor.primaryKey, cursor.value] as const;
 	}
 
+	/**
+	 * Asynchronously iterates over the records in the IndexedDB object store or index in a sorted order.
+	 *
+	 * @template T - The type of the objects stored in the IndexedDB.
+	 * @param key - The name of the index to use for sorting the records.
+	 * @param direction - The direction in which to iterate over the records.
+	 * Defaults to `"next"`. Possible values are:
+	 * - `"next"`: Ascending order.
+	 * - `"prev"`: Descending order.
+	 * - `"nextunique"`: Ascending order with unique values.
+	 * - `"prevunique"`: Descending order with unique values.
+	 * @yields An `IDBCursor` object extended with a `value` property of type `T`
+	 * representing the current record in the iteration.
+	 * @throws Will throw an error if the IndexedDB operation fails.
+	 */
 	async *sortedCursor(key: keyof T & string, direction: IDBCursorDirection = "next") {
 		const request = this.store.index(key).openCursor(null, direction);
 		while (true) {
@@ -347,6 +391,22 @@ export default class IndexedDBStore<T extends object> {
 		}
 	}
 
+	/**
+	 * Iterates over the entries in the IndexedDB store sorted by the specified key and applies a callback function to each entry.
+	 * Returns a promise that resolves to an array of transformed results.
+	 *
+	 * @template TOut - The type of the output elements after applying the callback function.
+	 * @param key - The key of the object by which the entries should be sorted.
+	 * @param callbackfn - A function that is called for each entry in the store. It receives the value and primary key as arguments
+	 * and returns a transformed result.
+	 * @param direction - The direction in which to iterate over the entries. Defaults to "next".
+	 * Possible values are:
+	 * - "next": Ascending order.
+	 * - "prev": Descending order.
+	 * - "nextunique": Ascending order with unique values.
+	 * - "prevunique": Descending order with unique values.
+	 * @returns A promise that resolves to an array of transformed results after applying the callback function to each entry.
+	 */
 	async sortedMap<TOut>(key: keyof T & string, callbackfn: (value: T, primaryKey: IDBValidKey) => TOut, direction: IDBCursorDirection = "next") {
 		const result: TOut[] = [];
 		for await (const [primaryKey, value] of this.sortedBy(key, direction))

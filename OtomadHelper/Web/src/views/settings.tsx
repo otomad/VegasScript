@@ -55,7 +55,7 @@ export default function Settings() {
 				idField="key"
 				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
-				// transition // FIXME: enable transition will break form keydown, unknown reason.
+				transition // FIXME: enable transition will break form keydown, unknown reason.
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([
 						{ label: t.menu.moveForward, enabled: item.displayIndex > 0, onClick: () => backgroundImages.reorder(item.key, item.displayIndex - 1) },

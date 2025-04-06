@@ -130,7 +130,7 @@ export default function ItemsView<
 		>
 			{(() => {
 				const items = React.Children.map(children, child => {
-					if (!isReactInstance(child, ItemsViewItem)) return child;
+					if (!isReactInstance(child, ItemsViewItem, "weakest")) return child;
 					const id = child.props.id;
 					const onParentClick = child.props.onClick;
 					const item = React.cloneElement(child, {

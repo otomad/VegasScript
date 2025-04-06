@@ -192,8 +192,6 @@ export /* @internal */ const StyledTextBox = styled.div`
 		}
 	}
 
-	[disabled] &,
-	[aria-disabled="true"] &,
 	&:has(input:disabled) {
 		color: ${c("fill-color-text-disabled")};
 		background-color: ${c("fill-color-control-disabled")};
@@ -303,6 +301,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 	const wrapperEl = useDomRef<"div">();
 	useImperativeHandleRef(ref, wrapperEl);
 	useImperativeHandleRef(inputRef, inputEl);
+	disabled = useContext(InteractionStateContext).disabled || disabled;
 
 	const setValue = (value: string | undefined | ((value: string) => string | undefined)) =>
 		value == null || _setValue?.(value as string);

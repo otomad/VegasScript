@@ -8,8 +8,12 @@ type ReactElementType = string | React.JSXElementConstructor<Any>;
  * @param element - Component class or function component.
  * @returns Is its instance?
  */
-export function isReactInstance<T extends ReactElementType>(node: ReactNode, element: T): node is ReactElementOf<T> {
-	return React.isValidElement(node) && isObject(node) && "type" in node && node.type === element;
+export function isReactInstance<T extends ReactElementType>(node: ReactNode, element: T, looseness: "strong" | "weak" | "weakest" = "strong"): node is ReactElementOf<T> {
+	return React.isValidElement(node) && isObject(node) && "type" in node && (node.type === element ||
+		looseness === "weak" ? areFunctionsApproxEqual(node.type, element) :
+		looseness === "weakest" ? areFunctionsGenerallyEqual(node.type, element) :
+		false
+	);
 }
 
 /**
@@ -316,29 +320,53 @@ export function setRootInert(inert: boolean) {
 }
 
 /**
- * Get the first focusable element in the container.
+ * Retrieves the first focusable element in the container.
  * @param container - The container element to search within.
  * @returns The first focusable element, or null if none is found.
  */
-export function getFirstFocusableElement(container: MaybeRef<Element | null>) {
+export function findFirstFocusableElement(container: MaybeRef<Element | null>) {
 	container = toValue(container);
 	const focusableSelectors = [
 		"a[href]",
 		"button",
 		"textarea",
-		"input:not([type='hidden'])",
+		'input:not([type="hidden"])',
 		"select",
 		"[tabindex]",
 	];
-	return container?.querySelector(`:is(${focusableSelectors.join(",")}):not([disabled], [hidden], [inert], [tabindex="-1"])`) ?? null;
+	const unfocusableSelectors = [
+		"[disabled]",
+		"[hidden]",
+		"[inert]",
+		'[tabindex="-1"]',
+		"[aria-disabled]",
+	];
+	return container?.querySelector<HTMLElement>(`:is(${focusableSelectors.join(",")}):not(${unfocusableSelectors.join(",")})`) ?? null;
 }
 
-export function getLayoutNeighbor(el: Element | null, neighbor: "left" | "right" | "top" | "bottom", siblings?: Element[]) {
+/**
+ * Retrieves the neighboring element of a given element based on layout (grid, flex, or block).
+ *
+ * The function determines the neighbor based on the layout of the parent element:
+ * - For non-grid layouts, it considers the order of siblings and adjusts for `flex-direction` and RTL settings.
+ * - For grid layouts, it calculates the closest neighbor based on the bounding rectangle of the elements.
+ *
+ * If `autoWrap` is enabled, the function handles edge cases where the element is at the start or end of the sibling list or row.
+ *
+ * @param el - The target element for which the neighbor is to be found. Can be `null`.
+ * @param neighbor - The direction of the neighbor to retrieve. Can be `"left"`, `"right"`, `"top"`, or `"bottom"`.
+ * @param siblings - An optional array of sibling elements (children of the parent element).
+ * You can provide partially filtered siblings. If not provided, all siblings are used.
+ * @param autoWrap - A boolean indicating whether to handle wrapping behavior for edge cases. Defaults to `true`.
+ * @returns The neighboring element in the specified direction, or `null` if no neighbor exists.
+ */
+export function getLayoutNeighbor(el: Element | null, neighbor: "left" | "right" | "top" | "bottom", siblings?: Element[], autoWrap = true) {
 	const parent = el?.parentElement;
 	if (!el || !parent) return null;
 	siblings ??= [...parent.children];
 	const index = siblings.indexOf(el);
 	if (index === -1) return null;
+	const rtl = isRtl();
 	const { display, flexDirection } = getComputedStyle(parent);
 	if (display !== "grid") {
 		let left = siblings[index - 1] ?? null, top = left;
@@ -346,7 +374,7 @@ export function getLayoutNeighbor(el: Element | null, neighbor: "left" | "right"
 		if (display === "flex")
 			if (flexDirection === "row-reverse") [left, right] = [right, left];
 			else if (flexDirection === "column-reverse") [top, bottom] = [bottom, top];
-		if (isRtl()) [left, right] = [right, left];
+		if (rtl) [left, right] = [right, left];
 		return { left, right, top, bottom }[neighbor];
 	} else {
 		const opposite = ({ left: "right", right: "left", top: "bottom", bottom: "top" } as const)[neighbor];
@@ -359,7 +387,16 @@ export function getLayoutNeighbor(el: Element | null, neighbor: "left" | "right"
 			.sort(([a], [b]) => neighbor.in("left", "right") ?
 				Math.hypot(a.top - currentRect.top, a.bottom - currentRect.bottom) - Math.hypot(b.top - currentRect.top, b.bottom - currentRect.bottom) :
 				Math.hypot(a.left - currentRect.left, a.right - currentRect.right) - Math.hypot(b.left - currentRect.left, b.right - currentRect.right));
-
-		return siblingRects[0]?.[1] ?? null;
+		const visualNeighbor = siblingRects[0]?.[1] ?? null;
+		if (autoWrap) {
+			if (index === 0 && neighbor === (!rtl ? "left" : "right") ||
+				index === siblings.length - 1 && neighbor === (!rtl ? "right" : "left")) return null;
+			if (visualNeighbor === null && neighbor.in("left", "right")) {
+				let left = siblings[index - 1] ?? null, right = siblings[index + 1] ?? null;
+				if (rtl) [left, right] = [right, left];
+				return { left, right }[neighbor];
+			}
+		}
+		return visualNeighbor;
 	}
 }

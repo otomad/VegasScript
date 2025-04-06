@@ -149,8 +149,7 @@ const StyledSegmented = styled.div<{
 		}
 	}
 
-	&[disabled],
-	[disabled] & {
+	&[disabled] {
 		.thumb::after {
 			background-color: ${c("fill-color-accent-disabled")};
 		}
@@ -233,7 +232,7 @@ export default function Segmented<T extends string = string>({ current: [current
 					});
 				})}
 			</div>
-			<div className="thumb" onPointerDown={handleDrag} tabIndex={0} onKeyDown={handleArrowKeyDown} />
+			<div className="thumb" onPointerDown={handleDrag} tabIndex={0} onKeyDown={e => e.code === "Space" ? e.preventDefault() : handleArrowKeyDown(e)} />
 			<div className="thumb-content" aria-hidden>
 				{items.map(child => React.cloneElement(child))}
 			</div>

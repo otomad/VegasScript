@@ -46,7 +46,7 @@ export function keys<TKey extends object>(obj: TKey) {
  * @template T - The type of the object. Must be an object type.
  * @param obj - The object to check.
  * @param key - The key to check for.
- * @returns Returns `true` if the object has the specified own property, otherwise `false`.
+ * @returns Does the object have the specified own property?
  */
 export function hasOwn<T extends object>(obj: T, key: PropertyKey): key is keyof T {
 	return Object.hasOwn(obj, key);
@@ -101,6 +101,7 @@ export function assign<TTarget extends object>(target: TTarget, ...sources: Part
 
 type ObjectPickOmitPredicate<T> = (keyof T)[] | ((currentValue: T[keyof T], key: keyof T, object: T) => boolean);
 function _objectPickOrOmit<T>(isPick: boolean, object: T, predicate: ObjectPickOmitPredicate<T>, thisArg?: unknown): Partial<T> {
+	if (object == null) return {};
 	if (typeof predicate !== "function") {
 		const keys = predicate;
 		predicate = (_, key) => keys.includes(key);
@@ -218,7 +219,7 @@ export function useStateSelector<TOld, TNew>(
  * indicating whether the value is a `RefObject` or not.
  *
  * @param ref - The value to check.
- * @returns `true` if the value is a `RefObject`, otherwise `false`.
+ * @returns Is the value a `RefObject`?
  *
  * @example
  * ```typescript

@@ -10,7 +10,7 @@ declare interface ObjectConstructor {
 	 * Object.pick({ a: 1, b: 2, c: 3 }, ["a", "c"]); // { a: 1, c: 3 }
 	 * ```
 	 */
-	pick<T extends object, U extends keyof T>(object: T, pickedKeys: U[]): Pick<T, U>;
+	pick<T extends object, U extends keyof T>(object: T | undefined | null, pickedKeys: U[]): Pick<T, U>;
 	/**
 	 * Creates a new object composed of the `object` properties `predicate` returns truthy for.
 	 * @category Object
@@ -26,7 +26,7 @@ declare interface ObjectConstructor {
 	 * Object.pick({ a: 1, b: "2", c: 3 }, x => typeof x === "number"); // { a: 1, c: 3 }
 	 * ```
 	 */
-	pick<T extends object>(object: T, predicate: (currentValue: T[keyof T], key: keyof T, object: T) => boolean, thisArg?: any): Partial<T>;
+	pick<T extends object>(object: T, predicate: (currentValue: T[keyof T], key: keyof T, object: T | undefined | null) => boolean, thisArg?: any): Partial<T>;
 
 	/**
 	 * Creates a new object composed of the own and inherited enumerable properties of `object` that are not omitted.
@@ -39,7 +39,7 @@ declare interface ObjectConstructor {
 	 * Object.omit({ a: 1, b: 2, c: 3 }, ["a", "c"]); // { b: 2 }
 	 * ```
 	 */
-	omit<T extends object, U extends keyof T>(object: T, omittedKeys: U[]): Omit<T, U>;
+	omit<T extends object, U extends keyof T>(object: T | undefined | null, omittedKeys: U[]): Omit<T, U>;
 	/**
 	 * creates a new object composed of the own and inherited enumerable properties of `object` that `predicate` doesn't return truthy for.
 	 * @category Object
@@ -55,7 +55,7 @@ declare interface ObjectConstructor {
 	 * Object.omit({ a: 1, b: "2", c: 3 }, x => typeof x === "number"); // { b: "2" }
 	 * ```
 	 */
-	omit<T extends object>(object: T, predicate: (currentValue: T[keyof T], key: keyof T, object: T) => boolean, thisArg?: any): Partial<T>;
+	omit<T extends object>(object: T, predicate: (currentValue: T[keyof T], key: keyof T, object: T | undefined | null) => boolean, thisArg?: any): Partial<T>;
 
 	/**
 	 * Replaces the keys of an object with new keys obtained from a provided function.\

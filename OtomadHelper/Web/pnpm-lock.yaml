@@ -169,7 +169,7 @@ importers:
         version: 2.12.0(eslint@9.23.0(jiti@1.21.6))(typescript@5.7.2)
       '@stylistic/stylelint-plugin':
         specifier: latest
-        version: 3.1.1(stylelint@16.15.0(typescript@5.7.2))
+        version: 3.1.1(stylelint@16.18.0(typescript@5.7.2))
       '@tonejs/midi':
         specifier: ^2.0.28
         version: 2.0.28
@@ -267,14 +267,14 @@ importers:
         specifier: ^0.33.5
         version: 0.33.5
       stylelint:
-        specifier: ^16.15.0
-        version: 16.15.0(typescript@5.7.2)
+        specifier: ^16.18.0
+        version: 16.18.0(typescript@5.7.2)
       stylelint-config-standard:
         specifier: latest
-        version: 36.0.1(stylelint@16.15.0(typescript@5.7.2))
+        version: 36.0.1(stylelint@16.18.0(typescript@5.7.2))
       stylelint-order:
         specifier: latest
-        version: 6.0.4(stylelint@16.15.0(typescript@5.7.2))
+        version: 6.0.4(stylelint@16.18.0(typescript@5.7.2))
       svgo:
         specifier: ^3.3.2
         version: 3.3.2
@@ -4647,8 +4647,8 @@ packages:
     peerDependencies:
       stylelint: ^14.0.0 || ^15.0.0 || ^16.0.1
 
-  stylelint@16.15.0:
-    resolution: {integrity: sha512-OK6Rs7EPdcdmjqiDycadZY4fw3f5/TC1X6/tGjnF3OosbwCeNs7nG+79MCAtjEg7ckwqTJTsku08e0Rmaz5nUw==}
+  stylelint@16.18.0:
+    resolution: {integrity: sha512-OXb68qzesv7J70BSbFwfK3yTVLEVXiQ/ro6wUE4UrSbKCMjLLA02S8Qq3LC01DxKyVjk7z8xh35aB4JzO3/sNA==}
     engines: {node: '>=18.12.0'}
     hasBin: true
 
@@ -6166,7 +6166,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@stylistic/stylelint-plugin@3.1.1(stylelint@16.15.0(typescript@5.7.2))':
+  '@stylistic/stylelint-plugin@3.1.1(stylelint@16.18.0(typescript@5.7.2))':
     dependencies:
       '@csstools/css-parser-algorithms': 3.0.3(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-tokenizer': 3.0.3
@@ -6175,7 +6175,7 @@ snapshots:
       postcss-selector-parser: 6.1.2(patch_hash=95d44ecd87b2f8615a9d13fe20bf343fa0f9bc6a8831354069c9cd35365f3a5f)
       postcss-value-parser: 4.2.0
       style-search: 0.1.0
-      stylelint: 16.15.0(typescript@5.7.2)
+      stylelint: 16.18.0(typescript@5.7.2)
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.24.4)':
     dependencies:
@@ -10035,22 +10035,22 @@ snapshots:
 
   styled-tools@1.7.2: {}
 
-  stylelint-config-recommended@14.0.1(stylelint@16.15.0(typescript@5.7.2)):
+  stylelint-config-recommended@14.0.1(stylelint@16.18.0(typescript@5.7.2)):
     dependencies:
-      stylelint: 16.15.0(typescript@5.7.2)
+      stylelint: 16.18.0(typescript@5.7.2)
 
-  stylelint-config-standard@36.0.1(stylelint@16.15.0(typescript@5.7.2)):
+  stylelint-config-standard@36.0.1(stylelint@16.18.0(typescript@5.7.2)):
     dependencies:
-      stylelint: 16.15.0(typescript@5.7.2)
-      stylelint-config-recommended: 14.0.1(stylelint@16.15.0(typescript@5.7.2))
+      stylelint: 16.18.0(typescript@5.7.2)
+      stylelint-config-recommended: 14.0.1(stylelint@16.18.0(typescript@5.7.2))
 
-  stylelint-order@6.0.4(stylelint@16.15.0(typescript@5.7.2)):
+  stylelint-order@6.0.4(stylelint@16.18.0(typescript@5.7.2)):
     dependencies:
       postcss: 8.4.49(patch_hash=99f4d3ce97801e249946b11ea21ff8e503d3b45751c6ae3442bf7c8b6debf90b)
       postcss-sorting: 8.0.2(postcss@8.4.49(patch_hash=99f4d3ce97801e249946b11ea21ff8e503d3b45751c6ae3442bf7c8b6debf90b))
-      stylelint: 16.15.0(typescript@5.7.2)
+      stylelint: 16.18.0(typescript@5.7.2)
 
-  stylelint@16.15.0(typescript@5.7.2):
+  stylelint@16.18.0(typescript@5.7.2):
     dependencies:
       '@csstools/css-parser-algorithms': 3.0.4(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-tokenizer': 3.0.3

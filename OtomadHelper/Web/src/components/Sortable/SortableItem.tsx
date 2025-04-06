@@ -8,6 +8,7 @@ const SortableItemContext = createContext({
 	attributes: {} as AnyObject,
 	listeners: undefined as DraggableSyntheticListeners,
 	ref(_node: HTMLElement | null) { },
+	isDragging: false,
 });
 
 const StyledSortableItem = styled.li<{
@@ -60,7 +61,9 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 	const { attributes, isDragging, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({ id, disabled, transition: {
 		duration: 250, easing: eases.easeOutMax,
 	} });
-	const context = useMemo(() => ({ attributes, listeners, ref: setActivatorNodeRef }), [attributes, listeners, setActivatorNodeRef]);
+	const context = useMemo(() => ({ attributes, listeners, ref: setActivatorNodeRef, isDragging }), [attributes, listeners, setActivatorNodeRef, isDragging]);
+	const liEl = useDomRef<"li">();
+	useOnFormKeyDown(liEl, { disabled: isDragging });
 
 	useEffect(() => {
 		setDisabled((React.Children.map(children, child =>
@@ -74,7 +77,7 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 	return (
 		<SortableItemContext value={context}>
 			<StyledSortableItem
-				ref={setNodeRef}
+				ref={el => { liEl.current = el; setNodeRef(el); }}
 				className={{ dragging: isDragging }}
 				style={{
 					opacity: isDragging ? PRESSED_SORTABLE_ITEM_OPACITY : undefined,

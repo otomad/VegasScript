@@ -124,9 +124,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 			${styles.mixins.square("36px")};
 			content: "";
 			display: block;
-			background-color: ${c("fill-color-subtle-secondary")};
 			border-radius: 4px;
-			opacity: 0;
 
 			${ifColorScheme.contrast} & {
 				display: none;
@@ -134,16 +132,20 @@ const StyledSettingsCard = styled(StyledCard)<{
 		}
 
 		&:hover:not(:active)::after {
-			opacity: 1;
+			background-color: ${c("fill-color-subtle-secondary")};
 
 			.sortable-overlay & {
-				opacity: 0;
+				background-color: transparent;
 			}
 		}
 
 		&:focus-visible {
-			${styles.effects.focus(true)};
+			${styles.mixins.forwardFocusRing("&::after")};
 		}
+	}
+
+	.sortable-overlay & {
+		backdrop-filter: none;
 	}
 
 	> .base > .leading > .text {
@@ -161,7 +163,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ariaIdRef, ref, onClick, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ariaIdRef, ref, onClick, onFocus, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -199,19 +201,34 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	const dragHandleContext = useContext(SortableList.Item.Context);
 	const ariaId = useId();
 	useImperativeHandle(ariaIdRef, () => ariaId, [ariaId]);
+	tabIndex ??= type.in("container", "container-but-button") ? -1 : 0;
+
+	const handleFocus: FocusEventHandler<HTMLDivElement> = e => {
+		onFocus?.(e);
+		if (~tabIndex || e.target !== e.currentTarget) return;
+		findFirstFocusableElement(e.target)?.focus();
+	};
 
 	return (
 		<ClickOnSameElement onClick={onClick as never}>
 			<StyledSettingsCard
 				as={type === "container" ? "div" : "button"}
-				className={[className, type === "container-but-button" ? "container" : type === "expander" ? "expander-parent" : type, { secondary: appearance === "secondary" }]}
+				className={[
+					className,
+					type === "container-but-button" ? "container" : type === "expander" ? "expander-parent" : type,
+					{
+						secondary: appearance === "secondary",
+						dragging: dragHandleContext.isDragging,
+					},
+				]}
 				disabled={disabled}
 				aria-disabled={disabled || undefined}
 				aria-labelledby={`${ariaId}-title`}
 				aria-describedby={`${ariaId}-details`}
-				tabIndex={tabIndex ?? type.in("container", "container-but-button") ? -1 : 0}
+				tabIndex={tabIndex}
 				$trailingGap={trailingGap}
 				ref={ref}
+				onFocus={handleFocus}
 				{...htmlAttrs}
 			>
 				<div className="base">
@@ -220,7 +237,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 							<>
 								{dragHandle && (
 									<>
-										<div className="drag-handle-shadow" ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
+										<div className="drag-handle-shadow" tabIndex={-1} ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
 										<Icon name="reorder_dots" className="drag-handle-icon" />
 									</>
 								)}

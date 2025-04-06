@@ -185,7 +185,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 		if (inProp) {
 			onShown?.();
 			if (flyoutEl.current)
-				(getFirstFocusableElement(flyoutEl.current) as HTMLElement)?.focus?.();
+				findFirstFocusableElement(flyoutEl.current)?.focus();
 		} else {
 			onHidden?.();
 			target = toValue(target);

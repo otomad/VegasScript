@@ -38,7 +38,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	if (Array.isArray(on)) { setOn = on[1]; on = on[0]; }
 	const buttonEl = useDomRef<"button">();
 
-	useOnFormKeyDown(buttonEl, null, { parent: ".command-bar", item: ".command-bar-item", focus: "button", disableUpDown: true });
+	useOnFormKeyDown(buttonEl, { parent: ".command-bar", item: ".command-bar-item", focus: "button", disableUpDown: true });
 
 	const tooltip = iconOnly || altCaption ? <Tooltip.Content title={caption}>{details}</Tooltip.Content> : details;
 	const button = (

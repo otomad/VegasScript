@@ -25,9 +25,15 @@ if (import.meta.env.DEV) {
 	// #endregion
 
 	// #region Temporarily set theme
-	globals.setTheme = function (...themes: string[]) {
+	globals.setTheme = (...themes: string[]) => {
 		const html = document.documentElement;
 		html.dataset.scheme = themes.join(" ");
+	};
+	// #endregion
+
+	// #region Focus testing
+	globals.focusTest = (enabled: boolean = true) => {
+		document.documentElement.classList.toggle("focus-testing", enabled);
 	};
 	// #endregion
 }

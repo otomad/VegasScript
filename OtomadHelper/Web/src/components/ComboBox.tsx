@@ -32,14 +32,13 @@ const StyledComboBox = styled(StyledButton)`
 			background-color: ${c("background-color")};
 		}
 
-		&[disabled],
-		[disabled] & {
+		&[disabled] {
 			color: ${c("fill-color-text-disabled")};
 		}
 	}
 `;
 
-export default function ComboBox<T extends string | number>({ ids, options, icons, current: [current, setCurrent], ...htmlAttrs }: FCP<{
+export default function ComboBox<T extends string | number>({ ids, options, icons, current: [current, setCurrent], disabled, ...htmlAttrs }: FCP<{
 	/** The identifiers for each option of the combo box. */
 	ids: readonly T[];
 	/** The display texts for each option of the combo box. */
@@ -53,6 +52,7 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 	const hasIcons = !!icons?.length;
 	const currentOption = options[ids.indexOf(current!)] ?? `<${current}>`;
 	const currentIcon = icons?.[ids.indexOf(current!)];
+	disabled = useContext(InteractionStateContext).disabled || disabled;
 
 	useEffect(() => {
 		if (!hasIcons) setIconSvgs(undefined);
@@ -71,6 +71,7 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 				role="combobox"
 				aria-expanded={false}
 				aria-haspopup
+				disabled={disabled}
 				onClick={showComboBox}
 				{...htmlAttrs as FCP<{}, "button">}
 			>
@@ -86,6 +87,7 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 			<StyledComboBox
 				as="select"
 				role="combobox"
+				disabled={disabled}
 				value={current}
 				onChange={e => setCurrent?.(e.currentTarget.value as T)}
 				{...htmlAttrs}

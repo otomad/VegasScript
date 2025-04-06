@@ -1,6 +1,7 @@
 import { globalColors } from "./colors";
 import eases from "./eases";
 import fakeAnimations from "./fake-animations";
+import focusTestStyle from "./focus-test";
 import reset from "./reset";
 
 export /* @internal */ const FALLBACK_TRANSITIONS = `all ${eases.easeOutMax} 250ms, color ${eases.easeOutMax} 100ms, visibility 0s` as const;
@@ -208,6 +209,11 @@ const GlobalStyle = createGlobalStyle<{
 				cursor: var(--cursor) !important;
 			}
 		}
+	}
+
+	// Focus testing
+	html.focus-testing ${important()}:focus {
+		${focusTestStyle};
 	}
 
 	// User requested to reduce dynamic effects

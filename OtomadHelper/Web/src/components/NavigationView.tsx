@@ -67,8 +67,8 @@ function TopLeftButtons({ shadow, paneDisplayMode, canBack = true, onBack, onNav
 	const tooltipPlacement: Placement = vertical ? "right" : "bottom";
 
 	useEventListener(window, "keydown", e => {
-		if (e.altKey && e.code === "ArrowLeft") onBack?.();
-		else if (e.altKey && e.code === "KeyH") onNavButton?.();
+		if (e.altKey && e.code === "ArrowLeft" && !e.repeat) onBack?.();
+		else if (e.altKey && e.code === "KeyH" && !e.repeat) onNavButton?.();
 	});
 
 	const TooltipTitle = useCallback(({ title, shortcut }: { title: string; shortcut: string }) =>
@@ -712,16 +712,16 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 												{titles.flatMap((title, i, { length }) => {
 													const last = i === length - 1;
 													const crumb = (
-														<div
+														<input
 															key={i}
 															className={["crumb", { parent: !last }]}
 															tabIndex={last ? -1 : 0}
+															type="button"
 															role="link"
 															aria-current={last && "page"}
+															value={title.name}
 															onClick={() => title.link?.length && setCurrentNav?.(title.link)}
-														>
-															{title.name}
-														</div>
+														/>
 													);
 													const result = [crumb];
 													if (!last) result.push(<BreadCrumbChevronRight key={i + "-chevron"} />);

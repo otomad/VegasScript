@@ -104,8 +104,7 @@ const StyledTimecodeBox = styled.div`
 		}
 	}
 
-	&[disabled],
-	[disabled] & {
+	&[disabled] {
 		color: ${c("fill-color-text-disabled")};
 
 		${StyledTextBox} {
@@ -114,17 +113,16 @@ const StyledTimecodeBox = styled.div`
 	}
 `;
 
-export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus, ...htmlAttrs }: FCP<{
+export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus, disabled, ...htmlAttrs }: FCP<{
 	/** The current time code or time span. */
 	timecode: StateProperty<string>;
 	/** Occurs when the component is focused or changed. */
 	onFocus?: PartialArgsFunc<BaseEventHandler>;
 }, "div">) {
 	const timecodeBoxEl = useDomRef<"div">();
-
 	const lastActiveItemLastIndex = useRef<number>(undefined);
-
 	const tokens = useMemo(() => getTimecodeTokens(timecode), [timecode]);
+	disabled = useContext(InteractionStateContext).disabled || disabled;
 
 	const focusValue = useDebounceCallback((itemLastIndex?: number) =>
 		setTimeout(() => timecodeBoxEl.current?.querySelector<HTMLElement>(
@@ -208,7 +206,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 	}, [timecode]);
 
 	return (
-		<StyledTimecodeBox ref={timecodeBoxEl} onMouseDown={handleTimecodeBoxMouseDown} {...htmlAttrs}>
+		<StyledTimecodeBox ref={timecodeBoxEl} onMouseDown={handleTimecodeBoxMouseDown} disabled={disabled} {...htmlAttrs}>
 			<StyledTextBox>
 				<div className="stripes">
 					<div className="focus-stripe" />
@@ -228,6 +226,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 							onClick={() => handleSpinnerClick(lastIndex, 1)}
 						/>
 						<TimecodeItemValue
+							disabled={disabled}
 							lastIndex={lastIndex}
 							onWheel={handleValueWheel}
 							onKeyDown={handleValueKeyDown}
@@ -255,7 +254,7 @@ export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus
 
 type TimecodeItemValueChangeEventHandler = (value: string, lastIndex: number) => void;
 
-function TimecodeItemValue({ lastIndex, children, onChange, onFinishInput, onRequestFocusLeft, onKeyDown, onBlur, onWheel = noop, ...htmlAttrs }: FCP<{
+function TimecodeItemValue({ lastIndex, disabled, children, onChange, onFinishInput, onRequestFocusLeft, onKeyDown, onBlur, onWheel = noop, ...htmlAttrs }: FCP<{
 	/** The index of the value item to the last. */
 	lastIndex: number;
 	/** The value of the item. */
@@ -313,7 +312,7 @@ function TimecodeItemValue({ lastIndex, children, onChange, onFinishInput, onReq
 				<div
 					className="value"
 					data-last-index={lastIndex}
-					tabIndex={0}
+					tabIndex={disabled ? -1 : 0}
 					onBlur={handleBlur}
 					onKeyDown={handleKeyDown}
 					{...htmlAttrs}

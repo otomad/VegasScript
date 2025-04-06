@@ -43,17 +43,20 @@ export function useOnNestedButtonClick(handler?: MouseEventHandler) {
  *
  * @returns A cleanup function that removes the event listeners when the component unmounts.
  */
-export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, handleCheck?: (() => void) | null, { parent: parentSelector, item: itemSelector = "*", focus: focusSelector = itemSelector, changeWhenMoveFocus, preventSpace = !!handleCheck, disableUpDown = false }: {
+export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, { handleCheck = null, parent: parentSelector, item: itemSelector = "*", focus: focusSelector = itemSelector, changeWhenMoveFocus, preventSpace = !!handleCheck, disableUpDown = false, disabled = false }: {
+	handleCheck?: (() => void) | null;
 	parent?: string;
 	item?: string;
 	focus?: string;
 	changeWhenMoveFocus?: boolean;
 	preventSpace?: boolean;
 	disableUpDown?: boolean;
+	disabled?: boolean;
 } = {}) {
 	const CUSTOM_CHANGE_EVENT = "customchange";
 
 	useEventListener(element, "keydown", e => {
+		if (disabled) return;
 		const { code } = e;
 		if (preventSpace && code === "Space") {
 			stopEvent(e);
@@ -76,14 +79,15 @@ export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, handleC
 			focusEl?.focus?.();
 			if (changeWhenMoveFocus) itemEl?.dispatchEvent(new CustomEvent(CUSTOM_CHANGE_EVENT));
 		}
-	});
+	}, undefined, null);
 
 	useEventListener(element, "keyup", e => {
+		if (disabled) return;
 		if (preventSpace && e.code.in("Space", "Enter")) {
 			stopEvent(e);
 			handleCheck?.();
 		}
-	});
+	}, undefined, null);
 
-	useEventListener(element, CUSTOM_CHANGE_EVENT, () => handleCheck?.());
+	useEventListener(element, CUSTOM_CHANGE_EVENT, () => handleCheck?.(), undefined, null);
 }

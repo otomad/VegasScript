@@ -74,6 +74,13 @@ import { enableMapSet } from "immer";
 	});
 	// #endregion
 
+	// #region Prevent space bar from scrolling page in any time
+	window.addEventListener("keydown", e => {
+		if (e.code === "Space" && e.target === document.body)
+			e.preventDefault();
+	});
+	// #endregion
+
 	// #region The page is fully loaded
 	const observer = new MutationObserver(() => {
 		postMessageToHost("initialized");

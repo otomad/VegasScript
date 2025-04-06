@@ -12,7 +12,8 @@ const StyledItemsViewItem = styled.button<{
 }>`
 	${styles.mixins.forwardFocusRing()};
 
-	&:hover {
+	&:hover,
+	&:focus-visible {
 		${useLottieStatus.animation("Hover")};
 	}
 
@@ -251,7 +252,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, _view: view, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -317,14 +318,14 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 
 	useEffect(() => onSelectedChange?.(id, selected), [selected]);
 
-	useOnFormKeyDown(el, null);
+	useOnFormKeyDown(el);
 
 	return (
 		<ItemsViewItemStateContext value={{ hover }}>
 			<EventInjector onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
 				<StyledItemsViewItem
 					ref={el}
-					$view={view!}
+					$view={view}
 					$withBorder={withBorder}
 					className={[className, view, { selected: selected !== "unchecked" }]}
 					tabIndex={0}

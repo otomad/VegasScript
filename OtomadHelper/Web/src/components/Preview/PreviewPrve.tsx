@@ -546,7 +546,7 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, ...htmlAt
  * This hook uses the `ItemsView.Item.StateContext` to get the hover state and checks the user's
  * preference for reduced motion using the `prefers-reduced-motion` media query.
  *
- * @returns The hover state if the user prefers motion, otherwise `false`.
+ * @returns Is the Items View Item hovered and does the user prefer motion?
  */
 function useHoverWhenPreferringMotion() {
 	const { hover } = useContext(ItemsView.Item.StateContext);

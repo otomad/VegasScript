@@ -272,7 +272,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		<StyledSliderWrapper>
 			{hasValue(displayValue) && !onDisplayValueChanged && <output htmlFor={id} aria-hidden>{displayValue}</output>}
 			<StyledSlider
-				tabIndex={0}
+				tabIndex={disabled ? -1 : 0}
 				style={{
 					"--value": smoothValue,
 				}}

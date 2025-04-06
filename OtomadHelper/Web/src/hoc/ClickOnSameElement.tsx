@@ -1,4 +1,8 @@
-export default function ClickOnSameElement({ bubbling = true, children, onClick, ref }: {
+const stopAt = ["button", "input", "textarea", "datalist", "select", ".toggle-switch-label", ".drag-handle-shadow"];
+
+const isPointerEvent = (e: Event): e is PointerEvent => e.type === "pointerup";
+
+export default function ClickOnSameElement({ bubbling = true, children, onClick, onKeyDown, ref }: {
 	/** The child must be ONE HTML or React element. */
 	children: ReactElement;
 	ref?: ForwardedRef<"section">;
@@ -11,11 +15,12 @@ export default function ClickOnSameElement({ bubbling = true, children, onClick,
 	 * Also change mouse event to pointer event so you can distinct with mouse and touch.
 	 */
 	onClick?: PointerEventHandler<HTMLElement>;
+	/** Same as `onClick`, but for key down only. */
+	onKeyDown?: KeyboardEventHandler<HTMLElement>;
 }) {
 	const target = useDomRef<"section">();
 	const isPressed = useRef(false);
 	useImperativeHandleRef(ref, target);
-	const stopAt = ["button", "input", "textarea", "datalist", "select", ".toggle-switch-label"];
 	const checkSame = (target: EventTarget | null, current: EventTarget | null) =>
 		bubbling ? isInPath(target, current, { stopAt }) : target === current;
 
@@ -24,10 +29,11 @@ export default function ClickOnSameElement({ bubbling = true, children, onClick,
 			isPressed.current = true;
 	};
 
-	const onPointerUp = (e: PointerEvent) => {
+	const onPointerUp = (e: PointerEvent | KeyboardEvent) => {
 		if (e.target === document) return;
-		if (e.type !== "pointerup" || isPressed.current && checkSame(e.target, target.current) && e.button === 0)
-			onClick?.(e as React.PointerEvent<HTMLElement>);
+		if (checkSame(e.target, target.current) && (!isPointerEvent(e) || isPressed.current && e.button === 0))
+			if (!onKeyDown) onClick?.(e as React.PointerEvent<HTMLElement>);
+			else if (!isPointerEvent(e)) onKeyDown?.(e as React.KeyboardEvent<HTMLElement>);
 		isPressed.current = false;
 	};
 

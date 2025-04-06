@@ -145,5 +145,10 @@ export default css`
 			line-height: inherit;
 			word-spacing: inherit;
 		}
+
+		// Do not semi-transparent Combobox when disabled
+		select:disabled {
+			opacity: 1;
+		}
 	}
 `;
