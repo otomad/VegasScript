@@ -76,6 +76,7 @@ function Spinner({ disabled, step = 1, onSpin, onRelease }: FCP<{
 					disabled={disabled}
 					repeat
 					tabIndex={-1}
+					aria-label={t.increase}
 					onClick={() => spinWithValue(1)}
 					onRelease={onRelease}
 				/>
@@ -85,6 +86,7 @@ function Spinner({ disabled, step = 1, onSpin, onRelease }: FCP<{
 					disabled={disabled}
 					repeat
 					tabIndex={-1}
+					aria-label={t.decrease}
 					onClick={() => spinWithValue(-1)}
 					onRelease={onRelease}
 				/>

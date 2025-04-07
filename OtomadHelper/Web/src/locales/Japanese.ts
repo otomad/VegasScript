@@ -40,6 +40,7 @@ export default {
 			prve: "映像リズム視覚効果",
 		},
 		source: {
+			from: "ソース元",
 			trackEvent: "予定を追跡",
 			projectMedia: "メディアをプロジェクト",
 			browseFile: "ファイルを参照",
@@ -177,6 +178,7 @@ export default {
 			vsq: "Vocaloid シーケンスファイル",
 		},
 		score: {
+			from: "得点:",
 			midi: "MIDI",
 			singthesis: "Singthesis",
 			refOtherTracks: "他の曲を参照",

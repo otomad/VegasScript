@@ -740,8 +740,8 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 					</div>
 					<div className={["page-content", transitionName]} ref={pageContentEl} id={pageContentId}>
 						<SwitchTransition mode={transitionName === "jump" ? "out-in" : "out-in-preload"}>
-							<CssTransition key={pagePath} onEnter={scrollToTopOrPrevious} moreCoherentWhenCombo>
-								<StyledPage>
+							<CssTransition key={pagePath} onEnter={scrollToTopOrPrevious} moreCoherentWhenCombo maxTimeout={1000}>
+								<StyledPage data-path={pagePath} aria-label={titles.last().name}>
 									{children}
 								</StyledPage>
 							</CssTransition>

@@ -40,6 +40,7 @@ export default {
 			prve: "画面节奏视觉效果",
 		},
 		source: {
+			from: "素材来源",
 			trackEvent: "轨道剪辑",
 			projectMedia: "项目媒体",
 			browseFile: "浏览文件",
@@ -177,6 +178,7 @@ export default {
 			vsq: "Vocaloid序列文件",
 		},
 		score: {
+			from: "乐曲来源",
 			midi: "MIDI",
 			singthesis: "虚拟歌姬",
 			refOtherTracks: "引用其它轨道",
