@@ -712,7 +712,7 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 												{titles.flatMap((title, i, { length }) => {
 													const last = i === length - 1;
 													const crumb = (
-														<input
+														<button
 															key={i}
 															className={["crumb", { parent: !last }]}
 															tabIndex={last ? -1 : 0}
@@ -721,7 +721,9 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 															aria-current={last && "page"}
 															value={title.name}
 															onClick={() => title.link?.length && setCurrentNav?.(title.link)}
-														/>
+														>
+															{title.name}
+														</button>
 													);
 													const result = [crumb];
 													if (!last) result.push(<BreadCrumbChevronRight key={i + "-chevron"} />);

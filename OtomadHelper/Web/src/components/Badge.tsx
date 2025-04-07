@@ -86,7 +86,7 @@ export default function Badge({ children, status = "info", colorOverride, hidden
 	const iconName = `badge/${status.in("neutual", "accent") ? "info" : status}` as const;
 	const beacon = typeof children === "boolean";
 	return (
-		<CssTransition in={!hidden} unmountOnExit appear={transitionOnAppear}>
+		<CssTransition in={!hidden} unmountOnExit appear={transitionOnAppear} requestAnimationFrame>
 			<StyledBadge
 				ref={ref}
 				$status={colorOverride}
