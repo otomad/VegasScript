@@ -105,7 +105,7 @@ declare global {
 	 * React.cloneElement(child, { ref })); // Now child has `ref` prop.
 	 * ```
 	 */
-	type RefAttributes = { ref?: Ref<Element | null> };
+	type RefAttributes = { ref?: React.Ref<Element | null> };
 
 	/** Audio or Visual. */
 	type StreamKind = "audio" | "visual";

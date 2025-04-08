@@ -1,5 +1,5 @@
 diff --git a/cjs/react-dom-client.development.js b/cjs/react-dom-client.development.js
-index 83ea1c6a783efe2e674eda4b681eb361f000d12d..cd32582b1bd7d5fd546fd52575d341c893654b1e 100644
+index 83ea1c6a783efe2e674eda4b681eb361f000d12d..f338b593f99d51bea1ff4f9908be09a13784aa1e 100644
 --- a/cjs/react-dom-client.development.js
 +++ b/cjs/react-dom-client.development.js
 @@ -1387,7 +1387,13 @@
@@ -39,7 +39,7 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..cd32582b1bd7d5fd546fd52575d341c8
              ));
      }
 +    function isI18nItem(newChild) {
-+      return !!newChild?.[Symbol.for("i18n_item")];
++      return !!newChild?.[Symbol.for("react-i18next.i18n_item")];
 +    }
      function createChildReconciler(shouldTrackSideEffects) {
        function deleteChild(returnFiber, childToDelete) {
@@ -93,7 +93,7 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..cd32582b1bd7d5fd546fd52575d341c8
          case "children":
            if ("string" === typeof value)
 diff --git a/cjs/react-dom-client.production.js b/cjs/react-dom-client.production.js
-index af7283abaca3e5812ef71b03d9c999410baa1a80..e3e29504a1512e3b57db2fff945b4b7e7e9c4ebf 100644
+index af7283abaca3e5812ef71b03d9c999410baa1a80..f67ed9a426d7cffcff0cb5ed775cfaf493c4914c 100644
 --- a/cjs/react-dom-client.production.js
 +++ b/cjs/react-dom-client.production.js
 @@ -909,7 +909,13 @@ function isAttributeNameSafe(attributeName) {
@@ -116,7 +116,7 @@ index af7283abaca3e5812ef71b03d9c999410baa1a80..e3e29504a1512e3b57db2fff945b4b7e
    return init(lazyType._payload);
  }
 +function isI18nItem(newChild) {
-+  return !!newChild?.[Symbol.for("i18n_item")];
++  return !!newChild?.[Symbol.for("react-i18next.i18n_item")];
 +}
  function createChildReconciler(shouldTrackSideEffects) {
    function deleteChild(returnFiber, childToDelete) {

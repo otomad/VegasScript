@@ -35,15 +35,15 @@ patchedDependencies:
   postcss@8.4.49:
     hash: 99f4d3ce97801e249946b11ea21ff8e503d3b45751c6ae3442bf7c8b6debf90b
     path: patches/postcss@8.4.49.patch
+  react:
+    hash: a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad
+    path: patches/react@19.0.0.patch
   react-dom:
-    hash: f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84
+    hash: 47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd
     path: patches/react-dom@19.0.0.patch
   react-flip-move@3.0.5:
     hash: d1030c1d607e98dd8374bb5772be6708d855227d990270893e5264f3ad45634d
     path: patches/react-flip-move@3.0.5.patch
-  react@19.0.0:
-    hash: d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91
-    path: patches/react@19.0.0.patch
   styled-components@6.1.13:
     hash: 2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291
     path: patches/styled-components@6.1.13.patch
@@ -63,13 +63,13 @@ importers:
     dependencies:
       '@dnd-kit/core':
         specifier: ^6.3.1
-        version: 6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       '@dnd-kit/modifiers':
         specifier: ^9.0.0
-        version: 9.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 9.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       '@dnd-kit/sortable':
         specifier: ^10.0.0
-        version: 10.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 10.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       ani-cursor:
         specifier: ^0.0.5
         version: 0.0.5
@@ -96,13 +96,13 @@ importers:
         version: 1.0.0
       jotai:
         specifier: ^2.10.3
-        version: 2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       jotai-immer:
         specifier: ^0.4.1
-        version: 0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))
+        version: 0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))
       jotai-valtio:
         specifier: ^0.5.0
-        version: 0.5.0(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(valtio@2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))
+        version: 0.5.0(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(valtio@2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -117,31 +117,31 @@ importers:
         version: 4.0.7(patch_hash=360ba25844f356ab0b620f968bbfef426bb9b3f7674a9571d9da5c54ce41a99f)
       react:
         specifier: ^19.0.0
-        version: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+        version: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
       react-dom:
         specifier: ^19.0.0
-        version: 19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       react-flip-move:
         specifier: ^3.0.5
-        version: 3.0.5(patch_hash=d1030c1d607e98dd8374bb5772be6708d855227d990270893e5264f3ad45634d)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 3.0.5(patch_hash=d1030c1d607e98dd8374bb5772be6708d855227d990270893e5264f3ad45634d)(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       react-i18next:
         specifier: ^15.1.0
-        version: 15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       react-transition-group-fc:
-        specifier: ^4.5.9
-        version: 4.5.9(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        specifier: ^4.5.10
+        version: 4.5.10(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       styled-components:
         specifier: ^6.1.13
-        version: 6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       styled-tools:
         specifier: ^1.7.2
         version: 1.7.2
       use-immer:
         specifier: ^0.10.0
-        version: 0.10.0(immer@10.1.1)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 0.10.0(immer@10.1.1)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       valtio:
         specifier: ^2.1.4
-        version: 2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       variable-name-conversion:
         specifier: ^1.5.0
         version: 1.5.0
@@ -202,13 +202,13 @@ importers:
         version: 4.3.4(vite@6.1.1(@types/node@22.9.0)(jiti@1.21.6)(lightningcss@1.28.2)(terser@5.37.0))
       babel-plugin-styled-components:
         specifier: ^2.1.4
-        version: 2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))
+        version: 2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))
       babel-plugin-transform-jsx-classnames:
         specifier: ^1.2.2
         version: 1.2.2(patch_hash=3261c0fb8fd9750eb153af71ac2bebf9f5bf26eefba4c76cc91d7cf4af24efd1)
       click-to-react-component:
         specifier: ^1.1.2
-        version: 1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+        version: 1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       commitizen:
         specifier: latest
         version: 4.3.1(@types/node@22.9.0)(typescript@5.7.2)
@@ -4175,8 +4175,8 @@ packages:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
 
-  react-transition-group-fc@4.5.9:
-    resolution: {integrity: sha512-JNOmI80Q9cizzxeov2xLILcaJ8QM/tJ/GaZGTUAEFHoEdSESwflDKjhyTIQXb+tt//3xW3Mrc/BfTr41Uql5XQ==}
+  react-transition-group-fc@4.5.10:
+    resolution: {integrity: sha512-uXwsBJ7ghYd9ZfMQw09sy8Zi9THmvy7kDgGyWVL09r4eaP8zLrIv6rEeJRpSyitYVCDGmAzNypGiLY9lu1S2Gg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -5677,36 +5677,36 @@ snapshots:
     dependencies:
       postcss-selector-parser: 7.1.0
 
-  '@dnd-kit/accessibility@3.1.1(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))':
+  '@dnd-kit/accessibility@3.1.1(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))':
     dependencies:
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
       tslib: 2.6.2
 
-  '@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))':
+  '@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))':
     dependencies:
-      '@dnd-kit/accessibility': 3.1.1(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
-      react-dom: 19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      '@dnd-kit/accessibility': 3.1.1(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
+      react-dom: 19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       tslib: 2.6.2
 
-  '@dnd-kit/modifiers@9.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))':
+  '@dnd-kit/modifiers@9.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))':
     dependencies:
-      '@dnd-kit/core': 6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      '@dnd-kit/core': 6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
       tslib: 2.6.2
 
-  '@dnd-kit/sortable@10.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))':
+  '@dnd-kit/sortable@10.0.0(@dnd-kit/core@6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))':
     dependencies:
-      '@dnd-kit/core': 6.3.1(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      '@dnd-kit/core': 6.3.1(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      '@dnd-kit/utilities': 3.2.2(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
       tslib: 2.6.2
 
-  '@dnd-kit/utilities@3.2.2(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))':
+  '@dnd-kit/utilities@3.2.2(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))':
     dependencies:
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
       tslib: 2.6.2
 
   '@dual-bundle/import-meta-resolve@4.1.0': {}
@@ -5868,23 +5868,23 @@ snapshots:
     dependencies:
       '@floating-ui/core': 0.6.2
 
-  '@floating-ui/react-dom-interactions@0.3.1(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))':
+  '@floating-ui/react-dom-interactions@0.3.1(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))':
     dependencies:
-      '@floating-ui/react-dom': 0.6.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      '@floating-ui/react-dom': 0.6.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       aria-hidden: 1.2.4
       point-in-polygon: 1.1.0
-      use-isomorphic-layout-effect: 1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      use-isomorphic-layout-effect: 1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
     transitivePeerDependencies:
       - '@types/react'
       - react
       - react-dom
 
-  '@floating-ui/react-dom@0.6.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))':
+  '@floating-ui/react-dom@0.6.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))':
     dependencies:
       '@floating-ui/dom': 0.4.5
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
-      react-dom: 19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      use-isomorphic-layout-effect: 1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
+      react-dom: 19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      use-isomorphic-layout-effect: 1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
     transitivePeerDependencies:
       - '@types/react'
 
@@ -6669,14 +6669,14 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  babel-plugin-styled-components@2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))):
+  babel-plugin-styled-components@2.1.4(patch_hash=c4c55bc6f5757993287d56bcdde424bc2652f6e1fbf5d6563d7478d676542610)(@babel/core@7.24.4)(styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))):
     dependencies:
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-module-imports': 7.24.3
       '@babel/plugin-syntax-jsx': 7.24.1(@babel/core@7.24.4)
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      styled-components: 6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
     transitivePeerDependencies:
       - '@babel/core'
 
@@ -6903,11 +6903,11 @@ snapshots:
 
   cli-width@4.1.0: {}
 
-  click-to-react-component@1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  click-to-react-component@1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
-      '@floating-ui/react-dom-interactions': 0.3.1(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      '@floating-ui/react-dom-interactions': 0.3.1(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       htm: 3.1.1
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
       react-merge-refs: 1.1.0
     transitivePeerDependencies:
       - '@types/react'
@@ -8611,20 +8611,20 @@ snapshots:
 
   jiti@1.21.6: {}
 
-  jotai-immer@0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))):
+  jotai-immer@0.4.1(immer@10.1.1)(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))):
     dependencies:
       immer: 10.1.1
-      jotai: 2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      jotai: 2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
 
-  jotai-valtio@0.5.0(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(valtio@2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))):
+  jotai-valtio@0.5.0(jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(valtio@2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))):
     dependencies:
-      jotai: 2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
-      valtio: 2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      jotai: 2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
+      valtio: 2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
 
-  jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  jotai@2.10.3(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     optionalDependencies:
       '@types/react': 19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc)
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
 
   js-base64@2.6.4: {}
 
@@ -9415,24 +9415,24 @@ snapshots:
 
   radix3@1.1.2: {}
 
-  react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
       scheduler: 0.25.0
 
-  react-flip-move@3.0.5(patch_hash=d1030c1d607e98dd8374bb5772be6708d855227d990270893e5264f3ad45634d)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  react-flip-move@3.0.5(patch_hash=d1030c1d607e98dd8374bb5772be6708d855227d990270893e5264f3ad45634d)(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
-      react-dom: 19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
+      react-dom: 19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
 
-  react-i18next@15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  react-i18next@15.1.0(i18next@24.0.5(typescript@5.7.2))(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
       '@babel/runtime': 7.26.0
       html-parse-stringify: 3.0.1
       i18next: 24.0.5(typescript@5.7.2)
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
     optionalDependencies:
-      react-dom: 19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      react-dom: 19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
 
   react-is@16.13.1: {}
 
@@ -9440,12 +9440,12 @@ snapshots:
 
   react-refresh@0.14.2: {}
 
-  react-transition-group-fc@4.5.9(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  react-transition-group-fc@4.5.10(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
-      react-dom: 19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
+      react-dom: 19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
 
-  react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91): {}
+  react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad): {}
 
   read-installed@4.0.3:
     dependencies:
@@ -10019,7 +10019,7 @@ snapshots:
 
   style-search@0.1.0: {}
 
-  styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  styled-components@6.1.13(patch_hash=2313f3ad53c8f5cd6c9979087c9bfe0b8dd09e42658923a7b597e005f4699291)(react-dom@19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
       '@emotion/is-prop-valid': 1.2.2
       '@emotion/unitless': 0.8.1
@@ -10027,8 +10027,8 @@ snapshots:
       css-to-react-native: 3.2.0
       csstype: 3.1.3
       postcss: 8.4.38
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
-      react-dom: 19.0.0(patch_hash=f621ebce7be87a2126b540cbac2dc27cf63288c8b0ce25f5512900d910eb9b84)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91))
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
+      react-dom: 19.0.0(patch_hash=47a5fb661bd361d901de7575a34db7c2ac87cb0a325dd69a26e5c7bb87714ecd)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad))
       shallowequal: 1.1.0
       stylis: 4.3.2
       tslib: 2.6.2
@@ -10475,14 +10475,14 @@ snapshots:
 
   urix@0.1.0: {}
 
-  use-immer@0.10.0(immer@10.1.1)(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  use-immer@0.10.0(immer@10.1.1)(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
       immer: 10.1.1
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
 
-  use-isomorphic-layout-effect@1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  use-isomorphic-layout-effect@1.1.2(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
     optionalDependencies:
       '@types/react': 19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc)
 
@@ -10499,12 +10499,12 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  valtio@2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)):
+  valtio@2.1.4(patch_hash=4d27899d61788bff2a8a597241e4e25cc1ff9dd731040713ccac6ad17f2f1361)(@types/react@19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc))(react@19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)):
     dependencies:
       proxy-compare: 3.0.1
     optionalDependencies:
       '@types/react': 19.0.1(patch_hash=4d0b913251acfcb3774935179365be5f6b3075745ccefb13409ad5f292db38fc)
-      react: 19.0.0(patch_hash=d98b89cba0a8af52bb5b7dbc30e500069f2b63f136dbfbf369887199690ffb91)
+      react: 19.0.0(patch_hash=a1a62374ebca8fc3e338179457accd437d9b67c177c3440df5eb7f78d59727ad)
 
   variable-name-conversion@1.5.0: {}
 

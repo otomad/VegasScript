@@ -19,14 +19,14 @@ declare global {
 	 *
 	 * @template T - Source object.
 	 */
-	type Writeable<T> = { -readonly [Key in keyof T]: T[Key] };
+	type Writable<T> = { -readonly [Key in keyof T]: T[Key] };
 
 	/**
 	 * Deeply remove read-only modifiers.
 	 *
 	 * @template T - Source object.
 	 */
-	type DeepWriteable<T> = { -readonly [Key in keyof T]: DeepWriteable<T[Key]> };
+	type DeepWritable<T> = { -readonly [Key in keyof T]: DeepWritable<T[Key]> };
 
 	/**
 	 * Non-null type. Similar to `!`.

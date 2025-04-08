@@ -213,7 +213,7 @@ export function useStateSelector<TOld, TNew>(
 /**
  * Checks whether the given value is a `RefObject`.
  *
- * This function, `isRef`, checks whether the given value is a `RefObject`. It returns `true` if the value is a `RefObject`,
+ * This function, `isRefObject`, checks whether the given value is a `RefObject`. It returns `true` if the value is a `RefObject`,
  * otherwise `false`. A `RefObject` is a type of reference in React that allows you to access a DOM element or instance.
  * The function takes a single parameter, `ref`, which is the value to check. The function returns a boolean value
  * indicating whether the value is a `RefObject` or not.
@@ -224,13 +224,13 @@ export function useStateSelector<TOld, TNew>(
  * @example
  * ```typescript
  * const ref: React.RefObject<HTMLElement> = React.useRef();
- * console.log(isRef(ref)); // Output: true
+ * console.log(isRefObject(ref)); // Output: true
  *
  * const notRef: HTMLElement = document.getElementById("my-element")!;
- * console.log(isRef(notRef)); // Output: false
+ * console.log(isRefObject(notRef)); // Output: false
  * ```
  */
-export function isRef<T>(ref: unknown): ref is RefObject<T> {
+export function isRefObject<T>(ref: unknown): ref is RefObject<T> {
 	return isObject(ref) && Object.hasOwn(ref, "current") && Object.keys(ref).length === 1;
 }
 
@@ -255,7 +255,7 @@ export function isRef<T>(ref: unknown): ref is RefObject<T> {
  * ```
  */
 export function toValue<T>(ref: MaybeRef<T>): T {
-	return isRef(ref) ? ref.current : ref;
+	return isRefObject(ref) ? ref.current : ref;
 }
 
 /**

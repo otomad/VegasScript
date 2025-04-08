@@ -45,11 +45,6 @@ export function stopEvent(event?: Pick<Event, "preventDefault" | "stopPropagatio
 	event.stopPropagation();
 }
 
-const setRef = <T>(ref: MiscRef<T>, value: T) => {
-	if (typeof ref === "function") ref(value);
-	else if (isObject(ref)) ref.current = value;
-};
-
 type AdditionalProps = AnyObject | ((props: AnyObject, element: ReactElement) => AnyObject);
 /**
  * Clones the provided children, replacing any refs with the provided nodeRef.
@@ -65,11 +60,8 @@ export function cloneRef(children: ReactNode, nodeRef: MiscRef<Element | null>, 
 		null,
 		React.Children.map(children, (child: ReactNode) => {
 			if (!isValidElement<RefAttributes>(child)) return child;
-			const existedRef = child.props.ref as MiscRef<Element | null>;
-			const ref: React.RefCallback<Element | null> = el => {
-				setRef(nodeRef, el);
-				setRef(existedRef, el);
-			};
+			const existedRef = child.props.ref;
+			const ref = mergeRefs(nodeRef, existedRef);
 			if (typeof additionalProps === "function") additionalProps = additionalProps(child.props, child);
 			return React.cloneElement(child, { ref, key: child.key, ...additionalProps });
 		}),
@@ -92,7 +84,7 @@ interface IsInPathOptions {
  * @returns An array of the specified element that traces back to the root element.
  */
 export function getPath(target: TargetType): Element[] {
-	if (isRef(target)) target = toValue(target);
+	if (isRefObject(target)) target = toValue(target);
 	if (isObject(target) && "target" in target) target = target.target;
 	if (!(target instanceof Element)) return [];
 	const path: Element[] = [];
@@ -120,14 +112,14 @@ export function isInPath(target: TargetType, ...args: (DetectInPathType | IsInPa
 		const [elements, { stopAt = [] }] = (() => {
 			const last = args.last();
 			let options: IsInPathOptions = {}, elements = args as DetectInPathType[];
-			if (isObject(last) && typeof last !== "string" && !(last instanceof EventTarget) && !("preventDefault" in last) && !isRef(last)) {
+			if (isObject(last) && typeof last !== "string" && !(last instanceof EventTarget) && !("preventDefault" in last) && !isRefObject(last)) {
 				options = last;
 				elements = args.toPopped() as DetectInPathType[];
 			}
 			return [elements, options] as const;
 		})();
 		const filter = (element: DetectInPathType) => {
-			if (isRef(element)) element = toValue(element);
+			if (isRefObject(element)) element = toValue(element);
 			if (isObject(element) && "target" in element) element = element.target;
 			if (typeof element === "string" || element instanceof Element) return element;
 		};
@@ -371,4 +363,52 @@ export function getLayoutNeighbor(el: Element | null, neighbor: "left" | "right"
 		}
 		return visualNeighbor;
 	}
+}
+
+/**
+ * Sets a reference to a given value. This utility function handles both callback refs
+ * and object refs, ensuring compatibility with React's `ref` system.
+ *
+ * @template T - The type of the value to set on the ref.
+ * @param ref - The React ref to set. It can be either a callback ref or an object ref.
+ * @param value - The value to assign to the ref.
+ */
+function setRef<T>(ref: MiscRef<T>, value: T) {
+	if (typeof ref === "function") ref(value);
+	else if (isObject(ref)) ref.current = value;
+}
+
+const MERGED_REF_SYMBOL = Symbol.for("react-transition-group-fc.merged_ref");
+type MergedRef<T = Element | null> = React.RefCallback<T> & {
+	refs: Set<MiscRef<T>>;
+	[MERGED_REF_SYMBOL]: true;
+};
+
+/**
+ * Checks if the given ref is returned by function `mergeRefs`.
+ */
+function isMergedRef<T>(ref: MiscRef<T>): ref is MergedRef<T> {
+	return typeof ref === "function" && MERGED_REF_SYMBOL in ref;
+}
+
+/**
+ * Merges multiple React refs into a single ref callback.
+ * This allows you to pass multiple refs to a single element, ensuring all refs are updated
+ * with the same element reference.
+ *
+ * @param refs - An array of React refs to be merged. Each ref can be a callback ref or a ref object.
+ * @returns A ref callback function that updates all provided refs with the given element.
+ */
+export function mergeRefs(...refs: (MiscRef<Element | null> | undefined | null)[]) {
+	const mergedRef = (el => {
+		for (const ref of mergedRef.refs)
+			setRef(ref, el);
+	}) as MergedRef;
+	mergedRef.refs = new Set();
+	for (const ref of refs)
+		if (!ref) continue;
+		else if (isMergedRef(ref)) mergedRef.refs.adds(...ref.refs);
+		else mergedRef.refs.add(ref);
+	mergedRef[MERGED_REF_SYMBOL] = true;
+	return mergedRef;
 }

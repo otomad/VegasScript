@@ -1,7 +1,7 @@
 import type { TOptions } from "i18next";
 import type { LocaleWithDefaultValue } from "locales/types";
 import { spacing } from "pangu";
-const I18N_ITEM_SYMBOL = Symbol.for("i18n_item");
+const I18N_ITEM_SYMBOL = Symbol.for("react-i18next.i18n_item");
 const toPrimitives = [Symbol.toPrimitive, "toString", "toJSON", "valueOf"];
 
 export function isI18nItem(newChild: Any): newChild is Record<string, string> {
