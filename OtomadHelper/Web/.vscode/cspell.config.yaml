@@ -309,3 +309,9 @@ flagWords:
   - bluring -> blurring
   - stirng -> string
   - writeable -> writable
+  - disablable -> canBeDisabled
+  - disableable -> canBeDisabled
+  - disabledable -> canBeDisabled
+  - Disablable -> CanBeDisabled
+  - Disableable -> CanBeDisabled
+  - Disabledable -> CanBeDisabled
