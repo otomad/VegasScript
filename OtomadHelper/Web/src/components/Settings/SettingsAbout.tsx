@@ -1,6 +1,7 @@
 import ColoredLogo from "assets/svg/Otomad Helper Colored.svg?react";
 import MonoLogo from "assets/svg/Otomad Helper Mono.svg?react";
 import { contributeTranslationLink } from "helpers/crowdin-link";
+import { spacing } from "pangu";
 
 const StyledSettingsAbout = styled.div`
 	display: flex;
@@ -49,10 +50,10 @@ export default function SettingsAbout() {
 		[t.settings.about.author, t.settings.about.__author__],
 		[t.settings.about.originalAuthor, t.settings.about.__originalAuthor__],
 	]);
-	if (t.metadata.__translator__.toString()) pairs.set(t.settings.about.translator, t.metadata.__translator__);
+	const currentLanguage = useCurrentLanguage();
+	if (t.metadata.__translator__.toString()) pairs.set(t.settings.about.translator, listFormatTranslators(t.metadata.__translator__, currentLanguage));
 	const { version } = useAboutApp();
 	const [showTranslators, setShowTranslators] = useState(false);
-	const currentLanguage = useCurrentLanguage();
 
 	return (
 		<>
@@ -106,11 +107,19 @@ async function checkForUpdates(currentVersion: string) {
 	console.log(tagName, compare);
 }
 
-const StyledTableBase = styled.div`
+const StyledTableBase = styled.div<{
+	$table?: boolean;
+}>(ifNotProp("$table", css`
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	column-gap: 12px;
-`;
+`, css`
+	display: table;
+
+	:is(td, th):not(:first-of-type) {
+		border-inline-start: 12px solid transparent;
+	}
+`));
 
 const StyledTranslatorsTable = styled(StyledTableBase)`
 	p:nth-child(2n + 1) {
@@ -167,11 +176,12 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 				{languages.map(lang => {
 					const langAttr = displayName === "english" ? "en" : displayName === "original" ? lang : undefined;
 					const isCurrentLang = { current: lang === currentLanguage };
-					const translator = translatorNames[lang].toString();
+					const translators = translatorNames[lang], hasTranslator = translators.toString().length > 0;
+					const formattedTranslator = hasTranslator ? listFormatTranslators(translators, langAttr ?? currentLanguage) : "—";
 					return (
 						<Fragment key={lang}>
 							<p lang={langAttr} className={isCurrentLang}>{languageNames[lang]}</p>
-							<p lang={translator ? lang : "en"} className={isCurrentLang}>{translator || "—"}</p>
+							<p lang={hasTranslator ? lang : "en"} className={isCurrentLang}>{formattedTranslator}</p>
 						</Fragment>
 					);
 				})}
@@ -183,15 +193,17 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 
 const StyledAboutInformation = styled(StyledTableBase)`
 	${styles.effects.text.body}
-	grid-template-columns: auto 1fr;
 
-	> :nth-child(2n + 2) {
+	td:nth-child(2n + 2) {
 		color: ${c("fill-color-text-secondary")};
+	}
+
+	* {
+		user-select: text;
 	}
 `;
 
 function AboutInformation() {
-	const Cell = "samp";
 	const { appName, version } = useAboutApp();
 	const data = [
 		[appName, "v" + version],
@@ -199,13 +211,19 @@ function AboutInformation() {
 	] as [string, string][];
 
 	return (
-		<StyledAboutInformation>
+		<StyledAboutInformation $table>
 			{data.map(([key, value]) => (
-				<Fragment key={key}>
-					<Cell>{key}</Cell>
-					<Cell>{value}</Cell>
-				</Fragment>
+				<tr key={key}>
+					<td><samp>{key}</samp></td>
+					<td><samp>{value}</samp></td>
+				</tr>
 			))}
 		</StyledAboutInformation>
 	);
+}
+
+function listFormatTranslators(translators: string[] | string, lang: string) {
+	if (typeof translators === "string" || isI18nItem(translators)) translators = translators.toString().split("\n").toTrimmed();
+	const formatted = new Intl.ListFormat(lang, { style: "narrow", type: "conjunction" }).format(translators);
+	return spacing(formatted);
 }

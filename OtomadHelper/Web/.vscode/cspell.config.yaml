@@ -315,3 +315,4 @@ flagWords:
   - Disablable -> CanBeDisabled
   - Disableable -> CanBeDisabled
   - Disabledable -> CanBeDisabled
+  - formated -> formatted
