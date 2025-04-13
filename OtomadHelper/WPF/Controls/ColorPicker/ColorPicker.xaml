@@ -235,7 +235,15 @@
 				Text="{Binding Hex, Mode=OneWay}"
 				/>
 
-			<c:Button Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,2,5,0" Padding="2" ToolTip="{m:Trans Descriptions.ColorPicker.EyeDropper}">
+			<c:Button
+				Grid.Column="6"
+				Grid.Row="9"
+				Grid.ColumnSpan="4"
+				Margin="0,2,5,0"
+				Padding="2"
+				ToolTip="{m:Trans Descriptions.ColorPicker.EyeDropper}"
+				Focusable="False"
+				>
 				<StackPanel Orientation="Horizontal">
 					<c:Icon IconName="EyeDropper" Margin="0,0,10,0" />
 					<TextBlock Text="{m:Trans ColorPicker.EyeDropper}" />

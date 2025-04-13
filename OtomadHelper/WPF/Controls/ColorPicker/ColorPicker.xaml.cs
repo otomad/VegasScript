@@ -40,10 +40,16 @@ public partial class ColorPicker : UserControl {
 		ColorPickerViewModel viewModel = panel.DataContext;
 		viewModel.Color = color;
 		if (ColorPickerModelAxis.Valid(initialModelAxis)) viewModel.ModelAxis = initialModelAxis;
-		bool dialogResult = await ContentDialog.ShowDialog<bool?>((string)t.ColorPicker.Title, panel, [
-			new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Ok, true, true),
-			new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Cancel, false),
-		], "Color") ?? false;
+		bool dialogResult = await ContentDialog.ShowDialog<bool?>(
+			title: (string)t.ColorPicker.Title,
+			content: panel,
+			buttons: [
+				new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Ok, true, true),
+				new ContentDialogButtonItem<bool>(t.ContentDialog.Button.Cancel, false),
+			],
+			iconName: "Color",
+			singletonId: "Color Picker"
+		) ?? false;
 		Unicolour newColor = viewModel.Color;
 		if (!dialogResult) return hex;
 		return (startsWithHash ? "#" : "") + ColorPickerViewModel.ToHex(newColor)[0];

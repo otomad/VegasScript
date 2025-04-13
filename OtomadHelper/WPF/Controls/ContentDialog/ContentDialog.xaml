@@ -13,6 +13,7 @@
 	SizeToContent="Height"
 	TitleBarType="WindowChrome"
 	WindowStartupLocation="CenterScreen"
+	Topmost="True"
 	mc:Ignorable="d"
 	>
 	<c:BackdropWindow.DataContext>

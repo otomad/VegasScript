@@ -72,7 +72,9 @@ public partial class ContentDialog : BackdropWindow {
 		string title,
 		FrameworkElement content,
 		IEnumerable<ContentDialogButtonItem> buttons,
-		string iconName = ""
+		string iconName = "",
+		bool? topmost = null,
+		string? singletonId = null
 	) {
 		ValidateDialogResultType<TDialogResult>();
 		ContentDialog dialog = new();
@@ -83,8 +85,21 @@ public partial class ContentDialog : BackdropWindow {
 		viewModel.Buttons.AddRange(buttons);
 		dialog.Width = content.Width;
 		dialog.SizeToContent = SizeToContent.WidthAndHeight;
+		if (topmost is not null) dialog.Topmost = topmost.Value;
+		if (!string.IsNullOrEmpty(singletonId)) {
+			if (singletons.TryGetValue(singletonId!, out ContentDialog openedDialog)) {
+				//openedDialog.Vanish();
+				return default(TDialogResult);
+			}
+			singletons.Add(singletonId!, dialog);
+			dialog.Closed += (sender, e) => {
+				singletons.Remove(singletonId!);
+			};
+		}
 		return (TDialogResult?)await dialog.ShowDialogAsync();
 	}
+
+	private static Dictionary<string, ContentDialog> singletons = [];
 
 	private static void ValidateDialogResultType<TDialogResult>() {
 		if (!typeof(TDialogResult).IsNullable()) {

@@ -13,7 +13,7 @@ public static class PInvoke {
 	/// Flags for specifying the system-drawn backdrop material of a window, including behind the non-client area.
 	/// </summary>
 	/// <remarks>
-	/// <a href="https://learn.microsoft.com/windows/win32/api/dwmapi/ne-dwmapi-dwm_systembackdrop_type"><c>DWM_SYSTEMBACKDROP_TYPE enumeration (dwmapi.h)</c></a><br/>
+	/// <a href="https://learn.microsoft.com/windows/win32/api/dwmapi/ne-dwmapi-dwm_systembackdrop_type"><c>DWM_SYSTEMBACKDROP_TYPE</c> enumeration (dwmapi.h)</a>
 	/// </remarks>
 	public enum SystemBackdropType {
 		/// <remarks>
@@ -250,7 +250,10 @@ public static class PInvoke {
 	public static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins pMarInset);
 
 	[DllImport("dwmapi.dll")]
-	public static extern int DwmSetWindowAttribute(IntPtr hWnd, DwmWindowAttribute dwAttribute, ref uint pvAttribute, int cbAttribute);
+	public static extern HResult DwmGetWindowAttribute(IntPtr hWnd, DwmWindowAttribute dwAttribute, out uint pvAttribute, int cbAttribute);
+
+	[DllImport("dwmapi.dll")]
+	public static extern HResult DwmSetWindowAttribute(IntPtr hWnd, DwmWindowAttribute dwAttribute, ref uint pvAttribute, int cbAttribute);
 
 	[DllImport("user32.dll")]
 	public static extern long GetWindowLongPtr(IntPtr hWnd, WindowLongFlags nIndex);
@@ -272,8 +275,14 @@ public static class PInvoke {
 	public static int ExtendFrame(IntPtr hWnd, Margins margins) =>
 		DwmExtendFrameIntoClientArea(hWnd, ref margins);
 
-	public static int SetWindowAttribute(IntPtr hWnd, DwmWindowAttribute attribute, uint parameter) =>
+	public static HResult SetWindowAttribute(IntPtr hWnd, DwmWindowAttribute attribute, uint parameter) =>
 		DwmSetWindowAttribute(hWnd, attribute, ref parameter, Marshal.SizeOf<uint>());
+
+	private static bool CheckSupportSystemBackdropType() {
+		HResult error = DwmGetWindowAttribute(IntPtr.Zero, DwmWindowAttribute.SystemBackdropType, out _, Marshal.SizeOf<uint>());
+		return error != HResult.InvalidArg;
+	}
+	public static readonly bool SupportSystemBackdropType = CheckSupportSystemBackdropType();
 
 	/// <param name="hWnd">Window handle.</param>
 	public static void AddExtendedWindowStyles(IntPtr hWnd, params ExtendedWindowStyles[] styles) {
@@ -586,5 +595,84 @@ public static class PInvoke {
 		DevModeW devMode = new() { dmSize = (ushort)Marshal.SizeOf(typeof(DevModeW)) };
 		EnumDisplaySettingsW(screen.DeviceName, ~0u, ref devMode);
 		return new(devMode.dmPositionX, devMode.dmPositionY, (int)devMode.dmPelsWidth, (int)devMode.dmPelsHeight);
+	}
+
+	/// <summary>
+	/// The following HRESULT values are the most common. More values are contained in the header file Winerror.h.
+	/// </summary>
+	/// <remarks>
+	/// <a href="https://learn.microsoft.com/windows/win32/seccrypto/common-hresult-values">Common HRESULT Values</a>
+	/// </remarks>
+	public enum HResult : long {
+		/// <remarks>
+		/// Operation successful.
+		/// </remarks>
+		OK = 0x00000000L,
+		/// <remarks>
+		/// Not implemented.
+		/// </remarks>
+		NotImpl = 0x80004001L,
+		/// <remarks>
+		/// No such interface supported.
+		/// </remarks>
+		NoInterface = 0x80004002L,
+		/// <remarks>
+		/// Pointer that is not valid.
+		/// </remarks>
+		Pointer = 0x80004003L,
+		/// <remarks>
+		/// Operation aborted.
+		/// </remarks>
+		Abort = 0x80004004L,
+		/// <remarks>
+		/// Unspecified failure.
+		/// </remarks>
+		Fail = 0x80004005L,
+		/// <remarks>
+		/// Unexpected failure.
+		/// </remarks>
+		Unexpected = 0x8000FFFFL,
+		/// <remarks>
+		/// General access denied error.
+		/// </remarks>
+		AccessDenied = 0x80070005L,
+		/// <remarks>
+		/// Handle that is not valid.
+		/// </remarks>
+		Handle = 0x80070006L,
+		/// <remarks>
+		/// Failed to allocate necessary memory.
+		/// </remarks>
+		OutOfMemory = 0x8007000EL,
+		/// <remarks>
+		/// One or more arguments are not valid.
+		/// </remarks>
+		InvalidArg = 0x80070057L,
+	}
+
+	[DllImport("User32.dll", CharSet = CharSet.Auto)]
+	public static extern bool RegisterShellHookWindow(IntPtr hWnd);
+	[DllImport("User32.dll", CharSet = CharSet.Auto)]
+	public static extern uint RegisterWindowMessage(string Message);
+	[DllImport("User32.dll", CharSet = CharSet.Auto)]
+	public static extern bool DeregisterShellHookWindow(IntPtr hHandle);
+	public enum ShellEvents {
+		WindowCreated = 1,
+		WindowDestroyed = 2,
+		ActivateShellWindow = 3,
+		WindowActivated = 4,
+		GetMinRect = 5,
+		Redraw = 6,
+		TaskMan = 7,
+		Language = 8,
+		SysMenu = 9,
+		EndTask = 10,
+		AccessibilityState = 11,
+		AppCommand = 12,
+		WindowReplaced = 13,
+		WindowReplacing = 14,
+		HighBit = 0x8000,
+		Flash = Redraw | HighBit,
+		RudeappActivated = WindowActivated | HighBit,
 	}
 }

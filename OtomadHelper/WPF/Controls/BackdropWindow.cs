@@ -47,6 +47,7 @@ public partial class BackdropWindow : Window {
 		AddResource("WPF/Themes/Controls.xaml");
 		Background = Brushes.Transparent;
 		Loaded += Window_Loaded;
+		//Closing += Window_Closing;
 		IsVisibleChanged += (sender, e) => {
 			if ((bool)e.NewValue) RaiseEvent(new RoutedEventArgs(ShowingEvent));
 		};
@@ -70,7 +71,14 @@ public partial class BackdropWindow : Window {
 			AddExtendedWindowStyles(Handle, ExtendedWindowStyles.ToolWindow);
 		//SetWindowAttribute(Handle, DwmWindowAttribute.BorderColor, 0xfffffffe);
 		OnWindowAttributeSetting();
+		// reference: https://www.cnblogs.com/code1992/p/11699416.html
+		/*if (RegisterShellHookWindow(Handle))
+			WM_ShellHook = RegisterWindowMessage("SHELLHOOK");*/
 	}
+
+	/*private void Window_Closing(object sender, CancelEventArgs e) {
+		DeregisterShellHookWindow(Handle);
+	}*/
 
 	private void BindViewToViewModel() {
 		if (DataContext is IViewAccessibleViewModel viewModel)
@@ -268,15 +276,24 @@ public partial class BackdropWindow : Window {
 				RaiseEvent(new(AccentChangeEvent, this));
 				break;
 			case NCActivate:
-				// reference: https://www.cnblogs.com/dino623/p/problems_of_WindowChrome.html
+				// reference: https://www.cnblogs.com/dino623/p/problems_of_WindowChrome.html#29282701
 				IsNonClientActive = wParam == trueValue;
 				break;
 			default:
 				break;
 		}
+		/*if (msg == WM_ShellHook)
+			switch ((ShellEvents)wParam) {
+				case ShellEvents.Flash:
+					//s = "Flash!";
+					break;
+				default:
+					break;
+			}*/
 		return IntPtr.Zero;
 	}
 	private static readonly IntPtr trueValue = new(1);
+	//private uint WM_ShellHook;
 
 	protected override void OnActivated(EventArgs e) {
 		base.OnActivated(e);
@@ -297,6 +314,8 @@ public partial class BackdropWindow : Window {
 		SetCurrentThemeResource(isDarkTheme);
 		//Color borderColor = isDarkTheme ? Color.FromRgb(20, 20, 20) : Color.FromRgb(219, 219, 219);
 		//SetWindowAttribute(Handle, DwmWindowAttribute.BorderColor, borderColor.ToAbgr(false));
+		Color solidBackgroundColor = isDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(243, 243, 243);
+		Background = SystemBackdropType == SystemBackdropType.None || !SupportSystemBackdropType ? new SolidColorBrush(solidBackgroundColor) : Brushes.Transparent;
 	}
 
 	partial void OnCustomAccentColorChanged() => RefreshAccentColor();
@@ -317,6 +336,7 @@ public partial class BackdropWindow : Window {
 
 	partial void OnSystemBackdropTypeChanged(SystemBackdropType newValue) {
 		SetSystemBackdropType(newValue);
+		RefreshDarkMode();
 		OnWindowAttributeSetting();
 	}
 
