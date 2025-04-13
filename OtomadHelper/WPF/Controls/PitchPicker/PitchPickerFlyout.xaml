@@ -13,6 +13,7 @@
 	Height="300"
 	Loaded="Window_Loaded"
 	PreviewKeyDown="Window_PreviewKeyDown"
+	FocusManager.FocusedElement="{x:Reference NoteNameWrapper}"
 	mc:Ignorable="d"
 	>
 	<c:BaseFlyout.DataContext>
@@ -22,6 +23,7 @@
 	<c:BaseFlyout.InputBindings>
 		<KeyBinding Key="Space" Command="{Binding CloseKeyDownCommand}" />
 		<KeyBinding Key="Return" Command="{Binding CloseKeyDownCommand}" />
+		<KeyBinding Key="Esc" Command="{Binding CloseWithoutSavingCommand}" />
 	</c:BaseFlyout.InputBindings>
 
 	<c:BaseFlyout.Resources>
@@ -29,12 +31,13 @@
 			<m:DoubleToCornerRadiusConverter x:Key="DoubleToRadius" />
 			<m:RelativeToAbsoluteRectConverter x:Key="RelToAbsRect" />
 			<m:BackgroundToForegroundColorConverter x:Key="BgToFg" />
+			<m:MouseWheelEventArgsToFocusMoveDirectionConverter x:Key="WheelToDirection" />
 
 			<Thickness x:Key="ItemPadding">4,0</Thickness>
 			<s:Double x:Key="ItemHeight">40</s:Double>
 			<s:Double x:Key="ItemRadius">4</s:Double>
-			<s:Int32 x:Key="SpinUpDelta">120</s:Int32>
-			<s:Int32 x:Key="SpinDownDelta">-120</s:Int32>
+			<m:FocusMoveDirection x:Key="SpinUpDelta">Previous</m:FocusMoveDirection>
+			<m:FocusMoveDirection x:Key="SpinDownDelta">Next</m:FocusMoveDirection>
 			<s:Double x:Key="SpinnerCaretIconSize">8</s:Double>
 			<s:Double x:Key="SpinnerCaretIconPressedSize">7</s:Double>
 
@@ -263,7 +266,7 @@
 				>
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="PreviewMouseWheel">
-						<i:InvokeCommandAction Command="{Binding NoteNameSpinCommand}" EventArgsParameterPath="Delta" />
+						<i:InvokeCommandAction Command="{Binding NoteNameSpinCommand}" EventArgsConverter="{StaticResource WheelToDirection}" />
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
 				<Canvas Style="{StaticResource ListViewWrapper}">
@@ -301,7 +304,7 @@
 				>
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="PreviewMouseWheel">
-						<i:InvokeCommandAction Command="{Binding OctaveSpinCommand}" EventArgsParameterPath="Delta" />
+						<i:InvokeCommandAction Command="{Binding OctaveSpinCommand}" EventArgsConverter="{StaticResource WheelToDirection}" />
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
 				<Canvas Style="{StaticResource ListViewWrapper}">

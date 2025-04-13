@@ -10,6 +10,10 @@ namespace OtomadHelper.WPF.Controls;
 /// </remarks>
 [DependencyProperty<object>("Text")]
 public partial class ButtonContentTemplate : ContentControl {
+	public ButtonContentTemplate() {
+		Focusable = false;
+	}
+
 	private static readonly AccessKeyAmpersandToUnderscoreConverter AmpToUnder = new();
 
 	partial void OnTextChanged(object? content) {

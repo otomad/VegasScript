@@ -12,6 +12,7 @@
 		<Style TargetType="ItemsControl">
 			<Setter Property="DataContext" Value="{Binding ElementName=View}" />
 			<Setter Property="ItemsSource" Value="{Binding Source.Path}" />
+			<Setter Property="Focusable" Value="False" />
 		</Style>
 		<Style x:Key="ContainerStyle" TargetType="Canvas">
 			<Setter Property="DataContext" Value="{Binding ElementName=View}" />

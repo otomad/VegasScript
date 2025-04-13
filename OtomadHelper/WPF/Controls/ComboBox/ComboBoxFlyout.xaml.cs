@@ -21,7 +21,7 @@ public partial class ComboBoxFlyout : BaseFlyout {
 
 	public static ComboBoxFlyout Initial<T>(IEnumerable<T> ids, IEnumerable<string> options, IEnumerable<string>? icons, T selected, Rect targetRect, out Task<T> dialogResult) {
 		ComboBoxFlyout comboBox = new();
-		comboBox.DataContext.Selected = selected!;
+		comboBox.DataContext.Selected = comboBox.DataContext.originalSelected = selected!;
 		foreach (T id in ids)
 			comboBox.DataContext.Ids.Add(id!);
 		comboBox.DataContext.Options.AddRange(options);

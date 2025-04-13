@@ -3,10 +3,13 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Controls.Primitives;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace OtomadHelper.WPF.Controls;
 
 [AttachedDependencyProperty<bool, ContextMenu>("FixCanExecute", DefaultValue = false)]
+[AttachedDependencyProperty<bool, ContextMenu>("AutoIcon", DefaultValue = true)]
 public partial class ContextMenuAcrylicBehavior : Behavior<FrameworkElement> {
 	protected override void OnAttached() {
 		AssociatedObject.IsVisibleChanged += ContextMenu_IsVisibleChanged;
@@ -22,19 +25,29 @@ public partial class ContextMenuAcrylicBehavior : Behavior<FrameworkElement> {
 
 	private void ContextMenu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
 		FrameworkElement element = AssociatedObject;
+		InitKnownIcons(Window.GetWindow(element));
 
 		if (!element.IsVisible) return;
 		InitializeComponent(element, element is ToolTip);
 
-		// Fix a confusing issue that caused the IsEnabled of MenuItems to not update in time.
-		if (element is ContextMenu contextMenu && GetFixCanExecute(contextMenu))
-			foreach (object? _item in contextMenu.Items)
-				if (_item is MenuItem item)
-					if (item.Command is ICommand command) {
-						item.Command = null;
-						item.IsEnabled = command.CanExecute(item.CommandParameter);
-						item.Command = command;
-					}
+		if (element is ContextMenu contextMenu) {
+			// Fix a confusing issue where the IsEnabled of MenuItems was not updated in time.
+			if (GetFixCanExecute(contextMenu))
+				foreach (object? anyItem in contextMenu.Items)
+					if (anyItem is MenuItem item)
+						if (item.Command is ICommand command) {
+							item.Command = null;
+							item.IsEnabled = command.CanExecute(item.CommandParameter);
+							item.Command = command;
+						}
+
+			if (GetAutoIcon(contextMenu)) {
+				Orientation? orientation = contextMenu.PlacementTarget is ScrollBar scrollBar ? scrollBar.Orientation : null;
+				foreach (object? anyItem in contextMenu.Items)
+					if (anyItem is MenuItem item)
+						item.Icon = GetKnownIcon(item.Command, orientation);
+			}
+		}
 	}
 
 	internal static void InitializeComponent(FrameworkElement element, bool roundSmaller = false) {
@@ -46,5 +59,33 @@ public partial class ContextMenuAcrylicBehavior : Behavior<FrameworkElement> {
 		SetWindowAttribute(Handle, DwmWindowAttribute.WindowCornerPreference, (uint)(roundSmaller ? WindowCornerPreference.RoundSmall : WindowCornerPreference.Round));
 		EnableAcrylicBlurBehind(Handle, isDarkTheme ? 0x663a3a3au : 0x69fcfcfcu);
 		SetWindowAttribute(Handle, DwmWindowAttribute.BorderColor, 0xfffffffe);
+	}
+
+	private static Dictionary<ICommand, Icon> knownIcons = [];
+	private static Icon? verticalScrollHereIcon;
+	private static Icon? horizontalScrollHereIcon;
+	private static void InitKnownIcons(FrameworkElement window) {
+		if (knownIcons.Count != 0 || window is null) return;
+		using BamlAssemblyResource baml = new();
+		ResourceDictionary xaml = (ResourceDictionary)baml.GetXaml("WPF/Themes/Menus");
+		IEnumerable<string> keys = xaml.Keys.Cast<string>();
+		foreach (string key in keys) {
+			object? value = window.Resources[key];
+			if (value is ContextMenu contextMenu)
+				foreach (object anyItem in contextMenu.Items)
+					if (anyItem is MenuItem item && item.Command is not null && item.Icon is Icon icon) {
+						if (item.Command == ScrollBar.ScrollHereCommand) {
+							if (key == "VerticalScrollBarContextMenu") verticalScrollHereIcon = icon;
+							else if (key == "HorizontalScrollBarContextMenu") horizontalScrollHereIcon = icon;
+						} else
+							knownIcons.Add(item.Command, icon);
+					}
+		}
+	}
+	protected internal static Icon? GetKnownIcon(ICommand command, Orientation? orientation = null) {
+		orientation ??= Orientation.Vertical;
+		if (command == ScrollBar.ScrollHereCommand)
+			return orientation == Orientation.Horizontal ? horizontalScrollHereIcon : verticalScrollHereIcon;
+		return knownIcons.TryGetValue(command, out Icon value) ? value : null;
 	}
 }

@@ -33,7 +33,7 @@ public partial class PitchPickerFlyout : BaseFlyout {
 
 	private double ItemHeight => (double)Resources["ItemHeight"];
 	private double ItemPadding => ((Thickness)Resources["ItemPadding"]).Left;
-	private const int DisplayItemCount = 7;
+	internal const int DisplayItemCount = 7;
 	private static int ReservedForCenteringItemCount => DisplayItemCount / 2;
 	private double ExpectedHeight => ItemHeight * DisplayItemCount + ItemPadding * 2;
 	public Rect SelectionMaskRect => new(0, (ReservedForCenteringItemCount * ItemHeight + ItemPadding) / ExpectedHeight, 1, ItemHeight / ExpectedHeight); // Relative
@@ -83,7 +83,7 @@ public partial class PitchPickerFlyout : BaseFlyout {
 
 	public void SetPitchInitially(string pitch) { // Remove unnecessary animations when initializing.
 		disableSetListViewTopAnimatedly = true;
-		DataContext.Pitch = pitch;
+		DataContext.Pitch = DataContext.originalPitch = pitch;
 		disableSetListViewTopAnimatedly = false;
 	}
 
@@ -126,11 +126,10 @@ public partial class PitchPickerFlyout : BaseFlyout {
 		);
 
 	private void Window_PreviewKeyDown(object sender, KeyEventArgs e) {
-		if (e.Key is Key.Up or Key.Down) {
+		if (FocusMoveDirectionExtension.FromKey(e.Key) is FocusMoveDirection direction && e.Key is not Key.Left and not Key.Right) {
 			ColumnType? column = GetActiveColumn();
-			int delta = (int)(e.Key == Key.Up ? Resources["SpinUpDelta"] : Resources["SpinDownDelta"]);
-			if (column == ColumnType.NoteName) DataContext.NoteNameSpinCommand.Execute(delta);
-			else if (column == ColumnType.Octave) DataContext.OctaveSpinCommand.Execute(delta);
+			if (column == ColumnType.NoteName) DataContext.NoteNameSpinCommand.Execute(direction);
+			else if (column == ColumnType.Octave) DataContext.OctaveSpinCommand.Execute(direction);
 			e.Handled = true;
 		} else if (e.Key is Key.Left or Key.Right && GetFocusedColumn() is null) {
 			Keyboard.Focus(e.Key == Key.Left ? NoteNameWrapper : OctaveWrapper);

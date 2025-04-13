@@ -5,7 +5,7 @@
 	xmlns:m="clr-namespace:OtomadHelper.WPF.Common"
 	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	>
-	<ContextMenu x:Key="TextBoxContextMenu" x:Shared="true" MinWidth="200" c:ContextMenuAcrylicBehavior.FixCanExecute="True">
+	<ContextMenu x:Key="TextBoxContextMenu" x:Shared="true" MinWidth="200" c:ContextMenuAcrylicBehavior.FixCanExecute="True" c:ContextMenuAcrylicBehavior.AutoIcon="False">
 		<MenuItem Command="ApplicationCommands.Undo" Icon="{m:Icon Undo}" />
 		<MenuItem Command="ApplicationCommands.Redo" Icon="{m:Icon Redo}" />
 		<Separator />
@@ -23,35 +23,35 @@
 		<Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
 	</Style>
 
-	<ContextMenu x:Key="VerticalScrollBarContextMenu" x:Shared="true">
+	<ContextMenu x:Key="VerticalScrollBarContextMenu" x:Shared="true" c:ContextMenuAcrylicBehavior.AutoIcon="False">
 		<ContextMenu.Resources>
 			<Style TargetType="MenuItem" BasedOn="{StaticResource ScrollBarContextMenuItemCommandTarget}" />
 		</ContextMenu.Resources>
-		<MenuItem Command="ScrollBar.ScrollHereCommand" />
+		<MenuItem Command="ScrollBar.ScrollHereCommand" Icon="{m:Icon ChevronVerticalScrollHere}" />
 		<Separator />
-		<MenuItem Command="ScrollBar.ScrollToTopCommand" />
-		<MenuItem Command="ScrollBar.ScrollToBottomCommand" />
+		<MenuItem Command="ScrollBar.ScrollToTopCommand" Icon="{m:Icon ChevronUpToLine}" />
+		<MenuItem Command="ScrollBar.ScrollToBottomCommand" Icon="{m:Icon ChevronDownToLine}" />
 		<Separator />
-		<MenuItem Command="ScrollBar.PageUpCommand" />
-		<MenuItem Command="ScrollBar.PageDownCommand" />
+		<MenuItem Command="ScrollBar.PageUpCommand" Icon="{m:Icon ChevronDoubleUp}" />
+		<MenuItem Command="ScrollBar.PageDownCommand" Icon="{m:Icon ChevronDoubleDown}" />
 		<Separator />
-		<MenuItem Command="ScrollBar.LineUpCommand" />
-		<MenuItem Command="ScrollBar.LineDownCommand" />
+		<MenuItem Command="ScrollBar.LineUpCommand" Icon="{m:Icon ChevronUp}" />
+		<MenuItem Command="ScrollBar.LineDownCommand" Icon="{m:Icon ChevronDown}" />
 	</ContextMenu>
 
-	<ContextMenu x:Key="HorizontalScrollBarContextMenu" x:Shared="true">
+	<ContextMenu x:Key="HorizontalScrollBarContextMenu" x:Shared="true" c:ContextMenuAcrylicBehavior.AutoIcon="False">
 		<ContextMenu.Resources>
 			<Style TargetType="MenuItem" BasedOn="{StaticResource ScrollBarContextMenuItemCommandTarget}" />
 		</ContextMenu.Resources>
-		<MenuItem Command="ScrollBar.ScrollHereCommand" />
+		<MenuItem Command="ScrollBar.ScrollHereCommand" Icon="{m:Icon ChevronHorizontalScrollHere}" />
 		<Separator />
-		<MenuItem Command="ScrollBar.ScrollToLeftEndCommand" />
-		<MenuItem Command="ScrollBar.ScrollToRightEndCommand" />
+		<MenuItem Command="ScrollBar.ScrollToLeftEndCommand" Icon="{m:Icon ChevronLeftToLine}" />
+		<MenuItem Command="ScrollBar.ScrollToRightEndCommand" Icon="{m:Icon ChevronRightToLine}" />
 		<Separator />
-		<MenuItem Command="ScrollBar.PageLeftCommand" />
-		<MenuItem Command="ScrollBar.PageRightCommand" />
+		<MenuItem Command="ScrollBar.PageLeftCommand" Icon="{m:Icon ChevronDoubleLeft}" />
+		<MenuItem Command="ScrollBar.PageRightCommand" Icon="{m:Icon ChevronDoubleRight}" />
 		<Separator />
-		<MenuItem Command="ScrollBar.LineLeftCommand" />
-		<MenuItem Command="ScrollBar.LineRightCommand" />
+		<MenuItem Command="ScrollBar.LineLeftCommand" Icon="{m:Icon ChevronLeft}" />
+		<MenuItem Command="ScrollBar.LineRightCommand" Icon="{m:Icon ChevronRight}" />
 	</ContextMenu>
 </ResourceDictionary>

@@ -1,4 +1,7 @@
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+
+using Wacton.Unicolour;
 
 namespace OtomadHelper.WPF.Controls;
 
@@ -32,6 +35,7 @@ public partial class PitchPickerViewModel : ObservableObject<PitchPickerFlyout> 
 		set => SetProperty(ref octave, value, Octaves.Contains(value));
 	}
 
+	internal string originalPitch = "C5";
 	public string Pitch {
 		get => NoteName + Octave;
 		set {
@@ -50,22 +54,37 @@ public partial class PitchPickerViewModel : ObservableObject<PitchPickerFlyout> 
 	private void OctaveChange(int value) => Octave = value;
 
 	[RelayCommand]
-	private void NoteNameSpin(int delta) {
-		SignDelta(ref delta);
-		NoteName = NoteNames[MathEx.FloorMod(NoteNames.IndexOf(NoteName) + delta, NoteNames.Length)];
+	private void NoteNameSpin(FocusMoveDirection direction) {
+		if (ToDelta(direction) is int delta)
+			NoteName = NoteNames[MathEx.FloorMod(NoteNames.IndexOf(NoteName) + delta, NoteNames.Length)];
+		else if (direction is FocusMoveDirection.First)
+			NoteName = NoteNames.First();
+		else if (direction is FocusMoveDirection.Last)
+			NoteName = NoteNames.Last();
 	}
 
 	[RelayCommand]
-	private void OctaveSpin(int delta) {
-		SignDelta(ref delta);
-		Octave = MathEx.Clamp(Octaves.IndexOf(Octave) + delta, 0, Octaves.Length);
+	private void OctaveSpin(FocusMoveDirection direction) {
+		if (ToDelta(direction) is int delta)
+			Octave = MathEx.Clamp(Octaves.IndexOf(Octave) + delta, 0, Octaves.Length);
+		else if (direction is FocusMoveDirection.First)
+			Octave = Octaves.First();
+		else if (direction is FocusMoveDirection.Last)
+			Octave = Octaves.Last();
 	}
 
-	/// <summary>
-	/// Invert the polarity, and change the absolute value from 120 to 1.
-	/// </summary>
-	private static int SignDelta(ref int delta) => delta = -Math.Sign(delta);
+	private int? ToDelta(FocusMoveDirection direction) => direction switch {
+		FocusMoveDirection.Previous or FocusMoveDirection.Next => direction.ToDelta(),
+		FocusMoveDirection.PageBackward or FocusMoveDirection.PageForward => direction.ToDelta() * ((PitchPickerFlyout.DisplayItemCount - 1) / 2),
+		_ => null,
+	};
 
 	[RelayCommand]
 	private void CloseKeyDown() => View?.Close();
+
+	[RelayCommand]
+	public void CloseWithoutSaving() {
+		Pitch = originalPitch;
+		View?.Close();
+	}
 }

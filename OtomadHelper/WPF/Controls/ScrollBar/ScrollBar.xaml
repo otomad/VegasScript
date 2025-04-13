@@ -193,6 +193,7 @@
 
 	<Style x:Key="ScrollBarPageButton" TargetType="RepeatButton">
 		<Setter Property="Opacity" Value="0" />
+		<Setter Property="Focusable" Value="False" />
 	</Style>
 
 	<Style x:Key="ScrollBarTrackBorder" TargetType="Border">

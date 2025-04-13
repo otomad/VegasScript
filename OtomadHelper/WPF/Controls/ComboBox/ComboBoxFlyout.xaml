@@ -30,11 +30,26 @@
 		<i:KeyTrigger FiredOn="KeyUp" Key="Space">
 			<i:CallMethodAction TargetObject="{Binding}" MethodName="Close" />
 		</i:KeyTrigger>
+		<i:KeyTrigger FiredOn="KeyDown" Key="Esc">
+			<i:CallMethodAction TargetObject="{Binding}" MethodName="CloseWithoutSaving" />
+		</i:KeyTrigger>
 		<i:KeyTrigger FiredOn="KeyDown" Key="Up">
-			<i:InvokeCommandAction Command="{Binding ArrowMoveCommand}" CommandParameter="{m:Int -1}" />
+			<i:InvokeCommandAction Command="{Binding ArrowMoveCommand}" CommandParameter="{x:Static m:FocusMoveDirection.Previous}" />
 		</i:KeyTrigger>
 		<i:KeyTrigger FiredOn="KeyDown" Key="Down">
-			<i:InvokeCommandAction Command="{Binding ArrowMoveCommand}" CommandParameter="{m:Int 1}" />
+			<i:InvokeCommandAction Command="{Binding ArrowMoveCommand}" CommandParameter="{x:Static m:FocusMoveDirection.Next}" />
+		</i:KeyTrigger>
+		<i:KeyTrigger FiredOn="KeyDown" Key="Home">
+			<i:InvokeCommandAction Command="{Binding ArrowMoveCommand}" CommandParameter="{x:Static m:FocusMoveDirection.First}" />
+		</i:KeyTrigger>
+		<i:KeyTrigger FiredOn="KeyDown" Key="End">
+			<i:InvokeCommandAction Command="{Binding ArrowMoveCommand}" CommandParameter="{x:Static m:FocusMoveDirection.Last}" />
+		</i:KeyTrigger>
+		<i:KeyTrigger FiredOn="KeyDown" Key="PageUp">
+			<i:InvokeCommandAction Command="{Binding PageMoveCommand}" CommandParameter="{x:Static m:FocusMoveDirection.PageBackward}" />
+		</i:KeyTrigger>
+		<i:KeyTrigger FiredOn="KeyDown" Key="PageDown">
+			<i:InvokeCommandAction Command="{Binding PageMoveCommand}" CommandParameter="{x:Static m:FocusMoveDirection.PageForward}" />
 		</i:KeyTrigger>
 	</i:Interaction.Triggers>
 
@@ -213,6 +228,7 @@
 
 			<Style x:Key="ItemsControlWrapper" TargetType="ItemsControl">
 				<Setter Property="Padding" Value="{Binding Source={StaticResource Padding}, Converter={StaticResource DoubleToThick}, Mode=OneWay}" />
+				<Setter Property="Focusable" Value="False" />
 				<!--<Setter Property="Visibility" Value="{Binding IsContent, ElementName=View, Converter={StaticResource BoolToHiddenVis}, Mode=OneWay}" />
 				<Style.Triggers>
 					<DataTrigger Binding="{Binding IsContent, ElementName=View}" Value="True">
@@ -252,12 +268,11 @@
 		</ResourceDictionary>
 	</c:BaseFlyout.Resources>
 
-	<ScrollViewer VerticalScrollBarVisibility="Auto">
+	<ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto">
 		<ItemsControl
 			x:Name="ItemsControlWrapper"
 			ItemsSource="{Binding Ids}"
 			Style="{StaticResource ItemsControlWrapper}"
-			Focusable="True"
 			>
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
@@ -276,6 +291,7 @@
 						>
 						<i:Interaction.Behaviors>
 							<m:AllowSecondaryButtonsClick />
+							<m:BringIntoViewWhenCheckedOrFocused />
 						</i:Interaction.Behaviors>
 						<Grid Style="{StaticResource ComboBoxItemContentGrid}">
 							<Rectangle
