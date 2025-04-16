@@ -150,7 +150,7 @@
 			"valtio": "patches/valtio.patch",
 			"vite-plugin-svg-icons": "patches/vite-plugin-svg-icons.patch"
 		},
-		"allowNonAppliedPatches": false
+		"allowUnusedPatches": false
 	},
 	"config": {
 		"commitizen": {

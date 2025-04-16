@@ -266,7 +266,7 @@ export default {
 		ytp: {
 			effects: {
 				chorus: "Chorus",
-				delay: "Trễ (Delay)",
+				delay: "Độ trễ",
 				changePitch: "Thay đổi cao độ",
 				reverse: "Đảo ngược",
 				changeSpeed: "Thay đổi tốc độ",
@@ -296,7 +296,7 @@ export default {
 			shake: "Rung Lắc",
 		},
 		tools: {
-			clawer: "Máy gắp thú",
+			clawer: "Máy gắp",
 		},
 		selectInfo: {},
 		prve: {
