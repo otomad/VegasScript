@@ -25,7 +25,8 @@ export default function TransInterpolation<TInterpolations>({ i18nKey, children:
 					node = React.cloneElement(node, { key: [lineIndex, segmentIndex, key].join("-") });
 				return node;
 			}),
-		);
+		)
+		.interpose(i => <br key={i} />);
 	return split;
 }
 
