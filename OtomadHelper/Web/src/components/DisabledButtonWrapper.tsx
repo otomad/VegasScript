@@ -17,7 +17,7 @@ export default function DisabledButtonWrapper({ disabled, children, ref, ...html
 	return (
 		<StyledDisabledButtonWrapper ref={ref} className={{ disabled }} {...htmlAttrs}>
 			{children}
-			<Badge hidden={!disabled} status="warning" />
+			<Badge hidden={!disabled} status="warning" _requestAnimationFrame />
 		</StyledDisabledButtonWrapper>
 	);
 }
