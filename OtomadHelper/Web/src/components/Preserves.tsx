@@ -5,7 +5,7 @@ function replaceLfToBr(longText: string | string[], spacing?: string | boolean) 
 	return longText.flatMap(text => text
 		.replaceAll(/\r\n|\n\r|\r/g, "\n")
 		.split("\n")
-		.interpose(i => <Br key={i} spacing={spacing} />)
+		.interpose(i => <Br key={`br-${i}`} spacing={spacing} />)
 		.filter(line => typeof line === "string" ? line.trim() : true));
 }
 
@@ -15,7 +15,7 @@ function replaceAsteriskToEm(longText: string | RTFs) {
 	return longText.flatMap(text => typeof text !== "string" || !text.includes("*") ? text : text
 		.replaceAll(/\*{2,}/g, i => ASTERISK_REPLACEMENT.repeat(i.length - 1))
 		.split("*")
-		.map((segment, i) => i % 2 ? <em key={i}>{segment}</em> : segment)
+		.map((segment, i) => i % 2 ? <em key={`em-${i}`}>{segment}</em> : segment)
 		.filter(line => typeof line === "string" ? line.trim() : true));
 }
 
@@ -64,5 +64,5 @@ export function Br({ repeat = 1, spacing, ...htmlAttrs }: FCP<{
 }, "br">) {
 	const BrTag = spacing ? SpacingBr : "br";
 	return forMap(repeat, i =>
-		<BrTag key={i} $spacing={typeof spacing === "string" ? spacing : undefined} {...htmlAttrs} />);
+		<BrTag key={`br-${i}`} $spacing={typeof spacing === "string" ? spacing : undefined} {...htmlAttrs} />);
 }

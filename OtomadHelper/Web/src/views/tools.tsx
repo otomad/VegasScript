@@ -9,20 +9,25 @@ export default function Tools() {
 				icon="curve"
 			/>
 			<SettingsCard
-				title={t.tools.selectorAndReplacer}
-				details={t.descriptions.tools.selectorAndReplacer}
+				title={t.tools.selector}
+				details={t.descriptions.tools.selector}
 				type="button"
 				icon="search"
+			/>
+			<SettingsCard
+				title={t.tools.replacer}
+				details={t.descriptions.tools.replacer}
+				type="button"
+				icon="replace"
 				selectInfo={t(0).selectInfo.trackEvent}
 				selectValid={0}
 			/>
 			<SettingsCard
-				title={t.tools.normalizer}
-				details={t.descriptions.tools.normalizer}
+				title={t.tools.propertizer}
+				details={t.descriptions.tools.propertizer}
 				type="button"
-				icon="spatial_volume"
-				trailingIcon="open"
-				selectInfo={t(1).selectInfo.audioEvent}
+				icon="wrench_multiple"
+				selectInfo={t(1).selectInfo.trackEvent}
 				selectValid={1}
 			/>
 			<SettingsCard

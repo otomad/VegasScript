@@ -26,7 +26,7 @@ export default function TransInterpolation<TInterpolations>({ i18nKey, children:
 				return node;
 			}),
 		)
-		.interpose(i => <br key={i} />);
+		.interpose(i => <br key={`br-${i}`} />);
 	return split;
 }
 

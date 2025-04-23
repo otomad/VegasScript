@@ -71,6 +71,15 @@ export default {
 			},
 			trackName: {
 				_: "Đặt tên cho các track",
+				track: "Tên track MIDI",
+				trackIndex: "Chỉ số track MIDI",
+				instrument: "Tên nhạc cụ MIDI",
+				channel: "Số kênh MIDI",
+				clip: "Tên clip nguồn",
+				media: "Tên phương tiện nguồn",
+				score: "Tên file score",
+				unnamed: "Không tên",
+				voicebank: "Hoặc tên máy hát (vocal synth)",
 			},
 			secretBox: {
 				barOrBeat: {},
@@ -190,30 +199,54 @@ export default {
 				preserveFormant: "Giữ lại formant",
 				basePitch: {
 					_: "Cao độ ban đầu",
+					cent: "Cent",
+					based: "Chỉnh dựa theo chế độ kéo cao độ hiện tại",
+					auto: "Tự động tuning",
 				},
 				prelisten: {
+					_: "Nghe trước",
+					basePitch: "Nghe trước cao độ gấp",
+					audio: "Nghe trước audio",
+					stop: "Dừng nghe trước",
+					engine: "Engine",
 					waveform: {
+						_: "Sóng âm thanh",
 						sinusoid: "Sinusoid",
 						triangle: "Triangle",
 						square: "Hình vuông",
 						sawtooth: "Sawtooth",
 					},
 					duration: "Thời lượng",
+					volumeForBasePitch: "Âm lượng khi nghe trước cao độ gấp",
 					adjustAudioToBasePitch: "Chỉnh audio thành cao độ cơ bản",
 				},
 			},
 			mapping: {
+				_: "Lập bản đồ",
 				velocity: "Velocity",
 				pitch: "Pitch (Cao độ)",
 				duration: "Thời lượng",
 				pan: "Xoay (Pan)",
+				progress: "Tiến trình",
 			},
-			preset: {},
-			parameters: {},
+			preset: {
+				add: "Thêm vào preset tùy chỉnh",
+			},
+			parameters: {
+				copyFromAnotherParameterScheme: "Sao chép từ một sơ đồ tham số khác ở đây",
+				copyAttributesFromSelectedClip: "Sao chép thuộc tính từ clip đã chọn",
+			},
 		},
 		track: {
+			layout: "Bố cục",
 			grid: {
+				array: "Hàng",
 				square: "Hình vuông",
+				min: "Tối thiểu",
+				max: "Tối đa",
+				transpose: "Chuyển vị",
+				numberOfSelectedTracks: "Số các track đã chọn",
+				fastFill: "Lấp đầy nhanh",
 				fit: {
 					_: "Vừa",
 				},
@@ -398,7 +431,9 @@ export default {
 					belowAdjustmentTracks: {},
 				},
 				trackGroup: {},
-				trackName: {},
+				trackName: {
+					_: "Chỉ định tên cho track đã tạo hoặc nhóm track",
+				},
 				secretBox: {
 					barOrBeat: {},
 				},

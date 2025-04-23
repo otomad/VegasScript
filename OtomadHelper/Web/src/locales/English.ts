@@ -444,6 +444,7 @@ export default {
 			graphs: "Graphs",
 		},
 		lyrics: {
+			// TODO: rename to "related" and move to "t.subtitles" nested.
 			useStaticText: "Insert subtitles directly from static text",
 			sampleLyrics: "Spicy chicken", // An sample text of karaoke lyrics, you can use any lyrics in your language or translate directly from the original text "Spicy Hotpot Chicken". Note that the content should not be too long.
 			presetTemplate: "Preset template",
@@ -538,8 +539,9 @@ export default {
 		},
 		tools: {
 			flow: "Flow",
-			selectorAndReplacer: "Selector & Replacer",
-			normalizer: "Normalizer",
+			selector: "Selector",
+			replacer: "Replacer",
+			propertizer: "Propertizer",
 			subtitles: "Subtitles",
 			effector: "Effector",
 			fader: "Fader",
@@ -621,7 +623,7 @@ export default {
 				chromatic: "Chromatic and Monochrome",
 				chromaticFade: "Chromatic and Monochrome Crossfade",
 				pingpong: "Ping-Pong Effect",
-				whirl: "The Magic of Love Whirls, Spins, Turns in Circles",
+				whirl: "Love’s Magic Spins Us Round and Round",
 				sharpRewind: "Sharp Rewind",
 				wobblePeriod: "Wobble Period",
 				vExpansion: "Vertical Expansion",
@@ -909,7 +911,7 @@ export default {
 				shadow: "Adds shadows to graphs",
 			},
 			lyrics: {
-				_: "If the score contains lyrics data, such as a singing voice synthesizer software project file, it can automatically generate dynamic subtitles to achieve an immersive experience of audio and visual synchronization. This feature includes the following sub-modes:\nKaraoke mode can generate word-for-word synchronized dynamic subtitles. The lyrics are presented as colored progress bars. The currently sung words are highlighted in real time (e.g. change from white to fluorescent). The unsung part retains its basic color, precisely for the duration of each syllable.\nIn Pitch Notation mode, if the score does not contain lyrics, the note pitches can be converted into subtitles that jump with the performance in real time. This mode supports multiple notation systems.",
+				_: "If the score contains lyrics data, such as a singing voice synthesizer software project file, it can automatically generate dynamic subtitles to achieve an immersive experience of audio and visual synchronization. This feature includes the following sub-modes:\nKaraoke mode can generate word-for-word synchronized dynamic subtitles. The lyrics are presented as colored progress bars. The currently sung words are highlighted in real time (i.e. change from white to fluorescent). The unsung part retains its basic color, precisely for the duration of each syllable.\nIn Pitch Notation mode, if the score does not contain lyrics, the note pitches can be converted into subtitles that jump with the performance in real time. This mode supports multiple notation systems.",
 				presetTemplate: "Select a Title & Text Media Generator preset to use as a template for lyrics",
 				karaoke: {
 					_: "Uses karaoke style subtitles, the color indicator would reflect the progress of the current phrase",
@@ -959,11 +961,12 @@ export default {
 			tools: {
 				_: "These QoL features make creating YTPMVs a little less painful to work with or setup. They do not require adjustments to any of the previous parameters.",
 				flow: "Creates stunning animations using Beziér Curves",
-				selectorAndReplacer: "Finds and selects all clips that match the specified criteria, and then can replace them with the specified new clips",
-				normalizer: "Normalizes the volume of all selected audio clips",
+				selector: "Finds and selects all clips that match the specified criteria",
+				replacer: "Replaces the selected clips with the specified new clips",
+				propertizer: "Sets properties (e.g., normalize, stretch) for all selected clips in batches",
 				subtitles: "Presets the “Titles & Text” preset, then add multiple lines of text here",
 				effector: "Applies effects to the selected clips",
-				fader: "Adjusts gain (volume/opacity) for selected clips using the specified rules",
+				fader: "Adjusts the properties (e.g., gain, volume, opacity) of selected clips in a fade in or out manner one by one",
 				exportScore: "Exports the clips in the selected tracks to a score sequence file",
 				converters: {
 					tuningMethod: "Changes the tuning algorithm for the selected audio clips",
@@ -972,7 +975,7 @@ export default {
 				},
 			},
 			staff: {
-				_: "Staff Visualizer is a visual effect that transforms musical symbols into creative visual graphics. At its core, it replaces traditional notes with custom patterns (e.g. avatars, geometric shapes, etc.) and places them at the proper pitch of the staff based on the melody of the music, forming a dynamic visual with both artistry and functionality. This visual effect style is inspired by the combination of digital art and music, the creations of YouTuber Grant Woolard. His video is characterized by transforming musicians’ avatars into notes, dynamically arranging them on the staff, and playing classical music. It not only preserves the pitch logic of the score, but also gives it a personalized visual narrative.\nThis effect can be used for artistic creation and performance visual design, such as transforming the artist’s performance into a dynamic staff art projection, or creating interactive music animations for digital album covers. Its innovation lies in breaking the static limit of traditional music scores, reinterpreting the musical structure with visual language, and transforming abstract melodies into perceptible “visual melodies”.",
+				_: "Staff Visualizer is a visual effect that transforms musical symbols into creative visual graphics. At its core, it replaces traditional notes with custom patterns (e.g., avatars, geometric shapes, etc.) and places them at the proper pitch of the staff based on the melody of the music, forming a dynamic visual with both artistry and functionality. This visual effect style is inspired by the combination of digital art and music, the creations of YouTuber Grant Woolard. His video is characterized by transforming musicians’ avatars into notes, dynamically arranging them on the staff, and playing classical music. It not only preserves the pitch logic of the score, but also gives it a personalized visual narrative.\nThis effect can be used for artistic creation and performance visual design, such as transforming the artist’s performance into a dynamic staff art projection, or creating interactive music animations for digital album covers. Its innovation lies in breaking the static limit of traditional music scores, reinterpreting the musical structure with visual language, and transforming abstract melodies into perceptible “visual melodies”.",
 			},
 			prve: {
 				control: {

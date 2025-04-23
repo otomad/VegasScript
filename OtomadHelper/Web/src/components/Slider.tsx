@@ -118,6 +118,7 @@ const StyledSliderWrapper = styled.div`
 	display: flex;
 	gap: 8px;
 	align-items: center;
+	align-self: stretch;
 
 	output {
 		${styles.effects.text.body};
@@ -269,7 +270,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	useEffect(() => void onDisplayValueChanged?.(displayValue), [displayValue]);
 
 	return (
-		<StyledSliderWrapper>
+		<StyledSliderWrapper onAuxClick={resetToDefault} onMouseDown={e => e.preventDefault()}>
 			{hasValue(displayValue) && !onDisplayValueChanged && <output htmlFor={id} aria-hidden>{displayValue}</output>}
 			<StyledSlider
 				tabIndex={disabled ? -1 : 0}
@@ -279,7 +280,6 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 				disabled={disabled}
 				aria-disabled={disabled}
 				onKeyDown={onKeyDown}
-				onAuxClick={resetToDefault}
 				onContextMenu={stopEvent}
 				id={id}
 				role="slider"
