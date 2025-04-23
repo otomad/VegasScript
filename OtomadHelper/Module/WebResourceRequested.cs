@@ -59,7 +59,7 @@ internal class ManagedStream(Stream s) : Stream {
 			string file = uri.AbsolutePath[1..];
 			file = Uri.UnescapeDataString(file);
 			string[] fileSlug = file.Split('/');
-			string virtualPath = fileSlug.FirstOrDefault();
+			string? virtualPath = fileSlug.FirstOrDefault();
 			string assetsFilePath = "Web.dist." + file.Replace("/", ".");
 			try {
 				if (virtualPath != null) {
@@ -143,7 +143,7 @@ internal class ManagedStream(Stream s) : Stream {
 	private static void Handler_Api(WebView2 webView, CoreWebView2WebResourceRequestedEventArgs args, string apiPath) {
 		switch (apiPath) {
 			case "crowdin":
-				if (GetHtmlBytes(CROWDIN_API_URL, webView.CoreWebView2.Settings.UserAgent) is not byte[] json) goto default;
+				if (GetHtmlBytes(CROWDIN_API_URL, webView.CoreWebView2.Settings.UserAgent) is not { } json) goto default;
 				MemoryStream memoryStream = new(json);
 				ManagedStream managedStream = new(memoryStream);
 				args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(managedStream, 200, "OK", GetContentType("json"));

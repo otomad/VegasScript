@@ -49,16 +49,10 @@ public class BooleanConverter<T>(T trueValue, T falseValue) : IValueConverter
 /// </example>
 /// </remarks>
 [ValueConversion(typeof(bool), typeof(Visibility))]
-public sealed class BooleanToVisibilityConverter : BooleanConverter<Visibility> {
-	public BooleanToVisibilityConverter() :
-		base(Visibility.Visible, Visibility.Collapsed) { }
-}
+public sealed class BooleanToVisibilityConverter() : BooleanConverter<Visibility>(Visibility.Visible, Visibility.Collapsed);
 
 [ValueConversion(typeof(bool), typeof(bool))]
-public sealed class BooleanInversionConverter : BooleanConverter<bool> {
-	public BooleanInversionConverter() :
-		base(false, true) { }
-}
+public sealed class BooleanInversionConverter() : BooleanConverter<bool>(false, true);
 #endregion
 
 [ValueConversion(typeof(double), typeof(Thickness))]
@@ -130,16 +124,15 @@ public class BooleanOrConverter : IMultiValueConverter {
 	/// <summary>
 	/// Determines whether the specified <paramref name="value"/> can be recognized as a <see langword="true"/> value.
 	/// </summary>
-	public static bool IsTruthy(object value) {
-		if (value == DependencyProperty.UnsetValue) return false; // Unfortunately, it cannot be placed in the switch.
-		return value switch {
+	public static bool IsTruthy(object value) =>
+		value switch {
+			_ when value == DependencyProperty.UnsetValue => false,
 			bool val => val,
 			string val => !string.IsNullOrEmpty(val),
 			Visibility val => val == Visibility.Visible,
 			null => false,
 			_ => true,
 		};
-	}
 
 	public static object ResolveTargetType(bool isTruthy, Type targetType) {
 		if (targetType == typeof(Visibility))
@@ -198,7 +191,7 @@ public class RelativeToAbsoluteRectConverter : MultiValueConverter<Tuple<Rect, d
 	public override Rect Convert(Tuple<Rect, double, double> values, Type targetType, object parameter, CultureInfo culture) {
 		(Rect relativeRect, double actualWidth, double actualHeight) = values;
 
-		return new Rect(
+		return new(
 			relativeRect.X * actualWidth,
 			relativeRect.Y * actualHeight,
 			relativeRect.Width * actualWidth,
@@ -222,11 +215,12 @@ public class OvalCornerRadiusConverter : MultiValueConverter<double[], CornerRad
 
 	public override CornerRadius Convert(double[] values, Type targetType, object parameter, CultureInfo culture) {
 		double radius = values.Select(value => IfNaN(value, double.PositiveInfinity)).Min() / 2;
-		if (radius == double.PositiveInfinity) radius = 0;
+		if (double.IsPositiveInfinity(radius)) radius = 0;
 		return new(radius);
 	}
 }
 
+[SuppressMessage("ReSharper", "ArrangeMethodOrOperatorBody")]
 public class DebuggerConverter : IValueConverter {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 		// Set breakpoint here
@@ -248,9 +242,7 @@ public class ObjectToVisibilityConverter : ValueConverter<object, Visibility> {
 }
 
 public class CommandParameters : MultiBinding {
-	public CommandParameters() : base() {
-		Converter = new MultiValueToArrayConverter();
-	}
+	public CommandParameters() => Converter = new MultiValueToArrayConverter();
 }
 
 internal class MultiValueToArrayConverter : IMultiValueConverter {
@@ -264,7 +256,11 @@ internal class MultiValueToArrayConverter : IMultiValueConverter {
 [ValueConversion(typeof(SolidColorBrush), typeof(SolidColorBrush))]
 public class BackgroundToForegroundColorConverter : IValueConverter {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-		Color color = value is Color c ? c : value is SolidColorBrush b ? b.Color : throw new ArgumentException($"Unknown source value {value}");
+		Color color = value switch {
+			Color c => c,
+			SolidColorBrush b => b.Color,
+			_ => throw new ArgumentException($"Unknown source value {value}"),
+		};
 		Wacton.Unicolour.Unicolour unicolour = color.ToUnicolour();
 		bool tooWhite = unicolour.Oklch.L >= 0.65;
 		Color foregroundColor = tooWhite ? Colors.Black : Colors.White;
@@ -286,7 +282,11 @@ public class ObjectToTypeNameConverter : ValueConverter<object, string> {
 [ValueConversion(typeof(SolidColorBrush), typeof(Color))]
 public class SolidColorBrushConverter : IValueConverter {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-		Color color = value is Color c ? c : value is SolidColorBrush b ? b.Color : throw new ArgumentException($"Unknown source value {value}");
+		Color color = value switch {
+			Color c => c,
+			SolidColorBrush b => b.Color,
+			_ => throw new ArgumentException($"Unknown source value {value}"),
+		};
 		return targetType.Extends(typeof(Color)) ? color : targetType.Extends(typeof(Brush)) ? new SolidColorBrush(color) :
 			throw new NotImplementedException($"Unknown target type {targetType}");
 	}

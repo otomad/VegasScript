@@ -35,16 +35,17 @@ public class BetterBridge {
 	public string[] GetMethods() =>
 		bridgeClassType.GetMethods().Select(m => m.Name).ToArray();
 
-	private static JsonValueKind GetJsonArgType(string jsonArg) {
-		if (jsonArg == "null") return JsonValueKind.Null;
-		else if (jsonArg.StartsWith("\"")) return JsonValueKind.String;
-		else if (jsonArg == "true") return JsonValueKind.True;
-		else if (jsonArg == "false") return JsonValueKind.False;
-		else if (jsonArg.StartsWith("[")) return JsonValueKind.Array;
-		else if (jsonArg.StartsWith("{")) return JsonValueKind.Object;
-		else if (jsonArg.IsMatch(new(@"^[-.\d]"))) return JsonValueKind.Number;
-		else return JsonValueKind.Undefined;
-	}
+	private static JsonValueKind GetJsonArgType(string jsonArg) =>
+		jsonArg switch {
+			"null" => JsonValueKind.Null,
+			_ when jsonArg.StartsWith("\"") => JsonValueKind.String,
+			"true" => JsonValueKind.True,
+			"false" => JsonValueKind.False,
+			_ when jsonArg.StartsWith("[") => JsonValueKind.Array,
+			_ when jsonArg.StartsWith("{") => JsonValueKind.Object,
+			_ when jsonArg.IsMatch(new(@"^[-.\d]")) => JsonValueKind.Number,
+			_ => JsonValueKind.Undefined,
+		};
 
 	private static Type JsonTypeToCsType(JsonValueKind jsonType, Type unhandled = null!) => jsonType switch {
 		JsonValueKind.String => typeof(string),
@@ -134,14 +135,14 @@ public class BetterBridge {
 						genericTypes[genericType] = type;
 					}
 				}
-				if (type.GetElementType() is Type elementType && elementType.IsGenericParameter) {
+				if (type.GetElementType() is { IsGenericParameter: true } elementType) {
 					if (genericTypes.TryGetValue(elementType, out Type realType))
 						type = realType.MakeArrayType();
 					else {
 						IEnumerable<string> items = jsonArg[1..^1].Split(',').Select(item => item.Trim());
 						foreach (string item in items) {
 							Type? _type = JsonTypeToCsType(GetJsonArgType(item));
-							if (_type is not null) {
+							if (_type is { }) {
 								type = _type.MakeArrayType();
 								genericTypes[elementType] = _type;
 								break;
@@ -165,13 +166,13 @@ public class BetterBridge {
 			string resultJson;
 
 			// Was the method called async?
-			if (resultTyped is not Task resultTypedTask) { // Regular method
+			if (resultTyped is not Task resultTypedTask) // Regular method
 				// Package the result
 				resultJson = JsonSerializer.Serialize(resultTyped, jsonOptions);
-			} else { // Async method:
+			else { // Async method:
 				await resultTypedTask;
 				// If has a "Result" property return the value otherwise null (Task<void> etc)
-				PropertyInfo resultProperty = resultTypedTask.GetType().GetProperty("Result");
+				PropertyInfo resultProperty = resultTypedTask.GetType().GetProperty("Result")!;
 				object? taskResult = resultProperty?.GetValue(resultTypedTask);
 
 				// Package the result
@@ -197,7 +198,7 @@ public class BetterBridge {
 		object[] arguments = new object[genericTupleArgs.Length];
 		for (int i = 0; i < genericTupleArgs.Length; i++) {
 			Type type = genericTupleArgs[i];
-			arguments[i] = JsonSerializer.Deserialize(array[i], type, jsonOptions)!;
+			arguments[i] = array[i].Deserialize(type, jsonOptions)!;
 		}
 		return arguments.ToTuple(tupleType);
 	}

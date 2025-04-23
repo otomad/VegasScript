@@ -59,14 +59,8 @@ public static class Misc {
 	public static byte[]? GetHtmlBytes(string url, string? userAgent = null) {
 		userAgent ??= DEFAULT_USER_AGENT;
 		try {
-			if (url.StartsWith("https")) { // Resolve an issue of WebClient cannot download content via HTTPS
-				ServicePointManager.ServerCertificateValidationCallback += (
-					object sender,
-					System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-					System.Security.Cryptography.X509Certificates.X509Chain chain,
-					System.Net.Security.SslPolicyErrors sslPolicyErrors
-				) => true; // Always accept.
-			}
+			if (url.StartsWith("https")) // Resolve an issue of WebClient cannot download content via HTTPS
+				ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true; // Always accept.
 			WebClient webClient = new();
 			webClient.Headers.Add("user-agent", userAgent);
 			return webClient.DownloadData(url); // Get the web page source code.

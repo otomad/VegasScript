@@ -1,10 +1,6 @@
 // TODO: "PInvoke.cs" rename to "PInvoke_Win32.cs" and "PInvoke_DotNet.cs".
 
-using System.Data;
 using System.Drawing;
-using System.Windows.Media;
-
-using static OtomadHelper.Interop.PInvoke;
 
 namespace OtomadHelper.Interop;
 
@@ -377,23 +373,23 @@ public static class PInvoke {
 		public const uint CLOSE = 0xF060;
 
 		public static readonly Dictionary<SystemMenuItemType, uint> Map = new() {
-			[SystemMenuItemType.RESTORE] = RESTORE,
-			[SystemMenuItemType.MOVE] = MOVE,
-			[SystemMenuItemType.SIZE] = SIZE,
-			[SystemMenuItemType.MINIMIZE] = MINIMIZE,
-			[SystemMenuItemType.MAXIMIZE] = MAXIMIZE,
-			[SystemMenuItemType.CLOSE] = CLOSE,
+			[SystemMenuItemType.Restore] = RESTORE,
+			[SystemMenuItemType.Move] = MOVE,
+			[SystemMenuItemType.Size] = SIZE,
+			[SystemMenuItemType.Minimize] = MINIMIZE,
+			[SystemMenuItemType.Maximize] = MAXIMIZE,
+			[SystemMenuItemType.Close] = CLOSE,
 		};
 	}
 
 	[Flags]
 	public enum SystemMenuItemType {
-		RESTORE = 1 << 0,
-		MOVE = 1 << 1,
-		SIZE = 1 << 2,
-		MINIMIZE = 1 << 3,
-		MAXIMIZE = 1 << 4,
-		CLOSE = 1 << 5,
+		Restore = 1 << 0,
+		Move = 1 << 1,
+		Size = 1 << 2,
+		Minimize = 1 << 3,
+		Maximize = 1 << 4,
+		Close = 1 << 5,
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -409,7 +405,7 @@ public static class PInvoke {
 		EnableTransparentGradient = 2,
 		EnableBlurBehind = 3,
 		EnableAcrylicBlurBehind = 4,
-		InvalidState = 5
+		InvalidState = 5,
 	}
 	[StructLayout(LayoutKind.Sequential)]
 	public struct WindowCompositionAttributeData {

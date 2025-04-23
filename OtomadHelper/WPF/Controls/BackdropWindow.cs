@@ -61,7 +61,7 @@ public partial class BackdropWindow : Window {
 
 	private void Window_Loaded(object sender, RoutedEventArgs e) {
 		if (ResizeMode is ResizeMode.NoResize or ResizeMode.CanMinimize)
-			ReserveSystemMenuItems(Handle, SystemMenuItemType.MOVE | SystemMenuItemType.CLOSE);
+			ReserveSystemMenuItems(Handle, SystemMenuItemType.Move | SystemMenuItemType.Close);
 		BindViewToViewModel();
 		RefreshFrame();
 		RefreshDarkMode();

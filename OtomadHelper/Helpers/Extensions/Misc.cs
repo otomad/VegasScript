@@ -41,6 +41,7 @@ public static partial class Extensions {
 	/// <param name="left">The first variable.</param>
 	/// <param name="right">The second variable.</param>
 	[Obsolete("Using tuple to swap values.")]
+	[SuppressMessage("ReSharper", "SwapViaDeconstruction")]
 	public static void Swap<T>(ref T left, ref T right) {
 		T temp = left;
 		left = right;
@@ -109,13 +110,13 @@ public static partial class Extensions {
 	public static async Task<TTarget> Then<TSource, TTarget>(this Task<TSource> task, Func<TSource, TTarget> then) =>
 		then(await task);
 	/// <inheritdoc cref="Then{TSource, TTarget}(Task{TSource}, Func{TSource, TTarget})"/>
-	public static async void Then<TSource>(this Task<TSource> task, Action<TSource> then) =>
+	public static async Task Then<TSource>(this Task<TSource> task, Action<TSource> then) =>
 		then(await task);
 	/// <inheritdoc cref="Then{TSource, TTarget}(Task{TSource}, Func{TSource, TTarget})"/>
 	public static async Task<TTarget> Then<TTarget>(this Task task, Func<TTarget> then) {
 		await task; return then(); }
 	/// <inheritdoc cref="Then{TSource, TTarget}(Task{TSource}, Func{TSource, TTarget})"/>
-	public static async void Then(this Task task, Action then) {
+	public static async Task Then(this Task task, Action then) {
 		await task; then(); }
 
 	/// <summary>
@@ -235,7 +236,7 @@ public static partial class Extensions {
 	public static object GetPath(this object obj, string path) {
 		string[] array = path.Split('.');
 		foreach (string name in array)
-			obj = obj.GetType().GetProperty(name).GetValue(obj, null);
+			obj = obj.GetType().GetProperty(name)!.GetValue(obj, null);
 		return obj;
 	}
 
@@ -282,7 +283,7 @@ public static partial class Extensions {
 	/// Get the default value of a <see cref="Type" /> <b>variable</b> like <c><see langword="default"/>(Type)</c>.
 	/// </summary>
 	public static object GetDefault(this Type type) =>
-		typeof(Extensions).GetMethod(nameof(GetDefaultGeneric), BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(type).Invoke(null, null);
+		typeof(Extensions).GetMethod(nameof(GetDefaultGeneric), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(type).Invoke(null, null);
 
 	/// <inheritdoc cref="XmlElement.GetAttribute(string)" />
 	public static string? GetAttributeCaseInsensitive(this XmlElement element, string name) {

@@ -23,9 +23,9 @@ public class CollectionConverter<T> : TypeConverter<T> where T : IEnumerable {
 				array[i] = Convert.ChangeType(items[i], itemType);
 			return (T)array;
 		} else if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(List<>)) {
-			IList list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType), [length]);
-			foreach (object item in items)
-				list.Add(Convert.ChangeType(items, itemType));
+			IList list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType), length);
+			foreach (string item in items)
+				list.Add(Convert.ChangeType(item, itemType));
 			return (T)list;
 		} else // Lazy to implement Dictionary and HashSet
 			goto UnknownType;

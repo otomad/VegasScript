@@ -1,5 +1,5 @@
 namespace OtomadHelper.Module {
-	partial class Host {
+	sealed partial class Host {
 		/// <summary>
 		/// 必需的设计器变量。
 		/// </summary>
@@ -30,12 +30,12 @@ namespace OtomadHelper.Module {
 			this.SplashContainer.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.LoadingAnimationPicture)).BeginInit();
 			this.SuspendLayout();
-			// 
+			//
 			// Browser
-			// 
+			//
 			this.Browser.AllowExternalDrop = true;
-			this.Browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.Browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.Browser.CreationProperties = null;
 			this.Browser.DefaultBackgroundColor = System.Drawing.Color.White;
@@ -47,11 +47,11 @@ namespace OtomadHelper.Module {
 			this.Browser.ZoomFactor = 1D;
 			this.Browser.CoreWebView2InitializationCompleted += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs>(this.Browser_CoreWebView2InitializationCompleted);
 			this.Browser.WebMessageReceived += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs>(this.Browser_WebMessageReceived);
-			// 
+			//
 			// SplashContainer
-			// 
-			this.SplashContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.SplashContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.SplashContainer.Controls.Add(this.LoadingAnimationPicture);
 			this.SplashContainer.Location = new System.Drawing.Point(0, 0);
@@ -59,9 +59,9 @@ namespace OtomadHelper.Module {
 			this.SplashContainer.Name = "SplashContainer";
 			this.SplashContainer.Size = new System.Drawing.Size(960, 480);
 			this.SplashContainer.TabIndex = 1;
-			// 
+			//
 			// LoadingAnimationPicture
-			// 
+			//
 			this.LoadingAnimationPicture.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.LoadingAnimationPicture.APNGFile = null;
 			this.LoadingAnimationPicture.Image = null;
@@ -70,9 +70,9 @@ namespace OtomadHelper.Module {
 			this.LoadingAnimationPicture.Size = new System.Drawing.Size(960, 480);
 			this.LoadingAnimationPicture.TabIndex = 0;
 			this.LoadingAnimationPicture.TabStop = false;
-			// 
+			//
 			// Host
-			// 
+			//
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;

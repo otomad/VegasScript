@@ -180,8 +180,7 @@ public partial class DependencyPropertySubscriber : DependencyObject {
 	public DependencyPropertySubscriber(DependencyObject dependencyObject, DependencyProperty dependencyProperty, PropertyChangedCallback handler) {
 		if (dependencyObject is null) throw new ArgumentNullException(nameof(dependencyObject));
 		if (dependencyProperty is null) throw new ArgumentNullException(nameof(dependencyProperty));
-		if (handler is null) throw new ArgumentNullException(nameof(handler));
-		this.handler = handler;
+		this.handler = handler ?? throw new ArgumentNullException(nameof(handler));
 
 		Binding binding = new() {
 			Path = new(dependencyProperty),

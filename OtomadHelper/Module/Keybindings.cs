@@ -27,7 +27,7 @@ public class Keybindings(Module module) {
 			//CanAddToMenu = false, // TODO: Uncomment it after debug.
 			Enabled = false,
 		};
-		if (iconName is not null)
+		if (iconName is { })
 			command.IconFile = Module.SaveAndGetIconPath(iconName);
 		SetCommandName(command, () => t.Keybindings.Commands[typeName]);
 		command.Invoked += (sender, e) => TriggerKeybinding?.Invoke(command, new(type));

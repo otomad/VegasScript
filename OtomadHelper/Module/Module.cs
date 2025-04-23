@@ -60,9 +60,8 @@ public class Module : ICustomCommandModule {
 	/// <summary>
 	/// Occurs just before the command's menu item appears.
 	/// </summary>
-	private void HandlePICmdMenuPopup(object sender, EventArgs args) {
+	private void HandlePICmdMenuPopup(object sender, EventArgs args) =>
 		customCommandModule.Checked = vegas.FindDockView(InternalName);
-	}
 
 	/// <summary>
 	/// Occurs when the command is invoked.
@@ -89,13 +88,13 @@ public class Module : ICustomCommandModule {
 	/// <param name="iconName">The embedded icon name.</param>
 	/// <returns>The exteacted small icon file path.</returns>
 	internal string SaveAndGetIconPath(string iconName) {
-		Bitmap bitmap = (Bitmap)ToolbarIcons.ResourceManager.GetObject(iconName, ToolbarIcons.Culture);
+		Bitmap bitmap = (Bitmap)ToolbarIcons.ResourceManager.GetObject(iconName, ToolbarIcons.Culture)!;
 		string fileName = new VariableName(iconName, true).Title;
 		string localIconPath = new Path(ToolbarIconsLocalPath, fileName + ".png");
 		if (Undoable(delegate {
 			Directory.CreateDirectory(ToolbarIconsLocalPath);
 			bitmap.Save(localIconPath, ImageFormat.Png);
-		}) is Exception e) throw e;
+		}) is { } e) throw e;
 		return localIconPath;
 	}
 

@@ -28,7 +28,7 @@ internal static class ResourceHelper {
 		string assetsFilePath = AssemblyName + "." + resourcePath; // You can set a breakpoint to see the value here.
 		if (!IsResourceExist(assetsFilePath))
 			throw new FileNotFoundException("Cannot find the embedded resource: " + assetsFilePath);
-		return assembly.GetManifestResourceStream(assetsFilePath);
+		return assembly.GetManifestResourceStream(assetsFilePath)!;
 
 		bool IsResourceExist(string filePath) => assembly.GetManifestResourceInfo(filePath) != null;
 	}

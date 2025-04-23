@@ -57,33 +57,26 @@ public struct PointLong {
 	public int y;
 }
 
-internal class DropTarget : IOleDropTarget {
+internal class DropTarget(IDropTarget owner) : IOleDropTarget {
 	private IDataObject? lastDataObject;
 	private DragDropEffects lastEffect;
-	private readonly IDropTarget owner;
-
-	public DropTarget(IDropTarget owner) {
-		this.owner = owner;
-	}
 
 	private DragEventArgs? CreateDragEventArgs(object? pDataObj, int grfKeyState, PointLong pt, int pdwEffect) {
-		IDataObject? data;
-		if (pDataObj is null)
-			data = lastDataObject;
-		else if (pDataObj is IDataObject winformDataObj)
-			data = winformDataObj;
-		else if (pDataObj is IComDataObject)
-			data = new DataObject(pDataObj);
-		else
-			return null;
+		IDataObject? data = pDataObj switch {
+			null => lastDataObject,
+			IDataObject winformDataObj => winformDataObj,
+			IComDataObject => new DataObject(pDataObj),
+			_ => null,
+		};
+		if (data is null) return null;
 		DragEventArgs args = new(data, grfKeyState, pt.x, pt.y, (DragDropEffects)pdwEffect, lastEffect);
 		lastDataObject = data;
 		return args;
 	}
 
-	private int GetX(long pt) => (int)(((ulong)pt) & 0xffffffffL);
+	private static int GetX(long pt) => (int)(((ulong)pt) & 0xffffffffL);
 
-	private int GetY(long pt) => (int)(((ulong)(pt >> 0x20)) & 0xffffffffL);
+	private static int GetY(long pt) => (int)(((ulong)(pt >> 0x20)) & 0xffffffffL);
 
 	int IOleDropTarget.OleDragEnter(object pDataObj, int grfKeyState, long pt, ref int pdwEffect) {
 		PointLong pointl = new() {
@@ -91,7 +84,7 @@ internal class DropTarget : IOleDropTarget {
 			y = GetY(pt),
 		};
 		DragEventArgs? e = CreateDragEventArgs(pDataObj, grfKeyState, pointl, pdwEffect);
-		if (e is not null) {
+		if (e is { }) {
 			owner.OnDragEnter(e);
 			pdwEffect = (int)e.Effect;
 			lastEffect = e.Effect;
@@ -123,7 +116,7 @@ internal class DropTarget : IOleDropTarget {
 			y = GetY(pt),
 		};
 		DragEventArgs? e = CreateDragEventArgs(pDataObj, grfKeyState, pointl, pdwEffect);
-		if (e is not null) {
+		if (e is { }) {
 			owner.OnDragDrop(e);
 			pdwEffect = (int)e.Effect;
 		} else

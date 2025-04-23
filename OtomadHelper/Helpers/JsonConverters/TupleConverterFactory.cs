@@ -37,7 +37,7 @@ public class TupleConverterFactory : JsonConverterFactory {
 }
 
 internal static class TupleReflector {
-	public static readonly HashSet<Type> TupleTypes = new([
+	public static readonly HashSet<Type> TupleTypes = [
 		typeof(Tuple<>),
 		typeof(Tuple<,>),
 		typeof(Tuple<,,>),
@@ -54,13 +54,12 @@ internal static class TupleReflector {
 		typeof(ValueTuple<,,,,>),
 		typeof(ValueTuple<,,,,,>),
 		typeof(ValueTuple<,,,,,,>),
-		typeof(ValueTuple<,,,,,,,>)
-	]);
+		typeof(ValueTuple<,,,,,,,>),
+	];
 	public static Type GetTupleConverter(Type typeToConvert) {
 		Type[] genericTupleArgs = typeToConvert.GetGenericArguments();
 
-		if (typeToConvert.IsClass) {
-			// Tuple
+		if (typeToConvert.IsClass) // Tuple
 			return genericTupleArgs.Length switch {
 				1 => typeof(TupleConverter<>).MakeGenericType(genericTupleArgs),
 				2 => typeof(TupleConverter<,>).MakeGenericType(genericTupleArgs),
@@ -71,8 +70,7 @@ internal static class TupleReflector {
 				7 => typeof(TupleConverter<,,,,,,>).MakeGenericType(genericTupleArgs),
 				_ => throw new NotSupportedException(),
 			};
-		} else {
-			// Value Tuple
+		else // Value Tuple
 			return genericTupleArgs.Length switch {
 				1 => typeof(ValueTupleConverter<>).MakeGenericType(genericTupleArgs),
 				2 => typeof(ValueTupleConverter<,>).MakeGenericType(genericTupleArgs),
@@ -83,12 +81,10 @@ internal static class TupleReflector {
 				7 => typeof(ValueTupleConverter<,,,,,,>).MakeGenericType(genericTupleArgs),
 				_ => throw new NotSupportedException(),
 			};
-		}
 	}
 
-	public static TRest GenerateTuple<TRest>(object[] values) {
-		return (TRest)Activator.CreateInstance(typeof(TRest), values);
-	}
+	public static TRest GenerateTuple<TRest>(object[] values) =>
+		(TRest)Activator.CreateInstance(typeof(TRest), values);
 }
 
 /// <summary>
@@ -105,13 +101,10 @@ public abstract class TupleConverterBase<TTuple> : JsonConverter<TTuple>
 	/// <param name="value">Tuple Value</param>
 	/// <param name="options">Existing Options</param>
 	protected void WriteValue<T>(Utf8JsonWriter writer, T value, JsonSerializerOptions options) {
-		JsonConverter<T>? converter = (JsonConverter<T>)options.GetConverter(typeof(T));
-
-		if (converter == null) {
+		if (options.GetConverter(typeof(T)) is not JsonConverter<T> converter)
 			JsonSerializer.Serialize(writer, value, options);
-		} else {
+		else
 			converter.Write(writer, value, options);
-		}
 	}
 
 	/// <summary>
@@ -121,28 +114,24 @@ public abstract class TupleConverterBase<TTuple> : JsonConverter<TTuple>
 	/// <param name="reader">Reader</param>
 	/// <param name="options">Existing Options</param>
 	/// <returns>Deserialized Value</returns>
-	protected T ReadValue<T>(ref Utf8JsonReader reader, JsonSerializerOptions options) {
-		JsonConverter<T>? converter = (JsonConverter<T>)options.GetConverter(typeof(T));
-
-		return converter == null ? JsonSerializer.Deserialize<T>(ref reader, options)! :
+	protected T ReadValue<T>(ref Utf8JsonReader reader, JsonSerializerOptions options) =>
+		options.GetConverter(typeof(T)) is not JsonConverter<T> converter ?
+			JsonSerializer.Deserialize<T>(ref reader, options)! :
 			converter.Read(ref reader, typeof(T), options)!;
-	}
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the tuple's only component.</typeparam>
 public class TupleConverter<T1> : TupleConverterBase<Tuple<T1>> {
 	public override Tuple<T1> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
 		T1 value = ReadValue<T1>(ref reader, options);
 		reader.Read(); // End of Array
-		return new Tuple<T1>(value);
+		return new(value);
 	}
 
 	public override void Write(Utf8JsonWriter writer, Tuple<T1> value, JsonSerializerOptions options) {
@@ -153,30 +142,23 @@ public class TupleConverter<T1> : TupleConverterBase<Tuple<T1>> {
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the tuple's first component.</typeparam>
 /// <typeparam name="T2">The type of the tuple's second component.</typeparam>
 public class TupleConverter<T1, T2> : TupleConverterBase<Tuple<T1, T2>> {
 	public override Tuple<T1, T2> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
-		return new Tuple<T1, T2>(t1, t2);
+		return new(t1, t2);
 	}
 
 	public override void Write(Utf8JsonWriter writer, Tuple<T1, T2> value, JsonSerializerOptions options) {
@@ -188,35 +170,27 @@ public class TupleConverter<T1, T2> : TupleConverterBase<Tuple<T1, T2>> {
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the tuple's first component.</typeparam>
 /// <typeparam name="T2">The type of the tuple's second component.</typeparam>
 /// <typeparam name="T3">The type of the tuple's third component.</typeparam>
 public class TupleConverter<T1, T2, T3> : TupleConverterBase<Tuple<T1, T2, T3>> {
 	public override Tuple<T1, T2, T3> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
-		return new Tuple<T1, T2, T3>(t1, t2, t3);
+		return new(t1, t2, t3);
 	}
 
 	public override void Write(Utf8JsonWriter writer, Tuple<T1, T2, T3> value, JsonSerializerOptions options) {
@@ -229,7 +203,7 @@ public class TupleConverter<T1, T2, T3> : TupleConverterBase<Tuple<T1, T2, T3>> 
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the tuple's first component.</typeparam>
 /// <typeparam name="T2">The type of the tuple's second component.</typeparam>
@@ -237,32 +211,23 @@ public class TupleConverter<T1, T2, T3> : TupleConverterBase<Tuple<T1, T2, T3>> 
 /// <typeparam name="T4">The type of the tuple's fourth component.</typeparam>
 public class TupleConverter<T1, T2, T3, T4> : TupleConverterBase<Tuple<T1, T2, T3, T4>> {
 	public override Tuple<T1, T2, T3, T4> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
-		return new Tuple<T1, T2, T3, T4>(t1, t2, t3, t4);
+		return new(t1, t2, t3, t4);
 	}
 
 	public override void Write(Utf8JsonWriter writer, Tuple<T1, T2, T3, T4> value, JsonSerializerOptions options) {
@@ -276,7 +241,7 @@ public class TupleConverter<T1, T2, T3, T4> : TupleConverterBase<Tuple<T1, T2, T
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the tuple's first component.</typeparam>
 /// <typeparam name="T2">The type of the tuple's second component.</typeparam>
@@ -285,36 +250,26 @@ public class TupleConverter<T1, T2, T3, T4> : TupleConverterBase<Tuple<T1, T2, T
 /// <typeparam name="T5">The type of the tuple's fifth component.</typeparam>
 public class TupleConverter<T1, T2, T3, T4, T5> : TupleConverterBase<Tuple<T1, T2, T3, T4, T5>> {
 	public override Tuple<T1, T2, T3, T4, T5> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-		T5 t5;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
 		reader.Read();
-		t5 = ReadValue<T5>(ref reader, options);
+		T5 t5 = ReadValue<T5>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
-		return new Tuple<T1, T2, T3, T4, T5>(t1, t2, t3, t4, t5);
+		return new(t1, t2, t3, t4, t5);
 	}
 
 	public override void Write(Utf8JsonWriter writer, Tuple<T1, T2, T3, T4, T5> value, JsonSerializerOptions options) {
@@ -329,7 +284,7 @@ public class TupleConverter<T1, T2, T3, T4, T5> : TupleConverterBase<Tuple<T1, T
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the tuple's first component.</typeparam>
 /// <typeparam name="T2">The type of the tuple's second component.</typeparam>
@@ -339,40 +294,29 @@ public class TupleConverter<T1, T2, T3, T4, T5> : TupleConverterBase<Tuple<T1, T
 /// <typeparam name="T6">The type of the tuple's sixth component.</typeparam>
 public class TupleConverter<T1, T2, T3, T4, T5, T6> : TupleConverterBase<Tuple<T1, T2, T3, T4, T5, T6>> {
 	public override Tuple<T1, T2, T3, T4, T5, T6> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-		T5 t5;
-		T6 t6;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
 		reader.Read();
-		t5 = ReadValue<T5>(ref reader, options);
+		T5 t5 = ReadValue<T5>(ref reader, options);
 
 		reader.Read();
-		t6 = ReadValue<T6>(ref reader, options);
+		T6 t6 = ReadValue<T6>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
-		return new Tuple<T1, T2, T3, T4, T5, T6>(t1, t2, t3, t4, t5, t6);
+		return new(t1, t2, t3, t4, t5, t6);
 	}
 
 	public override void Write(Utf8JsonWriter writer, Tuple<T1, T2, T3, T4, T5, T6> value, JsonSerializerOptions options) {
@@ -388,7 +332,7 @@ public class TupleConverter<T1, T2, T3, T4, T5, T6> : TupleConverterBase<Tuple<T
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the tuple's first component.</typeparam>
 /// <typeparam name="T2">The type of the tuple's second component.</typeparam>
@@ -399,44 +343,32 @@ public class TupleConverter<T1, T2, T3, T4, T5, T6> : TupleConverterBase<Tuple<T
 /// <typeparam name="T7">The type of the tuple's seventh component.</typeparam>
 public class TupleConverter<T1, T2, T3, T4, T5, T6, T7> : TupleConverterBase<Tuple<T1, T2, T3, T4, T5, T6, T7>> {
 	public override Tuple<T1, T2, T3, T4, T5, T6, T7> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-		T5 t5;
-		T6 t6;
-		T7 t7;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
 		reader.Read();
-		t5 = ReadValue<T5>(ref reader, options);
+		T5 t5 = ReadValue<T5>(ref reader, options);
 
 		reader.Read();
-		t6 = ReadValue<T6>(ref reader, options);
+		T6 t6 = ReadValue<T6>(ref reader, options);
 
 		reader.Read();
-		t7 = ReadValue<T7>(ref reader, options);
+		T7 t7 = ReadValue<T7>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
-		return new Tuple<T1, T2, T3, T4, T5, T6, T7>(t1, t2, t3, t4, t5, t6, t7);
+		return new(t1, t2, t3, t4, t5, t6, t7);
 	}
 
 	public override void Write(Utf8JsonWriter writer, Tuple<T1, T2, T3, T4, T5, T6, T7> value, JsonSerializerOptions options) {
@@ -453,20 +385,18 @@ public class TupleConverter<T1, T2, T3, T4, T5, T6, T7> : TupleConverterBase<Tup
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the value tuple's only element.</typeparam>
 public class ValueTupleConverter<T1> : TupleConverterBase<ValueTuple<T1>> {
 	public override ValueTuple<T1> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
 		T1 value = ReadValue<T1>(ref reader, options);
 
 		reader.Read(); // End of Array
-		return new ValueTuple<T1>(value);
+		return new(value);
 	}
 
 	public override void Write(Utf8JsonWriter writer, ValueTuple<T1> value, JsonSerializerOptions options) {
@@ -477,28 +407,21 @@ public class ValueTupleConverter<T1> : TupleConverterBase<ValueTuple<T1>> {
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the value tuple's first element.</typeparam>
 /// <typeparam name="T2">The type of the value tuple's second element.</typeparam>
 public class ValueTupleConverter<T1, T2> : TupleConverterBase<ValueTuple<T1, T2>> {
 	public override ValueTuple<T1, T2> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
 		return (t1, t2);
 	}
@@ -512,33 +435,25 @@ public class ValueTupleConverter<T1, T2> : TupleConverterBase<ValueTuple<T1, T2>
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the value tuple's first element.</typeparam>
 /// <typeparam name="T2">The type of the value tuple's second element.</typeparam>
 /// <typeparam name="T3">The type of the value tuple's third element.</typeparam>
 public class ValueTupleConverter<T1, T2, T3> : TupleConverterBase<ValueTuple<T1, T2, T3>> {
 	public override ValueTuple<T1, T2, T3> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
 		return (t1, t2, t3);
 	}
@@ -553,7 +468,7 @@ public class ValueTupleConverter<T1, T2, T3> : TupleConverterBase<ValueTuple<T1,
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the value tuple's first element.</typeparam>
 /// <typeparam name="T2">The type of the value tuple's second element.</typeparam>
@@ -561,30 +476,21 @@ public class ValueTupleConverter<T1, T2, T3> : TupleConverterBase<ValueTuple<T1,
 /// <typeparam name="T4">The type of the value tuple's fourth element.</typeparam>
 public class ValueTupleConverter<T1, T2, T3, T4> : TupleConverterBase<ValueTuple<T1, T2, T3, T4>> {
 	public override ValueTuple<T1, T2, T3, T4> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
 		return (t1, t2, t3, t4);
 	}
@@ -600,7 +506,7 @@ public class ValueTupleConverter<T1, T2, T3, T4> : TupleConverterBase<ValueTuple
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the value tuple's first element.</typeparam>
 /// <typeparam name="T2">The type of the value tuple's second element.</typeparam>
@@ -609,34 +515,24 @@ public class ValueTupleConverter<T1, T2, T3, T4> : TupleConverterBase<ValueTuple
 /// <typeparam name="T5">The type of the value tuple's fifth element.</typeparam>
 public class ValueTupleConverter<T1, T2, T3, T4, T5> : TupleConverterBase<ValueTuple<T1, T2, T3, T4, T5>> {
 	public override ValueTuple<T1, T2, T3, T4, T5> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-		T5 t5;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
 		reader.Read();
-		t5 = ReadValue<T5>(ref reader, options);
+		T5 t5 = ReadValue<T5>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
 		return (t1, t2, t3, t4, t5);
 	}
@@ -653,7 +549,7 @@ public class ValueTupleConverter<T1, T2, T3, T4, T5> : TupleConverterBase<ValueT
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the value tuple's first element.</typeparam>
 /// <typeparam name="T2">The type of the value tuple's second element.</typeparam>
@@ -663,38 +559,27 @@ public class ValueTupleConverter<T1, T2, T3, T4, T5> : TupleConverterBase<ValueT
 /// <typeparam name="T6">The type of the value tuple's sixth element.</typeparam>
 public class ValueTupleConverter<T1, T2, T3, T4, T5, T6> : TupleConverterBase<ValueTuple<T1, T2, T3, T4, T5, T6>> {
 	public override ValueTuple<T1, T2, T3, T4, T5, T6> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-		T5 t5;
-		T6 t6;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
 		reader.Read();
-		t5 = ReadValue<T5>(ref reader, options);
+		T5 t5 = ReadValue<T5>(ref reader, options);
 
 		reader.Read();
-		t6 = ReadValue<T6>(ref reader, options);
+		T6 t6 = ReadValue<T6>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
 		return (t1, t2, t3, t4, t5, t6);
 	}
@@ -712,7 +597,7 @@ public class ValueTupleConverter<T1, T2, T3, T4, T5, T6> : TupleConverterBase<Va
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <typeparam name="T1">The type of the value tuple's first element.</typeparam>
 /// <typeparam name="T2">The type of the value tuple's second element.</typeparam>
@@ -723,42 +608,30 @@ public class ValueTupleConverter<T1, T2, T3, T4, T5, T6> : TupleConverterBase<Va
 /// <typeparam name="T7">The type of the value tuple's seventh element.</typeparam>
 public class ValueTupleConverter<T1, T2, T3, T4, T5, T6, T7> : TupleConverterBase<ValueTuple<T1, T2, T3, T4, T5, T6, T7>> {
 	public override ValueTuple<T1, T2, T3, T4, T5, T6, T7> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		T1 t1;
-		T2 t2;
-		T3 t3;
-		T4 t4;
-		T5 t5;
-		T6 t6;
-		T7 t7;
-
-		if (reader.TokenType != JsonTokenType.StartArray) {
-			throw new JsonException();
-		}
+		if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException();
 
 		reader.Read();
-		t1 = ReadValue<T1>(ref reader, options);
+		T1 t1 = ReadValue<T1>(ref reader, options);
 
 		reader.Read();
-		t2 = ReadValue<T2>(ref reader, options);
+		T2 t2 = ReadValue<T2>(ref reader, options);
 
 		reader.Read();
-		t3 = ReadValue<T3>(ref reader, options);
+		T3 t3 = ReadValue<T3>(ref reader, options);
 
 		reader.Read();
-		t4 = ReadValue<T4>(ref reader, options);
+		T4 t4 = ReadValue<T4>(ref reader, options);
 
 		reader.Read();
-		t5 = ReadValue<T5>(ref reader, options);
+		T5 t5 = ReadValue<T5>(ref reader, options);
 
 		reader.Read();
-		t6 = ReadValue<T6>(ref reader, options);
+		T6 t6 = ReadValue<T6>(ref reader, options);
 
 		reader.Read();
-		t7 = ReadValue<T7>(ref reader, options);
+		T7 t7 = ReadValue<T7>(ref reader, options);
 
-		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) {
-			throw new JsonException();
-		}
+		if (!reader.Read() || reader.TokenType != JsonTokenType.EndArray) throw new JsonException();
 
 		return (t1, t2, t3, t4, t5, t6, t7);
 	}

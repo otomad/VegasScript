@@ -20,7 +20,7 @@ using ContextMenu = OtomadHelper.Models.ContextMenu;
 
 namespace OtomadHelper.Module;
 
-public partial class Host : UserControl {
+public sealed partial class Host : UserControl {
 #if VEGAS_ENV
 	internal Dockable Dockable { get; }
 	private Keybindings Keybindings => Dockable.Module.Keybindings;
@@ -69,7 +69,7 @@ public partial class Host : UserControl {
 
 	private void Browser_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e) {
 		ManagedStream.Handler(Browser);
-		Browser.Source = new Uri(ManagedStream.RESOURCE_HOST + "index.html"); // "http://www.sunchateau.com/free/ua.htm"
+		Browser.Source = new(ManagedStream.RESOURCE_HOST + "index.html"); // "http://www.sunchateau.com/free/ua.htm"
 		CoreWebView2 webView = Browser.CoreWebView2;
 		webView.NewWindowRequested += CoreWebView2_NewWindowRequested;
 		webView.DocumentTitleChanged += (sender, e) => DocumentTitleChanged?.Invoke(Browser.CoreWebView2.DocumentTitle);
@@ -166,7 +166,7 @@ public partial class Host : UserControl {
 	private void Host_DragOver(object sender, DragEventArgs e) {
 		if (LoadingAnimationPicture.Visible) return;
 		e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? e.AllowedEffect & DragDropEffects.Copy : DragDropEffects.None;
-		DropTargetHelper.DragOver(new Point(e.X, e.Y), e.Effect);
+		DropTargetHelper.DragOver(new(e.X, e.Y), e.Effect);
 	}
 
 	internal bool isDevMode = false;
@@ -178,7 +178,7 @@ public partial class Host : UserControl {
 		// `e.ContextMenuTarget.Kind == CoreWebView2ContextMenuTargetKind.SelectedText` won't work
 		// if doesn't select any text, so we check if the menu list includes the "paste" option, and if so,
 		// it indicates that the target is a text box.
-		bool isTextBox = menuList.FirstOrDefault(item => item.Name == "paste") is not null;
+		bool isTextBox = menuList.FirstOrDefault(item => item.Name == "paste") is { };
 		if (isTextBox) {
 			if (!isDevMode) RemoveMenuItems(["emoji", "inspectElement", "share", "webCapture"], [50221, 41120]);
 		} else {
@@ -204,11 +204,11 @@ public partial class Host : UserControl {
 		void RemoveMenuItems(string[] names, int[] commandIds) {
 			foreach (string name in names) {
 				CoreWebView2ContextMenuItem? menuItem = menuList.FirstOrDefault(item => item.Name == name);
-				if (menuItem is not null) menuList.Remove(menuItem);
+				if (menuItem is { }) menuList.Remove(menuItem);
 			}
 			foreach (int commandId in commandIds) { // Some new menu items in Microsft Edge don't have a name, so we can use command id only.
 				CoreWebView2ContextMenuItem? menuItem = menuList.FirstOrDefault(item => item.CommandId == commandId);
-				if (menuItem is not null) menuList.Remove(menuItem);
+				if (menuItem is { }) menuList.Remove(menuItem);
 			}
 		}
 
@@ -296,11 +296,11 @@ public partial class Host : UserControl {
 
 	private void PostAccentColorToTheWeb() {
 		AccentPalette? palette = BackdropWindow.GetAccentPalette();
-		if (palette is not null) PostWebMessage(palette);
+		if (palette is { }) PostWebMessage(palette);
 	}
 
 #if VEGAS_ENV
-	protected void AddModuleKeybindings() {
+	private void AddModuleKeybindings() {
 		Keybindings.TriggerKeybinding += Module_TriggerKeybinding;
 		Keybindings.Enabled = true;
 	}
@@ -310,7 +310,7 @@ public partial class Host : UserControl {
 		PostWebMessage(new VegasCommandEvent { @event = e.Type });
 	}
 
-	protected void Dockable_Closed(object sender, EventArgs e) {
+	private void Dockable_Closed(object sender, EventArgs e) {
 		Keybindings.TriggerKeybinding -= Module_TriggerKeybinding;
 		Keybindings.Enabled = false;
 	}

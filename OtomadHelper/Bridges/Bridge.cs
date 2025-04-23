@@ -73,7 +73,7 @@ public class Bridge {
 	/// Displays a comfirm delete flyout with the hint text.
 	/// </summary>
 	/// <param name="rect">A tuple representing the screen coordinates (x, y, width, height) of the target's position.</param>
-	/// <param name="text">Text like <b>"Are you sure you want to delete it?"</b>.</param>
+	/// <param name="message">Text like <b>"Are you sure you want to delete it?"</b>.</param>
 	/// <returns>Does user click the OK button?</returns>
 	public async Task<bool> ShowConfirmDeleteFlyout(Rect rect, string message) {
 		Rect screenRect = Host.ClientToScreenRect(rect);

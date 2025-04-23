@@ -109,8 +109,8 @@ public partial class NumberTextBoxBehavior : Behavior<TextBox> {
 		return allowed;
 	}
 
-	private Regex? GetRegex(bool isInput) {
-		return isInput ? NumberInputMode switch {
+	private Regex? GetRegex(bool isInput) =>
+		isInput ? NumberInputMode switch {
 			NumberTextBoxInputMode.Integer => new(@"[\d]+"),
 			NumberTextBoxInputMode.Decimal => new(@"[\d\.]+"),
 			NumberTextBoxInputMode.SignedInteger => new(@"[\d-]+"),
@@ -125,7 +125,6 @@ public partial class NumberTextBoxBehavior : Behavior<TextBox> {
 			NumberTextBoxInputMode.Hex => new(@"^[\dA-F]+$", RegexOptions.IgnoreCase),
 			_ => null,
 		};
-	}
 }
 
 [Flags]

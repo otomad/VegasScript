@@ -38,7 +38,7 @@ public partial class ColorPickerTextChangedEventArgsToTextAndModelAxisConverter 
 public class UnicolourToMediaColorConverter : ValueConverter<Unicolour, Color, double?> {
 	public override Color Convert(Unicolour unicolour, Type targetType, double? alpha, CultureInfo culture) {
 		Color color = unicolour.ToMediaColor();
-		if (alpha is double a) color.A = (byte)(a * 255);
+		if (alpha is { } a) color.A = (byte)(a * 255);
 		return color;
 	}
 

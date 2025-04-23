@@ -8,7 +8,7 @@ using ScriptPortal.Vegas;
 namespace OtomadHelper.Module;
 
 [DesignerCategory("Code")]
-public class Dockable : DockableControl {
+public sealed class Dockable : DockableControl {
 	private Host? host;
 	internal Module Module { get; }
 
@@ -20,7 +20,7 @@ public class Dockable : DockableControl {
 	public override DockWindowStyle DefaultDockWindowStyle => DockWindowStyle.Docked;
 	public override Size DefaultFloatingSize => new(800, 480);
 	public bool Shown { get; private set; } = false;
-	VegasMediaSelectedChangeObserver? MediaSelectedChange;
+	private VegasMediaSelectedChangeObserver? MediaSelectedChange;
 
 	public void Reload() {
 		DisposeHost();
@@ -41,8 +41,8 @@ public class Dockable : DockableControl {
 		base.OnLoad(e);
 	}
 
-	protected void DisposeHost() {
-		if (host is not null) {
+	private void DisposeHost() {
+		if (host is { }) {
 			Controls.Remove(host);
 			host.Dispose();
 			host = null;

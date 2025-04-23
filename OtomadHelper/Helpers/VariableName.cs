@@ -95,7 +95,7 @@ public class VariableName {
 	/// <returns>Capitalize the first letter and lowercase other letters.</returns>
 	private string Capitalize(string str) =>
 		string.IsNullOrEmpty(str) ? "" :
-			char.ToUpperInvariant(str[0]) + ToLowerIfNotKeepCase(str.Substring(1));
+			char.ToUpperInvariant(str[0]) + ToLowerIfNotKeepCase(str[1..]);
 
 	/// <summary>
 	/// Check if all letters in the string are uppercase (ignoring numbers, punctuation, etc.).

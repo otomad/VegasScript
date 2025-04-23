@@ -78,4 +78,4 @@ public abstract class TypeConverter<TDestination, TSource> : TypeConverter {
 	}
 }
 
-public abstract class TypeConverter<TDestination> : TypeConverter<TDestination, string> { }
+public abstract class TypeConverter<TDestination> : TypeConverter<TDestination, string>;

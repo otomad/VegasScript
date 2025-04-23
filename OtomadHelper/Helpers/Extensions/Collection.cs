@@ -24,12 +24,13 @@ public static partial class Extensions {
 	public static bool TryGetValueIgnoreCase<TValue>(this Dictionary<string, TValue> dict, string key, out TValue value) {
 		IEnumerable<KeyValuePair<string, TValue>> result = dict.Where(x => x.Key.ToUpperInvariant() == key.ToUpperInvariant());
 		value = result.FirstOrDefault().Value;
-		return result.Count() > 0;
+		return result.Any();
 	}
 
 	/// <summary>
 	/// Adds the elements of the specified collection to the end of the <see cref="IList"/>&lt;<typeparamref name="T"/>&gt;.
 	/// </summary>
+	/// <param name="list"><see cref="IList{T}" />.</param>
 	/// <param name="collection">
 	/// The collection whose elements should be added to the end of the <see cref="IList"/>&lt;<typeparamref name="T"/>&gt;.
 	/// The collection itself cannot be <see langword="null"/> but it can contain elements that are <see langword="null"/>,
@@ -60,7 +61,7 @@ public static partial class Extensions {
 		return value!;
 	}
 
-	/// <inheritdoc cref="GetOrInit"/>
+	/// <inheritdoc cref="GetOrInit{TKey,TValue}(System.Collections.Generic.Dictionary{TKey,TValue},TKey,TValue)"/>
 	/// <param name="CreateNew">If the dictionary does't contains that <paramref name="key"/>,
 	/// the initial value will get from this function, and also add to the dictionary.</param>
 	public static TValue GetOrInit<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, Func<TValue> CreateNew) {
@@ -131,10 +132,10 @@ public static partial class Extensions {
 	public static ITuple ToTuple(this IEnumerable<object> list, Type? tupleType = null) {
 		tupleType ??= typeof(ITuple);
 		int length = list.Count();
-		Type tupleBaseType = tupleType?.FullName.StartsWith(typeof(ValueTuple).FullName) == true ? typeof(ValueTuple) : typeof(Tuple);
+		Type tupleBaseType = tupleType?.FullName?.StartsWith(typeof(ValueTuple).FullName!) == true ? typeof(ValueTuple) : typeof(Tuple);
 		MethodInfo[] createTupleMethods = tupleBaseType.GetMethods(BindingFlags.Public | BindingFlags.Static)!;
 		MethodInfo? method = createTupleMethods.FirstOrDefault(method => method.GetParameters().Length == length) ??
-			throw new Exception($"You can only create a tuple containing up to 8 items, currently providing {length} items");
+			throw new($"You can only create a tuple containing up to 8 items, currently providing {length} items");
 		Type[] genericArgs = tupleType!.GenericTypeArguments;
 		if (genericArgs.Length == 0) genericArgs = list.Select(item => item.GetType()).ToArray();
 		MethodInfo genericMethod = method.MakeGenericMethod(genericArgs)!;
@@ -183,7 +184,7 @@ public static partial class Extensions {
 	/// </remarks>
 	public static string ToJsonString(this JsonElement jsonElement) {
 		using MemoryStream stream = new();
-		Utf8JsonWriter writer = new(stream, new JsonWriterOptions { Indented = true });
+		Utf8JsonWriter writer = new(stream, new() { Indented = true });
 		jsonElement.WriteTo(writer);
 		writer.Flush();
 		return Encoding.UTF8.GetString(stream.ToArray());
@@ -234,12 +235,12 @@ public static partial class Extensions {
 	/// <inheritdoc cref="Enumerable.FirstOrDefault{TSource}(IEnumerable{TSource})" />
 	/// <param name="def">Default value.</param>
 	public static T FirstOrDefault<T>(this IEnumerable<T> source, T def) =>
-		source.Count() > 0 ? source.First() : def;
+		source.Any() ? source.First() : def;
 
 	/// <inheritdoc cref="Enumerable.LastOrDefault{TSource}(IEnumerable{TSource})" />
 	/// <param name="def">Default value.</param>
 	public static T LastOrDefault<T>(this IEnumerable<T> source, T def) =>
-		source.Count() > 0 ? source.Last() : def;
+		source.Any() ? source.Last() : def;
 
 	/// <inheritdoc cref="Enumerable.ElementAtOrDefault{TSource}(IEnumerable{TSource}, int)" />
 	/// <param name="def">Default value.</param>
@@ -291,7 +292,6 @@ public static partial class Extensions {
 	/// <param name="def">The value to replace nulls with.</param>
 	public static void FillNullsWith<T>(this IList<T> list, T def) {
 		for (int i = 0; i < list.Count; i++)
-			if (list[i] is null)
-				list[i] = def;
+			list[i] ??= def;
 	}
 }

@@ -22,7 +22,7 @@ public sealed class BamlAssemblyResource : IDisposable {
 	public BamlAssemblyResource() {
 		Assembly assembly = Assembly.GetExecutingAssembly();
 		string resName = ResourceHelper.AssemblyName + ".g.resources";
-		manifestResourceStream = assembly.GetManifestResourceStream(resName);
+		manifestResourceStream = assembly.GetManifestResourceStream(resName)!;
 		resourceReader = new(manifestResourceStream);
 	}
 
@@ -42,7 +42,7 @@ public sealed class BamlAssemblyResource : IDisposable {
 	/// <remarks>
 	/// <example>
 	/// If the embedded resource path is <c>OtomadHelper/WPF/Themes/Icons.xaml</c>,<br />
-	/// pass <c>WPF/Themes/Icons</c> to <paramref name="resourcePath"/>. Case insensitive.
+	/// pass <c>WPF/Themes/Icons</c> to <paramref name="path"/>. Case insensitive.
 	/// </example>
 	/// </remarks>
 	/// <param name="path">

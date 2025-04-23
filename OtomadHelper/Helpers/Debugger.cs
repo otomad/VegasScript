@@ -13,9 +13,10 @@ internal static class Debugger {
 	/// </remarks>
 	[Obsolete("This method can only be used for debugging and should not be used in release!")]
 	[SuppressMessage("Style", "IDE1006")]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public static object? s {
 		set {
-			object nullableValue = value is null ? "null" : value;
+			object nullableValue = value ?? "null";
 #if !VEGAS_ENV
 			Debug.WriteLine(nullableValue);
 #else

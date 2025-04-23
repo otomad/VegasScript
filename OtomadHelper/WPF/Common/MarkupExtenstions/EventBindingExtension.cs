@@ -81,7 +81,7 @@ public class EventBindingExtension : MarkupExtension {
 	}
 
 	internal static readonly MethodInfo getMethod = typeof(EventBindingExtension).GetMethod("HandlerIntern",
-		[typeof(object), typeof(object), typeof(string), typeof(string)]);
+		[typeof(object), typeof(object), typeof(string), typeof(string)])!;
 
 	internal static void Handler(object sender, object args) =>
 		HandlerIntern(sender, args, "cmd", null);
@@ -92,7 +92,7 @@ public class EventBindingExtension : MarkupExtension {
 			object? commandParam = null;
 			if (!string.IsNullOrWhiteSpace(commandParameter))
 				commandParam = GetCommandParameter(fe, args, commandParameter!);
-			if (cmd is not null && cmd.CanExecute(commandParam))
+			if (cmd is { } && cmd.CanExecute(commandParam))
 				cmd.Execute(commandParam);
 		}
 	}
@@ -104,10 +104,10 @@ public class EventBindingExtension : MarkupExtension {
 
 		Type? vmType = vm.GetType();
 		PropertyInfo? cmdProp = vmType.GetProperty(cmdName);
-		if (cmdProp is not null)
+		if (cmdProp is { })
 			return cmdProp.GetValue(vm) as ICommand;
 #if DEBUG
-		throw new Exception($"EventBinding path error: '{cmdName}' property not found on '{vmType}' 'DelegateCommand'");
+		throw new($"EventBinding path error: '{cmdName}' property not found on '{vmType}' 'DelegateCommand'");
 #else
 		return null;
 #endif
@@ -146,7 +146,7 @@ public class EventBindingExtension : MarkupExtension {
 				currentType = target.GetType();
 				continue;
 			}
-			PropertyInfo property = currentType.GetProperty(propertyName);
+			PropertyInfo property = currentType.GetProperty(propertyName)!;
 			if (property is null)
 				throw new NullReferenceException(nameof(property));
 

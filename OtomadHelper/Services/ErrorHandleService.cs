@@ -7,12 +7,11 @@ public static class ErrorHandleService {
 	/// <inheritdoc cref="AssemblyFileVersions" />
 	public static AssemblyFileVersions OtomadHelperAssemblyFileVersions {
 		get {
-			if (assemblyFileVersions is null)
-				assemblyFileVersions = new() {
-					AssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version,
-					FileVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion,
-					ProductVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion,
-				};
+			assemblyFileVersions ??= new() {
+				AssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version,
+				FileVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion,
+				ProductVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion,
+			};
 			return assemblyFileVersions.Value;
 		}
 	}
@@ -50,13 +49,14 @@ public static class ErrorHandleService {
 	/// </remarks>
 	/// <param name="label">The undo label will be shown on the Undo menu item.</param>
 	public static Exception? Undoable(string label, Action? action) {
-		if (vegas is null || vegas.Project is null)
+		if (vegas?.Project is null)
 			return Undoable(action);
 		using UndoBlock undoBlock = new(vegas.Project, label);
 		return Undoable(action);
 	}
 
 	[SuppressMessage("Style", "IDE1006")] // It names "vegas" instead of "Vegas" because conflict with the class Vegas.
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public static
 #if VEGAS_ENV
 		Vegas

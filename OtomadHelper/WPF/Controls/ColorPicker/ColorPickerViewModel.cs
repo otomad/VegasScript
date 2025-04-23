@@ -244,8 +244,8 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 		}
 	}
 
-	internal static ThreeDRange GetOutputRange(ColourSpace model) {
-		return model switch {
+	internal static ThreeDRange GetOutputRange(ColourSpace model) =>
+		model switch {
 			ColourSpace.Rgb255 => ((0, 255), (0, 255), (0, 255)),
 			ColourSpace.Hsl => ((0, 359), (0, 1), (0, 1)),
 			ColourSpace.Hsb => ((0, 359), (0, 1), (0, 1)),
@@ -254,10 +254,9 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 			ColourSpace.Oklch => ((0, 1), (0, 0.5), (0, 359)),
 			_ => throw new NotImplementedException(),
 		};
-	}
 
-	internal static ThreeDRange GetInputRange(ColourSpace model) {
-		return model switch {
+	internal static ThreeDRange GetInputRange(ColourSpace model) =>
+		model switch {
 			ColourSpace.Rgb255 => ((0, 255), (0, 255), (0, 255)),
 			ColourSpace.Hsl => ((0, 359), (0, 100), (0, 100)),
 			ColourSpace.Hsb => ((0, 359), (0, 100), (0, 100)),
@@ -266,7 +265,6 @@ public partial class ColorPickerViewModel : ObservableObject<ColorPicker> {
 			ColourSpace.Oklch => ((0, 100), (0, 230), (0, 359)),
 			_ => throw new NotImplementedException(),
 		};
-	}
 
 	public static int GetPointXyz(int xyzIndex, int axis) {
 		List<int> xyzMap = [0, 1, 2];

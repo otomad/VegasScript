@@ -138,7 +138,7 @@ public static partial class VisibilityAnimation {
 				// this time, thus animation will not be triggered.
 				if (BindingOperations.IsDataBound(frameworkElement, UIElement.VisibilityProperty)) {
 					// Set visibility using bounded value
-					Binding bindingValue = BindingOperations.GetBinding(frameworkElement, UIElement.VisibilityProperty);
+					Binding bindingValue = BindingOperations.GetBinding(frameworkElement, UIElement.VisibilityProperty)!;
 					BindingOperations.SetBinding(frameworkElement, UIElement.VisibilityProperty, bindingValue);
 				} else {
 					// No binding, just assign the value

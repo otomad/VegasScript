@@ -22,9 +22,9 @@ public static partial class Extensions {
 	/// <summary>
 	/// Quickly get the handle to a WPF <see cref="Popup"/>.
 	/// </summary>
-	/// <param name="window">A WPF <see cref="Popup"/>.</param>
+	/// <param name="popup">A WPF <see cref="Popup"/>.</param>
 	/// <returns>The handle to the <see cref="Popup"/>.</returns>
-	public static IntPtr GetHandle(this Popup popup) => ((HwndSource)PresentationSource.FromVisual(popup.Child)).Handle;
+	public static IntPtr GetHandle(this Popup popup) => (PresentationSource.FromVisual(popup.Child) as HwndSource)?.Handle ?? IntPtr.Zero;
 
 	/// <summary>
 	/// Force close window.
@@ -35,7 +35,7 @@ public static partial class Extensions {
 	/// <code>Cannot set Visibility to Visible or call Show, ShowDialog, Close, or WindowInteropHelper.EnsureHandle while a Window is closing.</code>
 	/// Use this method to resolve the issue and close the window successfully.
 	/// </remarks>
-	public static async void Vanish(this Window window) =>
+	public static async Task Vanish(this Window window) =>
 		await Dispatcher.CurrentDispatcher.InvokeAsync(window.Close, DispatcherPriority.Normal);
 
 	private const double DPI_DIVISOR = 96d;
@@ -61,8 +61,9 @@ public static partial class Extensions {
 	/// </summary>
 	/// <param name="window">A WPF <see cref="Window"/>.</param>
 	/// <returns>The screen DPI in two dimension.</returns>
+	[SuppressMessage("ReSharper", "PossibleNullReferenceException")]
 	public static (double DpiX, double DpiY) GetDpi(this Visual window) {
-		PresentationSource source = PresentationSource.FromVisual(window);
+		PresentationSource? source = PresentationSource.FromVisual(window);
 		try {
 			return (source.CompositionTarget.TransformToDevice.M11, source.CompositionTarget.TransformToDevice.M22);
 		} catch (Exception) {
@@ -77,7 +78,7 @@ public static partial class Extensions {
 	/// <param name="parent">The <see cref="DependencyObject"/> to start the search from.</param>
 	/// <returns>The first child of type <typeparamref name="T"/> found in the visual tree,
 	/// or <see langword="null"/> if no such child is found.</returns>
-	public static T? GetChildOfType<T>(this DependencyObject parent) where T : DependencyObject {
+	public static T? GetChildOfType<T>(this DependencyObject? parent) where T : DependencyObject {
 		if (parent is null) return null;
 		for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++) {
 			DependencyObject? child = VisualTreeHelper.GetChild(parent, i);
@@ -94,7 +95,7 @@ public static partial class Extensions {
 	/// <param name="parent">The <see cref="DependencyObject"/> to start the search from.</param>
 	/// <returns>A list of all children of type <typeparamref name="T"/> found in the visual tree.
 	/// If no such children are found, an empty list is returned.</returns>
-	public static List<T> GetChildrenOfType<T>(this DependencyObject parent) where T : DependencyObject {
+	public static List<T> GetChildrenOfType<T>(this DependencyObject? parent) where T : DependencyObject {
 		List<T> children = [];
 		if (parent is null) return children;
 		for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++) {
@@ -114,7 +115,7 @@ public static partial class Extensions {
 	/// <param name="includeParent">Also includes the parent control itself?</param>
 	/// <returns>A list of all children of type <typeparamref name="T"/> found.
 	/// If no such children are found, an empty list is returned.</returns>
-	public static List<T> GetChildrenOfType<T>(this Control parent, bool includeParent = false) where T : Control {
+	public static List<T> GetChildrenOfType<T>(this Control? parent, bool includeParent = false) where T : Control {
 		List<T> children = [];
 		if (parent is null) return children;
 		if (includeParent && parent is T expectedParent) children.Add(expectedParent);
@@ -130,23 +131,20 @@ public static partial class Extensions {
 	/// </summary>
 	/// <param name="child">The <see cref="DependencyObject" /> to find the parent of.</param>
 	/// <returns>The parent of the given <see cref="DependencyObject" />, or <see langword="null"/> if no parent is found.</returns>
-	public static DependencyObject? GetParent(this DependencyObject child) {
-		if (child is null)
-			return null;
-
-		if (child is ContentElement contentElement) {
-			DependencyObject parent = ContentOperations.GetParent(contentElement);
-			return parent is not null ? parent :
-				contentElement is FrameworkContentElement fce ? fce.Parent : null;
+	public static DependencyObject? GetParent(this DependencyObject? child) {
+		switch (child) {
+			case null: return null;
+			case ContentElement contentElement: {
+				DependencyObject parent = ContentOperations.GetParent(contentElement);
+				return parent ?? (contentElement is FrameworkContentElement fce ? fce.Parent : null);
+			}
+			case FrameworkElement frameworkElement: {
+				DependencyObject parent = frameworkElement.Parent;
+				if (parent is { }) return parent;
+				goto default;
+			}
+			default: return VisualTreeHelper.GetParent(child);
 		}
-
-		if (child is FrameworkElement frameworkElement) {
-			DependencyObject parent = frameworkElement.Parent;
-			if (parent is not null)
-				return parent;
-		}
-
-		return VisualTreeHelper.GetParent(child);
 	}
 
 	/// <summary>
@@ -160,24 +158,20 @@ public static partial class Extensions {
 		DependencyObject? parent;
 		do
 			parent = child.GetParent();
-		while (!(parent is TElement || parent is null));
+		while (parent is not (TElement or null));
 		return parent as TElement;
 	}
 
 	/// <inheritdoc cref="BindingOperations.ClearBinding(DependencyObject, DependencyProperty)"/>
-	public static void ClearBinding(this FrameworkElement target, DependencyProperty dp) {
-		BindingOperations.ClearBinding(target, dp);
-	}
+	public static void ClearBinding(this FrameworkElement target, DependencyProperty dp) => BindingOperations.ClearBinding(target, dp);
 
 	/// <inheritdoc cref="BindingOperations.ClearAllBindings(DependencyObject)"/>
-	public static void ClearBinding(this FrameworkElement target) {
-		BindingOperations.ClearAllBindings(target);
-	}
+	public static void ClearBinding(this FrameworkElement target) => BindingOperations.ClearAllBindings(target);
 
 	/// <summary>
 	/// Check if a WPF <see cref="System.Windows.Controls.TextBox"/> is editable.
 	/// </summary>
 	/// <returns>The <see cref="System.Windows.Controls.TextBox"/> is editable?</returns>
 	public static bool IsEditable(this System.Windows.Controls.TextBox textBox) =>
-		textBox.IsEnabled && !textBox.IsReadOnly && textBox.IsHitTestVisible;
+		textBox is { IsEnabled: true, IsReadOnly: false, IsHitTestVisible: true };
 }

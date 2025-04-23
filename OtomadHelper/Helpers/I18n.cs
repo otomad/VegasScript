@@ -33,7 +33,7 @@ public class I18n : DynamicObject {
 	private static ResXResourceSet GetCultureRes(CultureInfo culture) {
 		const string RESW_EXT = "resw";
 		List<CultureInfo> cultures = ResourceHelper.GetEmbeddedResourceNamesInFolder("Strings")
-			.Select(path => new CultureInfo(path.Match(new Regex($@"([^\.]+)\.{RESW_EXT}$", RegexOptions.IgnoreCase)).Groups[1].Value))
+			.Select(path => new CultureInfo(path.Match(new($@"([^\.]+)\.{RESW_EXT}$", RegexOptions.IgnoreCase)).Groups[1].Value))
 			.ToList();
 		CultureInfo matchedCulture = CultureMatcher.Match(culture, cultures, DefaultCulture);
 		Stream stream = ResourceHelper.GetEmbeddedResource($"Strings.{matchedCulture}.{RESW_EXT}");
@@ -57,7 +57,7 @@ public class I18n : DynamicObject {
 		if (result is null) {
 			foreach (DictionaryEntry entry in DefaultCultureRes)
 				if (entry.Key.ToString().StartsWith(chainedKey + '.'))
-					return new I18n(newParents) { EnablePangu = EnablePangu };
+				return new I18n(newParents) { EnablePangu = EnablePangu };
 			return $"<{chainedKey}>";
 		}
 		return EnablePangu ? Pangu.Spacing(result) : result;

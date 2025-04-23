@@ -72,6 +72,8 @@ public class EyeDropperBehavior : Behavior<Button> {
 	}
 
 	private void Button_LostMouseCapture() => Button_LostMouseCapture(null!, null!);
+	[SuppressMessage("ReSharper", "AsyncVoidMethod")]
+	[SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract")]
 	private async void Button_LostMouseCapture(object sender, MouseEventArgs e) {
 		if (sender is not null) {
 			await Task.Delay(5);
@@ -83,10 +85,11 @@ public class EyeDropperBehavior : Behavior<Button> {
 		AssociatedObject.ReleaseMouseCapture();
 	}
 
-	private DrawingPoint CursorPosition => System.Windows.Forms.Cursor.Position;
+	private static DrawingPoint CursorPosition => System.Windows.Forms.Cursor.Position;
 	// Do not use MouseEventArgs to get mouse position like below, or cannot get negative mouse position.
 	// private Point GetPoint(MouseEventArgs e) => Window.PointToScreen(e.GetPosition(Window));
 
+	// ReSharper disable once InconsistentNaming
 	private static Color GetColorAt(DrawingPoint point, bool debug_isMouseUp = false) {
 		point = ScalePointByDpiAware(point);
 		//if (debug_isMouseUp) Debug_ScreenShot(point);

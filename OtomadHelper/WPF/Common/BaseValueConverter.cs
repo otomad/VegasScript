@@ -6,7 +6,7 @@ using System.Windows.Data;
 namespace OtomadHelper.WPF.Common;
 
 //[ValueConversion(typeof(TSource), typeof(TTarget))]
-public abstract class ValueConverter<TSource, TTarget> : ValueConverter<TSource, TTarget, object> { }
+public abstract class ValueConverter<TSource, TTarget> : ValueConverter<TSource, TTarget, object>;
 public abstract class ValueConverter<TSource, TTarget, TParameter> : IValueConverter {
 	/// <inheritdoc cref="IValueConverter.Convert(object, Type, object, CultureInfo)" />
 	public abstract TTarget Convert(TSource value, Type targetType, TParameter parameter, CultureInfo culture);
@@ -25,7 +25,7 @@ public abstract class ValueConverter<TSource, TTarget, TParameter> : IValueConve
 	}
 }
 
-public abstract class MultiValueConverter<TSource, TTarget> : MultiValueConverter<TSource, TTarget, object> { }
+public abstract class MultiValueConverter<TSource, TTarget> : MultiValueConverter<TSource, TTarget, object>;
 public abstract class MultiValueConverter<TSource, TTarget, TParameter> : IMultiValueConverter {
 	/// <inheritdoc cref="IMultiValueConverter.Convert(object[], Type, object, CultureInfo)" />
 	public abstract TTarget Convert(TSource value, Type targetType, TParameter parameter, CultureInfo culture);

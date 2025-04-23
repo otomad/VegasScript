@@ -9,16 +9,16 @@ public class ColorPickerModelAxis(ColourSpace model, int axis) {
 	public ColourSpace Model { get; set; } = model;
 	public int Axis { get; set; } = axis;
 
-	public string Special { get; private set; } = "";
+	public string Special { get; private init; } = "";
 	public bool IsSpecial => !string.IsNullOrEmpty(Special);
 
 	public static bool operator ==(ColorPickerModelAxis? item1, ColorPickerModelAxis? item2) =>
 		item1 is null || item2 is null ? item1 is null && item2 is null :
 		item1.IsSpecial || item2.IsSpecial ?
-			item1.IsSpecial && item2.IsSpecial ? item1.Special == item2.Special : false :
+			item1.IsSpecial && item2.IsSpecial && item1.Special == item2.Special :
 		item1.Model == item2.Model && item1.Axis == item2.Axis;
 	public static bool operator !=(ColorPickerModelAxis? item1, ColorPickerModelAxis? item2) => !(item1 == item2);
-	public override bool Equals(object obj) => obj is ColorPickerModelAxis item && this == item;
+	public override bool Equals(object? obj) => obj is ColorPickerModelAxis item && this == item;
 	public override int GetHashCode() => Model.GetHashCode() ^ Axis.GetHashCode();
 
 	internal static readonly Dictionary<string, ColourSpace> NameModelMap = new() {
@@ -56,7 +56,7 @@ public class ColorPickerModelAxis(ColourSpace model, int axis) {
 	public bool IsValid {
 		get {
 			try {
-				return NameModelMap.Values.Contains(Model) && Axis >= 0 && Axis < 3;
+				return NameModelMap.Values.Contains(Model) && Axis is >= 0 and < 3;
 			} catch (Exception) {
 				return false;
 			}

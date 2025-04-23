@@ -68,7 +68,7 @@ public static class MessageSender {
 			PostWebMessageFromJsonObject(jsonObject);
 		}
 		JsonElement json = await taskCompletionSource.Task;
-		return JsonSerializer.Deserialize<TReceive>(json, jsonOptions)!;
+		return json.Deserialize<TReceive>(jsonOptions)!;
 	}
 
 	internal static void OnReceiveAcknowledgement(string json) {

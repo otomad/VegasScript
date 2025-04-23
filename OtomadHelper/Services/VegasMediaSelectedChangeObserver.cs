@@ -30,7 +30,5 @@ internal class VegasMediaSelectedChangeObserver : IDisposable {
 		timer.Start();
 	}
 
-	public void Dispose() {
-		timer.Stop();
-	}
+	public void Dispose() => timer.Stop();
 }

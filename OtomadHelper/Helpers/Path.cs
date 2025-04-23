@@ -7,8 +7,6 @@ namespace OtomadHelper.Helpers;
 /// Although the system owned the <see cref="PathStatic" /> class, it is a static class and not very object-oriented.
 /// </summary>
 public class Path :
-	IEnumerable, IEnumerable<string>,
-	ICollection, ICollection<string>, IReadOnlyCollection<string>,
 	IList, IList<string>, IReadOnlyList<string> {
 	protected readonly List<string> directories = [];
 
@@ -17,7 +15,7 @@ public class Path :
 	/// </summary>
 	/// <param name="path">Path string.</param>
 	public Path(string path) {
-		path = path.Replace(new Regex(@"^.*:/+"), match => {
+		path = path.Replace(new(@"^.*:/+"), match => {
 			Protocol = match.Value;
 			return "";
 		});
@@ -49,7 +47,7 @@ public class Path :
 	/// <summary>
 	/// The input content is spliced one by one into a new path class.
 	/// </summary>
-	/// <param name="arr">Content.</param>
+	/// <param name="paths">Content.</param>
 	/// <returns>A new path class.</returns>
 	[Obsolete("Use `new Path(...)` instead")]
 	public static Path Resolve(params string[] paths) => new(paths);
@@ -87,7 +85,7 @@ public class Path :
 				} else if (dir == "..") {
 					if (Count >= 1) Up();
 				} else
-					throw new Exception($"Invalid path directory: `{dir}`");
+					throw new($"Invalid path directory: `{dir}`");
 				continue;
 			} else
 				AddBasically(dir);
