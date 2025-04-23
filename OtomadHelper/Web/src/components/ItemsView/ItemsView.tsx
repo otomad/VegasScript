@@ -67,7 +67,7 @@ const StyledItemsView = styled.div<{
 export default function ItemsView<
 	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, ...htmlAttrs }: FCP<{
+>({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, "aria-label": ariaLabel, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/**
@@ -124,6 +124,7 @@ export default function ItemsView<
 			className={[className, view, { autoFill }]}
 			$itemWidth={itemWidth}
 			role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
+			aria-label={ariaLabel ?? (role === undefined && multiple ? t.aria.checkboxGroup : undefined)}
 			aria-hidden={false}
 			style={{ ...style, justifyContent: inlineAlignment }}
 			{...htmlAttrs}

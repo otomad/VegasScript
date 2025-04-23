@@ -57,6 +57,7 @@ export const configStore = createStore({
 		trackGroup: true,
 		collapseTrackGroup: true,
 		trackName: "track" as TrackNameType,
+		secretBoxLimitToSelected: false,
 		secretBoxForTrack: false,
 		secretBoxForMarker: false,
 		secretBoxForBarOrBeat: false,

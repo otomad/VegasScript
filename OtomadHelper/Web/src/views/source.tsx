@@ -14,9 +14,9 @@ export /* @internal */ const selectGeneratedClipsType = [
 const allSelectGeneratedClips = Object.freeze(selectGeneratedClipsType.map(item => item.id));
 const getAllSelectGeneratedClips = () => allSelectGeneratedClips.slice();
 export /* @internal */ const trackNames = [
-	{ id: "track", name: t.source.trackName.track, icon: "layer" },
+	{ id: "track", name: t.source.trackName.track, additional: t.source.trackName.voicebank, icon: "layer" },
 	{ id: "trackIndex", name: t.source.trackName.trackIndex, icon: "layer_number" },
-	{ id: "instrument", name: t.source.trackName.instrument, icon: "instrument" },
+	{ id: "instrument", name: t.source.trackName.instrument, additional: t.source.trackName.voicebank, icon: "instrument" },
 	{ id: "channel", name: t.source.trackName.channel, icon: "midi" },
 	{ id: "clip", name: t.source.trackName.clip, icon: "track_event" },
 	{ id: "media", name: t.source.trackName.media, icon: "media" },
@@ -35,7 +35,7 @@ export default function Source() {
 		sourceFrom, trimStart, trimEnd, startTime, customStartTime,
 		belowAdjustmentTracks, preferredTrack: [preferredTrack, setPreferredTrack],
 		trackGroup, collapseTrackGroup, trackName, consonant,
-		secretBoxForTrack, secretBoxForMarker, secretBoxForBarOrBeat, secretBoxForBarOrBeatPeriod, secretBoxForBarOrBeatPreparation,
+		secretBoxLimitToSelected, secretBoxForTrack, secretBoxForMarker, secretBoxForBarOrBeat, secretBoxForBarOrBeatPeriod, secretBoxForBarOrBeatPreparation,
 	} = selectConfig(c => c.source);
 	const { removeSourceClips, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = selectConfig(c => c.source.afterCompletion);
 	const { enabled: [ytpEnabled] } = selectConfig(c => c.ytp);
@@ -127,6 +127,7 @@ export default function Source() {
 				idField="id"
 				nameField={t.source.trackName}
 				iconField="icon"
+				detailsField="additional"
 			/>
 
 			<Expander
@@ -138,6 +139,7 @@ export default function Source() {
 				checkInfo={secretBoxEnabled ? t.on : t.off}
 				alwaysShowCheckInfo
 			>
+				<ToggleSwitch on={secretBoxLimitToSelected} details={t.descriptions.source.secretBox.limitToSelected} icon="video_clip_multiple_checkmark">{t.source.secretBox.limitToSelected}</ToggleSwitch>
 				<ToggleSwitch on={secretBoxForTrack} details={t.descriptions.source.secretBox.track} icon="layer">{t.source.secretBox.track}</ToggleSwitch>
 				<ToggleSwitch on={secretBoxForMarker} details={t.descriptions.source.secretBox.marker} icon="marker">{t.source.secretBox.marker}</ToggleSwitch>
 				<ToggleSwitch on={secretBoxForBarOrBeat} details={t.descriptions.source.secretBox.barOrBeat} icon="music_bar">{t.source.secretBox.barOrBeat}</ToggleSwitch>

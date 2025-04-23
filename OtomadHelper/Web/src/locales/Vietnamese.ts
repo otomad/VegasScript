@@ -40,6 +40,7 @@ export default {
 			prve: "Hiệu ứng nhịp điệu hình ảnh PV",
 		},
 		source: {
+			from: "Nguồn từ",
 			trackEvent: "Track event",
 			projectMedia: "Đa phương tiện của dự án",
 			browseFile: "Duyệt tập tin",
@@ -59,10 +60,18 @@ export default {
 				_: "Track ưa thích",
 				index: "Chỉ số track ưa thích",
 				top: "Trên",
+				ordinal: "Bên dưới track {{count, ordinal}}",
+				belowAdjustmentTracks: "Nếu một hoặc nhiều track điều chỉnh nằm bên dưới track này, hãy chọn track tiếp theo mà không có track nào trong số chúng",
 				newTrack: "Track mới",
+				quicklySelect: "Nhanh chóng chọn track hiện tại",
 			},
-			trackGroup: {},
-			trackName: {},
+			trackGroup: {
+				_: "Nhóm các track",
+				collapse: "Thu gọn các nhóm track theo mặc định",
+			},
+			trackName: {
+				_: "Đặt tên cho các track",
+			},
 			secretBox: {
 				barOrBeat: {},
 			},
@@ -117,6 +126,7 @@ export default {
 		fileFormats: {
 			allFiles: "Tất cả các file",
 			midi: "File trình tự MIDI",
+			singthesis: "Tất cả các file trình tự văn bản được hỗ trợ",
 			ust: "File trình tự văn bản UTAU/OpenUTAU",
 			vsq: "File trình tự Vocaloid",
 		},

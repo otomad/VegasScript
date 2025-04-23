@@ -176,11 +176,11 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="CultureMatcher" Version="1.0.2" />
-		<PackageReference Include="DependencyPropertyGenerator" Version="1.4.0">
+		<PackageReference Include="DependencyPropertyGenerator" Version="1.5.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.34.2">
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.40">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -192,11 +192,11 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>-->
 		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 		<PackageReference Include="NAudio" Version="2.2.1" />
-		<PackageReference Include="PanguSpacing" Version="1.1.5" />
-		<PackageReference Include="System.Text.Json" Version="9.0.0" />
-		<PackageReference Include="Wacton.Unicolour" Version="4.8.0" />
+		<PackageReference Include="PanguSpacing" Version="1.1.6" />
+		<PackageReference Include="System.Text.Json" Version="9.0.4" />
+		<PackageReference Include="Wacton.Unicolour" Version="6.0.0" />
 	</ItemGroup>
 </Project>

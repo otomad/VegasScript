@@ -73,17 +73,19 @@ export default {
 			},
 			trackName: {
 				_: "Name for tracks",
-				track: "Score track name",
-				trackIndex: "Score track index",
-				instrument: "Score instrument name",
-				channel: "Score channel number",
+				track: "MIDI track name",
+				trackIndex: "MIDI track index",
+				instrument: "MIDI instrument name",
+				channel: "MIDI channel number",
 				clip: "Source clip name",
 				media: "Source media name",
 				score: "Score file name",
 				unnamed: "Unnamed",
+				voicebank: "Or vocal synth singer name",
 			},
 			secretBox: {
 				_: "Secret box",
+				limitToSelected: "Limited to selected sources",
 				track: "For each track or channel",
 				marker: "Switch once per marker",
 				barOrBeat: {
@@ -180,14 +182,14 @@ export default {
 			allFiles: "All Files",
 			txt: "Text Documents",
 			midi: "MIDI Sequence Files",
-			singthesis: "All Supported Singthesis (Text Synthesis / Singing Voice Synthesizer Software Project) Files", // Singthesis = Sing + Synthesizer
+			singthesis: "All Supported Vocal Synth Project Files",
 			ust: "UTAU/OpenUTAU Sequence Text Files",
 			vsq: "Vocaloid Sequence Files",
 		},
 		score: {
 			from: "Score from",
 			midi: "MIDI",
-			singthesis: "Singthesis", // Singing Voice Synthesizer.
+			singthesis: "Vocal synth project",
 			refOtherTracks: "Refer to other tracks",
 			tts: "Text to speech",
 			pureNotes: "Pure notes",
@@ -734,6 +736,7 @@ export default {
 				},
 				secretBox: {
 					_: "Randomizes in points for the source.\nThis can result in randomly selected source clips having different base pitches, making it useful only for creating funny videos for entertainment purposes, and barely used for creating high-caliber videos.",
+					limitToSelected: "Randomly switches among the selected multiple sources instead of using completely random in points",
 					track: "Whether track or channel depends on the Score",
 					marker: "When a marker is encountered in the score, the in point of the source will be changed once. If several markers have the same non-empty name, they will use the same in point of the source.",
 					barOrBeat: {
@@ -744,7 +747,7 @@ export default {
 					ytpEnabled: "YTP feature is enabled and it already supports randomization, it is unnecessary to set it here.",
 				},
 				consonant: {
-					_: "To prevent consonants from being stretched or delayed, you can separate the consonant and vowel parts of the same audio or video source so that special optimization can be applied to the consonant part of the source.\nIf at least two audio or video clips are selected, the first clip is considered the consonant part and the second clip is considered the vowel part.",
+					_: "To prevent consonants from being stretched or delayed, you can separate the consonant and vowel parts of the same audio or video source so that special optimization can be applied to the consonant part of the source.\nIf at least two audio or video clips are selected, the first clip is considered the initial consonant part, the second clip is considered the vowel part, and the third segment (if any) is considered the final consonant part.",
 					ytpEnabled: "YTP feature is enabled and this feature is currently unavailable.",
 					secretBoxEnabled: "Secret box feature is enabled and this feature is currently unavailable.",
 					manualEnabled: "In Sentence Mixing mode, this feature is enabled automatically.",
@@ -784,9 +787,9 @@ export default {
 				staticVisual: "Freezes the frame at the in point of the clip",
 				truncate: {
 					_: "Attempts to freeze at the out point of the clip to avoid accidentally playing the part beyond the trimming time when some notes are too long",
-					lengthenable: "Lengthens the duration if the note is longer than the clip",
-					freezeEndFrames: "Freezes the frame from the clip’s out point if the note is longer than the clip",
-					trimEndFrames: "Trims frames after the clip’s out point if the note is longer than the clip",
+					lengthenable: "If the note is longer than the clip, lengthens the duration",
+					freezeEndFrames: "If the note is longer than the clip, freezes the frame from the clip’s out point",
+					trimEndFrames: "If the note is longer than the clip, trims frames after the clip’s out point",
 					splitThenFreeze: "If the note is longer than the clip, splits from the clip’s out point, and then freezes the latter’s in point",
 					freezeToGray: "If the note is longer than the clip, splits from the clip’s out point, then freezes the latter’s in point, and next applies a Black and White effect to the latter",
 					freezeToPreset: "If the note is longer than the clip, splits from the clip’s out point, then freezes the latter’s in point, and next applies a custom preset to the latter",
@@ -825,7 +828,7 @@ export default {
 						classic: "Uses the Classic Pitch Change Method. It uses the old technology from Vegas Pro 8 and below versions, and provides more crossfade types to choose from, depending on your source.",
 						scaleless: "Locks stretch and pitch, and changes the stretch to get the corresponding pitch regardless of the actual note pitch, just for fun",
 						unset: "Preserves the original tuning method of the clip unchanged or the default value, even if it is No Tuning",
-						acid: "Prioritizes the tuning method configured in ACID Pro if you are using ACIDized loops",
+						acid: "Transposes the clip to fit the tempo if you are using ACIDized loops rendered by ACID Pro",
 						evaluates: {
 							fast: "Fast to generate",
 							changeRate: "Effective on playback rate change",
@@ -915,7 +918,7 @@ export default {
 				},
 				pitchNotation: {
 					_: "Visualizes the pitch of the current note as text",
-					system: "Choose your preferred one from distinct systems for expressing musical notation",
+					system: "Uses a different system of musical notation",
 				},
 			},
 			shupelunker: {
@@ -1029,6 +1032,7 @@ export default {
 			navMenu: "Navigation menu",
 			breadcrumb: "Breadcrumb",
 			commandBar: "Command bar",
+			checkboxGroup: "Checkbox group",
 		},
 	},
 	csharp: {
