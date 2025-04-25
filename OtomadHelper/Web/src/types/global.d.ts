@@ -74,7 +74,7 @@ declare global {
 	/**
 	 * Vite plugin resolved config.
 	 */
-	type VitePluginConfig = Parameters<VitePlugin["configResolved"]>[0];
+	type VitePluginConfig = Vite.ResolvedConfig;
 
 	interface Window {
 		/**

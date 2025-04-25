@@ -26,6 +26,7 @@ import injectScript from "./src/plugins/vite/inject-script";
 
 const ENABLE_MINIFY = true;
 const NO_BUNDLE = false;
+const ENABLE_QRCODE = false;
 
 const resolve = (...paths: string[]) => _resolve(__dirname, ...paths);
 
@@ -118,7 +119,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			}),
 			minifyLottieJson(),
 			NO_BUNDLE && noBundlePlugin(),
-			qrcode(),
+			ENABLE_QRCODE && qrcode(),
 		],
 		base: "",
 		publicDir: "src/public",

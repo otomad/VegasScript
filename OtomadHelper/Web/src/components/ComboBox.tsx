@@ -1,5 +1,10 @@
+import chevron from "assets/icons/chevron_down.svg?inline"; // TODO: DEV import only.
+import colors from "styles/colors";
 import { StyledButton } from "./Button";
 import { inputInSettingsCardStyle } from "./TextBox";
+
+const themedChevron = colors["foreground-color"].slice(0, 2).map(color =>
+	chevron.replace("svg%20", `svg%20fill='${encodeURI(color)}'%20`));
 
 const StyledComboBox = styled(StyledButton)`
 	padding: 4px 11px;
@@ -28,12 +33,28 @@ const StyledComboBox = styled(StyledButton)`
 	}
 
 	select& {
+		margin-inline: 1px;
+		background-image: url("${themedChevron[1]}");
+		background-repeat: no-repeat;
+		background-position: calc(100% - 11px) center;
+		background-size: 16px;
+		background-attachment: scroll;
+		appearance: none;
+
+		${ifColorScheme.light} & {
+			background-image: url("${themedChevron[0]}");
+		}
+
 		option {
 			background-color: ${c("background-color")};
 		}
 
 		&[disabled] {
 			color: ${c("fill-color-text-disabled")};
+		}
+
+		&:active {
+			background-position-y: calc(50% + 2px);
 		}
 	}
 `;

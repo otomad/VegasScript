@@ -16,8 +16,7 @@ export default (): VitePlugin => {
 	const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
 	const root = process.cwd().replaceAll("\\", "/");
-	// @ts-ignore
-	let config: Parameters<Plugin["configResolved"]>[0];
+	let config: VitePluginConfig;
 
 	const excludes = ["main", "bgr", "chromatic-aberration", "rainbow", "emboss", "bump", "edge"];
 

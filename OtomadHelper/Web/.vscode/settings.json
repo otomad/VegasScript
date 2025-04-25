@@ -8,6 +8,7 @@
 	"less.validate": false,
 	"scss.validate": false,
 	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"typescript.tsserver.pluginPaths": ["."],
 	"eslint.useFlatConfig": true,
 	"stylelint.validate": [
 		"css",
