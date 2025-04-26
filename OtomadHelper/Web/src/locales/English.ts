@@ -149,19 +149,19 @@ export default {
 		},
 		units: {
 			piece: "", // If your language can represent units without names, please fill in.
-			millisecond: "ms",
-			percent: "%",
-			pixel: "px",
-			beatPerMinute: "BPM",
-			semitone: "st",
-			degree: "°",
-			bar: "bar",
+			millisecond: "ms", // Unit: Millisecond.
+			percent: "%", // Unit: Percent.
+			pixel: "px", // Unit: Pixel.
+			beatPerMinute: "BPM", // Unit: Beat per minute.
+			semitone: "st", // Unit: Semitone.
+			degree: "°", // Unit: Degree.
+			bar: "bar", // Unit: Bar or Measure. In musical notation, a bar (or measure) is a segment of music bounded by vertical lines, known as bar lines.
 			bar_other: "bars",
-			beat: "beat",
+			beat: "beat", // Unit: Beat. In music and music theory, the beat is the basic unit of time, the pulse (regularly repeating event), of the mensural level.
 			beat_other: "beats",
-			densityIndependentPixel: "dp",
+			densityIndependentPixel: "dp", // Unit: Density independent pixel.
 			times: "×", // Eg: speed 1×, 1.5×, 2×.
-			cent: "cent",
+			cent: "cent", // Unit: Cent. The cent is a logarithmic unit of measure used for musical intervals. Twelve-tone equal temperament divides the octave into 12 semitones of 100 cents each.
 			cent_other: "cents",
 		},
 		confirm: {

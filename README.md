@@ -37,6 +37,17 @@
 
 
 
+> [!WARNING]
+>
+> #### THIS IS THE NEXT MAJOR VERSION OF OTOMAD HELPER
+>
+> The project is under production, please wait patiently for release.\
+> If you are looking to read the old version README, please click the link below.
+>
+> [V4 Documentation](https://github.com/otomad/OtomadHelper/tree/winform)
+
+
+
 > [!IMPORTANT]
 >
 > #### THIS IS NOT THE EXTENSION ITSELF, THESE ARE THE SOURCE FILES
