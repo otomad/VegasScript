@@ -14,7 +14,7 @@ export default function TransInterpolation<TInterpolations>({ i18nKey, children:
 	const lines = translatedString.split("\n");
 	const split = lines
 		.map((line, lineIndex) => line
-			.split(new RegExp(`(${tagStart}.*${tagCancel})`, "u"))
+			.split(new RegExp(`(${tagStart}.*?${tagCancel})`, "u"))
 			.map((segment, segmentIndex) => {
 				if (!segment.startsWith(tagStart)) return segment;
 				const index = decodeKeyFromTag(segment);
