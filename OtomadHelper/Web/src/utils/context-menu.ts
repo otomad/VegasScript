@@ -49,7 +49,7 @@ export function createContextMenu(menu: ContextMenuInput): MouseEventHandler<HTM
 				uuid: getUuid(),
 				command: async () => {
 					if (!confirmDeleteMessage) onClick?.();
-					else await confirmDelete(currentTarget, confirmDeleteMessage) && onClick?.();
+					else await confirmDelete(currentTarget, String(confirmDeleteMessage)) && onClick?.();
 				},
 				items: convertMenuInputToOutput(children),
 				...item,

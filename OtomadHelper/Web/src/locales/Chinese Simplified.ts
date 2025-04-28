@@ -159,8 +159,9 @@ export default {
 		},
 		confirm: {
 			delete: {
-				backgroundImage: "你确定要删除该背景图像吗？",
+				backgroundImage: "确定要删除该背景图像吗？",
 			},
+			enableImproveTranslation: "确定要进入语境翻译工具来改进翻译吗？",
 		},
 		curve: {
 			_: "插值曲线",
@@ -652,10 +653,8 @@ export default {
 			},
 			language: {
 				_: "语言",
-				en: "英语",
-				"zh-CN": "简体中文",
-				ja: "日语",
-				vi: "越南语",
+				improveTranslation: "改进翻译",
+				translating: "正在翻译⋯⋯",
 			},
 			appearance: {
 				_: "外观",
@@ -968,6 +967,11 @@ export default {
 			settings: {
 				about: "音MAD助手是VEGAS Pro的音MAD扩展程序，旨在使VEGAS能够接受如MIDI序列文件等乐谱作为输入并自动生成音MAD的轨道。",
 				translation: "如果你想要参与翻译，欢迎你的加入。",
+				language: {
+					enableInContextLocalization: "翻译模式已启用，请在Crowdin对话框中切换目标语言。",
+					improveTranslation: "进入语境翻译工具来改进翻译。你需要一个Crowdin账号。",
+					translating: "点击以退出语境翻译工具",
+				},
 				appearance: {
 					colorScheme: {
 						black: "AMOLED屏深色时",

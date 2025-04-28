@@ -1,6 +1,6 @@
 type FieldType<T> = string | ((item: T) => string | undefined) | true;
 
-export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, hideCustom = true, before, transition, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
+export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, hideCustom = true, before, transition, readOnly, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
 	/** List of options. */
 	items: readonly TItem[];
 	/** The identifier of the currently selected value. */
@@ -61,6 +61,8 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	before?: ReactNode;
 	/** Enable transition group for items view items. Passing a string represents it as the transition name. */
 	transition?: boolean | string;
+	/** Make items cannot be selected? */
+	readOnly?: boolean;
 	/** Occurs when the item clicked. */
 	onItemClick?: MouseEventHandler<HTMLElement>;
 	onItemContextMenu?(item: TItem, event: React.MouseEvent<HTMLElement>): void;
@@ -108,13 +110,21 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 					icon={getItemField(item, "icon")}
 					details={getItemField(item, "details")}
 					radioGroup={radioGroup}
+					readOnly={readOnly}
 					onClick={onItemClick}
 					onContextMenu={e => onItemContextMenu?.(item, e)}
 				>
 					{getItemField(item, "name")}
 				</RadioButton>
 			)) : (
-				<ItemsView view={view} current={[value, setValue]} itemWidth={itemWidth} role={null} transition={transition}>
+				<ItemsView
+					view={view}
+					current={[value, setValue]}
+					itemWidth={itemWidth}
+					role={null}
+					transition={transition}
+					readOnly={readOnly}
+				>
 					{filteredItems.map(item => (
 						<ItemsView.Item
 							id={getItemField(item, "id")}

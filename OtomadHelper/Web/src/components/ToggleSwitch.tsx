@@ -1,4 +1,5 @@
 import { expanderItemWithIconPaddingInlineStart, styledExpanderItemBase, styledExpanderItemContent, styledExpanderItemText } from "components/Expander/ExpanderItem";
+import { useInContextLocalization } from "helpers/jipt-activator";
 
 const THUMB_SIZE = 18;
 const THUMB_PRESSED_WIDTH = 22;
@@ -294,6 +295,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	} as CSSProperties, [thumbLeft]);
 	const isContrast = useSnapshot(colorModeStore).contrast;
 	if (isContrast) color = undefined;
+	const [inContextLocalization] = useInContextLocalization();
 
 	const { resetTransition } = useSnapshot(pageStore);
 	useUpdateEffect(() => {
@@ -380,10 +382,12 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			<div className="right">
 				{!hideLabel && (
 					<output className="text label" aria-hidden>
-						<div className="label-container" style={{ "--progress": labelTranslate }}>
-							<span className="off">{t.off}</span>
-							<span className="on">{t.on}</span>
-						</div>
+						{!inContextLocalization ? (
+							<div className="label-container" style={{ "--progress": labelTranslate }}>
+								<span className="off">{t.off}</span>
+								<span className="on">{t.on}</span>
+							</div>
+						) : on ? t.on : t.off}
 					</output>
 				)}
 				<div className={["stroke", "toggle-switch-base", { pressing: isPressing }]}>

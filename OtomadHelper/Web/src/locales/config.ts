@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
+import type { AvailableLanguageTags } from "./all";
 import allLanguages from "./all";
 import formatInterpolation from "./utils/interpolations";
 import { fullwidthQuotesProcessor, panguProcessor } from "./utils/processors";
@@ -32,18 +33,26 @@ i18n
 			panguProcessor.name,
 		],
 		resources: allLanguages,
+		detection: {
+			// htmlTag: document.documentElement,
+		},
 	});
 
 document.documentElement.lang = i18n.language;
 document.dir = i18n.dir();
 
-export function useLanguage(): StateProperty<string> {
+function useLanguageGetter() {
 	const [language, setLanguage] = useState(i18n.language);
+	i18n.on("languageChanged", language => setLanguage(language));
+	return language as AvailableLanguageTags;
+}
 
-	function changeLanguage(lng: string) {
+export function useLanguage() {
+	const language = useLanguageGetter();
+
+	function changeLanguage(lng: AvailableLanguageTags) {
 		if (i18n.language === lng && document.documentElement.lang === lng)
 			return;
-		setLanguage(lng);
 		bridges.bridge.setCulture(i18n.t("metadata.culture", { lng }));
 		startColorViewTransition(async () => {
 			await i18n.changeLanguage(lng);
@@ -60,7 +69,7 @@ export function useLanguage(): StateProperty<string> {
 		]);
 	}
 
-	return [language, changeLanguage];
+	return [language, changeLanguage] as StatePropertyNonNull<AvailableLanguageTags>;
 }
 
 export default i18n;

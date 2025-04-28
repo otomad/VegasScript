@@ -1,9 +1,8 @@
 import { readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
-
+import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator-constants";
 import VariableName from "variable-name-conversion";
 import { create } from "xmlbuilder2";
-
 import allLanguages from "../src/locales/all";
 
 const template_string = await readFile(resolve(import.meta.dirname, "Resources.resx.template.xml"), "utf-8");
@@ -24,6 +23,7 @@ function flattenObject(object: AnyObject, context: string[] = []) {
 
 const languages = Object.entries(allLanguages).map(([code, lang]) => ({ code, culture: lang.javascript.metadata.culture, dictionary: flattenObject(lang.csharp) }));
 for (const language of languages) {
+	if (language.code === IN_CONTEXT_LANGUAGE_CODE) continue;
 	const xml = create(template.options).import(template);
 	const root = xml.root();
 	for (const [name, value] of Object.entries(language.dictionary))

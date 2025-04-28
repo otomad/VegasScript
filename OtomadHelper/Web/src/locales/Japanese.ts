@@ -161,6 +161,7 @@ export default {
 			delete: {
 				backgroundImage: "この背景画像を削除してもよろしいですか？",
 			},
+			enableImproveTranslation: "翻訳を改善するためにIn-Context ローカライズツールを入力してもよろしいですか？",
 		},
 		curve: {
 			_: "補間曲線",
@@ -652,10 +653,8 @@ export default {
 			},
 			language: {
 				_: "言語",
-				en: "英語",
-				"zh-CN": "簡体字中国語",
-				ja: "日本語",
-				vi: "ベトナム語",
+				improveTranslation: "翻訳を改善",
+				translating: "翻訳中⋯⋯",
 			},
 			appearance: {
 				_: "外観",
@@ -968,6 +967,11 @@ export default {
 			settings: {
 				about: "音MADヘルパー、VEGAS Pro用の音MADエクステンションVEGASがMIDIシーケンスファイルのようなスコアを入力として受け入れ、音MADトラックを自動的に生成できるように設計されています。",
 				translation: "翻訳に参加したい場合は、ぜひ参加してください。",
+				language: {
+					enableInContextLocalization: "翻訳モードが有効になっています。Crowdin ダイアログで翻訳対象言語を切り替えてください。",
+					improveTranslation: "翻訳を改善するためにIn-Context ローカライズツールを入力してください。Crowdin アカウントが必要です。",
+					translating: "クリックしてIn-Context ローカライズツールを終了します",
+				},
 				appearance: {
 					colorScheme: {
 						black: "AMOLED ダークのみ",

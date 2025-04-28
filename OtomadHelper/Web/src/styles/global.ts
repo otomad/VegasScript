@@ -1,6 +1,7 @@
 import { globalColors } from "./colors";
 import eases from "./eases";
 import fakeAnimations from "./fake-animations";
+import fix from "./fix";
 import focusTestStyle from "./focus-test";
 import reset from "./reset";
 
@@ -10,9 +11,6 @@ const GlobalStyle = createGlobalStyle<{
 	/** Has the page loaded completely? */
 	$ready?: boolean;
 }>`
-	/* stylelint-disable selector-id-pattern */
-	/* stylelint-disable selector-class-pattern */
-
 	${globalColors()};
 	${fakeAnimations};
 
@@ -253,6 +251,7 @@ const GlobalStyle = createGlobalStyle<{
 		}
 	}
 
+	${fix}
 	${reset}
 `;
 

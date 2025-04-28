@@ -1,5 +1,5 @@
 diff --git a/cjs/react-dom-client.development.js b/cjs/react-dom-client.development.js
-index 83ea1c6a783efe2e674eda4b681eb361f000d12d..f338b593f99d51bea1ff4f9908be09a13784aa1e 100644
+index 83ea1c6a783efe2e674eda4b681eb361f000d12d..65c25d8a2fef92f6f80e48e9af38f908d519a88d 100644
 --- a/cjs/react-dom-client.development.js
 +++ b/cjs/react-dom-client.development.js
 @@ -1387,7 +1387,13 @@
@@ -92,8 +92,16 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..f338b593f99d51bea1ff4f9908be09a1
        switch (key) {
          case "children":
            if ("string" === typeof value)
+@@ -19067,6 +19084,7 @@
+       textInstance.nodeValue = newText;
+     }
+     function removeChild(parentInstance, child) {
++      if (child?.parentNode === parentInstance)
+       parentInstance.removeChild(child);
+     }
+     function removeChildFromContainer(container, child) {
 diff --git a/cjs/react-dom-client.production.js b/cjs/react-dom-client.production.js
-index af7283abaca3e5812ef71b03d9c999410baa1a80..f67ed9a426d7cffcff0cb5ed775cfaf493c4914c 100644
+index af7283abaca3e5812ef71b03d9c999410baa1a80..e5b24632a97ee5050df45b72b05f68bcfbddc8d1 100644
 --- a/cjs/react-dom-client.production.js
 +++ b/cjs/react-dom-client.production.js
 @@ -909,7 +909,13 @@ function isAttributeNameSafe(attributeName) {
@@ -161,7 +169,15 @@ index af7283abaca3e5812ef71b03d9c999410baa1a80..f67ed9a426d7cffcff0cb5ed775cfaf4
        ? ((newChild = "" + newChild),
          null !== currentFirstChild && 6 === currentFirstChild.tag
            ? (deleteRemainingChildren(returnFiber, currentFirstChild.sibling),
-@@ -12347,6 +12360,7 @@ function checkForUnmatchedText(serverText, clientText) {
+@@ -8076,6 +8089,7 @@ function commitDeletionEffectsOnFiber(
+           }
+         else
+           try {
++            if (deletedFiber.stateNode?.parentNode === hostParent)
+             hostParent.removeChild(deletedFiber.stateNode);
+           } catch (error) {
+             captureCommitPhaseError(
+@@ -12347,6 +12361,7 @@ function checkForUnmatchedText(serverText, clientText) {
  }
  function noop$1() {}
  function setProp(domElement, tag, key, value, props, prevValue) {

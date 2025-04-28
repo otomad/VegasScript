@@ -66,3 +66,5 @@ export const atomWithStorage: typeof _atomWithStorage = (key, initialValue, stor
 export const atomWithStorageAndImmer = <Value>(key: string, initialValue: Value, storage?: SyncStorage<Value>, options?: { getOnInit?: boolean }) => {
 	return withImmer(atomWithStorage(key, initialValue, storage, options));
 };
+
+export const jotaiStore = createJotaiStore();

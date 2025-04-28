@@ -67,7 +67,7 @@ const StyledItemsView = styled.div<{
 export default function ItemsView<
 	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, "aria-label": ariaLabel, ...htmlAttrs }: FCP<{
+>({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, readOnly, "aria-label": ariaLabel, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/**
@@ -99,6 +99,8 @@ export default function ItemsView<
 	inlineAlignment?: CSSProperties["justifyContent"];
 	/** Auto fill items (grid view only). */
 	autoFill?: boolean;
+	/** Make items cannot be selected? */
+	readOnly?: boolean;
 }, "div">) {
 	if (itemWidth === "square") itemWidth = GRID_VIEW_ITEM_HEIGHT;
 
@@ -127,6 +129,8 @@ export default function ItemsView<
 			aria-label={ariaLabel ?? (role === undefined && multiple ? t.aria.checkboxGroup : undefined)}
 			aria-hidden={false}
 			style={{ ...style, justifyContent: inlineAlignment }}
+			inert={readOnly}
+			aria-readonly={readOnly}
 			{...htmlAttrs}
 		>
 			{(() => {

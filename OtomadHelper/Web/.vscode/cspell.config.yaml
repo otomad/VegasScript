@@ -82,6 +82,7 @@ words:
   - idb
   - immer
   - indet
+  - jipt
   - jsdoc
   - jsdocs
   - kanban
@@ -239,6 +240,7 @@ words:
   - xy
   - xywh
   - xyz
+  - yi
   - yoooo
   - yozora
   - ytp
@@ -276,6 +278,9 @@ ignoreWords:
   - gōngchě
   - gōngshāng
   - lǜlǚ
+  - crwdns
+  - crwdne
+  - crwdnd
 flagWords:
   - colour -> color
   - canot -> cannot

@@ -168,6 +168,7 @@ export default {
 			delete: {
 				backgroundImage: "Are you sure you want to delete this background image?",
 			},
+			enableImproveTranslation: "Are you sure you want to enter the In-Context Localization Tool to improve translation?",
 		},
 		curve: {
 			_: "Interpolation curve",
@@ -672,10 +673,8 @@ export default {
 			},
 			language: {
 				_: "Language",
-				en: "English",
-				"zh-CN": "Simplified Chinese",
-				ja: "Japanese",
-				vi: "Vietnamese",
+				improveTranslation: "Improve translation",
+				translating: "Translating…",
 			},
 			appearance: {
 				_: "Appearance",
@@ -992,6 +991,11 @@ export default {
 			settings: {
 				about: "Otomad Helper is a YTPMV/YTP extension for VEGAS Pro that enables VEGAS to accept scores such as MIDI sequence files as input and automatically generate YTPMV tracks.",
 				translation: "If you would like to participate in the translation, you are welcome to join as well.",
+				language: {
+					enableInContextLocalization: "Translation mode is enabled, please switch the target language in the Crowdin dialog.",
+					improveTranslation: "Enter the In-Context Localization Tool to improve translation. You need an Crowdin account.",
+					translating: "Click to exit the In-Context Localization Tool",
+				},
 				appearance: {
 					colorScheme: {
 						black: "for AMOLED dark only",

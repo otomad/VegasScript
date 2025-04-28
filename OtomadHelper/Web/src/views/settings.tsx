@@ -1,3 +1,5 @@
+import { useInContextLocalization } from "helpers/jipt-activator";
+
 export /* @internal */ const systemBackdrops = [
 	{ name: "acrylic", enum: "TransientWindow" },
 	{ name: "mica", enum: "MainWindow" },
@@ -6,8 +8,9 @@ export /* @internal */ const systemBackdrops = [
 ] as const;
 
 export default function Settings() {
-	const [language, setLanguage] = useLanguage();
+	const [currentLanguage, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
+	const inContextLocalization = useInContextLocalization();
 	const systemContrast = useMediaQuery.contrast();
 	const reduceTransparency = useMediaQuery.reduceTransparency();
 	const schemes = ["light", "dark", "auto"] as const;
@@ -32,17 +35,27 @@ export default function Settings() {
 		<div className="container">
 			<SettingsAbout />
 			<ExpanderRadio
-				title={<>{t.settings.language}{!isEnglish(language ?? "en") && <span lang="en"> / Language</span>}</>}
+				title={<>{t.settings.language}{!isEnglish(currentLanguage ?? "en") && <span lang="en"> / Language</span>}</>}
 				icon="globe"
 				items={languages}
 				expanded
 				view="grid"
-				value={[language, setLanguage]}
+				value={[currentLanguage, setLanguage]}
 				idField
-				nameField={t.settings.language}
+				nameField={language => getLocaleName(language, currentLanguage)}
+				checkInfoCondition={t.metadata.name}
 				imageField={language => <PreviewLanguage language={language} />}
 				itemsViewItemAttrs={{ withBorder: true }}
-			/>
+				readOnly={inContextLocalization[0]}
+				before={inContextLocalization[0] && <InfoBar status="warning">{t.descriptions.settings.language.enableInContextLocalization}</InfoBar>}
+			>
+				<ToggleSwitch
+					icon="logo/crowdin" on={inContextLocalization}
+					details={inContextLocalization[0] ? t.descriptions.settings.language.translating : t.descriptions.settings.language.improveTranslation}
+				>
+					{inContextLocalization[0] ? t.settings.language.translating : t.settings.language.improveTranslation}
+				</ToggleSwitch>
+			</ExpanderRadio>
 
 			<Subheader>{t.settings.appearance}</Subheader>
 			<ExpanderRadio
@@ -55,7 +68,7 @@ export default function Settings() {
 				idField="key"
 				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
-				transition // FIXME: enable transition will break form keydown, unknown reason.
+				transition
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([
 						{ label: t.menu.moveForward, enabled: item.displayIndex > 0, onClick: () => backgroundImages.reorder(item.key, item.displayIndex - 1) },

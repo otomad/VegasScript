@@ -1,4 +1,6 @@
+import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator";
 import type { TOptions } from "i18next";
+import type { AvailableLanguageTags } from "locales/all";
 import type { LocaleWithDefaultValue } from "locales/types";
 import { spacing } from "pangu";
 const I18N_ITEM_SYMBOL = Symbol.for("react-i18next.i18n_item");
@@ -122,10 +124,15 @@ export function listFormat(list: string[], type?: Intl.ListFormatType, style?: I
  * Get all language tags.
  * @returns All language tags.
  */
-export function useLanguageTags() {
+export function useLanguageTags({ omitInContextLanguage = true }: {
+	/** Omit in-context language? @default true */
+	omitInContextLanguage?: boolean;
+} = {}) {
 	const { i18n } = useTranslation();
 	const languages = Object.keys(i18n.options.resources ?? {});
-	return languages;
+	if (omitInContextLanguage)
+		languages.removeItem(IN_CONTEXT_LANGUAGE_CODE);
+	return languages as AvailableLanguageTags[];
 }
 
 /**
@@ -142,7 +149,7 @@ export function useCurrentLanguage() {
 		return () => i18n.off("languageChanged", onLanguageChanged);
 	});
 
-	return language;
+	return language as AvailableLanguageTags;
 }
 
 /**
@@ -159,4 +166,24 @@ export function isEnglish(lang: string | Intl.Locale) {
 		}
 	lang = lang.maximize();
 	return lang.language === "en";
+}
+
+/**
+ * Get the name of the target language in the current display language.
+ * @param targetLocale - Target language.
+ * @param displayLocale - Current display language. ~~It will be automatically gotten when it is not provided.~~
+ * @returns The name of the target language.
+ * @example
+ * ```typescript
+ * console.log(getLocaleName("en", "zh")); // "英语"
+ * console.log(getLocaleName("zh", "en")); // "Chinese"
+ * ```
+ */
+export function getLocaleName(targetLocale: string | Intl.Locale, displayLocale: string | Intl.Locale) {
+	if (targetLocale instanceof Intl.Locale) targetLocale = targetLocale.toString();
+	if (displayLocale instanceof Intl.Locale) displayLocale = displayLocale.toString();
+	targetLocale = targetLocale === "zh-CN" ? "zh-Hans" : targetLocale === "zh-TW" ? "zh-Hant" : targetLocale;
+	const fallbackLocales = [displayLocale];
+	// if (displayLocale === "yue") fallbackLocales.push("zh-Hant-HK");
+	return new Intl.DisplayNames(fallbackLocales, { type: "language" }).of(targetLocale)!;
 }
