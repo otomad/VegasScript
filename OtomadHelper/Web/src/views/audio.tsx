@@ -335,7 +335,7 @@ export default function Audio() {
 									max={1}
 									step={0.01}
 									defaultValue={1}
-									displayValue={value => (value * 100 | 0) + "%"}
+									displayValue={value => (value * 100 | 0) + t.units.percent}
 								/>
 							</Expander.Item>
 							<ToggleSwitch icon="remix_add" on={adjustAudioToBasePitch} details={t.descriptions.stream.tuning.prelisten.adjustAudioToBasePitch}>{t.stream.tuning.prelisten.adjustAudioToBasePitch}</ToggleSwitch>

@@ -196,7 +196,6 @@ export default function Score() {
 				</TabBar>
 			</Card>
 
-			<Subheader>{t.subheaders.config}</Subheader>{/* TODO: This line should be deleted. */}
 			<Expander title={t.source.trim} details={t.descriptions.source.trim} icon="aspect_ratio">
 				<ExpanderChildTrim.Timecode start={trimStart} end={trimEnd} />
 			</Expander>
@@ -238,7 +237,7 @@ export default function Score() {
 				iconField="icon"
 			>
 				<Expander.ChildWrapper>
-					<TimecodeBox timecode={constrainNoteLengthValue} />
+					<TimecodeBox timecode={constrainNoteLengthValue} disabled={constrainNoteLengthType[0] === "none"} />
 				</Expander.ChildWrapper>
 			</ExpanderRadio>
 			<SettingsCard

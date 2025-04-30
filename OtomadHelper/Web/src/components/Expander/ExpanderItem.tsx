@@ -94,6 +94,8 @@ const StyledExpanderItem = styled.div<{
 	$clickable?: boolean;
 	/** As sub title style? */
 	$asSubtitle?: boolean;
+	/** Remove the top split line and top padding from the expand child. */
+	$noDivider?: boolean;
 }>`
 	${styledExpanderItemBase};
 	padding-inline-start: ${expanderItemWithIconPaddingInlineStart}px;
@@ -128,9 +130,14 @@ const StyledExpanderItem = styled.div<{
 			${styles.effects.text.bodyStrong};
 		}
 	`)}
+
+	${ifProp("$noDivider", css`
+		padding-block: 0;
+		border-block-start-width: 0 !important;
+	`)}
 `;
 
-export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, children, disabled = false, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, noDivider, children, disabled = false, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons | ReactElement;
 	/** Title. */
@@ -141,10 +148,19 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 	clickable?: boolean;
 	/** As sub title style? */
 	asSubtitle?: boolean;
+	/** Remove the top split line and top padding from the expand child. */
+	noDivider?: boolean;
 }, "div">) {
 	disabled = useContext(InteractionStateContext).disabled || disabled;
 	return (
-		<StyledExpanderItem $clickable={clickable} $asSubtitle={asSubtitle} disabled={disabled} {...htmlAttrs}>
+		<StyledExpanderItem
+			$clickable={clickable}
+			$asSubtitle={asSubtitle}
+			$noDivider={noDivider}
+			disabled={disabled}
+			aria-disabled={disabled || undefined}
+			{...htmlAttrs}
+		>
 			<InteractionStateContext value={{ disabled }}>
 				<SettingsCard.Base
 					leading={(

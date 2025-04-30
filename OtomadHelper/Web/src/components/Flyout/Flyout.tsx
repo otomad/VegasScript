@@ -106,7 +106,7 @@ const StyledFlyout = styled.div`
 		margin-block: 1px;
 		margin-block-end: 4px;
 		border: none;
-		border-top: 1px solid ${c("stroke-color-divider-stroke-default")};
+		border-block-start: 1px solid ${c("stroke-color-divider-stroke-default")};
 	}
 
 	&.padding-x {

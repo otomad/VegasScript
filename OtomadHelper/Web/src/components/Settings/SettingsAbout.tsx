@@ -1,7 +1,6 @@
 import ColoredLogo from "assets/svg/Otomad Helper Colored.svg?react";
 import MonoLogo from "assets/svg/Otomad Helper Mono.svg?react";
 import { contributeTranslationLink } from "helpers/crowdin-link";
-import { spacing } from "pangu";
 
 const StyledSettingsAbout = styled.div`
 	display: flex;
@@ -51,7 +50,8 @@ export default function SettingsAbout() {
 		[t.settings.about.originalAuthor, t.settings.about.__originalAuthor__],
 	]);
 	const currentLanguage = useCurrentLanguage();
-	if (t.metadata.__translator__.toString()) pairs.set(t.settings.about.translator, listFormatTranslators(t.metadata.__translator__, currentLanguage));
+	const [hasTranslator, formattedTranslator] = listFormatTranslators(currentLanguage, currentLanguage);
+	if (hasTranslator) pairs.set(t.settings.about.translator, formattedTranslator);
 	const { version } = useAboutApp();
 	const [showTranslators, setShowTranslators] = useState(false);
 
@@ -142,7 +142,6 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 }>) {
 	const currentLanguage = useCurrentLanguage();
 	const languages = useLanguageTags();
-	const translatorNames = languages.mapObject(lang => [lang, t({ lng: lang }).metadata.__translator__]);
 
 	const availableLanguageNames = {
 		original: languages.mapObject(lang => [lang, t({ lng: lang }).metadata.name]),
@@ -176,8 +175,7 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 				{languages.map(lang => {
 					const langAttr = displayName === "english" ? "en" : displayName === "original" ? lang : undefined;
 					const isCurrentLang = { current: lang === currentLanguage };
-					const translators = translatorNames[lang], hasTranslator = translators.toString().length > 0;
-					const formattedTranslator = hasTranslator ? listFormatTranslators(translators, langAttr ?? currentLanguage) : "—";
+					const [hasTranslator, formattedTranslator] = listFormatTranslators(lang, langAttr ?? currentLanguage);
 					return (
 						<Fragment key={lang}>
 							<p lang={langAttr} className={isCurrentLang}>{languageNames[lang]}</p>
@@ -222,8 +220,14 @@ function AboutInformation() {
 	);
 }
 
-function listFormatTranslators(translators: string[] | string, lang: string) {
+function listFormatTranslators_static(translators: string[] | string, lang: string) {
 	if (typeof translators === "string" || isI18nItem(translators)) translators = translators.toString().split("\n").toTrimmed();
 	const formatted = new Intl.ListFormat(lang, { style: "narrow", type: "conjunction" }).format(translators);
-	return spacing(formatted);
+	return panguSpacing(formatted);
+}
+
+export function listFormatTranslators(targetLanguage: string, displayLanguage: string): [hasTranslator: boolean, formattedTranslator: string] {
+	const translators = t({ lng: targetLanguage }).metadata.__translator__, hasTranslator = translators.toString().length > 0;
+	const formattedTranslator = hasTranslator ? listFormatTranslators_static(translators, displayLanguage) : "—";
+	return [hasTranslator, formattedTranslator];
 }

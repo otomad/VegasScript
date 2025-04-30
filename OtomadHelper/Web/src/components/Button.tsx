@@ -227,7 +227,7 @@ export /* @internal */ const StyledButton = styled.button<{
 	}
 `;
 
-export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, ariaHiddenForChildren, className, disabled, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
+export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, ariaHiddenForChildren, href, blank = true, className, disabled, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Button animated icon. */
@@ -252,6 +252,10 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 	minWidthUnbounded?: boolean;
 	/** Add aria-hidden to children to prevent them from being read by screen readers. */
 	ariaHiddenForChildren?: boolean;
+	/** Click the button to open a link. */
+	href?: string;
+	/** Open in new tab? Only available when `href` is provided. */
+	blank?: boolean;
 	/** Mouse release button event. Only works with `RepeatButton`. */
 	onRelease?: BaseEventHandler;
 }, "button">) {
@@ -261,10 +265,12 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 
 	return (
 		<StyledButton
-			as={repeat ? RepeatButton : "button"}
+			as={href ? "a" : repeat ? RepeatButton : "button"}
 			ref={ref}
-			type="button"
-			role={hyperlink ? "link" : undefined}
+			type={href ? undefined : "button"}
+			role={hyperlink || href ? "link" : undefined}
+			href={href}
+			target={href && blank ? "_blank" : undefined}
 			disabled={disabled}
 			aria-disabled={disabled}
 			className={[

@@ -61,8 +61,8 @@ const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when sc
 const ExpanderChild = styled.div`
 	inline-size: 100%;
 	border: 1px solid ${c("stroke-color-card-stroke-default")};
-	border-top-width: 0;
 	border-radius: 0 0 3px 3px;
+	border-block-start-width: 0;
 
 	&:not(.enter-done) {
 		overflow: clip;
@@ -73,7 +73,7 @@ const ExpanderChild = styled.div`
 		border-radius: 0 0 2px 2px;
 
 		> :not(:first-child) {
-			border-top: 1px solid ${c("stroke-color-divider-stroke-default")};
+			border-block-start: 1px solid ${c("stroke-color-divider-stroke-default")};
 		}
 	}
 
@@ -96,7 +96,10 @@ const ExpanderChild = styled.div`
 	}
 `;
 
-const ExpanderChildWrapper = styled.div`
+const ExpanderChildWrapper = styled.div<{
+	/** Remove the top split line and top padding from the expand child. */
+	$noDivider?: boolean;
+}>`
 	padding: 7px 51px; // 7px 38px
 
 	&:has(.slider) {
@@ -106,6 +109,11 @@ const ExpanderChildWrapper = styled.div`
 	&:has(.timecode-box) {
 		--layout: inline;
 	}
+
+	${ifProp("$noDivider", css`
+		padding-block-start: 0;
+		border-block-start-width: 0 !important;
+	`)}
 `;
 
 export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childRole, selectInfo, selectValid, disabled, className, role, trailingGap, onClickWhenChildrenDisabled, onToggle, ref }: FCP<Override<PropsOf<typeof SettingsCard>, {

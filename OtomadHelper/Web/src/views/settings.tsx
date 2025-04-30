@@ -1,3 +1,4 @@
+import { contributeTranslationLink } from "helpers/crowdin-link";
 import { useInContextLocalization } from "helpers/jipt-activator";
 
 export /* @internal */ const systemBackdrops = [
@@ -45,10 +46,17 @@ export default function Settings() {
 				nameField={language => getLocaleName(language, currentLanguage)}
 				checkInfoCondition={t.metadata.name}
 				imageField={language => <PreviewLanguage language={language} />}
+				detailsField={language => {
+					const [hasTranslator, formattedTranslator] = listFormatTranslators(language, currentLanguage);
+					return hasTranslator ? formattedTranslator : undefined;
+				}}
 				itemsViewItemAttrs={{ withBorder: true }}
 				readOnly={inContextLocalization[0]}
 				before={inContextLocalization[0] && <InfoBar status="warning">{t.descriptions.settings.language.enableInContextLocalization}</InfoBar>}
 			>
+				<Expander.Item title={t.descriptions.settings.translation} noDivider>
+					<Button hyperlink minWidthUnbounded extruded href={contributeTranslationLink[currentLanguage]}>{t.settings.about.translation}</Button>
+				</Expander.Item>
 				<ToggleSwitch
 					icon="logo/crowdin" on={inContextLocalization}
 					details={inContextLocalization[0] ? t.descriptions.settings.language.translating : t.descriptions.settings.language.improveTranslation}
@@ -91,7 +99,7 @@ export default function Settings() {
 								max={1}
 								step={0.01}
 								defaultValue={0.2}
-								displayValue={i => (i * 100 | 0) + "%"}
+								displayValue={i => (i * 100 | 0) + t.units.percent}
 							/>
 						</Expander.Item>
 						<Expander.Item title={t.settings.appearance.backgroundImage.tint} icon="shape_intersect">
@@ -101,7 +109,7 @@ export default function Settings() {
 								max={1}
 								step={0.01}
 								defaultValue={0}
-								displayValue={i => (i * 100 | 0) + "%"}
+								displayValue={i => (i * 100 | 0) + t.units.percent}
 							/>
 						</Expander.Item>
 						<Expander.Item title={t.settings.appearance.backgroundImage.blur} icon="blur">
@@ -111,7 +119,7 @@ export default function Settings() {
 								max={64}
 								step={0.01}
 								defaultValue={0}
-								displayValue
+								displayValue={i => i + t.units.pixel}
 							/>
 						</Expander.Item>
 					</>
@@ -194,7 +202,7 @@ export default function Settings() {
 			<Expander
 				title={t.settings.appearance.uiScale}
 				icon="zoom_in"
-				checkInfo={displayUiScale + "%"}
+				checkInfo={displayUiScale + t.units.percent}
 				alwaysShowCheckInfo
 				expanded
 			>

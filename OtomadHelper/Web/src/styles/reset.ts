@@ -89,17 +89,20 @@ export default css`
 
 		// Global hyperlink style.
 		a {
-			color: ${c("accent-color")};
 			text-decoration: none;
-			border-radius: 3px;
 			cursor: pointer;
 
-			&:hover {
-				opacity: 0.8;
-			}
+			&:not(.button) {
+				color: ${c("accent-color")};
+				border-radius: 3px;
 
-			&:active {
-				opacity: 0.5;
+				&:hover {
+					opacity: 0.8;
+				}
+
+				&:active {
+					opacity: 0.5;
+				}
 			}
 		}
 

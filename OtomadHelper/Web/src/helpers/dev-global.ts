@@ -1,5 +1,3 @@
-import { spacing } from "pangu";
-
 /**
  * Initialize global variables that need to be declared in the console in the development environment.
  */
@@ -21,7 +19,7 @@ if (import.meta.env.DEV) {
 	// #endregion
 
 	// #region Pangu spacing
-	globals.spacing = spacing;
+	globals.spacing = panguSpacing;
 	// #endregion
 
 	// #region Temporarily set theme

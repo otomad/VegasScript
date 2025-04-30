@@ -118,11 +118,11 @@ const StyledSegmented = styled.div<{
 		`}
 
 		${ifColorScheme.dark} &:not(:active, [disabled]) {
-			border-top-color: ${c("stroke-color-control-stroke-secondary")};
+			border-block-start-color: ${c("stroke-color-control-stroke-secondary")};
 		}
 
 		${ifColorScheme.light} &:not(:active, [disabled]) {
-			border-bottom-color: ${c("stroke-color-control-stroke-secondary")};
+			border-block-end-color: ${c("stroke-color-control-stroke-secondary")};
 		}
 
 		${ifColorScheme.contrast} & {
@@ -178,10 +178,13 @@ const StyledSegmented = styled.div<{
 	}
 `;
 
-export default function Segmented<T extends string = string>({ current: [current, setCurrent], children }: FCP<{
+export default function Segmented<T extends string = string>({ current: [current, setCurrent], disabled, children }: FCP<{
 	/** The identifier of the selected segmented item. */
 	current: StateProperty<T>;
+	/** Disabled? */
+	disabled?: boolean;
 }>) {
+	disabled = useContext(InteractionStateContext).disabled || disabled;
 	const items = React.Children.toArray(children).filter(child => isReactInstance(child, SegmentedItem)) as
 		GetReactElementFromFC<typeof SegmentedItem>[];
 	const itemCount = items.length;
@@ -219,6 +222,8 @@ export default function Segmented<T extends string = string>({ current: [current
 	return (
 		<StyledSegmented
 			role="radiogroup"
+			disabled={disabled}
+			aria-disabled={disabled || undefined}
 			$itemCount={itemCount}
 			$selectedIndex={selectedIndex}
 			onKeyDown={e => e.code.startsWith("Arrow") && e.preventDefault()}

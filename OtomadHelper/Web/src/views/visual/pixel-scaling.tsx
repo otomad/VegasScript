@@ -24,7 +24,7 @@ export default function PixelScaling() {
 				<Expander
 					title={t.pixelScaling.scaleFactor}
 					icon="zoom_in"
-					checkInfo={isActuallyAutoScaleFactor ? t.auto : displayScaleFactor + "%"}
+					checkInfo={isActuallyAutoScaleFactor ? t.auto : displayScaleFactor + t.units.percent}
 					alwaysShowCheckInfo
 					expanded
 				>

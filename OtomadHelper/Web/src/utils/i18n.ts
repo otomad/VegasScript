@@ -2,7 +2,6 @@ import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator";
 import type { TOptions } from "i18next";
 import type { AvailableLanguageTags } from "locales/all";
 import type { LocaleWithDefaultValue } from "locales/types";
-import { spacing } from "pangu";
 const I18N_ITEM_SYMBOL = Symbol.for("react-i18next.i18n_item");
 const toPrimitives = [Symbol.toPrimitive, "toString", "toJSON", "valueOf"];
 
@@ -117,7 +116,7 @@ export function swapArrowLeftRightIfRtl<T extends string>(code: T) {
 export function listFormat(list: string[], type?: Intl.ListFormatType, style?: Intl.ListFormatStyle) {
 	const formatter = new Intl.ListFormat(i18n.language, { type, style });
 	const result = formatter.format(list);
-	return spacing(result);
+	return panguSpacing(result);
 }
 
 /**

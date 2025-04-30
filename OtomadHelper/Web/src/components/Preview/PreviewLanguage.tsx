@@ -19,7 +19,7 @@ const StyledPreviewLanguage = styled.div`
 	}
 
 	.items-view-item.grid:has(&) {
-		.text-part .title {
+		.text-part .text {
 			padding-inline-start: ${TEXT_MARGIN[0] + 1}px;
 		}
 
