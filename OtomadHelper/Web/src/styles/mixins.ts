@@ -1,6 +1,7 @@
 import { type BorderRadiusPosition, setBorderRadius } from "./internal";
 
 type ResponsiveUnit = "v" | "dv" | "lv" | "sv" | "cq";
+type OutOfFlowPositions = "absolute" | "fixed";
 
 export default {
 	/**
@@ -17,6 +18,32 @@ export default {
 	gridCenter: () => css`
 		display: grid;
 		place-items: center;
+	`,
+	/**
+	 * Center an element with **unknown size** that positioning out of flow (absolute or fixed).
+	 * @param position - Specify the `position` property of the element. Must be `absolute` or `fixed`.
+	 * @param useTranslate - Use `translate` instead of `transform`. Defaults to `true`, or provide more possibilities of custom transformation if `false`.
+	 */
+	absoluteCenter: (position: OutOfFlowPositions = "absolute", useTranslate: boolean = true) => css`
+		position: ${position};
+		top: 50%;
+		left: 50%;
+
+		${useTranslate ? css`
+			translate: -50% -50%;
+		` : css`
+			transform: translate(-50%, -50%);
+		`}
+	`,
+	/**
+	 * Center an element with **known size** that positioning out of flow (absolute or fixed).
+	 * @note You have to specify the width and height while using the mixin.
+	 * @param position - Specify the `position` property of the element. Must be `absolute` or `fixed`.
+	 */
+	absoluteCenterSized: (position: OutOfFlowPositions = "absolute") => css`
+		position: ${position};
+		inset: 0;
+		margin: auto;
 	`,
 	/**
 	 * Become a square.
@@ -100,7 +127,7 @@ export default {
 	 * Set both width and height to 100% of the window width and height value.
 	 * @param position - Specify the `position` property of the element.
 	 */
-	fullscreen: (position: "fixed" | "absolute" = "fixed") => css`
+	fullscreen: (position: OutOfFlowPositions = "fixed") => css`
 		position: ${position};
 		top: 0;
 		left: 0;

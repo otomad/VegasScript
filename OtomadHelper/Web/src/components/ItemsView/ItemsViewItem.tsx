@@ -33,7 +33,7 @@ const StyledItemsViewItem = styled.button<{
 			border-radius: inherit;
 			isolation: isolate;
 
-			.checkbox-label {
+			.checkbox-label.items-view-item-checkbox {
 				position: absolute;
 				inset-block-start: 6px;
 				inset-inline-end: 6px;
@@ -304,7 +304,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	);
 	const checkbox = (
 		<CssTransition in={multiple} unmountOnExit>
-			<Checkbox value={[selected]} plain inert disableCheckmarkTransition={disableCheckmarkTransition} />
+			<Checkbox className="items-view-item-checkbox" value={[selected]} plain inert disableCheckmarkTransition={disableCheckmarkTransition} />
 		</CssTransition>
 	);
 	const iconOrElement = typeof icon === "string" ? <Icon name={icon} /> : icon;

@@ -130,9 +130,9 @@ const StyledSliderWrapper = styled.div`
 export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, keyLargeStepMultiple = 10, displayValueStep, smoothDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChange, onDisplayValueChanged }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
-	/** Slider minimum value. */
+	/** Slider minimum value. @default 0 */
 	min?: number;
-	/** Slider maximum value. */
+	/** Slider maximum value. @default 100 */
 	max?: number;
 	/** If `min` and `max` changed dynamically, automatically clamp the value that would not exceed the range? */
 	autoClampValue?: boolean;
@@ -140,16 +140,17 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	defaultValue?: number;
 	/** Slider effective increment value. */
 	step?: number;
-	/** Specifies the value by which the slider adjusts once when a keyboard arrow key is pressed. Defaults to 1. */
+	/** Specifies the value by which the slider adjusts once when a keyboard arrow key is pressed. @default 1 */
 	keyStep?: number;
 	/**
 	 * According to the Accessibility feature, when user press PageUp and PageDown key, it will adjust a larger number than the `keyStep`.
-	 * Please specify a number which will multiply by the `keyStep`. Defaults to 10.
+	 * Please specify a number which will multiply by the `keyStep`.
+	 * @default 10
 	 */
 	keyLargeStepMultiple?: number;
 	/** The display value decimal places will accept it, or use `step` if it is undefined. */
 	displayValueStep?: number;
-	/** Make the display value smoothly? Defaults to true. */
+	/** Make the display value smoothly? @default true */
 	smoothDisplayValue?: boolean;
 	/** Disabled */
 	disabled?: boolean;

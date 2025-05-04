@@ -11,7 +11,7 @@ const StyledTabItem = styled.button`
 	min-block-size: 30px;
 	inline-size: -webkit-fill-available;
 	inline-size: -moz-available;
-	inline-size: fill-available;
+	inline-size: stretch;
 	overflow-x: hidden;
 	border-radius: 3px;
 
@@ -126,7 +126,7 @@ const StyledTabItem = styled.button`
 const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [false] as never }: { hidden?: boolean; badge?: BadgeArgs }) =>
 	<Badge status={status ?? "accent"} hidden={hidden || layoutHidden}>{badge}</Badge>;
 
-export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, ariaCurrentWhenSelected, _vertical: vertical, ...htmlAttrs }: FCP<{
+export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, ariaCurrentWhenSelected, autoScrollIntoView = true, _vertical: vertical, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons;
 	/** Animated icon. */
@@ -143,13 +143,15 @@ export /* @internal */ default function TabItem({ icon, animatedIcon, children, 
 	badge?: BadgeArgs;
 	/** Set the `aria-current` attribute only when the tab item has been selected. */
 	ariaCurrentWhenSelected?: React.AriaAttributes["aria-current"];
+	/** Auto scroll into view while selected? @default true */
+	autoScrollIntoView?: boolean;
 	/** @private Use the vertical NavigationView style? */
 	_vertical?: boolean;
 }, GenericElement>) {
 	const tabItemEl = useDomRef<"button">();
 
 	const scrollIntoView = () => {
-		if (selected)
+		if (selected && autoScrollIntoView)
 			tabItemEl.current?.scrollIntoViewIfNeeded();
 	};
 

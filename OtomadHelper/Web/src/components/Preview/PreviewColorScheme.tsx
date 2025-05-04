@@ -1,5 +1,8 @@
 import type { ColorScheme } from "helpers/color-mode";
 
+const TAB_ITEM_COUNT = 6;
+const TAB_ITEM_RADIUS = 66;
+
 const StyledPreviewColorScheme = styled.div.attrs({
 	inert: true,
 })`
@@ -9,38 +12,49 @@ const StyledPreviewColorScheme = styled.div.attrs({
 	.container {
 		${styles.mixins.square("100%")};
 		--padding: 1px;
+		position: relative;
 		display: flex;
 		gap: 12px;
 		padding: var(--padding);
+		overflow: clip;
 		background-color: ${c("background-color")};
-		zoom: 0.65;
+		border-radius: 6px;
+		zoom: 0.75;
 	}
 
 	.container:nth-child(2) {
 		${styles.mixins.square("calc(100% - var(--padding) * 2)")};
 		position: absolute;
-		clip-path: polygon(30% 100%, 100% 100%, 100% 0%, 70% 0%);
-	}
-
-	.tab-bar {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5px;
-		margin: 4px 5px;
-	}
-
-	.vertical-spring {
-		flex-shrink: 1;
-		height: 100%;
+		clip-path: polygon(33.333% 100%, 100% 100%, 100% 0%, 66.667% 0%);
 	}
 
 	.icon {
 		color: ${c("foreground-color")};
 	}
 
+	.color-scheme-button {
+		${styles.mixins.square("36px")};
+		${styles.mixins.circle()};
+		${styles.mixins.absoluteCenter()};
+		padding-block-start: 6px;
+		scale: 1.75;
+	}
+
+	.circular > * {
+		${styles.mixins.absoluteCenter(undefined, false)};
+
+		${forMap(TAB_ITEM_COUNT, i => css`
+			&:nth-child(${i + 1}) {
+				translate:
+					calc(cos(${i} / ${TAB_ITEM_COUNT} * 1turn) * ${-TAB_ITEM_RADIUS}px)
+					calc(sin(${i} / ${TAB_ITEM_COUNT} * 1turn) * ${-TAB_ITEM_RADIUS}px);
+			}
+		`)}
+	}
+
 	.tab-item {
 		${styles.mixins.gridCenter()};
-		position: relative;
+		/* position: relative; */
 		padding: 9px 12px;
 		color: ${c("foreground-color")};
 		border-radius: 4px;
@@ -77,112 +91,58 @@ const StyledPreviewColorScheme = styled.div.attrs({
 		}
 	}
 
-	.main {
-		${styles.mixins.square("100%")};
+	.card > .base {
 		display: flex;
 		flex-direction: column;
-		padding-block-end: 9px;
-		padding-inline-end: 12px;
+		gap: 8px;
+	}
 
-		@layer base {
-			> * {
-				flex-shrink: 0;
+	.toggle-switch-label {
+		min-height: unset;
+		padding: 0;
+
+		.right {
+			margin-inline-start: unset;
+		}
+	}
+
+	.corner > * {
+		position: absolute;
+
+		&:nth-child(1) {
+			bottom: -1px;
+			left: -32%;
+		}
+
+		&:nth-child(2) {
+			right: -36%;
+			bottom: -4px;
+		}
+
+		&:nth-child(3) {
+			top: -2px;
+			right: -36%;
+
+			& > .base {
+				gap: 10px;
 			}
 		}
-	}
 
-	.text {
-		--font-size: 12px;
-		block-size: var(--font-size);
-		inline-size: 100%;
-		background-color: ${c("foreground-color")};
-		border-radius: 4px;
+		&:nth-child(4) {
+			top: -4px;
+			left: -3px;
+			inline-size: 90px;
 
-		&.heading {
-			margin-block: calc((45px - var(--font-size)) / 2);
-			inline-size: 4em;
-		}
-	}
+			& > .base {
+				gap: 7px;
+				padding-block: 10px;
+			}
 
-	.page-control {
-		display: flex;
-		gap: 16px;
-		margin-block: 8px 10px;
-
-		.icon {
-			font-size: 40px;
-		}
-
-		.texts {
-			display: flex;
-			flex-direction: column;
-			gap: 8px;
-			margin-block: 2px;
-			inline-size: 100%;
-		}
-
-		.text {
-			block-size: 100%;
-			background-color: ${c("fill-color-text-secondary")};
-
-			${[84, 100, 100, 100, 42].map((percent, index) => css`
-				&:nth-child(${index + 1}) {
-					width: ${percent}%;
-				}
-			`)}
-		}
-
-		.card {
-			${styles.mixins.square("64px")};
-			${styles.mixins.gridCenter()};
-			flex-shrink: 0;
-		}
-	}
-
-	.card {
-		background-color: ${c("background-fill-color-card-background-default")};
-		border: 1px solid ${c("stroke-color-card-stroke-default")};
-		border-radius: 4px;
-
-		&.settings-card {
-			margin-block-start: 6px;
-			block-size: 35px;
-			inline-size: 100%;
-		}
-	}
-
-	.command-bar {
-		display: flex;
-		gap: 5px;
-		justify-content: flex-end;
-	}
-
-	.button {
-		block-size: 24px;
-		inline-size: 50px;
-		background-color: ${c("background-fill-color-card-background-default")};
-		border: 1px solid ${c("stroke-color-control-stroke-default")};
-		border-radius: 4px;
-
-		&.accent {
-			background-color: ${c("accent-color")};
-			border-color: ${c("stroke-color-control-stroke-on-accent-default")};
-		}
-	}
-
-	.container${ifColorScheme.light} .button {
-		border-block-end-color: ${c("stroke-color-control-stroke-secondary-on-default")};
-
-		&.accent {
-			border-block-end-color: ${c("stroke-color-control-stroke-on-accent-secondary")};
-		}
-	}
-
-	.container${ifColorScheme.dark} .button {
-		border-block-start-color: ${c("stroke-color-control-stroke-secondary-on-default")};
-
-		&.accent {
-			border-block-start-color: ${c("stroke-color-control-stroke-on-accent-secondary")};
+			.button {
+				block-size: 21.5px;
+				min-block-size: unset;
+				min-inline-size: unset;
+			}
 		}
 	}
 `;
@@ -220,30 +180,34 @@ function PreviewColorSchemeContent({ scheme, icon }: {
 	scheme: string;
 	icon: DeclaredIcons;
 }) {
+	const tabIcons: DeclaredIcons[] = ["home", "volume", "layer", "sonar", "ytp", "mosh"];
 	return (
 		<div className="container" data-scheme={scheme} inert>
-			<div className="tab-bar">
-				{(["back", "global_nav_button", "home", "placeholder", "placeholder", "", "settings"] as DeclaredIcons[]).map((icon, index) =>
-					!icon ? <div key={index} className="vertical-spring" /> :
-					<div className={["tab-item", { disabled: icon === "back", selected: icon === "home" }]} key={index}><Icon name={icon} /></div>)}
-			</div>
-			<div className="main">
-				<div className="text heading" />
-				<div className="page-control">
-					<div className="card">
-						<Icon name={icon} />
+			<Button icon={icon} minWidthUnbounded className="color-scheme-button" />
+			<Contents className="circular">
+				{tabIcons.map((tabIcon, i) => (
+					<div key={tabIcon} className={["tab-item", { selected: i === 0 }]}>
+						<Icon name={tabIcon} />
 					</div>
-					<div className="texts">
-						{forMap(5, i => <div className="text" key={i} />)}
-					</div>
-				</div>
-				{forMap(2, i => <div className="card settings-card" key={i} />)}
-				<div className="vertical-spring" />
-				<div className="command-bar">
-					<div className="button accent" />
-					<div className="button" />
-				</div>
-			</div>
+				))}
+			</Contents>
+			<Contents className="corner">
+				<Card>
+					<Slider value={[85]} />
+				</Card>
+				<Card>
+					<ToggleSwitch on={[true]} hideLabel />
+					<ToggleSwitch on={[false]} hideLabel />
+				</Card>
+				<Card>
+					<Checkbox value={[true]} plain />
+					<RadioButton id="true" value={["true"]} plain />
+				</Card>
+				<Card>
+					<Button accent />
+					<Button />
+				</Card>
+			</Contents>
 		</div>
 	);
 }
