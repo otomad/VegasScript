@@ -1,6 +1,6 @@
 type FieldType<T> = string | ((item: T) => string | undefined) | true;
 
-export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, hideCustom = true, before, transition, readOnly, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
+export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, itemsViewAttrs, hideCustom = true, before, transition, readOnly, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
 	/** List of options. */
 	items: readonly TItem[];
 	/** The identifier of the currently selected value. */
@@ -48,6 +48,8 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	radioGroup?: string;
 	/** Additional attributes for the items view item. */
 	itemsViewItemAttrs?: Partial<PropsOf<typeof ItemsView.Item>>;
+	/** Additional attributes for the items view. */
+	itemsViewAttrs?: Partial<PropsOf<typeof ItemsView>>;
 	/**
 	 * Remove the "custom" option from the options so that you can customize the "custom" form control.
 	 *
@@ -124,6 +126,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 					role={null}
 					transition={transition}
 					readOnly={readOnly}
+					{...itemsViewAttrs as Any}
 				>
 					{filteredItems.map(item => (
 						<ItemsView.Item

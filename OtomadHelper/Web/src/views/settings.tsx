@@ -51,6 +51,7 @@ export default function Settings() {
 					return hasTranslator ? formattedTranslator : undefined;
 				}}
 				itemsViewItemAttrs={{ withBorder: true }}
+				itemsViewAttrs={{ style: { paddingBlockEnd: 0 } }}
 				readOnly={inContextLocalization[0]}
 				before={inContextLocalization[0] && <InfoBar status="warning">{t.descriptions.settings.language.enableInContextLocalization}</InfoBar>}
 			>
