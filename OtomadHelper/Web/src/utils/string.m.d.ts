@@ -16,6 +16,7 @@ declare interface String {
 	/**
 	 * Reverse the order of strings.
 	 *
+	 * @remarks
 	 * Using `Array.from()` can avoid the problem of characters other than Unicode BMP not be reversed properly.
 	 *
 	 * @returns Reversed string.
@@ -34,6 +35,12 @@ declare interface String {
 	 * Used to solve problems such as `"false" == false` being false.
 	 *
 	 * @returns Boolean.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log("  fAlSe   ".toBoolean()); // Output: false
+	 * console.log("something else".toBoolean()); // Output: true
+	 * ```
 	 */
 	toBoolean(): boolean;
 
@@ -72,6 +79,7 @@ declare interface String {
 	 * @example
 	 * ```javascript
 	 * console.log("hello world!".interpose("|")); // Output: "h|e|l|l|o| |w|o|r|l|d|!"
+	 * console.log("hello world!".interpose()); // Output: "h,e,l,l,o, ,w,o,r,l,d,!"
 	 * ```
 	 */
 	interpose(separator?: string): string;
@@ -99,7 +107,7 @@ declare interface String {
 	 *     a;  // Type: "foo" | "bar" | "baz";
 	 *
 	 * // Use `Array.prototype.includes` with a constant array, this will raise an error
-	 * (["foo", "bar"] as const).includes(a) ? // Error: Type '"c"' is not assignable to type '"a" | "b"'
+	 * (["foo", "bar"] as const).includes(a) ? // Error: Type '"baz"' is not assignable to type '"foo" | "bar"'
 	 *     a : // Type: "foo" | "bar" | "baz";
 	 *     a;  // Type: "foo" | "bar" | "baz";
 	 * ```
@@ -187,6 +195,12 @@ declare interface String {
 	 * @param replacement - The new substring to replace. Defaults to empty string.
 	 * @returns If the string does not start with the specified substring, return the original string;
 	 * otherwise, return the replaced new string.
+	 * @example
+	 * ```javascript
+	 * console.log("id".replaceStart("data-")); // Output: "id"
+	 * console.log("data-id".replaceStart("data-")); // Output: "id"
+	 * console.log("data-id".replaceStart("data-", "v-bind:")); // Output: "v-bind:id"
+	 * ```
 	 */
 	replaceStart(start: string, replacement: string = ""): string;
 
@@ -196,6 +210,12 @@ declare interface String {
 	 * @param replacement - The new substring to replace. Defaults to empty string.
 	 * @returns If the string does not end with the specified substring, return the original string;
 	 * otherwise, return the replaced new string.
+	 * @example
+	 * ```javascript
+	 * console.log("id".replaceEnd("-id")); // Output: "id"
+	 * console.log("data-id".replaceEnd("-id")); // Output: "data"
+	 * console.log("data-id".replaceEnd("-id", "-for")); // Output: "data-for"
+	 * ```
 	 */
 	replaceEnd(end: string, replacement?: string = ""): string;
 

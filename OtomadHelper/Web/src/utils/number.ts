@@ -4,19 +4,19 @@
 	});
 
 	defineGetterInPrototype(Number, "isInteger", function () {
-		return Number.isInteger(this);
+		return Number.isInteger(+this);
 	});
 
 	defineGetterInPrototype(Number, "isSafeInteger", function () {
-		return Number.isSafeInteger(this);
+		return Number.isSafeInteger(+this);
 	});
 
 	defineGetterInPrototype(Number, "isFinite", function () {
-		return Number.isFinite(this);
+		return Number.isFinite(+this);
 	});
 
 	defineGetterInPrototype(Number, "isNaN", function () {
-		return Number.isNaN(this);
+		return Number.isNaN(+this);
 	});
 
 	Number.prototype.toFixedNumber = function (fractionDigits) {
@@ -24,15 +24,9 @@
 	};
 
 	Number.prototype.countDecimals = function () {
-		if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
-
-		const str = this.toString();
-		if (str.includes(".") && str.includes("-"))
-			return +str.split("-")[1] || 0;
-		else if (~str.indexOf("."))
-			return str.split(".")[1].length || 0;
-		else
-			return +str.split("-")[1] || 0;
+		if (Number.isInteger(+this)) return 0;
+		const str = normalizeNumber(this);
+		return str.split(".")[1]?.length || 0;
 	};
 
 	makePrototypeKeysNonEnumerable(Number);
@@ -43,8 +37,9 @@
  * @param num - Number.
  * @returns Normalized number.
  */
-export function normalizeNumber(num: number | bigint | string) {
+export function normalizeNumber(num: WithWrapperType<number | bigint | string>) {
 	let s = String(num);
+	if (s.includes("Infinity") || s === "NaN") return s;
 	const regexp = (num: string) => num.trim().toLowerCase()
 		.replaceAll("+", "")
 		.replaceAll(/(?<=e|-|^)0*|(?<=\.[^e]*)0*(?=e|$)/g, "")

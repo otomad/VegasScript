@@ -268,4 +268,22 @@ declare global {
 	type WithOtherProperties<KnownProps, DefaultValue, TProps> = KnownProps & {
 		[key in keyof TProps]: key extends keyof KnownProps ? KnownProps[key] : DefaultValue;
 	};
+
+	/* eslint-disable @typescript-eslint/no-wrapper-object-types */
+	/**
+	 * Union the primitive value types with their wrapper object types.
+	 * @template T - Primitive value types.
+	 * @example
+	 * ```typescript
+	 * type foo = WithWrapperType<string | number | bigint>; // Expect type: string | number | bigint | String | Number | BigInt;
+	 * ```
+	 */
+	type WithWrapperType<T> = T
+		| (T extends object ? Object : never)
+		| (T extends string ? String : never)
+		| (T extends number ? Number : never)
+		| (T extends boolean ? Boolean : never)
+		| (T extends symbol ? Symbol : never)
+		| (T extends bigint ? BigInt : never);
+	/* eslint-enable @typescript-eslint/no-wrapper-object-types */
 }

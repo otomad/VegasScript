@@ -1,7 +1,7 @@
 {
 	Response.prototype.xml = async function () {
 		const text = await this.text();
-		return new window.DOMParser().parseFromString(text, "text/xml");
+		return new DOMParser().parseFromString(text, "text/xml");
 	};
 
 	makePrototypeKeysNonEnumerable(Response);
