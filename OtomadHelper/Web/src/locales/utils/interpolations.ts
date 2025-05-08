@@ -1,9 +1,11 @@
+import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator_constants";
 import type { FormatFunction } from "i18next";
 import ordinal from "intl-ordinal";
 
 const formatInterpolation: FormatFunction = function format(value, format, lng) {
 	if (isI18nItem(value))
 		value = value.toString();
+	if (lng === IN_CONTEXT_LANGUAGE_CODE) return value;
 	switch (typeof value) {
 		case "string":
 			if (!VariableName.areAllUpper(value)) // If the letters are all capital, treated them as abbreviations without case conversion.

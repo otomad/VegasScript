@@ -1,5 +1,5 @@
 import { jotaiStore } from "utils/atom";
-import { IN_CONTEXT_LANGUAGE_CODE } from "./jipt-activator-constants";
+import { IN_CONTEXT_LANGUAGE_CODE } from "./jipt-activator_constants";
 
 const _jipt = Object.entries({
 	project: "otomadhelper",

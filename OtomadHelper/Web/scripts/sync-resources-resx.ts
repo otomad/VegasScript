@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator-constants";
+import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator_constants";
 import VariableName from "variable-name-conversion";
 import { create } from "xmlbuilder2";
 import allLanguages from "../src/locales/all";
