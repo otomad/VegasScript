@@ -43,7 +43,7 @@ export function useBackgroundImages() {
 		if (!store.current?.isDatabaseOpen) return;
 		const items = await store.current.sortedMap("displayIndex", async (value, key) => {
 			key = +key;
-			const url: string = await keyToUrl.getOrInsert(key, async () => await fileToBlob(value.imageData));
+			const url: string = await keyToUrl.emplace(key, async () => await fileToBlob(value.imageData));
 			return { ...value, url, key };
 		});
 		setItems([{ imageData: null!, filename: "", url: "", key: -1, displayIndex: -1 }, ...items]);

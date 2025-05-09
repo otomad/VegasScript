@@ -61,7 +61,7 @@ declare interface Array<T> {
 	 * @param callbackFn - Generate key value tuples as objects.
 	 * @returns The mapped object.
 	 */
-	mapObject<K extends PropertyKey, U>(callbackFn: (value: T, index: number, array: T[]) => Readonly<[K, U]>): Record<T, U>;
+	mapObject<U>(callbackFn: (value: T, index: number, array: T[]) => Readonly<[PropertyKey, U]>): Record<T, U>;
 
 	/**
 	 * Array deduplication. This will return a new array.
@@ -221,7 +221,7 @@ declare interface Map<K, V> {
 	 *
 	 * @returns The value associated with the specified key. If the key does not exist, the default value is returned.
 	 */
-	getOrInsert(key: K, defaultValue: () => MaybeRef<V>): V;
+	emplace(key: K, defaultValue: () => MaybeRef<V>): V;
 	/**
 	 * Retrieves the value associated with the specified key in the Map.
 	 * If the key does not exist in the Map, it will initialize the key with the provided default value and return it.
@@ -236,7 +236,7 @@ declare interface Map<K, V> {
 	 *
 	 * @returns The value associated with the specified key. If the key does not exist, the default value is returned.
 	 */
-	getOrInsert(key: K, defaultValue: () => Promise<MaybeRef<V>>): Promise<V>;
+	emplace(key: K, defaultValue: () => Promise<MaybeRef<V>>): Promise<V>;
 
 	/**
 	 * Calls a defined callback function on each key value pair of a map, and returns an array that contains the results.

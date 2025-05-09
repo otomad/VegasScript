@@ -182,7 +182,7 @@
 }
 
 { // Init map extensions
-	Map.prototype.getOrInsert = async function (key, defaultValue) {
+	Map.prototype.emplace = async function (key, defaultValue) {
 		if (!this.has(key)) {
 			const value = await defaultValue();
 			this.set(key, value);
