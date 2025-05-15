@@ -51,6 +51,7 @@ const StyledCube = styled.div`
 				border: 2px solid ${c("stroke-color-control-stroke-default")};
 				border-radius: calc(8 / 200 * var(--side-length));
 				opacity: 0.875;
+				backface-visibility: hidden;
 				pointer-events: auto;
 				transition: ${fallbackTransitions}, width 0s, height 0s, transform 0s;
 
@@ -108,6 +109,12 @@ const StyledCube = styled.div`
 
 				&.bottom {
 					transform: translateY(calc(var(--side-length) / 2)) rotateX(-90deg);
+				}
+
+				&.backface {
+					opacity: 0.1;
+					backface-visibility: visible;
+					pointer-events: none;
 				}
 			}
 		}
@@ -172,7 +179,15 @@ export default function Box3d() {
 			<StyledCube onPointerDown={onDragStart} onPointerMove={onDrag} onPointerUp={onDragEnd}>
 				<div className="container-outer">
 					<div className="container" style={rotationCss}>
-						{faces.map(face => <div key={face} className={[face, "face", { selected: selectedFace === face }]} onClick={() => setSelectedFace(face)}>{t.track.box3d.faces[face]}</div>)}
+						{faces.map(face => {
+							const className = [face, "face", { selected: selectedFace === face }];
+							return (
+								<Fragment key={face}>
+									<div className={className} onClick={() => setSelectedFace(face)}>{t.track.box3d.faces[face]}</div>
+									<div className={[className, "backface"]}>{t.track.box3d.faces[face]}</div>
+								</Fragment>
+							);
+						})}
 					</div>
 				</div>
 			</StyledCube>
