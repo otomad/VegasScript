@@ -126,6 +126,10 @@ const StyledSettingsCard = styled(StyledCard)<{
 			display: block;
 			border-radius: 4px;
 
+			.sortable-item.dragging & {
+				box-shadow: none;
+			}
+
 			${ifColorScheme.contrast} & {
 				display: none;
 			}
@@ -139,9 +143,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 			}
 		}
 
-		&:focus-visible {
-			${styles.mixins.forwardFocusRing("&::after")};
-		}
+		${styles.mixins.forwardFocusRing("&::after, body:has(&) .sortable-overlay .drag-handle-shadow::after")};
 	}
 
 	.sortable-overlay & {

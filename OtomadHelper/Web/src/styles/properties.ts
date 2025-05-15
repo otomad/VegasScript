@@ -67,3 +67,13 @@ CSS.registerProperty({
 	inherits: true,
 	initialValue: "1",
 });
+
+/**
+ * Sortable overlay scale.
+ */
+CSS.registerProperty({
+	name: "--sortable-overlay-scale",
+	syntax: "<number>",
+	inherits: true,
+	initialValue: "1",
+});
