@@ -39,11 +39,13 @@ const StyledCube = styled.div`
 				transform: none;
 			}
 
+			// NOTE: Do not add overflow: clip or hidden.
+			// Or when drag the box to the top, bottom, left, and right face, it cannot be clicked.
+			// See: https://stackoverflow.com/q/79460167/19553213
 			* {
 				${styles.mixins.square("var(--side-length)")};
 				position: absolute;
 				align-content: center;
-				overflow: clip;
 				text-align: center;
 				background-color: ${c("fill-color-control-default")};
 				border: 2px solid ${c("stroke-color-control-stroke-default")};
@@ -112,7 +114,7 @@ const StyledCube = styled.div`
 	}
 `;
 
-export default function Box3d() { // BUG: When drag the box to the top or bottom face, it cannot be clicked.
+export default function Box3d() {
 	pageStore.useOnSave(() => configStore.track.box3d.enabled = true);
 	const { deleteTracks, useLongerSide } = selectConfig(c => c.track.box3d);
 	const [selectedFace, setSelectedFace] = useState<typeof faces[number]>();
