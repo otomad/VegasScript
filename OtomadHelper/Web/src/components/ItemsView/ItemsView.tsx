@@ -49,7 +49,7 @@ const StyledItemsView = styled.div<{
 			padding: 7px;
 		}
 
-		&.list > .items-view-item > .base {
+		&.list .items-view-item > .base {
 			padding-inline: 23.5px;
 		}
 	}

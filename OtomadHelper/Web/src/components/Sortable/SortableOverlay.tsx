@@ -6,38 +6,36 @@ import { CSS } from "@dnd-kit/utilities";
 export /* @internal */ const PRESSED_SORTABLE_ITEM_OPACITY = "0.25";
 const DRAGGING_SCALE = 1.025;
 
-const pop = forthBack_keyframes`
-	from {
-		scale: 1;
-	}
-
-	to {
-		scale: ${DRAGGING_SCALE};
-	}
-`;
-
 const StyledSortableOverlay = styled(DragOverlay)`
 	* {
-		transition: ${fallbackTransitions}, transform 0s, opacity 0s;
+		transition: ${fallbackTransitions}, transform 0s;
 	}
 
 	> * {
 		block-size: inherit;
 		inline-size: inherit;
-		animation: ${pop[0]} 250ms cubic-bezier(0.18, 0.67, 0.6, 1.22) forwards;
+		scale: ${DRAGGING_SCALE};
+		transition: ${fallbackTransitions}, scale 250ms cubic-bezier(0.18, 0.67, 0.6, 1.22), opacity 100ms 250ms;
+
+		@starting-style {
+			scale: 1;
+		}
 	}
 
 	&.dropping > * {
-		animation-name: ${pop[1]};
+		scale: 1;
 	}
 `;
 
 const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => ({
-	duration: 250,
-	easing: eases.easeOutMax,
+	duration: 350,
+	easing: "linear",
 	keyframes: ({ transform }) => [
-		{ transform: CSS.Transform.toString(transform.initial) },
-		{ transform: CSS.Transform.toString({ ...transform.final, x: 0 }) }, // Don't adjust translate X.
+		{ transform: CSS.Transform.toString(transform.initial), offset: 0, easing: eases.easeOutMax },
+		{ transform: CSS.Transform.toString({ ...transform.final, x: 0 }), opacity: 1, offset: 250 / 350 }, // Don't adjust translate X.
+		// HACK: dnd kit will skip animation if the start and end keyframes are same, which is not we expected.
+		// So hacked it with a useless CSS property, that make them never equal.
+		{ transform: CSS.Transform.toString({ ...transform.final, x: 0 }), opacity: 0, offset: 1 },
 	],
 	sideEffects: e => {
 		const { active, dragOverlay } = e;
@@ -46,8 +44,12 @@ const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => ({
 		dragOverlay.node.classList.add("dropping");
 		emits.onDrop?.(e);
 
-		return async () => {
+		setTimeout(() => {
 			active.node.style.opacity = null!;
+			active.node.animate({ opacity: [0, 1] }, { easing: "linear", duration: 100 });
+		}, 325);
+
+		return async () => {
 			active.node.classList.remove("dragging");
 			emits.onDropped?.(e);
 			await delay(100);

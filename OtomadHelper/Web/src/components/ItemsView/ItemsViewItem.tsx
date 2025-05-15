@@ -147,7 +147,7 @@ const StyledItemsViewItem = styled.button<{
 			}
 		}
 
-		main.page > .container > .items-view > & {
+		main.page > .container > .items-view & {
 			padding-inline: 0;
 
 			> .base {
