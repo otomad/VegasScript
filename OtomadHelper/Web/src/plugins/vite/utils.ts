@@ -3,7 +3,9 @@ import esbuild from "esbuild";
 import htmlMinifierTerser from "html-minifier-terser";
 import type { TransformAttributeOptions, TransformOptions } from "lightningcss";
 import { transform as transformCSS, transformStyleAttribute } from "lightningcss";
+// import * as terser from "terser";
 import ts from "typescript";
+// import * as vite from "vite";
 
 /**
  * Compile TypeScript source code to JavaScript code.
@@ -26,6 +28,8 @@ export function compileTypeScript(source: string, target: keyof typeof ts.Script
  * @returns Minified code.
  */
 export async function minifyJavaScript(code: string) {
+	// return (await terser.minify(code, { keep_classnames: true })).code!;
+
 	return (await esbuild.transform(code, {
 		minify: true,
 		charset: "utf8",
