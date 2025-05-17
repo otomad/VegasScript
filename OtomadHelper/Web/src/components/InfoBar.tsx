@@ -84,6 +84,7 @@ const StyledInfoBar = styled.div<{
 	}
 
 	.expander-child-items > & {
+		border-width: 0;
 		border-radius: 0;
 	}
 `;
