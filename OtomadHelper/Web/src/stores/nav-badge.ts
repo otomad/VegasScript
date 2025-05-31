@@ -1,17 +1,9 @@
 import { watch } from "valtio/utils";
 
 const DEFAULT = [false, "accent"] as BadgeArgs;
+const tabs = ["score", "audio", "visual", "sonar", "lyrics", "shupelunker", "ytp", "track"] as const;
 
-export const navBadgeStore = createStore({
-	score: DEFAULT,
-	audio: DEFAULT,
-	visual: DEFAULT,
-	sonar: DEFAULT,
-	lyrics: DEFAULT,
-	shupelunker: DEFAULT,
-	ytp: DEFAULT,
-	track: DEFAULT,
-});
+export const navBadgeStore = createStore(mapObjectConst(tabs, () => DEFAULT));
 
 watch(get => {
 	const c = configStore, b = navBadgeStore;

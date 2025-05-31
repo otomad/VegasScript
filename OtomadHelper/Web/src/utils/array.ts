@@ -201,12 +201,12 @@
 /**
  * Map to an object via a constant array.
  * @remarks This JSDoc deliberately does not add "-" after the `@param` parameter, otherwise bugs will occur.
- * @param this **Constant** string array.
+ * @param constArray - **Constant** string array.
  * @param callbackFn - Generate key value tuples as objects.
  * @returns The mapped object.
  */
-export function mapObjectConst<const T extends string, U>(array: T[], callbackFn: (value: T, index: number, array: T[]) => U) {
-	return Object.fromEntries(array.map((value, index, array) => ([value, callbackFn(value, index, array)] as [T, U]))) as Record<T, U>;
+export function mapObjectConst<const T extends string, U>(constArray: readonly T[], callbackFn: (value: T, index: number, array: typeof constArray) => U) {
+	return Object.fromEntries(constArray.map((value, index, array) => ([value, callbackFn(value, index, array)] as [T, U]))) as Record<T, U>;
 }
 
 /**
