@@ -22,13 +22,16 @@
  * ```
  */
 export default (class VirtualObject {
-	constructor() {
+	/**
+	 * @param toStringValue - Custom the string when `toString` called in the object.
+	 */
+	constructor(toStringValue = "") {
 		const aFunctionToGetThis = { ""() { return new VirtualObject(); } }[""];
-		Object.defineProperty(aFunctionToGetThis, "toString", { value: () => "" });
+		Object.defineProperty(aFunctionToGetThis, "toString", { value: () => toStringValue, configurable: true });
 		return new Proxy(aFunctionToGetThis, {
 			get: (_, property) => {
 				if ([Symbol.toPrimitive, "toString", "valueOf"].includes(property))
-					return () => "";
+					return () => toStringValue;
 				return aFunctionToGetThis();
 			},
 			set: () => true,
@@ -36,4 +39,4 @@ export default (class VirtualObject {
 			ownKeys: () => [],
 		});
 	}
-}) as new () => Any;
+}) as new (toStringValue?: string) => Any;
