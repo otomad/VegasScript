@@ -23,7 +23,7 @@ const StyledIcon = styled.i<{
 `;
 
 export const getIconSymbolId = (name: string) => `#icon-${name.replaceAll("/", "-")}` as const;
-export const getIconAriaLabel = (name: string) => `Icon - ${name.replace(/^off_slash_correction\//, "").replaceAll("_", " ").replaceAll("/", ": ")}` as const;
+export const getIconAriaLabel = (name: string) => `Icon - ${name.replace(/^off_slash_alt\//, "").replaceAll("_", " ").replaceAll("/", ": ")}` as const;
 
 export default function Icon(props: FCP<{
 	/** Icon file name. */
