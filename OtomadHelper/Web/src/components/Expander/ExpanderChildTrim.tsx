@@ -39,9 +39,9 @@ function ExpanderChildTrimTimecode({ start, end }: FCP<{
 	return (
 		<StyledExpanderChildTrim>
 			<VerticalIfFlexWrap className="timecodes">
-				<TimecodeBox timecode={start} />
+				<TimecodeBox value={start} />
 				<RangeDash />
-				<TimecodeBox timecode={end} />
+				<TimecodeBox value={end} />
 			</VerticalIfFlexWrap>
 			<Button icon="arrow_reset" accent="critical" subtle extruded onClick={reset}>{t.reset}</Button>
 		</StyledExpanderChildTrim>

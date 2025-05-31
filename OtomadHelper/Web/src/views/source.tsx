@@ -79,7 +79,7 @@ export default function Source() {
 				iconField="icon"
 			>
 				<CustomItem current={startTime}>
-					{setToCustom => <TimecodeBox timecode={customStartTime} onFocus={setToCustom} />}
+					{setToCustom => <TimecodeBox value={customStartTime} onFocus={setToCustom} />}
 				</CustomItem>
 			</ExpanderRadio>
 

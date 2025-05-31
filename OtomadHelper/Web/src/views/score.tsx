@@ -237,7 +237,7 @@ export default function Score() {
 				iconField="icon"
 			>
 				<Expander.ChildWrapper>
-					<TimecodeBox timecode={constrainNoteLengthValue} disabled={constrainNoteLengthType[0] === "none"} />
+					<TimecodeBox value={constrainNoteLengthValue} disabled={constrainNoteLengthType[0] === "none"} />
 				</Expander.ChildWrapper>
 			</ExpanderRadio>
 			<SettingsCard

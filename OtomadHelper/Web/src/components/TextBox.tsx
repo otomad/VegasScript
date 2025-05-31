@@ -376,7 +376,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 }
 
 type NumberLike = number | bigint;
-function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, keyLargeStepMultiple, positiveSign, inputRef, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
+function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, keyBigStepMultiplier, positiveSign, inputRef, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
 	/** The value of the number, which can be number or bigint type. */
 	value: StateProperty<TNumber>;
 	/** The number of decimal places, leaving blank means no limit. */
@@ -393,14 +393,14 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 	 * According to the Accessibility feature, when user press PageUp and PageDown key, it will adjust a larger number than the `keyStep`.
 	 * Please specify a number which will multiply by the `keyStep`. Defaults to 10.
 	 */
-	keyLargeStepMultiple?: TNumber;
+	keyBigStepMultiplier?: TNumber;
 	/** Show the positive sign if the value is positive? */
 	positiveSign?: boolean;
 }>) {
 	const inputEl = useDomRef<"input">();
 	useImperativeHandleRef(inputRef, inputEl);
 	const bigIntMode = typeof value === "bigint";
-	keyLargeStepMultiple ??= (bigIntMode ? 10n : 10) as TNumber;
+	keyBigStepMultiplier ??= (bigIntMode ? 10n : 10) as TNumber;
 	const intMode = bigIntMode || decimalPlaces === 0;
 	const [displayValue, setDisplayValue] = useState<string>();
 
@@ -513,8 +513,8 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 		let step: NumberLike | undefined, limit: number | undefined;
 		if (e.code === "ArrowUp") step = baseStep;
 		else if (e.code === "ArrowDown") step = -baseStep;
-		else if (e.code === "PageUp") step = baseStep * keyLargeStepMultiple;
-		else if (e.code === "PageDown") step = -baseStep * keyLargeStepMultiple;
+		else if (e.code === "PageUp") step = baseStep * keyBigStepMultiplier;
+		else if (e.code === "PageDown") step = -baseStep * keyBigStepMultiplier;
 		else if (e.code === "Home") limit = -1;
 		else if (e.code === "End") limit = 1;
 		if (step || limit) {

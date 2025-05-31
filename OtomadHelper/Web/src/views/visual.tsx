@@ -43,7 +43,8 @@ const TooltipPartial = Tooltip.with({ placement: "y" });
 export default function Visual() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, staticVisual, truncate, legato, multitrackForChords, transformMethod, currentPreset, stack, persistentTimeflow, resampleImitatively,
+		stretch, loop, staticVisual, truncate, legato, multitrackForChords, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
+		transition, transitionAlignment, transitionDuration,
 		glissando, glissandoEffect, glissandoAmount, appoggiatura, arpeggio, arpeggioNegative, activeParameterScheme,
 	} = selectConfig(c => c.visual);
 	// const activeParameterScheme = selectConfigArray(c => c.visual.activeParameterScheme);
@@ -147,10 +148,10 @@ export default function Visual() {
 						on={stack}
 					/>
 					<SettingsCardToggleSwitch
-						title={t.stream.persistentTimeflow}
-						details={t.descriptions.stream.persistentTimeflow}
+						title={t.stream.timeUnremapping}
+						details={t.descriptions.stream.timeUnremapping}
 						icon="timer_off"
-						on={persistentTimeflow}
+						on={timeUnremapping}
 					/>
 					<SettingsCard
 						title={t.stream.resampleImitatively}
@@ -160,15 +161,31 @@ export default function Visual() {
 					>
 						<ThreeStageSwitch current={resampleImitatively} />
 					</SettingsCard>
-					{/* <ExpanderRadio
-						title={t.stream.transformMethod}
-						details={t.descriptions.stream.transformMethod}
-						icon="zoom_fit"
-						items={transformMethods}
-						value={transformMethod}
-						idField
-						nameField={t.stream.transformMethod}
-					/> */}
+					<SettingsCardToggleSwitch
+						title={t.stream.transition}
+						details={t.descriptions.stream.transition}
+						icon="transition"
+						on={transition}
+					>
+						<Expander.Item title={t.stream.transition.alignment} details={t.descriptions.stream.transition.alignment} icon="align_center_vertical">
+							<Slider
+								value={transitionAlignment}
+								defaultValue={0}
+								min={-100}
+								max={100}
+								displayValueStep={1}
+								displayValue={value => ({
+									"-100": t.stream.transition.alignment.end,
+									0: t.stream.transition.alignment.center,
+									100: t.stream.transition.alignment.start,
+								})[value] ?? `${value > 0 ? "+" : ""}${value}%`}
+							/>
+						</Expander.Item>
+						<Expander.Item title={t.duration} details={t.descriptions.stream.transition.duration} icon="timer">
+							<TimecodeBox value={transitionDuration} />
+						</Expander.Item>
+						<InfoBar status="info">{t.descriptions.stream.transition.crossfadeInfo}</InfoBar>
+					</SettingsCardToggleSwitch>
 					<Expander
 						title={t.stream.transformMethod}
 						details={t.descriptions.stream.transformMethod}
@@ -238,7 +255,7 @@ export default function Visual() {
 					<Subheader>{t.stream.mapping}</Subheader>
 					<Expander title={t.stream.mapping.velocity} icon="signal" />
 					<Expander title={t.stream.mapping.pitch} icon="music_note" />
-					<Expander title={t.stream.mapping.duration} icon="timer" />
+					<Expander title={t.duration} icon="timer" />
 					<Expander title={t.stream.mapping.pan} icon="stereo" />
 					<Expander title={t.stream.mapping.progress} icon="progress_bar" />
 

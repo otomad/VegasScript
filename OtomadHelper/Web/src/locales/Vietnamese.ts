@@ -129,6 +129,7 @@ export default {
 		unset: "Bỏ chọn",
 		increase: "Tăng",
 		decrease: "Giảm",
+		duration: "Thời lượng",
 		infoBar: {
 			warning: "Nhắc nhở",
 		},
@@ -255,8 +256,11 @@ export default {
 			createGroups: "Tạo nhóm",
 			autoPan: "Tự động chuyển hướng",
 			stack: "Xếp chồng",
-			persistentTimeflow: "Thời gian dai dẳng",
+			timeUnremapping: "Thời gian dai dẳng",
 			resampleImitatively: "Resample bắt chước",
+			transition: {
+				alignment: {},
+			},
 			transformMethod: {
 				_: "Phương pháp biến đổi",
 				panCrop: "Chuyển hướng/Cắt xén",
@@ -325,7 +329,6 @@ export default {
 						square: "Vuông",
 						sawtooth: "Răng cưa",
 					},
-					duration: "Thời lượng",
 					volumeForBasePitch: "Âm lượng khi nghe trước cao độ gốc",
 					adjustAudioToBasePitch: "Chỉnh audio thành cao độ cơ bản",
 				},
@@ -334,7 +337,6 @@ export default {
 				_: "Lập bản đồ",
 				velocity: "Velocity",
 				pitch: "Pitch (Cao độ)",
-				duration: "Thời lượng",
 				pan: "Chuyển hướng",
 				progress: "Tiến trình",
 			},
@@ -780,11 +782,12 @@ export default {
 				createGroups: "Tạo nhóm cho các clip video và âm thanh được biểu diễn bằng một nốt nhạc",
 				autoPan: "Chuyển hướng âm thanh bằng cách sử dụng envelope automation",
 				stack: "Xếp chồng các clip chặt chẽ nhất có thể trên một track, thay vì đặt kết quả trên các track riêng biệt theo track bản nhạc",
-				persistentTimeflow: "Đoạn clip sẽ không thiết lập lại điểm vào của nó khi nốt nhạc xuất hiện, nhưng sẽ tiếp tục phát, hữu ích nếu bạn chỉ muốn áp dụng hiệu ứng cho nguồn",
+				timeUnremapping: "Đoạn clip sẽ không thiết lập lại điểm vào của nó khi nốt nhạc xuất hiện, nhưng sẽ tiếp tục phát, hữu ích nếu bạn chỉ muốn áp dụng hiệu ứng cho nguồn",
 				resampleImitatively: {
 					_: "Mô phỏng hành vi resampling trong Visual, khiến độ dãn nở cong khi cao độ tăng",
 					auto: "Điều này sẽ phụ thuộc vào việc resampling có được bật trong tab Âm thanh hay không để đảm bảo hình ảnh được đồng bộ với âm thanh",
 				},
+				transition: {},
 				transformMethod: "Chỉ định thứ tự ưu tiên của các thuộc tính mục tiêu để áp dụng keyframe chuyển đổi",
 				playingTechniques: {
 					glissando: {

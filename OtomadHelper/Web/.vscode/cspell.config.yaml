@@ -43,6 +43,7 @@ words:
   - cqmax
   - cqmin
   - cqw
+  - crossfade
   - csstype
   - cw
   - danmaku
@@ -189,6 +190,7 @@ words:
   - solfeggios
   - spherize
   - spn
+  - stepless
   - styl
   - stylelint
   - subclips

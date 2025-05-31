@@ -133,6 +133,7 @@ export default {
 		unset: "Unset", // Aka do not modify.
 		increase: "Increase",
 		decrease: "Decrease",
+		duration: "Duration",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -265,8 +266,17 @@ export default {
 			createGroups: "Create groups",
 			autoPan: "Auto pan",
 			stack: "Stack",
-			persistentTimeflow: "Persistent timeflow",
+			timeUnremapping: "Time unremapping", // Time un-remap-(p)ing.
 			resampleImitatively: "Resample imitatively",
+			transition: {
+				_: "Transition",
+				alignment: {
+					_: "Alignment",
+					center: "Center at cut",
+					start: "Start at cut",
+					end: "End at cut",
+				},
+			},
 			transformMethod: {
 				_: "Transform method",
 				panCrop: "Pan/Crop",
@@ -335,7 +345,6 @@ export default {
 						square: "Square",
 						sawtooth: "Sawtooth",
 					},
-					duration: "Duration",
 					volumeForBasePitch: "Volume when prelistening base pitch",
 					adjustAudioToBasePitch: "Adjust audio to base pitch",
 				},
@@ -344,7 +353,6 @@ export default {
 				_: "Mapping",
 				velocity: "Velocity",
 				pitch: "Pitch",
-				duration: "Duration",
 				pan: "Pan",
 				progress: "Progress",
 			},
@@ -801,10 +809,16 @@ export default {
 				createGroups: "Creates groups for video and audio clips represented by one note",
 				autoPan: "Pans the audio using envelope automation",
 				stack: "Stacks the clips as tightly as possible on one track, rather than placing the results on separate tracks according to the score track",
-				persistentTimeflow: "The clip will not reset its in point time when note on occurs, but will continue to play, useful if you only want to apply the effects to the source",
+				timeUnremapping: "The clip will not reset its in point time when note on occurs, but will continue to play, useful if you only want to apply the effects to the source",
 				resampleImitatively: {
 					_: "Imitate the resampling behavior in the Visual, causing the stretch to flex as the pitch increases",
 					auto: "This will depend on whether resampling is enabled in Audio to ensure that the visual is sync with the audio",
+				},
+				transition: {
+					_: "Overlaps generated sequence clips to add transitions",
+					alignment: "Sets the starting offset of transitions",
+					duration: "Sets the duration of transitions",
+					crossfadeInfo: "Crossfade transitions are inserted by default. However, you can replace them with other transitions later.",
 				},
 				transformMethod: "Specifies the priority order of target properties for applying transformation keyframes",
 				playingTechniques: {

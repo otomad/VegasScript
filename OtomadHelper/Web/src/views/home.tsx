@@ -27,7 +27,7 @@ export default function Home() {
 
 			<PitchPicker spn={pitch} style={{ maxWidth: "300px" }} />
 
-			<TimecodeBox timecode={timecode} />
+			<TimecodeBox value={timecode} />
 
 			<Slider value={slider} defaultValue={50} />
 

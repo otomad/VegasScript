@@ -102,7 +102,7 @@ export default function Track() {
 					disabled={!legatoMode[0].in("increaseSpacing", "increaseSpacingAllTracks")}
 					icon="increase_spacing"
 				>
-					<TimecodeBox timecode={increaseSpacing} />
+					<TimecodeBox value={increaseSpacing} />
 				</Expander.Item>
 				<Expander.ChildWrapper>
 					<Button icon="checkmark">{t.apply}</Button>

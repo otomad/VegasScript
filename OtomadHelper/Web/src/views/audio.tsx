@@ -79,7 +79,7 @@ const TuningMethodEvaluation = styled.ul`
 export default function Audio() {
 	const {
 		enabled, preferredTrack: preferredTrackIndex,
-		stretch, loop, normalize, truncate, legato, multitrackForChords, stack, persistentTimeflow, autoPan, autoPanCurve,
+		stretch, loop, normalize, truncate, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
 		tuningMethod, tuningMethodAcid, tuningMethodScaleless,
 		stretchAttribute, alternativeForExceedTheRange, resample, preserveFormant, currentPreset,
 		basePitch, basePitchBased, cent,
@@ -204,10 +204,10 @@ export default function Audio() {
 						on={stack}
 					/>
 					<SettingsCardToggleSwitch
-						title={t.stream.persistentTimeflow}
-						details={t.descriptions.stream.persistentTimeflow}
+						title={t.stream.timeUnremapping}
+						details={t.descriptions.stream.timeUnremapping}
 						icon="timer_off"
-						on={persistentTimeflow}
+						on={timeUnremapping}
 					/>
 					<SettingsCardToggleSwitch
 						title={t.stream.autoPan}
@@ -325,7 +325,7 @@ export default function Audio() {
 									icons={beepWaveforms.map(waveform => `waveforms/${waveform}` as const)}
 								/>
 							</Expander.Item>
-							<Expander.Item icon="timer" title={t.stream.tuning.prelisten.duration}>
+							<Expander.Item icon="timer" title={t.duration}>
 								<TextBox.Number value={beepDuration} min={0} decimalPlaces={0} spinnerStep={100} suffix={t.units.millisecond} />
 							</Expander.Item>
 							<Expander.Item icon="volume" title={t.stream.tuning.prelisten.volumeForBasePitch}>
@@ -345,7 +345,7 @@ export default function Audio() {
 					<Subheader>{t.stream.mapping}</Subheader>
 					<Expander title={t.stream.mapping.velocity} icon="signal" />
 					<Expander title={t.stream.mapping.pitch} icon="music_note" />
-					<Expander title={t.stream.mapping.duration} icon="timer" />
+					<Expander title={t.duration} icon="timer" />
 					<Expander title={t.stream.mapping.pan} icon="stereo" />
 					<Expander title={t.stream.mapping.progress} icon="progress_bar" />
 

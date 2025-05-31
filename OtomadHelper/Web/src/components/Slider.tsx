@@ -127,18 +127,18 @@ const StyledSliderWrapper = styled.div`
 	}
 `;
 
-export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, keyLargeStepMultiple = 10, displayValueStep, smoothDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChange, onDisplayValueChanged }: FCP<{
+export default function Slider({ value: [value, setValue], min = 0, max = 100, autoClampValue, defaultValue, step, keyStep = 1, keyBigStepMultiplier = 10, displayValueStep, smoothlyDisplayValue = true, disabled = false, displayValue: _displayValue = false, staticSmoothInterval: staticInterval, onChanging, onChange, onDisplayValueChanged }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
 	/** Slider minimum value. @default 0 */
 	min?: number;
 	/** Slider maximum value. @default 100 */
 	max?: number;
-	/** If `min` and `max` changed dynamically, automatically clamp the value that would not exceed the range? */
+	/** If `min` and `max` changed dynamically, should it automatically clamp the value that would not exceed the range? */
 	autoClampValue?: boolean;
 	/** Slider default value. Restore defaults when clicking the mouse middle button, right button, or touchscreen long press component. */
 	defaultValue?: number;
-	/** Slider effective increment value. */
+	/** Slider effective increment value. Defaults to stepless. */
 	step?: number;
 	/** Specifies the value by which the slider adjusts once when a keyboard arrow key is pressed. @default 1 */
 	keyStep?: number;
@@ -147,12 +147,12 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	 * Please specify a number which will multiply by the `keyStep`.
 	 * @default 10
 	 */
-	keyLargeStepMultiple?: number;
-	/** The display value decimal places will accept it, or use `step` if it is undefined. */
+	keyBigStepMultiplier?: number;
+	/** The display value decimal places will accept it, or use `step` if it is undefined. Defaults same as `step` */
 	displayValueStep?: number;
-	/** Make the display value smoothly? @default true */
-	smoothDisplayValue?: boolean;
-	/** Disabled */
+	/** Make the display value change smoothly? @default true */
+	smoothlyDisplayValue?: boolean;
+	/** Disabled? */
 	disabled?: boolean;
 	/** Show the text indicates the value? Or get the display text from the value. */
 	displayValue?: boolean | ((value: number) => Readable) | Readable;
@@ -162,9 +162,9 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	 * If set to 0, the smooth value will be disabled.
 	 */
 	staticSmoothInterval?: number;
-	/** The slider is dragging event. */
+	/** Occurs when the slider is being dragged. */
 	onChanging?(value: number): void;
-	/** The slider is lifted after being dragged event. */
+	/** Occurs when the slider is lifted after being dragged. */
 	onChange?(value: number): void;
 	/** Occurs when you want to get the display value. */
 	onDisplayValueChanged?(value: Readable | undefined): void;
@@ -253,12 +253,12 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		if (!decrease && !increase) return;
 		stopEvent(e);
 		const newValue = e.code === "Home" ? min : e.code === "End" ? max :
-			clampValue(value + (decrease ? -1 : 1) * keyStep * (largeStep ? keyLargeStepMultiple : 1));
+			clampValue(value + (decrease ? -1 : 1) * keyStep * (largeStep ? keyBigStepMultiplier : 1));
 		setValue?.(newValue);
 	}, [value]);
 
 	const displayValue = (() => {
-		const smoothValue2 = map(smoothDisplayValue ? smoothValue : sharpValue, 0, 1, min, max);
+		const smoothValue2 = map(smoothlyDisplayValue ? smoothValue : sharpValue, 0, 1, min, max);
 		const step2 = displayValueStep ?? step;
 		const steppedSmoothValue = step2 ? smoothValue2.toFixed(step2.countDecimals()) : smoothValue2;
 		if (_displayValue === false || _displayValue === undefined) return undefined;

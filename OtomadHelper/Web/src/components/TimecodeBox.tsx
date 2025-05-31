@@ -113,9 +113,9 @@ const StyledTimecodeBox = styled.div`
 	}
 `;
 
-export default function TimecodeBox({ timecode: [timecode, setTimecode], onFocus, disabled, ...htmlAttrs }: FCP<{
+export default function TimecodeBox({ value: [timecode, setTimecode], onFocus, disabled, ...htmlAttrs }: FCP<{
 	/** The current time code or time span. */
-	timecode: StateProperty<string>;
+	value: StateProperty<string>;
 	/** Occurs when the component is focused or changed. */
 	onFocus?: PartialArgsFunc<BaseEventHandler>;
 }, "div">) {

@@ -77,8 +77,8 @@
 		"@commitlint/types": "latest",
 		"@crowdin/crowdin-api-client": "^1.41.0",
 		"@styled/typescript-styled-plugin": "^1.0.1",
-		"@stylistic/eslint-plugin": "latest",
-		"@stylistic/stylelint-plugin": "latest",
+		"@stylistic/eslint-plugin": "^4.4.0",
+		"@stylistic/stylelint-plugin": "^3.1.2",
 		"@tonejs/midi": "^2.0.28",
 		"@types/html-minifier-terser": "^7.0.2",
 		"@types/jsdom": "^21.1.7",
@@ -156,5 +156,6 @@
 		"commitizen": {
 			"path": "@commitlint/cz-commitlint"
 		}
-	}
+	},
+	"packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }

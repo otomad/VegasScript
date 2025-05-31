@@ -11,24 +11,25 @@ const StyledSliderWithBox = styled.div`
 /**
  * Combine a slider and a numeric text box organically.
  */
-export default function SliderWithBox({ value, min = 0, max = 100, defaultValue, decimalPlaces = 3, keyStep = 1, keyLargeStepMultiple = 10, positiveSign, placeholder, prefix, suffix, disabled, smoothDisplayValue, staticSmoothInterval, onChanging, onChange }: FCP<{
+export default function SliderWithBox({ value, min = 0, max = 100, defaultValue, decimalPlaces = 3, keyStep = 1, keyBigStepMultiplier = 10, positiveSign, placeholder, prefix, suffix, disabled, smoothlyDisplayValue, staticSmoothInterval, onChanging, onChange }: FCP<{
 	/** Current value. */
 	value: StateProperty<number>;
-	/** Slider minimum value. */
+	/** Slider minimum value. @default 0 */
 	min?: number;
-	/** Slider maximum value. */
+	/** Slider maximum value. @default 100 */
 	max?: number;
 	/** Slider default value. Restore defaults when clicking the mouse middle button, right button, or touchscreen long press component. */
 	defaultValue?: number;
 	/** The number of decimal places, leaving blank means no limit. */
 	decimalPlaces?: number;
-	/** Specifies the value by which the slider adjusts once when a keyboard arrow key is pressed. Defaults to 1. */
+	/** Specifies the value by which the slider adjusts once when a keyboard arrow key is pressed. @default 1 */
 	keyStep?: number;
 	/**
 	 * According to the Accessibility feature, when user press PageUp and PageDown key, it will adjust a larger number than the `keyStep`.
-	 * Please specify a number which will multiply by the `keyStep`. Defaults to 10.
+	 * Please specify a number which will multiply by the `keyStep`.
+	 * @default 10
 	 */
-	keyLargeStepMultiple?: number;
+	keyBigStepMultiplier?: number;
 	/** Show the positive sign if the value is positive? */
 	positiveSign?: boolean;
 	/** Content placeholder. */
@@ -39,14 +40,14 @@ export default function SliderWithBox({ value, min = 0, max = 100, defaultValue,
 	suffix?: string;
 	/** Disabled? */
 	disabled?: boolean;
-	/** Slider - Make the display value smoothly? Defaults to true. */
-	smoothDisplayValue?: boolean;
+	/** Slider - Make the display value change smoothly? @default true */
+	smoothlyDisplayValue?: boolean;
 	/** Slider - Use a static smooth value speed interval instead of automatically detect by screen refresh rate. */
 	staticSmoothInterval?: number;
 	children?: never;
-	/** The slider is dragging event. */
+	/** Occurs when the slider is being dragged. */
 	onChanging?(value: number): void;
-	/** The slider is lifted after being dragged event. */
+	/** Occurs when the slider is lifted after being dragged. */
 	onChange?(value: number): void;
 }>) {
 	return (
@@ -57,7 +58,7 @@ export default function SliderWithBox({ value, min = 0, max = 100, defaultValue,
 				max={max}
 				decimalPlaces={decimalPlaces}
 				spinnerStep={keyStep}
-				keyLargeStepMultiple={keyLargeStepMultiple}
+				keyBigStepMultiplier={keyBigStepMultiplier}
 				positiveSign={positiveSign}
 				placeholder={placeholder}
 				prefix={prefix}
@@ -71,10 +72,10 @@ export default function SliderWithBox({ value, min = 0, max = 100, defaultValue,
 				defaultValue={defaultValue}
 				step={10 ** -decimalPlaces}
 				keyStep={keyStep}
-				keyLargeStepMultiple={keyLargeStepMultiple}
+				keyBigStepMultiplier={keyBigStepMultiplier}
 				disabled={disabled}
 				autoClampValue
-				smoothDisplayValue={smoothDisplayValue}
+				smoothlyDisplayValue={smoothlyDisplayValue}
 				staticSmoothInterval={staticSmoothInterval}
 				aria-hidden
 				onChange={onChange}

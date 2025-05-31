@@ -129,6 +129,7 @@ export default {
 		unset: "未設定",
 		increase: "増加",
 		decrease: "減らす",
+		duration: "期間",
 		infoBar: {
 			warning: "警告",
 		},
@@ -256,8 +257,17 @@ export default {
 			createGroups: "グループを作成",
 			autoPan: "オート パン",
 			stack: "スタック",
-			persistentTimeflow: "永続的なタイムフロー",
+			timeUnremapping: "永続的なタイムフロー",
 			resampleImitatively: "模倣して再サンプルする",
+			transition: {
+				_: "トランジション",
+				alignment: {
+					_: "配置",
+					center: "切り取りの中央揃え",
+					start: "カット時に開始",
+					end: "カットで終了",
+				},
+			},
 			transformMethod: {
 				_: "変換方法",
 				panCrop: "パン/トリミング",
@@ -326,7 +336,6 @@ export default {
 						square: "矩形波",
 						sawtooth: "ノコギリ波",
 					},
-					duration: "期間",
 					volumeForBasePitch: "プリリスニングベースピッチ時の音量",
 					adjustAudioToBasePitch: "音声をベースピッチに調整",
 				},
@@ -335,7 +344,6 @@ export default {
 				_: "マッピング",
 				velocity: "Velocity",
 				pitch: "Pitch",
-				duration: "期間",
 				pan: "パン",
 				progress: "進捗状況",
 			},
@@ -781,10 +789,16 @@ export default {
 				createGroups: "ビデオクリップとオーディオクリップのグループを1つのノートで表します。",
 				autoPan: "エンベロープオートメーションを使用してオーディオをパンする",
 				stack: "楽譜に応じて結果を別々のトラックに配置するのではなく、1つのトラックで可能な限り緊密にクリップをスタックします。",
-				persistentTimeflow: "ノートオンが発生したとき、クリップはポイントインポイント時間をリセットしません。 効果をソースに適用するだけでも役に立ちます",
+				timeUnremapping: "ノートオンが発生したとき、クリップはポイントインポイント時間をリセットしません。 効果をソースに適用するだけでも役に立ちます",
 				resampleImitatively: {
 					_: "Visualのリサンプリング動作を模倣し、ピッチが大きくなるとストレッチが曲がるようになります。",
 					auto: "これは、ビジュアルがオーディオと同期していることを確認するために、Audioでリサンプリングが有効になっているかどうかによって異なります。",
+				},
+				transition: {
+					_: "シーケンスクリップをオーバーラップしてトランジションを追加",
+					alignment: "トランジションの開始オフセットを設定します",
+					duration: "トランジションの期間を設定します。",
+					crossfadeInfo: "クロスフェードトランジションはデフォルトで挿入されますが、後で他のトランジションに置き換えることができます。",
 				},
 				transformMethod: "変換キーフレームを適用するためのターゲットプロパティの優先順位を指定します",
 				playingTechniques: {

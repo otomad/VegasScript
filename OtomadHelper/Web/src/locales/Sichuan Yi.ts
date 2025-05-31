@@ -129,6 +129,7 @@ export default {
 		unset: "crwdns3656:0crwdne3656:0",
 		increase: "crwdns3931:0crwdne3931:0",
 		decrease: "crwdns3933:0crwdne3933:0",
+		duration: "crwdns4010:0crwdne4010:0",
 		infoBar: {
 			warning: "crwdns2170:0crwdne2170:0",
 		},
@@ -256,8 +257,17 @@ export default {
 			createGroups: "crwdns1808:0crwdne1808:0",
 			autoPan: "crwdns1812:0crwdne1812:0",
 			stack: "crwdns3254:0crwdne3254:0",
-			persistentTimeflow: "crwdns3918:0crwdne3918:0",
+			timeUnremapping: "crwdns3918:0crwdne3918:0",
 			resampleImitatively: "crwdns3018:0crwdne3018:0",
+			transition: {
+				_: "crwdns4012:0crwdne4012:0",
+				alignment: {
+					_: "crwdns4014:0crwdne4014:0",
+					center: "crwdns4016:0crwdne4016:0",
+					start: "crwdns4018:0crwdne4018:0",
+					end: "crwdns4020:0crwdne4020:0",
+				},
+			},
 			transformMethod: {
 				_: "crwdns1816:0crwdne1816:0",
 				panCrop: "crwdns1818:0crwdne1818:0",
@@ -326,7 +336,6 @@ export default {
 						square: "crwdns1846:0crwdne1846:0",
 						sawtooth: "crwdns1848:0crwdne1848:0",
 					},
-					duration: "crwdns1850:0crwdne1850:0",
 					volumeForBasePitch: "crwdns3930:0crwdne3930:0",
 					adjustAudioToBasePitch: "crwdns1852:0crwdne1852:0",
 				},
@@ -335,7 +344,6 @@ export default {
 				_: "crwdns2232:0crwdne2232:0",
 				velocity: "crwdns2806:0crwdne2806:0",
 				pitch: "crwdns2808:0crwdne2808:0",
-				duration: "crwdns2810:0crwdne2810:0",
 				pan: "crwdns2948:0crwdne2948:0",
 				progress: "crwdns2812:0crwdne2812:0",
 			},
@@ -781,10 +789,16 @@ export default {
 				createGroups: "crwdns2042:0crwdne2042:0",
 				autoPan: "crwdns2046:0crwdne2046:0",
 				stack: "crwdns3310:0crwdne3310:0",
-				persistentTimeflow: "crwdns3920:0crwdne3920:0",
+				timeUnremapping: "crwdns3920:0crwdne3920:0",
 				resampleImitatively: {
 					_: "crwdns3926:0crwdne3926:0",
 					auto: "crwdns3040:0crwdne3040:0",
+				},
+				transition: {
+					_: "crwdns4022:0crwdne4022:0",
+					alignment: "crwdns4024:0crwdne4024:0",
+					duration: "crwdns4026:0crwdne4026:0",
+					crossfadeInfo: "crwdns4028:0crwdne4028:0",
 				},
 				transformMethod: "crwdns2904:0crwdne2904:0",
 				playingTechniques: {

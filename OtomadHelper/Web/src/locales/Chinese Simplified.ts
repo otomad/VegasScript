@@ -129,6 +129,7 @@ export default {
 		unset: "不变",
 		increase: "增加",
 		decrease: "减少",
+		duration: "持续时间",
 		infoBar: {
 			warning: "警告",
 		},
@@ -256,8 +257,17 @@ export default {
 			createGroups: "创建分组",
 			autoPan: "自动声像",
 			stack: "堆积",
-			persistentTimeflow: "持续时间流",
+			timeUnremapping: "持续时间流",
 			resampleImitatively: "模拟重采样调速",
+			transition: {
+				_: "过渡",
+				alignment: {
+					_: "对齐",
+					center: "中心切入",
+					start: "起点切入",
+					end: "终点切入",
+				},
+			},
 			transformMethod: {
 				_: "变换方法",
 				panCrop: "平移/裁切",
@@ -326,7 +336,6 @@ export default {
 						square: "方波",
 						sawtooth: "锯齿波",
 					},
-					duration: "持续时间",
 					volumeForBasePitch: "预听标准音高时的音量",
 					adjustAudioToBasePitch: "调整音频到主音高",
 				},
@@ -335,7 +344,6 @@ export default {
 				_: "映射",
 				velocity: "力度",
 				pitch: "音高",
-				duration: "持续时间",
 				pan: "声像",
 				progress: "进度",
 			},
@@ -781,10 +789,16 @@ export default {
 				createGroups: "将一个音符所表示的视频与音频剪辑创建分组",
 				autoPan: "自动化控制音频的声像包络",
 				stack: "将剪辑尽可能紧密地堆积在一条轨道上，而不根据乐曲的音轨分轨放置",
-				persistentTimeflow: "音符开时将不会重置剪辑的入点时间，而是继续播放，适用于如仅对素材应用效果",
+				timeUnremapping: "音符开时将不会重置剪辑的入点时间，而是继续播放，适用于如仅对素材应用效果",
 				resampleImitatively: {
 					_: "在画面中模仿重采样音频的行为，使拉伸值随着音高的升高而缩短",
 					auto: "这将取决于是否在音频中启用重采样音频功能以确保画面与音频同步",
+				},
+				transition: {
+					_: "交叠生成的序列剪辑以添加转场过渡",
+					alignment: "设置过渡的起点偏移",
+					duration: "设置过渡的持续时间",
+					crossfadeInfo: "默认插入交叉淡化过渡，你可以稍后自行替换为其它转场。",
 				},
 				transformMethod: "指定要应用变换关键帧的目标属性的优先级顺序",
 				playingTechniques: {
