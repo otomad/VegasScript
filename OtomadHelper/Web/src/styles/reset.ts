@@ -114,6 +114,10 @@ export default css`
 
 		// Prevent images from being dragged.
 		img {
+			// For alt text.
+			font-style: italic;
+			text-wrap: balance;
+
 			-webkit-user-select: none;
 			-moz-user-select: none;
 			-ms-user-select: none;
