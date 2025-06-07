@@ -100,6 +100,8 @@ export default class IndexedDBStore<T extends object> {
 	/**
 	 * Opens the IndexedDB database.
 	 *
+	 * @remarks Require to be called before querying.
+	 *
 	 * @returns A Promise that resolves with the opened database instance or rejects with an error.
 	 */
 	open() {
@@ -125,6 +127,7 @@ export default class IndexedDBStore<T extends object> {
 
 	/**
 	 * Resolves an IndexedDB request and returns a Promise.
+	 * @internal
 	 *
 	 * @template T - The type of the result of the IndexedDB request.
 	 * @param request - The IndexedDB request to be resolved.
@@ -144,8 +147,18 @@ export default class IndexedDBStore<T extends object> {
 	/**
 	 * Adds a new item to the IndexedDB object store.
 	 *
+	 * @remarks
+	 * If `put()` is used, any existing record with the id will be replaced.
+	 * If `add()` is used, and if a record with the id already exists the request will fail,
+	 * with request's error set to a "ConstraintError" DOMException.
+	 *
 	 * @param item - The item to be added to the object store.
-	 * @returns A Promise that resolves with the added item's key or rejects with an error.
+	 * @returns A Promise that resolves with the added item's id or rejects with an error.
+	 *
+	 * @example
+	 * ```typescript
+	 * const id = await store.add({ id: 1, name: "Bob", gender: "male" });
+	 * ```
 	 */
 	add(item: T) {
 		return IndexedDBStore.getResult(this.store.add(item));
@@ -181,9 +194,20 @@ export default class IndexedDBStore<T extends object> {
 	/**
 	 * Sets a new item or updates an existing item in the IndexedDB object store.
 	 *
+	 * @remarks
+	 * If `put()` is used, any existing record with the ID will be replaced.
+	 * If `add()` is used, and if a record with the ID already exists the request will fail,
+	 * with request's error set to a "ConstraintError" DOMException.
+	 *
 	 * @param item - The item to be added or updated in the object store.
 	 * @param id - (Optional) The key of the item to update. If not provided, a new item will be added.
 	 * @returns A Promise that resolves when the operation is complete or rejects with an error.
+	 *
+	 * @example
+	 * ```typescript
+	 * await store.set({ name: "Bob", gender: "male" }, 1); // Explicit specified the ID.
+	 * await store.set({ name: "Jim", gender: "male" }); // Auto generate next available ID.
+	 * ```
 	 */
 	async set(item: T, id?: IDBValidKey): Promise<void>;
 	/**
@@ -195,6 +219,11 @@ export default class IndexedDBStore<T extends object> {
 	 *
 	 * @throws Will log an error if attempting to update a record by ID and the ID is not found in the store.
 	 * @returns A Promise that resolves when the operation is complete or rejects with an error.
+	 *
+	 * @example
+	 * ```typescript
+	 * await store.set("name", "Bob", 1); // Explicit specified the id.
+	 * ```
 	 */
 	async set<TKey extends keyof T>(key: TKey, value: T[TKey], id: IDBValidKey): Promise<void>;
 	/**
@@ -241,6 +270,11 @@ export default class IndexedDBStore<T extends object> {
 	 *
 	 * @param id - The key or key range of the item to delete.
 	 * @returns A Promise that resolves when the item is deleted or rejects with an error.
+	 *
+	 * @example
+	 * ```typescript
+	 * await store.delete(1);
+	 * ```
 	 */
 	delete(id: IDBValidKey | IDBKeyRange): Promise<void> {
 		return IndexedDBStore.getResult(this.store.delete(id));
@@ -248,13 +282,23 @@ export default class IndexedDBStore<T extends object> {
 
 	/**
 	 * An asynchronous generator function that iterates over the records in the IndexedDB object store.
-	 * It opens a cursor on the object store and yields each record as an `IDBCursor` object with an additional `value` property of type `T`.
+	 * It opens a cursor on the object store and yields each record as an `IDBCursor` object
+	 * with an additional `value` property of type `T`.
 	 * The cursor automatically advances to the next record after each iteration.
+	 *
+	 * @remarks It is suggested that you use `entries()` for queries only,
+	 * and use `cursor()` only if you need to modify or delete items.
 	 *
 	 * @generator
 	 * @async
 	 * @yields {IDBCursor & { value: T }} The current cursor pointing to a record in the object store, with the record's value.
 	 * @throws {DOMException} If an error occurs while accessing the IndexedDB.
+	 *
+	 * @example
+	 * ```typescript
+	 * for await (const cursor of store.cursor)
+	 *     console.log(cursor.key, cursor.value);
+	 * ```
 	 */
 	async *cursor() {
 		const request = this.store.openCursor();
@@ -270,6 +314,12 @@ export default class IndexedDBStore<T extends object> {
 	 * Asynchronously iterates over all key-value pairs in the IndexedDB object store.
 	 *
 	 * @yields {Generator<[IDBValidKey, T]>} - Yields the key-value pair for each item in the object store.
+	 *
+	 * @example
+	 * ```typescript
+	 * for await (const [key, value] of store.cursor)
+	 *     console.log(key, value);
+	 * ```
 	 */
 	async *entries() {
 		for await (const cursor of this.cursor())
@@ -280,6 +330,12 @@ export default class IndexedDBStore<T extends object> {
 	 * Asynchronously iterates over all keys in the IndexedDB object store.
 	 *
 	 * @yields {Generator<IDBValidKey>} - Yields the key for each item in the object store.
+	 *
+	 * @example
+	 * ```typescript
+	 * for await (const key of store.cursor)
+	 *     console.log(key);
+	 * ```
 	 */
 	async *keys() {
 		const request = this.store.openKeyCursor();
@@ -295,6 +351,12 @@ export default class IndexedDBStore<T extends object> {
 	 * Asynchronously iterates over all values in the IndexedDB object store.
 	 *
 	 * @yields {Generator<T>} - Yields the value for each item in the object store.
+	 *
+	 * @example
+	 * ```typescript
+	 * for await (const value of store.cursor)
+	 *     console.log(value);
+	 * ```
 	 */
 	async *values() {
 		for await (const { value } of this.cursor())
@@ -304,6 +366,12 @@ export default class IndexedDBStore<T extends object> {
 	/**
 	 * Defines the async iterator for the IndexedDBStore class.
 	 * Allows iterating over the values of the object store using the `for await...of` syntax.
+	 *
+	 * @example
+	 * ```typescript
+	 * for await (const [key, value] of store)
+	 *     console.log(key, value);
+	 * ```
 	 */
 	[Symbol.asyncIterator] = this.values;
 
@@ -317,6 +385,11 @@ export default class IndexedDBStore<T extends object> {
 	 *
 	 * @note Use `for await...of` syntax for better performance.
 	 * @returns A Promise that resolves with an array of all items in the object store or rejects with an error.
+	 *
+	 * @example
+	 * ```typescript
+	 * console.log(await store.all());
+	 * ```
 	 */
 	all(): Promise<T[]> {
 		return IndexedDBStore.getResult(this.store.getAll());
@@ -337,11 +410,16 @@ export default class IndexedDBStore<T extends object> {
 	 * @remarks
 	 * This method is asynchronous and uses the `for await...of` syntax to iterate over the object store's values.
 	 * It is useful for transforming or filtering the items in the object store.
+	 *
+	 * @example
+	 * ```typescript
+	 * const names = await store.map(item => item.name);
+	 * ```
 	 */
-	async map<TOut>(callbackfn: (value: T, key: IDBValidKey) => TOut) {
+	async map<TOut>(callbackfn: (value: T, key: IDBValidKey) => MaybePromise<TOut>) {
 		const result: TOut[] = [];
 		for await (const [key, value] of this.entries())
-			result.push(callbackfn(value, key));
+			result.push(await callbackfn(value, key));
 		return Promise.all(result);
 	}
 
@@ -360,6 +438,15 @@ export default class IndexedDBStore<T extends object> {
 	 * @yields A tuple containing the primary key and the value of each record in the store.
 	 * The tuple is of the form `[IDBValidKey, T]`.
 	 * @throws Will throw an error if the IndexedDB operation fails.
+	 *
+	 * @example
+	 * ```typescript
+	 * for await (const [key, value] of store.sortedBy("name"))
+	 *     console.log(key, value); // Logs sorted alphabetically by name in ascending order.
+	 *
+	 * for await (const [key, value] of store.sortedBy("name", "prev"))
+	 *     console.log(key, value); // Logs sorted alphabetically by name in descending order.
+	 * ```
 	 */
 	async *sortedBy(key: keyof T & string, direction: IDBCursorDirection = "next") {
 		for await (const cursor of this.sortedCursor(key, direction))
@@ -368,6 +455,9 @@ export default class IndexedDBStore<T extends object> {
 
 	/**
 	 * Asynchronously iterates over the records in the IndexedDB object store or index in a sorted order.
+	 *
+	 * @remarks It is suggested that you use `sortedBy()` for queries only,
+	 * and use `sortedCursor()` only if you need to modify or delete items.
 	 *
 	 * @template T - The type of the objects stored in the IndexedDB.
 	 * @param key - The name of the index to use for sorting the records.
@@ -380,6 +470,15 @@ export default class IndexedDBStore<T extends object> {
 	 * @yields An `IDBCursor` object extended with a `value` property of type `T`
 	 * representing the current record in the iteration.
 	 * @throws Will throw an error if the IndexedDB operation fails.
+	 *
+	 * @example
+	 * ```typescript
+	 * for await (const cursor of store.sortedCursor("name"))
+	 *     console.log(cursor.key, cursor.value); // Logs sorted alphabetically by name in ascending order.
+	 *
+	 * for await (const cursor of store.sortedCursor("name", "prev"))
+	 *     console.log(cursor.key, cursor.value); // Logs sorted alphabetically by name in descending order.
+	 * ```
 	 */
 	async *sortedCursor(key: keyof T & string, direction: IDBCursorDirection = "next") {
 		const request = this.store.index(key).openCursor(null, direction);
@@ -406,11 +505,16 @@ export default class IndexedDBStore<T extends object> {
 	 * - "nextunique": Ascending order with unique values.
 	 * - "prevunique": Descending order with unique values.
 	 * @returns A promise that resolves to an array of transformed results after applying the callback function to each entry.
+	 *
+	 * @example
+	 * ```typescript
+	 * const namesSortedByAge = await store.map("age", item => item.name);
+	 * ```
 	 */
-	async sortedMap<TOut>(key: keyof T & string, callbackfn: (value: T, primaryKey: IDBValidKey) => TOut, direction: IDBCursorDirection = "next") {
+	async sortedMap<TOut>(key: keyof T & string, callbackfn: (value: T, primaryKey: IDBValidKey) => MaybePromise<TOut>, direction: IDBCursorDirection = "next") {
 		const result: TOut[] = [];
 		for await (const [primaryKey, value] of this.sortedBy(key, direction))
-			result.push(callbackfn(value, primaryKey));
+			result.push(await callbackfn(value, primaryKey));
 		return Promise.all(result);
 	}
 
@@ -418,6 +522,11 @@ export default class IndexedDBStore<T extends object> {
 	 * Retrieves the total number of records in the IndexedDB object store.
 	 *
 	 * @returns A promise that resolves to the number of records in the store.
+	 *
+	 * @example
+	 * ```typescript
+	 * const length = await store.length;
+	 * ```
 	 */
 	get length() {
 		const request = this.store.count();
