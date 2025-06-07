@@ -28,8 +28,9 @@ export default function Settings() {
 	const { devMode, rtl } = useStoreState(devStore);
 
 	async function addBackgroundImage() {
-		const file = await openFile({ accept: "image/*" });
-		if (file) await backgroundImages.add(file);
+		const files = await openFile({ accept: "image/*", multiple: true });
+		for (const file of files)
+			await backgroundImages.add(file);
 	}
 
 	return (

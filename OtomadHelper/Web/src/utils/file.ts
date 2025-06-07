@@ -48,6 +48,7 @@ export function dataToFile(dataUrl: string, fileName?: string) {
 	let n = byteString.length;
 	const bytes = new Uint8Array(n);
 	while (n--)
+		// eslint-disable-next-line unicorn/prefer-code-point
 		bytes[n] = byteString.charCodeAt(n);
 	return fileName != null ?
 		new File([bytes], fileName, { type: mime }) :
