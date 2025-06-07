@@ -182,13 +182,14 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 							onEntered={() => resetLockExpanderParentContentSize()}
 							onExited={() => resetLockExpanderParentContentSize()}
 							hiddenOnExit
+							requestAnimationFrame
 						>
 							<output className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</output>
 						</CssTransition>
 					)}
 				</ExpanderParent>
 			</StickyPerceptibility>
-			<CssTransition in={internalExpanded} unmountOnExit transitionEndProperty={["height", "block-size"]}>
+			<CssTransition in={internalExpanded} unmountOnExit transitionEndProperty={["height", "block-size"]} requestAnimationFrame>
 				<ExpanderChild
 					disabled={disabled || childrenDisabled}
 					className={{ clipChildren }}
