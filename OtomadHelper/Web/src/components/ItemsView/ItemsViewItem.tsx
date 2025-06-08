@@ -252,7 +252,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -280,6 +280,8 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	 * Effective only in multiple selection mode.
 	 */
 	disableCheckmarkTransition?: boolean;
+	/** Add other elements overlay the image. */
+	imageOverlay?: ReactNode;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -340,6 +342,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 							<>
 								<div className="image-wrapper">
 									{typeof image === "string" ? <DefaultImage src={image} /> : image}
+									{imageOverlay}
 									{checkbox}
 								</div>
 								<div className="selection" />

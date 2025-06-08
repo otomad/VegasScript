@@ -1,6 +1,6 @@
 type FieldType<T> = string | ((item: T) => string | undefined) | true;
 
-export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, itemsViewAttrs, hideCustom = true, before, transition, readOnly, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
+export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, imageOverlayField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, itemsViewAttrs, hideCustom = true, before, transition, readOnly, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
 	/** List of options. */
 	items: readonly TItem[];
 	/** The identifier of the currently selected value. */
@@ -34,6 +34,8 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	imageField?: FieldType<TItem> | ((item: TItem) => ReactNode);
 	/** The detailed description field for the radio item. */
 	detailsField?: FieldType<TItem> | object | ((item: TItem) => ReactNode);
+	/** Other elements overlay the image field for the radio item. */
+	imageOverlayField?: FieldType<TItem> | ((item: TItem) => ReactNode);
 	/** Use list/tile/grid view components instead of radio buttons. */
 	view?: ItemView | "radio";
 	/** Detailed description. */
@@ -69,13 +71,14 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	onItemClick?: MouseEventHandler<HTMLElement>;
 	onItemContextMenu?(item: TItem, event: React.MouseEvent<HTMLElement>): void;
 }>>) {
-	const getItemField = (item: TItem, fieldName: "id" | "name" | "icon" | "image" | "details"): Any => {
+	const getItemField = (item: TItem, fieldName: "id" | "name" | "icon" | "image" | "details" | "imageOverlay"): Any => {
 		const field = {
 			name: nameField,
 			id: idField,
 			icon: iconField,
 			image: imageField,
 			details: detailsField,
+			imageOverlay: imageOverlayField,
 		}[fieldName];
 		return !field ? undefined :
 			isI18nItem(field) ? field[getItemField(item, "id")] :
@@ -135,6 +138,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 							image={getItemField(item, "image")}
 							icon={getItemField(item, "icon")}
 							details={getItemField(item, "details")}
+							imageOverlay={getItemField(item, "imageOverlay")}
 							onClick={(_1, _2, e) => onItemClick?.(e)}
 							onContextMenu={e => onItemContextMenu?.(item, e)}
 							{...itemsViewItemAttrs}

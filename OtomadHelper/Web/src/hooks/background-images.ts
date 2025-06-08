@@ -1,11 +1,14 @@
 import IndexedDBStore from "classes/IndexedDBStore";
+import { FastAverageColor } from "fast-average-color";
 import { startCircleViewTransition } from "helpers/color-mode";
 const DATABASE_VERSION = 1;
+const fac = new FastAverageColor();
 
 interface BackgroundImageRow {
 	imageData: Blob;
 	filename: string;
 	displayIndex: number;
+	color: string;
 }
 
 export interface BackgroundImageRowWithMore extends BackgroundImageRow {
@@ -25,7 +28,10 @@ export function useBackgroundImages() {
 		const previous = configStore.settings.backgroundImage;
 		const current = typeof value === "function" ? value(previous) : value;
 		if (current !== previous)
-			startCircleViewTransition(current !== -1, () => configStore.settings.backgroundImage = current);
+			startCircleViewTransition(current !== -1, () => {
+				configStore.settings.backgroundImage = current;
+				document.documentElement.style.setProperty("--image-dominant-color", items[current]?.color ?? "");
+			});
 	};
 	const currentImage = useMemo(() => items.find(item => item.key === backgroundImage)?.url ?? "", [items, backgroundImage]);
 
@@ -34,6 +40,7 @@ export function useBackgroundImages() {
 			imageData: null,
 			filename: null,
 			displayIndex: null,
+			color: null,
 		});
 		await store.current.open();
 		await updateItems();
@@ -46,7 +53,7 @@ export function useBackgroundImages() {
 			const url: string = await keyToUrl.emplace(key, async () => await fileToBlob(value.imageData));
 			return { ...value, url, key };
 		});
-		setItems([{ imageData: null!, filename: "", url: "", key: -1, displayIndex: -1 }, ...items]);
+		setItems([{ imageData: null!, filename: "", url: "", key: -1, displayIndex: -1, color: "" }, ...items]);
 	}
 
 	async function reorderItems(getIndex: (oldIndex: number) => number | undefined) {
@@ -65,10 +72,14 @@ export function useBackgroundImages() {
 	async function add(image: File) {
 		if (!store.current) return;
 		const length = await store.current.length;
+		const imgResource = new Image();
+		imgResource.src = await fileToData(image);
+		const color = await fac.getColorAsync(imgResource);
 		await store.current.add({
 			imageData: image,
 			filename: image.name,
 			displayIndex: length,
+			color: color.hex,
 		});
 		await updateItems();
 	}

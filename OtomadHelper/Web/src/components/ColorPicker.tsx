@@ -32,7 +32,9 @@ const StyledColorButton = styled(StyledButton)`
 			content: "";
 			position: absolute;
 			inset: -1px;
-			background: conic-gradient(in oklch longer hue, red, red);
+			background:
+				radial-gradient(closest-side, ${c("background-color")}, transparent),
+				conic-gradient(in oklch longer hue, red, red);
 			border-radius: inherit;
 			opacity: 0;
 		}
@@ -54,7 +56,7 @@ const StyledColorButton = styled(StyledButton)`
 		font-size: 16px;
 
 		&:is(.spectrum ~ *) {
-			color: white;
+			color: ${c("foreground-color")};
 		}
 	}
 
@@ -98,8 +100,8 @@ const StyledColorButton = styled(StyledButton)`
 	}
 
 	&[aria-checked="true"] {
-		--stroke-color-focus-stroke-outer: ${c("color")}; // Change selected focused outline color.
-		outline-color: ${c("color")};
+		--stroke-color-focus-stroke-outer: lch(from ${c("color")} 50 c h); // Change selected focused outline color.
+		outline-color: ${c("stroke-color-focus-stroke-outer")};
 	}
 
 	&:focus {

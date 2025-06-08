@@ -19,6 +19,8 @@ const StyledColorPalette = styled(Expander.ChildWrapper).attrs({
 	border-block-start: none !important;
 `;
 
+const TooltipPartial = Tooltip.with({ placement: "y" });
+
 export default function Settings() {
 	const [currentLanguage, setLanguage] = useLanguage();
 	const languages = useLanguageTags();
@@ -90,6 +92,7 @@ export default function Settings() {
 				value={backgroundImages.backgroundImage}
 				idField="key"
 				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
+				imageOverlayField={({ color }) => <ColorButton color={color} style={{ position: "absolute", insetBlockEnd: "4px", insetInlineStart: "4px", pointerEvents: "none" }} />}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
 				transition
 				onItemContextMenu={(item, e) => {
@@ -202,15 +205,27 @@ export default function Settings() {
 				<Expander.Item title={t.settings.appearance.palette.accent} icon="color_fill" asSubtitle />
 				{/* TODO: Simplify enum-plus. */}
 				<StyledColorPalette>
-					{autoColorPalettes.map(color => <ColorButton key={color} color={color} value={accentColor} icon={color} colorAlt="var(--accent-color)" />)}
+					{autoColorPalettes.map(color => (
+						<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
+							<ColorButton color={color} value={accentColor} icon={color} colorAlt="var(--accent-color)" />
+						</TooltipPartial>
+					))}
 					{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={accentColor} />)}
-					<ColorPicker color={accentColor} selected={isCustomColorSelected(accentColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+					<TooltipPartial title={t.custom}>
+						<ColorPicker color={accentColor} selected={isCustomColorSelected(accentColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+					</TooltipPartial>
 				</StyledColorPalette>
 				<Expander.Item title={t.settings.appearance.palette.background} icon="color_background" asSubtitle />
 				<StyledColorPalette>
-					{autoColorPalettes.map(color => <ColorButton key={color} color={color} value={backgroundColor} icon={color} colorAlt="var(--background-color)" />)}
+					{autoColorPalettes.map(color => (
+						<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
+							<ColorButton key={color} color={color} value={backgroundColor} icon={color} colorAlt="var(--background-color)" />
+						</TooltipPartial>
+					))}
 					{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={backgroundColor} />)}
-					<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+					<TooltipPartial title={t.custom}>
+						<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+					</TooltipPartial>
 				</StyledColorPalette>
 			</Expander>
 			<ExpanderRadio
