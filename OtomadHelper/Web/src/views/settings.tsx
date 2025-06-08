@@ -15,7 +15,8 @@ const StyledColorPalette = styled(Expander.ChildWrapper).attrs({
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	padding-block: 0 14px;
+	padding-block: 0 ${expanderItemPadding[0] * 2}px;
+	padding-inline: ${expanderItemPadding[1] + 3}px;
 	border-block-start: none !important;
 `;
 

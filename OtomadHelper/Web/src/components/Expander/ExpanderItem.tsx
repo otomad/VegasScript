@@ -12,7 +12,7 @@ export /* @internal */ const styledExpanderItemBase = css`
 	overflow-x: clip;
 
 	:where(&) {
-		padding: 7px 51px;
+		padding: ${expanderItemPadding[0]}px ${expanderItemPadding[1]}px;
 	}
 
 	> :not(.text) {

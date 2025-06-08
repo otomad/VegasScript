@@ -2,6 +2,7 @@ import ExpanderGroup from "./ExpanderGroup";
 import ExpanderItem from "./ExpanderItem";
 
 export const TRAILING_EXEMPTION = "trailing-exemption";
+export const expanderItemPadding = [7, 51] as const;
 
 const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when scrolling page, some content will not display immediately.
 	/** Expanded? */
@@ -100,7 +101,7 @@ const ExpanderChildWrapper = styled.div<{
 	/** Remove the top split line and top padding from the expand child. */
 	$noDivider?: boolean;
 }>`
-	padding: 7px 51px; // 7px 38px
+	padding: ${expanderItemPadding[0]}px ${expanderItemPadding[1]}px;
 
 	&:has(.slider) {
 		padding: 21px 52px;
