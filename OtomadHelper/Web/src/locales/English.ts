@@ -700,6 +700,13 @@ export default {
 					black: "Black",
 					contrast: "High Contrast",
 				},
+				palette: {
+					_: "Palette",
+					windows: "Windows Default",
+					vegas: "VEGAS Pro Default",
+					accent: "Accent color",
+					background: "Background color",
+				},
 				transparency: {
 					_: "Dialog material",
 					acrylic: "Acrylic",

@@ -82,6 +82,9 @@ export default [
 		"variable-name-conversion": [
 			["default", "VariableName"],
 		],
+		"enum-plus": [
+			"Enum",
+		],
 	},
 	/* {
 		from: "react",

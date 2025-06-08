@@ -175,11 +175,25 @@ declare interface Array<T> {
 	 * ```
 	 */
 	interpose<TSeparator>(...separators: TSeparator[]): (T | TSeparator)[];
+
+	/**
+	 * If, on the other hand, you feel seriously enough that this use of includes() should be accepted with no type assertions,
+	 * and you want it to happen in all of your code, you could merge in a custom declaration.
+	 * @see https://stackoverflow.com/a/56745484/19553213
+	 */
+	includes(searchElement: any, fromIndex?: number): boolean;
 }
 
 declare interface ReadonlyArray<T> extends Pick<Array<T>,
 	"mapObject",
-> { }
+> {
+	/**
+	 * If, on the other hand, you feel seriously enough that this use of includes() should be accepted with no type assertions,
+	 * and you want it to happen in all of your code, you could merge in a custom declaration.
+	 * @see https://stackoverflow.com/a/56745484/19553213
+	 */
+	includes(searchElement: any, fromIndex?: number): boolean;
+}
 
 declare interface Set<T> {
 	/**

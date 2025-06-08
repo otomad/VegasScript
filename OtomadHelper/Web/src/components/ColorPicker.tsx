@@ -2,13 +2,14 @@ import { StyledButton } from "./Button";
 
 const PADDING = 3;
 
-const StyledColorPicker = styled(StyledButton)`
+const StyledColorButton = styled(StyledButton)`
 	--border-highlight-y-offset: 0 !important;
 	position: relative;
 	aspect-ratio: 1 / 1;
 	margin: ${-PADDING}px !important;
 	padding: ${PADDING}px;
 	min-inline-size: 40px;
+	outline: 1px solid transparent;
 
 	&,
 	.fill {
@@ -24,17 +25,42 @@ const StyledColorPicker = styled(StyledButton)`
 		position: absolute;
 		background-color: ${c("color")};
 		/* border: 1px solid ${c("foreground-color", 37)}; */
+		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
 		border: 1px solid ${getContrastiveColor("color", 0.37)};
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: -1px;
+			background: conic-gradient(in oklch longer hue, red, red);
+			border-radius: inherit;
+			opacity: 0;
+		}
+
+		&.spectrum {
+			background-color: ${c("color")};
+			border: 1px solid ${c("white", 37)};
+
+			&::after {
+				opacity: 1;
+			}
+		}
 	}
 
+	.icon,
 	.animated-icon {
 		position: absolute;
 		color: ${getContrastiveColor("color")};
 		font-size: 16px;
 
-		&:not(.animating) {
-			opacity: 0;
+		&:is(.spectrum ~ *) {
+			color: white;
 		}
+	}
+
+	.icon:not(.animating, :hover),
+	.animated-icon:not(.animating) {
+		opacity: 0;
 	}
 
 	&:hover {
@@ -70,16 +96,58 @@ const StyledColorPicker = styled(StyledButton)`
 		opacity: 0.5;
 		filter: grayscale(0.5);
 	}
+
+	&[aria-checked="true"] {
+		--stroke-color-focus-stroke-outer: ${c("color")}; // Change selected focused outline color.
+		outline-color: ${c("color")};
+	}
+
+	&:focus {
+		z-index: 1; // Place the focused ring above the selected ring.
+	}
 `;
 
-export default function ColorPicker({ color: [color, setColor], ...htmlAttrs }: FCP<{
+export function ColorButton({ color, icon, animatedIcon, selected = false, value: [value, setValue] = NEVER_MIND, showIconWhenHovering = false, colorAlt, showSpectrum = false, style, role = "radio", onClick, children, ...htmlAttrs }: FCP<{
+	/** Color. */
+	color?: string;
+	/** Icon. */
+	icon?: DeclaredIcons;
+	/** Animated icon. */
+	animatedIcon?: DeclaredLotties;
+	/** Selected? */
+	selected?: boolean;
+	/** Model value. Current color and set the color. */
+	value?: StateProperty<string>;
+	/** Show the icon or animated icon only when hovering? */
+	showIconWhenHovering?: boolean;
+	/** If specified, the visual color will be replaced, but the internal logic will still use the original color. */
+	colorAlt?: string;
+	/** Show color spectrum? */
+	showSpectrum?: boolean;
+}, "button">) {
+	const [isIconAnimating, setIsIconAnimating] = useState(false);
+	// The edit icon will keep showing until the animation finishes playing.
+
+	if (value !== undefined) selected = value === color;
+
+	return (
+		<StyledColorButton {...htmlAttrs} style={{ ...style, "--color": colorAlt ?? color }} aria-checked={selected} role={role} onClick={e => { onClick?.(e); color && setValue?.(color); }}>
+			<div className={["fill", { spectrum: showSpectrum }]} />
+			{animatedIcon ? <AnimatedIcon name={animatedIcon} className={{ animating: !showIconWhenHovering || isIconAnimating }} onPlayStateChange={setIsIconAnimating} /> :
+			icon && <Icon name={icon} className={{ animating: !showIconWhenHovering }} />}
+			{children}
+		</StyledColorButton>
+	);
+}
+
+export default function ColorPicker({ color: [color, setColor], role = "button", showIconWhenHovering = true, showSpectrumWhenUnselected = false, selected, ...htmlAttrs }: FCP<Override<PropsOf<typeof ColorButton>, {
 	/** Color. */
 	color: StateProperty<string>;
+	/** Show color spectrum when it is not selected? */
+	showSpectrumWhenUnselected?: boolean;
 	children?: never;
-}, "button">) {
+}>>) {
 	const inputColorEl = useDomRef<"input">();
-	const [isEditIconAnimating, setIsEditIconAnimating] = useState(false);
-	// The edit icon will keep showing until the animation finishes playing.
 
 	const handleClick: MouseEventHandler = async e => {
 		e.stopPropagation();
@@ -88,10 +156,17 @@ export default function ColorPicker({ color: [color, setColor], ...htmlAttrs }: 
 	};
 
 	return (
-		<StyledColorPicker {...htmlAttrs} style={{ "--color": color }} onClick={handleClick}>
-			<div className="fill" />
-			<AnimatedIcon name="edit" className={{ animating: isEditIconAnimating }} onPlayStateChange={setIsEditIconAnimating} />
+		<ColorButton
+			{...htmlAttrs}
+			color={color}
+			animatedIcon="edit"
+			role={role}
+			selected={selected}
+			showIconWhenHovering={showIconWhenHovering}
+			showSpectrum={!selected && showSpectrumWhenUnselected}
+			onClick={handleClick}
+		>
 			{!window.isWebView && <input ref={inputColorEl} type="color" value={color} onChange={e => setColor?.(e.currentTarget.value)} />}
-		</StyledColorPicker>
+		</ColorButton>
 	);
 }

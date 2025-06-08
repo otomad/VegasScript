@@ -230,4 +230,5 @@ export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, ca
 /** Creates a new tuple that is correctly recognized by TypeScript. */
 export const Tuple = <T extends Any[]>(...args: T): T => args;
 
+/** 傻逼 TypeScript，你在教我做事？ */
 export const NEVER_MIND = [] as never;

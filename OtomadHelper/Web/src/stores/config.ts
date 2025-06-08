@@ -1,3 +1,4 @@
+import { BasicColorPalette } from "helpers/basic-color-palette";
 import defaultPrveAmounts from "helpers/defaultPrveAmounts";
 import { deepClone } from "valtio/utils";
 import type { beepEngines, normalizeTimes } from "views/audio";
@@ -278,6 +279,8 @@ export const configStore = createStore({
 		backgroundImageTint: 0,
 		backgroundImageBlur: 0,
 		systemBackdrop: "acrylic" as SystemBackdrop,
+		accentColor: BasicColorPalette.blue as string,
+		backgroundColor: BasicColorPalette.blue as string,
 		uiScale: 100,
 		get uiScale1() { return this.uiScale / 100; },
 		hideUseTips: false,

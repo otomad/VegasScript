@@ -79,6 +79,9 @@ importers:
       dedent:
         specifier: ^1.5.3
         version: 1.5.3
+      enum-plus:
+        specifier: ^2.3.1
+        version: 2.3.1
       fullwidth-quotes:
         specifier: ^1.0.1
         version: 1.0.1
@@ -2365,6 +2368,10 @@ packages:
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
+
+  enum-plus@2.3.1:
+    resolution: {integrity: sha512-qzkz+/jWrsj7jhTfdWkge832qmkkteGQTuv/JGUjSB+HrD+Au0ES8IC6Nrr88CLCXXI4aMc2ZW+OGqUUvoTJ8g==}
+    engines: {node: '>=7.10.1'}
 
   env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
@@ -7410,6 +7417,8 @@ snapshots:
   entities@2.2.0: {}
 
   entities@4.5.0: {}
+
+  enum-plus@2.3.1: {}
 
   env-paths@2.2.1: {}
 

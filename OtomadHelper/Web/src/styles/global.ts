@@ -87,9 +87,11 @@ const GlobalStyle = createGlobalStyle<{
 		}
 	}
 
-	:focus,
-	:focus-visible {
-		outline: none;
+	@layer base {
+		:focus,
+		:focus-visible {
+			outline: none;
+		}
 	}
 
 	:focus-visible {

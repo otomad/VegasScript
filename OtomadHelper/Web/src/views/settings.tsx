@@ -1,3 +1,4 @@
+import { BasicColorPalette, autoColorPalettes } from "helpers/basic-color-palette";
 import { contributeTranslationLink } from "helpers/crowdin-link";
 import { useInContextLocalization } from "helpers/jipt-activator";
 
@@ -7,6 +8,16 @@ export /* @internal */ const systemBackdrops = [
 	{ name: "micaAlt", enum: "TabbedWindow" },
 	{ name: "solid", enum: "None" },
 ] as const;
+
+const StyledColorPalette = styled(Expander.ChildWrapper).attrs({
+	role: "radiogroup",
+})`
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding-block: 0 14px;
+	border-block-start: none !important;
+`;
 
 export default function Settings() {
 	const [currentLanguage, setLanguage] = useLanguage();
@@ -18,7 +29,7 @@ export default function Settings() {
 	const { scheme: [scheme, setScheme], amoledDark: [amoledDark, setAmoledDark], contrast: [contrast, setContrast] } = useStoreState(colorModeStore);
 	const {
 		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
-		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop,
+		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop, accentColor, backgroundColor,
 	} = selectConfig(c => c.settings);
 	const backgroundImages = useBackgroundImages();
 	const showBackgroundImage = !!~backgroundImages.backgroundImage[0];
@@ -32,6 +43,8 @@ export default function Settings() {
 		for (const file of files)
 			await backgroundImages.add(file);
 	}
+
+	const isCustomColorSelected = (color: string) => !autoColorPalettes.includes(color) && !BasicColorPalette.items.map(({ value }) => value).includes(color);
 
 	return (
 		<div className="container">
@@ -184,6 +197,21 @@ export default function Settings() {
 						</ItemsView>
 					</>
 				)}
+			</Expander>
+			<Expander title={t.settings.appearance.palette} icon="color" expanded>
+				<Expander.Item title={t.settings.appearance.palette.accent} icon="color_fill" asSubtitle />
+				{/* TODO: Simplify enum-plus. */}
+				<StyledColorPalette>
+					{autoColorPalettes.map(color => <ColorButton key={color} color={color} value={accentColor} icon={color} colorAlt="var(--accent-color)" />)}
+					{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={accentColor} />)}
+					<ColorPicker color={accentColor} selected={isCustomColorSelected(accentColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+				</StyledColorPalette>
+				<Expander.Item title={t.settings.appearance.palette.background} icon="color_background" asSubtitle />
+				<StyledColorPalette>
+					{autoColorPalettes.map(color => <ColorButton key={color} color={color} value={backgroundColor} icon={color} colorAlt="var(--background-color)" />)}
+					{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={backgroundColor} />)}
+					<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+				</StyledColorPalette>
 			</Expander>
 			<ExpanderRadio
 				title={t.settings.appearance.transparency}
