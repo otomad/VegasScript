@@ -334,3 +334,4 @@ flagWords:
   - Disableable -> CanBeDisabled
   - Disabledable -> CanBeDisabled
   - formated -> formatted
+  - perfix -> prefix

@@ -20,7 +20,7 @@ const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < 
  * @see [Reference: Parallax smooth movement.](https://codepen.io/nanonansen/pen/oRWmaY)
  */
 export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, speed: number, options: SmoothValueOptions<T> = {}) {
-	if (useMediaQuery.reduceMotion()) return current;
+	const reduceMotion = useMediaQuery.reduceMotion();
 	if (speed <= 0 || speed > 1)
 		throw new RangeError(`useSmoothValue speed parameter value range error. The parameter value must be within the range of (0 ~ 1], the current value is ${speed}.`);
 	const animationId = useRef<number>(undefined);
@@ -67,8 +67,10 @@ export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, spee
 					getNewValue(value[i], prev)));
 			animationId.current = requestAnimationFrame(animation); // Note that `requestAnimationFrame` speed depends on your monitor FPS.
 		};
-		animation();
+		if (!reduceMotion) animation();
 		return () => cancelAnimationFrame(animationId.current);
-	}, [current, speed]);
+	}, [current, speed, reduceMotion]);
+	if (reduceMotion) return current; // Do not put this line at the top of this function. Or when user is toggling the
+	// prefers-reduced-motion option, it will crashed because of some useState won't be triggered.
 	return smoothValue;
 }

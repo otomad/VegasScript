@@ -33,7 +33,7 @@ const StyledSlider = styled.div`
 			display: block;
 			background-color: ${c("fill-color-control-strong-default")};
 
-			${ifColorScheme.contrast} & {
+			${ifColorScheme.contrast} &${ifColorScheme.contrastButOverridden} {
 				background-color: ${cc("FieldText")};
 			}
 		}

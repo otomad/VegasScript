@@ -43,6 +43,7 @@ export const cc = (systemColor: SystemColors) => systemColor;
 /**
  * Make your selector higher in priority.
  * @param priority - The priority, the bigger the number, the higher it is. Less than or equal to zero has no effect.
+ * Defaults to 1.
  * @returns
  * ```less
  * // before

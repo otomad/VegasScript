@@ -1021,11 +1021,12 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "for AMOLED dark only",
-						systemContrast: "The system high contrast theme is enabled and the color scheme cannot be changed at this time.",
 					},
-					transparency: {
-						reducedTransparency: "The transparency effects are disabled by the system and this option may not be effective at this time.",
-						systemContrast: "The system high contrast theme is enabled and this option may not be effective at this time.",
+					invalid: {
+						reducedTransparency: "The transparency effects are disabled by the system and the {{option, lowercase}} option may not be effective at this time.",
+						contrast: "The high contrast theme is enabled and the {{option, lowercase}} option cannot be changed at this time.",
+						systemContrastCannot: "The system high contrast theme is enabled and the {{option, lowercase}} option cannot be changed at this time.",
+						systemContrastMayNot: "The system high contrast theme is enabled and the {{option, lowercase}} option may not be effective at this time.",
 					},
 				},
 				preference: {

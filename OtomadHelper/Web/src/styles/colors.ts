@@ -120,6 +120,7 @@ export const ifColorScheme = {
 	reduceTransparency: "@media (prefers-reduced-transparency: reduce)",
 	reduceMotion: "@media (prefers-reduced-motion: reduce)",
 	forceMotion: "force-motion",
+	contrastButOverridden: ':not(html[data-scheme~="contrast"] [data-scheme]:not([data-scheme~="contrast"]) *)',
 } as const;
 
 export type ColorNames = keyof typeof colors;
@@ -132,7 +133,7 @@ export function globalColors() {
 			`:root${ifColorScheme.light}, ${ifColorScheme.light}`,
 			`:root, ${ifColorScheme.dark}`,
 			`:root${ifColorScheme.contrast}, ${ifColorScheme.contrast}`,
-			`:root${ifColorScheme.black}, ${ifColorScheme.black}`,
+			`:root${ifColorScheme.black}${important(2)}, ${ifColorScheme.black}${important(2)}`,
 		][i];
 		css += selector + "{";
 		for (const [key, values] of Object.entries(colors))

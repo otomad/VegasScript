@@ -125,7 +125,7 @@ const StyledToggleSwitchLabel = styled.button`
 			scale: 10 3;
 		}
 
-		${ifColorScheme.contrast} & {
+		${ifColorScheme.contrast} &${ifColorScheme.contrastButOverridden} {
 			background-color: ${cc("ButtonText")};
 		}
 	}
@@ -193,7 +193,7 @@ const StyledToggleSwitchLabel = styled.button`
 			background-color: ${c("fill-color-text-on-accent-primary")};
 			outline: 1px solid ${c("stroke-color-control-stroke-secondary")};
 
-			${ifColorScheme.contrast} & {
+			${ifColorScheme.contrast} &${ifColorScheme.contrastButOverridden} {
 				outline: none;
 			}
 		}

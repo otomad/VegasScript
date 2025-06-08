@@ -130,7 +130,7 @@ export function ColorButton({ color, icon, animatedIcon, selected = false, value
 	const [isIconAnimating, setIsIconAnimating] = useState(false);
 	// The edit icon will keep showing until the animation finishes playing.
 
-	if (value !== undefined) selected = value === color;
+	if (value !== undefined) selected ||= value === color;
 
 	return (
 		<StyledColorButton {...htmlAttrs} style={{ ...style, "--color": colorAlt ?? color }} aria-checked={selected} role={role} onClick={e => { onClick?.(e); color && setValue?.(color); }}>

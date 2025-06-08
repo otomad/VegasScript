@@ -9,8 +9,11 @@ const StyledItemsViewItem = styled.button<{
 	$view: ItemView;
 	/** Add additional borders to the normal state of the image wrapper? */
 	$withBorder?: boolean;
+	/** Custom selection color. Defaults to accent color. */
+	$selectionColor?: string;
 }>`
 	${styles.mixins.forwardFocusRing()};
+	--selection-color: ${({ $selectionColor }) => $selectionColor || c("accent-color")};
 
 	&:hover,
 	&:focus-visible {
@@ -99,19 +102,19 @@ const StyledItemsViewItem = styled.button<{
 
 		&.selected .selection {
 			box-shadow:
-				0 0 0 2px ${c("accent-color")} inset,
+				0 0 0 2px ${c("selection-color")} inset,
 				0 0 0 3px ${c("fill-color-control-solid-default")} inset;
 		}
 
 		&.selected:hover .selection {
 			box-shadow:
-				0 0 0 2px ${c("accent-color", 90)} inset,
+				0 0 0 2px ${c("selection-color", 90)} inset,
 				0 0 0 3px ${c("fill-color-control-solid-default")} inset;
 		}
 
 		&.selected${isPressed} .selection {
 			box-shadow:
-				0 0 0 2px ${c("accent-color", 80)} inset,
+				0 0 0 2px ${c("selection-color", 80)} inset,
 				0 0 0 3px ${c("fill-color-control-solid-default")} inset;
 		}
 	` : css`
@@ -139,7 +142,7 @@ const StyledItemsViewItem = styled.button<{
 				inset-inline-start: 0;
 				block-size: ${100 / 3}%;
 				inline-size: 3px;
-				background-color: ${c("accent-color")};
+				background-color: ${c("selection-color")};
 
 				@starting-style {
 					scale: 1 0;
@@ -252,7 +255,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -282,6 +285,8 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	disableCheckmarkTransition?: boolean;
 	/** Add other elements overlay the image. */
 	imageOverlay?: ReactNode;
+	/** Custom selection color. Defaults to accent color. */
+	selectionColor?: string;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -328,6 +333,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 				<StyledItemsViewItem
 					$view={view}
 					$withBorder={withBorder}
+					$selectionColor={selectionColor}
 					className={[className, view, { selected: selected !== "unchecked" }]}
 					tabIndex={0}
 					role={multiple ? "checkbox" : "radio"}

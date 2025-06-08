@@ -1,6 +1,7 @@
 import IndexedDBStore from "classes/IndexedDBStore";
 import { FastAverageColor } from "fast-average-color";
 import { startCircleViewTransition } from "helpers/color-mode";
+
 const DATABASE_VERSION = 1;
 const fac = new FastAverageColor();
 
@@ -28,12 +29,11 @@ export function useBackgroundImages() {
 		const previous = configStore.settings.backgroundImage;
 		const current = typeof value === "function" ? value(previous) : value;
 		if (current !== previous)
-			startCircleViewTransition(current !== -1, () => {
-				configStore.settings.backgroundImage = current;
-				document.documentElement.style.setProperty("--image-dominant-color", items[current]?.color ?? "");
-			});
+			startCircleViewTransition(current !== -1, () => configStore.settings.backgroundImage = current);
 	};
-	const currentImage = useMemo(() => items.find(item => item.key === backgroundImage)?.url ?? "", [items, backgroundImage]);
+	const currentItem = useMemo(() => items.find(item => item.key === backgroundImage), [items, backgroundImage]);
+	const currentImage = useMemo(() => currentItem?.url ?? "", [currentItem]);
+	const currentDominantColor = useMemo(() => currentItem?.color || undefined, [currentItem]);
 
 	useAsyncMountEffect(async () => {
 		store.current = new IndexedDBStore<BackgroundImageRow>("ImagesDB", DATABASE_VERSION, "backgroundImages", {
@@ -122,5 +122,6 @@ export function useBackgroundImages() {
 		reorder,
 		backgroundImage: [backgroundImage, setBackgroundImage] as const,
 		currentImage,
+		currentDominantColor,
 	};
 }

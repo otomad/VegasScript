@@ -46,6 +46,7 @@ export default function Settings() {
 			await backgroundImages.add(file);
 	}
 
+	const isAutoColor = (color: string) => autoColorPalettes.includes(color);
 	const isCustomColorSelected = (color: string) => !autoColorPalettes.includes(color) && !BasicColorPalette.items.map(({ value }) => value).includes(color);
 
 	return (
@@ -83,6 +84,126 @@ export default function Settings() {
 			</ExpanderRadio>
 
 			<Subheader>{t.settings.appearance}</Subheader>
+			<Expander
+				title={t.settings.appearance.colorScheme}
+				icon="paint_brush"
+				checkInfo={withObject(t.settings.appearance.colorScheme, t => contrast || systemContrast ? t.contrast : scheme === "dark" && amoledDark ? t.black : t[scheme])}
+				expanded
+			>
+				{!systemContrast ? (
+					<>
+						<ItemsView
+							view="grid"
+							current={[scheme, setScheme]}
+						>
+							{schemes.map(scheme =>
+								<ItemsView.Item id={scheme} key={scheme} withBorder image={<PreviewColorScheme colorScheme={scheme} />}>{t.settings.appearance.colorScheme[scheme]}</ItemsView.Item>)}
+						</ItemsView>
+						<ItemsView
+							view="grid"
+							current={null}
+							multiple
+						>
+							<ItemsView.Item
+								id="black"
+								key="black"
+								selected={[amoledDark, setAmoledDark]}
+								image={<PreviewColorScheme colorScheme="black" />}
+								details={t.descriptions.settings.appearance.colorScheme.black}
+								style={{ opacity: scheme === "light" ? 0.5 : undefined }}
+								baseAttrs={{ "data-scheme": classNames("dark black") }}
+								withBorder
+								disableCheckmarkTransition
+							>
+								{t.settings.appearance.colorScheme.black}
+							</ItemsView.Item>
+							<ItemsView.Item
+								id="contrast"
+								key="contrast"
+								selected={[contrast, setContrast]}
+								image={<PreviewColorScheme colorScheme="contrast" />}
+								withBorder
+								disableCheckmarkTransition
+							>
+								{t.settings.appearance.colorScheme.contrast}
+							</ItemsView.Item>
+						</ItemsView>
+					</>
+				) : (
+					<>
+						<InfoBar status="warning">{t.descriptions.settings.appearance.invalid.systemContrastCannot({ option: t.settings.appearance.colorScheme })}</InfoBar>
+						<ItemsView
+							view="grid"
+							current={null}
+							multiple
+						>
+							<ItemsView.Item id="contrast" key="contrast" selected="checked" image={<PreviewColorScheme colorScheme="contrast" />}>{t.settings.appearance.colorScheme.contrast}</ItemsView.Item>
+						</ItemsView>
+					</>
+				)}
+			</Expander>
+			<Expander title={t.settings.appearance.palette} icon="color" expanded>
+				{systemContrast || contrast ? <InfoBar status="warning">{t.descriptions.settings.appearance.invalid[systemContrast ? "systemContrastCannot" : "contrast"]({ option: t.settings.appearance.palette })}</InfoBar> : (
+					<>
+						<Expander.Item title={t.settings.appearance.palette.accent} icon="color_fill" asSubtitle />
+						{/* TODO: Simplify enum-plus. */}
+						<StyledColorPalette>
+							{autoColorPalettes.map(color => (
+								<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
+									<ColorButton
+										color={color}
+										value={accentColor}
+										icon={color}
+										colorAlt={isAutoColor(color) ? `var(--accent-color-${color})` : undefined}
+										hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
+										selected={color === "windows" && accentColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
+									/>
+								</TooltipPartial>
+							))}
+							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={accentColor} />)}
+							<TooltipPartial title={t.custom}>
+								<ColorPicker color={accentColor} selected={isCustomColorSelected(accentColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+							</TooltipPartial>
+						</StyledColorPalette>
+						<Expander.Item title={t.settings.appearance.palette.background} icon="color_background" asSubtitle />
+						<StyledColorPalette>
+							{autoColorPalettes.map(color => (
+								<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
+									<ColorButton
+										key={color}
+										color={color}
+										value={backgroundColor}
+										icon={color}
+										colorAlt={isAutoColor(color) ? `var(--background-color-${color})` : undefined}
+										hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
+										selected={color === "windows" && backgroundColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
+									/>
+								</TooltipPartial>
+							))}
+							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={backgroundColor} />)}
+							<TooltipPartial title={t.custom}>
+								<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+							</TooltipPartial>
+						</StyledColorPalette>
+					</>
+				)}
+			</Expander>
+			<ExpanderRadio
+				title={t.settings.appearance.transparency}
+				icon="glass"
+				expanded
+				view="grid"
+				itemWidth="square"
+				items={systemBackdrops}
+				value={systemBackdrop}
+				idField="name"
+				nameField={t.settings.appearance.transparency}
+				imageField={({ name }) => <PreviewBackdrop type={name} />}
+				before={
+					reduceTransparency && <InfoBar status="warning">{t.descriptions.settings.appearance.invalid.reducedTransparency}</InfoBar> ||
+					systemContrast && <InfoBar status="warning">{t.descriptions.settings.appearance.invalid.systemContrastMayNot({ option: t.settings.appearance.transparency })}</InfoBar>
+				}
+			/>
 			<ExpanderRadio
 				title={t.settings.appearance.backgroundImage}
 				icon="wallpaper"
@@ -92,8 +213,9 @@ export default function Settings() {
 				value={backgroundImages.backgroundImage}
 				idField="key"
 				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
-				imageOverlayField={({ color }) => <ColorButton color={color} style={{ position: "absolute", insetBlockEnd: "4px", insetInlineStart: "4px", pointerEvents: "none" }} />}
+				// imageOverlayField={({ color }) => <ColorButton color={color} style={{ position: "absolute", insetBlockEnd: "4px", insetInlineStart: "4px", pointerEvents: "none" }} />}
 				checkInfoCondition={showBackgroundImage ? t.on : t.off}
+				itemsViewItemAttrs={item => ({ selectionColor: item.color })}
 				transition
 				onItemContextMenu={(item, e) => {
 					if (item.key !== -1) createContextMenu([
@@ -143,107 +265,6 @@ export default function Settings() {
 					</>
 				)}
 			</ExpanderRadio>
-			<Expander
-				title={t.settings.appearance.colorScheme}
-				icon="paint_brush"
-				checkInfo={withObject(t.settings.appearance.colorScheme, t => contrast || systemContrast ? t.contrast : scheme === "dark" && amoledDark ? t.black : t[scheme])}
-				expanded
-			>
-				{!systemContrast ? (
-					<>
-						<ItemsView
-							view="grid"
-							current={[scheme, setScheme]}
-						>
-							{schemes.map(scheme =>
-								<ItemsView.Item id={scheme} key={scheme} withBorder image={<PreviewColorScheme colorScheme={scheme} />}>{t.settings.appearance.colorScheme[scheme]}</ItemsView.Item>)}
-						</ItemsView>
-						<ItemsView
-							view="grid"
-							current={null}
-							multiple
-						>
-							<ItemsView.Item
-								id="black"
-								key="black"
-								selected={[amoledDark, setAmoledDark]}
-								image={<PreviewColorScheme colorScheme="black" />}
-								details={t.descriptions.settings.appearance.colorScheme.black}
-								style={{ opacity: scheme === "light" ? 0.5 : undefined }}
-								baseAttrs={{ "data-scheme": classNames("dark black", { contrast }) }}
-								withBorder
-								disableCheckmarkTransition
-							>
-								{t.settings.appearance.colorScheme.black}
-							</ItemsView.Item>
-							<ItemsView.Item
-								id="contrast"
-								key="contrast"
-								selected={[contrast, setContrast]}
-								image={<PreviewColorScheme colorScheme="contrast" />}
-								withBorder
-								disableCheckmarkTransition
-							>
-								{t.settings.appearance.colorScheme.contrast}
-							</ItemsView.Item>
-						</ItemsView>
-					</>
-				) : (
-					<>
-						<InfoBar status="warning">{t.descriptions.settings.appearance.colorScheme.systemContrast}</InfoBar>
-						<ItemsView
-							view="grid"
-							current={null}
-							multiple
-						>
-							<ItemsView.Item id="contrast" key="contrast" selected="checked" image={<PreviewColorScheme colorScheme="contrast" />}>{t.settings.appearance.colorScheme.contrast}</ItemsView.Item>
-						</ItemsView>
-					</>
-				)}
-			</Expander>
-			<Expander title={t.settings.appearance.palette} icon="color" expanded>
-				<Expander.Item title={t.settings.appearance.palette.accent} icon="color_fill" asSubtitle />
-				{/* TODO: Simplify enum-plus. */}
-				<StyledColorPalette>
-					{autoColorPalettes.map(color => (
-						<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
-							<ColorButton color={color} value={accentColor} icon={color} colorAlt="var(--accent-color)" />
-						</TooltipPartial>
-					))}
-					{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={accentColor} />)}
-					<TooltipPartial title={t.custom}>
-						<ColorPicker color={accentColor} selected={isCustomColorSelected(accentColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
-					</TooltipPartial>
-				</StyledColorPalette>
-				<Expander.Item title={t.settings.appearance.palette.background} icon="color_background" asSubtitle />
-				<StyledColorPalette>
-					{autoColorPalettes.map(color => (
-						<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
-							<ColorButton key={color} color={color} value={backgroundColor} icon={color} colorAlt="var(--background-color)" />
-						</TooltipPartial>
-					))}
-					{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={backgroundColor} />)}
-					<TooltipPartial title={t.custom}>
-						<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
-					</TooltipPartial>
-				</StyledColorPalette>
-			</Expander>
-			<ExpanderRadio
-				title={t.settings.appearance.transparency}
-				icon="glass"
-				expanded
-				view="grid"
-				itemWidth="square"
-				items={systemBackdrops}
-				value={systemBackdrop}
-				idField="name"
-				nameField={t.settings.appearance.transparency}
-				imageField={({ name }) => <PreviewBackdrop type={name} />}
-				before={
-					reduceTransparency && <InfoBar status="warning">{t.descriptions.settings.appearance.transparency.reducedTransparency}</InfoBar> ||
-					systemContrast && <InfoBar status="warning">{t.descriptions.settings.appearance.transparency.systemContrast}</InfoBar>
-				}
-			/>
 			<Expander
 				title={t.settings.appearance.uiScale}
 				icon="zoom_in"

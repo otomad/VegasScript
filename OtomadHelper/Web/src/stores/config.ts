@@ -278,7 +278,7 @@ export const configStore = createStore({
 		backgroundImageTint: 0,
 		backgroundImageBlur: 0,
 		systemBackdrop: "acrylic" as SystemBackdrop,
-		accentColor: "windows",
+		accentColor: "wallpaper",
 		backgroundColor: "windows",
 		uiScale: 100,
 		get uiScale1() { return this.uiScale / 100; },
