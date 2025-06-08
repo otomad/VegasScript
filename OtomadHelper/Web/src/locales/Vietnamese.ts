@@ -673,6 +673,7 @@ export default {
 					black: "Đen",
 					contrast: "Độ tương phản cao",
 				},
+				palette: {},
 				transparency: {
 					_: "Loại hộp thoại",
 					acrylic: "Acrylic",
@@ -977,12 +978,8 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "chỉ dành cho AMOLED tối",
-						systemContrast: "Giao diện hệ thống tương phản cao đang hiện hành. Hiện không thể đổi bộ màu",
 					},
-					transparency: {
-						reducedTransparency: "Hiệu ứng độ trong suốt bị hệ thống vô hiệu. Thiết đặt có thể không hiệu quả lúc này",
-						systemContrast: "Giao diện hệ thống tương phản cao đang hiện hành. Hiện thiết đặt này có thể không hiệu quả",
-					},
+					invalid: {},
 				},
 				preference: {
 					autoSwitchSourceFrom: "Thay đổi nguồn tự động dựa trên nội dung được chọn cuối cùng",

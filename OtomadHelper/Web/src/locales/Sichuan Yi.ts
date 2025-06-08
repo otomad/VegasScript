@@ -680,6 +680,14 @@ export default {
 					black: "crwdns3866:0crwdne3866:0",
 					contrast: "crwdns3868:0crwdne3868:0",
 				},
+				palette: {
+					_: "crwdns4030:0crwdne4030:0",
+					windows: "crwdns4032:0crwdne4032:0",
+					vegas: "crwdns4034:0crwdne4034:0",
+					wallpaper: "crwdns4036:0crwdne4036:0",
+					accent: "crwdns4038:0crwdne4038:0",
+					background: "crwdns4040:0crwdne4040:0",
+				},
 				transparency: {
 					_: "crwdns3903:0crwdne3903:0",
 					acrylic: "crwdns3905:0crwdne3905:0",
@@ -989,11 +997,12 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "crwdns3890:0crwdne3890:0",
-						systemContrast: "crwdns3913:0crwdne3913:0",
 					},
-					transparency: {
-						reducedTransparency: "crwdns3915:0crwdne3915:0",
-						systemContrast: "crwdns3917:0crwdne3917:0",
+					invalid: {
+						reducedTransparency: "crwdns4042:0{{option, lowercase}}crwdne4042:0",
+						contrast: "crwdns4044:0{{option, lowercase}}crwdne4044:0",
+						systemContrastCannot: "crwdns4046:0{{option, lowercase}}crwdne4046:0",
+						systemContrastMayNot: "crwdns4048:0{{option, lowercase}}crwdne4048:0",
 					},
 				},
 				preference: {

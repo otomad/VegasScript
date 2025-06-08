@@ -67,6 +67,7 @@ const getProxy = (target: object, fallbackMode: boolean = false) =>
 						if (typeof currentName === "symbol")
 							return target[currentName as typeof I18N_ITEM_SYMBOL];
 					},
+					// TODO: has
 				});
 			};
 			return getWithArgsProxy();

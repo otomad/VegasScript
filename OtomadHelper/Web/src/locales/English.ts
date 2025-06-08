@@ -702,8 +702,8 @@ export default {
 				},
 				palette: {
 					_: "Palette",
-					windows: "Windows Default",
-					vegas: "VEGAS Pro Default",
+					windows: "Windows Default Color",
+					vegas: "VEGAS Pro Default Color",
 					wallpaper: "Background Image Dominant Color",
 					accent: "Accent color",
 					background: "Background color",

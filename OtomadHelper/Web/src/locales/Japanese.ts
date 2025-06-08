@@ -680,6 +680,14 @@ export default {
 					black: "ブラック",
 					contrast: "ハイコントラスト",
 				},
+				palette: {
+					_: "Palette",
+					windows: "Windows デフォルト",
+					vegas: "VEGAS Pro Default",
+					wallpaper: "背景画像の征服色",
+					accent: "アクセントカラー",
+					background: "背景色",
+				},
 				transparency: {
 					_: "ダイアログ素材",
 					acrylic: "アクリル",
@@ -989,11 +997,12 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "AMOLED ダークのみ",
-						systemContrast: "システムのハイコントラストテーマが有効になっており、現時点ではカラースキームを変更できません。",
 					},
-					transparency: {
-						reducedTransparency: "透過効果はシステムによって無効になっており、現時点ではこのオプションは有効になっていない場合があります。",
-						systemContrast: "システムのハイコントラストテーマが有効になっており、このオプションは現時点では有効になっていない可能性があります。",
+					invalid: {
+						reducedTransparency: "透過効果はシステムによって無効化されており、 {{option, lowercase}} オプションは現時点では有効ではない場合があります。",
+						contrast: "ハイコントラストテーマは有効になっており、 {{option, lowercase}} オプションは現時点では変更できません。",
+						systemContrastCannot: "システムのハイコントラストテーマが有効になっており、 {{option, lowercase}} オプションは現時点では変更できません。",
+						systemContrastMayNot: "システムのハイコントラストテーマが有効になっており、 {{option, lowercase}} オプションは現時点では有効ではない可能性があります。",
 					},
 				},
 				preference: {

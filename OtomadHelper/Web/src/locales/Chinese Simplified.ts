@@ -505,7 +505,7 @@ export default {
 				oversaturation: "过饱和",
 				emphasizeThrice: "重要的事情说三遍",
 				twist: "扭曲",
-				pixelate: "像素化",
+				pixelate: "马赛克",
 				spectrum: "色谱",
 				thermal: "热成像",
 				emboss: "浮雕",
@@ -679,6 +679,14 @@ export default {
 					auto: "自动",
 					black: "黑色",
 					contrast: "高对比度",
+				},
+				palette: {
+					_: "个性色",
+					windows: "Windows 默认色",
+					vegas: "VEGAS Pro 默认色",
+					wallpaper: "背景图像主色",
+					accent: "主题色",
+					background: "背景色",
 				},
 				transparency: {
 					_: "对话框材质",
@@ -989,11 +997,12 @@ export default {
 				appearance: {
 					colorScheme: {
 						black: "AMOLED屏深色时",
-						systemContrast: "系统高对比度主题已启用，此时无法更改配色方案。",
 					},
-					transparency: {
-						reducedTransparency: "系统已禁用透明效果，此时该选项不一定生效。",
-						systemContrast: "系统高对比度主题已启用，此时该选项不一定生效。",
+					invalid: {
+						reducedTransparency: "系统已禁用透明效果，此时{{option, lowercase}}选项不一定生效。",
+						contrast: "高对比度主题已启用，此时无法更改{{option, lowercase}}选项。",
+						systemContrastCannot: "系统高对比度主题已启用，此时无法更改{{option, lowercase}}选项。",
+						systemContrastMayNot: "系统高对比度主题已启用，此时{{option, lowercase}}选项不一定生效。",
 					},
 				},
 				preference: {
