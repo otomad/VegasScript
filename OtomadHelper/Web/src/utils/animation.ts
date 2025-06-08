@@ -165,7 +165,7 @@ export type AnimateSizeOptions = Partial<{
  * @returns A generator function that returns the animation async promise.
  * @deprecated
  */
-export async function* animateSizeGenerator(
+export async function *animateSizeGenerator(
 	element: MaybeRef<Element | undefined>,
 	{
 		startHeight,
@@ -354,18 +354,26 @@ export function simpleAnimateSize(specified: "width" | "height" = "height", dura
 export const STOP_TRANSITION_ID = "stop-transition";
 
 /**
- * Add color-dependent view transition animations to the entire page.
- * @param changeFunc - A callback function that will change the page.
- * @param keyframes - Animation keyframes.
- * @param options - Animation options.
- * @returns The destructor can be executed after the animation is completed.
+ * Temporarily disables all CSS transitions on the page by injecting a <style> element
+ * that sets `transition: none !important;` for all elements, including pseudo-elements.
+ *
+ * @returns A cleanup function that, when called, removes the injected <style> element and restores transitions.
+ *
+ * @remarks
+ * This function is useful for preventing unwanted transitions during DOM updates or UI changes.
+ * Make sure to call the returned cleanup function to avoid leaving the page in a transition-disabled state.
+ *
+ * @example
+ * ```typescript
+ * const restoreTransitions = stopTransition(); // Disable transitions!
+ * // Perform DOM updates...
+ * restoreTransitions(); // Re-enable transitions!
+ * ```
  */
-export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions][]) {
-	if (!document.startViewTransition || isReduceMotion()) {
-		await changeFunc();
-		return;
-	}
-
+export function stopTransition({ includesViewTransitions = false }: {
+	/** Includes `view-transition-old` and `view-transition-new`? */
+	includesViewTransitions?: boolean;
+} = {}) {
 	const style = document.createElement("style");
 	style.id = STOP_TRANSITION_ID;
 	style.textContent = String(css`
@@ -381,21 +389,44 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 			transition: none !important;
 		}
 
-		::view-transition-old(root),
-		::view-transition-new(root) {
-			mix-blend-mode: normal;
-			transition: none !important;
-			animation: none !important;
-		}
+		${includesViewTransitions && css`
+			::view-transition-old(root),
+			::view-transition-new(root) {
+				mix-blend-mode: normal;
+				transition: none !important;
+				animation: none !important;
+			}
 
-		::view-transition-old(*),
-		::view-transition-new(*),
-		::view-transition-old(*::before),
-		::view-transition-new(*::after) {
-			transition: none !important;
-		}
+			::view-transition-old(*),
+			::view-transition-new(*),
+			::view-transition-old(*::before),
+			::view-transition-new(*::after) {
+				transition: none !important;
+			}
+		`}
 	`);
 	document.head.appendChild(style);
+
+	return () => {
+		style.remove();
+		document.querySelectorAll(`style#${STOP_TRANSITION_ID}`).forEach(node => node.remove());
+	};
+}
+
+/**
+ * Add color-dependent view transition animations to the entire page.
+ * @param changeFunc - A callback function that will change the page.
+ * @param keyframes - Animation keyframes.
+ * @param options - Animation options.
+ * @returns The destructor can be executed after the animation is completed.
+ */
+export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions][]) {
+	if (!document.startViewTransition || isReduceMotion()) {
+		await changeFunc();
+		return;
+	}
+
+	const restoreTransitions = stopTransition({ includesViewTransitions: true });
 	const previousReactTransitionGroupDisabled = reactTransitionGroupConfig.disabled;
 	reactTransitionGroupConfig.disabled = true;
 
@@ -411,8 +442,7 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 		return await document.documentElement.animate(keyframes, options).finished;
 	});
 
-	document.head.removeChild(style);
-	document.querySelectorAll(`style#${STOP_TRANSITION_ID}`).forEach(node => node.remove());
+	restoreTransitions();
 	reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
 }
 

@@ -64,10 +64,21 @@ export default function DynamicAccentColor() {
 	const [palette, setPalette] = useState<AccentPalette>();
 	const { accentColor, backgroundColor } = useSnapshot(configStore).settings;
 	const { currentDominantColor } = useBackgroundImages();
+	const resolveViewTransition = useRef<() => void>(undefined);
 
 	useListen("host:accentPalette", setPalette);
 
-	// useLayoutEffect(() => { console.log(document.) })
+	useListen("app:startColorPaletteViewTransition", async () => {
+		if (resolveViewTransition.current) return; // Avoid recursion, or transitions will break.
+		const { promise, resolve } = Promise.withResolvers<void>();
+		resolveViewTransition.current = resolve;
+		const restoreTransitions = stopTransition();
+		await startColorViewTransition(() => promise, [[{ opacity: [0, 1] }, { easing: eases.easeOutMax }]]);
+		restoreTransitions();
+		resolveViewTransition.current = undefined;
+	});
+
+	useEffect(() => resolveViewTransition.current?.());
 
 	return <StyledDynamicAccentColor $palette={palette} $customize={{ accentColor, backgroundColor, currentDominantColor }} />;
 }

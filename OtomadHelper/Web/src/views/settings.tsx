@@ -157,12 +157,21 @@ export default function Settings() {
 										colorAlt={isAutoColor(color) ? `var(--accent-color-${color})` : undefined}
 										hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
 										selected={color === "windows" && accentColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
+										autoStartViewTransition
+										coloredSelectedOutline
 									/>
 								</TooltipPartial>
 							))}
-							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={accentColor} />)}
+							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={accentColor} autoStartViewTransition coloredSelectedOutline />)}
 							<TooltipPartial title={t.custom}>
-								<ColorPicker color={accentColor} selected={isCustomColorSelected(accentColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+								<ColorPicker
+									color={accentColor}
+									selected={isCustomColorSelected(accentColor[0])}
+									showIconWhenHovering={false}
+									showSpectrumWhenUnselected
+									autoStartViewTransition
+									coloredSelectedOutline
+								/>
 							</TooltipPartial>
 						</StyledColorPalette>
 						<Expander.Item title={t.settings.appearance.palette.background} icon="color_background" asSubtitle />
@@ -177,10 +186,11 @@ export default function Settings() {
 										colorAlt={isAutoColor(color) ? `var(--background-color-${color})` : undefined}
 										hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
 										selected={color === "windows" && backgroundColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
+										autoStartViewTransition
 									/>
 								</TooltipPartial>
 							))}
-							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={backgroundColor} />)}
+							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={backgroundColor} autoStartViewTransition />)}
 							<TooltipPartial title={t.custom}>
 								<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
 							</TooltipPartial>

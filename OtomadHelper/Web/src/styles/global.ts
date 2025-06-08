@@ -194,10 +194,12 @@ const GlobalStyle = createGlobalStyle<{
 	}
 
 	// Color mode transition
-	::view-transition-old(root),
-	::view-transition-new(root) {
-		mix-blend-mode: normal;
-		animation: none;
+	&:not(.default-view-transition) {
+		&::view-transition-old(root),
+		&::view-transition-new(root) {
+			mix-blend-mode: normal;
+			animation: none;
+		}
 	}
 
 	body[style*="--cursor"] {

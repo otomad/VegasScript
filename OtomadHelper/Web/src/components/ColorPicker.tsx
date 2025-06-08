@@ -21,31 +21,18 @@ const StyledColorButton = styled(StyledButton)`
 	}
 
 	.fill {
-		${styles.mixins.square(`calc(100% - ${PADDING}px * 2)`)};
 		position: absolute;
+		inset: ${PADDING}px;
 		background-color: ${c("color")};
-		/* border: 1px solid ${c("foreground-color", 37)}; */
-		/* stylelint-disable-next-line declaration-block-no-duplicate-properties */
-		border: 1px solid ${getContrastiveColor("color", 0.37)};
+		border-radius: inherit;
+		box-shadow: 0 0 0 1px ${getContrastiveColor("color", 0.37)} inset;
 
-		&::after {
-			content: "";
-			position: absolute;
-			inset: -1px;
+		&.spectrum {
 			background:
 				radial-gradient(closest-side, ${c("background-color")}, transparent),
 				conic-gradient(in oklch longer hue, red, red);
-			border-radius: inherit;
-			opacity: 0;
-		}
-
-		&.spectrum {
 			background-color: ${c("color")};
-			border: 1px solid ${c("white", 37)};
-
-			&::after {
-				opacity: 1;
-			}
+			box-shadow: 0 0 0 1px ${c("foreground-color", 37)} inset;
 		}
 	}
 
@@ -100,8 +87,11 @@ const StyledColorButton = styled(StyledButton)`
 	}
 
 	&[aria-checked="true"] {
-		--stroke-color-focus-stroke-outer: lch(from ${c("color")} 50 c h); // Change selected focused outline color.
 		outline-color: ${c("stroke-color-focus-stroke-outer")};
+
+		&[data-colored-selected-outline] {
+			--stroke-color-focus-stroke-outer: lch(from ${c("color")} 50 c h); // Change selected focused outline color.
+		}
 	}
 
 	&:focus {
@@ -109,7 +99,7 @@ const StyledColorButton = styled(StyledButton)`
 	}
 `;
 
-export function ColorButton({ color, icon, animatedIcon, selected = false, value: [value, setValue] = NEVER_MIND, showIconWhenHovering = false, colorAlt, showSpectrum = false, style, role = "radio", onClick, children, ...htmlAttrs }: FCP<{
+export function ColorButton({ color, icon, animatedIcon, selected = false, value: [value, setValue] = NEVER_MIND, showIconWhenHovering = false, colorAlt, showSpectrum = false, autoStartViewTransition, coloredSelectedOutline, style, role = "radio", onClick, children, ...htmlAttrs }: FCP<{
 	/** Color. */
 	color?: string;
 	/** Icon. */
@@ -126,14 +116,34 @@ export function ColorButton({ color, icon, animatedIcon, selected = false, value
 	colorAlt?: string;
 	/** Show color spectrum? */
 	showSpectrum?: boolean;
+	/** Auto start color palette view transition? */
+	autoStartViewTransition?: boolean;
+	/** Make selected outline colored? */
+	coloredSelectedOutline?: boolean;
 }, "button">) {
 	const [isIconAnimating, setIsIconAnimating] = useState(false);
 	// The edit icon will keep showing until the animation finishes playing.
 
 	if (value !== undefined) selected ||= value === color;
 
+	const handleClick: MouseEventHandler<HTMLButtonElement> = async e => {
+		if (autoStartViewTransition) {
+			useEvent("app:startColorPaletteViewTransition");
+			await delay(0);
+		}
+		onClick?.(e);
+		if (color) setValue?.(color);
+	};
+
 	return (
-		<StyledColorButton {...htmlAttrs} style={{ ...style, "--color": colorAlt ?? color }} aria-checked={selected} role={role} onClick={e => { onClick?.(e); color && setValue?.(color); }}>
+		<StyledColorButton
+			{...htmlAttrs}
+			style={{ ...style, "--color": colorAlt ?? color }}
+			aria-checked={selected}
+			role={role}
+			data-colored-selected-outline={coloredSelectedOutline}
+			onClick={handleClick}
+		>
 			<div className={["fill", { spectrum: showSpectrum }]} />
 			{animatedIcon ? <AnimatedIcon name={animatedIcon} className={{ animating: !showIconWhenHovering || isIconAnimating }} onPlayStateChange={setIsIconAnimating} /> :
 			icon && <Icon name={icon} className={{ animating: !showIconWhenHovering }} />}
@@ -142,7 +152,7 @@ export function ColorButton({ color, icon, animatedIcon, selected = false, value
 	);
 }
 
-export default function ColorPicker({ color: [color, setColor], role = "button", showIconWhenHovering = true, showSpectrumWhenUnselected = false, selected, ...htmlAttrs }: FCP<Override<PropsOf<typeof ColorButton>, {
+export default function ColorPicker({ color: [color, setColor], role = "button", showIconWhenHovering = true, showSpectrumWhenUnselected = false, selected, autoStartViewTransition, ...htmlAttrs }: FCP<Override<PropsOf<typeof ColorButton>, {
 	/** Color. */
 	color: StateProperty<string>;
 	/** Show color spectrum when it is not selected? */
@@ -151,9 +161,18 @@ export default function ColorPicker({ color: [color, setColor], role = "button",
 }>>) {
 	const inputColorEl = useDomRef<"input">();
 
+	const setColorDelayed = async (color: string) => {
+		if (!setColor) return;
+		if (autoStartViewTransition) {
+			useEvent("app:startColorPaletteViewTransition");
+			await delay(0);
+		}
+		setColor(color);
+	};
+
 	const handleClick: MouseEventHandler = async e => {
 		e.stopPropagation();
-		if (window.isWebView) setColor?.(await bridges.bridge.showColorPicker(color || "#000000"));
+		if (window.isWebView) setColorDelayed(await bridges.bridge.showColorPicker(color || "#000000"));
 		else inputColorEl.current?.click();
 	};
 
@@ -168,7 +187,7 @@ export default function ColorPicker({ color: [color, setColor], role = "button",
 			showSpectrum={!selected && showSpectrumWhenUnselected}
 			onClick={handleClick}
 		>
-			{!window.isWebView && <input ref={inputColorEl} type="color" value={color} onChange={e => setColor?.(e.currentTarget.value)} />}
+			{!window.isWebView && <input ref={inputColorEl} type="color" value={color} onChange={e => setColorDelayed(e.currentTarget.value)} />}
 		</ColorButton>
 	);
 }
