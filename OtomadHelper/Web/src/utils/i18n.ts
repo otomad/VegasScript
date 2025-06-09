@@ -9,24 +9,42 @@ export function isI18nItem(newChild: Any): newChild is Record<string, string> {
 	return !!newChild?.[I18N_ITEM_SYMBOL];
 }
 
-const getProxy = (target: object, fallbackMode: boolean = false) =>
-	new Proxy(target, {
+const getProxy = (target: object, fallbackMode: boolean = false) => {
+	const getParentsPrefix = (...prefixes: string[]) => prefixes.length > 0 ? prefixes.join(".") : "";
+	const getDeclarationInfo = (...keys: string[]) => {
+		const key = getParentsPrefix(...keys);
+		const raw = i18n.getResource("en", "javascript", key) as string | object;
+		return {
+			isCategory: typeof raw === "object",
+			includesInterpolation: typeof raw === "string" && raw.includes("{{"),
+			missing: raw === undefined,
+			missingDefault: typeof raw === "object" && !("_" in raw),
+			key,
+			raw,
+		};
+	};
+	const has = (keys: string[], currentName: string) => !getDeclarationInfo(...keys, currentName).missing;
+	const sharedProxyHandler = (keys: string[] = []): ProxyHandler<Any> => ({
+		has(target, currentName) {
+			if (typeof currentName === "symbol")
+				return currentName in target;
+			return has(keys, currentName);
+		},
+		ownKeys() {
+			const { raw } = getDeclarationInfo(...keys);
+			return isObject(raw) ? Reflect.ownKeys(raw) : [];
+		},
+		getOwnPropertyDescriptor(target, currentName) {
+			if (typeof currentName === "string" && has(keys, currentName))
+				return { enumerable: true, configurable: true };
+		},
+	});
+	return new Proxy(target, {
 		get(target, rootName) {
-			if (typeof rootName === "symbol") return;
+			if (typeof rootName === "symbol")
+				if (rootName === I18N_ITEM_SYMBOL) return true;
+				else return;
 			if (typeof target === "function") target = {};
-			const getParentsPrefix = (...prefixes: string[]) => prefixes.length > 0 ? prefixes.join(".") : "";
-			const getDeclarationInfo = (...keys: string[]) => {
-				const key = getParentsPrefix(...keys);
-				const raw = i18n.getResource("en", "javascript", key) as string | object;
-				return {
-					isCategory: typeof raw === "object",
-					includesInterpolation: typeof raw === "string" && raw.includes("{{"),
-					missing: raw === undefined,
-					missingDefault: typeof raw === "object" && !("_" in raw),
-					key,
-					raw,
-				};
-			};
 			const getMissingKey = (key: string) => {
 				if (fallbackMode) return undefined;
 				const displayValue = `<${key}>`;
@@ -67,12 +85,14 @@ const getProxy = (target: object, fallbackMode: boolean = false) =>
 						if (typeof currentName === "symbol")
 							return target[currentName as typeof I18N_ITEM_SYMBOL];
 					},
-					// TODO: has
+					...sharedProxyHandler(keys),
 				});
 			};
 			return getWithArgsProxy();
 		},
+		...sharedProxyHandler(),
 	}) as LocaleDictionary;
+};
 type LocaleDictionary = LocaleWithDefaultValue;
 const targetFunction = (options?: number | bigint | TOptions) => {
 	if (options === undefined) options = {};
@@ -82,9 +102,8 @@ const targetFunction = (options?: number | bigint | TOptions) => {
 /** Get localize string objects. */
 export const t = getProxy(targetFunction) as Trans;
 export const tf = getProxy(targetFunction, true) as Trans;
-Object.freeze(t);
-Object.freeze(tf);
 type Trans = LocaleDictionary & typeof targetFunction;
+globals.t = t;
 
 /**
  * Check if the current page is written from right to left (such as in Arabic) rather than from left to right (such as in English).

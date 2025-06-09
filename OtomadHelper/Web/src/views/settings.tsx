@@ -211,7 +211,7 @@ export default function Settings() {
 				nameField={t.settings.appearance.transparency}
 				imageField={({ name }) => <PreviewBackdrop type={name} />}
 				before={
-					reduceTransparency && <InfoBar status="warning">{t.descriptions.settings.appearance.invalid.reducedTransparency}</InfoBar> ||
+					reduceTransparency && <InfoBar status="warning">{t.descriptions.settings.appearance.invalid.reducedTransparency({ option: t.settings.appearance.transparency })}</InfoBar> ||
 					systemContrast && <InfoBar status="warning">{t.descriptions.settings.appearance.invalid.systemContrastMayNot({ option: t.settings.appearance.transparency })}</InfoBar>
 				}
 			/>

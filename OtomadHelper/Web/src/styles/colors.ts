@@ -40,6 +40,7 @@ const colors = {
 	"fill-color-system-success": ["rgb(15, 123, 15)", "rgb(108, 203, 95)", "InfoText"],
 	"fill-color-system-attention": ["rgb(0, 95, 183)", "rgb(96, 205, 255)", "InfoText"],
 	"fill-color-system-caution": ["rgb(157, 93, 0)", "rgb(252, 225, 0)", "InfoText"],
+	"fill-color-system-target": ["rgb(102, 51, 153)", "rgb(233, 210, 253)", "InfoText"],
 	"fill-color-system-attention-background": ["rgba(246, 246, 246, 0.5)", "rgba(255, 255, 255, 0.03)", "InfoBackground"],
 	"fill-color-system-success-background": ["rgb(223, 246, 221)", "rgb(57, 61, 27)", "InfoBackground"],
 	"fill-color-system-caution-background": ["rgb(255, 244, 206)", "rgb(67, 53, 25)", "InfoBackground"],

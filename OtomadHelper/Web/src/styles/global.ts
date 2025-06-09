@@ -177,6 +177,11 @@ const GlobalStyle = createGlobalStyle<{
 		background-color: ${c("accent-color")};
 	}
 
+	::target-text {
+		color: ${c("fill-color-text-on-accent-selected-text")};
+		background-color: ${c("fill-color-system-target")};
+	}
+
 	#large-viewport-size {
 		position: fixed;
 		top: 0;
