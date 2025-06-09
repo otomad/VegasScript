@@ -48,7 +48,7 @@ export default function Settings() {
 	}
 
 	const isAutoColor = (color: string) => autoColorPalettes.includes(color);
-	const isCustomColorSelected = (color: string) => !autoColorPalettes.includes(color) && !BasicColorPalette.items.map(({ value }) => value).includes(color);
+	const isCustomColorSelected = (color: string) => !autoColorPalettes.includes(color) && !BasicColorPalette.values.includes(color);
 
 	return (
 		<div className="container">
@@ -163,7 +163,7 @@ export default function Settings() {
 									/>
 								</TooltipPartial>
 							))}
-							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={accentColor} autoStartViewTransition coloredSelectedOutline />)}
+							{BasicColorPalette.values.map(color => <ColorButton key={color} color={color} value={accentColor} autoStartViewTransition coloredSelectedOutline />)}
 							<TooltipPartial title={t.custom}>
 								<ColorPicker
 									color={accentColor}
@@ -191,7 +191,7 @@ export default function Settings() {
 									/>
 								</TooltipPartial>
 							))}
-							{BasicColorPalette.items.map(({ value: color }) => <ColorButton key={color} color={color} value={backgroundColor} autoStartViewTransition />)}
+							{BasicColorPalette.values.map(color => <ColorButton key={color} color={color} value={backgroundColor} autoStartViewTransition />)}
 							<TooltipPartial title={t.custom}>
 								<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
 							</TooltipPartial>

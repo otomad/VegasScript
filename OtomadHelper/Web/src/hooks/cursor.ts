@@ -11,9 +11,9 @@ type Cursor = Property.Cursor;
  */
 export function forceCursor(cursor: Cursor | null) {
 	if (!cursor)
-		document.body.style.removeProperty("--cursor");
+		document.documentElement.style.removeProperty("--cursor");
 	else
-		document.body.style.setProperty("--cursor", cursor);
+		document.documentElement.style.setProperty("--cursor", cursor);
 }
 
 /**

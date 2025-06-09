@@ -430,20 +430,22 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 	const previousReactTransitionGroupDisabled = reactTransitionGroupConfig.disabled;
 	reactTransitionGroupConfig.disabled = true;
 
-	const transition = document.startViewTransition(changeFunc);
-	await transition.ready;
+	try {
+		const transition = document.startViewTransition(changeFunc);
+		await transition.ready;
 
-	await animations.asyncMap(async ([keyframes, options]) => {
-		options ??= {};
-		options.duration ??= 300;
-		options.easing ??= eases.easeInOutSmooth;
-		options.pseudoElement ??= "::view-transition-new(root)";
+		await animations.asyncMap(async ([keyframes, options]) => {
+			options ??= {};
+			options.duration ??= 300;
+			options.easing ??= eases.easeInOutSmooth;
+			options.pseudoElement ??= "::view-transition-new(root)";
 
-		return await document.documentElement.animate(keyframes, options).finished;
-	});
-
-	restoreTransitions();
-	reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
+			return await document.documentElement.animate(keyframes, options).finished;
+		});
+	} finally {
+		restoreTransitions();
+		reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
+	}
 }
 
 export function forthBack_keyframes<Props extends object = object>(strings: TemplateStringsArray, ...interpolations: Array<Styled.Interpolation<Props>>) {

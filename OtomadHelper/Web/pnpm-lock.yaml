@@ -14,6 +14,9 @@ patchedDependencies:
   babel-plugin-transform-jsx-classnames:
     hash: 3261c0fb8fd9750eb153af71ac2bebf9f5bf26eefba4c76cc91d7cf4af24efd1
     path: patches/babel-plugin-transform-jsx-classnames.patch
+  enum-plus:
+    hash: 58ee4688bd799189c22468c0fb75ffd1a6af7fe4c31f2ee415760d5aa2ac3256
+    path: patches/enum-plus.patch
   html-minifier-terser:
     hash: 3fe9cc1b32a68ef076f3ee2cca3bf57b2d6f105256826c548cceb18008f3a01c
     path: patches/html-minifier-terser.patch
@@ -81,7 +84,7 @@ importers:
         version: 1.5.3
       enum-plus:
         specifier: ^2.3.1
-        version: 2.3.1
+        version: 2.3.1(patch_hash=58ee4688bd799189c22468c0fb75ffd1a6af7fe4c31f2ee415760d5aa2ac3256)
       fast-average-color:
         specifier: ^9.5.0
         version: 9.5.0
@@ -7425,7 +7428,7 @@ snapshots:
 
   entities@4.5.0: {}
 
-  enum-plus@2.3.1: {}
+  enum-plus@2.3.1(patch_hash=58ee4688bd799189c22468c0fb75ffd1a6af7fe4c31f2ee415760d5aa2ac3256): {}
 
   env-paths@2.2.1: {}
 

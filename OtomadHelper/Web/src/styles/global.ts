@@ -202,7 +202,8 @@ const GlobalStyle = createGlobalStyle<{
 		}
 	}
 
-	body[style*="--cursor"] {
+	// Force cursor
+	html[style*="--cursor"] {
 		&,
 		* {
 			&,
