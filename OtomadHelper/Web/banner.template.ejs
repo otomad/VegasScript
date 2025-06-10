@@ -6,14 +6,14 @@
 @license GPL 3.0
 @project <%= data.project %>
 @author <%= data.author %>
-@build <%= moment().locale("en").format("dddd, Do MMMM, NNNN y H:mm:ss A, Z") %>
+@build <%= moment().locale("en").format("LLLL") %>
 
 <%= data.name %> is licensed under the GPL 3.0 license found in the
 LICENSE file in the root directory of this source tree.
 
-Project Start Date: <%= moment("2021-09-05 04:14:26+08:00").locale("en").format("dddd, Do MMMM, NNNN y H:mm:ss A, Z") %>
+Project Start Date: <%= moment(data.projectStartDateIso).locale("en").format("LLLL") %>
 
-Copyright © 2021 ~ Present, <%= data.author %>
+Copyright © 2021, <%= data.author %> - Licensed under GPLv3
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

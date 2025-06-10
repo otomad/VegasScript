@@ -2,7 +2,7 @@
 
 Otomad Helper is licensed under the [GPL 3.0](LICENSE.md).
 
-Project Start Date: Sun, Sep 5th 2021 A.D., 4:14:26 a.m., UTC +8:00
+Project Start Date: Sunday, September 5th, Anno Domini 2021 4:14:26 AM +08:00
 
 Copyright © 2021, Rantetsu Inori - Licensed under GPLv3
 

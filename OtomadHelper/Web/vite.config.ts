@@ -23,10 +23,18 @@ import midiKeyframes from "./src/plugins/vite/midi";
 import minifyLottieJson from "./src/plugins/vite/minify-lottie-json";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
 import injectScript from "./src/plugins/vite/inject-script";
+import moment from "moment";
 
 const ENABLE_MINIFY = true;
 const NO_BUNDLE = false;
 const ENABLE_QRCODE = false;
+
+moment.updateLocale("en", {
+	longDateFormat: {
+		LT: "h:mm:ss A",
+		LLLL: "dddd, MMMM Do, NNNN y LT Z",
+	} as never,
+});
 
 const resolve = (...paths: string[]) => _resolve(__dirname, ...paths);
 
@@ -114,6 +122,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 						homepage,
 						repository: github,
 						project,
+						projectStartDateIso: "2021-09-05 04:14:26+08:00",
 					},
 				},
 			}),
