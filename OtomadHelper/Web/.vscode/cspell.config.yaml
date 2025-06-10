@@ -184,6 +184,10 @@ words:
   - semilight
   - shupelunker
   - singthesis
+  - singthesize
+  - singthesized
+  - singthesizer
+  - singthesizers
   - sln
   - solfège
   - solfèges
@@ -291,6 +295,10 @@ ignoreWords:
   - crwdne
   - crwdnd
   - oxc
+  - gè
+  - tsu
+  - gae
+  - cái
 flagWords:
   - colour -> color
   - canot -> cannot
