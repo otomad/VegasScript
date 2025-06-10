@@ -1,5 +1,16 @@
 import colors from "styles/colors";
 
+/**
+ * Represents the interval pattern for a musical scale, where "全" (whole step) is replaced with "10"
+ * and "半" (half step) is replaced with "1". The resulting string encodes the sequence of intervals.
+ *
+ * In the encoded string, "1" represents the white keys on the piano keyboard, and "0" represents the
+ * black keys on the piano keyboard.
+ *
+ * Example:
+ * - Original: "全全半全全全半"
+ * - Encoded:  "101011010101"
+ */
 const intervalPattern = "全全半全全全半".replaceAll("全", "10").replaceAll("半", "1");
 const LENGTH = 128;
 const BLACK_KEY_WIDTH = 60;
