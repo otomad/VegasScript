@@ -1,9 +1,11 @@
 /**
  * `Portal` lets you render some children into a different part of the DOM.
+ *
+ * This is the JSX-ized encapsulation of the standard API `createPortal()`.
  */
 export default function Portal({ container = "#popovers", children }: FCP<{
 	/**
-	 * Some DOM node, such as those returned by document.getElementById(). The node must already exist.
+	 * Some DOM node, such as those returned by `document.getElementById()`. The node must already exist.
 	 * Passing a different DOM node during an update will cause the portal content to be recreated.
 	 *
 	 * In addition, passing strings directly is also supported, and `document.querySelector()` will be called automatically.

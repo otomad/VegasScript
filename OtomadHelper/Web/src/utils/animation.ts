@@ -354,10 +354,10 @@ export function simpleAnimateSize(specified: "width" | "height" = "height", dura
 export const STOP_TRANSITION_ID = "stop-transition";
 
 /**
- * Temporarily disables all CSS transitions on the page by injecting a <style> element
+ * Temporarily disables all CSS transitions on the page by injecting a `<style>` element
  * that sets `transition: none !important;` for all elements, including pseudo-elements.
  *
- * @returns A cleanup function that, when called, removes the injected <style> element and restores transitions.
+ * @returns A cleanup function that, when called, removes the injected `<style>` element and restores transitions.
  *
  * @remarks
  * This function is useful for preventing unwanted transitions during DOM updates or UI changes.

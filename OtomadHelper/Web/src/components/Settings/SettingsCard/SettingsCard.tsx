@@ -9,7 +9,6 @@ const StyledSettingsCard = styled(StyledCard)<{
 	$trailingGap?: number | string;
 }>(({ $trailingGap }) => css`
 	${styledExpanderItemContent};
-
 	backdrop-filter: blur(4px);
 
 	${$trailingGap !== undefined && css`
@@ -162,6 +161,11 @@ const StyledSettingsCard = styled(StyledCard)<{
 		> .base {
 			background-color: ${c("background-fill-color-card-background-secondary")};
 		}
+	}
+
+	&,
+	.expander:has(> &) {
+		block-size: fit-content;
 	}
 `);
 

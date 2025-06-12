@@ -1,5 +1,6 @@
 /**
  * Add attributes or properties to all children.
+ *
  * @example
  * ```jsx
  * <Attrs disabled>
@@ -14,7 +15,7 @@
  * ```
  */
 export default function Attrs({ children, ...attrs }: FCP<{}, "section">) {
-	if ("disabled" in attrs && !("aria-disabled" in attrs))
+	if ("disabled" in attrs && !("aria-disabled" in attrs)) // Auto add `aria-disabled` when `disabled`.
 		attrs["aria-disabled"] = attrs.disabled;
 	return (
 		<>
