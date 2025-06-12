@@ -137,7 +137,7 @@ const StyledExpanderItem = styled.div<{
 	`)}
 `;
 
-export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, noDivider, children, disabled = false, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, noDivider, ariaHiddenForText, children, disabled = false, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons | ReactElement;
 	/** Title. */
@@ -150,6 +150,8 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 	asSubtitle?: boolean;
 	/** Remove the top split line and top padding from the expand child. */
 	noDivider?: boolean;
+	/** Remove text from aria tree? */
+	ariaHiddenForText?: boolean;
 }, "div">) {
 	disabled = useContext(InteractionStateContext).disabled || disabled;
 	return (
@@ -166,7 +168,7 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 					leading={(
 						<>
 							{icon ? typeof icon === "string" ? <Icon name={icon} /> : icon : <Icon shadow />}
-							<div className="text">
+							<div className="text" aria-hidden={ariaHiddenForText}>
 								<p className="title"><Preserves>{title}</Preserves></p>
 								<p className="details"><Preserves>{details}</Preserves></p>
 							</div>

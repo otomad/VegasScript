@@ -358,7 +358,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 								{checkbox}
 								{(image || icon) && (
 									<div className={["image-wrapper", { topAlignIcon }]}>
-										{typeof image === "string" ? <img src={image} /> : iconOrElement}
+										{typeof image === "string" ? <img src={image} alt="" /> : iconOrElement}
 									</div>
 								)}
 								{textPart}

@@ -96,7 +96,7 @@ export default function SettingsPageControlMedia({ stream, fileName, enabled, th
 							{t.enabled}
 						</StackPanel>
 					</ToggleSwitch>
-					<Button icon="play">{t.stream.preview}</Button>
+					<Button icon="play">{t.preview}</Button>
 				</div>
 			</div>
 			<SvgFilters />

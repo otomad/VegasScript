@@ -115,7 +115,7 @@ export default function PreviewGradient({ thumbnail, square, mirrorEdges, overla
 			{...htmlAttrs}
 			style={{ "--n": count }}
 		>
-			{forMap(count, i => <img key={i} src={thumbnail} style={{ "--i": descending ? count - i - 1 : i, "--j": i }} />)}
+			{forMap(count, i => <img key={i} src={thumbnail} alt="" style={{ "--i": descending ? count - i - 1 : i, "--j": i }} />)}
 		</StyledPreviewGradient>
 	);
 }

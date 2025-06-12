@@ -535,7 +535,7 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, ...htmlAt
 			{webglFilters.includes(effect) ? <WebglFilter src={thumbnail} effect={effect} step={step} /> :
 			forMap(imageCount, i => animatedImage !== undefined ?
 				<HoverToChangeImg key={i} animatedSrc={animatedImage[0]} staticSrc={animatedImage[1]} /> :
-				<img key={i} src={thumbnail} />)}
+				<img key={i} src={thumbnail} alt="" />)}
 		</StyledPreviewPrve>
 	);
 }
@@ -562,7 +562,7 @@ function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
 }>) {
 	const hover = useHoverWhenPreferringMotion();
 
-	return <img src={hover ? animatedSrc : staticSrc} />;
+	return <img src={hover ? animatedSrc : staticSrc} alt="" />;
 }
 
 function WebglFilter({ src, effect, step }: {

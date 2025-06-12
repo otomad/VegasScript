@@ -134,6 +134,7 @@ export default {
 		increase: "Increase",
 		decrease: "Decrease",
 		duration: "Duration",
+		preview: "Preview",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -226,7 +227,6 @@ export default {
 			drumKit: "Drum kit",
 		},
 		stream: {
-			preview: "Preview",
 			stretch: {
 				_: "Stretch",
 				noStretching: "No stretching",
@@ -393,6 +393,11 @@ export default {
 					vFlip: {
 						even: "Even rows",
 						odd: "Odd rows",
+					},
+					checkerboard: {
+						_: "Checkerboard style",
+						odd: "Odd-parity squares",
+						even: "Even-parity squares",
 					},
 				},
 				padding: "Padding",
@@ -906,6 +911,7 @@ export default {
 						vFlip: "Mirrors the tracks by flipping the rows in a parity pattern",
 					},
 					padding: "Adjusts the inner margins of track boxes to be less cluttered with other boxes",
+					previewAria: "The track located in column {{columnIndex}}, row {{rowIndex}} of a {{columnCount}}-column by {{rowCount}}-row grid.",
 				},
 				box3d: {
 					deleteTracks: "Due to technical limitations, the selected tracks cannot be moved directly. Currently, it can only create new tracks and migrate the clips automatically, but not track motions, effects, or anything else. You will have to migrate them yourself later. You can decide if you want to delete the original tracks. Newly added tracks are not affected.",
@@ -1006,6 +1012,7 @@ export default {
 				},
 				forceStretch: "The currently used $t(titles.prve, { 'count': {{count}} }) is in the Time Class, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending, nowrapPerWord)” when in that effect, and not controlled by your settings",
 				forceStretch_other: "The currently used $t(titles.prve, { 'count': {{count}} }) include the Time Class effects, which will cause the stretch to be forcibly set to “$t(stream.stretch.flexingAndExtending, nowrapPerWord)” when in these effects, and not controlled by your settings",
+				stepAria: "Step {{step}} of {{frames}}",
 			},
 			pixelScaling: {
 				_: "Pixel Scaling feature is a lossless scaling technology designed for pixel art or images that require sharp edges. Its purpose is to solve the pixel blurring problem caused by VEGAS’s built-in bilinear interpolation scaling algorithm, which creates a gradual transition by mixing the colors of adjacent pixels and destroys the clear boundary of pixel art. This feature is scaled by the nearest neighbor interpolation algorithm, which directly copies the color value of the nearest pixel, and ensures that the scaled image edge maintains the “hard cut” effect to avoid blurring.\nThis feature is especially applicable to retro game resources, low-resolution UI or scenes that need to enhance pixel style. For example, when scaling an 8-bit game character animation, it can prevent the character contour from being “softened” by smoothing, and ensure that each pixel block is still clear and legible after scaling. Note that you need to configure the FFmpeg environment or install the Datamosh Extension Pack in advance to enable the core processing function.\nAccording to the project resolution, this feature generates a new file of appropriate size using the nearest neighbor interpolation algorithm, and the filename is identified with the suffix “_Scaled”. This process supports any image/video format as well as image sequence files imported into VEGAS.",

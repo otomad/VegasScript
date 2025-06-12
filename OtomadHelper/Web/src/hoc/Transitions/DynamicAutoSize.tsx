@@ -12,6 +12,7 @@ export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 		const content = el.current;
 		if (!content || !content.offsetParent) return;
 		content.style.interpolateSize = isStale ? "numeric-only" : null!;
+		content.style.willChange = isStale ? "width, height" : null!;
 		if (specified === "height" || specified === "both")
 			content.style.height = isStale ? content.offsetHeight + "px" : null!;
 		if (specified === "width" || specified === "both")

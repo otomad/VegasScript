@@ -32,7 +32,7 @@ export default function BackgroundImage() {
 
 	return (
 		<StyledBackgroundImage style={{ opacity }}>
-			<img key={currentImage} src={currentImage} style={{ filter: `blur(${blur}px)` }} />
+			<img key={currentImage} src={currentImage} alt="" style={{ filter: `blur(${blur}px)` }} />
 			<div className="overlay" style={{ opacity: tint }} />
 		</StyledBackgroundImage>
 	);

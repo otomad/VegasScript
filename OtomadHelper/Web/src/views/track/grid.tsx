@@ -2,9 +2,9 @@ import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
 export /* @internal */ const arrayTypes = ["square", "custom"] as const;
 export /* @internal */ const fitTypes = ["cover", "contain"] as const;
-export /* @internal */ const parityTypes = ["unflipped", "even", "odd"] as const;
-
+export /* @internal */ const parityTypes = ["unflipped", "even", "odd", "odd_checker", "even_checker"] as const;
 type GridParityType = typeof parityTypes[number];
+const isCheckerParities = (parity: GridParityType): parity is "odd_checker" | "even_checker" => parity.endsWith("_checker");
 
 const PreviewGridContainer = styled.div`
 	${styles.mixins.square("100%")};
@@ -119,9 +119,11 @@ export default function Grid() {
 
 	const setColumns = setStateInterceptor(_setColumns, input => clamp(input, 1, 100));
 	const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
-		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped : t.track.grid.mirrorEdges[direction][parity];
+		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped :
+		isCheckerParities(parity) ? t.track.grid.mirrorEdges.checkerboard + " — " + t.track.grid.mirrorEdges.checkerboard[parity.replaceEnd("_checker")].toString().replaceAll("-", "‑") :
+		t.track.grid.mirrorEdges[direction][parity];
 	const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
-		parity === "unflipped" ? "prohibited" : `parity_${parity}_${field}s`;
+		parity === "unflipped" ? "prohibited" : isCheckerParities(parity) ? `parity_${parity}` : `parity_${parity}_${field}s`;
 
 	const fastFillFlyout = (
 		<Flyout
@@ -193,18 +195,29 @@ export default function Grid() {
 							"--grid-template-count": Math.min(square ? radicand : columns, count),
 							"--padding": padding[0] + "px",
 						}}
+						role="figure"
+						aria-label={t.preview}
 					>
 						{forMap(count, i => {
-							const divisor = square ? radicand : rows;
-							const row = i % divisor, column = i / divisor | 0;
+							const divisor = square ? radicand : columns;
+							const column = i % divisor, row = i / divisor | 0;
 							return (
 								<img
 									key={i}
 									className={{
-										hFlip: mirrorEdgesHFlip[0] === "even" && row % 2 === 1 || mirrorEdgesHFlip[0] === "odd" && row % 2 === 0,
-										vFlip: mirrorEdgesVFlip[0] === "even" && column % 2 === 1 || mirrorEdgesVFlip[0] === "odd" && column % 2 === 0,
+										hFlip:
+											mirrorEdgesHFlip[0] === "even" && column % 2 === 1 ||
+											mirrorEdgesHFlip[0] === "odd" && column % 2 === 0 ||
+											mirrorEdgesHFlip[0] === "odd_checker" && (column + row) % 2 === 1 ||
+											mirrorEdgesHFlip[0] === "even_checker" && (column + row) % 2 === 0,
+										vFlip:
+											mirrorEdgesVFlip[0] === "even" && row % 2 === 1 ||
+											mirrorEdgesVFlip[0] === "odd" && row % 2 === 0 ||
+											mirrorEdgesVFlip[0] === "odd_checker" && (column + row) % 2 === 1 ||
+											mirrorEdgesVFlip[0] === "even_checker" && (column + row) % 2 === 0,
 									}}
 									src={exampleThumbnail}
+									alt={t.descriptions.track.grid.previewAria({ columnIndex: column + 1, rowIndex: row + 1, columnCount: columns, rowCount: rows })}
 								/>
 							);
 						})}
@@ -216,7 +229,7 @@ export default function Grid() {
 						<label htmlFor={id + "-column"}>{t(square ? radicand : columns).track.grid.column}</label>
 						<div />
 						<label htmlFor={id + "-row"}>{t(square ? radicand : rows).track.grid.row}</label>
-						<EventInjector onFocusIn={() => !columnReadonly && setFastFillShown(true)} onFocusOut={() => setFastFillShown(false)}>
+						<EventInjector onFocusIn={() => !columnReadonly && (setFastFillShown(true), columnInputRef.current?.focus())} onFocusOut={() => setFastFillShown(false)}>
 							<TextBox.Number
 								id={id + "-column"} value={square ? [radicand] : [columns, setColumns]} min={1} max={100} readOnly={columnReadonly}
 								style={{ anchorName: columnAnchorName }} customFlyout={fastFillFlyout} inputRef={columnInputRef}
@@ -249,15 +262,14 @@ function FastFillOptions({ columns: [columns, setColumns], options, inputRef }: 
 }) {
 	const focus = () => inputRef?.current?.focus();
 	return options.map(({ id, value, unselected }) => (
-		<Button
+		<ToggleButton
 			key={id}
-			subtle={unselected || !(columns === value)}
+			checked={[!(unselected || !(columns === value))]}
 			minWidthUnbounded
-			accent
 			onPointerDown={() => { setColumns(value); focus(); }}
 			onPointerUp={focus}
 		>
 			{t.track.grid[id]}
-		</Button>
+		</ToggleButton>
 	));
 }
