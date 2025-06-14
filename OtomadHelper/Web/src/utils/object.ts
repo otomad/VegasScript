@@ -100,6 +100,7 @@ export function assign<TTarget extends object>(target: TTarget, ...sources: Part
 }
 
 type ObjectPickOmitPredicate<T> = (keyof T)[] | ((currentValue: T[keyof T], key: keyof T, object: T) => boolean);
+// BUG: This function not work with DOMRect (Element.getBoundingClientRect()).
 function _objectPickOrOmit<T>(isPick: boolean, object: T, predicate: ObjectPickOmitPredicate<T>, thisArg?: unknown): Partial<T> {
 	if (object == null) return {};
 	if (typeof predicate !== "function") {

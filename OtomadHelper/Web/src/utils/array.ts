@@ -149,6 +149,19 @@
 		return this.reduce((result, current, index) => (result.push(...[...index ? getSeparators ? wrapIfNotArray(getSeparators(index, current, this)) : separators : [], current]), result), []);
 	};
 
+	Array.prototype.nextItem = function (currentItem, offset = 1, defaultIndex = 0) {
+		if (this.length === 0) return undefined; // Prevent divided by 0.
+		let index = this.indexOf(currentItem);
+		if (!~index) // If current item is not in the array.
+			// Note that the default index may also exceed the index range of the array.
+			// But do not use `Array.prototype.at()`. For example, if the array length is 4, and the default index:
+			// input: -1, output: 3;
+			// input: 4, output: 0; (← `Array.prototype.at()` won't support this)
+			return this[floorMod(defaultIndex, this.length)];
+		index = floorMod(index + offset, this.length);
+		return this[index];
+	};
+
 	makePrototypeKeysNonEnumerable(Array);
 }
 
@@ -216,7 +229,7 @@ export function mapObjectConst<const T extends string, U>(constArray: readonly T
  * @param maybeArray - Maybe an array, or something else.
  * @returns The original array or an array containing only one original parameter.
  */
-export function wrapIfNotArray<T>(maybeArray: T): T extends Any[] ? T : T[] {
+export function wrapIfNotArray<T>(maybeArray: T): T extends Any[] ? T : [T] {
 	return (Array.isArray(maybeArray) ? maybeArray : [maybeArray]) as never;
 }
 

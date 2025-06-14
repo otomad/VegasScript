@@ -361,7 +361,7 @@ export function convertCamelStylePropertyToKebab(camel: string) {
 }
 
 /**
- * Define styles for the filled-in portion of the bar of a <progress> element.
+ * Define styles for the filled-in portion of the bar of a `<progress>` element.
  * The bar represents the amount of progress that has been made.
  *
  * It represents `::-webkit-progress-value` pseudo-element for webkit and
@@ -408,3 +408,126 @@ export const progressFinishedPart: typeof css<object> = (...style) => {
 		}
 	`);
 };
+
+/**
+ * Returns the CSS transform string needed to convert an element's flow direction
+ * from one orientation to another.
+ *
+ * @param from - The source flow direction. Defaults to `"lr-tb"` (left-to-right, top-to-bottom).
+ * @param to - The target flow direction. Must be one of the supported `FlowDirection` values.
+ * @returns The CSS transform string (e.g., `"scaleX(-1)"`, `"rotate(90deg)"`, etc.) required to visually convert
+ * from the `from` direction to the `to` direction. Returns an empty string if no transformation is needed.
+ *
+ * @example
+ * ```typescript
+ * // Convert from left-to-right, top-to-bottom to right-to-left, top-to-bottom
+ * const transform = transformFlowDirection("rl-tb"); // "scaleX(-1)"
+ * const transform = transformFlowDirection("lr-tb", "rl-tb"); // "scaleX(-1)"
+ * ```
+ */
+export function transformFlowDirection(to: FlowDirection): string;
+/**
+ * Returns the CSS transform string needed to convert an element's flow direction
+ * from one orientation to another.
+ *
+ * @param from - The source flow direction. Defaults to `"lr-tb"` (left-to-right, top-to-bottom).
+ * @param to - The target flow direction. Must be one of the supported `FlowDirection` values.
+ * @returns The CSS transform string (e.g., `"scaleX(-1)"`, `"rotate(90deg)"`, etc.) required to visually convert
+ * from the `from` direction to the `to` direction. Returns an empty string if no transformation is needed.
+ *
+ * @example
+ * ```typescript
+ * // Convert from left-to-right, top-to-bottom to right-to-left, top-to-bottom
+ * const transform = transformFlowDirection("rl-tb"); // "scaleX(-1)"
+ * const transform = transformFlowDirection("lr-tb", "rl-tb"); // "scaleX(-1)"
+ * ```
+ */
+export function transformFlowDirection(from: FlowDirection, to: FlowDirection): string;
+export function transformFlowDirection(from: FlowDirection, to?: FlowDirection) {
+	if (!to) {
+		to = from;
+		from = "lr-tb";
+	}
+	return {
+		"lr-tb": {
+			"lr-tb": "",
+			"lr-bt": "scaleY(-1)",
+			"rl-tb": "scaleX(-1)",
+			"rl-bt": "scaleX(-1) scaleY(-1)",
+			"tb-lr": "rotate(90deg) scaleY(-1)",
+			"bt-lr": "rotate(90deg) scaleX(-1) scaleY(-1)",
+			"tb-rl": "rotate(90deg)",
+			"bt-rl": "rotate(90deg) scaleX(-1)",
+		},
+		"lr-bt": {
+			"lr-tb": "scaleY(-1)",
+			"lr-bt": "",
+			"rl-tb": "scaleX(-1) scaleY(-1)",
+			"rl-bt": "scaleX(-1)",
+			"tb-lr": "rotate(90deg) scaleX(-1)",
+			"bt-lr": "rotate(90deg) scaleY(-1)",
+			"tb-rl": "rotate(90deg) scaleX(-1) scaleY(-1)",
+			"bt-rl": "rotate(90deg)",
+		},
+		"rl-tb": {
+			"lr-tb": "scaleX(-1)",
+			"lr-bt": "scaleX(-1) scaleY(-1)",
+			"rl-tb": "",
+			"rl-bt": "scaleY(-1)",
+			"tb-lr": "rotate(90deg) scaleY(-1) scaleX(-1)",
+			"bt-lr": "rotate(90deg) scaleX(-1)",
+			"tb-rl": "rotate(90deg) scaleY(-1)",
+			"bt-rl": "rotate(90deg)",
+		},
+		"rl-bt": {
+			"lr-tb": "scaleX(-1) scaleY(-1)",
+			"lr-bt": "scaleX(-1)",
+			"rl-tb": "scaleY(-1)",
+			"rl-bt": "",
+			"tb-lr": "rotate(90deg)",
+			"bt-lr": "rotate(90deg) scaleX(-1) scaleY(-1)",
+			"tb-rl": "rotate(90deg) scaleY(-1) scaleX(-1)",
+			"bt-rl": "rotate(90deg) scaleX(-1)",
+		},
+		"tb-lr": {
+			"lr-tb": "rotate(-90deg) scaleY(-1)",
+			"lr-bt": "rotate(-90deg) scaleX(-1) scaleY(-1)",
+			"rl-tb": "rotate(-90deg)",
+			"rl-bt": "rotate(-90deg) scaleX(-1)",
+			"tb-lr": "",
+			"bt-lr": "scaleX(-1)",
+			"tb-rl": "scaleY(-1)",
+			"bt-rl": "scaleX(-1) scaleY(-1)",
+		},
+		"bt-lr": {
+			"lr-tb": "rotate(-90deg) scaleX(-1)",
+			"lr-bt": "rotate(-90deg) scaleY(-1) scaleX(-1)",
+			"rl-tb": "rotate(-90deg) scaleY(-1)",
+			"rl-bt": "rotate(-90deg)",
+			"tb-lr": "scaleX(-1)",
+			"bt-lr": "",
+			"tb-rl": "scaleX(-1) scaleY(-1)",
+			"bt-rl": "scaleY(-1)",
+		},
+		"tb-rl": {
+			"lr-tb": "rotate(90deg) scaleY(-1) scaleX(-1)",
+			"lr-bt": "rotate(90deg) scaleX(-1)",
+			"rl-tb": "rotate(90deg) scaleY(-1)",
+			"rl-bt": "rotate(90deg)",
+			"tb-lr": "scaleY(-1)",
+			"bt-lr": "scaleX(-1) scaleY(-1)",
+			"tb-rl": "",
+			"bt-rl": "scaleX(-1)",
+		},
+		"bt-rl": {
+			"lr-tb": "rotate(90deg) scaleX(-1)",
+			"lr-bt": "rotate(90deg) scaleY(-1) scaleX(-1)",
+			"rl-tb": "rotate(90deg)",
+			"rl-bt": "rotate(90deg) scaleX(-1) scaleY(-1)",
+			"tb-lr": "scaleX(-1) scaleY(-1)",
+			"bt-lr": "scaleY(-1)",
+			"tb-rl": "scaleX(-1)",
+			"bt-rl": "",
+		},
+	}[from][to];
+}

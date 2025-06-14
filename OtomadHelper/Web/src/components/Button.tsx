@@ -1,13 +1,30 @@
 const isPressed = ":is(:active, [data-pressed]):not(:has(button:active))", notPressedOrDisabled = ":not(:active, [data-pressed], [disabled])";
 const inlinePadding = 11;
 
+export const styledDirBasedIcon = ($dirBasedIcon?: DirBasedIcon | { $dirBasedIcon?: DirBasedIcon }) => {
+	if (isObject($dirBasedIcon) && "$dirBasedIcon" in $dirBasedIcon) $dirBasedIcon = $dirBasedIcon.$dirBasedIcon;
+	return $dirBasedIcon === true ? css`
+		&:dir(rtl) {
+			.icon,
+			.animated-icon .icon-box {
+				transform: scaleX(-1);
+			}
+		}
+	` : typeof $dirBasedIcon === "string" || Array.isArray($dirBasedIcon) ? css`
+		.icon,
+		.animated-icon .icon-box {
+			transform: ${(typeof $dirBasedIcon === "string" ? transformFlowDirection($dirBasedIcon) : transformFlowDirection(...$dirBasedIcon)) || "none"};
+		}
+	` : undefined;
+};
+
 export /* @internal */ const StyledButton = styled.button<{
 	/** The name of the background fill color. */
 	$fillColorName?: string;
 	/** The name of the background fill color when on subtle mode. */
 	$subtleFillColorName?: string;
 	/** Is the orientation of the icon changed based on the writing direction? */
-	$dirBased?: boolean;
+	$dirBasedIcon?: DirBasedIcon;
 }>`
 	${styles.mixins.flexCenter()};
 	--border-outline-color: ${c("stroke-color-control-stroke-default")};
@@ -105,14 +122,7 @@ export /* @internal */ const StyledButton = styled.button<{
 		margin-inline: ${-inlinePadding}px;
 	}
 
-	${({ $dirBased }) => $dirBased && css`
-		&:dir(rtl) {
-			.icon,
-			.animated-icon .icon-box {
-				scale: -1 1;
-			}
-		}
-	`}
+	${styledDirBasedIcon}
 
 	${({ $fillColorName, $subtleFillColorName }) => !$fillColorName ? css`
 		background-color: ${c("fill-color-control-default")};
@@ -227,7 +237,7 @@ export /* @internal */ const StyledButton = styled.button<{
 	}
 `;
 
-export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBased, repeat, extruded, minWidthUnbounded, ariaHiddenForChildren, href, blank = true, className, disabled, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
+export default function Button({ children, icon, animatedIcon, subtle, hyperlink, accent, dirBasedIcon, repeat, extruded, minWidthUnbounded, ariaHiddenForChildren, href, blank = true, className, disabled, onRelease, onClick, ref, ...htmlAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Button animated icon. */
@@ -243,7 +253,7 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 	/** Attach accent color to the button? */
 	accent?: boolean | "critical" | "success" | "attention" | "caution" | "neutral";
 	/** Is the orientation of the icon changed based on the writing direction? */
-	dirBased?: boolean;
+	dirBasedIcon?: DirBasedIcon;
 	/** Is repeat button? When on, the `onClick` events will be triggered continuously when the button is pressed. */
 	repeat?: boolean;
 	/** Extrude the inline paddings. */
@@ -286,7 +296,7 @@ export default function Button({ children, icon, animatedIcon, subtle, hyperlink
 			]}
 			$fillColorName={fillColorName}
 			$subtleFillColorName={subtleFillColorName}
-			$dirBased={dirBased}
+			$dirBasedIcon={dirBasedIcon}
 			onRelease={repeat ? onRelease : undefined}
 			onClick={handleClick}
 			{...htmlAttrs}

@@ -5,7 +5,7 @@ const HIDE_DELAY = 500;
 
 const $p = (test?: boolean) => test ? "true" : undefined;
 
-export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, onClick, onKeyDown, ...buttonAndTransitionAttrs }: FCP<{
+export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, dirBasedIcon, onClick, ...buttonAndTransitionAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Caption. */
@@ -22,6 +22,8 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	hovering?: boolean;
 	/** Use as a toggle button. */
 	on?: boolean | StatePropertyNonNull<boolean>;
+	/** Is the orientation of the icon changed based on the writing direction? */
+	dirBasedIcon?: DirBasedIcon;
 }, "section"> & TransitionProps) {
 	const { transitionAttrs, htmlAttrs } = separateTransitionAttrs(buttonAndTransitionAttrs);
 	const { anchorName: commandBarAnchorName, position, tooNarrow } = useContext(CommandBarAnchorContext);
@@ -50,6 +52,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 				checked={[on]}
 				icon={icon}
 				disabled={disabled}
+				dirBasedIcon={dirBasedIcon}
 				aria-label={canToString(caption) ? caption : undefined}
 				aria-description={canToString(details) ? details : undefined}
 				aria-haspopup={!!children}

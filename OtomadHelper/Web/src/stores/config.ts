@@ -6,7 +6,7 @@ import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tem
 import type { systemBackdrops } from "views/settings";
 import type { barOrBeatUnitTypes, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { trackLegatoModes } from "views/track";
-import type { arrayTypes, fitTypes, parityTypes } from "views/track/grid";
+import type { arrayTypes, directionTypes, fitTypes, parityTypes } from "views/track/grid";
 import type { legatos, stretches, transformMethods, truncates } from "views/visual";
 
 type StartTime = typeof startTimes[number]["id"];
@@ -27,6 +27,7 @@ type BarOrBeatUnit = typeof barOrBeatUnitTypes[number];
 type SourceFrom = typeof sourceFromEnums[number];
 type TrackOrChannel = typeof trackAndChannel[number];
 type GridArrayType = typeof arrayTypes[number];
+type GridDirectionOrderType = typeof directionTypes[number];
 type GridFitType = typeof fitTypes[number];
 type GridParityType = typeof parityTypes[number];
 type TrackLegatoMode = typeof trackLegatoModes[number];
@@ -191,7 +192,9 @@ export const configStore = createStore({
 		grid: {
 			enabled: true,
 			columns: 5,
+			rows: 5,
 			array: "square" as GridArrayType,
+			direction: "lr-tb" as GridDirectionOrderType,
 			fit: "cover" as GridFitType,
 			mirrorEdgesHFlip: "unflipped" as GridParityType,
 			mirrorEdgesVFlip: "unflipped" as GridParityType,

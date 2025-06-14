@@ -109,4 +109,16 @@ declare global {
 
 	/** Audio or Visual. */
 	type StreamKind = "audio" | "visual";
+
+	/** The type reference to an element, node, referenced element, event target, event, or nullish. */
+	type TargetType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | null | undefined;
+
+	/** The type reference to an element, node, referenced element, event target, event, nullish, or a CSS selector query string. */
+	type DetectInPathType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | string | null | undefined;
+
+	/** Text writing mode with direction. */
+	type FlowDirection = `${"lr" | "rl"}-${"tb" | "bt"}` | `${"tb" | "bt"}-${"lr" | "rl"}`;
+
+	/** Is the orientation of the icon changed based on the writing direction? */
+	type DirBasedIcon = boolean | FlowDirection | [from: FlowDirection, to: FlowDirection];
 }

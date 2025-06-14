@@ -369,6 +369,8 @@ export default {
 			grid: {
 				array: "Array",
 				square: "Square",
+				fixedColumns: "Fixed columns",
+				fixedRows: "Fixed rows",
 				column: "Column",
 				column_other: "Columns",
 				row: "Row",
@@ -378,6 +380,13 @@ export default {
 				transpose: "Transpose",
 				numberOfSelectedTracks: "Number of selected tracks",
 				fastFill: "Fast fill",
+				direction: {
+					_: "Direction",
+					lrTb: "Horizontal",
+					tbLr: "Vertical",
+					rlTb: "Reverse horizontal",
+					tbRl: "Reverse vertical",
+				},
 				fit: {
 					_: "Fit",
 					cover: "Cover",
@@ -899,8 +908,15 @@ export default {
 			track: {
 				_: "In YTPMV creation, layout and composition design are the core links of visual logic. Its main goal is to deeply integrate multisource with music rhythm through dynamic composition, which not only creates confusion and impact, but also maintains the readability of visuals. Knowing how to make a good visual layout for YTPMV will make it more interesting than you think.\nAs the core of the visual, the source corresponding to the melody sample needs to be enlarged, topped, or given a high-contrast color to enhance the sense of existence. Then use dynamic hierarchical management to distinguish between primary and secondary elements. For example, the background source can reduce transparency to avoid domination. You can try non-linear arrangement, break the traditional grid layout, and use random stacking, displacement overlapping, or other techniques to mimic the visual tension of “information overload”. Establish a hidden order by repeating certain elements, and create a sense of surprise by adding local mutations. For example, repeat the avatar as a visual anchor, but overlay different effects each time it appears.\nThe layout and composition design of YTPMV is essentially “controlled chaos” that endows the content with internal structure through basic design principles such as contrast and alignment. This design not only requires technology, but also relies on the intuitive grasp of cultural aesthetics in its creation, and ultimately realizes the unique experience of “order in disorder”.",
 				grid: {
-					square: "Creates a standard grid layout such as 2×2, 3×3, etc. based on the number of tracks.",
-					custom: "Customizes the columns and rows of the grid layout. The rows will automatically adapt to the columns and vice versa.",
+					square: "Creates a standard grid layout such as 2×2, 3×3, etc. based on the number of tracks",
+					fixedColumns: "Customizes a fixed number of columns in the grid layout, and the rows will automatically adapt to the columns",
+					fixedRows: "Customizes a fixed number of rows in the grid layout, and the columns will automatically adapt to the columns",
+					direction: {
+						lrTb: "From left to right, then from top to bottom",
+						tbLr: "From top to bottom, then from left to right",
+						rlTb: "From right to left, then from top to bottom",
+						tbRl: "From top to bottom, then from right to left",
+					},
 					fit: {
 						_: "Resizes clips to maintain aspect ratio while fitting within the track box",
 						cover: "Crops off both sides to fill the entire track box so there are no gaps, but it will make both sides disappear from view\n(aka “Pan and Scan” in Video Framing and “Fill” in Windows Background Settings)",

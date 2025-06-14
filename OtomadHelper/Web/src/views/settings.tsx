@@ -77,7 +77,8 @@ export default function Settings() {
 					<Button hyperlink minWidthUnbounded extruded href={contributeTranslationLink[currentLanguage]}>{t.settings.about.translation}</Button>
 				</Expander.Item>
 				<ToggleSwitch
-					icon="logo/crowdin" on={inContextLocalization}
+					icon="logo/crowdin"
+					on={inContextLocalization}
 					details={inContextLocalization[0] ? t.descriptions.settings.language.translating : t.descriptions.settings.language.improveTranslation}
 				>
 					{inContextLocalization[0] ? t.settings.language.translating : t.settings.language.improveTranslation}

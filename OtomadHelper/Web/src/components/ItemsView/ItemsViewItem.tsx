@@ -11,6 +11,8 @@ const StyledItemsViewItem = styled.button<{
 	$withBorder?: boolean;
 	/** Custom selection color. Defaults to accent color. */
 	$selectionColor?: string;
+	/** Is the orientation of the icon changed based on the writing direction? */
+	$dirBasedIcon?: DirBasedIcon;
 }>`
 	${styles.mixins.forwardFocusRing()};
 	--selection-color: ${({ $selectionColor }) => $selectionColor || c("accent-color")};
@@ -19,6 +21,8 @@ const StyledItemsViewItem = styled.button<{
 	&:focus-visible {
 		${useLottieStatus.animation("Hover")};
 	}
+
+	${styledDirBasedIcon}
 
 	${({ $view, $withBorder }) => $view === "grid" ? css`
 		display: flex;
@@ -255,7 +259,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, dirBasedIcon, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -287,6 +291,8 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	imageOverlay?: ReactNode;
 	/** Custom selection color. Defaults to accent color. */
 	selectionColor?: string;
+	/** Is the orientation of the icon changed based on the writing direction? */
+	dirBasedIcon?: DirBasedIcon;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -334,6 +340,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 					$view={view}
 					$withBorder={withBorder}
 					$selectionColor={selectionColor}
+					$dirBasedIcon={dirBasedIcon}
 					className={[className, view, { selected: selected !== "unchecked" }]}
 					tabIndex={0}
 					role={multiple ? "checkbox" : "radio"}

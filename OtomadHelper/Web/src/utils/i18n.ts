@@ -103,7 +103,6 @@ const targetFunction = (options?: number | bigint | TOptions) => {
 export const t = getProxy(targetFunction) as Trans;
 export const tf = getProxy(targetFunction, true) as Trans;
 type Trans = LocaleDictionary & typeof targetFunction;
-globals.t = t;
 
 /**
  * Check if the current page is written from right to left (such as in Arabic) rather than from left to right (such as in English).

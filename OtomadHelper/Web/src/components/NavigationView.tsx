@@ -79,7 +79,7 @@ function TopLeftButtons({ shadow, paneDisplayMode, canBack = true, onBack, onNav
 			{!shadow && (
 				<div className="base">
 					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.back} shortcut="Alt + ←" />}>
-						<NavButton animatedIcon="back" disabled={!canBack} onClick={onBack} aria-label={t.back} dirBased />
+						<NavButton animatedIcon="back" disabled={!canBack} onClick={onBack} aria-label={t.back} dirBasedIcon />
 					</Tooltip>
 					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.navigation} shortcut="Alt + H" />}>
 						<NavButton animatedIcon="global_nav_button" onClick={onNavButton} aria-label={t.navigation} />

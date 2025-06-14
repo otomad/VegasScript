@@ -182,10 +182,33 @@ declare interface Array<T> {
 	 * @see https://stackoverflow.com/a/56745484/19553213
 	 */
 	includes(searchElement: any, fromIndex?: number): boolean;
+
+	/**
+	 * Returns the next item in the array relative to the current item, with optional offset and wrapping.
+	 *
+	 * @param array - The array to search within.
+	 * @param currentItem - The current item to find the next of.
+	 * @param offset - The number of positions to move forward (or backward if negative). Defaults to 1.
+	 * @param defaultIndex - The index to use if the current item is not found. Defaults to 0.
+	 * @returns The item at the calculated position, wrapping around the array if necessary.
+	 * Or the item at the default index if the current item is not found.
+	 *
+	 * @example
+	 * ```javascript
+	 * const array = ["a", "b", "c", "d"];
+	 * array.nextItem("a"); // "b"
+	 * array.nextItem("d"); // "a"
+	 * array.nextItem("a", -1); // "d"
+	 * array.nextItem("c", 3); // "b"
+	 * array.nextItem("e"); // "a"
+	 * array.nextItem("e", 1, 2); // "c"
+	 * ```
+	 */
+	nextItem(currentItem: T, offset?: number, defaultIndex?: number);
 }
 
 declare interface ReadonlyArray<T> extends Pick<Array<T>,
-	"mapObject",
+	"mapObject" | "nextItem" | "includes"
 > {
 	/**
 	 * If, on the other hand, you feel seriously enough that this use of includes() should be accepted with no type assertions,

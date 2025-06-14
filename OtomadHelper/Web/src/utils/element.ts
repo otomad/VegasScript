@@ -68,11 +68,37 @@ export function cloneRef(children: ReactNode, nodeRef: MiscRef<Element | null>, 
 	);
 }
 
-type TargetType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | null | undefined;
-type DetectInPathType = Node | Element | RefObject<Element | null | undefined> | Event | EventTarget | string | null | undefined;
 interface IsInPathOptions {
 	/** If the detection requirements are still not met after bubbling to these HTML DOM nodes, stop bubbling. */
 	stopAt?: DetectInPathType[];
+}
+
+/**
+ * Converts a given target to an `Element` if possible.
+ *
+ * This function handles several types of input:
+ * - If the target is a ref object, it extracts its value.
+ * - If the target is an `Event`, it uses the event's target.
+ * - If the resulting target is not an `Element`, it returns `null`.
+ *
+ * @param target - The target to convert, which can be a ref object, an `Event`, or an `Element`.
+ * @returns The corresponding `Element` if conversion is possible, otherwise `null`.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+export function targetToElement<TElement extends Element = Element>(target: TargetType): TElement | null;
+/**
+ * Resolves a given target to a DOM Element or a CSS selector string, or returns null if not applicable.
+ *
+ * @param target - The target to resolve. Can be a ref object, an object with a `target` property, a DOM Element, or a CSS selector string.
+ * @param acceptCssSelectorQueryString - If true, allows returning a CSS selector string as a valid result.
+ * @returns The resolved DOM Element, a CSS selector string (if accepted), or null if the target cannot be resolved.
+ */
+export function targetToElement(target: DetectInPathType, acceptCssSelectorQueryString: true): Element | string | null;
+export function targetToElement(target: DetectInPathType, acceptCssSelectorQueryString?: boolean) {
+	if (isRefObject(target)) target = toValue(target);
+	if (isObject(target) && "target" in target) target = target.target;
+	if (target instanceof Element || acceptCssSelectorQueryString && typeof target === "string") return target;
+	return null;
 }
 
 /**
@@ -84,9 +110,8 @@ interface IsInPathOptions {
  * @returns An array of the specified element that traces back to the root element.
  */
 export function getPath(target: TargetType): Element[] {
-	if (isRefObject(target)) target = toValue(target);
-	if (isObject(target) && "target" in target) target = target.target;
-	if (!(target instanceof Element)) return [];
+	target = targetToElement(target);
+	if (!target) return [];
 	const path: Element[] = [];
 	while (target instanceof Element) {
 		path.push(target);
@@ -118,11 +143,7 @@ export function isInPath(target: TargetType, ...args: (DetectInPathType | IsInPa
 			}
 			return [elements, options] as const;
 		})();
-		const filter = (element: DetectInPathType) => {
-			if (isRefObject(element)) element = toValue(element);
-			if (isObject(element) && "target" in element) element = element.target;
-			if (typeof element === "string" || element instanceof Element) return element;
-		};
+		const filter = (element: DetectInPathType) => targetToElement(element, true);
 		return [elements.map(filter).toCompacted(), stopAt.map(filter).toCompacted()];
 	})();
 	const matches = (parent: Element, elements: (string | Element)[]) => elements.some(element => {

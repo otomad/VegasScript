@@ -275,7 +275,7 @@ export default [
 			"@stylistic/jsx-first-prop-new-line": ["error", "multiline"],
 			"@stylistic/jsx-indent-props": ["error", "tab"],
 			"@stylistic/jsx-indent": ["error", "tab", { "checkAttributes": true, "indentLogicalExpressions": true }],
-			"@stylistic/jsx-max-props-per-line": ["error", { "maximum": 5 }],
+			"@stylistic/jsx-max-props-per-line": ["error", { "maximum": { "single": 5, "multi": 1 } }],
 			"@stylistic/jsx-pascal-case": ["error", { "allowLeadingUnderscore": true, "allowNamespace": true }],
 			"@stylistic/jsx-props-no-multi-spaces": "error",
 			"@stylistic/jsx-tag-spacing": ["error", {
