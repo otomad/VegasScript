@@ -28,6 +28,13 @@ declare global {
 		export interface TriggerKeybinding {
 			event: VegasKeybindingEventType;
 		}
+
+		export interface GridSpanItem {
+			sameLine: number;
+			crossLine: number;
+			sameLineSpan?: number;
+			crossLineSpan?: number;
+		}
 	}
 
 	type VegasKeybindingEventType = "useTrackEventAsSource" | "useProjectMediaAsSource" | "enableYtp" | "startGenerating";

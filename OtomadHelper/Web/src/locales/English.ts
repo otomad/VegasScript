@@ -380,6 +380,10 @@ export default {
 				transpose: "Transpose",
 				numberOfSelectedTracks: "Number of selected tracks",
 				fastFill: "Fast fill",
+				columnWidth: "Column width",
+				rowHeight: "Row height",
+				columnSpan: "Column span",
+				rowSpan: "Row span",
 				direction: {
 					_: "Direction",
 					lrTb: "Horizontal",
@@ -928,6 +932,7 @@ export default {
 					},
 					padding: "Adjusts the inner margins of track boxes to be less cluttered with other boxes",
 					previewAria: "The track located in column {{columnIndex}}, row {{rowIndex}} of a {{columnCount}}-column by {{rowCount}}-row grid.",
+					squareCannotUseTheseFeatures: "To use the following features, switch the Array mode to {{fixed}}",
 				},
 				box3d: {
 					deleteTracks: "Due to technical limitations, the selected tracks cannot be moved directly. Currently, it can only create new tracks and migrate the clips automatically, but not track motions, effects, or anything else. You will have to migrate them yourself later. You can decide if you want to delete the original tracks. Newly added tracks are not affected.",
@@ -1080,6 +1085,11 @@ export default {
 			delete: "&Delete", // Add “&” before a letter to indicate the access key.
 			moveForward: "Move &forward", // Add “&” before a letter to indicate the access key.
 			moveBackward: "Move &backward", // Add “&” before a letter to indicate the access key.
+			grid: {
+				columnWidth: "Column &width",
+				rowHeight: "Row &height",
+				span: "&Span",
+			},
 		},
 		aria: {
 			navMenu: "Navigation menu",

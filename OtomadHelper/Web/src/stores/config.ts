@@ -192,7 +192,6 @@ export const configStore = createStore({
 		grid: {
 			enabled: true,
 			columns: 5,
-			rows: 5,
 			array: "square" as GridArrayType,
 			direction: "lr-tb" as GridDirectionOrderType,
 			fit: "cover" as GridFitType,
@@ -200,6 +199,7 @@ export const configStore = createStore({
 			mirrorEdgesVFlip: "unflipped" as GridParityType,
 			descending: false,
 			padding: 0,
+			spans: [] as WebMessageEvents.GridSpanItem[],
 		},
 		box3d: {
 			enabled: true,

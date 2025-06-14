@@ -2,14 +2,9 @@ import FlyoutItem from "./FlyoutItem";
 
 const PADDING = "4px";
 const StyledFlyout = styled.div`
+	${styles.effects.flyout};
 	position: fixed;
 	max-width: 100dvw;
-	overflow: clip;
-	background-color: ${c("background-fill-color-acrylic-background-default")};
-	border-radius: 8px;
-	outline: 1px solid ${c("stroke-color-surface-stroke-flyout")};
-	box-shadow: 0 4px 8px ${c("shadows-flyout")};
-	backdrop-filter: blur(10px);
 	transition: ${fallbackTransitions}, inset 0s;
 	position-try-fallbacks: flip-block, flip-inline;
 

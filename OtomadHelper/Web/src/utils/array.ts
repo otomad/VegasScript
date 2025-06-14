@@ -162,6 +162,10 @@
 		return this[index];
 	};
 
+	Array.prototype.shouldReversed = function (reverse = true) {
+		return reverse ? this.toReversed() : this;
+	};
+
 	makePrototypeKeysNonEnumerable(Array);
 }
 

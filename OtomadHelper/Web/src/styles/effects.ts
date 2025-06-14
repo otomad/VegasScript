@@ -61,4 +61,12 @@ export default {
 		iconSmall: useTypography(15),
 		custom: useTypography,
 	},
+	flyout: css`
+		overflow: clip;
+		background-color: ${c("background-fill-color-acrylic-background-default")};
+		border-radius: 8px;
+		outline: 1px solid ${c("stroke-color-surface-stroke-flyout")};
+		box-shadow: 0 4px 8px ${c("shadows-flyout")};
+		backdrop-filter: blur(10px);
+	`,
 };

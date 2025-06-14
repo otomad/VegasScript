@@ -13,17 +13,14 @@ const StyledTooltip = styled.div<{
 	${!DEBUG_MODE && css`pointer-events: none;`};
 
 	.base {
+		${styles.effects.flyout};
 		flex-shrink: 0;
 		max-width: 50dvw;
 		height: max-content;
 		padding: 6px 8px;
-		overflow: clip;
 		word-wrap: break-word;
 		overflow-wrap: break-word;
-		background-color: ${c("background-fill-color-acrylic-background-default")};
 		border-radius: 4px;
-		outline: 1px solid ${c("stroke-color-surface-stroke-flyout")};
-		box-shadow: 0 4px 8px ${c("shadows-flyout")};
 		backdrop-filter: blur(60px);
 
 		&:has(.tooltip-content) {

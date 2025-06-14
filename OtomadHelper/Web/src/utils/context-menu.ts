@@ -2,16 +2,20 @@ export type ContextMenuItemKind = "command" | "checkBox" | "radio" | "separator"
 
 export type ContextMenuInput = ContextMenuItemInput[];
 
-export interface ContextMenuItemInput {
-	kind?: ContextMenuItemKind;
-	label: string;
+export type ContextMenuItemInput = {
 	// icon?: unknown; // Don't know how to add an icon.
 	checked?: boolean;
 	enabled?: boolean;
 	onClick?(): void;
 	items?: ContextMenuItemInput[];
 	confirmDeleteMessage?: string;
-}
+} & ({
+	kind?: ContextMenuItemKind;
+	label: string;
+} | {
+	kind: "separator";
+	label?: string;
+});
 
 export interface ContextMenuOutput {
 	uuid: string;
@@ -45,7 +49,7 @@ export function createContextMenu(menu: ContextMenuInput): MouseEventHandler<HTM
 		for (const { kind, label, onClick, items: children, confirmDeleteMessage, ...item } of menu)
 			items.push({
 				kind: kind ?? "command",
-				label: label.toString(),
+				label: (label ?? "").toString(),
 				uuid: getUuid(),
 				command: async () => {
 					if (!confirmDeleteMessage) onClick?.();

@@ -205,6 +205,15 @@ declare interface Array<T> {
 	 * ```
 	 */
 	nextItem(currentItem: T, offset?: number, defaultIndex?: number);
+
+	/**
+	 * Returns the reversed array if the `reverse` flag is `true`.
+	 * Otherwise, returns the original array.
+	 *
+	 * @param reverse - Optional. If `true`, returns a reversed array; if `false`, returns the original array. Defaults to `true`.
+	 * @returns A new reversed array if `reverse` is `true`, otherwise the original array.
+	 */
+	shouldReversed(reverse?: boolean): this;
 }
 
 declare interface ReadonlyArray<T> extends Pick<Array<T>,

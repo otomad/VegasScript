@@ -42,6 +42,16 @@ const StyledContextMenu = styled.menu`
 			}
 		}
 	}
+
+	hr {
+		margin: 0;
+		border: none;
+		border-bottom: 1px solid ${c("stroke-color-divider-stroke-default")};
+	}
+
+	@starting-style {
+		opacity: 0;
+	}
 `;
 
 export default function DevContextMenu() {
@@ -67,7 +77,7 @@ export default function DevContextMenu() {
 
 	return (
 		<Portal>
-			<StyledContextMenu ref={menuEl} role={menu?.items.length ? "menu" : undefined} style={{ left: ifFinite(location[0]), top: ifFinite(location[1]) }} aria-hidden={!menu?.items.length}>
+			<StyledContextMenu ref={menuEl} role={isMenuShown ? "menu" : undefined} style={{ left: ifFinite(location[0]), top: ifFinite(location[1]) }} hidden={!isMenuShown} aria-hidden={!isMenuShown}>
 				{menu && menu.items.map((item, i) =>
 					item.kind === "command" ? (
 						<li key={i} role="menuitem" disabled={item.enabled === false} onClick={() => { clearMenu(); item.command?.(); }}>

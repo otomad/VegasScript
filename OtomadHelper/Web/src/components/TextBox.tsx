@@ -378,7 +378,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 type NumberLike = number | bigint;
 function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], disabled, readOnly, decimalPlaces, keepTrailing0, min, max, spinnerStep, keyBigStepMultiplier, positiveSign, inputRef, ...textBoxProps }: Override<OmitPrivates<PropsOf<typeof TextBox>>, {
 	/** The value of the number, which can be number or bigint type. */
-	value: StateProperty<TNumber>;
+	value: [get: TNumber, set?: SetStateNarrow<TNumber>];
 	/** The number of decimal places, leaving blank means no limit. */
 	decimalPlaces?: number;
 	/** Keep trailing zeros in the fractional part? */
@@ -404,7 +404,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 	const intMode = bigIntMode || decimalPlaces === 0;
 	const [displayValue, setDisplayValue] = useState<string>();
 
-	const setValue = (value: TNumber | undefined | ((value: TNumber) => TNumber | undefined)) => (_setValue as SetStateNarrow<TNumber>)?.(prevValue => {
+	const setValue = (value: TNumber | undefined | ((value: TNumber) => TNumber | undefined)) => _setValue?.(prevValue => {
 		if (typeof value === "function") value = value(prevValue);
 		if (value == null || typeof value === "number" && !Number.isFinite(value)) return prevValue;
 		return clamp(value, min!, max!);
@@ -537,7 +537,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 			readOnly={readOnly}
 			value={[displayValue ?? "", setValueFromTextBox]}
 			inputRef={inputEl}
-			_showPositiveSign={positiveSign && value! > 0}
+			_showPositiveSign={positiveSign && value > 0}
 			onChange={handleBlurChange}
 			onInput={handleInput}
 			onKeyDown={handleKeyDown}
