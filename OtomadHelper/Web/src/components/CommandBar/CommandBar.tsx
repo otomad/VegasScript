@@ -125,10 +125,16 @@ CommandBar.Group = CommandBarGroup;
 
 function useIsCommandBarOverflowed(element: MaybeRef<HTMLElement | null>) {
 	const [overflowed, setOverflowed] = useState(false);
+	const forceUpdate = useForceUpdate();
+	const elementNotFoundTimeoutId = useRef<Timeout>(undefined);
 
 	useEffect(() => {
+		clearTimeout(elementNotFoundTimeoutId.current);
 		const el = toValue(element);
-		if (!el) return;
+		if (!el) {
+			elementNotFoundTimeoutId.current = setTimeout(() => forceUpdate(), 100);
+			return;
+		}
 
 		const page = el.closest("main.page");
 		if (page) { // In special circumstances of laziness, determine whether it is in the main page.
@@ -140,6 +146,7 @@ function useIsCommandBarOverflowed(element: MaybeRef<HTMLElement | null>) {
 			const observer = new MutationObserver(determine);
 			observer.observe(page, { attributeFilter: ["class"] });
 			window.addEventListener("resize", determine);
+			determine();
 			return () => {
 				observer.disconnect();
 				window.removeEventListener("resize", determine);
@@ -155,7 +162,7 @@ function useIsCommandBarOverflowed(element: MaybeRef<HTMLElement | null>) {
 			observer.observe(el);
 			return () => observer.disconnect();
 		}
-	});
+	}, [element]);
 
 	return overflowed;
 }

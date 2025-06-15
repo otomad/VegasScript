@@ -8,19 +8,24 @@ type GridParityType = typeof parityTypes[number];
 const isCheckerParities = (parity: GridParityType): parity is "odd_checker" | "even_checker" => parity.endsWith("_checker");
 const MAX_COL_ROW = 100;
 const GAP = 6;
+const RULER_THICKNESS = 16;
+const ASTERISK = "∗";
 
 const PreviewGridContainer = styled.div`
 	${styles.mixins.square("100%")};
 	${styles.mixins.gridCenter()};
 	container: preview-grid-container / size;
+	margin-block-start: ${RULER_THICKNESS - GAP}px;
 `;
 
 const PreviewGrid = styled.div`
 	${styles.effects.flyout};
+	--project-width: 1920;
+	--project-height: 1080;
 	display: grid;
 	align-self: center;
-	width: min(100cqw, calc(100cqh / 9 * 16));
-	height: min(100cqh, calc(100cqw / 16 * 9));
+	width: min(100cqw, calc(100cqh / var(--project-height) * var(--project-width)));
+	height: min(100cqh, calc(100cqw / var(--project-width) * var(--project-height)));
 	backdrop-filter: none;
 	transition: ${fallbackTransitions}, --grid-template-count ${eases.easeOutMax} 250ms;
 
@@ -40,8 +45,11 @@ const PreviewGrid = styled.div`
 
 	[role="img"] {
 		${styles.mixins.square("100%")};
+		position: relative;
+		align-content: flex-end;
 		min-height: 0;
 		object-fit: var(--fit);
+		overflow: hidden;
 		background-image: url("${exampleThumbnail}");
 		background-repeat: no-repeat;
 		background-position: center;
@@ -65,6 +73,24 @@ const PreviewGrid = styled.div`
 					box-shadow: 0 0
 				}
 			`} duration timing-function delay iteration-count direction fill-mode;
+		}
+
+		&::after {
+			${styles.mixins.oval()};
+			${styles.effects.text.caption};
+			--size: 16px;
+			--margin: 4px;
+			content: attr(data-index);
+			position: absolute;
+			inset-block-end: var(--margin);
+			inset-inline-start: var(--margin);
+			display: inline-block;
+			padding: 0 3px;
+			block-size: var(--size);
+			min-inline-size: var(--size);
+			font-size: 10px;
+			text-align: center;
+			background-color: ${c("fill-color-system-solid-neutral-background", 75)};
 		}
 	}
 
@@ -104,16 +130,6 @@ const Determinant = styled.div`
 	label {
 		${styles.effects.text.body};
 		align-content: center;
-	}
-
-	.multiply {
-		${styles.mixins.flexCenter()};
-		padding-block-end: 3px;
-		inline-size: ${xWidth};
-
-		&.shadow {
-			visibility: hidden;
-		}
 	}
 
 	.text-box {
@@ -160,6 +176,8 @@ const FlyoutEditor = styled.div`
 	inset: 0;
 	inset-block-end: 8px;
 	z-index: 1;
+	padding: ${GAP}px;
+	overflow: visible;
 	transition-behavior: allow-discrete;
 
 	&[hidden] {
@@ -170,13 +188,26 @@ const FlyoutEditor = styled.div`
 		${floatDownHidden};
 	}
 
+	> * {
+		gap: ${GAP}px;
+	}
+
+	.text-box {
+		max-inline-size: 200px;
+	}
+
 	.span {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: ${GAP}px;
+		grid-template-columns: 1fr auto 1fr;
+	}
 
-		.text-box {
-			max-inline-size: 200px;
+	.length {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+
+		> :not(.text-box) {
+			flex-shrink: 0;
 		}
 	}
 `;
@@ -194,12 +225,70 @@ const StyledContainerPreview = styled.div`
 	}
 `;
 
+const Ruler = styled.div`
+	${styles.effects.text.caption};
+	position: fixed;
+	display: grid;
+	color: ${c("fill-color-text-secondary")};
+	font-size: 10px;
+	text-align: center;
+	transition: none;
+	position-anchor: --preview-grid;
+
+	> * {
+		contain: strict;
+		overflow: clip;
+		direction: ltr;
+	}
+
+	&.columns {
+		right: anchor(right);
+		bottom: anchor(top);
+		left: anchor(left);
+		grid-auto-flow: column;
+		block-size: ${RULER_THICKNESS}px;
+
+		> :not(:last-child) {
+			border-inline-end: 1px solid ${c("stroke-color-divider-stroke-default")};
+		}
+	}
+
+	&.rows {
+		top: anchor(top);
+		right: anchor(left);
+		bottom: anchor(bottom);
+		grid-auto-flow: row;
+		inline-size: ${RULER_THICKNESS}px;
+
+		> * {
+			writing-mode: sideways-lr;
+		}
+
+		> :not(:last-child) {
+			border-inline-start: 1px solid ${c("stroke-color-divider-stroke-default")};
+		}
+	}
+`;
+
 const TOOLTIP_OFFSET = 28;
+
+const Multiply = styled.label.attrs({
+	children: "×",
+})`
+	${styles.mixins.flexCenter()};
+	padding-block-end: 3px;
+	inline-size: ${xWidth};
+
+	&.shadow {
+		visibility: hidden;
+	}
+`;
+
 export default function Grid() {
-	const { columns: [columns, _setColumns], array, direction, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding, spans: [spans, setSpans] } = selectConfig(c => c.track.grid);
+	const { columns: [columns, _setColumns], array, direction, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding, spans: [spans, setSpans], columnWidths: [columnWidths, setColumnWidths], rowHeights: [rowHeights, setRowHeights] } = selectConfig(c => c.track.grid);
 	const setColumns = setStateInterceptor(_setColumns, input => clamp(input, 1, MAX_COL_ROW));
 	const rows = columns, setRows = setColumns; // These properties were originally planned to put into the config, but now it is abandoned.
-	const count = 25;
+	const count = 25, projectWidth = 1920, projectHeight = 1080;
 	const radicand = Math.ceil(Math.sqrt(count));
 	const horizontalDirection = direction[0].endsWith("tb"), verticalDirection = direction[0].startsWith("tb"), rtlDirection = direction[0].includes("rl");
 	const square = array[0] === "square", fixedColumns = array[0] === "fixed" && horizontalDirection, fixedRows = array[0] === "fixed" && verticalDirection;
@@ -224,10 +313,9 @@ export default function Grid() {
 			if (!flyoutEditorCell) return;
 			if (typeof value === "function") value = value(axis === "column" ? x : y);
 			const [newX, newY] = axis === "column" ? [value, y] : [x, value];
-			if (~itemIndex) {
-				draft[itemIndex].sameLineSpan = newX;
-				draft[itemIndex].crossLineSpan = newY;
-			} else
+			if (~itemIndex)
+				[draft[itemIndex].sameLineSpan, draft[itemIndex].crossLineSpan] = [newX, newY];
+			else
 				draft.push({
 					sameLine: flyoutEditorCell[0],
 					crossLine: flyoutEditorCell[1],
@@ -237,6 +325,35 @@ export default function Grid() {
 		}));
 		return [x, y, (v: React.SetStateAction<number>) => setSpan(v, "column"), (v: React.SetStateAction<number>) => setSpan(v, "row")] as const;
 	}, [flyoutEditorCell, spans]);
+	const [flyoutEditorColumnRow, setFlyoutEditorColumnRow] = useState<[number, "column" | "row"]>();
+	const [columnRowValue, columnRowType, setColumnRow] = useMemo(() => {
+		const items = flyoutEditorColumnRow?.[1] === "column" ? columnWidths : rowHeights;
+		const itemIndex = items.findIndex(item => item.index === flyoutEditorColumnRow?.[0]);
+		const { value: currentValue, type } = items[itemIndex] ?? { value: 1, type: "star" };
+		const setColumnRow: {
+			(value: React.SetStateAction<number>): void;
+			(type: WebMessageEvents.GridUnitType): void;
+		} = value => {
+			if (!flyoutEditorColumnRow) return;
+			const setState = flyoutEditorColumnRow[1] === "column" ? setColumnWidths : setRowHeights;
+			if (typeof value === "function") value = value(currentValue);
+			setState(produce(draft => {
+				const itemIndex = draft.findIndex(item => item.index === flyoutEditorColumnRow?.[0]);
+				const { value: currentValue, type } = draft[itemIndex] ?? { value: 1, type: "star" }; // Values outside are not updated.
+				const [newValue, newType] = typeof value === "number" ? [value, type] : [currentValue, value];
+				if (~itemIndex)
+					[draft[itemIndex].value, draft[itemIndex].type] = [newValue, newType];
+				else
+					draft.push({
+						index: flyoutEditorColumnRow[0],
+						value: newValue,
+						type: newType,
+					});
+			}));
+		};
+		return [currentValue, type, setColumnRow] as const;
+	}, [flyoutEditorColumnRow, columnWidths, rowHeights, count, columns, autoRows]);
+	const { gridTemplateColumns, gridTemplateRows, rulerColumns, rulerRows } = useGridTemplateCss(square ? [] : columnWidths, square ? [] : rowHeights, square ? radicand : columns, square ? radicand : autoRows, verticalDirection, projectWidth, projectHeight);
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
 
@@ -247,12 +364,15 @@ export default function Grid() {
 	const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
 		parity === "unflipped" ? "prohibited" : isCheckerParities(parity) ? `parity_${parity}` : `parity_${parity}_${field}s`;
 
+	const closeFlyoutEditor = () => setFlyoutEditor(undefined);
+	useEventListener(window, "keydown", e => flyoutEditor && e.code === "Escape" && closeFlyoutEditor(), undefined, [flyoutEditor]);
+
 	return (
 		<>
 			<StyledContainerPreview>
 				<CommandBar.Group>
 					<CommandBar position="right" autoCollapse>
-						<button type="button" onClick={() => setSpans([])}>reset</button>
+						<button type="button" onClick={() => { setSpans([]); setColumnWidths([]); setRowHeights([]); }}>reset</button>
 						<CommandBar.Item
 							icon={square ? "grid" : "grid_kanban_vertical"}
 							caption={t.track.grid.array}
@@ -330,6 +450,11 @@ export default function Grid() {
 							"--grid-template-count": Math.min(square ? radicand : fixedColumns ? columns : rows, count),
 							"--padding": padding[0] + "px",
 							"--fit": fit[0],
+							"--project-width": projectWidth,
+							"--project-height": projectHeight,
+							gridTemplateColumns,
+							gridTemplateRows,
+							anchorName: "--preview-grid",
 						}}
 						className={fixedRows ? "row" : "column"}
 						role="figure"
@@ -357,10 +482,14 @@ export default function Grid() {
 												mirrorEdgesVFlip[0] === "odd" && row % 2 === 0 ||
 												mirrorEdgesVFlip[0] === "odd_checker" && (column + row) % 2 === 1 ||
 												mirrorEdgesVFlip[0] === "even_checker" && (column + row) % 2 === 0,
-											highlight: flyoutEditor === "span" && flyoutEditorCell?.[0] === thisCell[0] && flyoutEditorCell[1] === thisCell[1],
+											highlight:
+												flyoutEditor === "span" && flyoutEditorCell?.[0] === thisCell[0] && flyoutEditorCell[1] === thisCell[1] ||
+												flyoutEditor === "width" && flyoutEditorColumnRow?.[1] === "column" && flyoutEditorColumnRow[0] === colEnd - 1 ||
+												flyoutEditor === "height" && flyoutEditorColumnRow?.[1] === "row" && flyoutEditorColumnRow[0] === rowEnd - 1,
 										}]}
 										role="img"
 										aria-label={t.descriptions.track.grid.previewAria({ columnIndex: colStart, rowIndex: rowStart, columnCount: columns, rowCount: autoRows })}
+										data-index={descending ? count - i : i + 1}
 										data-column-start={colStart}
 										data-column-end={colEnd}
 										data-row-start={rowStart}
@@ -371,8 +500,8 @@ export default function Grid() {
 												{ label: t.descriptions.track.grid.squareCannotUseTheseFeatures({ fixed: t.track.grid[horizontalDirection ? "fixedColumns" : "fixedRows"] }) },
 												{ kind: "separator" },
 											] as const : [],
-											{ label: t.menu.grid.columnWidth, onClick() { setFlyoutEditor("width"); } },
-											{ label: t.menu.grid.rowHeight, onClick() { setFlyoutEditor("height"); } },
+											{ label: t.menu.grid.columnWidth, onClick() { setFlyoutEditor("width"); setFlyoutEditorColumnRow([colEnd - 1, "column"]); } },
+											{ label: t.menu.grid.rowHeight, onClick() { setFlyoutEditor("height"); setFlyoutEditorColumnRow([rowEnd - 1, "row"]); } },
 											{ kind: "separator" },
 											{ label: t.menu.grid.span, onClick() { setFlyoutEditor("span"); setFlyoutEditorCell(thisCell as never); } },
 										] as const).map(item => ({ ...item, enabled: !square })))}
@@ -381,6 +510,8 @@ export default function Grid() {
 							);
 						})}
 					</PreviewGrid>
+					<Ruler className="columns" style={{ gridTemplateColumns }} dir={rtlDirection ? "rtl" : "ltr"}>{rulerColumns.map((value, i) => <div key={i}>{value}</div>)}</Ruler>
+					<Ruler className="rows" style={{ gridTemplateRows }}>{rulerRows.map((value, i) => <div key={i}>{value}</div>)}</Ruler>
 				</PreviewGridContainer>
 
 				<div>
@@ -390,7 +521,7 @@ export default function Grid() {
 							<div />
 							<label htmlFor={id + "-row"}>{t(square ? radicand : rows).track.grid.row}</label>
 							{["column", "x", "row"].map(key => {
-								if (key === "x") return <label key={key} className="multiply">×</label>;
+								if (key === "x") return <Multiply key={key} />;
 								const isColumn = key === "column", ref = isColumn ? columnInputRef : rowInputRef, readonly = isColumn ? columnReadonly : rowReadonly;
 								return (
 									<EventInjector
@@ -420,7 +551,7 @@ export default function Grid() {
 						<div>
 							<div />
 							<label htmlFor={id + "-padding"}>{t(padding[0]).track.grid.padding}</label>
-							<label className="multiply shadow" />
+							<Multiply className="shadow" />
 							<Tooltip title={t.descriptions.track.grid.padding} placement="top" offset={TOOLTIP_OFFSET} unwrapped={false}>
 								<TextBox.Number
 									id={id + "-padding"}
@@ -435,13 +566,14 @@ export default function Grid() {
 					</Determinant>
 
 					<Attrs hidden={!flyoutEditor}>
-						<Mask onMouseDown={e => { stopEvent(e); setFlyoutEditor(undefined); }} />
+						<Mask onMouseDown={e => { stopEvent(e); closeFlyoutEditor(); }} />
 						<FlyoutEditor>
 							{_flyoutEditor === "span" ? (
 								<div className="span">
 									<label htmlFor={id + "-colspan"}>{t.track.grid.columnSpan}</label>
+									<div />
 									<label htmlFor={id + "-rowspan"}>{t.track.grid.rowSpan}</label>
-									{(["colspan", "rowspan"] as const).map(key => (
+									{(["colspan", "x", "rowspan"] as const).map(key => key === "x" ? <Multiply key={key} /> : (
 										<TextBox.Number
 											key={key}
 											id={id + "-" + key}
@@ -452,6 +584,20 @@ export default function Grid() {
 											defaultValue={1}
 										/>
 									))}
+								</div>
+							) : _flyoutEditor === "width" || _flyoutEditor === "height" ? (
+								<div className="length">
+									<label htmlFor={id + "-length"}>{t.track.grid[_flyoutEditor === "width" ? "columnWidth" : "rowHeight"]}</label>
+									<TextBox.Number
+										id={id + "-length"}
+										value={[columnRowValue, setColumnRow]}
+										min={0}
+										max={_flyoutEditor === "width" ? projectWidth : projectHeight}
+										defaultValue={1}
+										disabled={columnRowType === "auto"}
+									/>
+									{(["auto", "pixel", "star"] as const).map(unit =>
+										<RadioButton key={unit} id={unit} value={[columnRowType, setColumnRow]}>{unit === "auto" ? t.auto : unit === "pixel" ? t.units.pixel : ASTERISK}</RadioButton>)}
 								</div>
 							) : undefined}
 						</FlyoutEditor>
@@ -546,4 +692,28 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 			return [sameLineStart + 1, sameLineEnd + 1, sameLineSpan, crossLineStart + 1, crossLineEnd + 1, crossLineSpan] as const;
 		},
 	] as const;
+}
+
+function useGridTemplateCss(columnWidths: WebMessageEvents.GridColumnWidthRowHeightItem[], rowHeights: WebMessageEvents.GridColumnWidthRowHeightItem[], columns: number, rows: number, vertical: boolean, projectWidth: number, projectHeight: number) {
+	if (vertical) [columns, rows] = [rows, columns];
+	const getValue = (value: number, type: WebMessageEvents.GridUnitType, specified: "width" | "height") =>
+		type === "auto" ? "auto" : type === "star" ? value + "fr" : `calc(${value} / ${specified === "width" ? projectWidth : projectHeight} * 100cq${specified === "width" ? "w" : "h"})`;
+	const getRulerValue = (value: number, type: WebMessageEvents.GridUnitType) =>
+		type === "auto" ? t.auto : value === 1 && type === "star" ? ASTERISK : value + (type === "star" ? ASTERISK : type === "pixel" ? "px" : "");
+	const toCssString = (items: string[]) => items.every(item => item === "1fr") ? undefined : items.join(" ");
+	return useMemo(() => {
+		const gridTemplateColumns = new Array<string>(columns).fill("1fr"), gridTemplateRows = new Array<string>(rows).fill("1fr");
+		const rulerColumns = new Array<string>(columns).fill(ASTERISK), rulerRows = new Array<string>(rows).fill(ASTERISK);
+		for (const { index, value, type } of columnWidths)
+			if (index in gridTemplateColumns) {
+				gridTemplateColumns[index] = getValue(value, type, "width");
+				rulerColumns[index] = getRulerValue(value, type);
+			}
+		for (const { index, value, type } of rowHeights)
+			if (index in gridTemplateRows) {
+				gridTemplateRows[index] = getValue(value, type, "height");
+				rulerRows[index] = getRulerValue(value, type);
+			}
+		return { gridTemplateColumns: toCssString(gridTemplateColumns), gridTemplateRows: toCssString(gridTemplateRows), rulerColumns, rulerRows };
+	}, [columnWidths, rowHeights, columns, rows, vertical, projectWidth, projectHeight]);
 }

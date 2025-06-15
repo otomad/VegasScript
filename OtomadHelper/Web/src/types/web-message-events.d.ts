@@ -35,6 +35,14 @@ declare global {
 			sameLineSpan?: number;
 			crossLineSpan?: number;
 		}
+
+		export interface GridColumnWidthRowHeightItem {
+			index: number;
+			value: number;
+			type: GridUnitType;
+		}
+
+		type GridUnitType = "auto" | "pixel" | "star";
 	}
 
 	type VegasKeybindingEventType = "useTrackEventAsSource" | "useProjectMediaAsSource" | "enableYtp" | "startGenerating";
