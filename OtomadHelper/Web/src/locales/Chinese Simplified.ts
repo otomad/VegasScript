@@ -120,6 +120,7 @@ export default {
 		topPriority: "{{item}} 最优先",
 		browse: "浏览",
 		ok: "确定",
+		close: "关闭",
 		descending: "递减",
 		ascending: "递增",
 		view: "视图",
@@ -130,6 +131,12 @@ export default {
 		increase: "增加",
 		decrease: "减少",
 		duration: "持续时间",
+		preview: "预览",
+		width: "宽度",
+		height: "高度",
+		type: "类型",
+		deleteSelection: "删除所选",
+		all: "全部",
 		infoBar: {
 			warning: "警告",
 		},
@@ -217,7 +224,6 @@ export default {
 			channel: "通道",
 		},
 		stream: {
-			preview: "预览",
 			stretch: {
 				_: "拉伸",
 				noStretching: "不拉伸",
@@ -360,11 +366,25 @@ export default {
 			grid: {
 				array: "阵列",
 				square: "平方",
+				fixedColumns: "固定列数",
+				fixedRows: "固定行数",
 				min: "最小值",
 				max: "最大值",
 				transpose: "转置",
 				numberOfSelectedTracks: "所选轨道数",
 				fastFill: "快速填写",
+				columnWidth: "列宽",
+				rowHeight: "行高",
+				span: "跨列/行",
+				columnSpan: "跨列",
+				rowSpan: "跨行",
+				direction: {
+					_: "方向",
+					lrTb: "横向",
+					tbLr: "纵向",
+					rlTb: "翻转横向",
+					tbRl: "翻转纵向",
+				},
 				fit: {
 					_: "取景",
 					cover: "裁切",
@@ -381,8 +401,15 @@ export default {
 						even: "偶数行",
 						odd: "奇数行",
 					},
+					checkerboard: {
+						_: "棋盘风格",
+						odd: "奇偶交错位",
+						even: "奇偶同位",
+					},
 				},
 				padding: "边距",
+				operationRecord: "操作记录",
+				operationRecord_short: "操作记录",
 				column: "列数",
 				row: "行数",
 			},
@@ -874,8 +901,15 @@ export default {
 			track: {
 				_: "在YTPMV创作中，布局与版式设计是视觉逻辑的核心环节。其核心目标是通过动态排版将多源素材与音乐节奏深度融合，既制造混乱冲击力，又保持画面可读性。了解如何为YTPMV制作一版良好的画面布局，会让它比你想象的更有趣。\n作为画面核心，主旋律采样对应的素材需通过放大、置顶或高对比色强化存在感。然后利用动态层级管理区分主次元素。例如背景素材可降低透明度以避免喧宾夺主。可以尝试采用非线性排列，打破传统网格布局，采用随机堆叠、错位重叠等手法，模仿“信息过载”的视觉张力。通过重复特定元素建立隐性秩序，同时局部加入突变制造意外感。例如循环使用人物头像作为视觉锚点，但每次出现时叠加不同特效。\nYTPMV的布局与版式设计本质是“控制的混乱”，通过对比、对齐等基础设计原则为内容赋予内在结构。这种设计既需技术性，也依赖创作中对文化审美的直觉把握，最终实现“无序中的有序”独特体验。",
 				grid: {
-					square: "根据轨道数目创建标准网格布局，如2×2、3×3等。",
-					custom: "自定义网格布局中的行列数。行数会自动适应列数，反之亦然。",
+					square: "根据轨道数目创建标准网格布局，如2×2、3×3等",
+					fixedColumns: "以固定列数自定义网格布局，行数会自动适应列数",
+					fixedRows: "以固定行数自定义网格布局，列数会自动适应行数",
+					direction: {
+						lrTb: "先从左往右，再从上到下",
+						tbLr: "先从上到下，再从左往右",
+						rlTb: "先从右往左，再从上到下",
+						tbRl: "先从上到下，再从右往左",
+					},
 					fit: {
 						_: "缩放剪辑以保持宽高比并适应轨道框",
 						cover: "裁切两边以填充整樘轨道框，这样就没有间隙，但这会使其两边消失在视线之外\n（在Windows背景设置中也被称为“填充”，在CSS取值中也被称为“覆盖”）",
@@ -886,6 +920,8 @@ export default {
 						vFlip: "以奇偶性翻转行来镜像轨道",
 					},
 					padding: "调整轨道框的内边距，使之与其它轨道框不那么紧凑",
+					previewAria: "该轨道位于第{{columnIndex}}列第{{rowIndex}}行，共{{columnCount}}列{{rowCount}}行。",
+					squareCannotUseTheseFeatures: "切换阵列模式到{{fixed}}方可使用下述功能",
 				},
 				box3d: {
 					deleteTracks: "由于技术限制，无法直接移动所选轨道。目前只能新建轨道并将原剪辑自动迁移过去，但轨道运动、效果等其它内容暂时无法迁移。你必须稍后自行迁移。你可以自由决定是否删除原先的轨道。对于新增轨道则不受影响。",
@@ -981,6 +1017,7 @@ export default {
 					samePitch: "对相同音高的连续事件分别控制（音MAD和人力模式）",
 					differentSyllables: "对不同音节的连续事件分别控制（人力模式）",
 				},
+				stepAria: "第{{step}}步，共{{frames}}步",
 				forceStretch: "正在使用的$t(titles.prve, { 'count': {{count}} })中包含时间类的效果，这会导致在这些效果下拉伸将被强制设定为“$t(stream.stretch.flexingAndExtending)”，而不受你的设置控制",
 			},
 			pixelScaling: {
@@ -1028,11 +1065,20 @@ export default {
 				disableYtp: "禁用YTP",
 				gotoYtp: "转到YTP",
 			},
+			operationRecord: {
+				title: "暂无操作记录",
+				details: "你可以切换阵列模式到{{fixed}}来对每一个单元格进行更细致的调整",
+			},
 		},
 		menu: {
 			delete: "删除(&D)",
 			moveForward: "往前挪(&F)",
 			moveBackward: "往后挪(&B)",
+			grid: {
+				columnWidth: "列宽(&W)",
+				rowHeight: "行高(&H)",
+				span: "跨列/行(&S)",
+			},
 		},
 		aria: {
 			navMenu: "导航菜单",

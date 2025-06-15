@@ -120,6 +120,7 @@ export default {
 		topPriority: "最初に {{item}}",
 		browse: "検索",
 		ok: "OK",
+		close: "閉じる",
 		descending: "降順",
 		ascending: "昇順",
 		view: "表示",
@@ -130,6 +131,12 @@ export default {
 		increase: "増加",
 		decrease: "減らす",
 		duration: "期間",
+		preview: "プレビュー",
+		width: "Width",
+		height: "高さ",
+		type: "タイプ",
+		deleteSelection: "選択を削除",
+		all: "すべて",
 		infoBar: {
 			warning: "警告",
 		},
@@ -217,7 +224,6 @@ export default {
 			channel: "チャンネル",
 		},
 		stream: {
-			preview: "プレビュー",
 			stretch: {
 				_: "ストレッチ",
 				noStretching: "ストレッチなし",
@@ -360,11 +366,25 @@ export default {
 			grid: {
 				array: "行列",
 				square: "正方形（正方形）",
+				fixedColumns: "固定列",
+				fixedRows: "固定行",
 				min: "最小",
 				max: "最大値",
 				transpose: "入れ替え",
 				numberOfSelectedTracks: "選択したトラックの数",
 				fastFill: "Fast fill",
+				columnWidth: "列の幅",
+				rowHeight: "行の高さ",
+				span: "Span",
+				columnSpan: "列の間隔",
+				rowSpan: "行の間隔",
+				direction: {
+					_: "方向",
+					lrTb: "水平方向",
+					tbLr: "垂直方向",
+					rlTb: "水平方向に反転",
+					tbRl: "垂直方向に反転",
+				},
 				fit: {
 					_: "合わせる",
 					cover: "カバー",
@@ -381,8 +401,15 @@ export default {
 						even: "偶数",
 						odd: "奇数行",
 					},
+					checkerboard: {
+						_: "チェッカーボードのスタイル",
+						odd: "奇数平行正方形（奇数）",
+						even: "均等の正方形（均等）を示します。",
+					},
 				},
 				padding: "Padding",
+				operationRecord: "操作記録",
+				operationRecord_short: "操作",
 				column: "列",
 				row: "行",
 			},
@@ -875,7 +902,14 @@ export default {
 				_: "YTPMVの創作において、レイアウトと構図設計は視覚論理の核心部分である。その主な目標は、動的な構図を通じて多源と音楽のリズムを深く融合させることで、混乱や衝撃をもたらすだけでなく、視覚効果の可読性を維持することです。YTPMVのために良い視覚レイアウトを作る方法を知っておくと、想像以上に面白くなります。\n視覚の中核として、メロディーサンプルに対応するソースは、存在感を高めるために、拡大、カバー、または高コントラストの色を与える必要があります。次に、動的階層管理を使用して、主要要素と副次的要素を区別します。例えば、背景ソースは、主導的にならないように透明度を下げることができます。非線形配置を試み、従来のメッシュレイアウトを打破し、ランダムスタック、変位オーバーラップ、またはその他の技術を使用して「情報オーバーロード」の視覚張力を模倣することができます。いくつかの要素を繰り返すことで隠れた順序を確立し、局所的な突然変異を加えることで驚きを作り出す。たとえば、アバタを視覚アンカーとして繰り返しますが、表示されるたびに異なる効果が重畳されます。\nYTPMVのレイアウトと構図設計は本質的に「制御されたカオス」であり、比較と整列などの基本設計原則を通じてコンテンツ内部構造を付与する。この設計には技術が必要であるだけでなく、創作においても文化美学の直観的把握に依存し、最終的には「秩序無秩序」という独特の体験を実現した。",
 				grid: {
 					square: "トラック数に応じて、2×2、3×3などの標準グリッドレイアウトを作成します。",
-					custom: "グリッドレイアウトの列と行をカスタマイズします。行は列に自動的に適応し、その逆も同様です。",
+					fixedColumns: "グリッドレイアウト内の固定列数をカスタマイズし、行は列に自動的に適応します。",
+					fixedRows: "グリッドレイアウト内の固定行数をカスタマイズし、列は列に自動的に適応します。",
+					direction: {
+						lrTb: "左から右へ、上から下へ",
+						tbLr: "上から下へ、そして左から右へ",
+						rlTb: "右から左へ、上から下へ",
+						tbRl: "上から下へ、そして右から左へ",
+					},
 					fit: {
 						_: "トラックボックス内にフィットしながら、アスペクト比を維持するようにクリップのサイズを変更します",
 						cover: "レールボックス全体を埋めるために両側をトリミングすると隙間がなくなりますが、視野から両側が消えます\n（別名ビデオフレームの「画面移動とスキャン」およびWindows背景設定の「塗りつぶし」）",
@@ -886,6 +920,8 @@ export default {
 						vFlip: "パリティパターンの行を反転させてトラックをミラーする",
 					},
 					padding: "トラック ボックスの内側の余白を他のボックスとあまり混雑しないように調整します。",
+					previewAria: "{{columnIndex}}の列 {{rowIndex}} 、 {{columnCount}}-column の行 {{rowCount}}-row グリッドにあるトラック",
+					squareCannotUseTheseFeatures: "次の機能を使用するには、配列モードを {{fixed}}に切り替えてください",
 				},
 				box3d: {
 					deleteTracks: "技術的な制限により、選択したトラックは直接移動できません。 現在、新しいトラックを作成し、クリップを自動的に移行できますが、トラックの動き、エフェクト、その他は変更できません。 後で自分で移行する必要があります。元のトラックを削除するかどうかを決めることができます。新しく追加されたトラックは影響を受けません。",
@@ -981,6 +1017,7 @@ export default {
 					samePitch: "YTPMVまたはSentence Mixingモードでは、同じピッチの連続イベントのコントロールを分離します。",
 					differentSyllables: "文混合モードでは、異なる音節の連続したイベントのコントロールを分離します。",
 				},
+				stepAria: "{{step}} のステップ {{frames}}",
 				forceStretch: "使用中の$t(titles.prve, { 'count': {{count}} })にはタイムクラスの効果が含まれています。これにより、これらの効果の下でストレッチが設定制御されずに「$t(stream.stretch.flexingAndExtending, nowrapPerWord)」に強制的に設定されます。",
 			},
 			pixelScaling: {
@@ -1028,11 +1065,20 @@ export default {
 				disableYtp: "YTPを無効にする",
 				gotoYtp: "YTPに移動",
 			},
+			operationRecord: {
+				title: "操作記録がありません",
+				details: "配列モードを {{fixed}} に切り替えて、各セルをより詳細に調整することができます。",
+			},
 		},
 		menu: {
 			delete: "削除(&D)",
 			moveForward: "前に移動(&F)",
 			moveBackward: "後方に移動(&B)",
+			grid: {
+				columnWidth: "Column &width",
+				rowHeight: "行の高さ(&H)",
+				span: "スパン(&S)",
+			},
 		},
 		aria: {
 			navMenu: "Navigation menu",

@@ -375,11 +375,11 @@ export default {
 			grid: {
 				array: "Array",
 				square: "Square",
-				fixedColumns: "Fixed columns",
-				fixedRows: "Fixed rows",
-				column: "Column",
+				fixedColumns: "Fixed columns", // Fixed number of columns, not fixed column position.
+				fixedRows: "Fixed rows", // Fixed number of rows, not fixed row position.
+				column: "Column", // Number of columns.
 				column_other: "Columns",
-				row: "Row",
+				row: "Row", // Number of rows.
 				row_other: "Rows",
 				min: "Minimum",
 				max: "Maximum",
@@ -388,15 +388,15 @@ export default {
 				fastFill: "Fast fill",
 				columnWidth: "Column width",
 				rowHeight: "Row height",
-				span: "Span",
+				span: "Span", // Column / row span.
 				columnSpan: "Column span",
 				rowSpan: "Row span",
 				direction: {
 					_: "Direction",
-					lrTb: "Horizontal",
-					tbLr: "Vertical",
-					rlTb: "Reverse horizontal",
-					tbRl: "Reverse vertical",
+					lrTb: "Horizontal", // Writing from left to right, then from top to bottom.
+					tbLr: "Vertical", // Writing from top to bottom, then from left to right.
+					rlTb: "Reverse horizontal", // Writing from right to left, then from top to bottom.
+					tbRl: "Reverse vertical", // Writing from top to bottom, then from right to left.
 				},
 				fit: {
 					_: "Fit",
@@ -422,7 +422,7 @@ export default {
 				},
 				padding: "Padding",
 				operationRecord: "Operation records",
-				operationRecord_short: "Operations",
+				operationRecord_short: "Operations", // This is a shorter name of “Operation records”, if that name is short enough in your language, just copy and paste the same translation as that string.
 			},
 			box3d: {
 				deleteTracks: "Delete original tracks",

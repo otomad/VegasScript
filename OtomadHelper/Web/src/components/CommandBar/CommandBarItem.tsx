@@ -45,7 +45,8 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 
 	useOnFormKeyDown(buttonEl, { parent: ".command-bar", item: ".command-bar-item", focus: "button", disableUpDown: true });
 
-	const tooltip = iconOnly || altCaption ? <Tooltip.Content title={caption}>{details}</Tooltip.Content> : details;
+	const tooltip =
+		iconOnly || altCaption || !children && tooNarrow ? !details ? caption : <Tooltip.Content title={caption}>{details}</Tooltip.Content> : details;
 	const button = (
 		<ClickOnSameElement
 			onClick={e => { if (hovering && checkIsMouse(e) || !children) { onClick?.(e); setOn?.(on => !on); } showFlyout(); }}

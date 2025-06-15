@@ -120,6 +120,7 @@ export default {
 		topPriority: "crwdns3446:0{{item}}crwdne3446:0",
 		browse: "crwdns3000:0crwdne3000:0",
 		ok: "crwdns3048:0crwdne3048:0",
+		close: "crwdns4050:0crwdne4050:0",
 		descending: "crwdns3240:0crwdne3240:0",
 		ascending: "crwdns3242:0crwdne3242:0",
 		view: "crwdns3244:0crwdne3244:0",
@@ -130,6 +131,12 @@ export default {
 		increase: "crwdns3931:0crwdne3931:0",
 		decrease: "crwdns3933:0crwdne3933:0",
 		duration: "crwdns4010:0crwdne4010:0",
+		preview: "crwdns4052:0crwdne4052:0",
+		width: "crwdns4054:0crwdne4054:0",
+		height: "crwdns4056:0crwdne4056:0",
+		type: "crwdns4058:0crwdne4058:0",
+		deleteSelection: "crwdns4060:0crwdne4060:0",
+		all: "crwdns4062:0crwdne4062:0",
 		infoBar: {
 			warning: "crwdns2170:0crwdne2170:0",
 		},
@@ -217,7 +224,6 @@ export default {
 			channel: "crwdns3252:5crwdne3252:5",
 		},
 		stream: {
-			preview: "crwdns1776:0crwdne1776:0",
 			stretch: {
 				_: "crwdns1778:0crwdne1778:0",
 				noStretching: "crwdns1780:0crwdne1780:0",
@@ -360,11 +366,25 @@ export default {
 			grid: {
 				array: "crwdns3256:0crwdne3256:0",
 				square: "crwdns3258:0crwdne3258:0",
+				fixedColumns: "crwdns4064:0crwdne4064:0",
+				fixedRows: "crwdns4066:0crwdne4066:0",
 				min: "crwdns3378:0crwdne3378:0",
 				max: "crwdns3380:0crwdne3380:0",
 				transpose: "crwdns3382:0crwdne3382:0",
 				numberOfSelectedTracks: "crwdns3384:0crwdne3384:0",
 				fastFill: "crwdns3386:0crwdne3386:0",
+				columnWidth: "crwdns4068:0crwdne4068:0",
+				rowHeight: "crwdns4070:0crwdne4070:0",
+				span: "crwdns4072:0crwdne4072:0",
+				columnSpan: "crwdns4074:0crwdne4074:0",
+				rowSpan: "crwdns4076:0crwdne4076:0",
+				direction: {
+					_: "crwdns4078:0crwdne4078:0",
+					lrTb: "crwdns4080:0crwdne4080:0",
+					tbLr: "crwdns4082:0crwdne4082:0",
+					rlTb: "crwdns4084:0crwdne4084:0",
+					tbRl: "crwdns4086:0crwdne4086:0",
+				},
 				fit: {
 					_: "crwdns3268:0crwdne3268:0",
 					cover: "crwdns3270:0crwdne3270:0",
@@ -381,8 +401,15 @@ export default {
 						even: "crwdns3280:0crwdne3280:0",
 						odd: "crwdns3282:0crwdne3282:0",
 					},
+					checkerboard: {
+						_: "crwdns4088:0crwdne4088:0",
+						odd: "crwdns4090:0crwdne4090:0",
+						even: "crwdns4092:0crwdne4092:0",
+					},
 				},
 				padding: "crwdns3284:0crwdne3284:0",
+				operationRecord: "crwdns4094:0crwdne4094:0",
+				operationRecord_short: "crwdns4096:0crwdne4096:0",
 				column: "crwdns3260:5crwdne3260:5",
 				row: "crwdns3262:5crwdne3262:5",
 			},
@@ -874,8 +901,15 @@ export default {
 			track: {
 				_: "crwdns3874:0crwdne3874:0",
 				grid: {
-					square: "crwdns3374:0crwdne3374:0",
-					custom: "crwdns3376:0crwdne3376:0",
+					square: "crwdns4098:0crwdne4098:0",
+					fixedColumns: "crwdns4100:0crwdne4100:0",
+					fixedRows: "crwdns4102:0crwdne4102:0",
+					direction: {
+						lrTb: "crwdns4104:0crwdne4104:0",
+						tbLr: "crwdns4106:0crwdne4106:0",
+						rlTb: "crwdns4108:0crwdne4108:0",
+						tbRl: "crwdns4110:0crwdne4110:0",
+					},
 					fit: {
 						_: "crwdns3316:0crwdne3316:0",
 						cover: "crwdns3368:0crwdne3368:0",
@@ -886,6 +920,8 @@ export default {
 						vFlip: "crwdns3324:0crwdne3324:0",
 					},
 					padding: "crwdns3326:0crwdne3326:0",
+					previewAria: "crwdns4112:0{{columnIndex}}crwdnd4112:0{{rowIndex}}crwdnd4112:0{{columnCount}}crwdnd4112:0{{rowCount}}crwdne4112:0",
+					squareCannotUseTheseFeatures: "crwdns4114:0{{fixed}}crwdne4114:0",
 				},
 				box3d: {
 					deleteTracks: "crwdns3820:0crwdne3820:0",
@@ -981,6 +1017,7 @@ export default {
 					samePitch: "crwdns2918:0crwdne2918:0",
 					differentSyllables: "crwdns2920:0crwdne2920:0",
 				},
+				stepAria: "crwdns4116:0{{step}}crwdnd4116:0{{frames}}crwdne4116:0",
 				forceStretch: "crwdns3674:5$t(titles.prve, { 'count': {{count}} })crwdnd3674:5$t(stream.stretch.flexingAndExtending, nowrapPerWord)crwdne3674:5",
 			},
 			pixelScaling: {
@@ -1028,11 +1065,20 @@ export default {
 				disableYtp: "crwdns2142:0crwdne2142:0",
 				gotoYtp: "crwdns2144:0crwdne2144:0",
 			},
+			operationRecord: {
+				title: "crwdns4118:0crwdne4118:0",
+				details: "crwdns4120:0{{fixed}}crwdne4120:0",
+			},
 		},
 		menu: {
 			delete: "crwdns3046:0crwdne3046:0",
 			moveForward: "crwdns3935:0crwdne3935:0",
 			moveBackward: "crwdns3937:0crwdne3937:0",
+			grid: {
+				columnWidth: "crwdns4122:0crwdne4122:0",
+				rowHeight: "crwdns4124:0crwdne4124:0",
+				span: "crwdns4126:0crwdne4126:0",
+			},
 		},
 		aria: {
 			navMenu: "crwdns3939:0crwdne3939:0",
