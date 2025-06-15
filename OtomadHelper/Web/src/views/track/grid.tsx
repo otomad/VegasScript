@@ -59,14 +59,31 @@ const PreviewGrid = styled.div`
 
 		&.h-flip {
 			scale: -1 1;
+
+			&::after {
+				right: var(--margin);
+				left: unset;
+			}
 		}
 
 		&.v-flip {
 			scale: 1 -1;
+
+			&::after {
+				top: var(--margin);
+				bottom: unset;
+			}
 		}
 
 		&.h-flip.v-flip {
 			scale: -1 -1;
+
+			&::after {
+				top: var(--margin);
+				right: var(--margin);
+				bottom: unset;
+				left: unset;
+			}
 		}
 
 		&:active {
@@ -93,6 +110,7 @@ const PreviewGrid = styled.div`
 			font-size: 10px;
 			text-align: center;
 			background-color: ${c("fill-color-system-solid-neutral-background", 75)};
+			scale: inherit;
 		}
 	}
 
@@ -299,7 +317,7 @@ export default function Grid() {
 	const id = useUniqueId("grid-view"), fieldAnchorName = "--" + id + "-field";
 	const [fastFillShown, setFastFillShown] = useState(false);
 	const columnInputRef = useDomRef<"input">(), rowInputRef = useDomRef<"input">();
-	const [lastCrossLineIndex, findSpan] = useMemo(() => gridSpanHelper(count, fixedColumns ? columns : rows, square ? [] : spans), [square, count, fixedColumns ? columns : rows, spans]);
+	const { maxSameLineLength, lastCrossLineIndex, find: findSpan } = useMemo(() => gridSpanHelper(count, fixedColumns ? columns : rows, square ? [] : spans), [square, count, fixedColumns ? columns : rows, spans]);
 	// const autoRows = Math.ceil(count / columns), autoColumns = Math.ceil(count / rows);
 	const autoRows = lastCrossLineIndex, autoColumns = lastCrossLineIndex;
 	const [flyoutEditor, setFlyoutEditor] = useState<"span" | "width" | "height">(), previousFlyoutEditor = useDeferredValue(flyoutEditor), _flyoutEditor = flyoutEditor || previousFlyoutEditor;
@@ -355,7 +373,7 @@ export default function Grid() {
 		};
 		return [currentValue, type, setColumnRow] as const;
 	}, [flyoutEditorColumnRow, columnWidths, rowHeights, count, columns, autoRows]);
-	const { gridTemplateColumns, gridTemplateRows, rulerColumns, rulerRows } = useGridTemplateCss(square ? [] : columnWidths, square ? [] : rowHeights, square ? radicand : columns, square ? radicand : autoRows, verticalDirection, projectWidth, projectHeight);
+	const { gridTemplateColumns, gridTemplateRows, rulerColumns, rulerRows } = useGridTemplateCss(square ? [] : columnWidths, square ? [] : rowHeights, square ? radicand : columns, square ? radicand : autoRows, verticalDirection, projectWidth, projectHeight, maxSameLineLength);
 	const [showOperationRecordDialog, setShowOperationRecordDialog] = useState(false);
 	const operationRecordSelection = useState<string[]>([]);
 
@@ -467,7 +485,7 @@ export default function Grid() {
 				<PreviewGridContainer>
 					<PreviewGrid
 						style={{
-							"--grid-template-count": Math.min(square ? radicand : fixedColumns ? columns : rows, count),
+							"--grid-template-count": Math.min(square ? radicand : fixedColumns ? columns : rows, maxSameLineLength),
 							"--padding": padding[0] + "px",
 							"--fit": fit[0],
 							"--project-width": projectWidth,
@@ -482,26 +500,26 @@ export default function Grid() {
 						dir={rtlDirection ? "rtl" : "ltr"}
 					>
 						{forMap(count, i => {
-							const divisor = square ? radicand : columns;
-							const column = i % divisor, row = i / divisor | 0;
+							// const divisor = square ? radicand : columns;
+							// const column = i % divisor, row = i / divisor | 0;
 							let [colStart, colEnd, colSpan, rowStart, rowEnd, rowSpan] = findSpan(i);
 							if (verticalDirection) [colStart, colEnd, colSpan, rowStart, rowEnd, rowSpan] = [rowStart, rowEnd, rowSpan, colStart, colEnd, colSpan];
 							const getSpanCss = (value?: number) => value && value > 1 ? `span ${value}` : undefined;
 							const thisCell = [colStart - 1, rowStart - 1].shouldReversed(verticalDirection);
 							return (
-								<div className="padding-wrapper" key={i} style={{ gridColumn: getSpanCss(colSpan), gridRow: getSpanCss(rowSpan) }}>
+								<div className="padding-wrapper" key={`${colStart},${rowStart}`} style={{ gridColumn: getSpanCss(colSpan), gridRow: getSpanCss(rowSpan) }}>
 									<div
 										className={[{
 											hFlip:
-												mirrorEdgesHFlip[0] === "even" && column % 2 === 1 ||
-												mirrorEdgesHFlip[0] === "odd" && column % 2 === 0 ||
-												mirrorEdgesHFlip[0] === "odd_checker" && (column + row) % 2 === 1 ||
-												mirrorEdgesHFlip[0] === "even_checker" && (column + row) % 2 === 0,
+												mirrorEdgesHFlip[0] === "even" && colStart % 2 === 0 ||
+												mirrorEdgesHFlip[0] === "odd" && colStart % 2 === 1 ||
+												mirrorEdgesHFlip[0] === "odd_checker" && (colStart + rowStart) % 2 === 1 ||
+												mirrorEdgesHFlip[0] === "even_checker" && (colStart + rowStart) % 2 === 0,
 											vFlip:
-												mirrorEdgesVFlip[0] === "even" && row % 2 === 1 ||
-												mirrorEdgesVFlip[0] === "odd" && row % 2 === 0 ||
-												mirrorEdgesVFlip[0] === "odd_checker" && (column + row) % 2 === 1 ||
-												mirrorEdgesVFlip[0] === "even_checker" && (column + row) % 2 === 0,
+												mirrorEdgesVFlip[0] === "even" && rowStart % 2 === 0 ||
+												mirrorEdgesVFlip[0] === "odd" && rowStart % 2 === 1 ||
+												mirrorEdgesVFlip[0] === "odd_checker" && (colStart + rowStart) % 2 === 1 ||
+												mirrorEdgesVFlip[0] === "even_checker" && (colStart + rowStart) % 2 === 0,
 											highlight:
 												flyoutEditor === "span" && flyoutEditorCell?.[0] === thisCell[0] && flyoutEditorCell[1] === thisCell[1] ||
 												flyoutEditor === "width" && flyoutEditorColumnRow?.[1] === "column" && flyoutEditorColumnRow[0] === colEnd - 1 ||
@@ -750,22 +768,25 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 				y++;
 			}
 	}
+	const maxSameLineLength = Math.max(...new Array(Math.ceil(array.length / thisLineLength)).fill(undefined).map((_, i) => array.slice(i * thisLineLength, i * thisLineLength + thisLineLength)).map(i => i.findLastIndex(item => item !== undefined) + 1));
 	// const array2d = new Array(Math.ceil(array.length / thisLineLength)).fill(undefined).map((_, i) => array.slice(i * thisLineLength, i * thisLineLength + thisLineLength));
 	// console.table(array2d);
-	const lastCrossLineIndex = (array.findLastIndex(Boolean) / thisLineLength | 0) + 1;
-	return [
+	const lastCrossLineIndex = (array.findLastIndex(index => index !== undefined) / thisLineLength | 0) + 1;
+	return {
+		maxSameLineLength,
 		lastCrossLineIndex,
-		function find(index: number) {
+		find(index: number) {
 			if (index >= count) return [];
 			const first = array.indexOf(index), last = array.lastIndexOf(index);
 			const sameLineStart = first % thisLineLength, sameLineEnd = last % thisLineLength, crossLineStart = first / thisLineLength | 0, crossLineEnd = last / thisLineLength | 0;
 			const sameLineSpan = sameLineEnd - sameLineStart + 1, crossLineSpan = crossLineEnd - crossLineStart + 1;
 			return [sameLineStart + 1, sameLineEnd + 1, sameLineSpan, crossLineStart + 1, crossLineEnd + 1, crossLineSpan] as const;
 		},
-	] as const;
+	};
 }
 
-function useGridTemplateCss(columnWidths: WebMessageEvents.GridColumnWidthRowHeightItem[], rowHeights: WebMessageEvents.GridColumnWidthRowHeightItem[], columns: number, rows: number, vertical: boolean, projectWidth: number, projectHeight: number) {
+function useGridTemplateCss(columnWidths: WebMessageEvents.GridColumnWidthRowHeightItem[], rowHeights: WebMessageEvents.GridColumnWidthRowHeightItem[], columns: number, rows: number, vertical: boolean, projectWidth: number, projectHeight: number, maxSameLineLength: number) {
+	columns = Math.min(columns, maxSameLineLength);
 	if (vertical) [columns, rows] = [rows, columns];
 	const getValue = (value: number, type: WebMessageEvents.GridUnitType, specified: "width" | "height") =>
 		type === "auto" ? "auto" : type === "star" ? value + "fr" : `calc(${value} / ${specified === "width" ? projectWidth : projectHeight} * 100cq${specified === "width" ? "w" : "h"})`;
