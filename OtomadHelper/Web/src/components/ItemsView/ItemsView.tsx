@@ -67,7 +67,7 @@ const StyledItemsView = styled.div<{
 export default function ItemsView<
 	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, readOnly, "aria-label": ariaLabel, ...htmlAttrs }: FCP<{
+>({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, readOnly, emptyState, "aria-label": ariaLabel, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/**
@@ -101,6 +101,8 @@ export default function ItemsView<
 	autoFill?: boolean;
 	/** Make items cannot be selected? */
 	readOnly?: boolean;
+	/** Show something while nothing in the items. */
+	emptyState?: ReactNode;
 }, "div">) {
 	if (itemWidth === "square") itemWidth = GRID_VIEW_ITEM_HEIGHT;
 
@@ -158,6 +160,7 @@ export default function ItemsView<
 						</CssTransition>
 					);
 				});
+				if (!items?.length && emptyState) return emptyState;
 				if (!transition) return items;
 				else return <TransitionGroup component={null}>{items}</TransitionGroup>;
 			})()}

@@ -1,3 +1,5 @@
+import { fillColorAccentOpacity } from "styles/colors";
+
 const isPressed = ":is(:active, [data-pressed]):not(:has(button:active))", notPressedOrDisabled = ":not(:active, [data-pressed], [disabled])";
 const inlinePadding = 11;
 
@@ -151,13 +153,13 @@ export /* @internal */ const StyledButton = styled.button<{
 		}
 
 		&:hover {
-			--border-accent-color: ${c("fill-color", 90)};
-			background-color: ${c("fill-color", 90)};
+			--border-accent-color: ${c("fill-color", fillColorAccentOpacity.secondary)};
+			background-color: ${c("fill-color", fillColorAccentOpacity.secondary)};
 		}
 
 		&${isPressed} {
-			--border-accent-color: ${c("fill-color", 80)};
-			background-color: ${c("fill-color", 80)};
+			--border-accent-color: ${c("fill-color", fillColorAccentOpacity.tertiary)};
+			background-color: ${c("fill-color", fillColorAccentOpacity.tertiary)};
 		}
 
 		&:not(.subtle)[disabled] {

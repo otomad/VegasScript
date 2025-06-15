@@ -1,3 +1,8 @@
+const Content = styled.div``;
+const Title = styled.h2``;
+const Body = styled.article``;
+const ButtonGrid = styled.div``;
+
 const StyledContentDialog = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -12,7 +17,7 @@ const StyledContentDialog = styled.div`
 		0 32px 64px ${c("black", 19)},
 		0 2px 21px ${c("black", 15)};
 
-	> .content {
+	${Content} {
 		display: flex;
 		flex-direction: column;
 		gap: 12px;
@@ -23,16 +28,16 @@ const StyledContentDialog = styled.div`
 			${styles.mixins.hideIfEmpty()};
 		}
 
-		.title {
+		${Title} {
 			${styles.effects.text.subtitle};
 		}
 
-		.body {
+		${Body} {
 			${styles.effects.text.body};
 		}
 	}
 
-	.button-grid {
+	${ButtonGrid} {
 		${styles.mixins.hideIfEmpty()};
 		display: flex;
 		gap: 8px;
@@ -100,13 +105,13 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 							onClick={e => e.stopPropagation()}
 							{...htmlAttrs}
 						>
-							<div className="content">
-								<div className="title">{title}</div>
-								<div className="body">{children}</div>
-							</div>
-							<div className="button-grid">
+							<Content>
+								<Title>{title}</Title>
+								<Body>{children}</Body>
+							</Content>
+							<ButtonGrid>
 								{typeof buttons === "function" ? buttons(close) : buttons}
-							</div>
+							</ButtonGrid>
 						</StyledContentDialog>
 					</Mask>
 				</ClickOnSameElement>

@@ -1,4 +1,5 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import ApprovalsAppIcon from "assets/svg/approvals_app.svg?react";
 
 export /* @internal */ const arrayTypes = ["square", "fixed"] as const;
 export /* @internal */ const directionTypes = ["lr-tb", "tb-lr", "rl-tb", "tb-rl"] as const;
@@ -317,20 +318,26 @@ export default function Grid() {
 	const id = useUniqueId("grid-view"), fieldAnchorName = "--" + id + "-field";
 	const [fastFillShown, setFastFillShown] = useState(false);
 	const columnInputRef = useDomRef<"input">(), rowInputRef = useDomRef<"input">();
+	const fixedColumnsOrFixedRows = t.track.grid[horizontalDirection ? "fixedColumns" : "fixedRows"];
 	const { maxSameLineLength, lastCrossLineIndex, find: findSpan } = useMemo(() => gridSpanHelper(count, fixedColumns ? columns : rows, square ? [] : spans), [square, count, fixedColumns ? columns : rows, spans]);
 	// const autoRows = Math.ceil(count / columns), autoColumns = Math.ceil(count / rows);
 	const autoRows = lastCrossLineIndex, autoColumns = lastCrossLineIndex;
 	const [flyoutEditor, setFlyoutEditor] = useState<"span" | "width" | "height">(), previousFlyoutEditor = useDeferredValue(flyoutEditor), _flyoutEditor = flyoutEditor || previousFlyoutEditor;
 	const [flyoutEditorCell, setFlyoutEditorCell] = useState<[number, number]>();
 	const [spanX, spanY, setSpanX, setSpanY] = useMemo(() => {
-		let x = 1, y = 1, itemIndex = -1;
-		for (const [index, span] of spans.entries())
-			if (span.sameLine === flyoutEditorCell?.[0] && span.crossLine === flyoutEditorCell[1]) {
-				[x, y, itemIndex] = [span.sameLineSpan || 1, span.crossLineSpan || 1, index];
-				break;
-			}
+		const getItem = (draft = spans) => {
+			let x = 1, y = 1, itemIndex = -1;
+			for (const [index, span] of draft.entries())
+				if (span.sameLine === flyoutEditorCell?.[0] && span.crossLine === flyoutEditorCell[1]) {
+					[x, y, itemIndex] = [span.sameLineSpan || 1, span.crossLineSpan || 1, index];
+					break;
+				}
+			return { x, y, itemIndex };
+		};
+		const { x, y } = getItem();
 		const setSpan = (value: React.SetStateAction<number>, axis: "column" | "row") => setSpans(produce(draft => {
 			if (!flyoutEditorCell) return;
+			const { x, y, itemIndex } = getItem(draft);
 			if (typeof value === "function") value = value(axis === "column" ? x : y);
 			const [newX, newY] = axis === "column" ? [value, y] : [x, value];
 			if (~itemIndex)
@@ -348,18 +355,21 @@ export default function Grid() {
 	const [flyoutEditorColumnRow, setFlyoutEditorColumnRow] = useState<[number, "column" | "row"]>();
 	const [columnRowValue, columnRowType, setColumnRow] = useMemo(() => {
 		const items = flyoutEditorColumnRow?.[1] === "column" ? columnWidths : rowHeights;
-		const itemIndex = items.findIndex(item => item.index === flyoutEditorColumnRow?.[0]);
-		const { value: currentValue, type } = items[itemIndex] ?? { value: 1, type: "star" };
+		const getItem = (draft = items) => {
+			const itemIndex = draft.findIndex(item => item.index === flyoutEditorColumnRow?.[0]);
+			const { value, type } = draft[itemIndex] ?? { value: 1, type: "star" };
+			return { currentValue: value, type, itemIndex };
+		};
+		const { currentValue, type } = getItem();
 		const setColumnRow: {
 			(value: React.SetStateAction<number>): void;
 			(type: WebMessageEvents.GridUnitType): void;
 		} = value => {
 			if (!flyoutEditorColumnRow) return;
 			const setState = flyoutEditorColumnRow[1] === "column" ? setColumnWidths : setRowHeights;
-			if (typeof value === "function") value = value(currentValue);
 			setState(produce(draft => {
-				const itemIndex = draft.findIndex(item => item.index === flyoutEditorColumnRow?.[0]);
-				const { value: currentValue, type } = draft[itemIndex] ?? { value: 1, type: "star" }; // Values outside are not updated.
+				const { currentValue, type, itemIndex } = getItem(draft); // Values outside are not updated.
+				if (typeof value === "function") value = value(currentValue);
 				const [newValue, newType] = typeof value === "number" ? [value, type] : [currentValue, value];
 				if (~itemIndex)
 					[draft[itemIndex].value, draft[itemIndex].type] = [newValue, newType];
@@ -375,7 +385,9 @@ export default function Grid() {
 	}, [flyoutEditorColumnRow, columnWidths, rowHeights, count, columns, autoRows]);
 	const { gridTemplateColumns, gridTemplateRows, rulerColumns, rulerRows } = useGridTemplateCss(square ? [] : columnWidths, square ? [] : rowHeights, square ? radicand : columns, square ? radicand : autoRows, verticalDirection, projectWidth, projectHeight, maxSameLineLength);
 	const [showOperationRecordDialog, setShowOperationRecordDialog] = useState(false);
-	const operationRecordSelection = useState<string[]>([]);
+	const [operationRecordSelection, setOperationRecordSelection] = useState<string[]>([]);
+	const [operationRecordFilter, setOperationRecordFilter] = useState("all");
+	const [operationRecordFilterSpan, operationRecordFilterColumnWidth, operationRecordFilterRowHeight] = useMemo(() => [operationRecordFilter.in("all", "span"), operationRecordFilter.in("all", "columnWidth"), operationRecordFilter.in("all", "rowHeight")], [operationRecordFilter]);
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
 
@@ -389,27 +401,62 @@ export default function Grid() {
 	const closeFlyoutEditor = () => setFlyoutEditor(undefined);
 	useEventListener(window, "keydown", e => flyoutEditor && e.code === "Escape" && closeFlyoutEditor(), undefined, [flyoutEditor]);
 	const resetRecords = () => { setSpans([]); setColumnWidths([]); setRowHeights([]); };
-	const deleteSelection = () => {
-		for (const selected of operationRecordSelection[0]) {
+
+	function deleteSelection() {
+		for (const selected of operationRecordSelection) {
 			let matched: string | undefined;
-			if ((matched = selected.match(/column-(\d+)/)?.[1]))
+			if (operationRecordFilterColumnWidth && (matched = selected.match(/column-(\d+)/)?.[1]))
 				setColumnWidths(produce(draft => draft.removeAt(draft.findIndex(({ index }) => index === +matched!))));
-			else if ((matched = selected.match(/row-(\d+)/)?.[1]))
+			else if (operationRecordFilterRowHeight && (matched = selected.match(/row-(\d+)/)?.[1]))
 				setRowHeights(produce(draft => draft.removeAt(draft.findIndex(({ index }) => index === +matched!))));
-			else {
+			else if (operationRecordFilterSpan && selected.includes(",")) {
 				const [column, row] = selected.split(",");
 				setSpans(produce(draft => draft.removeAt(draft.findIndex(({ sameLine, crossLine }) => sameLine === +column && crossLine === +row))));
 			}
 		}
-		operationRecordSelection[1]([]);
-	};
+		if (operationRecordFilter === "all")
+			setOperationRecordSelection([]);
+		else {
+			if (operationRecordFilterColumnWidth)
+				setOperationRecordSelection(draft => draft.filter(item => !item.startsWith("column-")));
+			if (operationRecordFilterRowHeight)
+				setOperationRecordSelection(draft => draft.filter(item => !item.startsWith("row-")));
+			if (operationRecordFilterSpan)
+				setOperationRecordSelection(draft => draft.filter(item => !item.includes(",")));
+		}
+	}
+
+	function cleanUpInvalidOperationItems() {
+		const keyPool = new Set<string>();
+		setSpans(produce(draft => {
+			for (let i = draft.length - 1; i >= 0; i--) {
+				const item = draft[i], key = gridItemToKey(item);
+				if (keyPool.has(key) || item.sameLineSpan === 1 && item.crossLineSpan === 1) draft.removeAt(i);
+				else keyPool.add(key);
+			}
+		}));
+		setColumnWidths(produce(draft => {
+			for (let i = draft.length - 1; i >= 0; i--) {
+				const item = draft[i], key = gridItemToKey(item, "column");
+				if (keyPool.has(key) || item.value === 1 && item.type === "star") draft.removeAt(i);
+				else keyPool.add(key);
+			}
+		}));
+		setRowHeights(produce(draft => {
+			for (let i = draft.length - 1; i >= 0; i--) {
+				const item = draft[i], key = gridItemToKey(item, "row");
+				if (keyPool.has(key) || item.value === 1 && item.type === "star") draft.removeAt(i);
+				else keyPool.add(key);
+			}
+		}));
+	}
 
 	return (
 		<>
 			<StyledContainerPreview>
 				<CommandBar.Group>
 					<CommandBar position="right" autoCollapse>
-						<CommandBar.Item icon="history" onClick={() => setShowOperationRecordDialog(true)} caption={t.track.grid.operationRecord} altCaption={t({ context: "short" }).track.grid.operationRecord} />
+						<CommandBar.Item icon="approvals_app" onClick={() => { cleanUpInvalidOperationItems(); setShowOperationRecordDialog(true); }} caption={t.track.grid.operationRecord} altCaption={t({ context: "short" }).track.grid.operationRecord} />
 						<hr />
 						<CommandBar.Item
 							icon={square ? "grid" : "grid_kanban_vertical"}
@@ -535,7 +582,7 @@ export default function Grid() {
 										onMouseDown={e => e.button === 2 && makeFocusDiffusionEffect(e)}
 										onContextMenu={createContextMenu(([
 											...square ? [
-												{ label: t.descriptions.track.grid.squareCannotUseTheseFeatures({ fixed: t.track.grid[horizontalDirection ? "fixedColumns" : "fixedRows"] }) },
+												{ label: t.descriptions.track.grid.squareCannotUseTheseFeatures({ fixed: fixedColumnsOrFixedRows }) },
 												{ kind: "separator" },
 											] as const : [],
 											{ label: t.menu.grid.columnWidth, onClick() { setFlyoutEditor("width"); setFlyoutEditorColumnRow([colEnd - 1, "column"]); } },
@@ -681,10 +728,18 @@ export default function Grid() {
 					</>
 				)}
 			>
-				<ItemsView view="list" multiple current={operationRecordSelection}>
+				<Filter current={[operationRecordFilter, setOperationRecordFilter]}>
+					{(["all", "span", "columnWidth", "rowHeight"] as const).map(key => <Filter.Item key={key} id={key}>{key === "all" ? t.all : t.track.grid[key]}</Filter.Item>)}
+				</Filter>
+				<ItemsView
+					view="list"
+					multiple
+					current={[operationRecordSelection, setOperationRecordSelection]}
+					emptyState={<EmptyMessage icon={<ApprovalsAppIcon />} title={t.empty.operationRecord.title} details={t.empty.operationRecord.details({ fixed: fixedColumnsOrFixedRows })} style={{ marginBlock: "30px 0" }} />}
+				>
 					{[
-						...spans.map(span => (
-							<ItemsView.Item key={`${span.sameLine},${span.crossLine}`} id={`${span.sameLine},${span.crossLine}`}>
+						...!operationRecordFilterSpan ? [] : spans.map(span => (
+							<ItemsView.Item key={gridItemToKey(span)} id={gridItemToKey(span)}>
 								<OperationRecordItem>
 									{{
 										[t(1).track.grid.column]: (verticalDirection ? span.crossLine : span.sameLine) + 1,
@@ -695,8 +750,8 @@ export default function Grid() {
 								</OperationRecordItem>
 							</ItemsView.Item>
 						)),
-						...columnWidths.map(columnWidth => (
-							<ItemsView.Item key={`column-${columnWidth.index}`} id={`column-${columnWidth.index}`}>
+						...!operationRecordFilterColumnWidth ? [] : columnWidths.map(columnWidth => (
+							<ItemsView.Item key={gridItemToKey(columnWidth, "column")} id={gridItemToKey(columnWidth, "column")}>
 								<OperationRecordItem>
 									{{
 										[t(1).track.grid.column]: columnWidth.index,
@@ -706,8 +761,8 @@ export default function Grid() {
 								</OperationRecordItem>
 							</ItemsView.Item>
 						)),
-						...rowHeights.map(rowHeight => (
-							<ItemsView.Item key={`row-${rowHeight.index}`} id={`row-${rowHeight.index}`}>
+						...!operationRecordFilterRowHeight ? [] : rowHeights.map(rowHeight => (
+							<ItemsView.Item key={gridItemToKey(rowHeight, "row")} id={gridItemToKey(rowHeight, "row")}>
 								<OperationRecordItem>
 									{{
 										[t(1).track.grid.row]: rowHeight.index,
@@ -768,9 +823,9 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 				y++;
 			}
 	}
-	const maxSameLineLength = Math.max(...new Array(Math.ceil(array.length / thisLineLength)).fill(undefined).map((_, i) => array.slice(i * thisLineLength, i * thisLineLength + thisLineLength)).map(i => i.findLastIndex(item => item !== undefined) + 1));
-	// const array2d = new Array(Math.ceil(array.length / thisLineLength)).fill(undefined).map((_, i) => array.slice(i * thisLineLength, i * thisLineLength + thisLineLength));
+	const array2d = Array.from({ length: Math.ceil(array.length / thisLineLength) }, (_, i) => array.slice(i * thisLineLength, (i + 1) * thisLineLength));
 	// console.table(array2d);
+	const maxSameLineLength = Math.max(...array2d.map(i => i.findLastIndex(index => index !== undefined) + 1));
 	const lastCrossLineIndex = (array.findLastIndex(index => index !== undefined) / thisLineLength | 0) + 1;
 	return {
 		maxSameLineLength,
@@ -844,4 +899,13 @@ function OperationRecordItem({ children = {} }: { children?: Record<string, Any>
 			))}
 		</StyledOperationRecordItem>
 	);
+}
+
+function gridItemToKey(item: WebMessageEvents.GridSpanItem): `${number},${number}`;
+function gridItemToKey(item: WebMessageEvents.GridColumnWidthRowHeightItem, specified: "column"): `column-${number}`;
+function gridItemToKey(item: WebMessageEvents.GridColumnWidthRowHeightItem, specified: "row"): `row-${number}`;
+function gridItemToKey(item: WebMessageEvents.GridSpanItem | WebMessageEvents.GridColumnWidthRowHeightItem, specified?: "column" | "row") {
+	if ("sameLine" in item) return `${item.sameLine},${item.crossLine}`;
+	else if (specified === "column") return `column-${item.index}`;
+	else if (specified === "row") return `row-${item.index}`;
 }

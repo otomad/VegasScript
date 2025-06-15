@@ -1,5 +1,12 @@
 /* eslint-disable @stylistic/quote-props */
 
+export const fillColorAccentOpacity = {
+	secondary: 90,
+	tertiary: 80,
+} as const;
+
+const $c = c as (cssVarName: string, alpha?: number) => string; // Avoid type circular reference itself.
+
 const colors = {
 	"background-color": ["rgb(243, 243, 243)", "rgb(32, 32, 32)", "Canvas", "black"],
 	"foreground-color": ["rgba(0, 0, 0, 0.9)", "rgb(255, 255, 255)", "CanvasText"], // fill-color-text-primary
@@ -35,6 +42,8 @@ const colors = {
 	"fill-color-control-alt-tertiary": ["rgba(0, 0, 0, 0.06)", "rgba(255, 255, 255, 0.04)", "ButtonFace"],
 	"fill-color-control-alt-quarternary": ["rgba(0, 0, 0, 0.09)", "rgba(255, 255, 255, 0.07)", "ButtonFace"],
 	"fill-color-control-alt-disabled": ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)", "ButtonFace"],
+	"fill-color-accent-secondary": [$c("accent-color", fillColorAccentOpacity.secondary), $c("accent-color", fillColorAccentOpacity.secondary), "Highlight"],
+	"fill-color-accent-tertiary": [$c("accent-color", fillColorAccentOpacity.tertiary), $c("accent-color", fillColorAccentOpacity.tertiary), "Highlight"],
 	"fill-color-accent-disabled": ["rgba(0, 0, 0, 0.22)", "rgba(255, 255, 255, 0.16)", "GrayText"],
 	"fill-color-system-critical": ["rgb(196, 43, 28)", "rgb(255, 153, 164)", "InfoText"],
 	"fill-color-system-success": ["rgb(15, 123, 15)", "rgb(108, 203, 95)", "InfoText"],
@@ -107,6 +116,8 @@ const colors = {
 	"pressed-text-opacity": ["0.6063", "0.786"],
 	"disabled-text-opacity": ["0.3614", "0.3628"],
 } satisfies Record<string, [string, string] | [string, string, SystemColors] | [string, string, SystemColors, string]>;
+export type ColorNames = keyof typeof colors;
+export default colors;
 
 /**
  * @notdeprecated Respects color-scheme inherited from parent\
@@ -124,8 +135,6 @@ export const ifColorScheme = {
 	contrastButOverridden: ':not(html[data-scheme~="contrast"] [data-scheme]:not([data-scheme~="contrast"]) *)',
 } as const;
 
-export type ColorNames = keyof typeof colors;
-export default colors;
 export function globalColors() {
 	let css = "";
 	// Light, Dark, High Contrast, Black (AMOLED)

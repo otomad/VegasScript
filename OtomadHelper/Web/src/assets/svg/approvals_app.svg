@@ -1,0 +1,37 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+	<style>
+		@keyframes animate-svg_1666_192-rotation {
+			from {
+				transform: rotate(-135deg);
+			}
+		}
+
+		@keyframes animate-svg_1666_192-stroke-1 {
+			from {
+				stroke-dashoffset: 9.931544780731201px;
+				stroke-dasharray: 9.931544780731201px;
+			}
+
+			to {
+				stroke-dashoffset: 0;
+				stroke-dasharray: 9.931544780731201px;
+			}
+		}
+
+		.svg-approvals-app_1666_192-arrow-clockwise {
+			transform-origin: 7.5px 8.5px;
+			animation: animate-svg_1666_192-rotation 500ms cubic-bezier(0.05, 0.7, 0.1, 1) 0s both;
+		}
+
+		.svg-approvals-app_1666_192-checkmark {
+			animation: animate-svg_1666_192-stroke-1 1250ms 125ms both;
+			animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+			animation-timing-function: linear(0, 0.002, 0.01 3.6%, 0.034, 0.074 9.1%, 0.128 11.4%, 0.194 13.4%, 0.271 15%, 0.344 16.1%, 0.544, 0.66 20.6%, 0.717 22.4%, 0.765 24.6%, 0.808 27.3%, 0.845 30.4%, 0.883 35.1%, 0.916 40.6%, 0.942 47.2%, 0.963 55%, 0.979 64%, 0.991 74.4%, 0.998 86.4%, 1);
+		}
+	</style>
+	<g class="svg-approvals-app_1666_192-arrow-clockwise">
+		<path d="M14.5 8.5C14.5 12.366 11.366 15.5 7.5 15.5C3.63401 15.5 0.5 12.366 0.5 8.5C0.5 4.63401 3.63401 1.5 7.5 1.5C8.01487 1.5 8.51677 1.55559 9 1.66109" stroke-linecap="round" />
+		<path d="M7.5 -0.5L9.5 1.5L7.5 3.5" stroke-linecap="round" stroke-linejoin="round" />
+	</g>
+	<path d="M5 8.78516L6.65234 10.5L10.5 6.5" stroke-linecap="round" stroke-linejoin="round" class="svg-approvals-app_1666_192-checkmark" />
+</svg>

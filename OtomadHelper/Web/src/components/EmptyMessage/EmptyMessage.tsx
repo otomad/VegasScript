@@ -1,6 +1,8 @@
 import EmptyMessageTypical from "./EmptyMessageTypical";
 import EmptyMessageYtpDisabled from "./EmptyMessageYtpDisabled";
 
+const ICON_SIZE = 48;
+
 const scaleIn = keyframes`
 	from {
 		scale: 0.9;
@@ -25,7 +27,7 @@ const StyledEmptyMessage = styled.div`
 
 	> .icon,
 	> .icon-off {
-		font-size: 48px;
+		font-size: ${ICON_SIZE}px;
 
 		&.spin {
 			animation: ${spin} 750ms ${eases.easeOutSmooth};
@@ -49,9 +51,9 @@ const StyledEmptyMessage = styled.div`
 	}
 `;
 
-export default function EmptyMessage({ icon, title, details, iconOff = false, spinAtBegin = false, noSideEffect = false, children }: FCP<{
+export default function EmptyMessage({ icon, title, details, iconOff = false, spinAtBegin = false, noSideEffect = false, children, ...htmlAttrs }: FCP<{
 	/** Icon. */
-	icon?: DeclaredIcons;
+	icon?: DeclaredIcons | ReactElement;
 	/** Title. */
 	title?: ReactNode;
 	/** Detailed description. */
@@ -62,7 +64,7 @@ export default function EmptyMessage({ icon, title, details, iconOff = false, sp
 	spinAtBegin?: boolean;
 	/** No side effects? No additional changes are made to the styles in the view. */
 	noSideEffect?: boolean;
-}>) {
+}, "div">) {
 	const el = useDomRef<"div">();
 	const IconEl = iconOff ? IconOff : Icon;
 	useEffect(() => {
@@ -73,10 +75,12 @@ export default function EmptyMessage({ icon, title, details, iconOff = false, sp
 				if (child instanceof HTMLElement && child !== el.current)
 					child.style.animation = "none";
 	}, []);
+	if (isObject(icon) && "props" in icon)
+		icon = React.cloneElement(icon as never, { width: ICON_SIZE, height: ICON_SIZE });
 
 	return (
-		<StyledEmptyMessage ref={el}>
-			{icon && <IconEl className={{ spin: spinAtBegin }} name={icon} />}
+		<StyledEmptyMessage ref={el} {...htmlAttrs}>
+			{icon && (typeof icon === "string" ? <IconEl className={{ spin: spinAtBegin }} name={icon} /> : icon)}
 			<header>
 				<h2>{title}</h2>
 				<p>{details}</p>

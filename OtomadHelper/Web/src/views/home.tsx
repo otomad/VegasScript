@@ -31,6 +31,10 @@ export default function Home() {
 
 			<Slider value={slider} defaultValue={50} />
 
+			<Filter current={[text, setText]}>
+				{options.map(option => <Filter.Item key={option} id={option} icon="placeholder">{option}</Filter.Item>)}
+			</Filter>
+
 			<Expander icon="single_select" title="Radio buttons">
 				{options.map(option => <RadioButton key={option} id={option} value={[text, setText]}>{option}</RadioButton>)}
 			</Expander>

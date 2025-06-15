@@ -140,6 +140,7 @@ export default {
 		height: "Height",
 		type: "Type",
 		deleteSelection: "Delete selection",
+		all: "All",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -387,6 +388,7 @@ export default {
 				fastFill: "Fast fill",
 				columnWidth: "Column width",
 				rowHeight: "Row height",
+				span: "Span",
 				columnSpan: "Column span",
 				rowSpan: "Row span",
 				direction: {
@@ -1086,6 +1088,10 @@ export default {
 				},
 				disableYtp: "Disable YTP",
 				gotoYtp: "Go to YTP",
+			},
+			operationRecord: {
+				title: "No operation record",
+				details: "You can switch the Array mode to {{fixed}} and make more detailed adjustments to each cell",
 			},
 		},
 		menu: {
