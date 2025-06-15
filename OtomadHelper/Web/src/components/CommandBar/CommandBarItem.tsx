@@ -4,6 +4,7 @@ import { CommandBarAnchorContext } from "./CommandBar";
 const HIDE_DELAY = 500;
 
 const $p = (test?: boolean) => test ? "true" : undefined;
+const toStringOrNaN = (test: unknown) => Object.prototype.toString.call(test) === "[object String]" || isI18nItem(test) ? (test as string).toString() : NaN;
 
 export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, dirBasedIcon, onClick, ...buttonAndTransitionAttrs }: FCP<{
 	/** Button icon. */
@@ -39,6 +40,8 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	let setOn: SetStateNarrow<boolean> | undefined;
 	if (Array.isArray(on)) { setOn = on[1]; on = on[0]; }
 	const buttonEl = useDomRef<"button">();
+
+	if (toStringOrNaN(caption) === toStringOrNaN(altCaption)) altCaption = undefined;
 
 	useOnFormKeyDown(buttonEl, { parent: ".command-bar", item: ".command-bar-item", focus: "button", disableUpDown: true });
 

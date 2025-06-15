@@ -11,6 +11,8 @@ const GAP = 6;
 const RULER_THICKNESS = 16;
 const ASTERISK = "∗";
 
+const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType) => unit === "auto" ? t.auto : unit === "pixel" ? t.units.pixel : ASTERISK;
+
 const PreviewGridContainer = styled.div`
 	${styles.mixins.square("100%")};
 	${styles.mixins.gridCenter()};
@@ -82,8 +84,8 @@ const PreviewGrid = styled.div`
 			--margin: 4px;
 			content: attr(data-index);
 			position: absolute;
-			inset-block-end: var(--margin);
-			inset-inline-start: var(--margin);
+			bottom: var(--margin);
+			left: var(--margin);
 			display: inline-block;
 			padding: 0 3px;
 			block-size: var(--size);
@@ -354,6 +356,8 @@ export default function Grid() {
 		return [currentValue, type, setColumnRow] as const;
 	}, [flyoutEditorColumnRow, columnWidths, rowHeights, count, columns, autoRows]);
 	const { gridTemplateColumns, gridTemplateRows, rulerColumns, rulerRows } = useGridTemplateCss(square ? [] : columnWidths, square ? [] : rowHeights, square ? radicand : columns, square ? radicand : autoRows, verticalDirection, projectWidth, projectHeight);
+	const [showOperationRecordDialog, setShowOperationRecordDialog] = useState(false);
+	const operationRecordSelection = useState<string[]>([]);
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
 
@@ -366,13 +370,29 @@ export default function Grid() {
 
 	const closeFlyoutEditor = () => setFlyoutEditor(undefined);
 	useEventListener(window, "keydown", e => flyoutEditor && e.code === "Escape" && closeFlyoutEditor(), undefined, [flyoutEditor]);
+	const resetRecords = () => { setSpans([]); setColumnWidths([]); setRowHeights([]); };
+	const deleteSelection = () => {
+		for (const selected of operationRecordSelection[0]) {
+			let matched: string | undefined;
+			if ((matched = selected.match(/column-(\d+)/)?.[1]))
+				setColumnWidths(produce(draft => draft.removeAt(draft.findIndex(({ index }) => index === +matched!))));
+			else if ((matched = selected.match(/row-(\d+)/)?.[1]))
+				setRowHeights(produce(draft => draft.removeAt(draft.findIndex(({ index }) => index === +matched!))));
+			else {
+				const [column, row] = selected.split(",");
+				setSpans(produce(draft => draft.removeAt(draft.findIndex(({ sameLine, crossLine }) => sameLine === +column && crossLine === +row))));
+			}
+		}
+		operationRecordSelection[1]([]);
+	};
 
 	return (
 		<>
 			<StyledContainerPreview>
 				<CommandBar.Group>
 					<CommandBar position="right" autoCollapse>
-						<button type="button" onClick={() => { setSpans([]); setColumnWidths([]); setRowHeights([]); }}>reset</button>
+						<CommandBar.Item icon="history" onClick={() => setShowOperationRecordDialog(true)} caption={t.track.grid.operationRecord} altCaption={t({ context: "short" }).track.grid.operationRecord} />
+						<hr />
 						<CommandBar.Item
 							icon={square ? "grid" : "grid_kanban_vertical"}
 							caption={t.track.grid.array}
@@ -597,7 +617,7 @@ export default function Grid() {
 										disabled={columnRowType === "auto"}
 									/>
 									{(["auto", "pixel", "star"] as const).map(unit =>
-										<RadioButton key={unit} id={unit} value={[columnRowType, setColumnRow]}>{unit === "auto" ? t.auto : unit === "pixel" ? t.units.pixel : ASTERISK}</RadioButton>)}
+										<RadioButton key={unit} id={unit} value={[columnRowType, setColumnRow]}>{getGridUnitTypeName(unit)}</RadioButton>)}
 								</div>
 							) : undefined}
 						</FlyoutEditor>
@@ -631,6 +651,57 @@ export default function Grid() {
 					</div>
 				</Flyout>
 			</Portal>
+
+			<ContentDialog
+				shown={[showOperationRecordDialog, setShowOperationRecordDialog]}
+				title={t.track.grid.operationRecord}
+				buttons={close => (
+					<>
+						<Button onClick={resetRecords}>{t.reset}</Button>
+						<Button onClick={deleteSelection}>{t.deleteSelection}</Button>
+						<Button autoFocus accent onClick={close}>{t.close}</Button>
+					</>
+				)}
+			>
+				<ItemsView view="list" multiple current={operationRecordSelection}>
+					{[
+						...spans.map(span => (
+							<ItemsView.Item key={`${span.sameLine},${span.crossLine}`} id={`${span.sameLine},${span.crossLine}`}>
+								<OperationRecordItem>
+									{{
+										[t(1).track.grid.column]: (verticalDirection ? span.crossLine : span.sameLine) + 1,
+										[t(1).track.grid.row]: (verticalDirection ? span.sameLine : span.crossLine) + 1,
+										[t.track.grid.columnSpan]: verticalDirection ? span.crossLineSpan : span.sameLineSpan,
+										[t.track.grid.rowSpan]: verticalDirection ? span.sameLineSpan : span.crossLineSpan,
+									}}
+								</OperationRecordItem>
+							</ItemsView.Item>
+						)),
+						...columnWidths.map(columnWidth => (
+							<ItemsView.Item key={`column-${columnWidth.index}`} id={`column-${columnWidth.index}`}>
+								<OperationRecordItem>
+									{{
+										[t(1).track.grid.column]: columnWidth.index,
+										[t.width]: columnWidth.value,
+										[t.type]: getGridUnitTypeName(columnWidth.type),
+									}}
+								</OperationRecordItem>
+							</ItemsView.Item>
+						)),
+						...rowHeights.map(rowHeight => (
+							<ItemsView.Item key={`row-${rowHeight.index}`} id={`row-${rowHeight.index}`}>
+								<OperationRecordItem>
+									{{
+										[t(1).track.grid.row]: rowHeight.index,
+										[t.height]: rowHeight.value,
+										[t.type]: getGridUnitTypeName(rowHeight.type),
+									}}
+								</OperationRecordItem>
+							</ItemsView.Item>
+						)),
+					]}
+				</ItemsView>
+			</ContentDialog>
 		</>
 	);
 }
@@ -716,4 +787,40 @@ function useGridTemplateCss(columnWidths: WebMessageEvents.GridColumnWidthRowHei
 			}
 		return { gridTemplateColumns: toCssString(gridTemplateColumns), gridTemplateRows: toCssString(gridTemplateRows), rulerColumns, rulerRows };
 	}, [columnWidths, rowHeights, columns, rows, vertical, projectWidth, projectHeight]);
+}
+
+const StyledOperationRecordItem = styled.div`
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-rows: repeat(2, auto);
+	grid-template-columns: repeat(4, 1fr);
+
+	.key {
+		${styles.effects.text.caption};
+	}
+
+	.value {
+		${styles.effects.text.subtitle};
+	}
+
+	.items-view-item .text:has(&) {
+		inline-size: 100%;
+	}
+
+	.items-view-item:has(&) {
+		padding-inline: 0;
+	}
+`;
+
+function OperationRecordItem({ children = {} }: { children?: Record<string, Any> }) {
+	return (
+		<StyledOperationRecordItem>
+			{Object.entries(children).map(([key, value]) => (
+				<Fragment key={key}>
+					<p className="key">{key}</p>
+					<p className="value">{value}</p>
+				</Fragment>
+			))}
+		</StyledOperationRecordItem>
+	);
 }

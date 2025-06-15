@@ -124,6 +124,7 @@ export default {
 		topPriority: "{{item}} first", // Used for sorting forms, if the order of its content is watch, phone, flashlight, it will display as “watch first”.
 		browse: "Browse", // Browse files or folders.
 		ok: "OK",
+		close: "Close",
 		descending: "Descending",
 		ascending: "Ascending",
 		view: "View", // Generally, it is the name of the first item in the context menu of a Windows directory, which includes tiles, lists, icons, etc.
@@ -135,6 +136,10 @@ export default {
 		decrease: "Decrease",
 		duration: "Duration",
 		preview: "Preview",
+		width: "Width",
+		height: "Height",
+		type: "Type",
+		deleteSelection: "Delete selection",
 		infoBar: {
 			warning: "Warning",
 		},
@@ -414,6 +419,8 @@ export default {
 					},
 				},
 				padding: "Padding",
+				operationRecord: "Operation records",
+				operationRecord_short: "Operations",
 			},
 			box3d: {
 				deleteTracks: "Delete original tracks",
