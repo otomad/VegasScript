@@ -286,4 +286,14 @@ declare global {
 		| (T extends symbol ? Symbol : never)
 		| (T extends bigint ? BigInt : never);
 	/* eslint-enable @typescript-eslint/no-wrapper-object-types */
+
+	/**
+	 * Remove a wider type (`string | {}`) from an literal union (literal string union).
+	 * @see https://stackoverflow.com/a/75080234/19553213
+	 * @example
+	 * ```typescript
+	 * type Test = ObtainLiterals<"a" | "b" | string & {}>; // "a" | "b"
+	 * ```
+	 */
+	type ObtainLiterals<T> = T extends infer R ? (R extends string ? (string extends R ? never : R) : never) : never;
 }

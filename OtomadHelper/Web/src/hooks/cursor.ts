@@ -1,6 +1,4 @@
 import { convertAniBinaryToCSS } from "ani-cursor";
-import type { Property } from "csstype";
-type Cursor = Property.Cursor;
 
 /**
  * Forcefully specify the mouse cursor style.

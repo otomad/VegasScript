@@ -53,7 +53,7 @@ export function useInContextLocalization() {
 			}, {
 				duration: 500,
 			}],
-		]);
+		], "progress");
 	}
 
 	return [enabled, setEnabled] as StatePropertyNonNull<boolean>;

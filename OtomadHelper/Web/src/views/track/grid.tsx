@@ -710,7 +710,7 @@ export default function Grid() {
 								{ id: "max", value: MAX_COL_ROW },
 								{ id: "square", value: radicand },
 								{ id: "numberOfSelectedTracks", value: count },
-								{ id: "transpose", value: rows, unselected: true },
+								{ id: "transpose", value: fixedColumns ? autoRows : autoColumns, unselected: true },
 							]}
 						/>
 					</div>

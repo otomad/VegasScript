@@ -1,5 +1,5 @@
 import type _DndKitCore from "@dnd-kit/core";
-import type _CSSType from "csstype";
+import type CSSType from "csstype";
 import type _Immer from "immer";
 import type _LottieWeb from "lottie-web";
 import type React from "react";
@@ -148,6 +148,9 @@ declare global {
 
 	export type CSSTransitionProps = Partial<ReactTransitionGroup.CSSTransitionProps>;
 	export type TransitionProps = Partial<ReactTransitionGroup.TransitionProps>;
+
+	/** All available cursor type. */
+	export type Cursor = ObtainLiterals<Exclude<CSSType.Property.Cursor, CSSType.Globals>>;
 
 	export type { DropAnimationSideEffects } from "@dnd-kit/core";
 	export type { PropertiesHyphen as CSSPropertiesHyphen, Property as CSSProperty } from "csstype";

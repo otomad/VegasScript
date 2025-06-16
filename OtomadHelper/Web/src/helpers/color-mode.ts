@@ -86,7 +86,7 @@ export function startCircleViewTransition(isSpread: boolean, changeFunc: () => M
 			}, {
 				pseudoElement: isSpread ? "::view-transition-new(root)" : "::view-transition-old(root)",
 			}],
-		]).then(() => {
+		], "progress").then(() => {
 			resolve();
 		});
 	});

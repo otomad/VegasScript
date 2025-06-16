@@ -70,16 +70,14 @@ export default function DynamicAccentColor() {
 
 	useListen("app:startColorPaletteViewTransition", async () => {
 		if (resolveViewTransition.current) return; // Avoid recursion, or transitions will break.
-		forceCursor("wait");
 		const { promise, resolve } = Promise.withResolvers<void>();
 		resolveViewTransition.current = resolve;
 		const restoreTransitions = stopTransition();
 		try {
-			await startColorViewTransition(() => promise, [[{ opacity: [0, 1] }, { easing: eases.easeOutMax }]]);
+			await startColorViewTransition(() => promise, [[{ opacity: [0, 1] }, { easing: eases.easeOutMax }]], "wait");
 		} finally {
 			restoreTransitions();
 			resolveViewTransition.current = undefined;
-			forceCursor(null);
 		}
 	});
 

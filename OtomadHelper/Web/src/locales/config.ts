@@ -66,7 +66,7 @@ export function useLanguage() {
 			}, {
 				duration: 500,
 			}],
-		]);
+		], "wait");
 	}
 
 	return [language, changeLanguage] as StatePropertyNonNull<AvailableLanguageTags>;

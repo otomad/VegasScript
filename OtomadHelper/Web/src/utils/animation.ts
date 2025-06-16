@@ -399,8 +399,8 @@ export function stopTransition({ includesViewTransitions = false }: {
 
 			::view-transition-old(*),
 			::view-transition-new(*),
-			::view-transition-old(*::before),
-			::view-transition-new(*::after) {
+			::view-transition-old(::before),
+			::view-transition-new(::after) {
 				transition: none !important;
 			}
 		`}
@@ -420,7 +420,7 @@ export function stopTransition({ includesViewTransitions = false }: {
  * @param options - Animation options.
  * @returns The destructor can be executed after the animation is completed.
  */
-export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions][]) {
+export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions][], cursor?: Cursor) {
 	if (!document.startViewTransition || isReduceMotion()) {
 		await changeFunc();
 		return;
@@ -431,6 +431,7 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 	reactTransitionGroupConfig.disabled = true;
 
 	try {
+		if (cursor) forceCursor(cursor);
 		const transition = document.startViewTransition(changeFunc);
 		await transition.ready;
 
@@ -445,6 +446,7 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 	} finally {
 		restoreTransitions();
 		reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
+		if (cursor) forceCursor(null);
 	}
 }
 
