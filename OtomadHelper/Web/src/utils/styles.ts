@@ -448,7 +448,8 @@ export function transformFlowDirection(from: FlowDirection, to?: FlowDirection) 
 		to = from;
 		from = "lr-tb";
 	}
-	return {
+	// #region Enumerated result, correct but lengthy.
+	/* return {
 		"lr-tb": {
 			"lr-tb": "",
 			"lr-bt": "scaleY(-1)",
@@ -529,5 +530,26 @@ export function transformFlowDirection(from: FlowDirection, to?: FlowDirection) 
 			"tb-rl": "scaleY(-1)",
 			"bt-rl": "",
 		},
-	}[from][to];
+	}[from][to]; */
+	// #endregion
+	// Map the direction to a 3 bit binary number: [Rotate 90°, V Flip, H Flip].
+	const dirBits: Record<FlowDirection, number> = {
+		"lr-tb": 0b000, "lr-bt": 0b010, "rl-tb": 0b001, "rl-bt": 0b011,
+		"tb-lr": 0b100, "bt-lr": 0b110, "tb-rl": 0b101, "bt-rl": 0b111,
+	};
+	// Calculate transformation opcode: f⊕t (XOR).
+	let op = dirBits[from] ^ dirBits[to];
+	// Special adjustment rule, because it is not a simple XOR operation.
+	if (op & 0b100) op ^= (dirBits[to] >> 1 ^ dirBits[to]) & 0b1 ? 0b1 : 0b10;
+	// Generate transform string based on the opcode.
+	return [
+		"", // 000: 无变换
+		"scaleX(-1)", // 001: 水平翻转
+		"scaleY(-1)", // 010: 垂直翻转
+		"rotate(180deg)", // 011: 180度旋转
+		"rotate(90deg)", // 100: 90度旋转
+		"rotate(90deg) scaleX(-1)", // 101: 90度+水平翻转
+		"rotate(90deg) scaleY(-1)", // 110: 90度+垂直翻转
+		"rotate(-90deg)", // 111: -90度旋转
+	][op];
 }
