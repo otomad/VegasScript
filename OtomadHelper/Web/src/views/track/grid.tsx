@@ -12,7 +12,7 @@ const GAP = 6;
 const RULER_THICKNESS = 16;
 const ASTERISK = "∗";
 
-const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType) => unit === "auto" ? t.auto : unit === "pixel" ? t.units.pixel : ASTERISK;
+const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType) => unit === "auto" ? t.auto : unit === "pixel" ? t.units.pixel : t.units.fraction;
 
 const PreviewGridContainer = styled.div`
 	${styles.mixins.square("100%")};
@@ -246,7 +246,12 @@ const StyledContainerPreview = styled.div`
 	}
 `;
 
-const Ruler = styled.div`
+const Label = ({ id, htmlFor, ...htmlAttrs }: RequiredWith<FCP<{}, "label">, "id" | "htmlFor">) =>
+	<label id={`${id}-${htmlFor}-label`} htmlFor={`${id}-${htmlFor}`} aria-hidden {...htmlAttrs} />;
+
+const Ruler = styled.div.attrs({
+	"aria-hidden": true,
+})`
 	${styles.effects.text.caption};
 	position: fixed;
 	display: grid;
@@ -295,6 +300,8 @@ const TOOLTIP_OFFSET = 28;
 
 const Multiply = styled.label.attrs({
 	children: "×",
+	role: "term",
+	"aria-label": t.aria.times,
 })`
 	${styles.mixins.flexCenter()};
 	padding-block-end: 3px;
@@ -450,13 +457,14 @@ export default function Grid() {
 			}
 		}));
 	}
+	// TODO: 删除所选按钮禁用功能、讨论重置是否需要参考筛选？
 
 	return (
 		<>
 			<StyledContainerPreview>
 				<CommandBar.Group>
 					<CommandBar position="right" autoCollapse>
-						<CommandBar.Item icon="approvals_app" onClick={() => { cleanUpInvalidOperationItems(); setShowOperationRecordDialog(true); }} caption={t.track.grid.operationRecord} altCaption={t({ context: "short" }).track.grid.operationRecord} />
+						<CommandBar.Item icon="approvals_app" onClick={() => { cleanUpInvalidOperationItems(); setShowOperationRecordDialog(true); }} caption={t.track.grid.operationRecord} altCaption={t({ context: "short" }).track.grid.operationRecord} aria-haspopup="dialog" />
 						<hr />
 						<CommandBar.Item
 							icon={square ? "grid" : "grid_kanban_vertical"}
@@ -602,9 +610,9 @@ export default function Grid() {
 				<div>
 					<Determinant>
 						<div>
-							<label htmlFor={id + "-column"}>{t(square ? radicand : columns).track.grid.column}</label>
+							<Label id={id} htmlFor="column">{t(square ? radicand : columns).track.grid.column}</Label>
 							<div />
-							<label htmlFor={id + "-row"}>{t(square ? radicand : rows).track.grid.row}</label>
+							<Label id={id} htmlFor="row">{t(square ? radicand : rows).track.grid.row}</Label>
 							{["column", "x", "row"].map(key => {
 								if (key === "x") return <Multiply key={key} />;
 								const isColumn = key === "column", ref = isColumn ? columnInputRef : rowInputRef, readonly = isColumn ? columnReadonly : rowReadonly;
@@ -615,7 +623,8 @@ export default function Grid() {
 										onFocusOut={() => setFastFillShown(false)}
 									>
 										<TextBox.Number
-											id={id + "-" + key}
+											id={`${id}-${key}`}
+											aria-labelledby={`${id}-${key}-label`}
 											value={
 												square ? [radicand] :
 												isColumn ?
@@ -635,11 +644,13 @@ export default function Grid() {
 						</div>
 						<div>
 							<div />
-							<label htmlFor={id + "-padding"}>{t(padding[0]).track.grid.padding}</label>
+							<Label id={id} htmlFor="padding">{t(padding[0]).track.grid.padding}</Label>
 							<Multiply className="shadow" />
 							<Tooltip title={t.descriptions.track.grid.padding} placement="top" offset={TOOLTIP_OFFSET} unwrapped={false}>
 								<TextBox.Number
-									id={id + "-padding"}
+									id={`${id}-padding`}
+									aria-labelledby={`${id}-padding-label`}
+									aria-description={t(padding[0]).track.grid.padding}
 									value={padding}
 									min={0}
 									max={50}
@@ -655,13 +666,14 @@ export default function Grid() {
 						<FlyoutEditor>
 							{_flyoutEditor === "span" ? (
 								<div className="span">
-									<label htmlFor={id + "-colspan"}>{t.track.grid.columnSpan}</label>
+									<Label id={id} htmlFor="colspan">{t.track.grid.columnSpan}</Label>
 									<div />
-									<label htmlFor={id + "-rowspan"}>{t.track.grid.rowSpan}</label>
+									<Label id={id} htmlFor="rowspan">{t.track.grid.rowSpan}</Label>
 									{(["colspan", "x", "rowspan"] as const).map(key => key === "x" ? <Multiply key={key} /> : (
 										<TextBox.Number
 											key={key}
-											id={id + "-" + key}
+											id={`${id}-${key}`}
+											aria-labelledby={`${id}-${key}-label`}
 											value={key === (verticalDirection ? "rowspan" : "colspan") ? [spanX, setSpanX] : [spanY, setSpanY]}
 											min={1}
 											max={100}
@@ -672,9 +684,10 @@ export default function Grid() {
 								</div>
 							) : _flyoutEditor === "width" || _flyoutEditor === "height" ? (
 								<div className="length">
-									<label htmlFor={id + "-length"}>{t.track.grid[_flyoutEditor === "width" ? "columnWidth" : "rowHeight"]}</label>
+									<Label id={id} htmlFor="length">{t.track.grid[_flyoutEditor === "width" ? "columnWidth" : "rowHeight"]}</Label>
 									<TextBox.Number
-										id={id + "-length"}
+										id={`${id}-length`}
+										aria-labelledby={`${id}-length-label`}
 										value={[columnRowValue, setColumnRow]}
 										min={0}
 										max={_flyoutEditor === "width" ? projectWidth : projectHeight}

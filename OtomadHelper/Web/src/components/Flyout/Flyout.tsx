@@ -159,12 +159,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	useEventListener(window, "keydown", e => e.code === "Escape" && close());
 	useEventListener(window, "pointerdown", e => autoInert && !isInPath(e, flyoutEl) && close(), { capture: true }, [autoInert]);
 
-	useEffect(() => {
-		if (autoInert && shown)
-			setRootInert(true);
-		else if (document.querySelectorAll("#popovers .flyout").length <= 1)
-			setRootInert(false);
-	}, [shown, autoInert]);
+	useRootInert(autoInert && shown, ".flyout");
 
 	const [delayedShown, setDelayedShown] = useState(shown);
 	const hideTimeout = useRef<Timeout>(undefined);

@@ -144,7 +144,7 @@ declare global {
 	export type TagNameToElement<TTagName extends keyof ElementTagNameMap | Element> =
 		TTagName extends keyof ElementTagNameMap ? ElementTagNameMap[TTagName] : TTagName;
 	export type ForwardedRef<T> = T extends keyof ElementTagNameMap ? React.ForwardedRef<ElementTagNameMap[T]> : React.ForwardedRef<T>;
-	export type AsTarget = keyof JSX.IntrinsicElements | React.ComponentType<PropsWithChildren>; // keyof JSX.IntrinsicElements ?≠ keyof ElementTagNameMap
+	export type AsTarget = keyof React.JSX.IntrinsicElements | React.ComponentType<PropsWithChildren>; // keyof JSX.IntrinsicElements ?≠ keyof ElementTagNameMap
 
 	export type CSSTransitionProps = Partial<ReactTransitionGroup.CSSTransitionProps>;
 	export type TransitionProps = Partial<ReactTransitionGroup.TransitionProps>;

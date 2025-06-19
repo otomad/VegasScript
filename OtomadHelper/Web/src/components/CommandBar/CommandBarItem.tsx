@@ -6,7 +6,7 @@ const HIDE_DELAY = 500;
 const $p = (test?: boolean) => test ? "true" : undefined;
 const toStringOrNaN = (test: unknown) => Object.prototype.toString.call(test) === "[object String]" || isI18nItem(test) ? (test as string).toString() : NaN;
 
-export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, dirBasedIcon, onClick, ...buttonAndTransitionAttrs }: FCP<{
+export /* @internal */ function CommandBarItem({ icon, caption, altCaption, details, iconOnly, children, canBeDisabled, disabled, hovering, on, dirBasedIcon, "aria-haspopup": ariaHasPopup, onClick, ...buttonAndTransitionAttrs }: FCP<{
 	/** Button icon. */
 	icon?: DeclaredIcons;
 	/** Caption. */
@@ -59,7 +59,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 				dirBasedIcon={dirBasedIcon}
 				aria-label={canToString(caption) ? caption : undefined}
 				aria-description={canToString(details) ? details : undefined}
-				aria-haspopup={!!children}
+				aria-haspopup={ariaHasPopup ?? !!children}
 				ariaHiddenForChildren
 				onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyout(); }}
 				onPointerLeave={e => { if (hovering && checkIsMouse(e)) hideFlyoutLater(); }}

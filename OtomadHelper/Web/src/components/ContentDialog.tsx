@@ -86,12 +86,7 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 
 	useEventListener(window, "keydown", e => e.code === "Escape" && closeWhenNonStatic());
 
-	useEffect(() => {
-		if (shown)
-			setRootInert(true);
-		else if (document.querySelectorAll("#popovers .content-dialog").length <= 1)
-			setRootInert(false);
-	}, [shown]);
+	useRootInert(shown, ".content-dialog");
 
 	return (
 		<Portal>

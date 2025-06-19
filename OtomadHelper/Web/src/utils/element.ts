@@ -305,6 +305,18 @@ export function setRootInert(inert: boolean) {
 }
 
 /**
+ * Hook: Makes the browser "ignore" user input events for the element?
+ */
+export function useRootInert(inert: boolean | null | undefined, popover?: string) {
+	useEffect(() => {
+		if (inert)
+			setRootInert(true);
+		else if (!popover || document.querySelectorAll(`#popovers ${popover}`).length <= 1)
+			setRootInert(false);
+	}, [inert]);
+}
+
+/**
  * Retrieves the first focusable element in the container.
  * @param container - The container element to search within.
  * @returns The first focusable element, or null if none is found.

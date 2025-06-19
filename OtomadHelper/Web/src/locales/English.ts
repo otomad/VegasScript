@@ -171,6 +171,7 @@ export default {
 			times: "×", // E.g., speed 1×, 1.5×, 2×.
 			cent: "cent", // Unit: Cent. The cent is a logarithmic unit of measure used for musical intervals. Twelve-tone equal temperament divides the octave into 12 semitones of 100 cents each.
 			cent_other: "cents",
+			fraction: "fr", // Unit: Fraction.
 		},
 		confirm: {
 			delete: {
@@ -1109,6 +1110,7 @@ export default {
 			breadcrumb: "Breadcrumb",
 			commandBar: "Command bar",
 			checkboxGroup: "Checkbox group",
+			times: "Times",
 		},
 	},
 	csharp: {

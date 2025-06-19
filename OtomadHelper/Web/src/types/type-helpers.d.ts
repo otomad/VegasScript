@@ -296,4 +296,18 @@ declare global {
 	 * ```
 	 */
 	type ObtainLiterals<T> = T extends infer R ? (R extends string ? (string extends R ? never : R) : never) : never;
+
+	/**
+	 * Creates a new type based on `TSource` where the specified properties `TRequiredProperties`
+	 * are made required, while the rest of the properties retain their original optionality.
+	 *
+	 * @template TSource - The source object type.
+	 * @template TRequiredProperties - The keys of `TSource` that should be required in the resulting type.
+	 *
+	 * @example
+	 * type Example = { a?: number; b?: string; c?: boolean; d: bigint };
+	 * type Result = RequiredWith<Example, "a" | "b">;
+	 * // Result is: { a: number; b: string; c?: boolean; d: bigint }
+	 */
+	type RequiredWith<TSource extends object, TRequiredProperties extends keyof TSource> = Override<TSource, Required<Pick<TSource, TRequiredProperties>>>;
 }

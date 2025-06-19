@@ -68,7 +68,7 @@ function Spinner({ disabled, step = 1, onSpin, onRelease }: FCP<{
 	}
 
 	return (
-		<StyledSpinner>
+		<StyledSpinner aria-hidden={disabled}>
 			<div className="base">
 				<Button
 					subtle
@@ -266,7 +266,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 	}
 `;
 
-export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, id, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, inputAttrs, customFlyout, onChange, onChanging, onInput, onKeyDown, ref, inputRef, ...htmlAttrs }: FCP<{
+export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, id, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, inputAttrs, customFlyout, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, "aria-description": ariaDescription, onChange, onChanging, onInput, onKeyDown, ref, inputRef, ...htmlAttrs }: FCP<{
 	/** The value of the input box. */
 	value: StateProperty<string>;
 	/** Content placeholder. */
@@ -354,8 +354,11 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 					placeholder={placeholder}
 					disabled={disabled || undefined}
 					aria-disabled={disabled || undefined}
+					aria-description={ariaDescription || undefined}
 					readOnly={readOnly}
 					aria-readonly={readOnly}
+					aria-label={ariaLabel}
+					aria-labelledby={ariaLabelledBy}
 					autoComplete="off"
 					onInput={handleInput}
 					onPaste={handleChange}
@@ -543,7 +546,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 			onKeyDown={handleKeyDown}
 			_spinner={inputId => (
 				<>
-					<label className="spinner-icon" htmlFor={inputId}>
+					<label className="spinner-icon" htmlFor={inputId} aria-hidden>
 						<Icon name="scroll_up_down" />
 					</label>
 					{!readOnly && <Spinner onSpin={handlePressSpin} onRelease={handleReleaseSpin} disabled={disabled} step={spinnerStep} />}
