@@ -1,5 +1,5 @@
 declare module "*.svg?cursor" {
-	const cssCursorValue: string;
+	const cssCursorValue: `url("${string}")`;
 	export default cssCursorValue;
 }
 

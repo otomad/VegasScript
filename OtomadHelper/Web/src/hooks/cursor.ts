@@ -7,7 +7,7 @@ import { convertAniBinaryToCSS } from "ani-cursor";
  *
  * @param cursor - Cursor style. If it is null, it will restore to the default.
  */
-export function forceCursor(cursor: Cursor | null) {
+export function forceCursor(cursor: Cursor | (string & {}) | null) {
 	if (!cursor)
 		document.documentElement.style.removeProperty("--cursor");
 	else
