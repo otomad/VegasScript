@@ -177,5 +177,8 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 				},
 			},
 		},
+		// optimizeDeps: {
+		// 	exclude: ["@dnd-kit/core"],
+		// },
 	};
 });

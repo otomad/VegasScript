@@ -2,6 +2,9 @@ import { BasicColorPalette, autoColorPalettes } from "helpers/basic-color-palett
 import { contributeTranslationLink } from "helpers/crowdin-link";
 import { useInContextLocalization } from "helpers/jipt-activator";
 
+/** Expand the expanders in settings initially? (Do not set it to true in production!) */
+const DEV_EXPANDED = true;
+
 export /* @internal */ const systemBackdrops = [
 	{ name: "acrylic", enum: "TransientWindow" },
 	{ name: "mica", enum: "MainWindow" },
@@ -57,7 +60,7 @@ export default function Settings() {
 				title={<>{t.settings.language}{!isEnglish(currentLanguage ?? "en") && <span lang="en"> / Language</span>}</>}
 				icon="globe"
 				items={languages}
-				expanded
+				expanded={DEV_EXPANDED}
 				view="grid"
 				value={[currentLanguage, setLanguage]}
 				idField
@@ -90,7 +93,7 @@ export default function Settings() {
 				title={t.settings.appearance.colorScheme}
 				icon="paint_brush"
 				checkInfo={withObject(t.settings.appearance.colorScheme, t => contrast || systemContrast ? t.contrast : scheme === "dark" && amoledDark ? t.black : t[scheme])}
-				expanded
+				expanded={DEV_EXPANDED}
 			>
 				{!systemContrast ? (
 					<>
@@ -144,11 +147,10 @@ export default function Settings() {
 					</>
 				)}
 			</Expander>
-			<Expander title={t.settings.appearance.palette} icon="color" expanded>
+			<Expander title={t.settings.appearance.palette} icon="color" expanded={DEV_EXPANDED}>
 				{systemContrast || contrast ? <InfoBar status="warning">{t.descriptions.settings.appearance.invalid[systemContrast ? "systemContrastCannot" : "contrast"]({ option: t.settings.appearance.palette })}</InfoBar> : (
 					<>
 						<Expander.Item title={t.settings.appearance.palette.accent} icon="color_fill" asSubtitle />
-						{/* TODO: Simplify enum-plus. */}
 						<StyledColorPalette>
 							{autoColorPalettes.map(color => (
 								<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
@@ -203,7 +205,7 @@ export default function Settings() {
 			<ExpanderRadio
 				title={t.settings.appearance.transparency}
 				icon="glass"
-				expanded
+				expanded={DEV_EXPANDED}
 				view="grid"
 				itemWidth="square"
 				items={systemBackdrops}
@@ -216,32 +218,38 @@ export default function Settings() {
 					systemContrast && <InfoBar status="warning">{t.descriptions.settings.appearance.invalid.systemContrastMayNot({ option: t.settings.appearance.transparency })}</InfoBar>
 				}
 			/>
-			<ExpanderRadio
+			<Expander
 				title={t.settings.appearance.backgroundImage}
 				icon="wallpaper"
-				items={backgroundImages.items}
-				expanded
-				view="grid"
-				value={backgroundImages.backgroundImage}
-				idField="key"
-				imageField={item => item.key === -1 ? <IconTile name="prohibited" size={48} /> : item.url}
-				// imageOverlayField={({ color }) => <ColorButton color={color} style={{ position: "absolute", insetBlockEnd: "4px", insetInlineStart: "4px", pointerEvents: "none" }} />}
-				checkInfoCondition={showBackgroundImage ? t.on : t.off}
-				itemsViewItemAttrs={item => ({ selectionColor: item.color })}
-				transition
-				onItemContextMenu={(item, e) => {
-					if (item.key !== -1) createContextMenu([
-						{ label: t.menu.moveForward, enabled: item.displayIndex > 0, onClick: () => backgroundImages.reorder(item.key, item.displayIndex - 1) },
-						{ label: t.menu.moveBackward, enabled: item.displayIndex < backgroundImages.items.length - 2, onClick: () => backgroundImages.reorder(item.key, item.displayIndex + 1) },
-						{ label: t.menu.delete, onClick: () => backgroundImages.delete(item.key), confirmDeleteMessage: t.confirm.delete.backgroundImage },
-					])(e);
-				}}
-				before={(
-					<Expander.ChildWrapper>
-						<Button icon="open_file" onClick={addBackgroundImage}>{t.browse}</Button>
-					</Expander.ChildWrapper>
-				)}
+				expanded={DEV_EXPANDED}
+				checkInfo={showBackgroundImage ? t.on : t.off}
 			>
+				<Expander.ChildWrapper>
+					<Button icon="open_file" onClick={addBackgroundImage}>{t.browse}</Button>
+				</Expander.ChildWrapper>
+				<SortableView
+					items={[backgroundImages.items.map(({ key, ...o }) => ({ id: key, ...o }))]}
+					fullyDraggable
+					view="grid"
+					minDistance
+					onReorder={async (from, to) => await backgroundImages.reorder(backgroundImages.items[from].key, to - 1)}
+					unfocusableForSortableItems
+				>
+					{({ id: [id], url: [url], displayIndex: [displayIndex], color: [color] }) => (
+						<ItemsView.Item
+							id={id}
+							key={id}
+							image={id === -1 ? <IconTile name="prohibited" size={48} /> : url}
+							selected={[backgroundImages.backgroundImage[0] === id, (v: boolean) => v && backgroundImages.backgroundImage[1](id)]}
+							selectionColor={color}
+							onContextMenu={id === -1 ? undefined : createContextMenu([
+								{ label: t.menu.moveForward, enabled: displayIndex > 0, onClick: () => backgroundImages.reorder(id, displayIndex - 1) },
+								{ label: t.menu.moveBackward, enabled: displayIndex < backgroundImages.items.length - 2, onClick: () => backgroundImages.reorder(id, displayIndex + 1) },
+								{ label: t.menu.delete, onClick: () => backgroundImages.delete(id), confirmDeleteMessage: t.confirm.delete.backgroundImage },
+							])}
+						/>
+					)}
+				</SortableView>
 				{showBackgroundImage && (
 					<>
 						<Expander.Item title={t.settings.appearance.backgroundImage.opacity} icon="fade">
@@ -276,13 +284,13 @@ export default function Settings() {
 						</Expander.Item>
 					</>
 				)}
-			</ExpanderRadio>
+			</Expander>
 			<Expander
 				title={t.settings.appearance.uiScale}
 				icon="zoom_in"
 				checkInfo={displayUiScale + t.units.percent}
 				alwaysShowCheckInfo
-				expanded
+				expanded={DEV_EXPANDED}
 			>
 				<Expander.ChildWrapper>
 					<Slider

@@ -9,6 +9,7 @@ export default [
 			["createElement", "h"],
 			"createContext",
 			"Fragment",
+			"useOptimistic",
 		],
 		"react-dom/client": [
 			["*", "ReactDOM"],

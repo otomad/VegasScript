@@ -1,3 +1,4 @@
+import { arrayMove } from "@dnd-kit/sortable";
 import IndexedDBStore from "classes/IndexedDBStore";
 import { FastAverageColor } from "fast-average-color";
 import { startCircleViewTransition } from "helpers/color-mode";
@@ -99,6 +100,7 @@ export function useBackgroundImages() {
 
 	async function reorder(key: number, newIndex: number) {
 		if (!store.current || +key < 0) return;
+		setItems(items => arrayMove(items, items.findIndex(item => item.key === key), clamp(newIndex + 1, 1, items.length)));
 		const length = await store.current.length;
 		if (length === 0) return;
 		newIndex = clamp(newIndex, 0, length - 1);

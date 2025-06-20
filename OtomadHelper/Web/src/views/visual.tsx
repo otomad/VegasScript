@@ -192,7 +192,7 @@ export default function Visual() {
 						icon="zoom_fit"
 						checkInfo={topPriorityTransformMethod && t.topPriority({ item: t.stream.transformMethod[topPriorityTransformMethod] })}
 					>
-						<SortableList items={transformMethod} fullyDraggable overlayEmits={{ onDrop: onSortableOverlayDrop }}>
+						<SortableView items={transformMethod} fullyDraggable overlayEmits={{ onDrop: onSortableOverlayDrop }}>
 							{(item, index) => (
 								<Expander.Item
 									title={t.stream.transformMethod[item]}
@@ -200,7 +200,7 @@ export default function Visual() {
 									clickable
 								/>
 							)}
-						</SortableList>
+						</SortableView>
 					</Expander>
 					{/* TODO: Change the integration method of TransformOFX into parameters, add an independent subheader and an info bar to tell user to download it. */}
 
@@ -274,7 +274,7 @@ export default function Visual() {
 							<Button icon="add">{t.stream.preset.add}</Button>
 						</Expander.ChildWrapper>
 					</ExpanderRadio>
-					<SortableList items={activeParameterScheme}>
+					<SortableView items={activeParameterScheme}>
 						{scheme => (
 							<SettingsCard
 								title={scheme.name[0]}
@@ -290,7 +290,7 @@ export default function Visual() {
 								</Tooltip>
 							</SettingsCard>
 						)}
-					</SortableList>
+					</SortableView>
 					<div>
 						<Button icon="add">{t.new}</Button>
 						{/* <Button icon="copy_add">{t.stream.parameters.copyAttributesFromSelectedClip}</Button> */}

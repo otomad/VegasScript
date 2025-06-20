@@ -27,3 +27,10 @@ export function areFunctionsGenerallyEqual(a: unknown, b: unknown) {
 	return typeof a === "function" && typeof b === "function" &&
 		a.name === b.name && a.length === b.length;
 }
+
+/**
+ * Check if a function is async.
+ */
+export function isAsyncFunction(test: unknown): test is (...args: Any[]) => Promise<Any> {
+	return test instanceof Function && test.constructor.name === "AsyncFunction";
+}

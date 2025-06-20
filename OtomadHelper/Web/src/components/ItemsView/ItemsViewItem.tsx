@@ -331,7 +331,7 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 
 	useEffect(() => onSelectedChange?.(id, selected), [selected]);
 
-	useOnFormKeyDown(el);
+	useOnFormKeyDown(el); // TODO: 位于 SortableItem 内聚焦按方向键会失灵。
 
 	return (
 		<ItemsViewItemStateContext value={{ hover }}>

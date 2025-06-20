@@ -1,6 +1,6 @@
 import ItemsViewItem, { GRID_VIEW_ITEM_HEIGHT, type OnItemsViewItemClickEventHandler } from "./ItemsViewItem";
 
-const StyledItemsView = styled.div<{
+export /* @internal */ const StyledItemsView = styled.div<{
 	/** In grid view, the width of the child element image. Defaults to 200px. */
 	$itemWidth?: number;
 }>`

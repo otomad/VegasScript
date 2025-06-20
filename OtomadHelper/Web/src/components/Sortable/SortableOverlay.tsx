@@ -1,6 +1,5 @@
-import type { DropAnimation } from "@dnd-kit/core";
+import type { DropAnimation, Modifiers } from "@dnd-kit/core";
 import { DragOverlay } from "@dnd-kit/core";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 export /* @internal */ const PRESSED_SORTABLE_ITEM_OPACITY = "0.25";
 const DRAGGING_SCALE = 1.025;
@@ -26,6 +25,7 @@ const StyledSortableOverlay = styled(DragOverlay)`
 
 const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => async e => {
 	const { transform, active, dragOverlay } = e;
+	await nextAnimationTick();
 	active.node.style.opacity = PRESSED_SORTABLE_ITEM_OPACITY;
 	active.node.classList.add("dragging", "dropping");
 	dragOverlay.node.classList.add("dropping");
@@ -34,7 +34,10 @@ const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => asyn
 	active.node.animate([{}, { opacity: 0 }], { easing: eases.easeOutQuad, duration: 250 });
 	const transformAnimation = dragOverlay.node.animate([
 		{ },
-		{ transform: `translateY(${transform.y - dragOverlay.rect.top + active.rect.top}px)`, "--sortable-overlay-scale": 1 },
+		{
+			transform: `translateX(${transform.x - dragOverlay.rect.left + active.rect.left}px) translateY(${transform.y - dragOverlay.rect.top + active.rect.top}px)`,
+			"--sortable-overlay-scale": 1,
+		},
 	], { easing: eases.easeOutMax, duration: 250, fill: "forwards" });
 	await transformAnimation.finished;
 	transformAnimation.commitStyles();
@@ -58,10 +61,20 @@ export interface SortableOverlayEmits {
 	onDropEnd?: DropAnimationSideEffects;
 }
 
-export /* @internal */ default function SortableOverlay({ children, ...emits }: FCP<SortableOverlayEmits>) {
+export /* @internal */ default function SortableOverlay({ modifiers, children, ...emits }: FCP<SortableOverlayEmits & {
+	/**
+	 * Modifiers let you dynamically modify the movement coordinates that are detected by sensors.
+	 * They can be used for a wide range of use cases, for example:
+	 * - Restricting motion to a single axis;
+	 * - Restricting motion to the draggable node container's bounding rectangle;
+	 * - Restricting motion to the draggable node's scroll container bounding rectangle;
+	 * - Applying resistance or clamping the motion.
+	 */
+	modifiers?: Modifiers;
+}>) {
 	return (
 		<Portal container={document.body}>
-			<StyledSortableOverlay className={ifColorScheme.forceMotion} dropAnimation={dropAnimationConfig(emits)} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>{children}</StyledSortableOverlay>
+			<StyledSortableOverlay className={ifColorScheme.forceMotion} dropAnimation={dropAnimationConfig(emits)} modifiers={modifiers}>{children}</StyledSortableOverlay>
 		</Portal>
 	);
 }

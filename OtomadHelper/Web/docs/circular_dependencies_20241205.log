@@ -18,9 +18,9 @@
 18) components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js
 19) components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js
 20) components/Icon.js > utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js
-21) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js > components/Sortable/SortableList.js > components/Sortable/SortableItem.js > components/Sortable/SortableOverlay.js
-22) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js > components/Sortable/SortableList.js > components/Sortable/SortableItem.js
-23) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js > components/Sortable/SortableList.js
+21) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js > components/Sortable/SortableView.js > components/Sortable/SortableItem.js > components/Sortable/SortableOverlay.js
+22) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js > components/Sortable/SortableView.js > components/Sortable/SortableItem.js
+23) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js > components/Sortable/SortableView.js
 24) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js > components/Settings/SettingsCard/SettingsCard.js
 25) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js > components/Expander/ExpanderItem.js
 26) utils/styles.js > stores/config.js > views/visual/prve.js > components/Expander/Expander.js

@@ -117,7 +117,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 		block-size: 100%;
 		inline-size: ${15 + 20 + 16}px;
 		border-radius: 3px;
-		cursor: ${SortableList.Item.dragHandleCursor};
+		cursor: ${SortableView.Item.verticalDragHandleCursor};
 
 		&::after {
 			${styles.mixins.square("36px")};
@@ -204,7 +204,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 }, "div">) {
 	trailingIcon ??= type === "button" ? "chevron_right" :
 		type === "expander" ? "chevron_down" : undefined;
-	const dragHandleContext = useContext(SortableList.Item.Context);
+	const dragHandleContext = useContext(SortableView.Item.Context);
 	const ariaId = useId();
 	useImperativeHandle(ariaIdRef, () => ariaId, [ariaId]);
 	tabIndex ??= type.in("container", "container-but-button") ? -1 : 0;

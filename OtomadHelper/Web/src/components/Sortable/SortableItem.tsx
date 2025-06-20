@@ -1,6 +1,7 @@
 import type { DraggableSyntheticListeners, UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import moveCur from "assets/cursors/move.svg?cursor";
 import nsResizeCur from "assets/cursors/ns_resize.svg?cursor";
 import { PRESSED_SORTABLE_ITEM_OPACITY } from "./SortableOverlay";
 
@@ -14,6 +15,8 @@ const SortableItemContext = createContext({
 const StyledSortableItem = styled.li<{
 	/** Is there no drag handle and you can drag it the whole element? */
 	$fullyDraggable?: boolean;
+	/** View mode: list, grid. */
+	$view?: "list" | "grid";
 }>`
 	display: flex;
 	flex-grow: 1;
@@ -21,8 +24,9 @@ const StyledSortableItem = styled.li<{
 	align-items: center;
 	list-style: none;
 
-	/* ${ifProp("$fullyDraggable", css`cursor: ns-resize;`)} */
-	${ifProp("$fullyDraggable", css`cursor: ${nsResizeCur};`)}
+	${({ $fullyDraggable, $view }) => $fullyDraggable && css`
+		cursor: ${$view === "list" ? nsResizeCur : moveCur};
+	`}
 
 	> * {
 		inline-size: 100%;
@@ -51,11 +55,15 @@ const StyledSortableItem = styled.li<{
 	}
 `;
 
-export /* @internal */ default function SortableItem({ children, id, fullyDraggable }: FCP<{
+export /* @internal */ default function SortableItem({ children, id, fullyDraggable, _view: view, unfocusable }: FCP<{
 	/** Unique identifier. */
 	id: UniqueIdentifier;
 	/** Is there no drag handle and you can drag it the whole element? */
 	fullyDraggable?: boolean;
+	/** @private View mode: list, grid. */
+	_view?: "list" | "grid";
+	/** Apply tabIndex -1? */
+	unfocusable?: boolean;
 }>) {
 	const [disabled, setDisabled] = useState(false);
 	const { attributes, isDragging, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({ id, disabled, transition: {
@@ -78,7 +86,7 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 		<SortableItemContext value={context}>
 			<StyledSortableItem
 				ref={el => { liEl.current = el; setNodeRef(el); }}
-				className={{ dragging: isDragging }}
+				className={{ dragging: isDragging, view }}
 				style={{
 					opacity: isDragging ? PRESSED_SORTABLE_ITEM_OPACITY : undefined,
 					transform: CSS.Translate.toString(transform),
@@ -86,6 +94,7 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 				}}
 				$fullyDraggable={fullyDraggable}
 				{...fullyDraggable && { ...attributes, ...listeners }}
+				tabIndex={unfocusable ? -1 : 0}
 			>
 				{children}
 			</StyledSortableItem>
@@ -94,4 +103,4 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 }
 
 SortableItem.Context = SortableItemContext;
-SortableItem.dragHandleCursor = nsResizeCur;
+SortableItem.verticalDragHandleCursor = nsResizeCur;
