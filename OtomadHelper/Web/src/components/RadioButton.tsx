@@ -147,6 +147,9 @@ export default function RadioButton<T>({ children, id, value: [value, setValue],
 			ref={labelEl}
 			$plain={plain}
 			role="radio"
+			disabled={disabled}
+			aria-disabled={disabled}
+			inert={disabled}
 			aria-checked={checked}
 			aria-labelledby={`${ariaId}-title`}
 			aria-describedby={`${ariaId}-details`}

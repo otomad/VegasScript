@@ -65,9 +65,9 @@ export /* @internal */ const StyledItemsView = styled.div<{
 `;
 
 export default function ItemsView<
-	M extends boolean,
 	T extends (M extends true ? PropertyKey[] : PropertyKey),
->({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, readOnly, emptyState, "aria-label": ariaLabel, ...htmlAttrs }: FCP<{
+	M extends boolean = false,
+>({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, readOnly, emptyState, "aria-label": ariaLabel, selectAll, onItemCountChange, onItemEmptyChange, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/**
@@ -103,6 +103,12 @@ export default function ItemsView<
 	readOnly?: boolean;
 	/** Show something while nothing in the items. */
 	emptyState?: ReactNode;
+	/** Show select all and invert selection control. Only available when `multiple` is true. */
+	selectAll?: M extends true ? Partial<PropsOf<typeof SelectAll>> | true : never;
+	/** Occurs when the item count changes. */
+	onItemCountChange?(length: number): void;
+	/** Occurs when the item count toggles zero. */
+	onItemEmptyChange?(empty: boolean): void;
 }, "div">) {
 	if (itemWidth === "square") itemWidth = GRID_VIEW_ITEM_HEIGHT;
 
@@ -123,48 +129,62 @@ export default function ItemsView<
 		) as T);
 	};
 
+	const allIds = (React.Children.map(children, child => {
+		if (!isReactInstance(child, ItemsViewItem, "weakest")) return undefined;
+		return child.props.id;
+	}) ?? []).toCompacted();
+
+	const items = React.Children.map(children, child => {
+		if (!isReactInstance(child, ItemsViewItem, "weakest")) return child;
+		const id = child.props.id;
+		const onParentClick = child.props.onClick;
+		const item = React.cloneElement(child, {
+			_view: view,
+			_multiple: multiple,
+			..._current !== null && {
+				selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includes(id) ? "indeterminate" : "checked",
+				onClick: (...e: Parameters<OnItemsViewItemClickEventHandler>) => { handleClick(id); onParentClick?.(...e); },
+			},
+		});
+		if (!transition) return item;
+		else return (
+			<CssTransition
+				key={id as string}
+				classNames={typeof transition === "string" ? transition : undefined}
+				unmountOnExit
+				maxTimeout={250}
+			>
+				{item}
+			</CssTransition>
+		);
+	});
+
+	const itemCount = useMemo(() => items?.length ?? 0, [items]);
+	const isEmpty = useMemo(() => itemCount === 0, [itemCount]);
+	useEffect(() => onItemCountChange?.(itemCount), [itemCount]);
+	useEffect(() => onItemEmptyChange?.(isEmpty), [isEmpty]);
+
 	return (
-		<StyledItemsView
-			className={[className, view, { autoFill }]}
-			$itemWidth={itemWidth}
-			role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
-			aria-label={ariaLabel ?? (role === undefined && multiple ? t.aria.checkboxGroup : undefined)}
-			aria-hidden={false}
-			style={{ ...style, justifyContent: inlineAlignment }}
-			inert={readOnly}
-			aria-readonly={readOnly}
-			{...htmlAttrs}
-		>
-			{(() => {
-				const items = React.Children.map(children, child => {
-					if (!isReactInstance(child, ItemsViewItem, "weakest")) return child;
-					const id = child.props.id;
-					const onParentClick = child.props.onClick;
-					const item = React.cloneElement(child, {
-						_view: view,
-						_multiple: multiple,
-						..._current !== null && {
-							selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includes(id) ? "indeterminate" : "checked",
-							onClick: (...e: Parameters<OnItemsViewItemClickEventHandler>) => { handleClick(id); onParentClick?.(...e); },
-						},
-					});
-					if (!transition) return item;
-					else return (
-						<CssTransition
-							key={id as string}
-							classNames={typeof transition === "string" ? transition : undefined}
-							unmountOnExit
-							maxTimeout={250}
-						>
-							{item}
-						</CssTransition>
-					);
-				});
-				if (!items?.length && emptyState) return emptyState;
-				if (!transition) return items;
-				else return <TransitionGroup component={null}>{items}</TransitionGroup>;
-			})()}
-		</StyledItemsView>
+		<>
+			{multiple && selectAll && !isEmpty && <SelectAll value={[current, setCurrent] as StateProperty<PropertyKey[]>} all={allIds} {...selectAll === true ? {} : selectAll as never} />}
+			<StyledItemsView
+				className={[className, view, { autoFill }]}
+				$itemWidth={itemWidth}
+				role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
+				aria-label={ariaLabel ?? (role === undefined && multiple ? t.aria.checkboxGroup : undefined)}
+				aria-hidden={false}
+				style={{ ...style, justifyContent: inlineAlignment }}
+				inert={readOnly}
+				aria-readonly={readOnly}
+				{...htmlAttrs}
+			>
+				{(() => {
+					if (isEmpty && emptyState) return emptyState;
+					if (!transition) return items;
+					else return <TransitionGroup component={null}>{items}</TransitionGroup>;
+				})()}
+			</StyledItemsView>
+		</>
 	);
 }
 

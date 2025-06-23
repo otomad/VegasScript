@@ -70,7 +70,6 @@ export default {
 		"media-query-no-invalid": null, // 不支持 Styled Components 的 ${} 插值。
 		// "alpha-value-notation": ["percentage", { "exceptProperties": "opacity" }],
 		// "property-disallowed-list": ["direction"],
-		"no-empty-source": null,
 		"@stylistic/declaration-block-trailing-semicolon": "always",
 		"@stylistic/declaration-block-semicolon-space-after": "always-single-line",
 		"@stylistic/declaration-block-semicolon-space-before": "never",

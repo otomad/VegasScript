@@ -115,6 +115,7 @@ export default {
 		invertSelection: "Invert selection",
 		variableBeginWith: "Variable from {{first, lowercase}}", // For example, if the panning of a score gradually changes from the left channel to the right channel, it will be displayed as “Variable from left”.
 		reset: "Reset",
+		resetThisPage: "Reset this page",
 		preset: "Preset",
 		preset_other: "Presets",
 		new: "New", // Verb. Create new.
@@ -138,7 +139,7 @@ export default {
 		preview: "Preview",
 		width: "Width",
 		height: "Height",
-		type: "Type",
+		unit: "Unit",
 		deleteSelection: "Delete selection",
 		all: "All",
 		infoBar: {
@@ -160,6 +161,8 @@ export default {
 			millisecond: "ms", // Unit: Millisecond.
 			percent: "%", // Unit: Percent.
 			pixel: "px", // Unit: Pixel.
+			pixel_full: "Pixel", // Unit: Pixel.
+			pixel_full_other: "Pixels",
 			beatPerMinute: "BPM", // Unit: Beat per minute.
 			semitone: "st", // Unit: Semitone.
 			degree: "°", // Unit: Degree.
@@ -172,6 +175,8 @@ export default {
 			cent: "cent", // Unit: Cent. The cent is a logarithmic unit of measure used for musical intervals. Twelve-tone equal temperament divides the octave into 12 semitones of 100 cents each.
 			cent_other: "cents",
 			fraction: "fr", // Unit: Fraction.
+			fraction_full: "Fraction", // Unit: Fraction.
+			fraction_full_other: "Fractions",
 		},
 		confirm: {
 			delete: {

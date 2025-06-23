@@ -86,8 +86,7 @@ export default function Ytp() {
 						</OverlapLayout>
 					)}
 				>
-					<SelectAll value={[selectEffects, setSelectEffects]} all={effectNames} />
-					<ItemsView view="grid" current={[selectEffects, setSelectEffects]} multiple>
+					<ItemsView view="grid" current={[selectEffects, setSelectEffects]} multiple selectAll>
 						{effectNames.map(name => {
 							const { stream, sideEffects } = effects[name];
 							return (

@@ -227,6 +227,9 @@ export default function Checkbox<T>({ children, id, value: [value, setValue], di
 			ref={labelEl}
 			$plain={plain}
 			role="checkbox"
+			disabled={disabled}
+			aria-disabled={disabled}
+			inert={disabled}
 			aria-checked={indeterminate ? "mixed" : checked}
 			aria-labelledby={`${ariaId}-title`}
 			aria-describedby={`${ariaId}-details`}

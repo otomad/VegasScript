@@ -322,19 +322,25 @@ export function useThrottleCallback<T extends AnyFunction>(callback: T, deps: De
 	return useCallback(lodash.throttle(callback, wait), deps);
 }
 
+/**
+ * A hook to quickly select all and invert selection.
+ * @param allSelection - IDs of all available checkboxes.
+ */
 export function useSelectAll<T>([selected, setSelected]: StateProperty<T[]>, allSelection: T[]) {
 	selected ??= [];
 	setSelected ??= noop;
+	// Note: Due to the filtering feature, it is possible that the currently selected items include items that are not in all items.
+	// So we need to preserve those extra items while Select All and Invert Selection.
+	// However, there are still disputes. For example, the extra items were added accidentally. Should it keep them anyway?
+	const allItems = new Set(allSelection), selectedItemsWithExtras = new Set(selected);
+	const selectedItems = selectedItemsWithExtras.intersection(allItems);
 	return [
-		selected.length === 0 ? "unchecked" : selected.length === allSelection.length ? "checked" : "indeterminate",
+		selectedItems.size === 0 ? "unchecked" : selectedItems.size === allItems.size ? "checked" : "indeterminate",
 		(checkState: CheckState) => {
-			if (checkState === "unchecked") setSelected([]);
-			else if (checkState === "checked") setSelected(allSelection.slice());
+			if (checkState === "unchecked") setSelected([...selectedItemsWithExtras.difference(allItems)]);
+			else if (checkState === "checked") setSelected([...selectedItemsWithExtras.union(allItems)]);
 		},
-		() => {
-			const invertedItems = new Set(allSelection).difference(new Set(selected));
-			setSelected(Array.from(invertedItems));
-		},
+		() => { setSelected([...selectedItemsWithExtras.symmetricDifference(allItems)]); },
 	] as unknown as StatePropertyNonNull<CheckState> & { 2: () => void };
 }
 

@@ -12,7 +12,10 @@ const GAP = 6;
 const RULER_THICKNESS = 16;
 const ASTERISK = "∗";
 
-const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType) => unit === "auto" ? t.auto : unit === "pixel" ? t.units.pixel : t.units.fraction;
+const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType, count: number) => {
+	const tc = t({ context: "full", count });
+	return unit === "auto" ? tc.auto : unit === "pixel" ? tc.units.pixel : tc.units.fraction;
+};
 
 const PreviewGridContainer = styled.div`
 	${styles.mixins.square("100%")};
@@ -395,6 +398,8 @@ export default function Grid() {
 	const [operationRecordSelection, setOperationRecordSelection] = useState<string[]>([]);
 	const [operationRecordFilter, setOperationRecordFilter] = useState("all");
 	const [operationRecordFilterSpan, operationRecordFilterColumnWidth, operationRecordFilterRowHeight] = useMemo(() => [operationRecordFilter.in("all", "span"), operationRecordFilter.in("all", "columnWidth"), operationRecordFilter.in("all", "rowHeight")], [operationRecordFilter]);
+	const [isCurrentOperationRecordFilterItemEmpty, setIsCurrentOperationRecordFilterItemEmpty] = useState(false);
+	const isCurrentOperationRecordFilterItemAnySelected = useMemo(() => !!operationRecordSelection.find(item => operationRecordFilterSpan && item.startsWith("column-") || operationRecordFilterRowHeight && item.startsWith("row-") || operationRecordFilterSpan && item.includes(",")), [operationRecordSelection, operationRecordFilterSpan, operationRecordFilterRowHeight, operationRecordFilterSpan]);
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
 
@@ -457,7 +462,6 @@ export default function Grid() {
 			}
 		}));
 	}
-	// TODO: 删除所选按钮禁用功能、讨论重置是否需要参考筛选？
 
 	return (
 		<>
@@ -694,8 +698,16 @@ export default function Grid() {
 										defaultValue={1}
 										disabled={columnRowType === "auto"}
 									/>
-									{(["auto", "pixel", "star"] as const).map(unit =>
-										<RadioButton key={unit} id={unit} value={[columnRowType, setColumnRow]}>{getGridUnitTypeName(unit)}</RadioButton>)}
+									{(["auto", "pixel", "star"] as const).map(unit => (
+										<RadioButton
+											key={unit}
+											id={unit}
+											value={[columnRowType, setColumnRow]}
+											disabled={unit === "auto"} // Auto type is not supported now.
+										>
+											{getGridUnitTypeName(unit, columnRowValue)}
+										</RadioButton>
+									))}
 								</div>
 							) : undefined}
 						</FlyoutEditor>
@@ -735,8 +747,8 @@ export default function Grid() {
 				title={t.track.grid.operationRecord}
 				buttons={close => (
 					<>
-						<Button onClick={resetRecords}>{t.reset}</Button>
-						<Button onClick={deleteSelection}>{t.deleteSelection}</Button>
+						<Button onClick={resetRecords} disabled={isCurrentOperationRecordFilterItemEmpty}>{operationRecordFilter === "all" ? t.reset : t.resetThisPage}</Button>
+						<Button onClick={deleteSelection} disabled={!isCurrentOperationRecordFilterItemAnySelected}>{t.deleteSelection}</Button>
 						<Button autoFocus accent onClick={close}>{t.close}</Button>
 					</>
 				)}
@@ -748,7 +760,16 @@ export default function Grid() {
 					view="list"
 					multiple
 					current={[operationRecordSelection, setOperationRecordSelection]}
-					emptyState={<EmptyMessage icon={<ApprovalsAppIcon />} title={t.empty.operationRecord.title} details={t.empty.operationRecord.details({ fixed: fixedColumnsOrFixedRows })} style={{ marginBlock: "30px 0" }} />}
+					emptyState={(
+						<EmptyMessage
+							icon={<ApprovalsAppIcon />}
+							title={t.empty.operationRecord.title}
+							details={t.empty.operationRecord.details({ fixed: fixedColumnsOrFixedRows })}
+							style={{ marginBlock: "30px 0" }}
+						/>
+					)}
+					selectAll
+					onItemEmptyChange={setIsCurrentOperationRecordFilterItemEmpty}
 				>
 					{[
 						...!operationRecordFilterSpan ? [] : spans.map(span => (
@@ -769,7 +790,7 @@ export default function Grid() {
 									{{
 										[t(1).track.grid.column]: columnWidth.index,
 										[t.width]: columnWidth.value,
-										[t.type]: getGridUnitTypeName(columnWidth.type),
+										[t.unit]: getGridUnitTypeName(columnWidth.type, columnWidth.value),
 									}}
 								</OperationRecordItem>
 							</ItemsView.Item>
@@ -780,7 +801,7 @@ export default function Grid() {
 									{{
 										[t(1).track.grid.row]: rowHeight.index,
 										[t.height]: rowHeight.value,
-										[t.type]: getGridUnitTypeName(rowHeight.type),
+										[t.unit]: getGridUnitTypeName(rowHeight.type, rowHeight.value),
 									}}
 								</OperationRecordItem>
 							</ItemsView.Item>

@@ -1,7 +1,7 @@
-const Content = styled.div``;
-const Title = styled.h2``;
-const Body = styled.article``;
-const ButtonGrid = styled.div``;
+const Content = styled.div({});
+const Title = styled.h2({});
+const Body = styled.article({});
+const ButtonGrid = styled.div({});
 
 const StyledContentDialog = styled.div`
 	display: flex;
