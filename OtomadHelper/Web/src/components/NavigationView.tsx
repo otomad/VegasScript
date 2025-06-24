@@ -83,6 +83,7 @@ function TopLeftButtons({ shadow, paneDisplayMode, canBack = true, onBack, onNav
 					</Tooltip>
 					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.navigation} shortcut="Alt + H" />}>
 						<NavButton animatedIcon="global_nav_button" onClick={onNavButton} aria-label={t.navigation} />
+						{/* Do not use `accessKey="H"`, it do repeat the keydown, which is not we wanted. */}
 					</Tooltip>
 				</div>
 			)}

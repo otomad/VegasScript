@@ -228,12 +228,13 @@ export default function Settings() {
 					<Button icon="open_file" onClick={addBackgroundImage}>{t.browse}</Button>
 				</Expander.ChildWrapper>
 				<SortableView
-					items={[backgroundImages.items.map(({ key, ...o }) => ({ id: key, ...o }))]}
+					items={[backgroundImages.items.map(({ key, ...o }) => ({ id: key, pin: key === -1 ? "top" : undefined, ...o }))]}
 					fullyDraggable
 					view="grid"
 					minDistance
 					onReorder={async (from, to) => await backgroundImages.reorder(backgroundImages.items[from].key, to - 1)}
 					unfocusableForSortableItems
+					disableKeyboardSensor
 				>
 					{({ id: [id], url: [url], displayIndex: [displayIndex], color: [color] }) => (
 						<ItemsView.Item

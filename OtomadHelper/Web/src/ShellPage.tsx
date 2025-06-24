@@ -89,14 +89,18 @@ export default function ShellPage() {
 							<CommandBar.Item key="applyToSelectedTracks" caption={t.track.applyToSelectedTracks} icon="arrow_sync_checkmark" />,
 						] : [
 							<CommandBar.Item
-								key="complete" icon="checkmark" caption={t.complete} disabled={completeDisabled} canBeDisabled
+								key="complete"
+								icon="checkmark"
+								caption={t.complete}
+								disabled={completeDisabled}
+								canBeDisabled
 								onClick={() => completeDisabled && alert("Cannot complete!")}
 							/>,
 						]
 					}
 				</CommandBar>
 			)}
-			style={{ zoom, "--zoom": zoom }}
+			style={window.isWebView ? undefined : { zoom, "--zoom": zoom }} // TODO: Use webview2 native zoom function.
 		>
 			<title>{documentTitle}</title>
 			<Page />

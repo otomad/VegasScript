@@ -93,6 +93,7 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 					transition,
 				}}
 				$fullyDraggable={fullyDraggable}
+				$view={view}
 				{...fullyDraggable && { ...attributes, ...listeners }}
 				tabIndex={unfocusable ? -1 : 0}
 			>

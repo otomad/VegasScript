@@ -66,7 +66,11 @@ export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, { handl
 			if (disableUpDown && code.in("ArrowUp", "ArrowDown")) return;
 			e.preventDefault();
 			const target = (e.currentTarget ?? e.target) as HTMLElement | null;
-			const parent = parentSelector ? target?.closest(parentSelector) : target?.parentElement;
+			let parent = parentSelector ? target?.closest(parentSelector) : target?.parentElement;
+			if (parent?.matches(".sortable-item") && !parentSelector) { // Specialized: If is implicit parent selector and the direct parent element is sortable item, then select the sortable view element as the parent.
+				parent = parent.closest("." + nameof.kebab({ SortableView }));
+				itemSelector = ".sortable-item";
+			}
 			const index = target?.indexIn(parent) ?? -1;
 			if (!~index || !parent || !target) return;
 			const items = [...parent.children].filter(element => element.matches(itemSelector) && !element.hasAttribute("disabled"));

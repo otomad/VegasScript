@@ -6,14 +6,17 @@ const DRAGGING_SCALE = 1.025;
 
 const StyledSortableOverlay = styled(DragOverlay)`
 	--sortable-overlay-scale: ${DRAGGING_SCALE};
+	/* scale: var(--sortable-overlay-scale); */
+	/* transform: scale(${DRAGGING_SCALE}); */
 
+	&,
 	* {
 		transition: ${fallbackTransitions}, transform 0s;
 	}
 
 	> * {
-		block-size: inherit;
-		inline-size: inherit;
+		block-size: inherit !important;
+		inline-size: inherit !important;
 		scale: var(--sortable-overlay-scale);
 		transition: ${fallbackTransitions}, scale 250ms cubic-bezier(0.18, 0.67, 0.6, 1.22), opacity 100ms 250ms;
 
@@ -25,8 +28,8 @@ const StyledSortableOverlay = styled(DragOverlay)`
 
 const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => async e => {
 	const { transform, active, dragOverlay } = e;
-	await nextAnimationTick();
 	active.node.style.opacity = PRESSED_SORTABLE_ITEM_OPACITY;
+	await nextAnimationTick();
 	active.node.classList.add("dragging", "dropping");
 	dragOverlay.node.classList.add("dropping");
 	emits.onDrop?.(e);
@@ -35,7 +38,10 @@ const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => asyn
 	const transformAnimation = dragOverlay.node.animate([
 		{ },
 		{
-			transform: `translateX(${transform.x - dragOverlay.rect.left + active.rect.left}px) translateY(${transform.y - dragOverlay.rect.top + active.rect.top}px)`,
+			transform: [
+				`translateX(${transform.x - dragOverlay.rect.left + active.rect.left - dragOverlay.rect.width * (DRAGGING_SCALE - 1) / 2}px)`,
+				`translateY(${transform.y - dragOverlay.rect.top + active.rect.top - dragOverlay.rect.height * (DRAGGING_SCALE - 1) / 2}px)`,
+			].join(" "),
 			"--sortable-overlay-scale": 1,
 		},
 	], { easing: eases.easeOutMax, duration: 250, fill: "forwards" });
@@ -74,7 +80,14 @@ export /* @internal */ default function SortableOverlay({ modifiers, children, .
 }>) {
 	return (
 		<Portal container={document.body}>
-			<StyledSortableOverlay className={ifColorScheme.forceMotion} dropAnimation={dropAnimationConfig(emits)} modifiers={modifiers}>{children}</StyledSortableOverlay>
+			<StyledSortableOverlay
+				// className={ifColorScheme.forceMotion}
+				// adjustScale
+				dropAnimation={dropAnimationConfig(emits)}
+				modifiers={modifiers}
+			>
+				{children}
+			</StyledSortableOverlay>
 		</Portal>
 	);
 }
