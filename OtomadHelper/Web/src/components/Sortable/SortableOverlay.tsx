@@ -6,8 +6,6 @@ const DRAGGING_SCALE = 1.025;
 
 const StyledSortableOverlay = styled(DragOverlay)`
 	--sortable-overlay-scale: ${DRAGGING_SCALE};
-	/* scale: var(--sortable-overlay-scale); */
-	/* transform: scale(${DRAGGING_SCALE}); */
 
 	&,
 	* {
@@ -81,8 +79,8 @@ export /* @internal */ default function SortableOverlay({ modifiers, children, .
 	return (
 		<Portal container={document.body}>
 			<StyledSortableOverlay
-				// className={ifColorScheme.forceMotion}
-				// adjustScale
+				className={ifColorScheme.forceMotion}
+				adjustScale
 				dropAnimation={dropAnimationConfig(emits)}
 				modifiers={modifiers}
 			>
@@ -91,3 +89,4 @@ export /* @internal */ default function SortableOverlay({ modifiers, children, .
 		</Portal>
 	);
 }
+// FIXME: 开启 minimumDistanceActivationConstraint 后，如果鼠标一开始快速拖动元素，则有可能导致元素突然飞出去且定位错误。

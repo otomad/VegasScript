@@ -25,7 +25,7 @@ const StyledSortableView = styled(StyledItemsView).attrs({
 	}
 `;
 
-type PinTo = "top" | "bottom" | undefined;
+export type PinTo = "top" | "bottom" | undefined;
 
 type BaseItem = {
 	/** Unique identifier. */
@@ -101,7 +101,14 @@ export function SortableView<T extends BaseItem>({ items: itemsStateProperty, ov
 		const id = getItemId(item), pin = getItemPin(item);
 		if (expectedPin !== pin) return;
 		return (
-			<SortableItem key={id} id={id} fullyDraggable={fullyDraggable} unfocusable={unfocusableForSortableItems} _view={view}>
+			<SortableItem
+				key={id}
+				id={id}
+				fullyDraggable={fullyDraggable}
+				unfocusable={unfocusableForSortableItems}
+				_view={view}
+				_pin={pin}
+			>
 				{addDatasets(children(states[index], index, item), id, index, view)}
 			</SortableItem>
 		);

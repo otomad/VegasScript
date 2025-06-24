@@ -4,6 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import moveCur from "assets/cursors/move.svg?cursor";
 import nsResizeCur from "assets/cursors/ns_resize.svg?cursor";
 import { PRESSED_SORTABLE_ITEM_OPACITY } from "./SortableOverlay";
+import type { PinTo } from "./SortableView";
 
 const SortableItemContext = createContext({
 	attributes: {} as AnyObject,
@@ -24,9 +25,12 @@ const StyledSortableItem = styled.li<{
 	align-items: center;
 	list-style: none;
 
-	${({ $fullyDraggable, $view }) => $fullyDraggable && css`
-		cursor: ${$view === "list" ? nsResizeCur : moveCur};
-	`}
+	&:not(.pinned) {
+		${({ $fullyDraggable, $view }) => $fullyDraggable && css`
+			cursor: ${$view === "list" ? nsResizeCur : moveCur};
+		`}
+	}
+
 
 	> * {
 		inline-size: 100%;
@@ -55,13 +59,15 @@ const StyledSortableItem = styled.li<{
 	}
 `;
 
-export /* @internal */ default function SortableItem({ children, id, fullyDraggable, _view: view, unfocusable }: FCP<{
+export /* @internal */ default function SortableItem({ children, id, fullyDraggable, _view: view, _pin: pin, unfocusable }: FCP<{
 	/** Unique identifier. */
 	id: UniqueIdentifier;
 	/** Is there no drag handle and you can drag it the whole element? */
 	fullyDraggable?: boolean;
 	/** @private View mode: list, grid. */
 	_view?: "list" | "grid";
+	/** Should the item pin to the top or bottom of the list? */
+	_pin?: PinTo;
 	/** Apply tabIndex -1? */
 	unfocusable?: boolean;
 }>) {
@@ -86,7 +92,7 @@ export /* @internal */ default function SortableItem({ children, id, fullyDragga
 		<SortableItemContext value={context}>
 			<StyledSortableItem
 				ref={el => { liEl.current = el; setNodeRef(el); }}
-				className={{ dragging: isDragging, view }}
+				className={{ dragging: isDragging, view, pinned: !!pin }}
 				style={{
 					opacity: isDragging ? PRESSED_SORTABLE_ITEM_OPACITY : undefined,
 					transform: CSS.Translate.toString(transform),
