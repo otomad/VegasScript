@@ -1,6 +1,5 @@
 import grab from "assets/cursors/grab.svg?cursor";
 import grabbing from "assets/cursors/grabbing.svg?cursor";
-import Point from "classes/Point"; // FIXME: Expect auto import, but won't work now.
 
 const faces = ["front", "back", "left", "right", "top", "bottom"] as const;
 // const SIDE_LENGTH = 200;

@@ -11,6 +11,7 @@ const fakeAnimations = [
 ] as const;
 
 export default fakeAnimations.map(identifier => css`
-	// stylelint-disable-next-line block-no-empty
+	// stylelint-disable block-no-empty
+	// stylelint-disable at-rule-prelude-no-invalid
 	@keyframes ${STATUS_PREFIX}${identifier} {}
 `);

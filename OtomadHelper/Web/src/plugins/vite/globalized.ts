@@ -50,7 +50,7 @@ export default (): VitePlugin => {
 		`)()); // | (string & {})
 	};
 
-	const initClasses = async (path?: string[]) => { // FIXME: Won't work now.
+	const initClasses = async (path?: string[]) => {
 		if (path)
 			if (path[1] === "classes") {
 				if (path.length > 3) return;
@@ -76,8 +76,8 @@ export default (): VitePlugin => {
 			for (const [i, klass] of classes.entries())
 				result += `import type _${i} from "classes/${klass}.ts";\n`;
 			result += "\ndeclare global {\n";
-			for (const klass of classes)
-				result += `\texport type * from "classes/${klass}.ts";\n`;
+			for (const [i, klass] of classes.entries())
+				result += `\ttype ${klass} = _${i};\n`;
 			result += "}\n\nexport { };\n";
 			return result;
 		})());

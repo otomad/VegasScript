@@ -1,5 +1,3 @@
-import Point from "classes/Point";
-
 type SmoothValueAcceptType = number | number[] | Point;
 type SmoothValueChangeHandler<T extends SmoothValueAcceptType> = (current: T, previous: T) => void;
 interface SmoothValueOptions<T extends SmoothValueAcceptType> {
