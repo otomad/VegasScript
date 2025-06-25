@@ -1,14 +1,15 @@
 import { PREVIEW_IMAGE_HEIGHT } from "./SettingsPageControlPreviewImage";
 const IMAGE_MARGIN = 16;
+type CursorType = typeof import("*.svg?cursor").default | string;
 
 const StyledSettingsPageControl = styled.div<{
 	/** The file path of the Easter egg mouse cursor. */
-	$cursor?: string;
+	$cursor?: CursorType;
 }>`
 	display: flex;
 	gap: 0.5em ${IMAGE_MARGIN}px;
 	${({ $cursor }) => $cursor && css`
-		cursor: ${$cursor.startsWith("url(") ? $cursor : `url("${$cursor}"), auto`};
+		cursor: ${typeof $cursor === "string" ? `url("${$cursor}"), auto` : $cursor};
 	`}
 
 	.settings-page-control-preview-image {
@@ -78,7 +79,7 @@ export default function SettingsPageControl({ image, imageOverlay, learnMoreLink
 	/** "Learn More" link href. */
 	learnMoreLink?: string;
 	/** The file path of the Easter egg mouse cursor. */
-	cursor?: string;
+	cursor?: CursorType;
 }, "div">) {
 	const { hideUseTips } = useSnapshot(configStore.settings);
 	if (hideUseTips) return;

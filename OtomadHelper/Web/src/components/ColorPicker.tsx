@@ -152,14 +152,30 @@ export function ColorButton({ color, icon, animatedIcon, selected = false, value
 	);
 }
 
-export default function ColorPicker({ color: [color, setColor], role = "button", showIconWhenHovering = true, showSpectrumWhenUnselected = false, selected, autoStartViewTransition, ...htmlAttrs }: FCP<Override<PropsOf<typeof ColorButton>, {
+const DEFAULT_COLOR = "#000000";
+const toHex = (color: string = "black") => {
+	try {
+		return new Color(color).toString({ format: "hex", collapse: false });
+	} catch {
+		return DEFAULT_COLOR;
+	}
+};
+
+export default function ColorPicker({ color: [color, setColor], computedColor, role = "button", showIconWhenHovering = true, showSpectrumWhenUnselected = false, selected, autoStartViewTransition, ...htmlAttrs }: FCP<Override<PropsOf<typeof ColorButton>, {
 	/** Color. */
 	color: StateProperty<string>;
+	/** If the color is dynamic generated, then get the correct color. */
+	computedColor?(): string;
 	/** Show color spectrum when it is not selected? */
 	showSpectrumWhenUnselected?: boolean;
 	children?: never;
 }>>) {
 	const inputColorEl = useDomRef<"input">();
+	// const [_correctColor, setCorrectColor] = useState(color);
+	// const correctColor = toHex(computedColor ? _correctColor : color);
+	const correctColor = useMemo(() => {
+		return toHex(computedColor?.() ?? color);
+	}, [color, computedColor]);
 
 	const setColorDelayed = async (color: string) => {
 		if (!setColor) return;
@@ -172,14 +188,16 @@ export default function ColorPicker({ color: [color, setColor], role = "button",
 
 	const handleClick: MouseEventHandler = async e => {
 		e.stopPropagation();
-		if (window.isWebView) setColorDelayed(await bridges.bridge.showColorPicker(color || "#000000"));
-		else inputColorEl.current?.click();
+		if (window.isWebView) {
+			const [ok, newHex] = await bridges.bridge.showColorPicker(correctColor || DEFAULT_COLOR);
+			if (ok) setColorDelayed(newHex);
+		} else inputColorEl.current?.click();
 	};
 
 	return (
 		<ColorButton
 			{...htmlAttrs}
-			color={color}
+			color={correctColor}
 			animatedIcon="edit"
 			role={role}
 			selected={selected}
@@ -187,7 +205,7 @@ export default function ColorPicker({ color: [color, setColor], role = "button",
 			showSpectrum={!selected && showSpectrumWhenUnselected}
 			onClick={handleClick}
 		>
-			{!window.isWebView && <input ref={inputColorEl} type="color" value={color} onChange={e => setColorDelayed(e.currentTarget.value)} />}
+			{!window.isWebView && <input ref={inputColorEl} type="color" value={correctColor} onChange={e => setColorDelayed(e.currentTarget.value)} />}
 		</ColorButton>
 	);
 }

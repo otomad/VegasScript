@@ -1,17 +1,15 @@
 import { autoColorPalettes } from "helpers/basic-color-palette";
 import colors from "./colors";
-type AccentPalette = WebMessageEvents.AccentPalette;
 const getAutoColor = (prefix: string, color: typeof autoColorPalettes[number] | (string & {})) =>
 	autoColorPalettes.includes(color) ? `var(--${prefix}-${color})` : color;
 
 const StyledDynamicAccentColor = createGlobalStyle<{
-	$palette?: AccentPalette;
 	$customize: {
 		accentColor: string;
 		backgroundColor: string;
 		currentDominantColor?: string;
 	};
-}>(({ $palette, $customize: { accentColor, backgroundColor, currentDominantColor } }) => [
+}>(({ theme: $palette, $customize: { accentColor, backgroundColor, currentDominantColor } }) => [
 	css`
 		--colorization: #005fb8;
 		--accent-color-windows: ${colors["accent-color"][1]};
@@ -28,7 +26,7 @@ const StyledDynamicAccentColor = createGlobalStyle<{
 			--background-color-vegas: #eee;
 		}
 	`,
-	$palette && css`
+	$palette?.colorization && css`
 		--colorization: ${$palette.colorization};
 		--accent-color: ${$palette.darkAccentColor};
 		--accent-color-windows: ${$palette.darkAccentColor};
@@ -61,12 +59,9 @@ const StyledDynamicAccentColor = createGlobalStyle<{
 `));
 
 export default function DynamicAccentColor() {
-	const [palette, setPalette] = useState<AccentPalette>();
 	const { accentColor, backgroundColor } = useSnapshot(configStore).settings;
 	const { currentDominantColor } = useBackgroundImages();
 	const resolveViewTransition = useRef<() => void>(undefined);
-
-	useListen("host:accentPalette", setPalette);
 
 	useListen("app:startColorPaletteViewTransition", async () => {
 		if (resolveViewTransition.current) return; // Avoid recursion, or transitions will break.
@@ -83,5 +78,5 @@ export default function DynamicAccentColor() {
 
 	useEffect(() => resolveViewTransition.current?.());
 
-	return <StyledDynamicAccentColor $palette={palette} $customize={{ accentColor, backgroundColor, currentDominantColor }} />;
+	return <StyledDynamicAccentColor $customize={{ accentColor, backgroundColor, currentDominantColor }} />;
 }

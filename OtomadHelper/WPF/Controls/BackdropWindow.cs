@@ -211,19 +211,17 @@ public partial class BackdropWindow : Window {
 	//[DllImport("dwmapi.dll", EntryPoint = "#127")] // Equivalent
 	//internal static extern void DwmGetColorizationParameters(ref DWMCOLORIZATIONPARAMS dp);
 	protected internal static Color? GetDwmColorizationColor() {
-		AccentPalette? palette = GetAccentPalette();
+		AccentPalette? palette = GetWindowsAccentPalette();
 		if (palette is null) return null;
 		bool isDark = ShouldAppsUseDarkMode();
 		return isDark ? palette.DarkAccentColor : palette.LightAccentColor;
 	}
 
-	protected internal static AccentPalette? GetAccentPalette() {
-		AccentPalette palette = new();
-
+	protected internal static bool GetWindowsAccentPalette(AccentPalette palette) {
 		using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\DWM")) {
 			if (key?.GetValue("AccentColor") is int value)
-				palette.Colorization = FromAbgr(value);
-			else return null;
+				palette.Colorization = MediaColorFromAbgr(value);
+			else return false; // Version lower than Windows Vista.
 		}
 
 		using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent")) {
@@ -234,14 +232,13 @@ public partial class BackdropWindow : Window {
 				palette.LightAccentColor = palette.DarkAccentColor = palette.Colorization;
 		}
 
-		return palette;
+		return true;
+	}
 
-		static Color FromAbgr(int value) => Color.FromArgb(
-			(byte)(value >> 8 * 3),
-			(byte)(value >> 8 * 0),
-			(byte)(value >> 8 * 1),
-			(byte)(value >> 8 * 2)
-		);
+	protected internal static AccentPalette GetWindowsAccentPalette() {
+		AccentPalette palette = new();
+		GetWindowsAccentPalette(palette);
+		return palette;
 	}
 
 	protected override void OnSourceInitialized(EventArgs e) {

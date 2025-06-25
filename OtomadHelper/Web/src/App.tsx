@@ -1,4 +1,5 @@
 import { changeColorScheme } from "helpers/color-mode";
+import { ThemeProvider } from "styled-components";
 import DynamicAccentColor from "styles/accent";
 import GlobalStyle from "styles/global";
 import ShellPage from "./ShellPage";
@@ -17,8 +18,11 @@ export default function App() {
 	const forceUpdate = useForceUpdate();
 	i18n.on("languageChanged", forceUpdate);
 
+	const [theme, setTheme] = useState(initialSystemConfig);
+	useListen("host:systemConfig", setTheme);
+
 	return (
-		<>
+		<ThemeProvider theme={theme}>
 			<BackgroundImage />
 			<GlobalStyle $ready={ready} />
 			<DynamicAccentColor />
@@ -29,6 +33,6 @@ export default function App() {
 			<DefineSvgFilter.Portal />
 			<div id="portals" />
 			<meta name="description" content={t.descriptions.settings.about} />
-		</>
+		</ThemeProvider>
 	);
 }

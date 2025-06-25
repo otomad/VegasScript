@@ -86,6 +86,9 @@ export default [
 		"enum-plus": [
 			"Enum",
 		],
+		"colorjs.io": [
+			["default", "Color"],
+		],
 	},
 	/* {
 		from: "react",

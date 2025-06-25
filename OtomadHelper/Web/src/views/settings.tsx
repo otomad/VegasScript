@@ -52,6 +52,10 @@ export default function Settings() {
 
 	const isAutoColor = (color: string) => autoColorPalettes.includes(color);
 	const isCustomColorSelected = (color: string) => !autoColorPalettes.includes(color) && !BasicColorPalette.values.includes(color);
+	const getComputedPaletteColor = (kind: "accent" | "background") => () => {
+		const color = kind === "background" ? backgroundColor[0] : accentColor[0];
+		return isAutoColor(color) ? getComputedStyle(document.documentElement).getPropertyValue(`--${kind}-color-${color}`) : color;
+	};
 
 	return (
 		<div className="container">
@@ -170,6 +174,7 @@ export default function Settings() {
 							<TooltipPartial title={t.custom}>
 								<ColorPicker
 									color={accentColor}
+									computedColor={getComputedPaletteColor("accent")}
 									selected={isCustomColorSelected(accentColor[0])}
 									showIconWhenHovering={false}
 									showSpectrumWhenUnselected
@@ -196,7 +201,13 @@ export default function Settings() {
 							))}
 							{BasicColorPalette.values.map(color => <ColorButton key={color} color={color} value={backgroundColor} autoStartViewTransition />)}
 							<TooltipPartial title={t.custom}>
-								<ColorPicker color={backgroundColor} selected={isCustomColorSelected(backgroundColor[0])} showIconWhenHovering={false} showSpectrumWhenUnselected />
+								<ColorPicker
+									color={backgroundColor}
+									computedColor={getComputedPaletteColor("background")}
+									selected={isCustomColorSelected(backgroundColor[0])}
+									showIconWhenHovering={false}
+									showSpectrumWhenUnselected
+								/>
 							</TooltipPartial>
 						</StyledColorPalette>
 					</>

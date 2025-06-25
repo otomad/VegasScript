@@ -28,4 +28,32 @@ public static partial class Extensions {
 	/// <inheritdoc cref="string.Join(string, IEnumerable{string})"/>
 	public static string Join(this IEnumerable<string> values, char separator) =>
 		string.Join(separator.ToString(), values);
+
+	/// <summary>
+	/// Repeat the <paramref name="input" /> string <paramref name="count" /> times.
+	/// </summary>
+	/// <param name="input">The string to repeat.</param>
+	/// <param name="count">Repeat count.</param>
+	/// <returns>The repeated new string.</returns>
+	public static string Repeat(this string input, int count) =>
+		string.Concat(Enumerable.Repeat(input, count));
+
+	/// <summary>
+	/// Repeat the <paramref name="input" /> char <paramref name="count" /> times.
+	/// </summary>
+	/// <param name="input">The char to repeat.</param>
+	/// <param name="count">Repeat count.</param>
+	/// <returns>The repeated new string.</returns>
+	public static string Repeat(this char input, int count) =>
+		new(input, count);
+
+	/// <summary>
+	/// Generate stream from string.
+	/// </summary>
+	/// <returns><see cref="MemoryStream" /></returns>
+	public static MemoryStream ToStream(this string input) {
+		byte[] bytes = Encoding.UTF8.GetBytes(input);
+		MemoryStream stream = new(bytes);
+		return stream;
+	}
 }

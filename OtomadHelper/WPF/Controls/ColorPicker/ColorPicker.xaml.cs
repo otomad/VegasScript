@@ -32,10 +32,10 @@ public partial class ColorPicker : UserControl {
 
 	public new ColorPickerViewModel DataContext => (ColorPickerViewModel)base.DataContext;
 
-	public static async Task<string> ShowDialog(string hex, ColorPickerModelAxis? initialModelAxis = null) {
+	public static async Task<ValueTuple<bool, string>> ShowDialog(string hex, ColorPickerModelAxis? initialModelAxis = null) {
 		bool startsWithHash = hex.StartsWith("#");
 		Unicolour? color = ColorPickerViewModel.FromHex(hex);
-		if (color is null) return hex;
+		if (color is null) return (false, hex);
 		ColorPicker panel = new();
 		ColorPickerViewModel viewModel = panel.DataContext;
 		viewModel.Color = color;
@@ -51,8 +51,8 @@ public partial class ColorPicker : UserControl {
 			singletonId: "Color Picker"
 		) ?? false;
 		Unicolour newColor = viewModel.Color;
-		if (!dialogResult) return hex;
-		return (startsWithHash ? "#" : "") + ColorPickerViewModel.ToHex(newColor)[0];
+		if (!dialogResult) return (false, hex);
+		return (true, (startsWithHash ? "#" : "") + ColorPickerViewModel.ToHex(newColor)[0]);
 	}
 
 	public TElement? FindForm<TElement>(ColorPickerModelAxis modelAxis) where TElement : FrameworkElement {

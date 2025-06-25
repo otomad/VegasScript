@@ -46,6 +46,7 @@
 		"@dnd-kit/sortable": "^10.0.0",
 		"ani-cursor": "^0.0.5",
 		"classnames": "^2.5.1",
+		"colorjs.io": "^0.5.2",
 		"dedent": "^1.5.3",
 		"enum-plus": "^2.3.1",
 		"fast-average-color": "^9.5.0",

@@ -1,5 +1,5 @@
 declare module "*.svg?cursor" {
-	const cssCursorValue: `url("${string}")`;
+	const cssCursorValue: (props: { theme: import("styled-components").DefaultTheme }) => `url("${string}")`;
 	export default cssCursorValue;
 }
 

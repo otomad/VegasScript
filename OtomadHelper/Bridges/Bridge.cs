@@ -63,10 +63,10 @@ public class Bridge {
 	/// Displays a color picker window with the old hex color.
 	/// </summary>
 	/// <param name="hex">Old hex color.</param>
-	/// <returns>New hex color.</returns>
-	public async Task<string> ShowColorPicker(string hex) {
-		string newHex = await ColorPicker.ShowDialog(hex);
-		return newHex;
+	/// <returns>A value tuple indicate if user click the ok and the new hex color.</returns>
+	public async Task<ValueTuple<bool, string>> ShowColorPicker(string hex) {
+		(bool, string) result = await ColorPicker.ShowDialog(hex);
+		return result;
 	}
 
 	/// <summary>

@@ -6,6 +6,7 @@ import moveDraggingCur from "assets/cursors/move_dragging.svg?cursor";
 import nsResizeDraggingCur from "assets/cursors/ns_resize_dragging.svg?cursor";
 import { StyledItemsView } from "components/ItemsView/ItemsView";
 import ItemsViewItem from "components/ItemsView/ItemsViewItem";
+import { useTheme } from "styled-components";
 import SortableItem from "./SortableItem";
 import SortableOverlay, { type SortableOverlayEmits } from "./SortableOverlay";
 
@@ -76,9 +77,10 @@ export function SortableView<T extends BaseItem>({ items: itemsStateProperty, ov
 		verticalDragOnly && restrictToVerticalAxis,
 		restrictToParentElement,
 	].toCompacted();
+	const theme = useTheme();
 
 	const [active, _setActive] = useState<Active | null>(null);
-	const setActive = setStateInterceptor(_setActive, undefined, active => forceCursor(active ? verticalDragOnly ? nsResizeDraggingCur : moveDraggingCur : null));
+	const setActive = setStateInterceptor(_setActive, undefined, active => forceCursor(active ? (verticalDragOnly ? nsResizeDraggingCur : moveDraggingCur)({ theme }) : null));
 	const activeItem = useMemo(() => {
 		const index = items.findIndex(item => getItemId(item) === active?.id);
 		if (!~index) return null;

@@ -34,7 +34,7 @@ public static class MessageSender {
 	/// Must be a subclass of <see cref="BaseWebMessageEvent"/>.</typeparam>
 	/// <param name="message">The message to be posted.</param>
 	public static void PostWebMessage<T>(T message) where T : BaseWebMessageEvent =>
-		PostWebMessageAsJson(JsonSerializer.Serialize(message, jsonOptions));
+		PostWebMessageAsJson(SerializeWebMessageJson(message));
 
 	private static void PostWebMessageFromJsonObject(JsonObject jsonObject) =>
 		PostWebMessageAsJson(jsonObject.ToJsonString(jsonOptions));
@@ -86,4 +86,8 @@ public static class MessageSender {
 
 	internal static TReceive ParseJson<TReceive>(string json) =>
 		JsonSerializer.Deserialize<TReceive>(json, jsonOptions)!;
+
+	internal static string SerializeWebMessageJson<T>(T message) where T : BaseWebMessageEvent =>
+		// Note: Do not write as `internal static string SerializeWebMessageJson(BaseWebMessageEvent message)`, or the serialized string will ignore almost anything!
+		JsonSerializer.Serialize(message, jsonOptions);
 }

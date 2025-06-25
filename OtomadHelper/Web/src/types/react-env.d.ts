@@ -23,6 +23,10 @@ declare module "react/jsx-runtime" {
 	}
 }
 
+declare module "styled-components" {
+	export interface DefaultTheme extends ThemeType, WebMessageEvents.SystemConfig { }
+}
+
 declare module "valtio" {
 	function useSnapshot<T extends object>(p: T): T;
 }

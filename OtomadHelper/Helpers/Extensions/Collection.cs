@@ -294,4 +294,15 @@ public static partial class Extensions {
 		for (int i = 0; i < list.Count; i++)
 			list[i] ??= def;
 	}
+
+	/// <summary>
+	/// Check if the specified key is in the <see cref="NameValueCollection" />?
+	/// </summary>
+	/// <remarks>
+	/// Note: You cannot use <c>collection[key] == null</c>, this is because the value belong with the key may be null.
+	/// </remarks>
+	/// <param name="collection"><see cref="NameValueCollection" /></param>
+	/// <param name="key">The key to check.</param>
+	public static bool HasKey(this NameValueCollection collection, string key) =>
+		collection.AllKeys.Contains(key);
 }

@@ -83,7 +83,8 @@ export default function Tools() {
 				details={t.descriptions.tools.converters.clawer}
 				type="button"
 				icon="claw_machine"
-				selectInfo={t(1).selectInfo.audioEventOnlyOne} selectValid={1 === 1}
+				selectInfo={t(1).selectInfo.audioEventOnlyOne}
+				selectValid={1}
 			/>
 		</div>
 	);

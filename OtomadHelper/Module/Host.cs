@@ -39,6 +39,7 @@ public sealed partial class Host : UserControl {
 		DragLeave += (sender, e) => Host_DragLeave(isDrop: false);
 
 		SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+		SystemCursorConfig.CursorChanged += (sender, e) => PostSystemConfigToTheWeb();
 
 #if VEGAS_ENV
 		BackColor = Skins.Colors.ButtonFace;
@@ -67,10 +68,11 @@ public sealed partial class Host : UserControl {
 		settings.IsSwipeNavigationEnabled = false;
 	}
 
-	private void Browser_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e) {
+	private async void Browser_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e) {
+		CoreWebView2 webView = Browser.CoreWebView2;
+		await webView.AddScriptToExecuteOnDocumentCreatedAsync("initialSystemConfig = " + SerializeWebMessageJson(GetRefreshedSystemConfig()));
 		ManagedStream.Handler(Browser);
 		Browser.Source = new(ManagedStream.RESOURCE_HOST + "index.html"); // "http://www.sunchateau.com/free/ua.htm"
-		CoreWebView2 webView = Browser.CoreWebView2;
 		webView.NewWindowRequested += CoreWebView2_NewWindowRequested;
 		webView.DocumentTitleChanged += (sender, e) => DocumentTitleChanged?.Invoke(Browser.CoreWebView2.DocumentTitle);
 		webView.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
@@ -102,13 +104,13 @@ public sealed partial class Host : UserControl {
 #endif
 	}
 
-	private async void Browser_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
+	private void Browser_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
 		try {
 			string message = e.TryGetWebMessageAsString();
 			switch (message) {
 				case "initialized":
-					PostAccentColorToTheWeb();
-					await Task.Delay(500);
+					//PostSystemConfigToTheWeb();
+					//await Task.Delay(500);
 					WebInitialized();
 					break;
 				default:
@@ -294,13 +296,17 @@ public sealed partial class Host : UserControl {
 
 	private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) {
 		if (e.Category != UserPreferenceCategory.General) return;
-		PostAccentColorToTheWeb();
+		PostSystemConfigToTheWeb();
 	}
 
-	private void PostAccentColorToTheWeb() {
-		AccentPalette? palette = BackdropWindow.GetAccentPalette();
-		if (palette is { }) PostWebMessage(palette);
+	private SystemConfig GetRefreshedSystemConfig() {
+		SystemConfig config = new();
+		BackdropWindow.GetWindowsAccentPalette(config);
+		SystemCursorConfig.SetSystemConfig(config);
+		return config;
 	}
+
+	private void PostSystemConfigToTheWeb() => PostWebMessage(GetRefreshedSystemConfig());
 
 #if VEGAS_ENV
 	private void AddModuleKeybindings() {

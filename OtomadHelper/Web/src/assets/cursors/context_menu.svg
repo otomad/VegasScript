@@ -1,3 +1,3 @@
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-hotspot-x="0" data-hotspot-y="0" data-fallback="context-menu">
-	<path d="M15 18H20M15 20.5H20M15 23H20M11.9523 12.7228H7.01787L9.04441 16.8452L6.09969 18.3384L3.83929 13.7048L0.480225 16.9806V1.18868L11.9523 12.7228ZM13 15H22V26H13V15Z" stroke="black" fill="white" />
+<svg width="32" height="32" viewBox="0 0 32 32" stroke="black" fill="white" xmlns="http://www.w3.org/2000/svg" data-hotspot-x="0" data-hotspot-y="0" data-fallback="context-menu">
+	<path d="M15 18H20M15 20.5H20M15 23H20M11.9523 12.7228H7.01787L9.04441 16.8452L6.09969 18.3384L3.83929 13.7048L0.480225 16.9806V1.18868L11.9523 12.7228ZM13 15H22V26H13V15Z" />
 </svg>

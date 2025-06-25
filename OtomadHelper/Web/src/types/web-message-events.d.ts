@@ -19,10 +19,12 @@ declare global {
 			menuItemUuid: string;
 		}
 
-		export interface AccentPalette {
-			colorization: string;
-			lightAccentColor: string;
-			darkAccentColor: string;
+		export interface SystemConfig {
+			colorization?: string | null;
+			lightAccentColor?: string | null;
+			darkAccentColor?: string | null;
+			cursorSize: number;
+			cursorFill: string;
 		}
 
 		export interface TriggerKeybinding {
@@ -46,6 +48,8 @@ declare global {
 	}
 
 	type VegasKeybindingEventType = "useTrackEventAsSource" | "useProjectMediaAsSource" | "enableYtp" | "startGenerating";
+
+	var initialSystemConfig: WebMessageEvents.SystemConfig;
 }
 
 export default WebMessageEvents;

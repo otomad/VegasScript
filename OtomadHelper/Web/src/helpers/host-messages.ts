@@ -6,7 +6,7 @@ export type ApplicationEvents = {
 	"host:dragOver": [WebMessageEvents.DragOver];
 	"host:consoleLog": [WebMessageEvents.ConsoleLog];
 	"host:contextMenuItemClickEventArgs": [WebMessageEvents.ContextMenuItemClickEventArgs];
-	"host:accentPalette": [WebMessageEvents.AccentPalette];
+	"host:systemConfig": [WebMessageEvents.SystemConfig];
 	"host:triggerKeybinding": [WebMessageEvents.TriggerKeybinding];
 	"dev:showContextMenu": [e: MouseEvent, menu: typeof window["contextMenu"] & {}];
 	"app:toast": [message: string, status?: Status];
