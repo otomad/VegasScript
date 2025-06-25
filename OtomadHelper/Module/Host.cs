@@ -78,6 +78,7 @@ public sealed partial class Host : UserControl {
 		webView.AddHostObjectToScript("bridge", new BetterBridge(new Bridge()));
 		WebMessageAcknowledgement webMessageAcknowledgement = new();
 		webView.AddHostObjectToScript("webMessageAcknowledgement", webMessageAcknowledgement);
+		//Browser.ZoomFactor // TODO: Set UI zoom factor.
 		MessageSender.Host = this;
 		webMessageAcknowledgement.Received += OnReceiveAcknowledgement;
 #if DEBUG
@@ -242,6 +243,8 @@ public sealed partial class Host : UserControl {
 							PostWebMessage(new ContextMenuItemClickEventArgs(menuUuid, item.uuid));
 						break;
 				}
+				menuItem.IsEnabled = item.enabled;
+				menuItem.IsChecked = item.@checked;
 				return menuItem;
 			}).ToList();
 	}

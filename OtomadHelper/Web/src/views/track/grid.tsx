@@ -1,3 +1,4 @@
+import contextMenuCur from "assets/cursors/context_menu.svg?cursor";
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 import ApprovalsAppIcon from "assets/svg/approvals_app.svg?react";
 
@@ -60,6 +61,7 @@ const PreviewGrid = styled.div`
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: var(--fit);
+		cursor: ${contextMenuCur};
 
 		&.h-flip {
 			scale: -1 1;

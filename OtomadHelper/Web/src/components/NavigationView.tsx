@@ -594,9 +594,13 @@ interface NavBrItem {
 }
 
 type PaneDisplayMode = "expanded" | "compact" | "minimal";
-const getPaneDisplayMode = (zoom: number = 1): PaneDisplayMode =>
-	window.innerWidth < 641 * zoom ? "minimal" :
-	window.innerWidth < 1008 * zoom ? "compact" : "expanded";
+const getPaneDisplayMode = (zoom: number = 1): PaneDisplayMode => {
+	if (window.isWebView) zoom = 1;
+	return (
+		window.innerWidth < 641 * zoom ? "minimal" :
+		window.innerWidth < 1008 * zoom ? "compact" : "expanded"
+	);
+};
 const usePaneDisplayMode = () => {
 	const { uiScale1 } = useSnapshot(configStore.settings);
 	const [paneDisplayMode, setPaneDisplayMode] = useState<PaneDisplayMode>(getPaneDisplayMode(configStore.settings.uiScale1));
