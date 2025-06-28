@@ -90,7 +90,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 
 	&.expander-parent {
-		&:not(:has(.trailing > :not(.${TRAILING_EXEMPTION}):hover)):hover {
+		&:not(:has(.trailing > :not(.${TRAILING_EXEMPTION}, p, span):hover)):hover {
 			.trailing-icon {
 				background-color: ${c("fill-color-subtle-secondary")};
 			}
@@ -243,7 +243,15 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 							<>
 								{dragHandle && (
 									<>
-										<div className="drag-handle-shadow" tabIndex={-1} ref={dragHandleContext.ref} {...dragHandleContext.attributes} {...dragHandleContext.listeners} />
+										<div
+											className="drag-handle-shadow"
+											tabIndex={-1}
+											ref={dragHandleContext.ref}
+											role="button"
+											aria-label={t.aria.reorderHandle}
+											{...dragHandleContext.attributes}
+											{...dragHandleContext.listeners}
+										/>
 										<Icon name="reorder_dots" className="drag-handle-icon" />
 									</>
 								)}

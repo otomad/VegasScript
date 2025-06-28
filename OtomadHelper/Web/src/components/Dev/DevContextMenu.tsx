@@ -45,6 +45,7 @@ const StyledContextMenu = styled.menu`
 
 	hr {
 		margin: 0;
+		margin-block: 3px;
 		border: none;
 		border-bottom: 1px solid ${c("stroke-color-divider-stroke-default")};
 	}

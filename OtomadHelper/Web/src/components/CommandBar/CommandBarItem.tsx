@@ -28,6 +28,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 }, "section"> & TransitionProps) {
 	const { transitionAttrs, htmlAttrs } = separateTransitionAttrs(buttonAndTransitionAttrs);
 	const { anchorName: commandBarAnchorName, position, tooNarrow } = useContext(CommandBarAnchorContext);
+	const { disabled: commandBarDisabled } = useContext(InteractionStateContext);
 	if (!caption) iconOnly = true;
 	const anchorName = useUniqueId("--command-bar-item");
 	const [flyoutShown, setFlyoutShown] = useState(false);
@@ -55,7 +56,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 				ref={buttonEl}
 				checked={[on]}
 				icon={icon}
-				disabled={disabled}
+				disabled={disabled || commandBarDisabled}
 				dirBasedIcon={dirBasedIcon}
 				aria-label={canToString(caption) ? caption : undefined}
 				aria-description={canToString(details) ? details : undefined}

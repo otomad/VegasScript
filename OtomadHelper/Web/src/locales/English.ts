@@ -397,6 +397,8 @@ export default {
 				span: "Span", // Column / row span.
 				columnSpan: "Column span",
 				rowSpan: "Row span",
+				insertBlank: "Insert blank",
+				insertBlank_other: "Insert blanks",
 				direction: {
 					_: "Direction",
 					lrTb: "Horizontal", // Writing from left to right, then from top to bottom.
@@ -1108,6 +1110,7 @@ export default {
 				columnWidth: "Column &width",
 				rowHeight: "Row &height",
 				span: "&Span",
+				insertBlank: "Insert &blank",
 			},
 		},
 		aria: {
@@ -1116,6 +1119,7 @@ export default {
 			commandBar: "Command bar",
 			checkboxGroup: "Checkbox group",
 			times: "Times",
+			reorderHandle: "Drag to reorder",
 		},
 	},
 	csharp: {

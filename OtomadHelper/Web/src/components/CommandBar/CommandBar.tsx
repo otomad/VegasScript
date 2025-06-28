@@ -88,7 +88,7 @@ export /* @internal */ const CommandBarAnchorContext = createContext<{
 
 type Position = "left" | "center" | "right";
 
-export default function CommandBar({ position, autoCollapse, addGaps, children, className, style, ...htmlAttrs }: FCP<{
+export default function CommandBar({ position, autoCollapse, addGaps, children, className, style, disabled, ...htmlAttrs }: FCP<{
 	/** Position the command bar to somewhere. */
 	position?: Position;
 	/** Auto collapse command bar if too narrow. */
@@ -109,13 +109,17 @@ export default function CommandBar({ position, autoCollapse, addGaps, children, 
 			aria-label={t.aria.commandBar}
 			className={[className, position, { shadow: i !== 0, gaps: addGaps }]}
 			style={{ ...style, anchorName }}
+			disabled={disabled}
+			aria-disabled={disabled}
 			{...htmlAttrs}
 		>
-			<CommandBarAnchorContext value={i === 0 ? { anchorName, position, tooNarrow: autoCollapse && overflowed } : {} as never}>
-				<TransitionGroup childFactory={childFactory} component={null}>
-					{children}
-				</TransitionGroup>
-			</CommandBarAnchorContext>
+			<InteractionStateContext value={{ disabled }}>
+				<CommandBarAnchorContext value={i === 0 ? { anchorName, position, tooNarrow: autoCollapse && overflowed } : {} as never}>
+					<TransitionGroup childFactory={childFactory} component={null}>
+						{children}
+					</TransitionGroup>
+				</CommandBarAnchorContext>
+			</InteractionStateContext>
 		</StyledCommandBar>
 	));
 }

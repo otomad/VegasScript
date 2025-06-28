@@ -61,7 +61,7 @@ export default function Settings() {
 		<div className="container">
 			<SettingsAbout />
 			<ExpanderRadio
-				title={<>{t.settings.language}{!isEnglish(currentLanguage ?? "en") && <span lang="en"> / Language</span>}</>}
+				title={<>{t.settings.language}{t.settings.language.toString() !== "Language" && <span lang="en"> / Language</span>}</>}
 				icon="globe"
 				items={languages}
 				expanded={DEV_EXPANDED}
@@ -257,6 +257,7 @@ export default function Settings() {
 							onContextMenu={id === -1 ? undefined : createContextMenu([
 								{ label: t.menu.moveForward, enabled: displayIndex > 0, onClick: () => backgroundImages.reorder(id, displayIndex - 1) },
 								{ label: t.menu.moveBackward, enabled: displayIndex < backgroundImages.items.length - 2, onClick: () => backgroundImages.reorder(id, displayIndex + 1) },
+								{ kind: "separator" },
 								{ label: t.menu.delete, onClick: () => backgroundImages.delete(id), confirmDeleteMessage: t.confirm.delete.backgroundImage },
 							])}
 						/>

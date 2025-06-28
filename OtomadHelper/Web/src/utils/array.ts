@@ -15,12 +15,13 @@
 	};
 
 	Array.prototype.removeAllItem = function (...items) {
-		for (const item of items)
-			while (true) {
-				const index = this.indexOf(item);
-				if (!~index) break;
-				this.splice(index, 1);
+		let successes = 0;
+		for (let i = this.length - 1; i >= 0; i--)
+			if (items.includes(this[i])) {
+				this.splice(i, 1);
+				successes++;
 			}
+		return successes;
 	};
 
 	Array.prototype.insert = function (index, ...items) {
@@ -28,9 +29,10 @@
 		this.splice(index, 0, ...items);
 	};
 
-	Array.prototype.pushUniquely = function (item) {
-		if (!this.includes(item))
-			this.push(item);
+	Array.prototype.pushUniquely = function (...items) {
+		for (const item of items)
+			if (!this.includes(item))
+				this.push(item);
 	};
 
 	Array.prototype.clearAll = function () {
@@ -41,9 +43,9 @@
 		this.splice(0, Infinity, ...items);
 	};
 
-	Array.prototype.toggle = function (item) {
+	Array.prototype.toggle = function (item, force) {
 		const index = this.indexOf(item);
-		if (!~index)
+		if (!~index || force)
 			this.push(item);
 		else
 			this.removeAt(index);
@@ -96,6 +98,10 @@
 		return this.at(-1);
 	};
 
+	Array.prototype.first = function () {
+		return this[0];
+	};
+
 	Array.prototype.unique = function () {
 		return this.relist(new Set(this));
 	};
@@ -118,21 +124,23 @@
 	};
 
 	Array.prototype.toPopped = function () {
-		const copy = this.slice();
-		copy.pop();
-		return copy;
+		return this.slice(0, -1);
 	};
 
 	Array.prototype.toShifted = function () {
-		const copy = this.slice();
-		copy.shift();
-		return copy;
+		return this.slice(1);
+	};
+
+	Array.prototype.toPushed = function (...items) {
+		return this.concat(items);
+	};
+
+	Array.prototype.toUnshifted = function (...items) {
+		return this.toSpliced(0, 0, ...items);
 	};
 
 	Array.prototype.mapImmer = function (callbackfn, thisArg) {
-		// `forEach` doesn't support async function, so use `for` instead.
-		for (let index = 0; index < this.length; index++) {
-			const element = this[index];
+		for (const [index, element] of this.entries()) {
 			const result = callbackfn.call(thisArg, element, index, this);
 			if (result instanceof Promise) result.then(value => this[index] = value);
 			else this[index] = result;
@@ -164,6 +172,18 @@
 
 	Array.prototype.shouldReversed = function (reverse = true) {
 		return reverse ? this.toReversed() : this;
+	};
+
+	Array.prototype.trimEnd = function <T>(nullish?: T[] | ((value: T, index: number, obj: T[]) => unknown)) {
+		for (let i = this.length - 1; i >= 0; i--) {
+			const item = this[i];
+			if (
+				!nullish && (isUndefinedNullNaN(item) || typeof item === "string" && item.trim() === "") ||
+				Array.isArray(nullish) && nullish.includes(item) ||
+				typeof nullish === "function" && nullish(item, i, this)
+			) this.pop();
+			else break;
+		}
 	};
 
 	makePrototypeKeysNonEnumerable(Array);

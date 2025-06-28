@@ -27,6 +27,8 @@ interface PageState {
 	editingObject: unknown;
 	onSave?: () => void;
 	useOnSave(handler: () => void): void;
+	commandBarDisabled: boolean;
+	useSetCommandBarDisabled(): SetStateNarrow<boolean>;
 }
 
 const NAME = "page";
@@ -156,6 +158,11 @@ export const pageStore: PageState = createPersistStore("page", (() => {
 				pageStore.onSave = handler;
 				return () => pageStore.onSave = undefined;
 			}, []);
+		},
+		commandBarDisabled: false,
+		useSetCommandBarDisabled() {
+			useUnmountEffect(() => { pageStore.commandBarDisabled = false; });
+			return value => pageStore.commandBarDisabled = typeof value === "function" ? value(pageStore.commandBarDisabled) : value;
 		},
 	} satisfies PageState;
 })(), { partialize: ["page"] });

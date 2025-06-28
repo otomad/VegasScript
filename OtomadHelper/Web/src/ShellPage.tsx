@@ -56,6 +56,7 @@ export default function ShellPage() {
 	})();
 	const pageContentId = useId();
 	setPageContentId(pageContentId);
+	const { commandBarDisabled } = useSnapshot(pageStore);
 
 	useEffect(() => {
 		document.body.classList.toggle("pixelated", enablePixelScaling);
@@ -82,7 +83,7 @@ export default function ShellPage() {
 			pageContentId={pageContentId}
 			poppedScroll={poppedScroll}
 			commandBar={(
-				<CommandBar>
+				<CommandBar disabled={commandBarDisabled}>
 					{
 						...autoLayoutTracksMode ? [
 							<CommandBar.Item key="save" icon="save" caption={t.save} onClick={() => { pageStore.onSave?.(); back(); }} />,

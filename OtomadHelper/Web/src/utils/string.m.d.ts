@@ -8,6 +8,7 @@ declare interface String {
 	 * @example
 	 * ```javascript
 	 * console.log("hello world!".count("l")); // Output: 3
+	 * console.log("pen pineapple apple pen".count("apple")); // Output: 7
 	 * console.log("pen pineapple apple pen".count("apple")); // Output: 2
 	 * ```
 	 */
@@ -25,6 +26,7 @@ declare interface String {
 	 * ```javascript
 	 * console.log("hello world!".reverse()); // Output: "!dlrow olleh"
 	 * console.log("🌸🐔".reverse()); // Output: "🐔🌸"
+	 * console.log("🌸🐔".split("").reverse().join("")); // Output: "\uDC14🜸\uD83C"
 	 * ```
 	 */
 	reverse(): string;
@@ -48,6 +50,8 @@ declare interface String {
 	 * Convert a string to a character array similar to C, where each item in the array corresponds to each character in the string.
 	 *
 	 * The function uses `Array.from()` which can avoid the problem of characters other than Unicode BMP are split into UTF-16 surrogate pairs.
+	 *
+	 * @deprecated Use `[...string]` instead.
 	 *
 	 * @returns An array in string form containing each character in the source string.
 	 *
@@ -119,10 +123,10 @@ declare interface String {
 	 *
 	 * @example
 	 * ```javascript
-	 * console.log("hello world ! ! !".removeSpace()); // Output: "helloworld!!!"
+	 * console.log("hello world ! ! !".removeSpaces()); // Output: "helloworld!!!"
 	 * ```
 	 */
-	removeSpace(): string;
+	removeSpaces(): string;
 
 	/**
 	 * The hole is `[holeStart, holeEnd)`.
@@ -156,6 +160,8 @@ declare interface String {
 	 *     - and still have it do the right thing
 	 *
 	 * That's all.
+	 *
+	 * @see https://www.npmjs.com/package/dedent
 	 */
 	dedent(): string;
 
@@ -175,9 +181,15 @@ declare interface String {
 
 	/**
 	 * Make sure there are no line breaks between every two words in the string.
+	 * Applicable to languages that use spaces as a boundary between words.
 	 *
-	 * This will replace all the space characters in the string with the No-Break Space (U+00A0) characters.
+	 * This will replace all the space characters in the string with the No-Break Space (U+00A0 / `&nbsp;`) characters.
 	 * Note that other white space characters are not affected.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log("hello world!".nowrapPerWord()); // "hello\xA0world!"
+	 * ```
 	 */
 	nowrapPerWord(): string;
 
@@ -186,6 +198,11 @@ declare interface String {
 	 * Applicable to languages that do not use spaces as a boundary between words.
 	 *
 	 * This will insert a Word Joiner (U+2060; formerly Zero-Width No-Break Space, U+FEFF) character between any two characters in the string.
+	 *
+	 * @example
+	 * ```javascript
+	 * console.log("你好世界！".nowrapPerChar()); // "你\u2060好\u2060世\u2060界\u2060！"
+	 * ```
 	 */
 	nowrapPerChar(): string;
 
@@ -202,7 +219,7 @@ declare interface String {
 	 * console.log("data-id".replaceStart("data-", "v-bind:")); // Output: "v-bind:id"
 	 * ```
 	 */
-	replaceStart(start: string, replacement: string = ""): string;
+	replaceStart(start: string, replacement?: string): string;
 
 	/**
 	 * Check if the string ends with the specified substring. If it is, replace it with a new substring.
@@ -217,7 +234,7 @@ declare interface String {
 	 * console.log("data-id".replaceEnd("-id", "-for")); // Output: "data-for"
 	 * ```
 	 */
-	replaceEnd(end: string, replacement?: string = ""): string;
+	replaceEnd(end: string, replacement?: string): string;
 
 	/**
 	 * Similar to C, replacing the character of an index in a string.
@@ -242,4 +259,23 @@ declare interface String {
 	 * @returns The copied string with the updated character.
 	 */
 	with(index: number, character: string): string;
+
+	/**
+	 * Return a centered string of length width.
+	 * Padding is done using the specified fill character (default is a space).
+	 *
+	 * @remarks
+	 * Pads a string on both sides with a specified fill string until it reaches the desired maximum length.
+	 * If the total padding required is uneven, the `uneven` parameter determines whether the extra character is added to the start or end.
+	 *
+	 * This is the JavaScript version of `str.center` function in Python.
+	 *
+	 * @param inputString - The original string to pad.
+	 * @param maxLength - The desired total length of the resulting string after padding.
+	 * @param fillString - The string to use for padding. Defaults to a space.
+	 * @param uneven - Determines where to place the extra padding character if the padding is uneven.
+	 * Use `"start"` to add the extra character to the start, or `"end"` to add it to the end. Defaults to `"start"`.
+	 * @returns The padded string, or the original string if it is already at least `maxLength` characters long.
+	 */
+	padBoth(maxLength: number, fillString?: string, uneven?: "start" | "end"): string;
 }

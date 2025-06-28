@@ -26,7 +26,7 @@ import { spacing } from "pangu";
 		return list.includes(this);
 	} as string["in"];
 
-	String.prototype.removeSpace = function () {
+	String.prototype.removeSpaces = function () {
 		return this.replaceAll(/\s/g, "");
 	};
 
@@ -63,6 +63,12 @@ import { spacing } from "pangu";
 
 	String.prototype.with = function (index, character) {
 		return Array.from(this).with(index, String(character)).join("");
+	};
+
+	String.prototype.padBoth = function (maxLength: number, fillString = " ", uneven: "start" | "end" = "start"): string {
+		const padMethods = ["padStart" as const, "padEnd" as const];
+		if (uneven === "start") padMethods.reverse();
+		return maxLength <= this.length ? this.valueOf() : this[padMethods[0]]((this.length + maxLength) / 2, fillString)[padMethods[1]](maxLength, fillString);
 	};
 
 	makePrototypeKeysNonEnumerable(String);

@@ -190,6 +190,11 @@ const floatDownHidden = css`
 	pointer-events: none;
 `;
 
+const floatUpHidden = css`
+	${floatDownHidden};
+	translate: 0 -16px;
+`;
+
 const Mask = styled.div`
 	position: fixed;
 	inset: 0;
@@ -238,6 +243,7 @@ const FlyoutEditor = styled.div`
 	}
 `;
 
+const COMMAND_BAR_WRAPPER_ANCHOR_NAME = "--command-bar-wrapper";
 const StyledContainerPreview = styled.div`
 	&:has(${FlyoutEditor}:not([hidden])) {
 		${Determinant} {
@@ -245,8 +251,36 @@ const StyledContainerPreview = styled.div`
 		}
 
 		.command-bar-group {
-			${floatDownHidden};
-			translate: 0 -16px;
+			${floatUpHidden};
+		}
+	}
+
+	.command-bar-wrapper {
+		position: relative;
+		anchor-name: ${COMMAND_BAR_WRAPPER_ANCHOR_NAME};
+
+		.reset-btn {
+			position: absolute;
+			inset-block-start: 4px;
+			inset-inline-end: 0;
+			z-index: 2;
+			transition-behavior: allow-discrete;
+
+			&[hidden] {
+				${floatUpHidden};
+			}
+
+			@starting-style {
+				${floatUpHidden};
+			}
+
+			@supports (anchor-name: ${COMMAND_BAR_WRAPPER_ANCHOR_NAME}) {
+				position: fixed;
+				inset-block-start: unset;
+				inset-inline-end: unset;
+				position-anchor: ${COMMAND_BAR_WRAPPER_ANCHOR_NAME};
+				position-area: span-inline-start center;
+			}
 		}
 	}
 `;
@@ -318,7 +352,7 @@ const Multiply = styled.label.attrs({
 `;
 
 export default function Grid() {
-	const { columns: [columns, _setColumns], array, direction, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding, spans: [spans, setSpans], columnWidths: [columnWidths, setColumnWidths], rowHeights: [rowHeights, setRowHeights] } = selectConfig(c => c.track.grid);
+	const { columns: [columns, _setColumns], array, direction, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding, spans: [spans, setSpans], columnWidths: [columnWidths, setColumnWidths], rowHeights: [rowHeights, setRowHeights], blanks: [blanks, setBlanks] } = selectConfig(c => c.track.grid);
 	const setColumns = setStateInterceptor(_setColumns, input => clamp(input, 1, MAX_COL_ROW));
 	const rows = columns, setRows = setColumns; // These properties were originally planned to put into the config, but now it is abandoned.
 	const count = 25, projectWidth = 1920, projectHeight = 1080;
@@ -331,10 +365,10 @@ export default function Grid() {
 	const [fastFillShown, setFastFillShown] = useState(false);
 	const columnInputRef = useDomRef<"input">(), rowInputRef = useDomRef<"input">();
 	const fixedColumnsOrFixedRows = t.track.grid[horizontalDirection ? "fixedColumns" : "fixedRows"];
-	const { maxSameLineLength, lastCrossLineIndex, find: findSpan } = useMemo(() => gridSpanHelper(count, fixedColumns ? columns : rows, square ? [] : spans), [square, count, fixedColumns ? columns : rows, spans]);
+	const { maxSameLineLength, lastCrossLineIndex, find: findSpan } = useMemo(() => gridSpanHelper(count, fixedColumns ? columns : rows, square ? [] : spans, square ? [] : blanks), [square, count, fixedColumns ? columns : rows, spans]);
 	// const autoRows = Math.ceil(count / columns), autoColumns = Math.ceil(count / rows);
 	const autoRows = lastCrossLineIndex, autoColumns = lastCrossLineIndex;
-	const [flyoutEditor, setFlyoutEditor] = useState<"span" | "width" | "height">(), previousFlyoutEditor = useDeferredValue(flyoutEditor), _flyoutEditor = flyoutEditor || previousFlyoutEditor;
+	const [flyoutEditor, setFlyoutEditor] = useState<"span" | "width" | "height" | "blank">(), previousFlyoutEditor = useDeferredValue(flyoutEditor), _flyoutEditor = flyoutEditor || previousFlyoutEditor;
 	const [flyoutEditorCell, setFlyoutEditorCell] = useState<[number, number]>();
 	const [spanX, spanY, setSpanX, setSpanY] = useMemo(() => {
 		const getItem = (draft = spans) => {
@@ -404,6 +438,8 @@ export default function Grid() {
 	const isCurrentOperationRecordFilterItemAnySelected = useMemo(() => !!operationRecordSelection.find(item => operationRecordFilterSpan && item.startsWith("column-") || operationRecordFilterRowHeight && item.startsWith("row-") || operationRecordFilterSpan && item.includes(",")), [operationRecordSelection, operationRecordFilterSpan, operationRecordFilterRowHeight, operationRecordFilterSpan]);
 
 	pageStore.useOnSave(() => configStore.track.grid.enabled = true);
+	const setPageCommandBarDisabled = pageStore.useSetCommandBarDisabled();
+	useEffect(() => { setPageCommandBarDisabled(!!flyoutEditor); }, [flyoutEditor]);
 
 	const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
 		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped :
@@ -465,83 +501,102 @@ export default function Grid() {
 		}));
 	}
 
+	function resetFlyoutEditor() {
+		switch (flyoutEditor) {
+			case "span":
+				setSpanX(1);
+				setSpanY(1);
+				break;
+			case "width":
+			case "height":
+				setColumnRow(1);
+				setColumnRow("star");
+				break;
+			default:
+				break;
+		}
+	}
+
 	return (
 		<>
 			<StyledContainerPreview>
-				<CommandBar.Group>
-					<CommandBar position="right" autoCollapse>
-						<CommandBar.Item icon="approvals_app" onClick={() => { cleanUpInvalidOperationItems(); setShowOperationRecordDialog(true); }} caption={t.track.grid.operationRecord} altCaption={t({ context: "short" }).track.grid.operationRecord} aria-haspopup="dialog" />
-						<hr />
-						<CommandBar.Item
-							icon={square ? "grid" : "grid_kanban_vertical"}
-							caption={t.track.grid.array}
-							hovering
-							dirBasedIcon={!square && direction[0]}
-							onClick={() => array[1](array => arrayTypes.nextItem(array))}
-						>
-							<ItemsView view="list" current={array}>
-								{arrayTypes.map(option => (
-									<ItemsView.Item
-										id={option}
-										key={option}
-										icon={option === "square" ? "grid" : "grid_kanban_vertical"}
-										dirBasedIcon={direction[0]}
-										details={t.descriptions.track.grid[option === "square" ? option : horizontalDirection ? "fixedColumns" : "fixedRows"]}
-									>
-										{t.track.grid[option === "square" ? option : horizontalDirection ? "fixedColumns" : "fixedRows"]}
-									</ItemsView.Item>
-								))}
-							</ItemsView>
-						</CommandBar.Item>
-						<CommandBar.Item
-							icon="lr_tb"
-							caption={t.track.grid.direction}
-							hovering
-							dirBasedIcon={direction[0]}
-							onClick={() => direction[1](direction => directionTypes.nextItem(direction))}
-						>
-							<ItemsView view="list" current={direction}>
-								{directionTypes.map(option => (
-									<ItemsView.Item
-										id={option}
-										key={option}
-										icon="lr_tb"
-										dirBasedIcon={option}
-										details={t.descriptions.track.grid.direction[new VariableName(option).camel]}
-									>
-										{t.track.grid.direction[new VariableName(option).camel]}
-									</ItemsView.Item>
-								))}
-							</ItemsView>
-						</CommandBar.Item>
-						<CommandBar.Item icon={fit[0] === "contain" ? "letterbox" : "aspect_ratio"} caption={t.track.grid.fit} details={t.descriptions.track.grid.fit} hovering onClick={() => fit[1](fit => fitTypes.nextItem(fit))}>
-							<ItemsView view="list" current={fit}>
-								{fitTypes.map(option => (
-									<ItemsView.Item
-										id={option}
-										key={option}
-										icon={option === "contain" ? "letterbox" : "aspect_ratio"}
-										details={t.descriptions.track.grid.fit[option]}
-									>
-										{t.track.grid.fit[option]}
-									</ItemsView.Item>
-								))}
-							</ItemsView>
-						</CommandBar.Item>
-						<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
-						<hr />
-						<CommandBar.Item icon="flip_h" caption={t.track.grid.mirrorEdges + " - " + t.prve.effects.hFlip} altCaption={t.prve.effects.hFlip} details={t.descriptions.track.grid.mirrorEdges.hFlip} hovering>
-							<ItemsView view="list" current={mirrorEdgesHFlip}>
-								{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "column")}>{getMirrorEdgesText(option, "hFlip")}</ItemsView.Item>)}
-							</ItemsView>
-						</CommandBar.Item>
-						<CommandBar.Item icon="flip_v" caption={t.track.grid.mirrorEdges + " - " + t.prve.effects.vFlip} altCaption={t.prve.effects.vFlip} details={t.descriptions.track.grid.mirrorEdges.vFlip} hovering>
-							<ItemsView view="list" current={mirrorEdgesVFlip}>
-								{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "row")}>{getMirrorEdgesText(option, "vFlip")}</ItemsView.Item>)}
-							</ItemsView>
-						</CommandBar.Item>
-					</CommandBar>
-				</CommandBar.Group>
+				<div className="command-bar-wrapper">
+					<CommandBar.Group>
+						<CommandBar position="right" autoCollapse>
+							<CommandBar.Item icon="approvals_app" onClick={() => { cleanUpInvalidOperationItems(); setShowOperationRecordDialog(true); }} caption={t.track.grid.operationRecord} altCaption={t({ context: "short" }).track.grid.operationRecord} aria-haspopup="dialog" />
+							<hr />
+							<CommandBar.Item
+								icon={square ? "grid" : "grid_kanban_vertical"}
+								caption={t.track.grid.array}
+								hovering
+								dirBasedIcon={!square && direction[0]}
+								onClick={() => array[1](array => arrayTypes.nextItem(array))}
+							>
+								<ItemsView view="list" current={array}>
+									{arrayTypes.map(option => (
+										<ItemsView.Item
+											id={option}
+											key={option}
+											icon={option === "square" ? "grid" : "grid_kanban_vertical"}
+											dirBasedIcon={direction[0]}
+											details={t.descriptions.track.grid[option === "square" ? option : horizontalDirection ? "fixedColumns" : "fixedRows"]}
+										>
+											{t.track.grid[option === "square" ? option : horizontalDirection ? "fixedColumns" : "fixedRows"]}
+										</ItemsView.Item>
+									))}
+								</ItemsView>
+							</CommandBar.Item>
+							<CommandBar.Item
+								icon="lr_tb"
+								caption={t.track.grid.direction}
+								hovering
+								dirBasedIcon={direction[0]}
+								onClick={() => direction[1](direction => directionTypes.nextItem(direction))}
+							>
+								<ItemsView view="list" current={direction}>
+									{directionTypes.map(option => (
+										<ItemsView.Item
+											id={option}
+											key={option}
+											icon="lr_tb"
+											dirBasedIcon={option}
+											details={t.descriptions.track.grid.direction[new VariableName(option).camel]}
+										>
+											{t.track.grid.direction[new VariableName(option).camel]}
+										</ItemsView.Item>
+									))}
+								</ItemsView>
+							</CommandBar.Item>
+							<CommandBar.Item icon={fit[0] === "contain" ? "letterbox" : "aspect_ratio"} caption={t.track.grid.fit} details={t.descriptions.track.grid.fit} hovering onClick={() => fit[1](fit => fitTypes.nextItem(fit))}>
+								<ItemsView view="list" current={fit}>
+									{fitTypes.map(option => (
+										<ItemsView.Item
+											id={option}
+											key={option}
+											icon={option === "contain" ? "letterbox" : "aspect_ratio"}
+											details={t.descriptions.track.grid.fit[option]}
+										>
+											{t.track.grid.fit[option]}
+										</ItemsView.Item>
+									))}
+								</ItemsView>
+							</CommandBar.Item>
+							<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
+							<hr />
+							<CommandBar.Item icon="flip_h" caption={t.track.grid.mirrorEdges + " - " + t.prve.effects.hFlip} altCaption={t.prve.effects.hFlip} details={t.descriptions.track.grid.mirrorEdges.hFlip} hovering>
+								<ItemsView view="list" current={mirrorEdgesHFlip}>
+									{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "column")}>{getMirrorEdgesText(option, "hFlip")}</ItemsView.Item>)}
+								</ItemsView>
+							</CommandBar.Item>
+							<CommandBar.Item icon="flip_v" caption={t.track.grid.mirrorEdges + " - " + t.prve.effects.vFlip} altCaption={t.prve.effects.vFlip} details={t.descriptions.track.grid.mirrorEdges.vFlip} hovering>
+								<ItemsView view="list" current={mirrorEdgesVFlip}>
+									{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "row")}>{getMirrorEdgesText(option, "vFlip")}</ItemsView.Item>)}
+								</ItemsView>
+							</CommandBar.Item>
+						</CommandBar>
+					</CommandBar.Group>
+					<Button icon="arrow_reset" accent="critical" className="reset-btn" hidden={!flyoutEditor} onClick={resetFlyoutEditor}>{t.reset}</Button>
+				</div>
 
 				<PreviewGridContainer>
 					<PreviewGrid
@@ -603,6 +658,7 @@ export default function Grid() {
 											{ label: t.menu.grid.rowHeight, onClick() { setFlyoutEditor("height"); setFlyoutEditorColumnRow([rowEnd - 1, "row"]); } },
 											{ kind: "separator" },
 											{ label: t.menu.grid.span, onClick() { setFlyoutEditor("span"); setFlyoutEditorCell(thisCell as never); } },
+											{ label: t.menu.grid.insertBlank, onClick() { setFlyoutEditor("blank"); setFlyoutEditorCell(thisCell as never); } },
 										] as const).map(item => ({ ...item, enabled: !square })))}
 									/>
 								</div>
@@ -710,6 +766,19 @@ export default function Grid() {
 											{getGridUnitTypeName(unit, columnRowValue)}
 										</RadioButton>
 									))}
+								</div>
+							) : _flyoutEditor === "blank" ? (
+								<div className="length">
+									<Label id={id} htmlFor="blank">{t.track.grid.insertBlank}</Label>
+									<TextBox.Number
+										id={`${id}-blank`}
+										aria-labelledby={`${id}-length-label`}
+										value={[columnRowValue, setColumnRow]}
+										min={0}
+										max={_flyoutEditor === "width" ? projectWidth : projectHeight}
+										defaultValue={1}
+										disabled={columnRowType === "auto"}
+									/>
 								</div>
 							) : undefined}
 						</FlyoutEditor>
@@ -835,17 +904,34 @@ function FastFillOptions({ value: [currentValue, setCurrentValue], options, getI
 	));
 }
 
-function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessageEvents.GridSpanItem[]) {
+function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessageEvents.GridSpanItem[], blanks: WebMessageEvents.GridSpanItem[]) {
 	const array: number[] = [];
-	const settings = new Map<string, [sameLineSpan: number, crossLineSpan: number]>();
+	const spanSet = new Map<string, [sameLineSpan: number, crossLineSpan: number]>();
+	const blankSet = new Map<string, number>();
 	for (const { sameLine, crossLine, sameLineSpan, crossLineSpan } of spans)
-		settings.set(`${sameLine},${crossLine}`, [sameLineSpan || 1, crossLineSpan || 1]);
+		spanSet.set(`${sameLine},${crossLine}`, [sameLineSpan || 1, crossLineSpan || 1]);
+	for (const { sameLine, crossLine, sameLineSpan } of blanks)
+		blankSet.set(`${sameLine},${crossLine}`, sameLineSpan || 0);
 	let x = 0, y = 0;
 	const getIndex = (_x = x, _y = y) => _y * thisLineLength + _x;
+	const nextIndex = () => {
+		while (array[getIndex()] !== undefined)
+			if (++x >= thisLineLength) {
+				x = 0;
+				y++;
+			}
+	};
 	for (let i = 0; i < count; i++) {
-		const index = getIndex();
+		let index = getIndex();
+		let blank = blankSet.get(`${x},${y}`);
+		if (blank && blank > 0)
+			while (blank--) {
+				array[index] = -1;
+				nextIndex();
+				index = getIndex();
+			}
 		array[index] = i;
-		const span = settings.get(`${x},${y}`);
+		const span = spanSet.get(`${x},${y}`);
 		if (span)
 			for (let _y = y; _y < y + span[1]; _y++)
 				for (let _x = x; _x < Math.min(x + span[0], thisLineLength); _x++) {
@@ -853,12 +939,9 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 					if (array[newIndex] !== undefined && newIndex !== index) break;
 					array[newIndex] = i;
 				}
-		while (array[getIndex()] !== undefined)
-			if (++x >= thisLineLength) {
-				x = 0;
-				y++;
-			}
+		nextIndex();
 	}
+	array.trimEnd([undefined!, -1]);
 	const array2d = Array.from({ length: Math.ceil(array.length / thisLineLength) }, (_, i) => array.slice(i * thisLineLength, (i + 1) * thisLineLength));
 	// console.table(array2d);
 	const maxSameLineLength = Math.max(...array2d.map(i => i.findLastIndex(index => index !== undefined) + 1));

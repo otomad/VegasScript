@@ -202,6 +202,7 @@ export const configStore = createStore({
 			spans: [] as WebMessageEvents.GridSpanItem[],
 			columnWidths: [] as WebMessageEvents.GridColumnWidthRowHeightItem[],
 			rowHeights: [] as WebMessageEvents.GridColumnWidthRowHeightItem[],
+			blanks: [] as WebMessageEvents.GridSpanItem[],
 		},
 		box3d: {
 			enabled: true,
