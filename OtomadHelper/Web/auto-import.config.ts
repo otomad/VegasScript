@@ -72,7 +72,7 @@ export default [
 			"useAtom",
 			"useAtomValue",
 			"useSetAtom",
-			["createStore", "createJotaiStore"],
+			// ["createStore", "createJotaiStore"],
 		],
 		"jotai-valtio": [
 			"atomWithProxy",

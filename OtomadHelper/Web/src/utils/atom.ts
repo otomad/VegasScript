@@ -1,3 +1,4 @@
+import { getDefaultStore } from "jotai";
 import { atomWithStorage as _atomWithStorage } from "jotai/utils";
 import type { SyncStorage } from "jotai/vanilla/utils/atomWithStorage";
 import { withImmer } from "jotai-immer";
@@ -67,4 +68,4 @@ export const atomWithStorageAndImmer = <Value>(key: string, initialValue: Value,
 	return withImmer(atomWithStorage(key, initialValue, storage, options));
 };
 
-export const jotaiStore = createJotaiStore();
+export const jotaiStore = getDefaultStore();

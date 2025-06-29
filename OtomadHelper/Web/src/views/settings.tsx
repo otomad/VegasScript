@@ -33,6 +33,7 @@ export default function Settings() {
 	const reduceTransparency = useMediaQuery.reduceTransparency();
 	const schemes = ["light", "dark", "auto"] as const;
 	const { scheme: [scheme, setScheme], amoledDark: [amoledDark, setAmoledDark], contrast: [contrast, setContrast] } = useStoreState(colorModeStore);
+	const { black: actualAmoledDark, contrast: actualContrast } = useActualColorScheme();
 	const {
 		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop, accentColor, backgroundColor,
@@ -96,7 +97,7 @@ export default function Settings() {
 			<Expander
 				title={t.settings.appearance.colorScheme}
 				icon="paint_brush"
-				checkInfo={withObject(t.settings.appearance.colorScheme, t => contrast || systemContrast ? t.contrast : scheme === "dark" && amoledDark ? t.black : t[scheme])}
+				checkInfo={withObject(t.settings.appearance.colorScheme, t => actualContrast ? t.contrast : scheme === "dark" && amoledDark ? t.black : t[scheme])}
 				expanded={DEV_EXPANDED}
 			>
 				{!systemContrast ? (
@@ -152,7 +153,7 @@ export default function Settings() {
 				)}
 			</Expander>
 			<Expander title={t.settings.appearance.palette} icon="color" expanded={DEV_EXPANDED}>
-				{systemContrast || contrast ? <InfoBar status="warning">{t.descriptions.settings.appearance.invalid[systemContrast ? "systemContrastCannot" : "contrast"]({ option: t.settings.appearance.palette })}</InfoBar> : (
+				{actualContrast ? <InfoBar status="warning">{t.descriptions.settings.appearance.invalid[systemContrast ? "systemContrastCannot" : "contrast"]({ option: t.settings.appearance.palette })}</InfoBar> : (
 					<>
 						<Expander.Item title={t.settings.appearance.palette.accent} icon="color_fill" asSubtitle />
 						<StyledColorPalette>
@@ -183,33 +184,36 @@ export default function Settings() {
 								/>
 							</TooltipPartial>
 						</StyledColorPalette>
-						<Expander.Item title={t.settings.appearance.palette.background} icon="color_background" asSubtitle />
-						<StyledColorPalette>
-							{autoColorPalettes.map(color => (
-								<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
-									<ColorButton
-										key={color}
-										color={color}
-										value={backgroundColor}
-										icon={color}
-										colorAlt={isAutoColor(color) ? `var(--background-color-${color})` : undefined}
-										hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
-										selected={color === "windows" && backgroundColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
-										autoStartViewTransition
+						{(actualContrast || actualAmoledDark) && <InfoBar status="warning">{t.descriptions.settings.appearance.invalid.blackScheme({ option: t.settings.appearance.palette.background })}</InfoBar>}
+						<Attrs style={{ opacity: actualContrast || actualAmoledDark ? 0.5 : undefined }}>
+							<Expander.Item title={t.settings.appearance.palette.background} icon="color_background" asSubtitle />
+							<StyledColorPalette>
+								{autoColorPalettes.map(color => (
+									<TooltipPartial key={color} title={t.settings.appearance.palette[color]}>
+										<ColorButton
+											key={color}
+											color={color}
+											value={backgroundColor}
+											icon={color}
+											colorAlt={isAutoColor(color) ? `var(--background-color-${color})` : undefined}
+											hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
+											selected={color === "windows" && backgroundColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
+											autoStartViewTransition
+										/>
+									</TooltipPartial>
+								))}
+								{BasicColorPalette.values.map(color => <ColorButton key={color} color={color} value={backgroundColor} autoStartViewTransition />)}
+								<TooltipPartial title={t.custom}>
+									<ColorPicker
+										color={backgroundColor}
+										computedColor={getComputedPaletteColor("background")}
+										selected={isCustomColorSelected(backgroundColor[0])}
+										showIconWhenHovering={false}
+										showSpectrumWhenUnselected
 									/>
 								</TooltipPartial>
-							))}
-							{BasicColorPalette.values.map(color => <ColorButton key={color} color={color} value={backgroundColor} autoStartViewTransition />)}
-							<TooltipPartial title={t.custom}>
-								<ColorPicker
-									color={backgroundColor}
-									computedColor={getComputedPaletteColor("background")}
-									selected={isCustomColorSelected(backgroundColor[0])}
-									showIconWhenHovering={false}
-									showSpectrumWhenUnselected
-								/>
-							</TooltipPartial>
-						</StyledColorPalette>
+							</StyledColorPalette>
+						</Attrs>
 					</>
 				)}
 			</Expander>

@@ -775,9 +775,9 @@ export default function Grid() {
 										aria-labelledby={`${id}-length-label`}
 										value={[columnRowValue, setColumnRow]}
 										min={0}
-										max={_flyoutEditor === "width" ? projectWidth : projectHeight}
-										defaultValue={1}
-										disabled={columnRowType === "auto"}
+										max={100}
+										defaultValue={0}
+										suffix={t.units.piece}
 									/>
 								</div>
 							) : undefined}

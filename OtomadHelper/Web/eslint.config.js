@@ -134,7 +134,7 @@ export default [
 			"@stylistic/template-curly-spacing": "error",
 			"no-undef": "off", // 这波 nuxt 的锅。
 			"@stylistic/multiline-ternary": "off",
-			"@stylistic/operator-linebreak": "off",
+			"@stylistic/operator-linebreak": ["warn", "after"],
 			"@stylistic/no-trailing-spaces": ["error", { "skipBlankLines": true }],
 			"one-var": "off",
 			"@stylistic/arrow-parens": ["error", "as-needed"],
@@ -157,6 +157,7 @@ export default [
 			"@stylistic/no-extra-parens": ["error", "all", { "ignoreJSX": "multi-line", "conditionalAssign": false }],
 			"no-void": ["off", { "allowAsStatement": true }], // 我就是要使用 void。
 			"no-labels": "off",
+			"no-label-var": "error",
 			"default-case-last": "off",
 			"no-useless-constructor": "off", // private constructor() { } 你跟我说无用？
 			"@stylistic/no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],

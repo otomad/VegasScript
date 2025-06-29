@@ -6,3 +6,5 @@ export const colorModeStore = createPersistStore("colorMode", {
 	contrast: false,
 	backgroundColor: "#202020",
 });
+
+export { useActualColorScheme } from "helpers/color-mode";

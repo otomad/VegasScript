@@ -12,7 +12,8 @@ const StyledPreviewBackdrop = styled.div`
 	.card {
 		${styles.mixins.square("calc(78cqmin - 20px)")}
 		--box-shadow-base:
-			inset 0 0 0 1px ${c("stroke-color-control-stroke-default")},
+			0 0 0 1px oklch(from ${c("accent-color")} l calc(c / 2) h / 18.352941%),
+			// c("stroke-color-surface-stroke-default")
 			0 3px 6px ${c("black", 43.9)};
 		--opacity: 100%;
 		position: absolute;
@@ -60,8 +61,8 @@ const StyledPreviewBackdrop = styled.div`
 			}
 
 			&.acrylic {
-				--blur: 3.5px;
-				--opacity: 50%;
+				--blur: 6px;
+				--opacity: 49.411765%;
 				--mix: 30%;
 
 				&::before {
@@ -75,11 +76,11 @@ const StyledPreviewBackdrop = styled.div`
 
 			&.mica {
 				--blur: 24px;
-				--opacity: 40%;
+				--opacity: 47.647059%;
 				--mix: 75%;
 
 				&.mica-alt {
-					--opacity: 30%;
+					--opacity: 32.745098%;
 					--mix: 50%;
 
 					${ifColorScheme.dark} & {

@@ -9,6 +9,13 @@ document.addEventListener("mouseleave", () => lastClickMouseEvent = undefined);
 
 type ChangeColorSchemeMode = "initial" | "auto" | "manual" | "refresh";
 
+const actualColorScheme = atom({
+	scheme: "dark" as "light" | "dark",
+	black: false,
+	contrast: false,
+});
+export const useActualColorScheme = () => useAtomValue(actualColorScheme);
+
 /**
  * Changes the color scheme of the website.
  * @param scheme - Whether to use the light color scheme or the dark color scheme.
@@ -24,13 +31,12 @@ export function changeColorScheme(scheme?: ColorScheme, amoledDark?: boolean, co
 	scheme = scheme === "auto" || !scheme ? systemScheme : scheme;
 	contrast ??= highContrastPreference.matches;
 	const { dataset } = document.documentElement;
-	const updateThemeSettings = () => dataset.scheme = classNames(
-		scheme,
-		{
-			black: scheme === "dark" && amoledDark,
-			contrast,
-		},
-	);
+	const updateThemeSettings = async () => {
+		const black = scheme === "dark" && !!amoledDark;
+		jotaiStore.set(actualColorScheme, { scheme, black, contrast });
+		await delay(1);
+		dataset.scheme = classNames(scheme, { black, contrast });
+	};
 	const IsColorSchemeChanged = (() => {
 		const schemes = (dataset.scheme ?? "").split(" ");
 		const prevAmoledDark = schemes.includes("black"), prevContrast = schemes.includes("contrast");
