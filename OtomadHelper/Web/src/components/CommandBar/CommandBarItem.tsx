@@ -1,7 +1,7 @@
 import { transitionPropKeys } from "react-transition-group-fc";
 import { CommandBarAnchorContext } from "./CommandBar";
 
-const HIDE_DELAY = 500;
+const HIDE_DELAY = 500, HOVER_SHOW_DELAY = 100;
 
 const $p = (test?: boolean) => test ? "true" : undefined;
 const toStringOrNaN = (test: unknown) => Object.prototype.toString.call(test) === "[object String]" || isI18nItem(test) ? (test as string).toString() : NaN;
@@ -32,9 +32,10 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	if (!caption) iconOnly = true;
 	const anchorName = useUniqueId("--command-bar-item");
 	const [flyoutShown, setFlyoutShown] = useState(false);
-	const hideTimeout = useRef<Timeout>(undefined);
+	const hideTimeout = useRef<Timeout>(undefined), showTimeout = useRef<Timeout>(undefined);
 	const showFlyout = () => { clearTimeout(hideTimeout.current); if (children) { useEvent("app:hideOtherFlyouts", anchorName); setFlyoutShown(true); } };
-	const hideFlyoutLater = () => { hideTimeout.current = setTimeout(() => setFlyoutShown(false), HIDE_DELAY); };
+	const showFlyoutLater = () => { showTimeout.current = setTimeout(() => showFlyout(), HOVER_SHOW_DELAY); };
+	const hideFlyoutLater = () => { clearTimeout(showTimeout.current); hideTimeout.current = setTimeout(() => setFlyoutShown(false), HIDE_DELAY); };
 	useListen("app:hideOtherFlyouts", exceptId => { if (exceptId !== anchorName) { clearTimeout(hideTimeout.current); setFlyoutShown(false); } });
 	const [isMouse, _setIsMouse] = useState(true);
 	const checkIsMouse = (e: PointerEvent) => { const result = e.pointerType === "mouse"; _setIsMouse(result); return result; };
@@ -62,7 +63,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 				aria-description={canToString(details) ? details : undefined}
 				aria-haspopup={ariaHasPopup ?? !!children}
 				ariaHiddenForChildren
-				onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyout(); }}
+				onPointerEnter={e => { if (hovering && checkIsMouse(e)) showFlyoutLater(); }} // Avoid showing the flyout by accidentally passing the button when the mouse moves slightly.
 				onPointerLeave={e => { if (hovering && checkIsMouse(e)) hideFlyoutLater(); }}
 				{...htmlAttrs}
 			>

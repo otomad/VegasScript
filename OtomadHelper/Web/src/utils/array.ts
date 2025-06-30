@@ -186,6 +186,22 @@
 		}
 	};
 
+	Array.prototype.includesDeep = function (searchElement) {
+		return !!~this.indexOfDeep(searchElement);
+	};
+
+	Array.prototype.toggleDeep = function (item, force) {
+		const index = this.indexOfDeep(item);
+		if (!~index || force)
+			this.push(item);
+		else
+			this.removeAt(index);
+	};
+
+	Array.prototype.indexOfDeep = function (searchElement, fromIndex = 0) {
+		return this.findIndex((element, index) => index >= fromIndex && lodash.isEqual(element, searchElement));
+	};
+
 	makePrototypeKeysNonEnumerable(Array);
 }
 
@@ -232,6 +248,11 @@
 		return Array.from(this, ([key, value], index) => callbackfn(key, value, index, this));
 	};
 
+	Map.prototype.getEntry = function (key) {
+		if (!this.has(key)) return;
+		return [key, this.get(key)] as const;
+	};
+
 	makePrototypeKeysNonEnumerable(Map);
 }
 
@@ -257,11 +278,42 @@ export function wrapIfNotArray<T>(maybeArray: T): T extends Any[] ? T : [T] {
 	return (Array.isArray(maybeArray) ? maybeArray : [maybeArray]) as never;
 }
 
+/**
+ * Applies an asynchronous callback function to each value yielded by an AsyncGenerator,
+ * collects the resulting promises, and returns a promise that resolves to an array of results.
+ *
+ * @template TIn - The type of values yielded by the input AsyncGenerator.
+ * @template TOut - The type of values returned by the callback function.
+ * @param asyncIter - The AsyncGenerator to iterate over.
+ * @param callbackfn - A function that takes a value from the generator and returns a value or a promise of a value.
+ * @returns A promise that resolves to an array of results from the callback function.
+ */
 export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, callbackfn: (value: TIn) => MaybePromise<TOut>) {
 	const promises = [];
 	for await (const value of asyncIter)
 		promises.push(callbackfn(value));
 	return await Promise.all(promises);
+}
+
+/**
+ * Concatenates multiple iterables into a single generator.
+ *
+ * @typeParam T - The type of elements in the iterables.
+ * @param iterators - A list of iterables to concatenate.
+ * @yields Elements from each iterable in the order they are provided.
+ *
+ * @example
+ * ```typescript
+ * const a = [1, 2];
+ * const b = [3, 4];
+ * for (const value of concatIter(a, b)) {
+ *     console.log(value); // 1, 2, 3, 4
+ * }
+ * ```
+ */
+export function *concatIter<T, U>(...iterators: (Iterable<T> | Iterator<U>)[]) {
+	for (const it of iterators)
+		yield* it as Iterable<T | U>;
 }
 
 /** Creates a new tuple that is correctly recognized by TypeScript. */

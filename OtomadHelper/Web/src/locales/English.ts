@@ -399,6 +399,8 @@ export default {
 				rowSpan: "Row span",
 				insertBlank: "Insert blank",
 				insertBlank_other: "Insert blanks",
+				blank: "Blank",
+				blank_other: "Blanks",
 				direction: {
 					_: "Direction",
 					lrTb: "Horizontal", // Writing from left to right, then from top to bottom.
@@ -948,7 +950,8 @@ export default {
 						vFlip: "Mirrors the tracks by flipping the rows in a parity pattern",
 					},
 					padding: "Adjusts the inner margins of track boxes to be less cluttered with other boxes",
-					previewAria: "The track located in column {{columnIndex}}, row {{rowIndex}} of a {{columnCount}}-column by {{rowCount}}-row grid.",
+					previewAria: "The {{trackIndex, ordinal}} track is located in column {{columnIndex}}, row {{rowIndex}} of a {{columnCount}}-column by {{rowCount}}-row grid.",
+					previewAria_span: "The {{trackIndex, ordinal}} track is spanning {{columnSpan}} $t(track.grid.column, { 'count': {{columnSpan}} }, lowercase) and {{rowSpan}} $t(track.grid.row, { 'count': {{rowSpan}} }, lowercase), located in column {{columnIndex}}, row {{rowIndex}} of a {{columnCount}}-column by {{rowCount}}-row grid.",
 					squareCannotUseTheseFeatures: "To use the following features, switch the Array mode to {{fixed}}",
 				},
 				box3d: {
@@ -1111,7 +1114,7 @@ export default {
 				columnWidth: "Column &width",
 				rowHeight: "Row &height",
 				span: "&Span",
-				insertBlank: "Insert &blank",
+				insertBlank: "Insert &blanks",
 			},
 		},
 		aria: {

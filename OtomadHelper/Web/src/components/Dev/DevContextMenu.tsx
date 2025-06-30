@@ -75,6 +75,7 @@ export default function DevContextMenu() {
 
 	useEventListener(window, "mousedown", e => isMenuShown && !isInPath(e, menuEl) && clearMenu(), undefined, [isMenuShown, clearMenu]);
 	useEventListener(window, "keydown", e => isMenuShown && e.code === "Escape" && clearMenu(), undefined, [isMenuShown, clearMenu]);
+	useEventListener(window, "blur", () => isMenuShown && clearMenu(), undefined, [isMenuShown, clearMenu]);
 
 	return (
 		<Portal>

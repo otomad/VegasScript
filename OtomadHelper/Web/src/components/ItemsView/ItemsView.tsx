@@ -65,9 +65,9 @@ export /* @internal */ const StyledItemsView = styled.div<{
 `;
 
 export default function ItemsView<
-	T extends (M extends true ? PropertyKey[] : PropertyKey),
-	M extends boolean = false,
->({ view, current: _current, itemWidth, multiple = false as M, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, readOnly, emptyState, "aria-label": ariaLabel, selectAll, onItemCountChange, onItemEmptyChange, ...htmlAttrs }: FCP<{
+	T,
+	TMultiple extends boolean = false,
+>({ view, current: _current, itemWidth, multiple = false as TMultiple, indeterminatenesses = [], children, className, role, transition, style, inlineAlignment, autoFill, readOnly, emptyState, "aria-label": ariaLabel, selectAll, onItemCountChange, onItemEmptyChange, ...htmlAttrs }: FCP<{
 	/** View mode: list, tile, grid. */
 	view: ItemView;
 	/**
@@ -75,7 +75,7 @@ export default function ItemsView<
 	 *
 	 * If it is `null`, items view will not select its items, and you can control them by yourself.
 	 */
-	current: StateProperty<T> | null;
+	current: StateProperty<TMultiple extends true ? T[] : T> | null;
 	/**
 	 * In grid view, the width of the child element image.
 	 *
@@ -83,9 +83,9 @@ export default function ItemsView<
 	 */
 	itemWidth?: number | "square";
 	/** Multiple selection mode? */
-	multiple?: M;
+	multiple?: TMultiple;
 	/** Specifies which items are set to an indeterminate state. */
-	indeterminatenesses?: PropertyKey[];
+	indeterminatenesses?: T[];
 	/**
 	 * Override the default aria role attribute.
 	 *
@@ -104,7 +104,7 @@ export default function ItemsView<
 	/** Show something while nothing in the items. */
 	emptyState?: ReactNode;
 	/** Show select all and invert selection control. Only available when `multiple` is true. */
-	selectAll?: M extends true ? Partial<PropsOf<typeof SelectAll>> | true : never;
+	selectAll?: TMultiple extends true ? Partial<PropsOf<typeof SelectAll>> | true : never;
 	/** Occurs when the item count changes. */
 	onItemCountChange?(length: number): void;
 	/** Occurs when the item count toggles zero. */
@@ -114,42 +114,43 @@ export default function ItemsView<
 
 	const [current, setCurrent] = _current ?? [];
 
-	const isSelected = (id: PropertyKey) => {
+	const isSelected = (id: T) => {
 		if (multiple)
-			if (Array.isArray(current)) return current.includes(id);
+			if (Array.isArray(current)) return current.includesDeep(id);
 			else return false;
-		else return current === id;
+		else return lodash.isEqual(current, id);
 	};
 
-	const handleClick = (id: PropertyKey) => {
+	const handleClick = (id: T) => {
 		setCurrent?.((
-			!multiple ? id : produce((draft: PropertyKey[]) => {
-				draft.toggle(id);
+			!multiple ? id : produce((draft: T[]) => {
+				draft.toggleDeep(id);
 			})
-		) as T);
+		) as never);
 	};
 
-	const allIds = (React.Children.map(children, child => {
+	const allIds = (React.Children.toArray(children).map(child => {
 		if (!isReactInstance(child, ItemsViewItem, "weakest")) return undefined;
-		return child.props.id;
+		return child.props.id as T;
 	}) ?? []).toCompacted();
 
 	const items = React.Children.map(children, child => {
 		if (!isReactInstance(child, ItemsViewItem, "weakest")) return child;
-		const id = child.props.id;
+		const id = child.props.id as T;
+		const key = child.key;
 		const onParentClick = child.props.onClick;
 		const item = React.cloneElement(child, {
 			_view: view,
 			_multiple: multiple,
 			..._current !== null && {
-				selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includes(id) ? "indeterminate" : "checked",
-				onClick: (...e: Parameters<OnItemsViewItemClickEventHandler>) => { handleClick(id); onParentClick?.(...e); },
+				selected: !isSelected(id) ? "unchecked" : indeterminatenesses.includesDeep(id) ? "indeterminate" : "checked",
+				onClick: (...e: Parameters<OnItemsViewItemClickEventHandler<unknown>>) => { handleClick(id); onParentClick?.(...e); },
 			},
 		});
 		if (!transition) return item;
 		else return (
 			<CssTransition
-				key={id as string}
+				key={key}
 				classNames={typeof transition === "string" ? transition : undefined}
 				unmountOnExit
 				maxTimeout={250}
@@ -166,7 +167,7 @@ export default function ItemsView<
 
 	return (
 		<>
-			{multiple && selectAll && !isEmpty && <SelectAll value={[current, setCurrent] as StateProperty<PropertyKey[]>} all={allIds} {...selectAll === true ? {} : selectAll as never} />}
+			{multiple && selectAll && !isEmpty && <SelectAll value={[current, setCurrent] as StateProperty<T[]>} all={allIds} {...selectAll === true ? {} : selectAll as never} />}
 			<StyledItemsView
 				className={[className, view, { autoFill }]}
 				$itemWidth={itemWidth}

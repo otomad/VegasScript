@@ -4,7 +4,10 @@ const StyledFilter = styled.div`
 	display: flex;
 	gap: 4px;
 	align-items: center;
-	margin-block: 4px;
+	margin-block: -4px;
+	margin-inline: -24px;
+	padding-block: 8px;
+	padding-inline: 24px;
 	overflow: auto visible;
 `;
 

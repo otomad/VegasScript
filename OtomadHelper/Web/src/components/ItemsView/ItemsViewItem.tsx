@@ -257,15 +257,15 @@ const ItemsViewItemStateContext = createContext<{
 	hover: false,
 });
 
-export type OnItemsViewItemClickEventHandler = (id: PropertyKey, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
+export type OnItemsViewItemClickEventHandler<T> = (id: T, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, dirBasedIcon, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, dirBasedIcon, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
 	icon?: DeclaredIcons | Exclude<ReactNode, Iterable<ReactNode>>;
 	/** Identifier. */
-	id: PropertyKey;
+	id: T;
 	/** Selected? */
 	selected?: CheckState | StateProperty<boolean>;
 	/** Detailed description. */
@@ -298,9 +298,9 @@ export /* @internal */ default function ItemsViewItem({ image, icon, id, selecte
 	/** @private Multiple selection mode? */
 	_multiple?: boolean;
 	/** Occurs when the selection changed. */
-	onSelectedChange?(id: PropertyKey, selected: CheckState): void;
+	onSelectedChange?(id: T, selected: CheckState): void;
 	/** Occurs when user click it. */
-	onClick?: OnItemsViewItemClickEventHandler;
+	onClick?: OnItemsViewItemClickEventHandler<T>;
 }, "button">) {
 	let setSelected: SetStateNarrow<boolean> | undefined;
 	if (Array.isArray(selected)) {

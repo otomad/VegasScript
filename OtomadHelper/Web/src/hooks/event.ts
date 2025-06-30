@@ -332,7 +332,7 @@ export function useSelectAll<T>([selected, setSelected]: StateProperty<T[]>, all
 	// Note: Due to the filtering feature, it is possible that the currently selected items include items that are not in all items.
 	// So we need to preserve those extra items while Select All and Invert Selection.
 	// However, there are still disputes. For example, the extra items were added accidentally. Should it keep them anyway?
-	const allItems = new Set(allSelection), selectedItemsWithExtras = new Set(selected);
+	const allItems = new SerializeKeyedSet(allSelection), selectedItemsWithExtras = new SerializeKeyedSet(selected);
 	const selectedItems = selectedItemsWithExtras.intersection(allItems);
 	return [
 		selectedItems.size === 0 ? "unchecked" : selectedItems.size === allItems.size ? "checked" : "indeterminate",

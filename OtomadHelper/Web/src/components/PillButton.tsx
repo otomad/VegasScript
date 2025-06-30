@@ -5,6 +5,7 @@ const StyledPillButton = styled.button.attrs({
 	${styles.effects.text.body};
 	position: relative;
 	display: flex;
+	flex-shrink: 0;
 	gap: 8px;
 	align-items: center;
 	margin: 1px;
@@ -60,22 +61,38 @@ const StyledPillButton = styled.button.attrs({
 	.icon {
 		font-size: 16px;
 	}
+
+	> .badge {
+		position: absolute;
+		inset-block-start: -5px;
+		inset-inline-end: -5px;
+	}
 `;
 
-export /* @internal */ default function PillButton({ icon, id, selected, children, className, ...htmlAttrs }: FCP<{
+export /* @internal */ default function PillButton({ icon, id, selected, badge, children, className, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons;
 	/** Identifier. */
 	id: string;
 	/** Selected? */
 	selected?: boolean;
+	/** Badge. */
+	badge?: Readable;
 }, "button">) {
 	const ariaId = useId();
 
 	return (
-		<StyledPillButton className={[className, { selected }]} role="radio" aria-checked={selected} aria-labelledby={`${ariaId}-title`} {...htmlAttrs}>
+		<StyledPillButton
+			className={[className, { selected }]}
+			role="radio"
+			aria-checked={selected}
+			aria-labelledby={`${ariaId}-title`}
+			onFocus={e => e.currentTarget.scrollIntoViewIfNeeded()}
+			{...htmlAttrs}
+		>
 			{icon && <Icon name={icon} />}
 			<p id={`${id}-title`} className="title">{children}</p>
+			{badge ? <Badge status="accent">{badge}</Badge> : undefined}
 		</StyledPillButton>
 	);
 }

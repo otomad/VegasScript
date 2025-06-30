@@ -502,6 +502,35 @@ declare interface Array<T> {
 	 * ```
 	 */
 	trimEnd(predicate: (value: T, index: number, obj: T[]) => unknown): void;
+
+	/**
+	 * Determines whether an array includes a certain element, using deep equality comparison.
+	 *
+	 * @param array - The array to search within.
+	 * @param searchElement - The element to search for in the array.
+	 * @returns `true` if the array contains an element deeply equal to `searchElement`, otherwise `false`.
+	 */
+	includesDeep(searchElement: T): boolean;
+
+	/**
+	 * Toggle the item whether the array contains it. Using deep equality comparison.
+	 * If force is not given. And if the array contains the item, remove it; otherwise, add it.
+	 *
+	 * If force is true, adds item (same as `push()`). If force is false, removes item (same as `removeItem()`).
+	 *
+	 * @param item - Item.
+	 * @param force - If included deeply, turns the toggle into a one way-only operation.
+	 * If set to false, then item will only be removed, but not added. If set to true, then item will only be added, but not removed.
+	 */
+	toggleDeep(item: T, force?: boolean): void;
+
+	/**
+	 * Returns the index of the first occurrence of a value in an array, or -1 if it is not present. Using deep equality comparison.
+	 * @param searchElement The value to locate in the array.
+	 * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.
+	 * @returns The index of the first occurrence of a value in an array, or -1 if it is not present. Using deep equality comparison.
+	 */
+	indexOfDeep(searchElement: T, fromIndex?: number): number;
 }
 
 declare interface ReadonlyArray<T> extends Pick<Array<T>,
@@ -577,4 +606,13 @@ declare interface Map<K, V> {
 	 * @param callbackfn - A function that accepts up to four arguments. The map method calls the callbackfn function one time for each element in the array.
 	 */
 	map(callbackfn: (key: K, value: V, index: number, map: Map<K, V>) => U): U[];
+
+	/**
+	 * Retrieves the entry for a given key from a Map as a tuple.
+	 *
+	 * @param map - The Map instance to search.
+	 * @param key - The key whose entry should be retrieved.
+	 * @returns A tuple containing the key and its corresponding value if the key exists in the map, otherwise `undefined`.
+	 */
+	getEntry(key: K): [K, V] | undefined;
 }
