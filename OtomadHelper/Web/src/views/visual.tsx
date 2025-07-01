@@ -274,7 +274,7 @@ export default function Visual() {
 							<Button icon="add">{t.stream.preset.add}</Button>
 						</Expander.ChildWrapper>
 					</ExpanderRadio>
-					<SortableView items={activeParameterScheme}>
+					<SortableView items={activeParameterScheme} unfocusableForSortableItems>
 						{scheme => (
 							<SettingsCard
 								title={scheme.name[0]}

@@ -1,9 +1,9 @@
 import { highContrastMediaQuery } from "helpers/color-mode";
 
 interface UseMediaQueryOptions {
-	/** If currently in SSR, specify the initial value during rendering. */
+	/** If currently in SSR, specify the initial value during rendering. @default false */
 	ssrInitial?: boolean;
-	/** Always get a one-time static value, unresponsive? */
+	/** Always get a one-time static value, unresponsive? @default false */
 	noHook?: boolean;
 }
 

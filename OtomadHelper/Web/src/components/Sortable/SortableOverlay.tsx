@@ -18,6 +18,10 @@ const StyledSortableOverlay = styled(DragOverlay)`
 		scale: var(--sortable-overlay-scale);
 		transition: ${fallbackTransitions}, scale 250ms cubic-bezier(0.18, 0.67, 0.6, 1.22), opacity 100ms 250ms;
 
+		${ifColorScheme.reduceMotion} {
+			transition: scale 1ms step-end !important;
+		}
+
 		@starting-style {
 			scale: 1;
 		}
@@ -25,6 +29,13 @@ const StyledSortableOverlay = styled(DragOverlay)`
 `;
 
 const dropAnimationConfig = (emits: SortableOverlayEmits): DropAnimation => async e => {
+	if (useMediaQuery.reduceMotion({ noHook: true })) {
+		emits.onDrop?.(e);
+		emits.onDropped?.(e);
+		emits.onDropEnd?.(e);
+		return;
+	}
+
 	const { transform, active, dragOverlay } = e;
 	active.node.style.opacity = PRESSED_SORTABLE_ITEM_OPACITY;
 	await nextAnimationTick();
@@ -76,6 +87,7 @@ export /* @internal */ default function SortableOverlay({ modifiers, children, .
 	 */
 	modifiers?: Modifiers;
 }>) {
+	const reduceMotion = useMediaQuery.reduceMotion();
 	return (
 		<Portal container={document.body}>
 			<StyledSortableOverlay
@@ -83,6 +95,7 @@ export /* @internal */ default function SortableOverlay({ modifiers, children, .
 				adjustScale
 				dropAnimation={dropAnimationConfig(emits)}
 				modifiers={modifiers}
+				transition={reduceMotion ? "none" : undefined}
 			>
 				{children}
 			</StyledSortableOverlay>
