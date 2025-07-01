@@ -30,7 +30,7 @@ const DeactivateButton = ({ activated: [activated, setActivated] }: { activated:
 export default function Track() {
 	const { pushPage } = useSnapshot(pageStore);
 	const [layoutEnabled, layoutEnabledCount, deactivateAll] = useLayoutEnabled();
-	const { mode: legatoMode, increaseSpacing, forClips: legatoForClips, includeGroup: legatoIncludeGroup, backwards: legatoBackwards } = selectConfig(c => c.track.legato);
+	const { mode: legatoMode, increaseSpacing, forClips: legatoForClips, includeGroup: legatoIncludeGroup, backwards: legatoBackwards } = useSelectConfig(c => c.track.legato);
 
 	useEffect(() => {
 		if (!legatoForClips[0] && legatoMode[0] === "stackingAllAfter") legatoMode[1]("stacking");
@@ -120,9 +120,9 @@ export default function Track() {
 
 function useLayoutEnabled() {
 	const enabled = {
-		grid: selectConfig(c => c.track.grid).enabled,
-		box3d: selectConfig(c => c.track.box3d).enabled,
-		gradient: selectConfig(c => c.track.gradient).enabled,
+		grid: useSelectConfig(c => c.track.grid).enabled,
+		box3d: useSelectConfig(c => c.track.box3d).enabled,
+		gradient: useSelectConfig(c => c.track.gradient).enabled,
 	};
 	const states = Object.values(enabled);
 	const count = states.filter(state => state[0]).length;

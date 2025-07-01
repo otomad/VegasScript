@@ -36,9 +36,9 @@ export default function Source() {
 		belowAdjustmentTracks, preferredTrack: [preferredTrack, setPreferredTrack],
 		trackGroup, collapseTrackGroup, trackName, consonant,
 		secretBoxLimitToSelected, secretBoxForTrack, secretBoxForMarker, secretBoxForBarOrBeat, secretBoxForBarOrBeatPeriod, secretBoxForBarOrBeatPreparation,
-	} = selectConfig(c => c.source);
-	const { removeSourceClips, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = selectConfig(c => c.source.afterCompletion);
-	const { enabled: [ytpEnabled] } = selectConfig(c => c.ytp);
+	} = useSelectConfig(c => c.source);
+	const { removeSourceClips, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = useSelectConfig(c => c.source.afterCompletion);
+	const { enabled: [ytpEnabled] } = useSelectConfig(c => c.ytp);
 	const secretBoxEnabled = secretBoxForTrack[0] || secretBoxForMarker[0] || secretBoxForBarOrBeat[0];
 	/** @deprecated */ const manualEnabled = false;
 

@@ -107,8 +107,8 @@ export default function Score() {
 		format, encoding, constrainNoteLengthType, constrainNoteLengthValue, trimStart, trimEnd, tempoUsing, customTempo,
 		timeSignature: [timeSignature], trackOrChannel,
 		selectedTrack: [selectedTrack, setSelectedTrack], multipleSelectTrackItems: [selectTrackItems, _setSelectTrackItems],
-	} = selectConfig(c => c.score);
-	const { enabled: [ytpEnabled] } = selectConfig(c => c.ytp);
+	} = useSelectConfig(c => c.score);
+	const { enabled: [ytpEnabled] } = useSelectConfig(c => c.ytp);
 
 	const setSelectTrackItems = (recipe: (draft: typeof selectTrackItems) => void) => _setSelectTrackItems(produce(recipe));
 

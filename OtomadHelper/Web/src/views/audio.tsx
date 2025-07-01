@@ -83,10 +83,10 @@ export default function Audio() {
 		tuningMethod, tuningMethodAcid, tuningMethodScaleless,
 		stretchAttribute, alternativeForExceedTheRange, resample, preserveFormant, currentPreset,
 		basePitch, basePitchBased, cent,
-	} = selectConfig(c => c.audio);
-	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = selectConfig(c => c.audio.prelistenAttributes);
-	const { createGroups } = selectConfig(c => c);
-	const activeParameterScheme = selectConfigArray(c => c.audio.activeParameterScheme);
+	} = useSelectConfig(c => c.audio);
+	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = useSelectConfig(c => c.audio.prelistenAttributes);
+	const { createGroups } = useSelectConfig(c => c);
+	const activeParameterScheme = useSelectConfigArray(c => c.audio.activeParameterScheme);
 	const [stopPrelistenings, setStopPrelistenings] = useImmer<(() => void)[]>([]);
 	const isPrelistening = stopPrelistenings.length > 0;
 

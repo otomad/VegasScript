@@ -8,7 +8,7 @@ export default function Gradient() {
 	const {
 		effect, descending: [descending, setDescending],
 		viewOverlay, viewSquare, viewMirrorEdges, viewSize,
-	} = selectConfig(c => c.track.gradient);
+	} = useSelectConfig(c => c.track.gradient);
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
 

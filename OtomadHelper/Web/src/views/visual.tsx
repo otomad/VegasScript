@@ -46,11 +46,11 @@ export default function Visual() {
 		stretch, loop, staticVisual, truncate, legato, multitrackForChords, transformMethod, currentPreset, stack, timeUnremapping, resampleImitatively,
 		transition, transitionAlignment, transitionDuration,
 		glissando, glissandoEffect, glissandoAmount, appoggiatura, arpeggio, arpeggioNegative, activeParameterScheme,
-	} = selectConfig(c => c.visual);
-	// const activeParameterScheme = selectConfigArray(c => c.visual.activeParameterScheme);
-	const { enabled: enablePixelScaling } = selectConfig(c => c.visual.pixelScaling);
-	const { enabled: enableStaffVisualizer } = selectConfig(c => c.visual.staff);
-	const { createGroups } = selectConfig(c => c);
+	} = useSelectConfig(c => c.visual);
+	// const activeParameterScheme = useSelectConfigArray(c => c.visual.activeParameterScheme);
+	const { enabled: enablePixelScaling } = useSelectConfig(c => c.visual.pixelScaling);
+	const { enabled: enableStaffVisualizer } = useSelectConfig(c => c.visual.staff);
+	const { createGroups } = useSelectConfig(c => c);
 	const { prveCheckInfo, isForceStretch, prveCount } = usePrveInfo();
 	const topPriorityTransformMethod = transformMethod[0][0];
 

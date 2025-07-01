@@ -57,7 +57,7 @@ const StyledSideEffect = styled.div`
 `;
 
 export default function Ytp() {
-	const { enabled, clips, constraintStart, constraintEnd } = selectConfig(c => c.ytp);
+	const { enabled, clips, constraintStart, constraintEnd } = useSelectConfig(c => c.ytp);
 	const [selectEffects, setSelectEffects] = useState<string[]>([]);
 	const selectEffectCount = selectEffects.length;
 

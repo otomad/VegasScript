@@ -352,7 +352,7 @@ const Multiply = styled.label.attrs({
 `;
 
 export default function Grid() {
-	const { columns: [columns, _setColumns], array, direction, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding, spans: [spans, setSpans], columnWidths: [columnWidths, setColumnWidths], rowHeights: [rowHeights, setRowHeights], blanks: [blanks, setBlanks] } = selectConfig(c => c.track.grid);
+	const { columns: [columns, _setColumns], array, direction, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding, spans: [spans, setSpans], columnWidths: [columnWidths, setColumnWidths], rowHeights: [rowHeights, setRowHeights], blanks: [blanks, setBlanks] } = useSelectConfig(c => c.track.grid);
 	const setColumns = setStateInterceptor(_setColumns, input => clamp(input, 1, MAX_COL_ROW));
 	const rows = columns, setRows = setColumns; // These properties were originally planned to put into the config, but now it is abandoned.
 	const count = 25, projectWidth = 1920, projectHeight = 1080;

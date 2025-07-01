@@ -59,8 +59,8 @@ export default function Prve() {
 	const [controlMode, setControlMode] = useState<typeof controlModes[number]>("general");
 	const isGeneralCurrent = useMemo(() => controlMode === "general", [controlMode]);
 	const { autoCollapsePrveClasses } = useSnapshot(configStore.settings);
-	const { control, isMultiple, effects } = selectConfig(c => c.visual.prve[controlMode]);
-	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation } = selectConfig(c => c.visual.prve[controlMode].amounts);
+	const { control, isMultiple, effects } = useSelectConfig(c => c.visual.prve[controlMode]);
+	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation } = useSelectConfig(c => c.visual.prve[controlMode].amounts);
 	const selectionMode = useSelectionMode(isMultiple);
 	const effectLength = effects[0].length;
 	const shouldHideSelectionBadge = effectLength <= 0 || effectLength === 1 && (effects[0][0].fx === DEFAULT_EFFECT || !isMultiple[0]);

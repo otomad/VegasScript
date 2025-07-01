@@ -26,7 +26,7 @@ const StyledBackgroundImage = styled.div`
 
 export default function BackgroundImage() {
 	const { currentImage } = useBackgroundImages();
-	const { backgroundImageOpacity: [opacity], backgroundImageTint: [tint], backgroundImageBlur: [blur] } = selectConfig(c => c.settings);
+	const { backgroundImageOpacity: [opacity], backgroundImageTint: [tint], backgroundImageBlur: [blur] } = useSelectConfig(c => c.settings);
 
 	if (!currentImage) return;
 

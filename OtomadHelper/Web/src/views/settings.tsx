@@ -37,7 +37,7 @@ export default function Settings() {
 	const {
 		uiScale, hideUseTips, autoSwitchSourceFrom, autoCollapsePrveClasses,
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop, accentColor, backgroundColor,
-	} = selectConfig(c => c.settings);
+	} = useSelectConfig(c => c.settings);
 	const backgroundImages = useBackgroundImages();
 	const showBackgroundImage = !!~backgroundImages.backgroundImage[0];
 	const [displayUiScale, setDisplayUiScale] = useState<Readable | undefined>(uiScale[0]);
