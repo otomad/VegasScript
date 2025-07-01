@@ -340,7 +340,7 @@ const TOOLTIP_OFFSET = 28;
 const Multiply = styled.label.attrs({
 	children: "×",
 	role: "term",
-	"aria-label": t.aria.times,
+	"aria-label": t.aria.timesOperator,
 })`
 	${styles.mixins.flexCenter()};
 	padding-block-end: 3px;

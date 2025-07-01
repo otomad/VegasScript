@@ -113,6 +113,7 @@ export default {
 		invertSelection: "crwdns2206:0crwdne2206:0",
 		variableBeginWith: "crwdns2418:0{{first, lowercase}}crwdne2418:0",
 		reset: "crwdns2400:0crwdne2400:0",
+		resetThisPage: "crwdns4128:0crwdne4128:0",
 		new: "crwdns2552:0crwdne2552:0",
 		etc: "crwdns2620:0{{examples}}crwdne2620:0",
 		offset: "crwdns2622:0crwdne2622:0",
@@ -134,7 +135,7 @@ export default {
 		preview: "crwdns4052:0crwdne4052:0",
 		width: "crwdns4054:0crwdne4054:0",
 		height: "crwdns4056:0crwdne4056:0",
-		type: "crwdns4058:0crwdne4058:0",
+		unit: "crwdns4130:0crwdne4130:0",
 		deleteSelection: "crwdns4060:0crwdne4060:0",
 		all: "crwdns4062:0crwdne4062:0",
 		infoBar: {
@@ -161,9 +162,12 @@ export default {
 			degree: "crwdns3604:0crwdne3604:0",
 			densityIndependentPixel: "crwdns3610:0crwdne3610:0",
 			times: "crwdns3612:0crwdne3612:0",
+			fraction: "crwdns4134:0crwdne4134:0",
+			pixel_full: "crwdns4132:5crwdne4132:5",
 			bar: "crwdns3606:5crwdne3606:5",
 			beat: "crwdns3608:5crwdne3608:5",
 			cent: "crwdns3614:5crwdne3614:5",
+			fraction_full: "crwdns4136:5crwdne4136:5",
 		},
 		confirm: {
 			delete: {
@@ -412,6 +416,8 @@ export default {
 				operationRecord_short: "crwdns4096:0crwdne4096:0",
 				column: "crwdns3260:5crwdne3260:5",
 				row: "crwdns3262:5crwdne3262:5",
+				insertBlank: "crwdns4138:5crwdne4138:5",
+				blank: "crwdns4140:5crwdne4140:5",
 			},
 			box3d: {
 				deleteTracks: "crwdns3522:0crwdne3522:0",
@@ -920,7 +926,8 @@ export default {
 						vFlip: "crwdns3324:0crwdne3324:0",
 					},
 					padding: "crwdns3326:0crwdne3326:0",
-					previewAria: "crwdns4112:0{{columnIndex}}crwdnd4112:0{{rowIndex}}crwdnd4112:0{{columnCount}}crwdnd4112:0{{rowCount}}crwdne4112:0",
+					previewAria: "crwdns4142:0trackIndex={trackIndex}crwdnd4142:0columnIndex={columnIndex}crwdnd4142:0rowIndex={rowIndex}crwdnd4142:0columnCount={columnCount}crwdnd4142:0rowCount={rowCount}crwdne4142:0",
+					previewAria_span: "crwdns4144:0trackIndex={trackIndex}crwdnd4144:0columnSpan={columnSpan}crwdnd4144:0columnSpan={columnSpan}crwdnd4144:0rowSpan={rowSpan}crwdnd4144:0rowSpan={rowSpan}crwdnd4144:0columnIndex={columnIndex}crwdnd4144:0rowIndex={rowIndex}crwdnd4144:0columnCount={columnCount}crwdnd4144:0rowCount={rowCount}crwdne4144:0",
 					squareCannotUseTheseFeatures: "crwdns4114:0{{fixed}}crwdne4114:0",
 				},
 				box3d: {
@@ -1040,6 +1047,7 @@ export default {
 						contrast: "crwdns4044:0{{option, lowercase}}crwdne4044:0",
 						systemContrastCannot: "crwdns4046:0{{option, lowercase}}crwdne4046:0",
 						systemContrastMayNot: "crwdns4048:0{{option, lowercase}}crwdne4048:0",
+						blackScheme: "crwdns4146:0{{option, lowercase}}crwdne4146:0",
 					},
 				},
 				preference: {
@@ -1078,6 +1086,7 @@ export default {
 				columnWidth: "crwdns4122:0crwdne4122:0",
 				rowHeight: "crwdns4124:0crwdne4124:0",
 				span: "crwdns4126:0crwdne4126:0",
+				insertBlank: "crwdns4148:0crwdne4148:0",
 			},
 		},
 		aria: {
@@ -1085,6 +1094,8 @@ export default {
 			breadcrumb: "crwdns3941:0crwdne3941:0",
 			commandBar: "crwdns3943:0crwdne3943:0",
 			checkboxGroup: "crwdns3966:0crwdne3966:0",
+			reorderHandle: "crwdns4152:0crwdne4152:0",
+			timesOperator: "crwdns4150:0crwdne4150:0",
 		},
 		preset: "crwdns2550:5crwdne2550:5",
 	},

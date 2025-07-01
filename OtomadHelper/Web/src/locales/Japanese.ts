@@ -113,6 +113,7 @@ export default {
 		invertSelection: "選択を反転",
 		variableBeginWith: "{{first, lowercase}} からの変数",
 		reset: "リセット",
+		resetThisPage: "このページをリセット",
 		new: "新規作成",
 		etc: "{{examples}}など",
 		offset: "オフセット",
@@ -134,7 +135,7 @@ export default {
 		preview: "プレビュー",
 		width: "Width",
 		height: "高さ",
-		type: "タイプ",
+		unit: "単位",
 		deleteSelection: "選択を削除",
 		all: "すべて",
 		infoBar: {
@@ -161,9 +162,12 @@ export default {
 			degree: "°",
 			densityIndependentPixel: "dp",
 			times: "×",
+			fraction: "fr",
+			pixel_full: "Pixels",
 			bar: "バー",
 			beat: "ビーツ",
 			cent: "セント",
+			fraction_full: "分数",
 		},
 		confirm: {
 			delete: {
@@ -412,6 +416,8 @@ export default {
 				operationRecord_short: "操作",
 				column: "列",
 				row: "行",
+				insertBlank: "Insert blanks",
+				blank: "空白文字",
 			},
 			box3d: {
 				deleteTracks: "元のトラックを削除する",
@@ -920,7 +926,6 @@ export default {
 						vFlip: "パリティパターンの行を反転させてトラックをミラーする",
 					},
 					padding: "トラック ボックスの内側の余白を他のボックスとあまり混雑しないように調整します。",
-					previewAria: "{{columnIndex}}の列 {{rowIndex}} 、 {{columnCount}}-column の行 {{rowCount}}-row グリッドにあるトラック",
 					squareCannotUseTheseFeatures: "次の機能を使用するには、配列モードを {{fixed}}に切り替えてください",
 				},
 				box3d: {
@@ -1040,6 +1045,7 @@ export default {
 						contrast: "ハイコントラストテーマは有効になっており、 {{option, lowercase}} オプションは現時点では変更できません。",
 						systemContrastCannot: "システムのハイコントラストテーマが有効になっており、 {{option, lowercase}} オプションは現時点では変更できません。",
 						systemContrastMayNot: "システムのハイコントラストテーマが有効になっており、 {{option, lowercase}} オプションは現時点では有効ではない可能性があります。",
+						blackScheme: "黒い配色が有効で、 {{option, lowercase}} オプションは現時点では有効ではありません。",
 					},
 				},
 				preference: {
@@ -1078,6 +1084,7 @@ export default {
 				columnWidth: "Column &width",
 				rowHeight: "行の高さ(&H)",
 				span: "スパン(&S)",
+				insertBlank: "Insert &blanks",
 			},
 		},
 		aria: {
@@ -1085,6 +1092,8 @@ export default {
 			breadcrumb: "パンくずリスト",
 			commandBar: "コマンドバー",
 			checkboxGroup: "チェックボックスグループ",
+			reorderHandle: "ドラッグして並べ替え",
+			timesOperator: "回数",
 		},
 		preset: "プリセット",
 	},

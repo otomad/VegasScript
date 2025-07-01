@@ -115,10 +115,12 @@ export /* @internal */ const StyledTextBox = styled.div`
 	forced-color-adjust: none;
 
 	&,
-	*,
-	::before,
-	::after {
+	* {
 		font-feature-settings: "case" on, "halt" on;
+	}
+
+	&[data-type="number"] input {
+		font-variant-numeric: tabular-nums;
 	}
 
 	.wrapper {
@@ -305,7 +307,8 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 	"aria-disabled"?: never;
 	"aria-readonly"?: never;
 }, "div">) {
-	const inputId = id || useId();
+	const inputIdDef = useId();
+	const inputId = id || inputIdDef;
 	const inputEl = useDomRef<"input">();
 	const wrapperEl = useDomRef<"div">();
 	useImperativeHandleRef(ref, wrapperEl);
@@ -315,7 +318,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 	const setValue = (value: string | undefined | ((value: string) => string | undefined)) =>
 		value == null || _setValue?.(value as string);
 
-	const handleChange = (e: Any) => { onChanging?.(e); onChange?.(e); };
+	const handleChange = useCallback((e: Any) => { onChanging?.(e); onChange?.(e); }, [onChange, onChanging]);
 
 	const handleInput = useCallback<FormEventHandler<HTMLInputElement>>(e => {
 		const el = e.currentTarget ?? e.target;
@@ -420,7 +423,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 		return clamp(value, min!, max!);
 	});
 
-	function normalizeValue(value?: NumberLike) {
+	const normalizeValue = useCallback((value?: NumberLike) => {
 		if (isUndefinedNullNaN(value)) return "";
 		value = clamp(value, min!, max!);
 		let result = normalizeNumber(value);
@@ -432,9 +435,9 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 		if (!keepTrailing0 && result.includes("."))
 			result = result.replace(/\.?0+$/, "");
 		return result;
-	}
+	}, [decimalPlaces, keepTrailing0, max, min]);
 
-	function parseText(text: string) {
+	const parseText = useCallback((text: string) => {
 		if (intMode) {
 			text = text.match(/-?\d+/)?.[0] ?? "";
 			return (bigIntMode ? BigInt(text) : Number(text)) as TNumber;
@@ -442,7 +445,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 			text = text.replaceAll(/\.+/g, ".").match(/-?\d*\.\d+/)?.[0] ?? text.match(/-?\d+/)?.[0] ?? "";
 			return Number(text) as TNumber;
 		}
-	}
+	}, [bigIntMode, intMode]);
 
 	function handleInput(text: string) {
 		if (text === "")
@@ -463,7 +466,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 		setValue(parseText(text));
 	};
 
-	const updateDisplayValue = (value?: NumberLike) => setDisplayValue(normalizeValue(value));
+	const updateDisplayValue = useCallback((value?: NumberLike) => setDisplayValue(normalizeValue(value)), [normalizeValue]);
 
 	const handleBlurChange: BaseEventHandler<HTMLInputElement> = e => {
 		const el = e.currentTarget ?? e.target;
@@ -481,7 +484,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 	useEffect(() => {
 		const newValue = value, oldValue = displayValue && parseText(displayValue);
 		if (newValue !== oldValue) updateDisplayValue(value);
-	}, [value, decimalPlaces]);
+	}, [value, decimalPlaces, displayValue, updateDisplayValue, parseText]);
 
 	const setCaretToPoint = () => {
 		if (inputEl.current) {
@@ -548,6 +551,7 @@ function NumberTextBox<TNumber extends NumberLike>({ value: [value, _setValue], 
 			value={[displayValue ?? "", setValueFromTextBox]}
 			inputRef={inputEl}
 			_showPositiveSign={positiveSign && value > 0}
+			data-type="number"
 			onChange={handleBlurChange}
 			onInput={handleInput}
 			onKeyDown={handleKeyDown}

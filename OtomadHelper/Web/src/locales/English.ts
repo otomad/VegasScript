@@ -1122,7 +1122,7 @@ export default {
 			breadcrumb: "Breadcrumb",
 			commandBar: "Command bar",
 			checkboxGroup: "Checkbox group",
-			times: "Times",
+			timesOperator: "Times",
 			reorderHandle: "Drag to reorder",
 		},
 	},

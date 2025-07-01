@@ -113,6 +113,7 @@ export default {
 		invertSelection: "反选",
 		variableBeginWith: "{{first, capitalize}}起始的可变值",
 		reset: "重置",
+		resetThisPage: "重置本页",
 		new: "新建",
 		etc: "{{examples}} 等",
 		offset: "偏移",
@@ -134,7 +135,7 @@ export default {
 		preview: "预览",
 		width: "宽度",
 		height: "高度",
-		type: "类型",
+		unit: "单位\n",
 		deleteSelection: "删除所选",
 		all: "全部",
 		infoBar: {
@@ -161,9 +162,12 @@ export default {
 			degree: "°",
 			densityIndependentPixel: "逻辑像素",
 			times: "×",
+			fraction: "等分",
+			pixel_full: "像素",
 			bar: "小节",
 			beat: "拍",
 			cent: "音分",
+			fraction_full: "等分",
 		},
 		confirm: {
 			delete: {
@@ -412,6 +416,8 @@ export default {
 				operationRecord_short: "操作记录",
 				column: "列数",
 				row: "行数",
+				insertBlank: "插空",
+				blank: "空位",
 			},
 			box3d: {
 				deleteTracks: "删除原轨道",
@@ -920,7 +926,8 @@ export default {
 						vFlip: "以奇偶性翻转行来镜像轨道",
 					},
 					padding: "调整轨道框的内边距，使之与其它轨道框不那么紧凑",
-					previewAria: "该轨道位于第{{columnIndex}}列第{{rowIndex}}行，共{{columnCount}}列{{rowCount}}行。",
+					previewAria: "{{trackIndex, ordinal}}条轨道位于第{{columnIndex}}列第{{rowIndex}}行，共{{columnCount}}列{{rowCount}}行。",
+					previewAria_span: "{{trackIndex, ordinal}}条轨道位于第{{columnIndex}}列第{{rowIndex}}行，跨{{columnSpan}}列{{rowSpan}}行，共{{columnCount}}列{{rowCount}}行。",
 					squareCannotUseTheseFeatures: "切换阵列模式到{{fixed}}方可使用下述功能",
 				},
 				box3d: {
@@ -1040,6 +1047,7 @@ export default {
 						contrast: "高对比度主题已启用，此时无法更改{{option, lowercase}}选项。",
 						systemContrastCannot: "系统高对比度主题已启用，此时无法更改{{option, lowercase}}选项。",
 						systemContrastMayNot: "系统高对比度主题已启用，此时{{option, lowercase}}选项不一定生效。",
+						blackScheme: "黑色配色方案已启用，此时{{option, lowercase}}选项不会生效。",
 					},
 				},
 				preference: {
@@ -1078,6 +1086,7 @@ export default {
 				columnWidth: "列宽(&W)",
 				rowHeight: "行高(&H)",
 				span: "跨列/行(&S)",
+				insertBlank: "插空(&B)",
 			},
 		},
 		aria: {
@@ -1085,6 +1094,8 @@ export default {
 			breadcrumb: "面包屑",
 			commandBar: "命令栏",
 			checkboxGroup: "复选框组",
+			reorderHandle: "拖拽以排序",
+			timesOperator: "乘以",
 		},
 		preset: "预设",
 	},
