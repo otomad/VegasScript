@@ -89,6 +89,9 @@ export default [
 		"colorjs.io": [
 			["default", "Color"],
 		],
+		/* "@number-flow/react": [
+			["default", "NumberFlow"],
+		], */
 	},
 	/* {
 		from: "react",

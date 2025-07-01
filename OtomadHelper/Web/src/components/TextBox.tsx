@@ -114,6 +114,13 @@ export /* @internal */ const StyledTextBox = styled.div`
 	cursor: text;
 	forced-color-adjust: none;
 
+	&,
+	*,
+	::before,
+	::after {
+		font-feature-settings: "case" on, "halt" on;
+	}
+
 	.wrapper {
 		display: flex;
 		align-items: stretch;
