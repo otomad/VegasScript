@@ -155,7 +155,7 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 		let next = getNext(name);
 		if (isEnglish(currentLanguage) && next === "english") next = getNext(next);
 		return next;
-	}), [currentLanguage]);
+	}), [currentLanguage, languageDisplayNames]);
 	const languageNames = availableLanguageNames[displayName];
 
 	useInterval(nextDisplayName, 2000);

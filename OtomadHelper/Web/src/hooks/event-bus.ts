@@ -13,11 +13,30 @@ const emitter = mitt<ApplicationEvents>();
  * @example
  * ```typescript
  * // fire an event
- * useEvent("foo", { a: "b" });
+ * emit("foo", { a: "b" });
  * ```
  */
-export const useEvent: <Key extends keyof ApplicationEvents>(type: Key, ...args: ApplicationEvents[Key]) => void = (type, ...args) =>
+export const emit: <Key extends keyof ApplicationEvents>(type: Key, ...args: ApplicationEvents[Key]) => void = (type, ...args) =>
 	emitter.emit(type, args);
+
+type UseListenDelegateCallback = {
+	<Key extends keyof ApplicationEvents>(type: Key, handler: (...args: ApplicationEvents[Key]) => void): void;
+	(type: "*", handler: (type: keyof ApplicationEvents, ...args: ApplicationEvents[keyof ApplicationEvents]) => void): void;
+};
+type UseListenDelegate<Callback = UseListenDelegateCallback> = Callback & { on: Callback };
+type UseListenKeybindingDelegateCallback = (type: WebMessageEvents.TriggerKeybinding["event"], handler: () => void) => void;
+
+const _useListenInternal = (type: string, handler: Function, useHook: boolean) => {
+	const callback = (typeOrArgs: string | unknown[], args: unknown[]) => {
+		if (type === "*") handler(typeOrArgs, ...args);
+		else handler(...typeOrArgs);
+	};
+	if (!useHook) (emitter.on as Function)(type as keyof ApplicationEvents, callback);
+	else (useEffect as Function)(() => {
+		(emitter.on as Function)(type as keyof ApplicationEvents, callback);
+		return () => (emitter.off as Function)(type as keyof ApplicationEvents, callback);
+	});
+};
 
 /**
  * Listens to an event on the global event emitter.
@@ -35,26 +54,15 @@ export const useEvent: <Key extends keyof ApplicationEvents>(type: Key, ...args:
  * useListen("*", (type, e) => console.log(type, e));
  * ```
  */
-export const useListen: {
-	<Key extends keyof ApplicationEvents>(type: Key, handler: (...args: ApplicationEvents[Key]) => void): void;
-	(type: "*", handler: (type: keyof ApplicationEvents, ...args: ApplicationEvents[keyof ApplicationEvents]) => void): void;
-} = (type: string, handler: Function) => {
-	const callback = (typeOrArgs: string | unknown[], args: unknown[]) => {
-		if (type === "*") handler(typeOrArgs, ...args);
-		else handler(...typeOrArgs);
-	};
-	if (!canUseHook()) (emitter.on as Function)(type as keyof ApplicationEvents, callback);
-	else useEffect(() => {
-		(emitter.on as Function)(type as keyof ApplicationEvents, callback);
-		return () => (emitter.off as Function)(type as keyof ApplicationEvents, callback);
-	});
-};
+export const useListen: UseListenDelegate = Object.assign(
+	(type: string, handler: Function) => _useListenInternal(type, handler, true),
+	{ on: (type: string, handler: Function) => _useListenInternal(type, handler, false) },
+);
 
-export const useListenKeybinding = (type: WebMessageEvents.TriggerKeybinding["event"], handler: () => void) => {
-	useListen("host:triggerKeybinding", ({ event }) => {
-		if (event === type) handler();
-	});
-};
+export const useListenKeybinding = Object.assign(
+	((type, handler) => { useListen("host:triggerKeybinding", ({ event }) => { if (event === type) handler(); }); }) as UseListenKeybindingDelegateCallback,
+	{ on: ((type, handler) => { useListen.on("host:triggerKeybinding", ({ event }) => { if (event === type) handler(); }); }) as UseListenKeybindingDelegateCallback },
+);
 
 /**
  * Listens to an event on the global event emitter once.

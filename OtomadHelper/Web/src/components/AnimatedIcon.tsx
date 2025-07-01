@@ -228,7 +228,7 @@ export default function AnimatedIcon({
 
 	const { findMarker, onAnimationComplete, ...sequence } = useLottieSequence(animationItem, { goToAndPlay, goToAndStop, setIsPlaying });
 
-	useEffect(() => { onPlayStateChange?.(isPlaying); }, [isPlaying]);
+	useEffect(() => { onPlayStateChange?.(isPlaying); }, [isPlaying, onPlayStateChange]);
 
 	/**
 	 * Gets the icon as a filename.
@@ -244,7 +244,7 @@ export default function AnimatedIcon({
 				console.error(new Error(`Lottie file "${name}" doesn't exist in "assets/lotties"`, { cause }));
 			return null!;
 		}
-	}, [name]);
+	}, [name, showFallbackIcon]);
 
 	if (!isObject(animationData) && showFallbackIcon) {
 		const iconName =
@@ -312,7 +312,7 @@ export default function AnimatedIcon({
 		}
 	}
 
-	useEffect(() => handleSpeedChange(), [speed]);
+	useEffect(() => handleSpeedChange(), [speed, handleSpeedChange]);
 
 	const previousAnimationName = useRef("Normal");
 	const onAnimationStart = useCallback<AnimationEventHandler>(e => {

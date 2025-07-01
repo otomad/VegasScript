@@ -35,7 +35,7 @@ export function useWebglFilters(imagePath: string) {
 
 	useEffect(() => {
 		getCanvasFilter(imagePath);
-	}, [imagePath]);
+	}, [imagePath, getCanvasFilter]);
 
 	return saved.filters;
 }

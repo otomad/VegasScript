@@ -313,7 +313,7 @@ export function useRootInert(inert: boolean | null | undefined, popover?: string
 			setRootInert(true);
 		else if (!popover || document.querySelectorAll(`#popovers ${popover}`).length <= 1)
 			setRootInert(false);
-	}, [inert]);
+	}, [inert, popover]);
 }
 
 /**

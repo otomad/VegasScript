@@ -181,8 +181,8 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		if (autoClampValue) setValue?.(max);
 		else throw new RangeError("The value of Slider is greater than the maximum value. " + errorInfo);
 
-	const restrict = (n: number | undefined, nanValue: number) => Number.isFinite(n) ? clamp(map(n!, min, max, 0, 1), 0, 1) : nanValue;
-	const sharpValue = useMemo(() => restrict(value, 0), [value, min, max]);
+	const restrict = useCallback((n: number | undefined, nanValue: number) => Number.isFinite(n) ? clamp(map(n!, min, max, 0, 1), 0, 1) : nanValue, [min, max]);
+	const sharpValue = useMemo(() => restrict(value, 0), [value, restrict]);
 	const smoothValue = staticInterval === 0 ? sharpValue : useSmoothValue(sharpValue, 0.5, { staticInterval });
 	// Modify this parameter to adjust the smooth movement value of the slider.
 	const [pressed, setPressed] = useState(false);
@@ -197,12 +197,12 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		}
 	}
 
-	function clampValue(value: number) {
+	const clampValue = useCallback((value: number) => {
 		value = clamp(value, min, max);
 		if (step !== undefined)
 			value = Math.round((value - min) / step) * step + min;
 		return value;
-	}
+	}, [min, max, step]);
 
 	function onThumbDown(e: PointerEvent, triggerByTrack: boolean = false) {
 		if (e.button) { resetToDefault(e); return; }
@@ -255,7 +255,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		const newValue = e.code === "Home" ? min : e.code === "End" ? max :
 			clampValue(value + (decrease ? -1 : 1) * keyStep * (largeStep ? keyBigStepMultiplier : 1));
 		setValue?.(newValue);
-	}, [value]);
+	}, [value, clampValue, keyBigStepMultiplier, keyStep, min, max, setValue]);
 
 	const displayValue = (() => {
 		const smoothValue2 = map(smoothlyDisplayValue ? smoothValue : sharpValue, 0, 1, min, max);
@@ -268,7 +268,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		else return _displayValue;
 	})();
 
-	useEffect(() => void onDisplayValueChanged?.(displayValue), [displayValue]);
+	useEffect(() => void onDisplayValueChanged?.(displayValue), [displayValue, onDisplayValueChanged]);
 
 	return (
 		<StyledSliderWrapper onAuxClick={resetToDefault} onMouseDown={e => e.preventDefault()}>

@@ -213,13 +213,13 @@ export default function Checkbox<T>({ children, id, value: [value, setValue], di
 	};
 
 	useChangeEffect(() => handleChange(checked, indeterminate), [indeterminate, checked]);
-	useEffect(() => { checkboxEl.current && (checkboxEl.current.indeterminate = indeterminate); }, [indeterminate]);
+	useEffect(() => { checkboxEl.current && (checkboxEl.current.indeterminate = indeterminate); }, [indeterminate, checkboxEl]);
 	useOnFormKeyDown(labelEl, { handleCheck });
 	const getCheckMarkName = useCallback(() => indeterminate ? "checkbox/dash" : checked ? "checkbox/accept" : "", [indeterminate, checked]);
 	const [checkMarkName, setCheckMarkName] = useState<ReturnType<typeof getCheckMarkName>>(getCheckMarkName()); // What the hell is TypeScript's problem?
 	useEffect(() => {
 		setCheckMarkName(getCheckMarkName());
-	}, [indeterminate, checked]);
+	}, [indeterminate, checked, getCheckMarkName]);
 
 	return (
 		<StyledCheckboxLabel

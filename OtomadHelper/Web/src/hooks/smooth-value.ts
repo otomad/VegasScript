@@ -67,7 +67,7 @@ export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, spee
 		};
 		if (!reduceMotion) animation();
 		return () => cancelAnimationFrame(animationId.current);
-	}, [current, speed, reduceMotion]);
+	}, [current, speed, reduceMotion, options.staticInterval, setSmoothValue]);
 	if (reduceMotion) return current; // Do not put this line at the top of this function. Or when user is toggling the
 	// prefers-reduced-motion option, it will crashed because of some useState won't be triggered.
 	return smoothValue;

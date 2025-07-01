@@ -21,7 +21,7 @@ export default function DefineSvgFilter({ id, children, ...svgAttrs }: FCP<{
 	useEffect(() => {
 		if (children == null) return;
 		filters.set(id, [svgAttrs, children]);
-	}, [children]);
+	}, [children, id, svgAttrs]);
 }
 
 DefineSvgFilter.Portal = SvgFilterPortal;

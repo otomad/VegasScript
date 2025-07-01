@@ -14,7 +14,7 @@ if (import.meta.env.DEV) {
 
 	// #region Send toast
 	globals.toast = (message: string, status?: Status) => {
-		useEvent("app:toast", message, status);
+		emit("app:toast", message, status);
 	};
 	// #endregion
 

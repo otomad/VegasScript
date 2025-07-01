@@ -155,7 +155,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	};
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
-	useEffect(() => onToggle?.(internalExpanded), [internalExpanded]);
+	useEffect(() => onToggle?.(internalExpanded), [internalExpanded, onToggle]);
 	useEffect(() => { if (disabled || childrenDisabled) _setInternalExpanded(false); }, [disabled, childrenDisabled]);
 	const ariaId = useRef<string>(null);
 	const withAriaId = (suffix: string) => !ariaId.current ? undefined : ariaId.current + suffix;

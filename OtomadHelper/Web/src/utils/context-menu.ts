@@ -68,7 +68,7 @@ export function createContextMenu(menu: ContextMenuInput): MouseEventHandler<HTM
 			window.contextMenu = menuOutput;
 		else {
 			e.preventDefault();
-			useEvent("dev:showContextMenu", e, menuOutput);
+			emit("dev:showContextMenu", e, menuOutput);
 		}
 	};
 }

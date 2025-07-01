@@ -88,7 +88,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	};
 	const items = _items as AnyObject[];
 	const filteredItems = useMemo(() => hideCustom === false ? items : items.filter(item =>
-		getItemField(item, "id") !== (typeof hideCustom === "string" ? hideCustom : "custom")), [_items]);
+		getItemField(item, "id") !== (typeof hideCustom === "string" ? hideCustom : "custom")), [_items, getItemField, hideCustom, items]);
 	const checkInfo = !checkInfoCondition ? undefined :
 		typeof checkInfoCondition === "string" ? checkInfoCondition :
 		checkInfoCondition === true ? typeof idField === "string" && typeof nameField === "string" ?

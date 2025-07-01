@@ -324,7 +324,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 		}
 		setValue(newText); // true or undefined
 		onChanging?.(e as never);
-	}, [value]);
+	}, [value, setValue, onChanging, onInput]);
 
 	const handleKeyDown = useCallback<KeyboardEventHandler<HTMLInputElement>>(e => {
 		onKeyDown?.(e);
@@ -333,7 +333,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 			handleChange(e);
 			stopEvent(e);
 		}
-	}, [onKeyDown]);
+	}, [onKeyDown, inputEl, handleChange]);
 
 	return (
 		<StyledTextBox

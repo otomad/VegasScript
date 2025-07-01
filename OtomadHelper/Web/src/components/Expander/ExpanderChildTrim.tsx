@@ -69,7 +69,7 @@ function ExpanderChildTrimValue({ start, end, unit = t.units.millisecond, decima
 		<StyledExpanderChildTrim>
 			<VerticalIfFlexWrap className="timecodes">
 				<TextBox.Number
-					value={start}
+					value={start as StatePropertyNonNull<number>}
 					suffix={unit}
 					decimalPlaces={decimalPlaces}
 					min={min}
@@ -78,7 +78,7 @@ function ExpanderChildTrimValue({ start, end, unit = t.units.millisecond, decima
 				/>
 				<RangeDash />
 				<TextBox.Number
-					value={end}
+					value={end as StatePropertyNonNull<number>}
 					suffix={unit}
 					decimalPlaces={decimalPlaces}
 					min={maxWithUndefined(min, start[0])}

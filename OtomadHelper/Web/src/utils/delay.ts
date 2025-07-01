@@ -27,25 +27,6 @@ export function sleep(ms: number) {
 }
 
 /**
- * Schedules a callback to be executed repeatedly every delay of this many milliseconds.
- *
- * @param callback - The callback function to be called when the timer times out.
- * @param ms - The number of milliseconds to wait before calling the callback function.
- * @returns An ID reference used to cancel the timer.
- */
-export function createInterval(callback: () => void, ms: number) {
-	const timeoutId = useRef<Timeout>(undefined);
-
-	useMountEffect(() => {
-		timeoutId.current = setInterval(callback, ms);
-
-		return () => clearInterval(timeoutId.current);
-	});
-
-	return timeoutId;
-}
-
-/**
  * If you played with *React Hooks* for more than a few hours, you probably ran into an intriguing problem:
  * using `setInterval` just *doesn't work* as you'd expect.
  *

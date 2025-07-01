@@ -26,7 +26,7 @@ export default function Lottie({ loop = false, autoplay = false, animationData, 
 	const [, setAnim] = useState<AnimationItem>();
 	const lavContainerEl = useDomRef<"div">();
 
-	useEffect(() => {
+	useMountEffect(() => {
 		if (!lavContainerEl.current) return;
 
 		const anim = lottie.loadAnimation({
@@ -54,7 +54,7 @@ export default function Lottie({ loop = false, autoplay = false, animationData, 
 			anim?.destroy();
 			svgEl?.remove();
 		};
-	}, []);
+	});
 
 	return <LavContainer ref={lavContainerEl} {...htmlAttrs} />;
 }

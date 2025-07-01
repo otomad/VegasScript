@@ -329,7 +329,7 @@ export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, sele
 		setHover(isAnimationStart);
 	}, []);
 
-	useEffect(() => onSelectedChange?.(id, selected), [selected]);
+	useEffect(() => onSelectedChange?.(id, selected), [selected, id, onSelectedChange]);
 
 	useOnFormKeyDown(el);
 

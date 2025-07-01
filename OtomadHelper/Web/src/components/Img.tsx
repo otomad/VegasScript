@@ -62,7 +62,7 @@ export default function Img({ src, duplicate, ref, ...htmlAttrs }: FCP<{
 		return () => {
 			image.remove();
 		};
-	}, [src, duplicate]);
+	}, [src, duplicate, contentsEl, htmlAttrs, imageEl, images, source]);
 
 	return <Contents ref={contentsEl} className="img" />;
 }

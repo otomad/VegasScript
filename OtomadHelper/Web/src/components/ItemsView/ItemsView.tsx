@@ -162,8 +162,8 @@ export default function ItemsView<
 
 	const itemCount = useMemo(() => items?.length ?? 0, [items]);
 	const isEmpty = useMemo(() => itemCount === 0, [itemCount]);
-	useEffect(() => onItemCountChange?.(itemCount), [itemCount]);
-	useEffect(() => onItemEmptyChange?.(isEmpty), [isEmpty]);
+	useEffect(() => onItemCountChange?.(itemCount), [itemCount, onItemCountChange]);
+	useEffect(() => onItemEmptyChange?.(isEmpty), [isEmpty, onItemEmptyChange]);
 
 	return (
 		<>

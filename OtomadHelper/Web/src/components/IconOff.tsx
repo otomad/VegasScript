@@ -30,7 +30,7 @@ export default function IconOff({ name: _name }: FCP<{
 	useEffect(() => {
 		const path = document.querySelector(symbolId)?.innerHTML;
 		if (path) setSvgPath(path);
-	}, [name]);
+	}, [name, symbolId]);
 
 	useEffect(() => {
 		// Delay the slash animation if SwitchTransition hasn't translate to this page yet.
@@ -48,7 +48,7 @@ export default function IconOff({ name: _name }: FCP<{
 		});
 		observer.observe(page, { attributeFilter: ["class"] });
 		return () => observer.disconnect();
-	}, []);
+	}, [comp]);
 
 	if (shouldDelayToShow) return;
 
@@ -58,7 +58,11 @@ export default function IconOff({ name: _name }: FCP<{
 				<mask id={maskId}>
 					<g fill="white" dangerouslySetInnerHTML={{ __html: svgPath }} />
 					<g
-						fill="none" strokeDasharray={STROKE_DASHARRAY} strokeDashoffset={STROKE_DASHARRAY} strokeLinecap="round" strokeLinejoin="round"
+						fill="none"
+						strokeDasharray={STROKE_DASHARRAY}
+						strokeDashoffset={STROKE_DASHARRAY}
+						strokeLinecap="round"
+						strokeLinejoin="round"
 						strokeWidth={1}
 					>
 						<path stroke="black" d="M1.21 -0.21L16.21 14.79" strokeWidth="var(--shadow-stroke-width)" />

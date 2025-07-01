@@ -612,7 +612,7 @@ function WebglFilter({ src, effect, step }: {
 			default:
 				break;
 		}
-	}, [isMounted]);
+	}, [isMounted, effect]);
 
 	useEffect(() => {
 		const animation = () => {

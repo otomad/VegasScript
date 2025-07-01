@@ -7,7 +7,7 @@ const StyledUnsupportedBrowserInfoBar = styled(InfoBar).attrs({
 })`
 	block-size: ${HEIGHT}px;
 	border: none;
-	border-radius: none;
+	border-radius: revert;
 `;
 
 export default function UnsupportedBrowserInfoBar() {

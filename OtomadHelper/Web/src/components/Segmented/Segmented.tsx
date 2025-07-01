@@ -208,7 +208,7 @@ export default function Segmented<T extends string = string>({ current: [current
 		};
 		document.addEventListener("pointermove", pointerMove);
 		document.addEventListener("pointerup", pointerUp);
-	}, [children]);
+	}, [children, itemCount, setCurrentByIndex]);
 
 	const handleArrowKeyDown = useDebounceCallback<KeyboardEventHandler<HTMLDivElement>>(({ code }) => {
 		code = swapArrowLeftRightIfRtl(code);

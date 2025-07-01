@@ -74,7 +74,7 @@ function loadShader(gl: WebGLRenderingContext, shaderSource: string, shaderType:
  * @memberOf module:webgl-utils
  */
 export function createProgram(gl: WebGLRenderingContext, shaders: WebGLShader[], attribs?: string[], locations?: number[], errorCallback = error) {
-	const program = gl.createProgram()!;
+	const program = gl.createProgram();
 	shaders.forEach(function (shader) {
 		gl.attachShader(program, shader);
 	});

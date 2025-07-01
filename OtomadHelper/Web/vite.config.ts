@@ -46,6 +46,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			react({
 				babel: {
 					plugins: [
+						["babel-plugin-react-compiler", { target: "19" }],
 						[
 							"babel-plugin-styled-components",
 							{

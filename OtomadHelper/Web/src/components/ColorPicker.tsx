@@ -128,7 +128,7 @@ export function ColorButton({ color, icon, animatedIcon, selected = false, value
 
 	const handleClick: MouseEventHandler<HTMLButtonElement> = async e => {
 		if (autoStartViewTransition) {
-			useEvent("app:startColorPaletteViewTransition");
+			emit("app:startColorPaletteViewTransition");
 			await delay(0);
 		}
 		onClick?.(e);
@@ -180,7 +180,7 @@ export default function ColorPicker({ color: [color, setColor], computedColor, r
 	const setColorDelayed = async (color: string) => {
 		if (!setColor) return;
 		if (autoStartViewTransition) {
-			useEvent("app:startColorPaletteViewTransition");
+			emit("app:startColorPaletteViewTransition");
 			await delay(0);
 		}
 		setColor(color);

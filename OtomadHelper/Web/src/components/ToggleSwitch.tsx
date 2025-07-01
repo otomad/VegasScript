@@ -303,11 +303,11 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			resetTransition();
 	}, [resetTransitionOnChanging, resetTransition, on, disabled]);
 
-	const handleCheck = (on: boolean, e?: MouseEvent) => {
+	const handleCheck = useCallback((on: boolean, e?: MouseEvent) => {
 		stopEvent(e);
 		if (!isDragging) setOn?.(on);
 		setIsDragging(false);
-	};
+	}, [isDragging, setOn]);
 
 	const onThumbDown = useCallback<PointerEventHandler<HTMLDivElement>>(e => {
 		stopEvent(e);
@@ -347,14 +347,14 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		thumb.setPointerCapture(e.pointerId);
 		thumb.addEventListener("pointermove", pointerMove);
 		thumb.addEventListener("pointerup", pointerUp);
-	}, []);
+	}, [handleCheck, setIsPressing]);
 
 	const textEl = useDomRef<"div">();
 	useEffect(() => {
 		// HACK: Mystery code. After the following code, it will become less laggy.
 		// The current use case is that if there is a slider below the toggle switch, it can prevent the slider from getting stuck when sliding.
 		if (_reduceLag && textEl.current?.parentNode) textEl.current.outerHTML = textEl.current.outerHTML;
-	}, [children, details, selectInfo, selectValid, _reduceLag]);
+	}, [children, details, selectInfo, selectValid, _reduceLag, textEl]);
 
 	return (
 		<StyledToggleSwitchLabel

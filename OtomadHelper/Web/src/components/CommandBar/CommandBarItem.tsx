@@ -33,7 +33,7 @@ export /* @internal */ function CommandBarItem({ icon, caption, altCaption, deta
 	const anchorName = useUniqueId("--command-bar-item");
 	const [flyoutShown, setFlyoutShown] = useState(false);
 	const hideTimeout = useRef<Timeout>(undefined), showTimeout = useRef<Timeout>(undefined);
-	const showFlyout = () => { clearTimeout(hideTimeout.current); if (children) { useEvent("app:hideOtherFlyouts", anchorName); setFlyoutShown(true); } };
+	const showFlyout = () => { clearTimeout(hideTimeout.current); if (children) { emit("app:hideOtherFlyouts", anchorName); setFlyoutShown(true); } };
 	const showFlyoutLater = () => { showTimeout.current = setTimeout(() => showFlyout(), HOVER_SHOW_DELAY); };
 	const hideFlyoutLater = () => { clearTimeout(showTimeout.current); hideTimeout.current = setTimeout(() => setFlyoutShown(false), HIDE_DELAY); };
 	useListen("app:hideOtherFlyouts", exceptId => { if (exceptId !== anchorName) { clearTimeout(hideTimeout.current); setFlyoutShown(false); } });

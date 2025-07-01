@@ -54,7 +54,7 @@ export default function HorizontalScroll<TContainer extends AsTarget>({ enabled 
 
 	useEffect(() => {
 		return () => stopUpdating();
-	}, [enabled]);
+	}, [enabled, stopUpdating]);
 
 	return (
 		<EventInjector ref={el} onWheel={onWheel} onPointerDown={stopUpdating}>

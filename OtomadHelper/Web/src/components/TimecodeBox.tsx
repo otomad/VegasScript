@@ -129,7 +129,7 @@ export default function TimecodeBox({ value: [timecode, setTimecode], onFocus, d
 			itemLastIndex !== undefined ? `[data-last-index="${itemLastIndex}"]` : "[data-last-index]",
 		)?.focus()), []);
 
-	function handleSpinnerClick(itemLastIndex: number, step: number) {
+	const handleSpinnerClick = useCallback((itemLastIndex: number, step: number) => {
 		onFocus?.();
 		(setTimecode as SetStateNarrow<string>)?.(timecode => {
 			const stepTimecodeTokens = getTimecodeTokens(timecode.replace(/^-/, ""));
@@ -142,7 +142,7 @@ export default function TimecodeBox({ value: [timecode, setTimecode], onFocus, d
 		});
 		lastActiveItemLastIndex.current = itemLastIndex;
 		focusValue(itemLastIndex);
-	}
+	}, [focusValue, onFocus, setTimecode]);
 
 	const handleTimecodeBoxMouseDown = useCallback<MouseEventHandler>(e => {
 		onFocus?.(e);
@@ -151,14 +151,14 @@ export default function TimecodeBox({ value: [timecode, setTimecode], onFocus, d
 			if (Number.isFinite(lastIndex)) lastActiveItemLastIndex.current = lastIndex;
 		} else if (!isInPath(e.target, ".value", "button"))
 			focusValue(lastActiveItemLastIndex.current);
-	}, []);
+	}, [focusValue, onFocus]);
 
 	const handleValueWheel = useCallback<WheelEventHandler<HTMLDivElement>>(e => {
 		e.preventDefault();
 		const valueEl = e.currentTarget;
 		const delta = -Math.sign(e.deltaY);
 		handleSpinnerClick(+valueEl.dataset.lastIndex!, delta);
-	}, []);
+	}, [handleSpinnerClick]);
 
 	const getValueElementFromLastIndex = (lastIndex: number) => timecodeBoxEl.current?.querySelector(`[data-last-index="${lastIndex}"]`) ?? null;
 
@@ -192,7 +192,7 @@ export default function TimecodeBox({ value: [timecode, setTimecode], onFocus, d
 			onFocus?.(e);
 			(setTimecode as SetStateNarrow<string>)?.(timecode => getSupposedTimecode(timecode, "-"));
 		}
-	}, []);
+	}, [handleSpinnerClick, moveFocus, onFocus, setTimecode]);
 
 	const handleItemChange = useCallback<TimecodeItemValueChangeEventHandler>((value, lastIndex) => {
 		onFocus?.();
@@ -203,7 +203,7 @@ export default function TimecodeBox({ value: [timecode, setTimecode], onFocus, d
 			const supposedTimecode = getSupposedTimecode(tokens.join(""));
 			return supposedTimecode;
 		});
-	}, [timecode]);
+	}, [timecode, setTimecode, onFocus]);
 
 	return (
 		<StyledTimecodeBox ref={timecodeBoxEl} onMouseDown={handleTimecodeBoxMouseDown} disabled={disabled} {...htmlAttrs}>
@@ -292,7 +292,7 @@ function TimecodeItemValue({ lastIndex, disabled, children, onChange, onFinishIn
 					return userInput;
 				}),
 			).then(userInput => onFinishInput?.(userInput, lastIndex));
-	}, [onKeyDown, onFinishInput, userInput, children, lastIndex]);
+	}, [onKeyDown, onFinishInput, userInput, children, lastIndex, onRequestFocusLeft]);
 
 	const handleBlur = useCallback<FocusEventHandler<HTMLDivElement>>(e => {
 		onBlur?.(e);
@@ -300,7 +300,7 @@ function TimecodeItemValue({ lastIndex, disabled, children, onChange, onFinishIn
 			onChange?.(userInput, lastIndex);
 			setUserInput(undefined);
 		}
-	}, [onBlur, userInput, lastIndex]);
+	}, [onBlur, userInput, lastIndex, onChange]);
 
 	// Cannot directly use `onWheel` in the JSX in React, or will raise an error "Unable to preventDefault inside passive event listener invocation."
 	// So we have to pass a *ref* with `passive: false`.

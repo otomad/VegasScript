@@ -74,7 +74,7 @@ export default function EmptyMessage({ icon, title, details, iconOff = false, sp
 			for (const child of container.children)
 				if (child instanceof HTMLElement && child !== el.current)
 					child.style.animation = "none";
-	}, []);
+	}, [el, noSideEffect]);
 	if (isObject(icon) && "props" in icon)
 		icon = React.cloneElement(icon as never, { width: ICON_SIZE, height: ICON_SIZE });
 

@@ -16,7 +16,7 @@ export default function LetterByLetter({ as: As = "p", children = "", granularit
 		const segmenter = new Intl.Segmenter(language, { granularity });
 		return [...segmenter.segment(children)].map(({ segment, index }, _, { length }) =>
 			<InlineBlock key={index} style={{ "--i": index, "--length": length }}>{segment}</InlineBlock>);
-	}, [children]);
+	}, [children, granularity, language]);
 
 	return (
 		<As className={[className, nameof.kebab({ LetterByLetter })]} {...htmlAttrs as object}>

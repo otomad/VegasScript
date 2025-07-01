@@ -78,7 +78,7 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 	useEffect(() => {
 		if (!hasIcons) setIconSvgs(undefined);
 		else setIconSvgs(icons.map(icon => Icon.getRawSvg(icon) ?? ""));
-	}, [icons]);
+	}, [icons, hasIcons]);
 
 	const showComboBox: MouseEventHandler<HTMLButtonElement> = async e => {
 		const rect = e.currentTarget.getBoundingClientRect();

@@ -53,7 +53,7 @@ export default function SliderWithBox({ value, min = 0, max = 100, defaultValue,
 	return (
 		<StyledSliderWithBox>
 			<TextBox.Number
-				value={value}
+				value={value as StatePropertyNonNull<number>}
 				min={min}
 				max={max}
 				decimalPlaces={decimalPlaces}

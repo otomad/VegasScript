@@ -675,7 +675,7 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 		setFlyoutDisplayMode(mode => mode === "expanded" ? "minimal" : "expanded");
 
 	const hideFlyoutNavMenu = () => { flyoutDisplayMode !== "minimal" && setFlyoutDisplayMode("minimal"); };
-	useEffect(hideFlyoutNavMenu, [currentNav, useWindowWidth()]);
+	useEffect(hideFlyoutNavMenu, [currentNav, useWindowWidth(), flyoutDisplayMode]);
 
 	return (
 		<StyledNavigationView $transitionName={transitionName} {...htmlAttrs}>

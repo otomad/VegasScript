@@ -9,6 +9,7 @@ import reactRecommended from "eslint-plugin-react/configs/recommended.js";
 // plugins
 import reactRefresh from "eslint-plugin-react-refresh";
 import unicorn from "eslint-plugin-unicorn";
+import reactHooks from "eslint-plugin-react-hooks";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
@@ -41,6 +42,7 @@ export default [
 		plugins: {
 			"react-refresh": reactRefresh,
 			unicorn,
+			"react-hooks": reactHooks,
 		},
 		linterOptions: {
 			reportUnusedInlineConfigs: "error",
@@ -99,7 +101,7 @@ export default [
 			"require-await": "error",
 			"yoda": "error",
 			"@stylistic/block-spacing": "error",
-			"@stylistic/func-call-spacing": ["error", "never"],
+			"@stylistic/function-call-spacing": ["error", "never"],
 			"@stylistic/computed-property-spacing": ["error", "never"],
 			"@stylistic/no-whitespace-before-property": "error",
 			"@stylistic/object-curly-spacing": ["error", "always"],
@@ -258,8 +260,8 @@ export default [
 			}],
 			// "@typescript-eslint/prefer-readonly-parameter-types": "error",
 			"@typescript-eslint/prefer-reduce-type-parameter": "error",
-			"react-hooks/exhaustive-deps": "off",
-			"react-hooks/rules-of-hooks": "off",
+			"react-hooks/exhaustive-deps": "warn",
+			"react-hooks/rules-of-hooks": "warn",
 			"react/jsx-uses-vars": "error",
 			"react/react-in-jsx-scope": "off",
 			"react/prop-types": "off",

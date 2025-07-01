@@ -317,6 +317,7 @@ export function simpleAnimateSize(specified: "width" | "height" = "height", dura
 
 	// Here we use a custom event to prevent the native CSS transition animation from interfering with the operation when it ends.
 	const ANIMATE_SIZE_END_EVENT = "animatesizeend";
+	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const currentAnimationThread = useRef<symbol>(undefined);
 
 	const onEnter = async (el: HTMLElement) => {

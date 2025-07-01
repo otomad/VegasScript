@@ -74,7 +74,7 @@ export default function SubgridLayout({ name: groupName, children, ref, ...htmlA
 			if (container) resizeObserver.unobserve(container);
 			if (children) removeChildren(groupName, children);
 		};
-	}, [children]);
+	});
 
 	return <Contents ref={containerEl} {...htmlAttrs}>{children}</Contents>;
 }
