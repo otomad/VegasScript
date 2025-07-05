@@ -1,6 +1,6 @@
 import PillButton from "./PillButton";
 
-const StyledFilter = styled.div`
+const StyledFilter = styled(HorizontalScroll)`
 	display: flex;
 	gap: 4px;
 	align-items: center;
