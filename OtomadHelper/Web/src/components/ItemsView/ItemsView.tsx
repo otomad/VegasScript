@@ -1,9 +1,6 @@
 import ItemsViewItem, { GRID_VIEW_ITEM_HEIGHT, type OnItemsViewItemClickEventHandler } from "./ItemsViewItem";
 
-export /* @internal */ const StyledItemsView = styled.div<{
-	/** In grid view, the width of the child element image. Defaults to 200px. */
-	$itemWidth?: number;
-}>`
+export /* @internal */ const StyledItemsView = styled.div`
 	:has(> &) {
 		container: list-view / inline-size;
 	}
@@ -23,7 +20,6 @@ export /* @internal */ const StyledItemsView = styled.div<{
 	}
 
 	&.grid {
-		--grid-template-width: ${({ $itemWidth = 200 }) => styles.toValue($itemWidth)};
 		display: grid;
 		grid-template-columns: repeat(auto-fill, var(--grid-template-width));
 		gap: 4px;
@@ -80,6 +76,8 @@ export default function ItemsView<
 	 * In grid view, the width of the child element image.
 	 *
 	 * If it is "square", it will result the image of the grid view item become square.
+	 *
+	 * @default 200px
 	 */
 	itemWidth?: number | "square";
 	/** Multiple selection mode? */
@@ -170,11 +168,14 @@ export default function ItemsView<
 			{multiple && selectAll && !isEmpty && <SelectAll value={[current, setCurrent] as StateProperty<T[]>} all={allIds} {...selectAll === true ? {} : selectAll as never} />}
 			<StyledItemsView
 				className={[className, view, { autoFill }]}
-				$itemWidth={itemWidth}
 				role={role === null ? undefined : role === undefined ? multiple ? "group" : "radiogroup" : role}
 				aria-label={ariaLabel ?? (role === undefined && multiple ? t.aria.checkboxGroup : undefined)}
 				aria-hidden={false}
-				style={{ ...style, justifyContent: inlineAlignment }}
+				style={{
+					...style,
+					justifyContent: inlineAlignment,
+					"--grid-template-width": view === "grid" ? styles.toValue(itemWidth) : undefined,
+				}}
 				inert={readOnly}
 				aria-readonly={readOnly}
 				{...htmlAttrs}

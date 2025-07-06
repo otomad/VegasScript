@@ -67,7 +67,9 @@ export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, spee
 		};
 		if (!reduceMotion) animation();
 		return () => cancelAnimationFrame(animationId.current);
-	}, [current, speed, reduceMotion, options.staticInterval, setSmoothValue]);
+		// NOTE: Do not add `setSmoothValue` inside `deps`, or will produce more bugs!!!
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [current, speed, reduceMotion, options.staticInterval]);
 	if (reduceMotion) return current; // Do not put this line at the top of this function. Or when user is toggling the
 	// prefers-reduced-motion option, it will crashed because of some useState won't be triggered.
 	return smoothValue;

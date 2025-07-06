@@ -169,6 +169,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	/** Occurs when you want to get the display value. */
 	onDisplayValueChanged?(value: Readable | undefined): void;
 }>) {
+	"use no memo";
 	const errorInfo = `The value range should be between [${min} ~ ${max}], with the current value being ${value}.`;
 	if (value === undefined || Number.isNaN(value))
 		throw new ReferenceError("value undefined");
@@ -257,16 +258,20 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		setValue?.(newValue);
 	}, [value, clampValue, keyBigStepMultiplier, keyStep, min, max, setValue]);
 
-	const displayValue = (() => {
+	const steppedSmoothValue = useMemo(() => {
 		const smoothValue2 = map(smoothlyDisplayValue ? smoothValue : sharpValue, 0, 1, min, max);
 		const step2 = displayValueStep ?? step;
 		const steppedSmoothValue = step2 ? smoothValue2.toFixed(step2.countDecimals()) : smoothValue2;
+		return steppedSmoothValue;
+	}, [displayValueStep, max, min, sharpValue, smoothValue, smoothlyDisplayValue, step]);
+
+	const displayValue = useMemo(() => {
 		if (_displayValue === false || _displayValue === undefined) return undefined;
 		else if (_displayValue === true) return steppedSmoothValue;
 		else if (typeof _displayValue === "function") return _displayValue(+steppedSmoothValue);
 		// It is possible to expose more types of values (such as the original value with long decimals, unclamped value, etc.), but it is unnecessary at the moment.
 		else return _displayValue;
-	})();
+	}, [_displayValue, steppedSmoothValue]);
 
 	useEffect(() => void onDisplayValueChanged?.(displayValue), [displayValue, onDisplayValueChanged]);
 

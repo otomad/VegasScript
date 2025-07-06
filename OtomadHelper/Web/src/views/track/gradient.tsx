@@ -1,8 +1,12 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
 
-const gradients = ["rainbow", "graduallySaturated", "graduallyContrasted", "threshold", "alternatelyChromatic", "alternatelyNegative"];
+const gradients = [
+	{ group: "gradually", items: ["rainbow", "graSaturated", "graContrasted", "threshold"] },
+	{ group: "alternately", items: ["altChromatic", "altNegative", "altLuminInvert", "altHueInvert", "rotInvert"] },
+];
 
 const DEFAULT_ITEM_WIDTH = 325;
+const GRID_ITEM_ANCHOR = "--gradient-first-grid-item";
 
 export default function Gradient() {
 	const {
@@ -11,6 +15,7 @@ export default function Gradient() {
 	} = useSelectConfig(c => c.track.gradient);
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
+	let isFirstGridItem = true;
 
 	return (
 		<div className="container" style={{ marginBlockStart: 0 }}>
@@ -37,26 +42,32 @@ export default function Gradient() {
 				</CommandBar>
 			</CommandBar.Group>
 
-			<ItemsView view="grid" current={effect} itemWidth={viewSize[0]}>
-				{gradients.map(id => (
-					<ItemsView.Item
-						key={id}
-						id={id}
-						image={(
-							<PreviewGradient
-								thumbnail={exampleThumbnail}
-								square={viewSquare[0]}
-								mirrorEdges={viewMirrorEdges[0]}
-								overlay={viewOverlay[0]}
-								effect={id}
-								descending={descending}
-							/>
-						)}
-					>
-						{t.track.gradient.effects[id]}
-					</ItemsView.Item>
-				))}
-			</ItemsView>
+			{gradients.map(({ group, items }) => (
+				<Fragment key={group}>
+					<Subheader.InlineStartAnchored $anchorName={GRID_ITEM_ANCHOR}>{t.track.gradient.group[group]}</Subheader.InlineStartAnchored>
+					<ItemsView view="grid" current={effect} itemWidth={viewSize[0]}>
+						{items.map(id => (
+							<ItemsView.Item
+								key={id}
+								id={id}
+								image={(
+									<PreviewGradient
+										thumbnail={exampleThumbnail}
+										square={viewSquare[0]}
+										mirrorEdges={viewMirrorEdges[0]}
+										overlay={viewOverlay[0]}
+										effect={id}
+										descending={descending}
+									/>
+								)}
+								style={{ anchorName: isFirstGridItem ? (isFirstGridItem = false, GRID_ITEM_ANCHOR) : undefined }}
+							>
+								{t.track.gradient.effects[id]}
+							</ItemsView.Item>
+						))}
+					</ItemsView>
+				</Fragment>
+			))}
 		</div>
 	);
 }

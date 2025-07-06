@@ -65,23 +65,33 @@ const StyledPreviewGradient = styled.div<{
 				rainbow: css`
 					filter: hue-rotate(calc(var(--i) / var(--n) * 1turn));
 				`,
-				graduallySaturated: css`
+				graSaturated: css`
 					filter: saturate(calc(pow(var(--i) / var(--n), 1.5) * 5));
 				`,
-				graduallyContrasted: css`
+				graContrasted: css`
 					filter: contrast(max(0.25, calc(pow(var(--i) / var(--n), 1.5) * 5)));
 				`,
 				threshold: css`
 					filter: brightness(calc(11.044 / (1 + pow((1 - var(--i) / (var(--n) - 1)) / 1.559, -2.885)) + 0.6)) contrast(10);
 				`,
-				alternatelyChromatic: css`
+				altChromatic: css`
 					&:nth-child(${parity}) {
 						filter: grayscale(1);
 					}
 				`,
-				alternatelyNegative: css`
+				altNegative: css`
 					&:nth-child(${parity}) {
 						filter: invert(1);
+					}
+				`,
+				altLuminInvert: css`
+					&:nth-child(${parity}) {
+						filter: invert(1) hue-rotate(0.5turn);
+					}
+				`,
+				altHueInvert: css`
+					&:nth-child(${parity}) {
+						filter: hue-rotate(0.5turn);
 					}
 				`,
 			}[$effect];
