@@ -1,28 +1,28 @@
-export /* @internal */ const sourceFromEnums = Enum(["trackEvent", "projectMedia", "browseFile"]);
-export /* @internal */ const startTimes = Enum({
-	projectStart: { label: t.source.startTime.projectStart, icon: "arrow_export" },
-	cursor: { label: t.source.startTime.cursor, icon: "text_cursor" },
-	custom: { label: t.custom, icon: "edit" },
-});
-export /* @internal */ const selectGeneratedClipsType = Enum({
-	audio: { label: t.titles.audio, icon: "volume" },
-	visual: { label: t.titles.visual, icon: "image" },
-	staff: { label: t.titles.staff, icon: "g_clef" },
-	sonar: { label: t.titles.sonar, icon: "sonar" },
-	lyrics: { label: t.titles.lyrics, icon: "lyrics" },
-});
-const allSelectGeneratedClips = selectGeneratedClipsType.keys;
+export /* @internal */ const sourceFromEnums = ["trackEvent", "projectMedia", "browseFile"] as const;
+export /* @internal */ const startTimes = [
+	{ id: "projectStart", name: t.source.startTime.projectStart, icon: "arrow_export" },
+	{ id: "cursor", name: t.source.startTime.cursor, icon: "text_cursor" },
+	{ id: "custom", name: t.custom, icon: "edit" },
+] as const;
+export /* @internal */ const selectGeneratedClipsType = [
+	{ id: "audio", name: t.titles.audio, icon: "volume" },
+	{ id: "visual", name: t.titles.visual, icon: "image" },
+	{ id: "staff", name: t.titles.staff, icon: "g_clef" },
+	{ id: "sonar", name: t.titles.sonar, icon: "sonar" },
+	{ id: "lyrics", name: t.titles.lyrics, icon: "lyrics" },
+] as const;
+const allSelectGeneratedClips = Object.freeze(selectGeneratedClipsType.map(item => item.id));
 const getAllSelectGeneratedClips = () => allSelectGeneratedClips.slice();
-export /* @internal */ const trackNames = Enum({
-	track: { label: t.source.trackName.track, additional: t.source.trackName.voicebank, icon: "layer" },
-	trackIndex: { label: t.source.trackName.trackIndex, icon: "layer_number" },
-	instrument: { label: t.source.trackName.instrument, additional: t.source.trackName.voicebank, icon: "instrument" },
-	channel: { label: t.source.trackName.channel, icon: "midi" },
-	clip: { label: t.source.trackName.clip, icon: "track_event" },
-	media: { label: t.source.trackName.media, icon: "media" },
-	score: { label: t.source.trackName.score, icon: "document_score" },
-	unnamed: { label: t.source.trackName.unnamed, icon: "prohibited" },
-});
+export /* @internal */ const trackNames = [
+	{ id: "track", name: t.source.trackName.track, additional: t.source.trackName.voicebank, icon: "layer" },
+	{ id: "trackIndex", name: t.source.trackName.trackIndex, icon: "layer_number" },
+	{ id: "instrument", name: t.source.trackName.instrument, additional: t.source.trackName.voicebank, icon: "instrument" },
+	{ id: "channel", name: t.source.trackName.channel, icon: "midi" },
+	{ id: "clip", name: t.source.trackName.clip, icon: "track_event" },
+	{ id: "media", name: t.source.trackName.media, icon: "media" },
+	{ id: "score", name: t.source.trackName.score, icon: "document_score" },
+	{ id: "unnamed", name: t.source.trackName.unnamed, icon: "prohibited" },
+] as const;
 
 export /* @internal */ const barOrBeatUnitTypes = ["bar", "beat"] as const;
 const barOrBeatUnitNames = (count: number) => [t(count).units.bar, t(count).units.beat] as const;
@@ -88,8 +88,8 @@ export default function Source() {
 				<ToggleSwitch on={removeSourceClips} lock={lockRemoveOrSelectSourceClips} icon="delete">{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
 				<ToggleSwitch on={selectSourceClips} lock={lockRemoveOrSelectSourceClips} icon="select_all">{t.source.afterCompletion.selectSourceClips}</ToggleSwitch>
 				<ItemsView view="tile" multiple current={selectGeneratedClips} selectAll={{ title: t.source.afterCompletion.selectGeneratedClips }}>
-					{selectGeneratedClipsType.items.map(({ key, label, raw }) =>
-						<ItemsView.Item id={key} key={key} icon={icon}>{label}</ItemsView.Item>)}
+					{selectGeneratedClipsType.map(({ id, name, icon }) =>
+						<ItemsView.Item id={id} key={id} icon={icon}>{name}</ItemsView.Item>)}
 				</ItemsView>
 			</Expander>
 

@@ -1,10 +1,8 @@
-import type { IEnum } from "enum-plus";
-
 type FieldType<T> = string | ((item: T) => string | undefined) | true;
 
 export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, imageOverlayField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, itemsViewAttrs, hideCustom = true, before, transition, readOnly, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
 	/** List of options. */
-	items: readonly TItem[] | IEnum<Any, string, Any>;
+	items: readonly TItem[];
 	/** The identifier of the currently selected value. */
 	value: Readonly<StateProperty<TKey>>;
 	/**
@@ -88,7 +86,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 			typeof field === "function" ? field(item) :
 			item;
 	};
-	const items = (_items instanceof Enum ? _items.items : _items) as AnyObject[];
+	const items = _items as AnyObject[];
 	const filteredItems = useMemo(() => hideCustom === false ? items : items.filter(item =>
 		getItemField(item, "id") !== (typeof hideCustom === "string" ? hideCustom : "custom")), [_items, getItemField, hideCustom, items]);
 	const checkInfo = !checkInfoCondition ? undefined :
