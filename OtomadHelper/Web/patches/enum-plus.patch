@@ -71,7 +71,7 @@ index 6e50ce26edf47fa75bc44fe4adbd35b08bbd3b5d..96b2dde7fb8166acc93f265757e646b4
  }
 \ No newline at end of file
 diff --git a/es/enum.js b/es/enum.js
-index 7cf8088f99300ff73efb4f2b69dc0c6f98369cdf..f556f2070a96d7beb774e2859ed3bb5e63744685 100644
+index 7cf8088f99300ff73efb4f2b69dc0c6f98369cdf..dd5a05adaa9acbfcec5071f6bfd911bb2333d3f5 100644
 --- a/es/enum.js
 +++ b/es/enum.js
 @@ -38,6 +38,8 @@ let enumExtensions;
@@ -83,11 +83,13 @@ index 7cf8088f99300ff73efb4f2b69dc0c6f98369cdf..f556f2070a96d7beb774e2859ed3bb5e
      const initMap = getInitMapFromArray(init, options);
      // @ts-expect-error: because of typing extend in tests
      return new EnumCollectionClass(initMap, options);
-@@ -47,6 +49,7 @@ export function Enum(init, options) {
+@@ -47,6 +49,9 @@ export function Enum(init, options) {
    }
  }
  
-+Enum[Symbol.hasInstance] = value => value instanceof EnumCollectionClass;
++Object.defineProperty(Enum, Symbol.hasInstance, {
++  value: value => value instanceof EnumCollectionClass,
++});
  /**
   * **EN:** Global localization function, used to convert enum item text to localized text. Only need
   * to be set once, effective globally. This method need to be set at the project entry, before
@@ -207,7 +209,7 @@ index 97f687f27238afc8383d73b8e3c64fd015792f18..e4e51ce842efcc720acff7f0c987c5f2
 +	[Symbol.hasInstance]: (value: unknown) => value is IEnumItems<any, any, any>;
  }
 diff --git a/lib/enum.js b/lib/enum.js
-index 73d051266d566536819476bca02eefd46b95b4ba..a93b66dd021ee989f708266d32e29841b9126da4 100644
+index 73d051266d566536819476bca02eefd46b95b4ba..63528c9477d69ca4044421590c5b815bfc5a759a 100644
 --- a/lib/enum.js
 +++ b/lib/enum.js
 @@ -6,6 +6,8 @@ const utils_1 = require("./utils");
@@ -219,11 +221,13 @@ index 73d051266d566536819476bca02eefd46b95b4ba..a93b66dd021ee989f708266d32e29841
          const initMap = getInitMapFromArray(init, options);
          // @ts-expect-error: because of typing extend in tests
          return new enum_collection_1.EnumCollectionClass(initMap, options);
-@@ -15,6 +17,7 @@ function Enum(init, options) {
+@@ -15,6 +17,9 @@ function Enum(init, options) {
          return new enum_collection_1.EnumCollectionClass(init, options);
      }
  }
-+Enum[Symbol.hasInstance] = value => value instanceof EnumCollectionClass;
++Object.defineProperty(Enum, Symbol.hasInstance, {
++    value: value => value instanceof EnumCollectionClass,
++});
  /**
   * **EN:** Global localization function, used to convert enum item text to localized text. Only need
   * to be set once, effective globally. This method need to be set at the project entry, before
