@@ -94,6 +94,17 @@ const StyledPreviewGradient = styled.div<{
 						filter: hue-rotate(0.5turn);
 					}
 				`,
+				rotInvert: css`
+					&:nth-child(4n + 1) {
+						filter: invert(1);
+					}
+					&:nth-child(4n + 2) {
+						filter: invert(1) hue-rotate(0.5turn);
+					}
+					&:nth-child(4n) {
+						filter: hue-rotate(0.5turn);
+					}
+				`,
 			}[$effect];
 		}}
 	}

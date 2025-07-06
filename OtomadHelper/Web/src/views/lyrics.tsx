@@ -46,9 +46,9 @@ export default function Shupelunker() {
 							view="tile"
 							idField
 							iconField={id => "notation_" + new VariableName(id).snake}
-							nameField={id => <Preserves>{t.lyrics.pitchNotation[id].toString().split("\n")[0]}</Preserves>}
-							detailsField={id => t.lyrics.pitchNotation[id].toString().split("\n")[1]}
-							checkInfoCondition={id => <Preserves>{t.lyrics.pitchNotation[id!].toString().split("\n")[0]}</Preserves>}
+							nameField={id => <Preserves>{t.lyrics.pitchNotation[id].split("\n")[0]}</Preserves>}
+							detailsField={id => t.lyrics.pitchNotation[id].split("\n")[1]}
+							checkInfoCondition={id => <Preserves>{t.lyrics.pitchNotation[id!].split("\n")[0]}</Preserves>}
 						/>
 					</Attrs>
 

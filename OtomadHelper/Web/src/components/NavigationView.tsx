@@ -7,6 +7,13 @@ const NAV_ITEMS_BOTTOM_ASSUMED_COUNT = 3;
 const TITLE_ANCHOR_NAME = "--navigation-view-title";
 const hasUnsupportedBrowserInfoBar = `body:has(.${nameof.kebab({ UnsupportedBrowserInfoBar })}) &`;
 
+export const styledContainer = css`
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	inline-size: 100%;
+`;
+
 const NavButton = styled(Button).attrs({
 	subtle: true,
 })`
@@ -341,10 +348,7 @@ const StyledNavigationView = styled.div<{
 			> main {
 				@layer layout {
 					> * {
-						display: flex;
-						flex-direction: column;
-						gap: 6px;
-						inline-size: 100%;
+						${styledContainer}
 					}
 				}
 

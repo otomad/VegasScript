@@ -1,9 +1,13 @@
 import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator";
-import type { TOptions } from "i18next";
+import type { TOptions as _TOptions } from "i18next";
 import type { AvailableLanguageTags } from "locales/all";
 import type { LocaleWithDefaultValue } from "locales/types";
 const I18N_ITEM_SYMBOL = Symbol.for("react-i18next.i18n_item");
 const toPrimitives = [Symbol.toPrimitive, "toString", "toJSON", "valueOf"];
+interface AdditionalOptions {
+	format: string | string[];
+}
+type TOptions = _TOptions & Partial<AdditionalOptions>;
 
 export function isI18nItem(newChild: Any): newChild is Record<string, string> {
 	return !!newChild?.[I18N_ITEM_SYMBOL];
@@ -19,6 +23,7 @@ const getProxy = (target: object, fallbackMode: boolean = false) => {
 			includesInterpolation: typeof raw === "string" && raw.includes("{{"),
 			missing: raw === undefined,
 			missingDefault: typeof raw === "object" && !("_" in raw),
+			isStringMethod: keys.last() in String.prototype,
 			key,
 			raw,
 		};
@@ -51,11 +56,20 @@ const getProxy = (target: object, fallbackMode: boolean = false) => {
 				console.error("Missing translation key: " + key);
 				return displayValue;
 			};
-			const translate = (keys: string[], options?: TOptions) => {
+			const translate = (keys: string[], options: TOptions = {}) => {
 				const { isCategory, missingDefault } = getDeclarationInfo(...keys);
 				if (missingDefault) return getMissingKey(getParentsPrefix(...keys));
+				const formatters = [
+					..."format" in target ? wrapIfNotArray(target.format) : [],
+					..."format" in options ? wrapIfNotArray(options.format) : [],
+				];
 				const key = !isCategory ? getParentsPrefix(...keys) : getParentsPrefix(...keys, "_");
-				return i18n.t(key, { ...target, ...options });
+				let result = i18n.t(key, { ...target, ...options }) as string;
+				if (formatters.length > 0) {
+					const sep: string = options?.interpolation?.formatSeparator ?? target?.interpolation?.formatSeparator ?? ",";
+					result = i18n.format(result, formatters.join(sep), options?.lng);
+				}
+				return result;
 				// NOTE: If directly return a string, when user switches language, some local variables which store the i18n items will not update the language.
 			};
 			const getWithArgsFunction = (...prefixes: string[]) => {
@@ -67,8 +81,11 @@ const getProxy = (target: object, fallbackMode: boolean = false) => {
 				const keys = [rootName, ...parents];
 				const info = getDeclarationInfo(...keys);
 				if (info.missing) {
-					if (keys.at(-1) === "name")
+					const lastKey = keys.last();
+					if (lastKey === "name")
 						return translate(keys.toPopped());
+					if (info.isStringMethod)
+						return translate(keys.toPopped())?.toString()?.[lastKey as "toUpperCase"];
 					return getMissingKey(info.key);
 					// eslint-disable-next-line @stylistic/brace-style
 				}

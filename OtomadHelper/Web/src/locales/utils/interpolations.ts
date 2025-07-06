@@ -13,6 +13,7 @@ const formatInterpolation: FormatFunction = function format(value, format, lng) 
 					case "uppercase": return value.toUpperCase();
 					case "lowercase": return value.toLowerCase();
 					case "capitalize": return value.toCapitalized();
+					case "titleCase": return value.toTitleCase();
 					case "nowrapPerWord": return value.nowrapPerWord();
 					case "nowrapPerChar": return value.nowrapPerChar();
 					default: break;

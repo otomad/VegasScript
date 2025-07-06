@@ -6,7 +6,6 @@ const gradients = [
 ];
 
 const DEFAULT_ITEM_WIDTH = 325;
-const GRID_ITEM_ANCHOR = "--gradient-first-grid-item";
 
 export default function Gradient() {
 	const {
@@ -15,13 +14,14 @@ export default function Gradient() {
 	} = useSelectConfig(c => c.track.gradient);
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
-	let isFirstGridItem = true;
+	const [showGridIntegration, setShowGridIntegration] = useState(false);
 
 	return (
 		<div className="container" style={{ marginBlockStart: 0 }}>
 			<CommandBar.Group>
 				<CommandBar position="right">
 					<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
+					<CommandBar.Item icon="grid" caption={t.titles.grid} details={t.descriptions.track.gradient.grid} onClick={() => setShowGridIntegration(true)} />
 					<hr />
 					<CommandBar.Item iconOnly icon="extra_large_icons" caption={t.view} details={t.descriptions.track.view}>
 						<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
@@ -42,10 +42,23 @@ export default function Gradient() {
 				</CommandBar>
 			</CommandBar.Group>
 
+			<ContentDialog
+				title={t.track.gradient.grid}
+				shown={[showGridIntegration, setShowGridIntegration]}
+				width={1000}
+			>
+				<div className="container">
+					<SettingsCard icon="parity_odd_columns" title={t.track.grid.column}>
+						<TextBox.Number value={[0]} />
+					</SettingsCard>
+					<SettingsCardToggleSwitch on={[true]} icon="checkmark" title="Set automatically when generating" />
+				</div>
+			</ContentDialog>
+
 			{gradients.map(({ group, items }) => (
 				<Fragment key={group}>
-					<Subheader.InlineStartAnchored $anchorName={GRID_ITEM_ANCHOR}>{t.track.gradient.group[group]}</Subheader.InlineStartAnchored>
 					<ItemsView view="grid" current={effect} itemWidth={viewSize[0]}>
+						<Subheader>{t.track.gradient.group[group]}</Subheader>
 						{items.map(id => (
 							<ItemsView.Item
 								key={id}
@@ -60,7 +73,6 @@ export default function Gradient() {
 										descending={descending}
 									/>
 								)}
-								style={{ anchorName: isFirstGridItem ? (isFirstGridItem = false, GRID_ITEM_ANCHOR) : undefined }}
 							>
 								{t.track.gradient.effects[id]}
 							</ItemsView.Item>

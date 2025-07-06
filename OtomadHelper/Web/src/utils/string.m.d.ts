@@ -278,4 +278,14 @@ declare interface String {
 	 * @returns The padded string, or the original string if it is already at least `maxLength` characters long.
 	 */
 	padBoth(maxLength: number, fillString?: string, uneven?: "start" | "end"): string;
+
+	/**
+	 * Converts a string to title case, capitalizing the first letter of each word.
+	 *
+	 * @returns The input string with the first letter of each word capitalized.
+	 *
+	 * @example
+	 * "hello world".toTitleCase(); // Returns "Hello World"
+	 */
+	toTitleCase(): string;
 }

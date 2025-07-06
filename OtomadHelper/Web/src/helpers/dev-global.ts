@@ -34,4 +34,9 @@ if (import.meta.env.DEV) {
 		document.documentElement.classList.toggle("focus-testing", enabled);
 	};
 	// #endregion
+
+	// #region I18n translate
+	globals.i18n = i18n;
+	globals.t = t;
+	// #endregion
 }

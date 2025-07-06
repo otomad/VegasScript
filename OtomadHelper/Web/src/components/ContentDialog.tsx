@@ -4,9 +4,10 @@ const Body = styled.article({});
 const ButtonGrid = styled.div({});
 
 const StyledContentDialog = styled.div`
+	--width: 500px;
 	display: flex;
 	flex-direction: column;
-	min-width: min(500px, 100dvw);
+	min-width: min(var(--width), 100dvw);
 	max-width: 100dvw;
 	max-height: 100dvh;
 	overflow: clip;
@@ -34,6 +35,11 @@ const StyledContentDialog = styled.div`
 
 		${Body} {
 			${styles.effects.text.body};
+			container: content-dialog-body / inline-size;
+
+			> .container {
+				${styledContainer}
+			}
 		}
 	}
 
@@ -71,18 +77,23 @@ const Mask = styled.div`
 	}
 `;
 
-export default function ContentDialog({ shown: [shown, setShown], title, static: isStatic = false, children, buttons, ...htmlAttrs }: FCP<{
+export default function ContentDialog({ shown: [shown, setShown], title, static: isStatic = false, children, buttons, autoTitleCase = true, width, style, ...htmlAttrs }: FCP<{
 	/** Show the content dialog? */
 	shown: StateProperty<boolean>;
 	/** Dialog title. */
 	title?: string;
 	/** Focus content dialog. Don't close it when click outside? */
 	static?: boolean;
-	/** Action buttons. */
-	buttons?: ReactNode | ((close: () => void) => ReactNode);
+	/** Action buttons. Pass `null` indicates there is no action buttons. Defaults to close button only. */
+	buttons?: ReactNode | ((close: () => void) => ReactNode) | null;
+	/** Auto convert title to title case? @default true */
+	autoTitleCase?: boolean;
+	/** Set the preferred content dialog width. @default 500 */
+	width?: Numberish;
 }, "div">) {
 	const close = () => { setShown?.(false); };
 	const closeWhenNonStatic = () => { !isStatic && close(); };
+	if (autoTitleCase) title &&= title.toTitleCase();
 
 	useEventListener(window, "keydown", e => e.code === "Escape" && closeWhenNonStatic());
 
@@ -97,6 +108,7 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 							role="dialog"
 							aria-label={title}
 							aria-modal
+							style={{ ...style, "--width": styles.toValue(width) }}
 							onClick={e => e.stopPropagation()}
 							{...htmlAttrs}
 						>
@@ -105,7 +117,11 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 								<Body>{children}</Body>
 							</Content>
 							<ButtonGrid>
-								{typeof buttons === "function" ? buttons(close) : buttons}
+								{
+									typeof buttons === "function" ? buttons(close) :
+									buttons === undefined ? <Button onClick={close}>{t.close}</Button> :
+									buttons
+								}
 							</ButtonGrid>
 						</StyledContentDialog>
 					</Mask>

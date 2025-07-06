@@ -472,7 +472,7 @@ export default function Grid() {
 
 	const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
 		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped :
-		isCheckerParities(parity) ? t.track.grid.mirrorEdges.checkerboard + " — " + t.track.grid.mirrorEdges.checkerboard[parity.replaceEnd("_checker")].toString().replaceAll("-", "‑") :
+		isCheckerParities(parity) ? t.track.grid.mirrorEdges.checkerboard + " — " + t.track.grid.mirrorEdges.checkerboard[parity.replaceEnd("_checker")].replaceAll("-", "‑") :
 		t.track.grid.mirrorEdges[direction][parity];
 	const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
 		parity === "unflipped" ? "prohibited" : isCheckerParities(parity) ? `parity_${parity}` : `parity_${parity}_${field}s`;

@@ -37,7 +37,8 @@ export default {
 			staff_full: "Staff Visualizer",
 			pixelScaling: "Pixel Scaling",
 			parameters: "Parameters",
-			grid: "Grid Layout",
+			grid: "Grid",
+			grid_full: "Grid Layout",
 			box3d: "3D Box Layout",
 			gradient: "Gradient Tracks",
 		},
@@ -458,12 +459,15 @@ export default {
 					threshold: "Threshold Variation",
 					altChromatic: "Alternately Chromatic",
 					altNegative: "Alternately Negative",
-					altLuminInvert: "Alternately Negative",
-					altHueInvert: "Alternately Negative",
+					altLuminInvert: "Alternately Luminance Invert",
+					altHueInvert: "Alternately Hue Invert",
 					rotInvert: "Rotatively Invert",
 				},
 				view: {
 					overlay: "Overlay",
+				},
+				grid: {
+					_: "Grid Layout Integration",
 				},
 			},
 			applyToSelectedTracks: "Apply to selected tracks",
@@ -965,7 +969,12 @@ export default {
 					deleteTracks: "Due to technical limitations, the selected tracks cannot be moved directly. Currently, it can only create new tracks and migrate the clips automatically, but not track motions, effects, or anything else. You will have to migrate them yourself later. You can decide if you want to delete the original tracks. Newly added tracks are not affected.",
 					useLongerSide: "Uses the long side instead of the short side as the cube’s edge length if the source is a rectangle, which make the cube more natural",
 				},
-				gradient: "Gives the video tracks a gradient color effect in your layout",
+				gradient: {
+					_: "Gives the video tracks a gradient color effect in your layout",
+					grid: {
+						_: "Configure when applying in conjunction with grid layout",
+					},
+				},
 				legato: {
 					_: "Fills in the gaps between the track clips",
 					increaseSpacing: "Divides the spacing between each clips",

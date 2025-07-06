@@ -34,7 +34,7 @@ export default function Track() {
 
 	useEffect(() => {
 		if (!legatoForClips[0] && legatoMode[0] === "stackingAllAfter") legatoMode[1]("stacking");
-	}, [legatoMode[0], legatoForClips[0]]);
+	}, [legatoMode, legatoForClips]);
 
 	return (
 		<div className="container">
@@ -42,7 +42,7 @@ export default function Track() {
 
 			<Subheader>{t.track.layout}</Subheader>
 			<SettingsCard
-				title={t.titles.grid}
+				title={t({ context: "full" }).titles.grid}
 				type="button"
 				icon="grid"
 				onClick={() => pushPage("grid")}
@@ -50,7 +50,7 @@ export default function Track() {
 				<DeactivateButton activated={layoutEnabled.grid} />
 			</SettingsCard>
 			<SettingsCard
-				title={t.titles.box3d}
+				title={t({ context: "full" }).titles.box3d}
 				type="button"
 				icon="cube"
 				onClick={() => pushPage("box-3d")}
@@ -58,7 +58,7 @@ export default function Track() {
 				<DeactivateButton activated={layoutEnabled.box3d} />
 			</SettingsCard>
 			<SettingsCard
-				title={t.titles.gradient}
+				title={t({ context: "full" }).titles.gradient}
 				details={t.descriptions.track.gradient}
 				type="button"
 				icon="highlight"
@@ -78,8 +78,7 @@ export default function Track() {
 					{trackLegatoModes.map(mode => {
 						if (mode === "stackingAllAfter" && !legatoForClips[0]) return;
 						const displayMode = mode === "stacking" && legatoForClips[0] ? "stackingSelected" : mode;
-						const { legato } = t.track;
-						const multiline = legato[displayMode].toString().split("\n");
+						const multiline = t.track.legato[displayMode].split("\n");
 						return (
 							<ItemsView.Item
 								id={mode}
@@ -97,7 +96,7 @@ export default function Track() {
 				<ToggleSwitch on={legatoIncludeGroup} details={t.descriptions.track.legato.includeGroup} icon="group">{t.track.legato.includeGroup}</ToggleSwitch>
 				<ToggleSwitch on={legatoBackwards} details={t.descriptions.track.legato.backwards} icon="arrow_reply">{t.track.legato.backwards}</ToggleSwitch>
 				<Expander.Item
-					title={t.track.legato.increaseSpacing.toString().split("\n")[0]}
+					title={t.track.legato.increaseSpacing.split("\n")[0]}
 					details={t.descriptions.track.legato.increaseSpacing}
 					disabled={!legatoMode[0].in("increaseSpacing", "increaseSpacingAllTracks")}
 					icon="increase_spacing"

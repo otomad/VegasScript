@@ -273,6 +273,11 @@ export function mapObjectConst<const T extends string, U>(constArray: readonly T
  * To ensure that the returned object is always an array.
  * @param maybeArray - Maybe an array, or something else.
  * @returns The original array or an array containing only one original parameter.
+ * @example
+ * ```typescript
+ * wrapIfNotArray(["foo", "bar", "baz"]); // ["foo", "bar", "baz"]
+ * wrapIfNotArray("foo"); // ["foo"]
+ * ```
  */
 export function wrapIfNotArray<T>(maybeArray: T): T extends Any[] ? T : [T] {
 	return (Array.isArray(maybeArray) ? maybeArray : [maybeArray]) as never;

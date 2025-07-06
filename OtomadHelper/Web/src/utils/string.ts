@@ -71,6 +71,10 @@ import { spacing } from "pangu";
 		return maxLength <= this.length ? this.valueOf() : this[padMethods[0]]((this.length + maxLength) / 2, fillString)[padMethods[1]](maxLength, fillString);
 	};
 
+	String.prototype.toTitleCase = function () {
+		return this.split(" ").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");
+	};
+
 	makePrototypeKeysNonEnumerable(String);
 }
 

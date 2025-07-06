@@ -3,39 +3,23 @@ const Subheader = styled.h4`
 	margin-inline: 2px;
 	font-weight: 600;
 
-	&:first-child {
-		margin-top: 0;
+	&:first-child:not(.items-view.grid > *),
+	.items-view.grid:first-child > & {
+		margin-block-start: 0;
 	}
 
-	:is(.command-bar-group, .command-bar) + & {
-		margin-top: -25px;
+	:is(.command-bar-group, .command-bar) + &,
+	:is(.command-bar-group, .command-bar) + .items-view.grid > &:first-child {
+		margin-block-start: -25px;
 	}
-`;
 
-const InlineStartAnchoredSubheader = styled(Subheader) <{
-	$anchorName: string;
-}>`
-	position: relative;
-	visibility: hidden;
+	.items-view.grid > & {
+		grid-column: 1 / -1;
 
-	&::after {
-		content: attr(data-content);
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-start: 0;
-		visibility: visible;
-
-		${({ $anchorName }) => $anchorName && css`
-			inset-inline-start: anchor(start);
-			position-anchor: ${$anchorName};
-		`}
+		&:first-child {
+			margin-inline: 0;
+		}
 	}
 `;
 
-export default Object.assign(
-	Subheader,
-	{
-		InlineStartAnchored: ({ ...htmlAttrs }: PropsOf<typeof InlineStartAnchoredSubheader>) =>
-			<InlineStartAnchoredSubheader data-content={htmlAttrs.children} {...htmlAttrs} />,
-	},
-);
+export default Subheader;
