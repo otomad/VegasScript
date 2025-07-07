@@ -895,7 +895,7 @@ export default function Grid() {
 							icon={<ApprovalsAppIcon />}
 							title={t.empty.operationRecord.title}
 							details={t.empty.operationRecord.details({ fixed: fixedColumnsOrFixedRows })}
-							style={{ marginBlock: "30px 0" }}
+							style={{ marginBlock: "20px 0" }}
 						/>
 					)}
 					selectAll

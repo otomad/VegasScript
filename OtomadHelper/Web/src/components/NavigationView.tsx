@@ -353,6 +353,7 @@ const StyledNavigationView = styled.div<{
 				}
 
 				> .container {
+					position: relative;
 					margin-block-start: 2px;
 
 					&::after {
@@ -420,7 +421,7 @@ const StyledPage = styled.main`
 	container: page / inline-size;
 	position: relative;
 	display: flex;
-	min-block-size: 100%;
+	block-size: 100%;
 	transition: none;
 
 	&.exit {

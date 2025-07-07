@@ -21,7 +21,7 @@ const StyledEmptyMessage = styled.div`
 	flex-direction: column;
 	gap: 12px;
 	height: 100%;
-	margin-block: 20px;
+	padding-block: 30px;
 	text-align: center;
 	animation-name: ${scaleIn} !important;
 

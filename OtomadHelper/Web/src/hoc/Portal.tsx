@@ -17,5 +17,7 @@ export default function Portal({ container = "#popovers", children }: FCP<{
 	if (typeof container === "string")
 		container = document.querySelector(container)!;
 
+	if (container == null) return;
+
 	return createPortal(children, container);
 }

@@ -56,12 +56,12 @@ const getProxy = (target: object, fallbackMode: boolean = false) => {
 				console.error("Missing translation key: " + key);
 				return displayValue;
 			};
-			const translate = (keys: string[], options: TOptions = {}) => {
+			const translate = (keys: string[], options?: TOptions) => {
 				const { isCategory, missingDefault } = getDeclarationInfo(...keys);
 				if (missingDefault) return getMissingKey(getParentsPrefix(...keys));
 				const formatters = [
-					..."format" in target ? wrapIfNotArray(target.format) : [],
-					..."format" in options ? wrapIfNotArray(options.format) : [],
+					...target?.format ? wrapIfNotArray(target.format) : [],
+					...options?.format ? wrapIfNotArray(options.format) : [],
 				];
 				const key = !isCategory ? getParentsPrefix(...keys) : getParentsPrefix(...keys, "_");
 				let result = i18n.t(key, { ...target, ...options }) as string;

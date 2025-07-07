@@ -86,7 +86,7 @@ const filters = {
 		const { data: pixels } = newImageData;
 		const centerX = Math.round(width / 2), centerY = Math.round(height / 2);
 
-		function* around() {
+		function *around() {
 			let radius = 0;
 			while (++radius) {
 				const points: DeepReadonly<{ point: TwoD; related: TwoD }>[] = [];

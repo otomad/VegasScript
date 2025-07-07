@@ -1,10 +1,14 @@
 import FlyoutItem from "./FlyoutItem";
 
+const PORTAL_CONTAINER = "main";
+
 const PADDING = "4px";
 const StyledFlyout = styled.div`
 	${styles.effects.flyout};
-	position: fixed;
+	position: absolute;
 	max-width: 100dvw;
+	max-height: 100%;
+	overflow-block: auto;
 	transition: ${fallbackTransitions}, inset 0s;
 	position-try-fallbacks: flip-block, flip-inline;
 
@@ -14,49 +18,15 @@ const StyledFlyout = styled.div`
 	}
 
 	&.in-command-bar {
-		right: calc(anchor(center) - var(--width) / 2);
+		/* justify-self: anchor-center; */
 		width: var(--width);
 
 		&.enter,
 		&.exit {
-			pointer-events: none; // Otherwise, when mouse is located between the button and the flyout, it will repeatedly fidget.
+			pointer-events: none;
+			// Otherwise, when mouse is located between the button and the flyout, it will repeatedly fidget.
+			// Inert pointer events, but do not inert keyboard events!
 		}
-
-		&.top {
-			bottom: anchor(top);
-			margin-bottom: var(--offset);
-		}
-
-		&.bottom {
-			top: anchor(bottom);
-			margin-top: var(--offset);
-		}
-
-		&.command-bar-right {
-			right: max(calc(anchor(center) - var(--width) / 2), anchor(var(--constrain) right));
-		}
-
-		&.command-bar-left {
-			right: auto;
-			left: max(calc(anchor(center) - var(--width) / 2), anchor(var(--constrain) left));
-		}
-
-		&.command-bar-center {
-			right: unset;
-			justify-self: anchor-center;
-
-			&.top {
-				position-area: top;
-			}
-
-			&.bottom {
-				position-area: bottom;
-			}
-		}
-	}
-
-	&:not(.in-command-bar) {
-		justify-self: anchor-center;
 
 		&.top {
 			margin-bottom: var(--offset);
@@ -122,7 +92,7 @@ function isValidAnchorName(anchorName: string) {
 }
 
 const DEFAULT_OFFSET = 11;
-export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", portal, hideDelay = 0, target, onShown, onHidden, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
+export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", hideDelay = 0, target, onShown, onHidden, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
 	/** Anchor name. */
 	anchorName: string;
 	/** Position. */
@@ -136,7 +106,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	/** Auto add padding with default size to which direction? Defaults to `y`. */
 	autoPadding?: "x" | "y" | "xy" | "";
 	/** Customize where to teleport the flyout. */
-	portal?: PropsOf<typeof Portal>["container"];
+	// portal?: PropsOf<typeof Portal>["container"];
 	/** When request to hide the flyout, it will be delayed for milliseconds before hiding. If it is reshowed during this period, it will not hide. */
 	hideDelay?: number;
 	/** (Optional) Target of the flyout. */
@@ -159,7 +129,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	useEventListener(window, "keydown", e => e.code === "Escape" && close());
 	useEventListener(window, "pointerdown", e => autoInert && !isInPath(e, flyoutEl) && close(), { capture: true }, [autoInert]);
 
-	useRootInert(autoInert && shown, ".flyout");
+	// useRootInert(autoInert && shown, ".flyout"); // TODO: inert is disabled currently. Keep track `interactivity: auto / inert;`.
 
 	const [delayedShown, setDelayedShown] = useState(shown);
 	const hideTimeout = useRef<Timeout>(undefined);
@@ -175,7 +145,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 		if (inProp) {
 			onShown?.();
 			if (flyoutEl.current)
-				findFirstFocusableElement(flyoutEl.current)?.focus();
+				setTimeout(() => findFirstFocusableElement(flyoutEl.current)?.focus(), 0);
 		} else {
 			onHidden?.();
 			target = toValue(target);
@@ -185,8 +155,8 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	}, [inProp]);
 
 	return (
-		<Portal container={portal}>
-			<CssTransition in={inProp} unmountOnExit maxTimeout={250}>
+		<Portal container={PORTAL_CONTAINER}>
+			<CssTransition in={inProp} unmountOnExit maxTimeout={250} appear>
 				<StyledFlyout
 					ref={flyoutEl}
 					className={[
