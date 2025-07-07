@@ -11,10 +11,12 @@ export default function ToggleButton({ checked: [checked, setChecked] = [false] 
 	 * Specify the intensity of the toggle switch style.
 	 * - `"subtle"`: The button is background-less, no matter whether it is selected or not,
 	 * only the content has color. Gray when unchecked and accent when checked.
-	 * - `"intense"`: When unchecked, the button is background-less, the content is foreground color;
+	 * - `"intense"`: When unchecked, the button is background-less, the content is **foreground color**;
+	 * When checked, the button has a background, the background is accent color, and the content is highlighted.
+	 * - `"intense-hyperlink"`: When unchecked, the button is background-less, the content is **accent color**;
 	 * When checked, the button has a background, the background is accent color, and the content is highlighted.
 	 */
-	appearance?: "subtle" | "intense";
+	appearance?: "subtle" | "intense" | "intense-hyperlink";
 	/** Occurs when check state changed. */
 	onToggled?(checked?: boolean): void;
 }>>) {
@@ -34,7 +36,7 @@ export default function ToggleButton({ checked: [checked, setChecked] = [false] 
 				accent: checked ? true : "neutral",
 			} : {
 				subtle: checked ? false : subtle,
-				accent: checked,
+				accent: appearance === "intense" ? checked : true,
 			}}
 		/>
 	);

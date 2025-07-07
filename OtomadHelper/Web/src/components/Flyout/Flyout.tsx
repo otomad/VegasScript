@@ -1,42 +1,43 @@
 import FlyoutItem from "./FlyoutItem";
 
+const COMMAND_BAR_ITEM_FLYOUT_WIDTH = "300px";
 const PORTAL_CONTAINER = "main";
 
 const PADDING = "4px";
 const StyledFlyout = styled.div`
 	${styles.effects.flyout};
 	position: absolute;
+	/* justify-self: anchor-center; */
 	max-width: 100dvw;
 	max-height: 100%;
 	overflow-block: auto;
 	transition: ${fallbackTransitions}, inset 0s;
 	position-try-fallbacks: flip-block, flip-inline;
 
+	&.in-command-bar {
+		width: ${COMMAND_BAR_ITEM_FLYOUT_WIDTH};
+	}
+
 	${tgs()} {
 		margin-block: 0 !important;
 		opacity: 0;
 	}
 
-	&.in-command-bar {
-		/* justify-self: anchor-center; */
-		width: var(--width);
+	&.enter,
+	&.exit {
+		pointer-events: none;
+		// Otherwise, when mouse is located between the button and the flyout, it will repeatedly fidget.
+		// Inert pointer events, but do not inert keyboard events!
+	}
 
-		&.enter,
-		&.exit {
-			pointer-events: none;
-			// Otherwise, when mouse is located between the button and the flyout, it will repeatedly fidget.
-			// Inert pointer events, but do not inert keyboard events!
-		}
+	&.top {
+		margin-bottom: var(--offset);
+		position-area: top;
+	}
 
-		&.top {
-			margin-bottom: var(--offset);
-			position-area: top;
-		}
-
-		&.bottom {
-			margin-top: var(--offset);
-			position-area: bottom;
-		}
+	&.bottom {
+		margin-top: var(--offset);
+		position-area: bottom;
 	}
 
 	.descriptions {
@@ -92,7 +93,7 @@ function isValidAnchorName(anchorName: string) {
 }
 
 const DEFAULT_OFFSET = 11;
-export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", hideDelay = 0, target, onShown, onHidden, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
+export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", portal = PORTAL_CONTAINER, hideDelay = 0, target, onShown, onHidden, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
 	/** Anchor name. */
 	anchorName: string;
 	/** Position. */
@@ -105,8 +106,14 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	autoInert?: boolean;
 	/** Auto add padding with default size to which direction? Defaults to `y`. */
 	autoPadding?: "x" | "y" | "xy" | "";
-	/** Customize where to teleport the flyout. */
-	// portal?: PropsOf<typeof Portal>["container"];
+	/**
+	 * Customize where to teleport the flyout.
+	 * @default
+	 * ```html
+	 * <main>
+	 * ```
+	 */
+	portal?: PropsOf<typeof Portal>["container"];
 	/** When request to hide the flyout, it will be delayed for milliseconds before hiding. If it is reshowed during this period, it will not hide. */
 	hideDelay?: number;
 	/** (Optional) Target of the flyout. */
@@ -155,7 +162,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	}, [inProp]);
 
 	return (
-		<Portal container={PORTAL_CONTAINER}>
+		<Portal container={portal}>
 			<CssTransition in={inProp} unmountOnExit maxTimeout={250} appear>
 				<StyledFlyout
 					ref={flyoutEl}
@@ -170,7 +177,6 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 						...style,
 						positionAnchor: anchorName,
 						"--offset": styles.toValue(offset),
-						"--width": "300px",
 						"--constrain": _commandBarAnchorName,
 					}}
 					{...htmlAttrs}

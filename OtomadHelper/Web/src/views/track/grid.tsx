@@ -18,6 +18,7 @@ const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType, count: number)
 	return unit === "auto" ? tc.auto : unit === "pixel" ? tc.units.pixel : tc.units.fraction;
 };
 
+// #region Style
 const PreviewGridContainer = styled.div`
 	${styles.mixins.square("100%")};
 	${styles.mixins.gridCenter()};
@@ -350,27 +351,41 @@ const Multiply = styled.label.attrs({
 		visibility: hidden;
 	}
 `;
+// #endregion
 
 export default function Grid() {
 	const { columns: [columns, _setColumns], array, direction, fit, mirrorEdgesHFlip, mirrorEdgesVFlip, descending: [descending, setDescending], padding, spans: [spans, setSpans], columnWidths: [columnWidths, setColumnWidths], rowHeights: [rowHeights, setRowHeights], blanks: [blanks, setBlanks] } = useSelectConfig(c => c.track.grid);
 	const setColumns = setStateInterceptor(_setColumns, input => clamp(input, 1, MAX_COL_ROW));
-	const rows = columns, setRows = setColumns; // These properties were originally planned to put into the config, but now it is abandoned.
+	// These properties were originally planned to put into the config, but now it is abandoned.
+	// Originally, the user could customize the number of columns and rows independently, but I found that it is hard to implement technically.
+	// If there are 25 cells and the user wants to place them into two rows, then is the final number of columns presented 13 columns or 24 columns?
+	// Since the subsequent logical code has been written and not want to change, they are represented here as aliases.
+	const rows = columns, setRows = setColumns;
 	const count = 25, projectWidth = 1920, projectHeight = 1080;
+	/** The column or row count when the array mode is square. */
 	const radicand = Math.ceil(Math.sqrt(count));
+	// Flow direction or writing mode.
 	const horizontalDirection = direction[0].endsWith("tb"), verticalDirection = direction[0].startsWith("tb"), rtlDirection = direction[0].includes("rl");
+	// array mode booleans.
 	const square = array[0] === "square", fixedColumns = array[0] === "fixed" && horizontalDirection, fixedRows = array[0] === "fixed" && verticalDirection;
 	const columnReadonly = square || fixedRows, rowReadonly = square || fixedColumns;
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
 	const id = useUniqueId("grid-view"), fieldAnchorName = "--" + id + "-field";
+	// Show fast fill float toolbar while editing column or row count text box?
 	const [fastFillShown, setFastFillShown] = useState(false);
 	const columnInputRef = useDomRef<"input">(), rowInputRef = useDomRef<"input">();
 	const fixedColumnsOrFixedRows = t.track.grid[horizontalDirection ? "fixedColumns" : "fixedRows"];
-	const { maxSameLineLength, lastCrossLineIndex, find: findSpan } = useMemo(() => gridSpanHelper(count, fixedColumns ? columns : rows, square ? [] : spans, square ? [] : blanks), [square, count, fixedColumns ? columns : rows, spans, blanks]);
-	// const autoRows = Math.ceil(count / columns), autoColumns = Math.ceil(count / rows);
-	const autoRows = lastCrossLineIndex, autoColumns = lastCrossLineIndex;
+	// Grid span helper.
+	const { maxSameLineLength, finalCrossLineIndex, find: findSpan } = useMemo(() => gridSpanHelper(count, square ? radicand : fixedColumns ? columns : rows, square ? [] : spans, square ? [] : blanks), [square, count, fixedColumns, columns, rows, spans, blanks, radicand]);
+	// The row count which is automatically calculated from the customized column count, and vice versa.
+	const autoRows = finalCrossLineIndex, autoColumns = finalCrossLineIndex;
+	// Show custom cell editor flyout (e.g. span, column width...).
 	const [flyoutEditor, setFlyoutEditor] = useState<"span" | "width" | "height" | "blank">(), previousFlyoutEditor = useDeferredValue(flyoutEditor), _flyoutEditor = flyoutEditor || previousFlyoutEditor;
-	const [highLightCellIndex, setHighLightCellIndex] = useState(-1); // For span and blank operation only.
+	// **(For span and blank operation only.)** Set highlight cell index, other cells will become translucent.
+	const [highLightCellIndex, setHighLightCellIndex] = useState(-1);
+	// The cell that being set in the custom cell editor flyout.
 	const [flyoutEditorCell, setFlyoutEditorCell] = useState<[number, number]>();
+	// The state properties of colspan and rowspan of the cell that being set in the custom cell editor flyout.
 	const [spanX, spanY, setSpanX, setSpanY] = useMemo(() => {
 		const getItem = (draft = spans) => {
 			let x = 1, y = 1, itemIndex = -1;
@@ -399,7 +414,9 @@ export default function Grid() {
 		}));
 		return [x, y, (v: React.SetStateAction<number>) => setSpan(v, "column"), (v: React.SetStateAction<number>) => setSpan(v, "row")] as const;
 	}, [flyoutEditorCell, spans]);
+	// The column width or row height that being set in the custom cell editor flyout.
 	const [flyoutEditorColumnRow, setFlyoutEditorColumnRow] = useState<[number, "column" | "row"]>();
+	// The state properties of column width or row height of column or row of the cell that being set in the custom cell editor flyout.
 	const [columnRowValue, columnRowType, setColumnRow] = useMemo(() => {
 		const items = flyoutEditorColumnRow?.[1] === "column" ? columnWidths : rowHeights;
 		const getItem = (draft = items) => {
@@ -430,6 +447,7 @@ export default function Grid() {
 		};
 		return [currentValue, type, setColumnRow] as const;
 	}, [flyoutEditorColumnRow, columnWidths, rowHeights, count, columns, autoRows]);
+	// The state property of insert blank of cell that being set in the custom cell editor flyout.
 	const [blank, setBlank] = useMemo(() => {
 		const getItem = (draft = blanks) => {
 			let count = 0, itemIndex = -1;
@@ -456,13 +474,18 @@ export default function Grid() {
 		}));
 		return [count, (v: React.SetStateAction<number>) => setBlank(v)] as const;
 	}, [flyoutEditorCell, blanks]);
+	// Get CSS grid properties style value.
 	const { gridTemplateColumns, gridTemplateRows, rulerColumns, rulerRows } = useGridTemplateCss(square ? [] : columnWidths, square ? [] : rowHeights, square ? radicand : columns, square ? radicand : autoRows, verticalDirection, projectWidth, projectHeight, maxSameLineLength);
 	const [showOperationRecordDialog, setShowOperationRecordDialog] = useState(false);
+	// Selected operation record item.
 	const [operationRecordSelection, setOperationRecordSelection] = useState<(["span" | "blank", WebMessageEvents.GridSpanItem] | ["column" | "row", WebMessageEvents.GridColumnWidthRowHeightItem])[]>([]);
 	const [operationRecordFilter, setOperationRecordFilter] = useState<"all" | "span" | "columnWidth" | "rowHeight" | "blank">("all");
 	const [operationRecordFilterSpan, operationRecordFilterColumnWidth, operationRecordFilterRowHeight, operationRecordFilterBlank] = useMemo(() => [operationRecordFilter.in("all", "span"), operationRecordFilter.in("all", "columnWidth"), operationRecordFilter.in("all", "rowHeight"), operationRecordFilter.in("all", "blank")], [operationRecordFilter]);
+	// Check if current filter of the operation record is empty.
 	const [isCurrentOperationRecordFilterItemEmpty, setIsCurrentOperationRecordFilterItemEmpty] = useState(false);
+	// Check if current filter of the operation record is any item selected.
 	const isCurrentOperationRecordFilterItemAnySelected = useMemo(() => !!operationRecordSelection.find(([specified]) => operationRecordFilterSpan && specified === "span" || operationRecordFilterColumnWidth && specified === "column" || operationRecordFilterRowHeight && specified === "row" || operationRecordFilterBlank && specified === "blank"), [operationRecordSelection, operationRecordFilterSpan, operationRecordFilterColumnWidth, operationRecordFilterRowHeight, operationRecordFilterBlank]);
+	// Operation record filter badges.
 	const operationRecordFilterBadgeCounts = { span: spans.length, columnWidth: columnWidths.length, rowHeight: rowHeights.length, blank: blanks.length } as Record<typeof operationRecordFilter, number>;
 	operationRecordFilterBadgeCounts.all = sum(...Object.values(operationRecordFilterBadgeCounts));
 
@@ -507,11 +530,13 @@ export default function Grid() {
 	}
 
 	function cleanUpInvalidOperationItems() {
+		/** Check if the `value` is undefined or it is less than or equal to `leq`? */
+		const undefOrLeq = (value: number | undefined, leq: number): value is number => value === undefined || value <= leq;
 		const keyPool = new SerializeKeyedSet<object>();
 		setSpans(produce(draft => {
 			for (let i = draft.length - 1; i >= 0; i--) {
 				const item = draft[i];
-				if (keyPool.has(item) || item.sameLineSpan === 1 && item.crossLineSpan === 1) draft.removeAt(i);
+				if (keyPool.has(item) || undefOrLeq(item.sameLineSpan, 1) && undefOrLeq(item.crossLineSpan, 1)) draft.removeAt(i);
 				else keyPool.add(item);
 			}
 		}));
@@ -535,7 +560,7 @@ export default function Grid() {
 		setBlanks(produce(draft => {
 			for (let i = draft.length - 1; i >= 0; i--) {
 				const item = draft[i];
-				if (keyPool.has(item) || !item.sameLineSpan) draft.removeAt(i);
+				if (keyPool.has(item) || undefOrLeq(item.sameLineSpan, 0)) draft.removeAt(i);
 				else keyPool.add(item);
 			}
 		}));
@@ -948,6 +973,7 @@ function FastFillOptions({ value: [currentValue, setCurrentValue], options, getI
 			minWidthUnbounded
 			onPointerDown={() => { setCurrentValue(value); focus(); }}
 			onPointerUp={focus}
+			appearance="intense-hyperlink"
 		>
 			{t.track.grid[id]}
 		</ToggleButton>
@@ -994,12 +1020,13 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 	}
 	array.trimEnd([undefined!, -1]);
 	const array2d = Array.from({ length: Math.ceil(array.length / thisLineLength) }, (_, i) => array.slice(i * thisLineLength, (i + 1) * thisLineLength));
-	// console.table(array2d);
+	console.table(array2d);
 	const maxSameLineLength = Math.max(...array2d.map(i => i.findLastIndex(index => index !== undefined) + 1));
-	const lastCrossLineIndex = (array.findLastIndex(index => index !== undefined) / thisLineLength | 0) + 1;
+	// Do not name it `lastCrossLineIndex`, other developers may mistake it for `previousCrossLineIndex`.
+	const finalCrossLineIndex = (array.findLastIndex(index => index !== undefined) / thisLineLength | 0) + 1;
 	return {
 		maxSameLineLength,
-		lastCrossLineIndex,
+		finalCrossLineIndex,
 		find(index: number) {
 			if (index >= count) return [];
 			const first = array.indexOf(index), last = array.lastIndexOf(index);
