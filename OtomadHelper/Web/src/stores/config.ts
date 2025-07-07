@@ -217,6 +217,14 @@ export const configStore = createStore({
 			viewSquare: false,
 			viewMirrorEdges: false,
 			viewSize: 325,
+			gridIntegration: {
+				enabled: true,
+				columns: 5,
+				autoColumns: true,
+				direction: "lr-tb" as GridDirectionOrderType,
+				mirrorEdgesHFlip: "unflipped" as GridParityType,
+				mirrorEdgesVFlip: "unflipped" as GridParityType,
+			},
 		},
 		legato: {
 			mode: "stacking" as TrackLegatoMode,

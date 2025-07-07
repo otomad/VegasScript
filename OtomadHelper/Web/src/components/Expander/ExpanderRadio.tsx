@@ -29,7 +29,7 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	 */
 	nameField?: FieldType<TItem> | object;
 	/** The icon field for the radio item. */
-	iconField?: FieldType<TItem> | ((item: TItem) => ReactNode);
+	iconField?: FieldType<TItem> | ((item: TItem) => ReactNode) | DeclaredIcons | ReactNode;
 	/** The image field for the radio item. */
 	imageField?: FieldType<TItem> | ((item: TItem) => ReactNode);
 	/** The detailed description field for the radio item. */

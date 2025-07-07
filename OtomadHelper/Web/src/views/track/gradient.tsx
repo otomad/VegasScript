@@ -1,4 +1,5 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import { directionTypes, getMirrorEdgesIcon, parityTypes } from "./grid";
 
 const gradients = [
 	{ group: "gradually", items: ["rainbow", "graSaturated", "graContrasted", "threshold"] },
@@ -12,6 +13,10 @@ export default function Gradient() {
 		effect, descending: [descending, setDescending],
 		viewOverlay, viewSquare, viewMirrorEdges, viewSize,
 	} = useSelectConfig(c => c.track.gradient);
+	const {
+		enabled: enableGridIntegration, columns, autoColumns, direction,
+		mirrorEdgesHFlip, mirrorEdgesVFlip, // H = Horizontal = Hue, V = Vertical = Value
+	} = useSelectConfig(c => c.track.gradient.gridIntegration);
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
 	const [showGridIntegration, setShowGridIntegration] = useState(false);
@@ -21,7 +26,7 @@ export default function Gradient() {
 			<CommandBar.Group>
 				<CommandBar position="right">
 					<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
-					<CommandBar.Item icon="grid" caption={t.titles.grid} details={t.descriptions.track.gradient.grid} onClick={() => setShowGridIntegration(true)} />
+					<CommandBar.Item icon="grid" altCaption={t.titles.grid} caption={t.track.gradient.gridIntegration} details={t.descriptions.track.gradient.gridIntegration} onClick={() => setShowGridIntegration(true)} />
 					<hr />
 					<CommandBar.Item iconOnly icon="extra_large_icons" caption={t.view} details={t.descriptions.track.view}>
 						<ToggleSwitch on={viewOverlay} icon="photo_filter">{t.track.gradient.view.overlay}</ToggleSwitch>
@@ -43,15 +48,39 @@ export default function Gradient() {
 			</CommandBar.Group>
 
 			<ContentDialog
-				title={t.track.gradient.grid}
+				title={t.track.gradient.gridIntegration}
 				shown={[showGridIntegration, setShowGridIntegration]}
 				width={1000}
 			>
 				<div className="container">
-					<SettingsCard icon="parity_odd_columns" title={t.track.grid.column}>
-						<TextBox.Number value={[0]} />
-					</SettingsCard>
-					<SettingsCardToggleSwitch on={[true]} icon="checkmark" title="Set automatically when generating" />
+					<SettingsCardToggleSwitch on={enableGridIntegration} icon="enabled" title={t.enabled} />
+					<EmptyMessage.Typical icon="grid" name={t.track.gradient.gridIntegration} enabled={enableGridIntegration}>
+						<SettingsCard icon="columns" title={t({ context: "full" }).track.grid.column}>
+							<TextBox.Number value={columns} min={1} max={100} />
+						</SettingsCard>
+						<SettingsCardToggleSwitch on={autoColumns} icon="checkmark" title="Set it automatically when generating" />
+						<Subheader>{t.subheaders.parameters}</Subheader>
+						<ExpanderRadio
+							title={t.track.grid.direction}
+							items={directionTypes}
+							value={direction}
+							view="tile"
+							idField
+							nameField={dir => t.track.grid.direction[new VariableName(dir).camel]}
+							checkInfoCondition={dir => t.track.grid.direction[new VariableName(dir!).camel]}
+							icon="lr_tb"
+							iconField={() => "lr_tb"}
+							dirBasedIcon={direction[0]}
+							itemsViewItemAttrs={dir => ({ dirBasedIcon: dir })}
+						/>
+						<ExpanderRadio
+							title={t.track.grid.mirrorEdges}
+							items={parityTypes}
+							value={parity => getMirrorEdgesIcon(parity, "column")}
+							view="tile"
+							idField
+						/>
+					</EmptyMessage.Typical>
 				</div>
 			</ContentDialog>
 

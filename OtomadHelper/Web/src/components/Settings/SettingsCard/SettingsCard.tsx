@@ -7,7 +7,9 @@ const isPressed = (ampersand = "&") => `${ampersand}:not(:has(:is(button, input)
 const StyledSettingsCard = styled(StyledCard)<{
 	/** Override the default trailing gap. */
 	$trailingGap?: number | string;
-}>(({ $trailingGap }) => css`
+	/** Is the orientation of the icon changed based on the writing direction? */
+	$dirBasedIcon?: DirBasedIcon;
+}>(({ $trailingGap, $dirBasedIcon }) => css`
 	${styledExpanderItemContent};
 	backdrop-filter: blur(4px);
 
@@ -20,6 +22,10 @@ const StyledSettingsCard = styled(StyledCard)<{
 	> .base {
 		${styledExpanderItemBase};
 		position: relative;
+
+		> .leading {
+			${styledDirBasedIcon($dirBasedIcon)};
+		}
 
 		> .trailing {
 			max-inline-size: 100%;
@@ -169,7 +175,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, ariaIdRef, ref, onClick, onFocus, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, dirBasedIcon, ariaIdRef, ref, onClick, onFocus, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -197,9 +203,11 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	appearance?: "primary" | "secondary";
 	/** Override the default trailing gap. */
 	trailingGap?: number | string;
+	/** Is the orientation of the icon changed based on the writing direction? */
+	dirBasedIcon?: DirBasedIcon;
 	/** Pass settings card aria ID to the parent component. */
 	ariaIdRef?: RefObject<string | undefined | null>;
-	/** @private Temperately lock the content size? */
+	/** @private Temporarily lock the content size? */
 	_lockContentSize?: boolean;
 }, "div">) {
 	trailingIcon ??= type === "button" ? "chevron_right" :
@@ -219,6 +227,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 		<ClickOnSameElement onClick={onClick as never}>
 			<StyledSettingsCard
 				as={type === "container" ? "div" : "button"}
+				$dirBasedIcon={dirBasedIcon}
 				className={[
 					className,
 					type === "container-but-button" ? "container" : type === "expander" ? "expander-parent" : type,

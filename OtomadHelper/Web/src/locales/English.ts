@@ -386,8 +386,10 @@ export default {
 				fixedRows: "Fixed rows", // Fixed number of rows, not fixed row position.
 				column: "Column", // Number of columns.
 				column_other: "Columns",
+				column_full: "Number of grid columns",
 				row: "Row", // Number of rows.
 				row_other: "Rows",
+				row_full: "Number of grid rows",
 				min: "Minimum",
 				max: "Maximum",
 				transpose: "Transpose",
@@ -466,8 +468,8 @@ export default {
 				view: {
 					overlay: "Overlay",
 				},
-				grid: {
-					_: "Grid Layout Integration",
+				gridIntegration: {
+					_: "Grid layout integration",
 				},
 			},
 			applyToSelectedTracks: "Apply to selected tracks",
@@ -971,7 +973,7 @@ export default {
 				},
 				gradient: {
 					_: "Gives the video tracks a gradient color effect in your layout",
-					grid: {
+					gridIntegration: {
 						_: "Configure when applying in conjunction with grid layout",
 					},
 				},

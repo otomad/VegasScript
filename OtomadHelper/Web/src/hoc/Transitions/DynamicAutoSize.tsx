@@ -1,7 +1,7 @@
 export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 	/** Explicitly specify which direction needs to be animated. Defaults to height animation. */
 	specified?: "width" | "height" | "both";
-	/** Temperately lock the content size? */
+	/** Temporarily lock the content size? */
 	lockSize?: boolean;
 }, "section">) {
 	const el = useDomRef<"section">();

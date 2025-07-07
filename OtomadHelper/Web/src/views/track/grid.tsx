@@ -18,6 +18,13 @@ const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType, count: number)
 	return unit === "auto" ? tc.auto : unit === "pixel" ? tc.units.pixel : tc.units.fraction;
 };
 
+export /* @internal */ const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
+	parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped :
+	isCheckerParities(parity) ? t.track.grid.mirrorEdges.checkerboard + " — " + t.track.grid.mirrorEdges.checkerboard[parity.replaceEnd("_checker")].replaceAll("-", "‑") :
+	t.track.grid.mirrorEdges[direction][parity];
+export /* @internal */ const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
+	parity === "unflipped" ? "prohibited" : isCheckerParities(parity) ? `parity_${parity}` : `parity_${parity}_${field}s`;
+
 // #region Style
 const PreviewGridContainer = styled.div`
 	${styles.mixins.square("100%")};
@@ -493,13 +500,6 @@ export default function Grid() {
 	const setPageCommandBarDisabled = pageStore.useSetCommandBarDisabled();
 	useEffect(() => { setPageCommandBarDisabled(!!flyoutEditor); }, [flyoutEditor]);
 
-	const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
-		parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped :
-		isCheckerParities(parity) ? t.track.grid.mirrorEdges.checkerboard + " — " + t.track.grid.mirrorEdges.checkerboard[parity.replaceEnd("_checker")].replaceAll("-", "‑") :
-		t.track.grid.mirrorEdges[direction][parity];
-	const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
-		parity === "unflipped" ? "prohibited" : isCheckerParities(parity) ? `parity_${parity}` : `parity_${parity}_${field}s`;
-
 	const closeFlyoutEditor = () => setFlyoutEditor(undefined);
 	useEventListener(window, "keydown", e => flyoutEditor && e.code === "Escape" && closeFlyoutEditor(), undefined, [flyoutEditor]);
 	useEventListener(window, "blur", () => closeFlyoutEditor(), undefined, [flyoutEditor]);
@@ -920,7 +920,6 @@ export default function Grid() {
 							icon={<ApprovalsAppIcon />}
 							title={t.empty.operationRecord.title}
 							details={t.empty.operationRecord.details({ fixed: fixedColumnsOrFixedRows })}
-							style={{ marginBlock: "20px 0" }}
 						/>
 					)}
 					selectAll

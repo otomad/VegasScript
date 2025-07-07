@@ -40,6 +40,10 @@ const StyledContentDialog = styled.div`
 			> .container {
 				${styledContainer}
 			}
+
+			.empty-message {
+				margin-block: 20px 0;
+			}
 		}
 	}
 
