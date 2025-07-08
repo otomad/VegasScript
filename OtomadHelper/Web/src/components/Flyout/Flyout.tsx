@@ -14,6 +14,10 @@ const StyledFlyout = styled.div`
 	transition: ${fallbackTransitions}, inset 0s;
 	position-try-fallbacks: flip-block, flip-inline;
 
+	@layer layout {
+		display: block;
+	}
+
 	&.in-command-bar {
 		width: ${COMMAND_BAR_ITEM_FLYOUT_WIDTH};
 	}
@@ -71,6 +75,7 @@ const StyledFlyout = styled.div`
 	hr {
 		margin-block: 1px;
 		margin-block-end: 4px;
+		inline-size: 100%;
 		border: none;
 		border-block-start: 1px solid ${c("stroke-color-divider-stroke-default")};
 	}

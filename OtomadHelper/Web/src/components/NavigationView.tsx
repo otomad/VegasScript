@@ -347,7 +347,7 @@ const StyledNavigationView = styled.div<{
 
 			> main {
 				@layer layout {
-					> * {
+					> :not(.flyout) {
 						${styledContainer}
 					}
 				}

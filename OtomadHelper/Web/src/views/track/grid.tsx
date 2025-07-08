@@ -5,9 +5,8 @@ import ApprovalsAppIcon from "assets/svg/approvals_app.svg?react";
 export /* @internal */ const arrayTypes = ["square", "fixed"] as const;
 export /* @internal */ const directionTypes = ["lr-tb", "tb-lr", "rl-tb", "tb-rl"] as const;
 export /* @internal */ const fitTypes = ["cover", "contain"] as const;
-export /* @internal */ const parityTypes = ["unflipped", "even", "odd", "odd_checker", "even_checker"] as const;
+export /* @internal */ const parityTypes = ["unflipped", "even_columns", "odd_columns", "even_rows", "odd_rows", "even_checker", "odd_checker", "even_dots", "odd_dots", "even_gridlines", "odd_gridlines", "even_r_diagonals", "odd_r_diagonals", "even_l_diagonals", "odd_l_diagonals"] as const;
 type GridParityType = typeof parityTypes[number];
-const isCheckerParities = (parity: GridParityType): parity is "odd_checker" | "even_checker" => parity.endsWith("_checker");
 const MAX_COL_ROW = 100;
 const GAP = 6;
 const RULER_THICKNESS = 16;
@@ -18,12 +17,28 @@ const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType, count: number)
 	return unit === "auto" ? tc.auto : unit === "pixel" ? tc.units.pixel : tc.units.fraction;
 };
 
-export /* @internal */ const getMirrorEdgesText = (parity: GridParityType, direction: "hFlip" | "vFlip") =>
-	parity === "unflipped" ? t.track.grid.mirrorEdges.unflipped :
-	isCheckerParities(parity) ? t.track.grid.mirrorEdges.checkerboard + " — " + t.track.grid.mirrorEdges.checkerboard[parity.replaceEnd("_checker")].replaceAll("-", "‑") :
-	t.track.grid.mirrorEdges[direction][parity];
-export /* @internal */ const getMirrorEdgesIcon = (parity: GridParityType, field: "column" | "row"): DeclaredIcons =>
-	parity === "unflipped" ? "prohibited" : isCheckerParities(parity) ? `parity_${parity}` : `parity_${parity}_${field}s`;
+export /* @internal */ const getParityText = (parity: GridParityType) => t.track.grid.parity[new VariableName(parity).camel];
+export /* @internal */ const getParityIcon = (parity: GridParityType): DeclaredIcons => parity === "unflipped" ? "prohibited" : `parity/${parity}`;
+
+export /* @internal */ function matchParity(parity: GridParityType, column: number, row: number): boolean {
+	return {
+		unflipped: false,
+		even_columns: !(column % 2),
+		odd_columns: !!(column % 2),
+		even_rows: !(row % 2),
+		odd_rows: !!(row % 2),
+		even_checker: !!((column + row) % 2),
+		odd_checker: !((column + row) % 2),
+		even_dots: column % 2 === 0 && row % 2 === 0,
+		odd_dots: column % 2 === 1 && row % 2 === 1,
+		even_gridlines: column % 2 === 1 || row % 2 === 1,
+		odd_gridlines: column % 2 === 0 || row % 2 === 0,
+		even_r_diagonals: false,
+		odd_r_diagonals: false,
+		even_l_diagonals: false,
+		odd_l_diagonals: false,
+	}[parity];
+}
 
 // #region Style
 const PreviewGridContainer = styled.div`
@@ -653,12 +668,12 @@ export default function Grid() {
 							<hr />
 							<CommandBar.Item icon="flip_h" caption={t.track.grid.mirrorEdges + " - " + t.prve.effects.hFlip} altCaption={t.prve.effects.hFlip} details={t.descriptions.track.grid.mirrorEdges.hFlip} hovering>
 								<ItemsView view="list" current={mirrorEdgesHFlip}>
-									{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "column")}>{getMirrorEdgesText(option, "hFlip")}</ItemsView.Item>)}
+									{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getParityIcon(option)}>{getParityText(option)}</ItemsView.Item>)}
 								</ItemsView>
 							</CommandBar.Item>
 							<CommandBar.Item icon="flip_v" caption={t.track.grid.mirrorEdges + " - " + t.prve.effects.vFlip} altCaption={t.prve.effects.vFlip} details={t.descriptions.track.grid.mirrorEdges.vFlip} hovering>
 								<ItemsView view="list" current={mirrorEdgesVFlip}>
-									{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getMirrorEdgesIcon(option, "row")}>{getMirrorEdgesText(option, "vFlip")}</ItemsView.Item>)}
+									{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getParityIcon(option)}>{getParityText(option)}</ItemsView.Item>)}
 								</ItemsView>
 							</CommandBar.Item>
 						</CommandBar>

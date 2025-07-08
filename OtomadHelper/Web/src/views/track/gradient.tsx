@@ -1,5 +1,5 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
-import { directionTypes, getMirrorEdgesIcon, parityTypes } from "./grid";
+import { directionTypes, getParityIcon, parityTypes } from "./grid";
 
 const gradients = [
 	{ group: "gradually", items: ["rainbow", "graSaturated", "graContrasted", "threshold"] },
@@ -73,12 +73,16 @@ export default function Gradient() {
 							dirBasedIcon={direction[0]}
 							itemsViewItemAttrs={dir => ({ dirBasedIcon: dir })}
 						/>
+						<Subheader>{t.track.gradient.group.gradually}</Subheader>
+						<Subheader>{t.track.gradient.group.alternately}</Subheader>
 						<ExpanderRadio
 							title={t.track.grid.mirrorEdges}
 							items={parityTypes}
-							value={parity => getMirrorEdgesIcon(parity, "column")}
+							value={mirrorEdgesHFlip}
+							iconField={parity => getParityIcon(parity, "column")}
 							view="tile"
 							idField
+							nameField={t.track.grid.mirrorEdges}
 						/>
 					</EmptyMessage.Typical>
 				</div>
