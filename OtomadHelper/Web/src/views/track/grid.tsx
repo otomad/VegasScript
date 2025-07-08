@@ -31,10 +31,10 @@ export /* @internal */ const matchParity = (parity: GridParityType, column: numb
 	odd_rows: !!(row % 2),
 	even_checker: !!((column + row) % 2),
 	odd_checker: !((column + row) % 2),
-	even_dots: column % 2 === 0 && row % 2 === 0,
-	odd_dots: column % 2 === 1 && row % 2 === 1,
-	even_gridlines: column % 2 === 1 || row % 2 === 1,
-	odd_gridlines: column % 2 === 0 || row % 2 === 0,
+	even_dots: !(column % 2) && !(row % 2),
+	odd_dots: !!(column % 2) && !!(row % 2),
+	even_gridlines: !!(column % 2) || !!(row % 2),
+	odd_gridlines: !(column % 2) || !(row % 2),
 })[parity];
 
 // #region Style

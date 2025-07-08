@@ -61,6 +61,14 @@ const StyledContentDialog = styled.div`
 			width: 100%;
 		}
 	}
+
+	&.peek {
+		background-color: color-mix(in srgb, ${c("background-fill-color-layer-alt")} 25%, ${c("background-fill-color-layer-alt-solid")} 75%);
+
+		${ButtonGrid} {
+			background-color: ${c("background-fill-color-acrylic-background-base")};
+		}
+	}
 `;
 
 const Mask = styled.div`
@@ -77,16 +85,6 @@ const Mask = styled.div`
 
 		${StyledContentDialog} {
 			scale: 1.1;
-		}
-	}
-
-	&:has(> ${StyledContentDialog}.peek:not(:hover)):hover {
-		backdrop-filter: none;
-		transition: ${fallbackTransitions}, backdrop-filter ${eases.easeInOutOdd} 750ms;
-
-		> ${StyledContentDialog} {
-			opacity: 0.75;
-			transition: ${fallbackTransitions}, opacity ${eases.easeInOutOdd} 750ms;
 		}
 	}
 `;

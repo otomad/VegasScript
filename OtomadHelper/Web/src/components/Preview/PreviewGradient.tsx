@@ -41,11 +41,21 @@ const StyledPreviewGradient = styled.div<{
 		}
 	`};
 
-	${({ $mirrorEdges, $overlay }) => $mirrorEdges && !$overlay && css`
+	${({ $mirrorEdges, $overlay, $square }) => $mirrorEdges && !$overlay && (!$square ? css`
 		img:nth-child(even) {
 			scale: -1 1;
 		}
-	`}
+	` : css`
+		img:nth-child(3n + 2) {
+			scale: -1 1;
+		}
+		img:nth-child(n + 4):where(:nth-child(-n + 6)) {
+			scale: 1 -1;
+		}
+		img:nth-child(5) {
+			scale: -1;
+		}
+	`)}
 
 	${({ $overlay, $square }) => $overlay && css`
 		display: block;
@@ -119,7 +129,7 @@ export default function PreviewGradient({ thumbnail, square, mirrorEdges, overla
 	thumbnail: string;
 	/** Square or linear? */
 	square: boolean;
-	/** Mirror the even X edges? */
+	/** Mirror the even edges? */
 	mirrorEdges: boolean;
 	/** Overlay the filter? */
 	overlay: boolean;
