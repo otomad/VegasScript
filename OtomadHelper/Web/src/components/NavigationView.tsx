@@ -356,8 +356,9 @@ const StyledNavigationView = styled.div<{
 					position: relative;
 					margin-block-start: 2px;
 
-					&::after {
+					&:not(:has(> .empty-message))::after {
 						content: "";
+						flex-shrink: 0;
 						block-size: 18px;
 					}
 
