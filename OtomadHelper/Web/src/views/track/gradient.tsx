@@ -1,11 +1,11 @@
 import exampleThumbnail from "assets/images/ヨハネの氷.png";
-import { directionTypes, getParityIcon, parityTypes } from "./grid";
+import { directionTypes, getParityIcon, parityTypes as _parityTypes } from "./grid";
 
 const gradients = [
 	{ group: "gradually", items: ["rainbow", "graSaturated", "graContrasted", "threshold"] },
 	{ group: "alternately", items: ["altChromatic", "altNegative", "altLuminInvert", "altHueInvert", "rotInvert"] },
 ];
-
+const parityTypes = [_parityTypes[0], _parityTypes.at(-1)!, ..._parityTypes.slice(1, -1)] as const;
 const DEFAULT_ITEM_WIDTH = 325;
 
 export default function Gradient() {
@@ -14,12 +14,12 @@ export default function Gradient() {
 		viewOverlay, viewSquare, viewMirrorEdges, viewSize,
 	} = useSelectConfig(c => c.track.gradient);
 	const {
-		enabled: enableGridIntegration, columns, autoColumns, direction,
-		mirrorEdgesHFlip, mirrorEdgesVFlip, // H = Horizontal = Hue, V = Vertical = Value
+		enabled: enableGridIntegration, columns, autoColumns, direction, parity, parity2,
 	} = useSelectConfig(c => c.track.gradient.gridIntegration);
 	pageStore.useOnSave(() => configStore.track.gradient.enabled = true);
 	const order = useMemo(() => descending ? "descending" : "ascending", [descending]);
 	const [showGridIntegration, setShowGridIntegration] = useState(false);
+	const verticalDirection = direction[0].startsWith("tb");
 
 	return (
 		<div className="container" style={{ marginBlockStart: 0 }}>
@@ -51,11 +51,12 @@ export default function Gradient() {
 				title={t.track.gradient.gridIntegration}
 				shown={[showGridIntegration, setShowGridIntegration]}
 				width={1000}
+				peek
 			>
 				<div className="container">
-					<SettingsCardToggleSwitch on={enableGridIntegration} icon="enabled" title={t.enabled} />
+					<SettingsCardToggleSwitch on={enableGridIntegration} icon="enabled" title={t.enabled} onChange={viewSquare[1]} />
 					<EmptyMessage.Typical icon="grid" name={t.track.gradient.gridIntegration} enabled={enableGridIntegration}>
-						<SettingsCard icon="columns" title={t({ context: "full" }).track.grid.column}>
+						<SettingsCard icon={verticalDirection ? "rows" : "columns"} title={t({ context: "full" }).track.grid[verticalDirection ? "row" : "column"]}>
 							<TextBox.Number value={columns} min={1} max={100} />
 						</SettingsCard>
 						<SettingsCardToggleSwitch on={autoColumns} icon="checkmark" title="Set it automatically when generating" />
@@ -73,17 +74,30 @@ export default function Gradient() {
 							dirBasedIcon={direction[0]}
 							itemsViewItemAttrs={dir => ({ dirBasedIcon: dir })}
 						/>
-						<Subheader>{t.track.gradient.group.gradually}</Subheader>
 						<Subheader>{t.track.gradient.group.alternately}</Subheader>
 						<ExpanderRadio
-							title={t.track.grid.mirrorEdges}
+							title={t.track.grid.parity}
 							items={parityTypes}
-							value={mirrorEdgesHFlip}
-							iconField={parity => getParityIcon(parity, "column")}
+							value={parity}
+							icon={getParityIcon(parity[0])}
+							iconField={parity => getParityIcon(parity)}
 							view="tile"
 							idField
-							nameField={t.track.grid.mirrorEdges}
+							nameField={parity => t.track.grid.parity[new VariableName(parity).camel]}
+							checkInfoCondition={parity => t.track.grid.parity[new VariableName(parity!).camel]}
 						/>
+						<ExpanderRadio
+							title={t.track.grid.paritySpare({ number: 2 })}
+							items={parityTypes}
+							value={parity2}
+							icon={getParityIcon(parity2[0])}
+							iconField={parity => getParityIcon(parity)}
+							view="tile"
+							idField
+							nameField={parity => t.track.grid.parity[new VariableName(parity).camel]}
+							checkInfoCondition={parity => t.track.grid.parity[new VariableName(parity!).camel]}
+						/>
+						<Subheader>{t.track.gradient.group.gradually}</Subheader>
 					</EmptyMessage.Typical>
 				</div>
 			</ContentDialog>
@@ -104,6 +118,8 @@ export default function Gradient() {
 										overlay={viewOverlay[0]}
 										effect={id}
 										descending={descending}
+										direction={direction[0]}
+										parity={enableGridIntegration && group === "alternately" && [parity[0], parity2[0]]}
 									/>
 								)}
 							>

@@ -1,4 +1,4 @@
-export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, color, actions, lock, title, onClick, ...settingsCardProps }: FCP<PropsOf<typeof SettingsCard> & {
+export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, children, trailingIcon, resetTransitionOnChanging, className, color, actions, lock, title, onClick, onChange, ...settingsCardProps }: FCP<Override<PropsOf<typeof SettingsCard>, {
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled? */
@@ -20,10 +20,12 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 	 * Useful when you need to disable user input without affecting configuration saving.
 	 */
 	lock?: boolean | null;
-}>) {
+	/** Occurs while toggling. */
+	onChange?(on: boolean): void;
+}>>) {
 	const [isToggleSwitchPressing, setIsToggleSwitchPressing] = useState(false);
 	trailingIcon ||= "";
-	onClick ??= () => !isToggleSwitchPressing && (setOn as SetStateNarrow<boolean>)?.(on => !on);
+	onClick ??= () => !isToggleSwitchPressing && (setOn as SetStateNarrow<boolean>)?.(on => { onChange?.(!on); return !on; });
 	const isExpander = shouldBeExpander(children);
 
 	return (
@@ -45,6 +47,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 						resetTransitionOnChanging={resetTransitionOnChanging}
 						aria-label={applyAriaLabel(title)}
 						aria-hidden={!(isExpander && on) || undefined}
+						onChange={onChange}
 					/>
 					{actions}
 				</>
@@ -55,7 +58,7 @@ export default function SettingsCardToggleSwitch({ on: [on, setOn], disabled, ch
 			role={isExpander && on ? undefined : "switch"}
 			aria-checked={on}
 			onClick={onClick}
-			onClickWhenChildrenDisabled={isExpander && setOn ? () => setOn(true) : undefined}
+			onClickWhenChildrenDisabled={isExpander && setOn ? () => { setOn(true); onChange?.(true); } : undefined}
 			{...settingsCardProps}
 		>
 			{children}

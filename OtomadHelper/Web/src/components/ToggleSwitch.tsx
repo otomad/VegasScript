@@ -240,7 +240,7 @@ const StyledToggleSwitchLabel = styled.button`
 	}
 `;
 
-export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = NEVER_MIND, hideLabel, as, details, resetTransitionOnChanging = false, color, lock, icon, selectInfo, selectValid = false, _reduceLag, children, ...htmlAttrs }: FCP<{
+export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = false, isPressing: [isPressing, setIsPressing] = NEVER_MIND, hideLabel, as, details, resetTransitionOnChanging = false, color, lock, icon, selectInfo, selectValid = false, _reduceLag, children, onChange, ...htmlAttrs }: FCP<{
 	/** Is on? */
 	on: StateProperty<boolean>;
 	/** Disabled */
@@ -280,6 +280,8 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	 * But this will cause the content to become static.
 	 */
 	_reduceLag?: boolean;
+	/** Occurs while toggling. */
+	onChange?(on: boolean): void;
 }, "button">) {
 	const on = typeof lock === "boolean" ? lock : _on!;
 	const disabled = typeof lock === "boolean" || _disabled;
@@ -305,9 +307,12 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 
 	const handleCheck = useCallback((on: boolean, e?: MouseEvent) => {
 		stopEvent(e);
-		if (!isDragging) setOn?.(on);
+		if (!isDragging) {
+			setOn?.(on);
+			onChange?.(on);
+		}
 		setIsDragging(false);
-	}, [isDragging, setOn]);
+	}, [isDragging, setOn, onChange]);
 
 	const onThumbDown = useCallback<PointerEventHandler<HTMLDivElement>>(e => {
 		stopEvent(e);

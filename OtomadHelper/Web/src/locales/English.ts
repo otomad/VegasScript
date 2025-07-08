@@ -420,6 +420,7 @@ export default {
 				parity: {
 					_: "Parity pattern",
 					unflipped: "Unflipped",
+					allFlipped: "All flipped",
 					evenColumns: "Even columns",
 					oddColumns: "Odd columns",
 					evenRows: "Even rows",
@@ -429,12 +430,9 @@ export default {
 					evenDots: "Even dot grid",
 					oddDots: "Odd dot grid",
 					evenGridlines: "Even grid lines",
-					oddGridlines: "Odd Grid lines",
-					evenRDiagonals: "Even right diagonal lines",
-					oddRDiagonals: "Odd right diagonal lines",
-					evenLDiagonals: "Even left diagonal lines",
-					oddLDiagonals: "Odd left diagonal lines",
+					oddGridlines: "Odd grid lines",
 				},
+				paritySpare: "Parity pattern (spare {{number}})",
 				padding: "Padding",
 				operationRecord: "Operation records",
 				operationRecord_short: "Operations", // This is a shorter name of “Operation records”, if that name is short enough in your language, just copy and paste the same translation as that string.

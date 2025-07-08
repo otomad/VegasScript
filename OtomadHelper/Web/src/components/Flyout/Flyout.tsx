@@ -7,9 +7,10 @@ const PADDING = "4px";
 const StyledFlyout = styled.div`
 	${styles.effects.flyout};
 	position: absolute;
+	z-index: 2;
 	/* justify-self: anchor-center; */
 	max-width: 100dvw;
-	max-height: 100%;
+	max-height: calc(100% - var(--offset)); // See: https://stackoverflow.com/a/79692163/19553213
 	overflow-block: auto;
 	transition: ${fallbackTransitions}, inset 0s;
 	position-try-fallbacks: flip-block, flip-inline;

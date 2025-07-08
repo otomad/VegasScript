@@ -5,7 +5,8 @@ import ApprovalsAppIcon from "assets/svg/approvals_app.svg?react";
 export /* @internal */ const arrayTypes = ["square", "fixed"] as const;
 export /* @internal */ const directionTypes = ["lr-tb", "tb-lr", "rl-tb", "tb-rl"] as const;
 export /* @internal */ const fitTypes = ["cover", "contain"] as const;
-export /* @internal */ const parityTypes = ["unflipped", "even_columns", "odd_columns", "even_rows", "odd_rows", "even_checker", "odd_checker", "even_dots", "odd_dots", "even_gridlines", "odd_gridlines", "even_r_diagonals", "odd_r_diagonals", "even_l_diagonals", "odd_l_diagonals"] as const;
+export /* @internal */ const parityTypes = ["unflipped", "even_columns", "odd_columns", "even_rows", "odd_rows", "even_checker", "odd_checker", "even_dots", "odd_dots", "even_gridlines", "odd_gridlines", "all_flipped"] as const;
+const parityTypes_rowsFirst = [parityTypes[0], ...parityTypes.slice(3, 5), ...parityTypes.slice(1, 3), ...parityTypes.slice(5)] as const;
 type GridParityType = typeof parityTypes[number];
 const MAX_COL_ROW = 100;
 const GAP = 6;
@@ -18,27 +19,23 @@ const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType, count: number)
 };
 
 export /* @internal */ const getParityText = (parity: GridParityType) => t.track.grid.parity[new VariableName(parity).camel];
-export /* @internal */ const getParityIcon = (parity: GridParityType): DeclaredIcons => parity === "unflipped" ? "prohibited" : `parity/${parity}`;
+export /* @internal */ const getParityIcon = (parity: GridParityType): DeclaredIcons =>
+	parity === "unflipped" ? "dismiss_square" : parity === "all_flipped" ? "checkmark_square" : `parity/${parity}`;
 
-export /* @internal */ function matchParity(parity: GridParityType, column: number, row: number): boolean {
-	return {
-		unflipped: false,
-		even_columns: !(column % 2),
-		odd_columns: !!(column % 2),
-		even_rows: !(row % 2),
-		odd_rows: !!(row % 2),
-		even_checker: !!((column + row) % 2),
-		odd_checker: !((column + row) % 2),
-		even_dots: column % 2 === 0 && row % 2 === 0,
-		odd_dots: column % 2 === 1 && row % 2 === 1,
-		even_gridlines: column % 2 === 1 || row % 2 === 1,
-		odd_gridlines: column % 2 === 0 || row % 2 === 0,
-		even_r_diagonals: false,
-		odd_r_diagonals: false,
-		even_l_diagonals: false,
-		odd_l_diagonals: false,
-	}[parity];
-}
+export /* @internal */ const matchParity = (parity: GridParityType, column: number, row: number): boolean => ({
+	unflipped: false,
+	all_flipped: true,
+	even_columns: !(column % 2),
+	odd_columns: !!(column % 2),
+	even_rows: !(row % 2),
+	odd_rows: !!(row % 2),
+	even_checker: !!((column + row) % 2),
+	odd_checker: !((column + row) % 2),
+	even_dots: column % 2 === 0 && row % 2 === 0,
+	odd_dots: column % 2 === 1 && row % 2 === 1,
+	even_gridlines: column % 2 === 1 || row % 2 === 1,
+	odd_gridlines: column % 2 === 0 || row % 2 === 0,
+})[parity];
 
 // #region Style
 const PreviewGridContainer = styled.div`
@@ -673,7 +670,7 @@ export default function Grid() {
 							</CommandBar.Item>
 							<CommandBar.Item icon="flip_v" caption={t.track.grid.mirrorEdges + " - " + t.prve.effects.vFlip} altCaption={t.prve.effects.vFlip} details={t.descriptions.track.grid.mirrorEdges.vFlip} hovering>
 								<ItemsView view="list" current={mirrorEdgesVFlip}>
-									{parityTypes.map(option => <ItemsView.Item id={option} key={option} icon={getParityIcon(option)}>{getParityText(option)}</ItemsView.Item>)}
+									{parityTypes_rowsFirst.map(option => <ItemsView.Item id={option} key={option} icon={getParityIcon(option)}>{getParityText(option)}</ItemsView.Item>)}
 								</ItemsView>
 							</CommandBar.Item>
 						</CommandBar>
@@ -713,16 +710,8 @@ export default function Grid() {
 								>
 									<div
 										className={[{
-											hFlip:
-												mirrorEdgesHFlip[0] === "even" && colStart % 2 === 0 ||
-												mirrorEdgesHFlip[0] === "odd" && colStart % 2 === 1 ||
-												mirrorEdgesHFlip[0] === "odd_checker" && (colStart + rowStart) % 2 === 1 ||
-												mirrorEdgesHFlip[0] === "even_checker" && (colStart + rowStart) % 2 === 0,
-											vFlip:
-												mirrorEdgesVFlip[0] === "even" && rowStart % 2 === 0 ||
-												mirrorEdgesVFlip[0] === "odd" && rowStart % 2 === 1 ||
-												mirrorEdgesVFlip[0] === "odd_checker" && (colStart + rowStart) % 2 === 1 ||
-												mirrorEdgesVFlip[0] === "even_checker" && (colStart + rowStart) % 2 === 0,
+											hFlip: matchParity(mirrorEdgesHFlip[0], colStart, rowStart),
+											vFlip: matchParity(mirrorEdgesVFlip[0], colStart, rowStart),
 											highlight:
 												flyoutEditor?.in("span", "blank") && trackIndex === highLightCellIndex ||
 												flyoutEditor === "width" && flyoutEditorColumnRow?.[1] === "column" && flyoutEditorColumnRow[0] === colEnd - 1 ||
@@ -1034,7 +1023,7 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 	}
 	array.trimEnd([undefined!, -1]);
 	const array2d = Array.from({ length: Math.ceil(array.length / thisLineLength) }, (_, i) => array.slice(i * thisLineLength, (i + 1) * thisLineLength));
-	console.table(array2d);
+	// console.table(array2d);
 	const maxSameLineLength = Math.max(...array2d.map(i => i.findLastIndex(index => index !== undefined) + 1));
 	// Do not name it `lastCrossLineIndex`, other developers may mistake it for `previousCrossLineIndex`.
 	const finalCrossLineIndex = (array.findLastIndex(index => index !== undefined) / thisLineLength | 0) + 1;

@@ -79,9 +79,19 @@ const Mask = styled.div`
 			scale: 1.1;
 		}
 	}
+
+	&:has(> ${StyledContentDialog}.peek:not(:hover)):hover {
+		backdrop-filter: none;
+		transition: ${fallbackTransitions}, backdrop-filter ${eases.easeInOutOdd} 750ms;
+
+		> ${StyledContentDialog} {
+			opacity: 0.75;
+			transition: ${fallbackTransitions}, opacity ${eases.easeInOutOdd} 750ms;
+		}
+	}
 `;
 
-export default function ContentDialog({ shown: [shown, setShown], title, static: isStatic = false, children, buttons, autoTitleCase = true, width, style, ...htmlAttrs }: FCP<{
+export default function ContentDialog({ shown: [shown, setShown], title, static: isStatic = false, children, buttons, autoTitleCase = true, width, peek, style, className, ...htmlAttrs }: FCP<{
 	/** Show the content dialog? */
 	shown: StateProperty<boolean>;
 	/** Dialog title. */
@@ -94,6 +104,11 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 	autoTitleCase?: boolean;
 	/** Set the preferred content dialog width. @default 500 */
 	width?: Numberish;
+	/**
+	 * When true, if user places the mouse outside the content dialog, the dialog becomes translucent so that
+	 * user can view the contents area obscured by the content dialog.
+	 */
+	peek?: boolean;
 }, "div">) {
 	const close = () => { setShown?.(false); };
 	const closeWhenNonStatic = () => { !isStatic && close(); };
@@ -113,6 +128,7 @@ export default function ContentDialog({ shown: [shown, setShown], title, static:
 							aria-label={title}
 							aria-modal
 							style={{ ...style, "--width": styles.toValue(width) }}
+							className={[className, { peek }]}
 							onClick={e => e.stopPropagation()}
 							{...htmlAttrs}
 						>
