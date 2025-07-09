@@ -7,7 +7,7 @@ export default function ExpanderStreamPlaybackRate({ stream }: FCP<{
 
 	useEffect(() => {
 		if (!sync[0]) return;
-		// Note: Do not put two of this component with both audio and visual stream kind in a same page, or they will fight.
+		// NOTE: Do not put two of this component with both audio and visual stream kind in a same page, or they will fight.
 		if (stream === "audio") {
 			visualRate[1](audioRate[0]);
 			visualBased[1](audioBased[0]);

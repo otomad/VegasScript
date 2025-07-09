@@ -38,7 +38,7 @@ const StyledCube = styled.div`
 				transform: none;
 			}
 
-			// NOTE: Do not add overflow: clip or hidden.
+			// CAUTION: Do not add overflow: clip or hidden.
 			// Or when drag the box to the top, bottom, left, and right face, it cannot be clicked.
 			// See: https://stackoverflow.com/q/79460167/19553213
 			* {

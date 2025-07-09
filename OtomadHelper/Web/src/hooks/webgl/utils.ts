@@ -6,7 +6,7 @@
 
 const errorRegexp = /ERROR:\s*\d+:(\d+)/gi;
 function addLineNumbersWithError(src: string, log = "") {
-	// Note: Error message formats are not defined by any spec so this may or may not work.
+	// NOTE: Error message formats are not defined by any spec so this may or may not work.
 	const matches = [...log.matchAll(errorRegexp)];
 	const lineNoToErrorMap = new Map<number, string>(matches.map((match, index) => {
 		const lineNo = parseInt(match[1], 10);

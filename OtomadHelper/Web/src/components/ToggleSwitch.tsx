@@ -290,7 +290,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 	const [labelTranslate, setLabelTranslate] = useState<number>();
 	const [pressed, setPressed] = useState(false);
 	const ariaId = useId();
-	// Note: Parameter changes using styled-components directly will affect performance.
+	// CAUTION: Parameter changes using styled-components directly will affect performance.
 	const thumbStyle = useMemo(() => thumbLeft === undefined ? undefined : {
 		insetInlineStart: thumbLeft + "px",
 		transition: "none",
