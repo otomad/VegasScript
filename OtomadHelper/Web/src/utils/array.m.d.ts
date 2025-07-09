@@ -531,6 +531,19 @@ declare interface Array<T> {
 	 * @returns The index of the first occurrence of a value in an array, or -1 if it is not present. Using deep equality comparison.
 	 */
 	indexOfDeep(searchElement: T, fromIndex?: number): number;
+
+	/**
+	 * Moves an item in an array from one index to another.
+	 *
+	 * Modifies the original array by removing the item at `oldIndex` and inserting it at `newIndex`.
+	 * Supports negative indices, which count from the end of the array.
+	 *
+	 * @param array - The array to modify.
+	 * @param oldIndex - The index of the item to move. Negative values indicate an offset from the end.
+	 * @param newIndex - The index to move the item to. Negative values indicate an offset from the end.
+	 * @returns The modified array with the item moved.
+	 */
+	moveItemIndex(oldIndex: number, newIndex: number): this;
 }
 
 declare interface ReadonlyArray<T> extends Pick<Array<T>,

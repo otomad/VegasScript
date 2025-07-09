@@ -202,6 +202,13 @@
 		return this.findIndex((element, index) => index >= fromIndex && lodash.isEqual(element, searchElement));
 	};
 
+	Array.prototype.moveItemIndex = function (oldIndex, newIndex) {
+		if (oldIndex < 0) oldIndex = this.length + oldIndex;
+		if (newIndex < 0) newIndex = this.length + newIndex;
+		this.splice(newIndex, 0, this.splice(oldIndex, 1)[0]);
+		return this;
+	};
+
 	makePrototypeKeysNonEnumerable(Array);
 }
 
