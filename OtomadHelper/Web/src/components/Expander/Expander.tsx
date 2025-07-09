@@ -1,8 +1,8 @@
+import ExpanderAequilateTextItems from "./ExpanderAequilateTextItems";
 import ExpanderGroup from "./ExpanderGroup";
 import ExpanderItem from "./ExpanderItem";
 
 export const TRAILING_EXEMPTION = "trailing-exemption";
-export const expanderItemPadding = [7, 51] as const;
 
 const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when scrolling page, some content will not display immediately.
 	/** Expanded? */
@@ -155,7 +155,8 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	};
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
-	useEffect(() => onToggle?.(internalExpanded), [internalExpanded, onToggle]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(() => onToggle?.(internalExpanded), [internalExpanded]);
 	useEffect(() => { if (disabled || childrenDisabled) _setInternalExpanded(false); }, [disabled, childrenDisabled]);
 	const ariaId = useRef<string>(null);
 	const withAriaId = (suffix: string) => !ariaId.current ? undefined : ariaId.current + suffix;
@@ -210,3 +211,4 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 Expander.Item = ExpanderItem;
 Expander.ChildWrapper = ExpanderChildWrapper;
 Expander.Group = ExpanderGroup;
+Expander.AequilateTextItems = ExpanderAequilateTextItems;

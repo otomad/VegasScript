@@ -45,7 +45,7 @@ const StyledPreviewPrve = styled.div<{
 		animation: none;
 	}
 
-	.initial-step & img {
+	:is(.initial-step, .step-sequence-item) & img {
 		animation-play-state: paused;
 		animation-delay: calc((var(--i) + var(--adjust-order)) * -${MILLISECONDS_PER_FRAME}ms / var(--adjust-rate) + 1ms);
 	}
@@ -565,6 +565,7 @@ function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
 	return <img src={hover ? animatedSrc : staticSrc} alt="" />;
 }
 
+// FIXME: WebglFilter not work in step sequence.
 function WebglFilter({ src, effect, step }: {
 	/** Image source path. */
 	src: string;

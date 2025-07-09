@@ -1,4 +1,4 @@
-import { expanderItemWithIconPaddingInlineStart, styledExpanderItemBase, styledExpanderItemContent, styledExpanderItemText } from "components/Expander/ExpanderItem";
+import { styledExpanderItemBase, styledExpanderItemContent, styledExpanderItemText } from "components/Expander/ExpanderItem";
 import { useInContextLocalization } from "helpers/jipt-activator";
 
 const THUMB_SIZE = 18;

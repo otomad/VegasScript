@@ -49,6 +49,10 @@ class PrveClass {
 	public get effectIds() { return this.effects.map(effect => effect.effect) ?? []; }
 	public static findClassEffects(klass: PrveClassType) { return PrveClass.findClass(klass)?.effectIds ?? []; }
 	public findEffectFrames(effect: PrveClassType) { return this.effects.find(_effect => _effect.effect === effect)?.frames ?? 1; }
+	public getStandardStepSequence(effect: PrveClassType, initialStep: number) {
+		const frames = this.findEffectFrames(effect);
+		return forMap(frames, i => floorMod(i, frames) + 1, initialStep);
+	}
 }
 
 /** Prve amounts option. */
@@ -254,13 +258,6 @@ export default function Prve() {
 }
 
 const StyledInitialStep = styled(Expander.Item)`
-	padding-inline: 15px;
-
-	.text {
-		flex: 0 0 auto;
-		width: unset;
-	}
-
 	.trailing,
 	.initial-step-items {
 		flex: 1 1 0%;
@@ -277,6 +274,34 @@ const StyledInitialStep = styled(Expander.Item)`
 	}
 `;
 
+const StepSequence = styled.div`
+	display: flex;
+	gap: 4px;
+	padding: 7px;
+
+	.step-sequence-item {
+		position: relative;
+		width: 65px;
+		aspect-ratio: 1 / 1;
+		overflow: clip;
+		border-radius: 3px;
+		box-shadow: 0 0 0 1px ${c("stroke-color-surface-stroke-default")} inset;
+
+		img {
+			transition: none !important;
+		}
+
+		&::after {
+			${styles.mixins.gridCenter()};
+			${styles.effects.text.bodyLarge};
+			content: attr(data-frame);
+			position: absolute;
+			inset: 0;
+			background-color: ${c("background-fill-color-smoke-default")};
+		}
+	}
+`;
+
 function InitialStep({ klass, effect, initialStep }: FCP<{
 	/** Current PRVE class. */
 	klass: string;
@@ -286,28 +311,49 @@ function InitialStep({ klass, effect, initialStep }: FCP<{
 	initialStep: StateProperty<number>;
 	children?: undefined;
 }>) {
-	const frames = PrveClass.findClass(klass)?.findEffectFrames(effect) ?? 1;
+	const prveClass = PrveClass.findClass(klass);
+	const frames = prveClass?.findEffectFrames(effect) ?? 1;
+	const standardStepSequence = prveClass?.getStandardStepSequence(effect, initialStep[0] ?? 0);
 
 	return (
-		<StyledInitialStep title={t.prve.initialStep} icon="replay" role="region" className={ifColorScheme.forceMotion} ariaHiddenForText>
-			<ItemsView className="initial-step-items" view="grid" current={initialStep} itemWidth={100} aria-label={t.prve.initialStep}>
-				{forMap(frames, j => {
-					const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
-					return (
-						<ItemsView.Item
-							image={(
-								<PreviewPrve thumbnail={exampleThumbnail} effect={effect} frames={frames} step={j} style={{ "--i": i }} />
-							)}
-							key={j}
-							id={j}
-							badge={j + 1}
-							className="initial-step-item"
-							aria-label={t.descriptions.prve.stepAria({ step: j + 1, frames })}
-						/>
-					);
-				})}
-			</ItemsView>
-		</StyledInitialStep>
+		<Expander.AequilateTextItems>
+			<StyledInitialStep title={t.prve.initialStep} icon="replay" role="region" className={ifColorScheme.forceMotion} ariaHiddenForText>
+				<ItemsView className="initial-step-items" view="grid" current={initialStep} itemWidth={100} aria-label={t.prve.initialStep}>
+					{forMap(frames, j => {
+						const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
+						return (
+							<ItemsView.Item
+								image={(
+									<PreviewPrve thumbnail={exampleThumbnail} effect={effect} frames={frames} step={j} style={{ "--i": i }} />
+								)}
+								key={j}
+								id={j}
+								badge={j + 1}
+								className="initial-step-item"
+								aria-label={t.descriptions.prve.stepAria({ step: j + 1, frames })}
+							/>
+						);
+					})}
+				</ItemsView>
+			</StyledInitialStep>
+			{standardStepSequence && (
+				<Expander.Item title={t.prve.stepSequence} icon="placeholder">
+					<StepSequence>
+						{standardStepSequence.map(frame => (
+							<div key={frame} className="step-sequence-item" data-frame={frame}>
+								<PreviewPrve
+									thumbnail={exampleThumbnail}
+									effect={effect}
+									frames={frames}
+									step={frame - 1}
+									style={{ "--i": floorMod(frame - 2, frames) }}
+								/>
+							</div>
+						))}
+					</StepSequence>
+				</Expander.Item>
+			)}
+		</Expander.AequilateTextItems>
 	);
 }
 

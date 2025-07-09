@@ -1,15 +1,13 @@
 import ExpanderItemCurve from "./ExpanderItemCurve";
 
-export /* @internal */ const expanderItemWithIconPaddingInlineStart = 15;
-
 export /* @internal */ const styledExpanderItemBase = css`
 	container: setting-card-base;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 16px;
 	align-items: center;
-	min-height: 48px;
-	overflow-x: clip;
+	min-block-size: 48px;
+	overflow-inline: clip;
 
 	:where(&) {
 		padding: ${expanderItemPadding[0]}px ${expanderItemPadding[1]}px;
