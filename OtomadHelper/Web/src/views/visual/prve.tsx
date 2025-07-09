@@ -274,14 +274,18 @@ const StyledInitialStep = styled(Expander.Item)`
 	}
 `;
 
+const STEP_SEQUENCE_ITEM_SIZE = 65;
 const StepSequence = styled.div`
 	display: flex;
 	gap: 4px;
 	padding: 7px;
+	block-size: ${STEP_SEQUENCE_ITEM_SIZE + 7 * 2}px;
+	contain: strict;
+	overflow-inline: auto;
 
 	.step-sequence-item {
 		position: relative;
-		width: 65px;
+		width: ${STEP_SEQUENCE_ITEM_SIZE}px;
 		aspect-ratio: 1 / 1;
 		overflow: clip;
 		border-radius: 3px;
@@ -298,6 +302,19 @@ const StepSequence = styled.div`
 			position: absolute;
 			inset: 0;
 			background-color: ${c("background-fill-color-smoke-default")};
+		}
+	}
+
+	.trailing:has(> &) {
+		flex-direction: column;
+		gap: 4px;
+		align-items: stretch;
+		padding-inline-end: 0 !important;
+
+		.text-box {
+			margin-inline: 7px;
+			inline-size: calc(100% - 7px * 2);
+			max-inline-size: unset;
 		}
 	}
 `;
@@ -347,10 +364,12 @@ function InitialStep({ klass, effect, initialStep }: FCP<{
 									frames={frames}
 									step={frame - 1}
 									style={{ "--i": floorMod(frame - 2, frames) }}
+									isStepSequence
 								/>
 							</div>
 						))}
 					</StepSequence>
+					<TextBox value={[standardStepSequence.join(",")]} className="monospace" />
 				</Expander.Item>
 			)}
 		</Expander.AequilateTextItems>

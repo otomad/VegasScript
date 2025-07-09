@@ -69,7 +69,8 @@ const GlobalStyle = createGlobalStyle<{
 	kbd,
 	samp,
 	tt,
-	xmp {
+	xmp,
+	.monospace {
 		&,
 		* {
 			&,
