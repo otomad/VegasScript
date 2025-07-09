@@ -52,6 +52,12 @@ const StyledItemsViewItem = styled.button<{
 			position: relative;
 			overflow: clip;
 			border-radius: 4px;
+
+			> .badge {
+				position: absolute;
+				inset-block-end: 4px;
+				inset-inline-start: 4px;
+			}
 		}
 
 		.text-part {
@@ -259,7 +265,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler<T> = (id: T, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, dirBasedIcon, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, dirBasedIcon, badge, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -293,6 +299,8 @@ export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, sele
 	selectionColor?: string;
 	/** Is the orientation of the icon changed based on the writing direction? */
 	dirBasedIcon?: DirBasedIcon;
+	/** Show badge on the item. */
+	badge?: BadgeValue;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -358,6 +366,7 @@ export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, sele
 									{imageOverlay}
 									{checkbox}
 								</div>
+								{badge !== undefined && <Badge status="neutual">{badge}</Badge>}
 								<div className="selection" />
 							</>
 						) : (

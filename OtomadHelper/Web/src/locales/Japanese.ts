@@ -592,7 +592,7 @@ export default {
 			audioEvent: "{{count}}オーディオトラックイベントが選択されました",
 		},
 		prve: {
-			initialValue: "初期値",
+			initialStep: "初期値",
 			control: {
 				general: "全般",
 				general_full: "一般的なコントロール",

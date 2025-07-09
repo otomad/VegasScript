@@ -41,11 +41,11 @@ const StyledPreviewPrve = styled.div<{
 		}
 	}
 
-	.items-view-item:not(:hover, :focus-visible, .initial-value-item) & img {
+	.items-view-item:not(:hover, :focus-visible, .initial-step-item) & img {
 		animation: none;
 	}
 
-	.initial-value & img {
+	.initial-step & img {
 		animation-play-state: paused;
 		animation-delay: calc((var(--i) + var(--adjust-order)) * -${MILLISECONDS_PER_FRAME}ms / var(--adjust-rate) + 1ms);
 	}
@@ -503,7 +503,7 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, ...htmlAt
 	effect: string;
 	/** Frame count. */
 	frames?: number;
-	/** The step for displaying initial value. */
+	/** The step for displaying initial step. */
 	step?: number;
 }, "div">) {
 	const imageCount = {
@@ -570,7 +570,7 @@ function WebglFilter({ src, effect, step }: {
 	src: string;
 	/** Effect identifier. */
 	effect: string;
-	/** The step for displaying initial value. */
+	/** The step for displaying initial step. */
 	step?: number;
 }) {
 	const canvas = useDomRef<"canvas">();

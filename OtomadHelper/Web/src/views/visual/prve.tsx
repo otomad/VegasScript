@@ -76,22 +76,22 @@ export default function Prve() {
 			},
 			(effect, prevEffects) => {
 				if (effect === undefined) return prevEffects;
-				const addInitialValueToEffects = (effects: Iterable<string>) =>
+				const addInitialStepToEffects = (effects: Iterable<string>) =>
 					Array.from(effects, fx => prevEffects.find(effect => effect.fx === fx) ?? prveEffect(fx, 0));
 				const isWhirl = effect === "whirl";
 				const selectEffects = isWhirl ? ["hFlip", "pingpong"] : effect === DEFAULT_EFFECT && isMultiple[0] ? [] : [effect];
-				if (!isMultiple[0]) return addInitialValueToEffects(selectEffects);
+				if (!isMultiple[0]) return addInitialStepToEffects(selectEffects);
 				const effects = new Set(prevEffects.map(effect => effect.fx));
 				effects.delete(DEFAULT_EFFECT);
 				effects.deletes(...classEffects);
 				if (isWhirl) effects.deletes(...flipEffects);
 				effects.adds(...selectEffects);
 				if (effects.size === 0) effects.add(DEFAULT_EFFECT);
-				return addInitialValueToEffects(effects);
+				return addInitialStepToEffects(effects);
 			},
 		);
 	};
-	const useInitialValue = (currentEffect: string) => useStateSelector(
+	const useInitialStep = (currentEffect: string) => useStateSelector(
 		effects,
 		effects => effects.find(effect => effect.fx === currentEffect)?.initial ?? 0,
 		(initial, prevEffects) => {
@@ -180,18 +180,18 @@ export default function Prve() {
 									onChanging={value => setIsCurrentEffectRotation(value !== 0)}
 								/>
 							</Expander.Item>
-							<Expander.Item title={t.prve.initialValue} icon="replay">
+							<Expander.Item title={t.prve.initialStep} icon="replay">
 								{(() => {
 									const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) < 2;
 									return (
 										<SliderWithBox
-											value={invalidValue ? [0] : useStateSelector(useInitialValue(currentEffect), v => v + 1, v => v - 1)}
+											value={invalidValue ? [0] : useStateSelector(useInitialStep(currentEffect), v => v + 1, v => v - 1)}
 											min={1}
 											max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)))}
 											decimalPlaces={0}
 											defaultValue={0}
 											disabled={invalidValue || currentEffect === "normal"}
-											// Disable smooth display value for the initial value, or there will be jitter when the max value changes.
+											// Disable smooth display value for the initial step, or there will be jitter when the max value changes.
 											onChanging={() => setIsCurrentEffectRotation(true)}
 										/>
 									);
@@ -244,7 +244,7 @@ export default function Prve() {
 									</Expander.Item>
 								);
 							})()}
-							<InitialValue klass={klass} effect={currentEffect} initialValue={useInitialValue(currentEffect)} />
+							<InitialStep klass={klass} effect={currentEffect} initialStep={useInitialStep(currentEffect)} />
 						</ExpanderRadio>
 					);
 				})}
@@ -253,7 +253,7 @@ export default function Prve() {
 	);
 }
 
-const StyledInitialValue = styled(Expander.Item)`
+const StyledInitialStep = styled(Expander.Item)`
 	padding-inline: 15px;
 
 	.text {
@@ -262,7 +262,7 @@ const StyledInitialValue = styled(Expander.Item)`
 	}
 
 	.trailing,
-	.initial-value-items {
+	.initial-step-items {
 		flex: 1 1 0%;
 		justify-content: flex-start;
 		width: 100%;
@@ -277,20 +277,20 @@ const StyledInitialValue = styled(Expander.Item)`
 	}
 `;
 
-function InitialValue({ klass, effect, initialValue }: FCP<{
+function InitialStep({ klass, effect, initialStep }: FCP<{
 	/** Current PRVE class. */
 	klass: string;
 	/** Current PRVE effect in this class. */
 	effect: string;
-	/** The initial value of the PRVE effect. */
-	initialValue: StateProperty<number>;
+	/** The initial step of the PRVE effect. */
+	initialStep: StateProperty<number>;
 	children?: undefined;
 }>) {
 	const frames = PrveClass.findClass(klass)?.findEffectFrames(effect) ?? 1;
 
 	return (
-		<StyledInitialValue title={t.prve.initialValue} icon="replay" role="region" className={ifColorScheme.forceMotion} ariaHiddenForText>
-			<ItemsView className="initial-value-items" view="grid" current={initialValue} itemWidth={100} aria-label={t.prve.initialValue}>
+		<StyledInitialStep title={t.prve.initialStep} icon="replay" role="region" className={ifColorScheme.forceMotion} ariaHiddenForText>
+			<ItemsView className="initial-step-items" view="grid" current={initialStep} itemWidth={100} aria-label={t.prve.initialStep}>
 				{forMap(frames, j => {
 					const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
 					return (
@@ -300,13 +300,14 @@ function InitialValue({ klass, effect, initialValue }: FCP<{
 							)}
 							key={j}
 							id={j}
-							className="initial-value-item"
+							badge={j + 1}
+							className="initial-step-item"
 							aria-label={t.descriptions.prve.stepAria({ step: j + 1, frames })}
 						/>
 					);
 				})}
 			</ItemsView>
-		</StyledInitialValue>
+		</StyledInitialStep>
 	);
 }
 

@@ -554,7 +554,7 @@ export default {
 			audioEvent: "{{count}} track event audio đã chọn",
 		},
 		prve: {
-			initialValue: "Giá trị ban đầu",
+			initialStep: "Giá trị ban đầu",
 			control: {
 				general: "Tổng quan",
 				general_full: "Điểu khiển tổng quan",

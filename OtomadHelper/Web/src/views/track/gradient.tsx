@@ -54,12 +54,12 @@ export default function Gradient() {
 				peek
 			>
 				<div className="container">
-					<SettingsCardToggleSwitch on={enableGridIntegration} icon="enabled" title={t.enabled} onChange={viewSquare[1]} />
+					<SettingsCardToggleSwitch on={enableGridIntegration} icon="enabled" title={t.enabled} details={t.descriptions.track.gradient.gridIntegration.enabled} onChange={viewSquare[1]} />
 					<EmptyMessage.Typical icon="grid" name={t.track.gradient.gridIntegration} enabled={enableGridIntegration}>
 						<SettingsCard icon={verticalDirection ? "rows" : "columns"} title={t({ context: "full" }).track.grid[verticalDirection ? "row" : "column"]}>
 							<TextBox.Number value={columns} min={1} max={100} />
 						</SettingsCard>
-						<SettingsCardToggleSwitch on={autoColumns} icon="checkmark" title="Set it automatically when generating" />
+						<SettingsCardToggleSwitch on={autoColumns} icon="checkmark" title={t.track.gradient.gridIntegration.autoLineLength} details={t.descriptions.track.gradient.gridIntegration.autoLineLength} />
 						<Subheader>{t.subheaders.parameters}</Subheader>
 						<ExpanderRadio
 							title={t.track.grid.direction}
@@ -97,7 +97,8 @@ export default function Gradient() {
 							nameField={parity => t.track.grid.parity[new VariableName(parity).camel]}
 							checkInfoCondition={parity => t.track.grid.parity[new VariableName(parity!).camel]}
 						/>
-						<Subheader>{t.track.gradient.group.gradually}</Subheader>
+						{/* <Subheader>{t.track.gradient.group.gradually}</Subheader> */}
+						{/* TODO: 逐渐组设置，包括形状（如菱形、方形、圆形）、中心点。 */}
 					</EmptyMessage.Typical>
 				</div>
 			</ContentDialog>

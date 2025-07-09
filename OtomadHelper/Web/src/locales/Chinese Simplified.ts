@@ -592,7 +592,7 @@ export default {
 			audioEvent: "已选中{{count}}段音频轨道剪辑",
 		},
 		prve: {
-			initialValue: "初始值",
+			initialStep: "初始值",
 			control: {
 				general: "常规",
 				general_full: "常规控制",

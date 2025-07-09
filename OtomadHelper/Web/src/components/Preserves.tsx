@@ -9,32 +9,27 @@ function replaceLfToBr(longText: string | string[], spacing?: string | boolean) 
 		.filter(line => typeof line === "string" ? line.trim() : true));
 }
 
-function replaceAsteriskToEm(longText: string | RTFs) {
+function replaceAsteriskToEmAndStrong(longText: string | RTFs) {
 	longText = wrapIfNotArray(longText);
-	const ASTERISK_REPLACEMENT = "\u{e002a}";
-	return longText.flatMap(text => typeof text !== "string" || !text.includes("*") ? text : text
-		.replaceAll(/\*{2,}/g, i => ASTERISK_REPLACEMENT.repeat(i.length - 1))
-		.split("*")
-		.map((segment, i) => i % 2 ? <em key={`em-${i}`}>{segment}</em> : segment)
-		.filter(line => typeof line === "string" ? line.trim() : true));
+	return longText.flatMap((text, i) => typeof text !== "string" || !text.includes("*") ? text : markdownToJsx(text, `line-${i}`));
 }
 
 /**
  * Automatically convert `\n` in the passed string to `<br />` to preserve line breaks.
  */
-export default function Preserves({ spacing, autoItalic = true, children }: FCP<{
+export default function Preserves({ spacing, children }: FCP<{
 	/**
 	 * Paragraph spacing, or height of `<br>`. CSS `<length>` type. Defaults to `0`.\
 	 * If you pass `true`, it will be `0.5em`.
 	 */
 	spacing?: string | boolean;
 	/** Allows auto convert text enclosed by asterisk to italic (`*italic*`)? Defaults to true. */
-	autoItalic?: boolean;
+	// autoItalic?: boolean;
 }>): ReactNode {
 	return React.Children.map(children, child => {
 		if (typeof child === "string" || isI18nItem(child)) {
 			let result = replaceLfToBr(child.toString(), spacing);
-			if (autoItalic) result = replaceAsteriskToEm(result);
+			result = replaceAsteriskToEmAndStrong(result);
 			return result;
 		} else if (spacing && React.isValidElement<FCP<{}, "br">>(child) && child.type === "br") {
 			const { key, props: { children: _0, ...props } } = child;
@@ -65,4 +60,68 @@ export function Br({ repeat = 1, spacing, ...htmlAttrs }: FCP<{
 	const BrTag = spacing ? SpacingBr : "br";
 	return forMap(repeat, i =>
 		<BrTag key={`br-${i}`} $spacing={typeof spacing === "string" ? spacing : undefined} {...htmlAttrs} />);
+}
+
+/**
+ * Converts markdown text (bold and italic only) to React JSX.\
+ * Supports **bold**, *italic*, and ***bold italic***.
+ * @param markdown - The markdown text to convert.
+ * @returns React fragment with formatted elements.
+ */
+function markdownToJsx(markdown: string, keyPrefix: string = "") {
+	keyPrefix &&= keyPrefix + "-";
+	let boldOn = false, italicOn = false;
+	const boldOpen = Symbol("<strong>"), italicOpen = Symbol("<em>"), tagClose = Symbol("</?>");
+	const tokens: (string | symbol)[] = [];
+	let cursor = 0;
+	const findNextAsterisk = (moveCursor = true): [text: string, tag?: string] => {
+		let subsequentText = markdown.slice(cursor);
+		const matched = subsequentText.match(/\*+/);
+		if (!matched) return [subsequentText, undefined];
+		const tag = matched[0];
+		if (tag.length > 3) throw new SyntaxError(`Invalid asterisk token: ${tag}`);
+		subsequentText = subsequentText.slice(0, matched.index);
+		if (moveCursor) cursor += matched.index! + tag.length;
+		return [subsequentText, tag];
+	};
+	while (cursor < markdown.length) {
+		const [text, tag] = findNextAsterisk();
+		if (text) tokens.push(text);
+		if (!tag) break;
+		if (tag === "*") {
+			italicOn = !italicOn;
+			tokens.push(italicOn ? italicOpen : tagClose);
+		} else if (tag === "**") {
+			boldOn = !boldOn;
+			tokens.push(boldOn ? boldOpen : tagClose);
+		} else if (tag === "***") {
+			boldOn = !boldOn;
+			italicOn = !italicOn;
+			if (!boldOn && !italicOn)
+				tokens.push(tagClose, tagClose);
+			else if (!boldOn && italicOn)
+				tokens.push(tagClose, italicOpen);
+			else if (!italicOn && boldOn)
+				tokens.push(tagClose, boldOpen);
+			else {
+				const nextTag = findNextAsterisk(false)[1];
+				tokens.push(...nextTag === "**" ? [italicOpen, boldOpen] : [boldOpen, italicOpen]);
+			}
+		}
+	}
+
+	cursor = 0;
+	function parse() {
+		const layer: (string | ReactElement)[] = [];
+		while (true) {
+			const token = tokens[cursor++];
+			if (typeof token === "string") { layer.push(token); continue; }
+			const TagName = token === boldOpen ? "strong" : italicOpen ? "em" : undefined;
+			if (token === undefined || token === tagClose || !TagName) break;
+			layer.push(<TagName key={`${keyPrefix}asterisk-${cursor}`}>{parse()}</TagName>);
+		}
+		return layer;
+	}
+	const nodes = parse();
+	return nodes;
 }

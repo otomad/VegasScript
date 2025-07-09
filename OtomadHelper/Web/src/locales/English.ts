@@ -432,7 +432,7 @@ export default {
 					evenGridlines: "Even grid lines",
 					oddGridlines: "Odd grid lines",
 				},
-				paritySpare: "Parity pattern (spare {{number}})",
+				paritySpare: "Parity pattern *(spare {{number}})*",
 				padding: "Padding",
 				operationRecord: "Operation records",
 				operationRecord_short: "Operations", // This is a shorter name of “Operation records”, if that name is short enough in your language, just copy and paste the same translation as that string.
@@ -470,6 +470,7 @@ export default {
 				},
 				gridIntegration: {
 					_: "Grid layout integration",
+					autoLineLength: "Set it automatically when generating",
 				},
 			},
 			applyToSelectedTracks: "Apply to selected tracks",
@@ -628,7 +629,8 @@ export default {
 			audioEventOnlyOne: "You must select ONE and only ONE audio track event, no more and no less",
 		},
 		prve: {
-			initialValue: "Initial value",
+			initialStep: "Initial step",
+			stepSequence: "Step sequence",
 			control: {
 				general: "General",
 				general_full: "General control",
@@ -975,6 +977,8 @@ export default {
 					_: "Gives the video tracks a gradient color effect in your layout",
 					gridIntegration: {
 						_: "Configure when applying in conjunction with grid layout",
+						autoLineLength: "When **enabled** and **grid layout** is also enabled, some parameters set in grid layout will automatically be used in the **generation mode**. This will not work in the **instant application mode**, you need to set the parameters manually.",
+						enabled: "When enabled, the integration with grid layout will be optimized. When disabled, any layout will be ignored.",
 					},
 				},
 				legato: {

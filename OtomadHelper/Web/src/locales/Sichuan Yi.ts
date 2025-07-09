@@ -592,7 +592,7 @@ export default {
 			audioEvent: "crwdns1928:5{{count}}crwdne1928:5",
 		},
 		prve: {
-			initialValue: "crwdns2990:0crwdne2990:0",
+			initialStep: "crwdns2990:0crwdne2990:0",
 			control: {
 				general: "crwdns2686:0crwdne2686:0",
 				general_full: "crwdns2814:0crwdne2814:0",

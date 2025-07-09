@@ -15,8 +15,8 @@ const StyledPreviewGradient = styled.div<{
 	$direction: Config.GridDirectionOrderType;
 }>`
 	${styles.mixins.square("100%")};
-	direction: ${({ $direction }) => $direction === "rl-tb" ? "rtl" : "ltr"};
-	writing-mode: ${({ $direction }) => $direction === "tb-lr" ? "vertical-lr" : $direction === "tb-rl" ? "vertical-rl" : "horizontal-tb"};
+	direction: ${({ $square, $direction }) => !$square ? "ltr" : $direction === "rl-tb" ? "rtl" : "ltr"};
+	writing-mode: ${({ $square, $direction }) => !$square ? "horizontal-tb" : $direction === "tb-lr" ? "vertical-lr" : $direction === "tb-rl" ? "vertical-rl" : "horizontal-tb"};
 
 	.image-wrapper:has(&) {
 		height: calc(100cqw / 16 * 9);
