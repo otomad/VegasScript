@@ -285,7 +285,37 @@ declare interface String {
 	 * @returns The input string with the first letter of each word capitalized.
 	 *
 	 * @example
+	 * ```javascript
 	 * "hello world".toTitleCase(); // Returns "Hello World"
+	 * ```
 	 */
 	toTitleCase(): string;
+
+	/**
+	 * Applies a conversion function to each word in the input string and returns the resulting string.
+	 *
+	 * A "word" is defined as a sequence of non-whitespace (space, line break, tab, etc.) characters.
+	 *
+	 * @param string - The input string to process.
+	 * @param convert - A function that takes a word as input and returns the converted word.
+	 * @returns The input string with each word replaced by the result of the `convert` function.
+	 *
+	 * @example
+	 * ```javascript
+	 * "hello world".mapWords(word => word[0].toUpperCase() + word.slice(1)); // "Hello World"
+	 * ```
+	 */
+	mapWords(convert: (word: string) => string): string;
+
+	/**
+	 * Check if all letters in the string are uppercase (ignoring numbers, punctuation, etc.).
+	 * @returns Are all letters uppercase?
+	 *
+	 * @example
+	 * ```javascript
+	 * "HEllO WORlD".areAllUpper(); // false
+	 * "HELLO WORLD".areAllUpper(); // true
+	 * ```
+	 */
+	areAllUpper(): boolean;
 }

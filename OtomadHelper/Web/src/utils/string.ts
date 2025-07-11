@@ -40,7 +40,7 @@ import { spacing } from "pangu";
 
 	String.prototype.toCapitalized = function (keepCase = false) {
 		const decapitated = this.slice(1);
-		return this[0].toUpperCase() + (keepCase ? decapitated : decapitated.toLowerCase());
+		return this[0].toLocaleUpperCase() + (keepCase ? decapitated : decapitated.toLocaleLowerCase());
 	};
 
 	String.prototype.nowrapPerWord = function () {
@@ -72,7 +72,15 @@ import { spacing } from "pangu";
 	};
 
 	String.prototype.toTitleCase = function () {
-		return this.split(" ").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");
+		return this.mapWords(word => word[0].toLocaleUpperCase() + word.slice(1));
+	};
+
+	String.prototype.mapWords = function (convert) {
+		return this.replaceAll(/\S+/g, convert);
+	};
+
+	String.prototype.areAllUpper = function () {
+		return this.toLocaleUpperCase() === this.valueOf();
 	};
 
 	makePrototypeKeysNonEnumerable(String);

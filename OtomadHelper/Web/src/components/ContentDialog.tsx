@@ -62,11 +62,13 @@ const StyledContentDialog = styled.div`
 		}
 	}
 
-	&.peek {
-		background-color: color-mix(in srgb, ${c("background-fill-color-layer-alt")} 25%, ${c("background-fill-color-layer-alt-solid")} 75%);
+	${ifColorScheme.notReduceTransparency} {
+		&.peek {
+			background-color: ${c("background-fill-color-layer-alt-translucent")};
 
-		${ButtonGrid} {
-			background-color: ${c("background-fill-color-acrylic-background-base")};
+			${ButtonGrid} {
+				background-color: ${c("background-fill-color-acrylic-background-command-bar")};
+			}
 		}
 	}
 `;

@@ -688,7 +688,7 @@ export default {
 			preference: {
 				_: "Tuỳ chỉnh",
 				autoSwitchSourceFrom: "Tự động chuyển nguồn nguyên liệu từ",
-				autoCollapsePrveClasses: "Tự động thu gọn các tùy chọn $t(titles.prve)",
+				autoCollapsePrveClasses: "Tự động thu gọn các tùy chọn $t(titles.prve, lowercase)",
 			},
 			config: {
 				hideUsageTips: "Ẩn mẹo sử dụng",

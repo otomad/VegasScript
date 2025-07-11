@@ -74,7 +74,7 @@ export default function Gradient() {
 							dirBasedIcon={direction[0]}
 							itemsViewItemAttrs={dir => ({ dirBasedIcon: dir })}
 						/>
-						<Subheader>{t.track.gradient.group.alternately}</Subheader>
+						<Subheader>{t.track.gradient.groups.alternately}</Subheader>
 						<ExpanderRadio
 							title={t.track.grid.parity}
 							items={parityTypes}
@@ -97,7 +97,7 @@ export default function Gradient() {
 							nameField={parity => t.track.grid.parity[new VariableName(parity).camel]}
 							checkInfoCondition={parity => t.track.grid.parity[new VariableName(parity!).camel]}
 						/>
-						{/* <Subheader>{t.track.gradient.group.gradually}</Subheader> */}
+						{/* <Subheader>{t.track.gradient.groups.gradually}</Subheader> */}
 						{/* TODO: 逐渐组设置，包括形状（如菱形、方形、圆形）、中心点。 */}
 					</EmptyMessage.Typical>
 				</div>
@@ -106,7 +106,7 @@ export default function Gradient() {
 			{gradients.map(({ group, items }) => (
 				<Fragment key={group}>
 					<ItemsView view="grid" current={effect} itemWidth={viewSize[0]}>
-						<Subheader>{t.track.gradient.group[group]}</Subheader>
+						<Subheader>{t.track.gradient.groups[group]}</Subheader>
 						{items.map(id => (
 							<ItemsView.Item
 								key={id}

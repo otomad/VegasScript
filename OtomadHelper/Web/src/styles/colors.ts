@@ -94,6 +94,7 @@ const colors = {
 	"background-fill-color-layer-default": ["rgba(255, 255, 255, 0.5)", "rgba(58, 58, 58, 0.3)", "ButtonFace"],
 	"background-fill-color-layer-alt": ["rgb(255, 255, 255)", "rgba(255, 255, 255, 0.05)", "ButtonFace"],
 	"background-fill-color-layer-alt-solid": ["rgb(255, 255, 255)", "rgb(44, 44, 44)", "ButtonFace"],
+	"background-fill-color-layer-alt-translucent": ["rgb(255, 255, 255, 0.25)", "rgb(44, 44, 44, 0.25)", "ButtonFace"],
 	"background-fill-color-layer-on-acrylic-default": ["rgba(255, 255, 255, 0.25)", "rgba(255, 255, 255, 0.04)", "ButtonFace"],
 	"background-fill-color-layer-on-accent-acrylic-default": ["rgba(255, 255, 255, 0.25)", "rgba(255, 255, 255, 0.04)", "ButtonFace"],
 	"background-fill-color-layer-on-mica-base-alt-default": ["rgba(255, 255, 255, 0.7)", "rgba(58, 58, 58, 0.45)", "ButtonFace"],
@@ -133,6 +134,7 @@ export const ifColorScheme = {
 	reduceMotion: "@media (prefers-reduced-motion: reduce)",
 	forceMotion: "force-motion",
 	contrastButOverridden: ':not(html[data-scheme~="contrast"] [data-scheme]:not([data-scheme~="contrast"]) *)',
+	notReduceTransparency: "@media (prefers-reduced-transparency: no-preference)",
 } as const;
 
 export function globalColors() {

@@ -450,7 +450,7 @@ export default {
 				},
 			},
 			gradient: {
-				group: {
+				groups: {
 					gradually: "Gradually",
 					alternately: "Alternately",
 				},
