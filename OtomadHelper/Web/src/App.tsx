@@ -5,6 +5,7 @@ import GlobalStyle from "styles/global";
 import ShellPage from "./ShellPage";
 
 export default function App() {
+	"use no memo";
 	const [ready, setReady] = useState(false);
 
 	useMountEffect(() => {

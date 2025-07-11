@@ -76,6 +76,13 @@ declare global {
 	 */
 	type VitePluginConfig = Vite.ResolvedConfig;
 
+	/**
+	 * Returns the global environment, used to define global variables.
+	 *
+	 * Also avoid warnings from TypeScript.
+	 */
+	var globals: typeof globalThis & Record<string | symbol, any>;
+
 	interface Window {
 		/**
 		 * Check if it is running in the WebView environment.

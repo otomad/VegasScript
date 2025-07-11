@@ -78,17 +78,17 @@ function TopLeftButtons({ shadow, paneDisplayMode, canBack = true, onBack, onNav
 		else if (e.altKey && e.code === "KeyH" && !e.repeat) onNavButton?.();
 	});
 
-	const TooltipTitle = useCallback(({ title, shortcut }: { title: string; shortcut: string }) =>
-		<>{title}<code style={{ marginLeft: "0.25em" }}>({shortcut})</code></>, []);
+	const TooltipTitle = useCallback(({ title, shortcut }: { title: string; shortcut: string[] }) =>
+		<>{title}<Kbd>{shortcut}</Kbd></>, []);
 
 	return (
 		<StyledTopLeftButtons className={{ shadow, vertical }}>
 			{!shadow && (
 				<div className="base">
-					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.back} shortcut="Alt + ←" />}>
+					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.back} shortcut={["Alt", "←"]} />}>
 						<NavButton animatedIcon="back" disabled={!canBack} onClick={onBack} aria-label={t.back} dirBasedIcon />
 					</Tooltip>
-					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.navigation} shortcut="Alt + H" />}>
+					<Tooltip placement={tooltipPlacement} title={<TooltipTitle title={t.navigation} shortcut={["Alt", "H"]} />}>
 						<NavButton animatedIcon="global_nav_button" onClick={onNavButton} aria-label={t.navigation} />
 						{/* Do not use `accessKey="H"`, it do repeat the keydown, which is not we wanted. */}
 					</Tooltip>
@@ -681,7 +681,9 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 		setFlyoutDisplayMode(mode => mode === "expanded" ? "minimal" : "expanded");
 
 	const hideFlyoutNavMenu = () => { flyoutDisplayMode !== "minimal" && setFlyoutDisplayMode("minimal"); };
-	useEffect(hideFlyoutNavMenu, [currentNav, useWindowWidth(), flyoutDisplayMode]);
+	const windowWidth = useWindowWidth();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(hideFlyoutNavMenu, [currentNav, windowWidth]);
 
 	return (
 		<StyledNavigationView $transitionName={transitionName} {...htmlAttrs}>

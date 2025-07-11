@@ -721,7 +721,7 @@ export default {
 				documentation: "Documentation",
 				translation: "Contribute translation",
 				feedback: "Feedback",
-				changeLog: "Changelog",
+				changelog: "Changelog",
 				license: "License",
 				version: "Version",
 				author: "Author",

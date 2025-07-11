@@ -21,7 +21,7 @@ const weights = {
 	heavy: 900,
 };
 // declare const css: (styles: TemplateStringsArray, ...interpolations: Object[]) => string;
-function useTypography(fontSize: number, lineHeight?: number, weight: keyof typeof weights | number = "regular", opsz: keyof typeof opszs | number = "text") {
+function typography(fontSize: number, lineHeight?: number, weight: keyof typeof weights | number = "regular", opsz: keyof typeof opszs | number = "text") {
 	weight = typeof weight === "string" ? weights[weight] : weight;
 	opsz = typeof opsz === "string" ? opszs[opsz] : opsz;
 	return css`
@@ -49,17 +49,17 @@ export default {
 	 * Specify the **font size**, **weight**, **line height**, and **optical size axis** parameters of *Segoe UI Variable* font.
 	 */
 	text: {
-		caption: useTypography(12, 16, "regular", "small"),
-		body: useTypography(14, 20, "regular", "text"),
-		bodyStrong: useTypography(14, 20, "semibold", "text"),
-		bodyLarge: useTypography(18, 24, "regular", "text"),
-		subtitle: useTypography(20, 28, "semibold", "display"),
-		title: useTypography(28, 36, "semibold", "display"),
-		titleLarge: useTypography(40, 52, "semibold", "display"),
-		display: useTypography(68, 92, "semibold", "display"),
-		icon: useTypography(20),
-		iconSmall: useTypography(15),
-		custom: useTypography,
+		caption: typography(12, 16, "regular", "small"),
+		body: typography(14, 20, "regular", "text"),
+		bodyStrong: typography(14, 20, "semibold", "text"),
+		bodyLarge: typography(18, 24, "regular", "text"),
+		subtitle: typography(20, 28, "semibold", "display"),
+		title: typography(28, 36, "semibold", "display"),
+		titleLarge: typography(40, 52, "semibold", "display"),
+		display: typography(68, 92, "semibold", "display"),
+		icon: typography(20),
+		iconSmall: typography(15),
+		custom: typography,
 	},
 	flyout: css`
 		overflow: clip;

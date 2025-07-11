@@ -1,4 +1,4 @@
-/** Only used for debugging during development, please ensure to be `false` in production. */
+/** CAUTION: Only used for debugging during development, please ensure to be `false` in production. */
 const DEBUG_MODE = false;
 
 const StyledTooltip = styled.div<{

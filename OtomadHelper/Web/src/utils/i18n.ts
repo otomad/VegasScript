@@ -188,19 +188,65 @@ export function useCurrentLanguage() {
 }
 
 /**
+ * Validates and normalizes a given locale identifier.
+ *
+ * This function checks if the input is a valid BCP 47 locale identifier or `Intl.Locale` object.
+ * It first attempts to construct an `Intl.Locale` instance from the input string, returning `null`
+ * if the construction fails (i.e., due to incorrect format).
+ *
+ * Then, it compares the maximized and minimized forms of the locale. If both forms are equal,
+ * it indicates that the locale does not correspond to a real-world locale, and the function returns `null`.
+ * Otherwise, the locale is considered valid and existing.
+ *
+ * @param locale - The locale identifier as a string or an `Intl.Locale` object.
+ * @returns The valid `Intl.Locale` object if the locale is valid and exists, otherwise `null`.
+ */
+export function getValidLocale(locale: Intl.UnicodeBCP47LocaleIdentifier | Intl.Locale) {
+	if (typeof locale === "string")
+		try {
+			// If error "Incorrect locale information provided" is raised when constructing the `Intl.Locale` object,
+			// the provided locale is considered invalid.
+			// For example, `locale` is "a" or "abcd", because the language identifier can only be two to three letters.
+			// But at this point it means that locale does not match the format of locale identifier.
+			// However, even if a locale identifier that does not exist at all will be passed here.
+			// For example, `locale` is "cc-cccc-cc", which is valid, but there is no such locale in the real world.
+			locale = new Intl.Locale(locale);
+		} catch {
+			return null;
+		}
+	if (locale.maximize().toString() === locale.minimize().toString())
+		// By maximizing and minimizing the locale, if its maximized value is equal to its minimized value,
+		// the locale is considered not to exist in the real world at all.
+		// At this point, no matter it is "oo", "cc-cccc-cc", etc., invalid locale can be found.
+		return null;
+	return locale;
+}
+
+/**
+ * Determines whether the provided locale identifier is valid and exists in the real world.
+ *
+ * This function checks if the input is a valid BCP 47 locale identifier or `Intl.Locale` object.
+ * It first attempts to construct an `Intl.Locale` instance from the input string, returning `false`
+ * if the construction fails (i.e., due to incorrect format).
+ *
+ * Then, it compares the maximized and minimized forms of the locale. If both forms are equal,
+ * it indicates that the locale does not correspond to a real-world locale, and the function returns `false`.
+ * Otherwise, the locale is considered valid and existing.
+ *
+ * @param locale - The locale identifier as a string or `Intl.Locale` object.
+ * @returns `true` if the locale is valid and exists; otherwise, `false`.
+ */
+export function isValidLocale(locale: Intl.UnicodeBCP47LocaleIdentifier | Intl.Locale) {
+	return getValidLocale(locale) != null;
+}
+
+/**
  * Check if the provided language is English? Whether it is American English, British English, or something else.
  * @param lang - Language tag string or Intl.Locale object.
  * @returns The provided language is English?
  */
-export function isEnglish(lang: string | Intl.Locale) {
-	if (typeof lang === "string")
-		try {
-			lang = new Intl.Locale(lang);
-		} catch {
-			return false;
-		}
-	lang = lang.maximize();
-	return lang.language === "en";
+export function isEnglish(lang: Intl.UnicodeBCP47LocaleIdentifier | Intl.Locale) {
+	return getValidLocale(lang)?.language === "en";
 }
 
 /**

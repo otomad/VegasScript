@@ -1,3 +1,4 @@
+import { match } from "@formatjs/intl-localematcher";
 import lodash from "lodash";
 
 /**
@@ -340,13 +341,6 @@ export function useDomRefs<TElement extends keyof ElementTagNameMap | Element>()
 }
 
 /**
- * Returns the global environment, used to define global variables.
- *
- * Also avoid warnings from TypeScript.
- */
-export const globals = globalThis as AnyObject;
-
-/**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
  *
@@ -628,5 +622,67 @@ export function getCurrentState<T>(setter: SetState<T>) {
 			resolve(prevState);
 			return prevState;
 		});
+	});
+}
+
+/**
+ * Creates a proxy for the given object that provides a fallback value when accessing
+ * properties that do not exist on the object. If a missing property is accessed,
+ * the value of the specified fallback key is returned instead.
+ *
+ * @template T - The type of the target object, which must be an object.
+ * @param target - The target object to wrap with the fallback proxy.
+ * @param fallbackKey - The key in the object whose value will be returned for missing properties.
+ * @throws {TypeError} If the number of arguments is incorrect, if `target` is not an object, if `target` is empty,
+ * or if `fallbackLocale` is not a valid property key type.
+ * @throws {RangeError} If the fallback key does not exist in the object.
+ * @returns A proxy of the original object that returns the fallback value for missing properties.
+ */
+export function fallbackWith<T extends Record<PropertyKey, Any>>(target: T, fallbackKey: keyof T): T & Record<PropertyKey, T[keyof T]> {
+	const errorMsgHeader = `Failed to execute "${fallbackWith.name}": `;
+	if (arguments.length !== fallbackWith.length) throw new TypeError(`${errorMsgHeader}${fallbackWith.length} argument required, but only ${arguments.length} present.`);
+	if (!isObject(target)) throw new TypeError(`${errorMsgHeader}parameter 1 is not of type "object".`);
+	if (Object.values(target).length === 0) throw new TypeError(`${errorMsgHeader}parameter 1 target object is empty.`);
+	if (!["string", "symbol", "number", "bigint"].includes(typeof fallbackKey)) throw new TypeError(`${errorMsgHeader}parameter 2 is not of type "string", "symbol", "number", or "bigint".`);
+	if (!(fallbackKey in target)) throw new RangeError(`${errorMsgHeader}The fallback key "${String(fallbackKey)}" is not in the target object, it is likely that you spelled it incorrectly.`);
+
+	return new Proxy(target, {
+		get(target, property) {
+			if (property in target) return target[property];
+			else return target[fallbackKey];
+		},
+	});
+}
+
+/**
+ * Creates a proxy object that provides locale-based fallback behavior for accessing properties.
+ *
+ * When accessing a property by locale identifier, if the property does not exist on the target object,
+ * the function attempts to find the best matching locale from the available keys using `Intl.LocaleMatcher.match`.
+ * If no match is found, it falls back to the specified fallback locale.
+ *
+ * @template T - An object type whose keys are valid BCP 47 locale identifiers.
+ * @param target - The object containing locale-specific values.
+ * @param fallbackLocale - The locale key to use as a fallback if a requested locale is not found. Defaults to English (en).
+ * @throws {TypeError} If the number of arguments is incorrect, if `target` is not an object, if `target` is empty,
+ * or if `fallbackLocale` is not a string.
+ * @throws {RangeError} If `fallbackLocale` is not a valid locale identifier.
+ * @returns A proxy object that provides locale-based property access with fallback logic.
+ */
+export function fallbackWithLocale<T extends Record<Intl.UnicodeBCP47LocaleIdentifier, Any>>(target: T, fallbackLocale: keyof T = "en"): T & Record<Intl.UnicodeBCP47LocaleIdentifier, T[keyof T]> {
+	const errorMsgHeader = `Failed to execute "${fallbackWithLocale.name}": `;
+	if (arguments.length !== fallbackWithLocale.length) throw new TypeError(`${errorMsgHeader}${fallbackWithLocale.length} argument required, but only ${arguments.length} present.`);
+	if (!isObject(target)) throw new TypeError(`${errorMsgHeader}parameter 1 is not of type "object".`);
+	if (Object.values(target).length === 0) throw new TypeError(`${errorMsgHeader}parameter 1 target object is empty.`);
+	if (typeof fallbackLocale !== "string") throw new TypeError(`${errorMsgHeader}parameter 2 is not of type "string".`);
+	if (!isValidLocale(fallbackLocale)) throw new RangeError(`${errorMsgHeader}The fallback locale "${String(fallbackLocale)}" is not a valid locale.`);
+
+	return new Proxy(target, {
+		get(target, locale) {
+			if (typeof locale === "symbol") return;
+			if (locale in target) return target[locale];
+			const bestMatchLocale = match([locale, fallbackLocale], Object.keys(target), undefined!) ?? Object.keys(target)[0];
+			return target[bestMatchLocale];
+		},
 	});
 }

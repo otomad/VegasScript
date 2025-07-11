@@ -22,6 +22,7 @@ words:
   - automator
   - backdoors
   - backface
+  - bcp
   - beziér
   - bg
   - bgm
@@ -71,6 +72,7 @@ words:
   - extralight
   - filedir
   - flyouts
+  - formatjs
   - fullwidth
   - fx
   - geq
@@ -111,6 +113,7 @@ words:
   - letterboxing
   - lightningcss
   - linebreak
+  - localematcher
   - lotties
   - ltr
   - luma
@@ -120,6 +123,7 @@ words:
   - lvw
   - magix
   - mathml
+  - maximizable
   - mht
   - mhtml
   - miscz
@@ -205,6 +209,7 @@ words:
   - subgrid
   - subgrids
   - subheaders
+  - subtags
   - svgr
   - svgs
   - svh

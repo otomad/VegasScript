@@ -1,6 +1,6 @@
 import ColoredLogo from "assets/svg/Otomad Helper Colored.svg?react";
 import MonoLogo from "assets/svg/Otomad Helper Mono.svg?react";
-import { contributeTranslationLink } from "helpers/crowdin-link";
+import links from "helpers/links";
 
 const StyledSettingsAbout = styled.div`
 	display: flex;
@@ -45,6 +45,7 @@ const StyledSettingsAbout = styled.div`
 `;
 
 export default function SettingsAbout() {
+	"use no memo";
 	const pairs = new Map<string, string>([
 		[t.settings.about.author, t.settings.about.__author__],
 		[t.settings.about.originalAuthor, t.settings.about.__originalAuthor__],
@@ -66,13 +67,13 @@ export default function SettingsAbout() {
 						{Array.from(pairs.entries(), ([key, value]) => <span key={key}>{key + t.colon + value}</span>)}
 					</div>
 					<div>
-						<Link href="https://otomadhelper.readthedocs.io/">{t.settings.about.documentation}</Link>
-						<Link href="https://github.com/otomad/OtomadHelper/releases">{t.settings.about.changeLog}</Link>
-						<Link href="https://github.com/otomad/OtomadHelper">{t.settings.about.repositoryLink}</Link>
-						<Link href="https://github.com/otomad/OtomadHelper/issues">{t.settings.about.feedback}</Link>
-						<Link href="https://www.gnu.org/licenses/gpl-3.0.html">{t.settings.about.license}</Link>
+						<Link href={links.otomadHelper.documentation[currentLanguage]}>{t.settings.about.documentation}</Link>
+						<Link href={links.otomadHelper.repository}>{t.settings.about.repositoryLink}</Link>
+						<Link href={links.otomadHelper.changelog}>{t.settings.about.changelog}</Link>
+						<Link href={links.otomadHelper.issues}>{t.settings.about.feedback}</Link>
+						<Link href={links.gpl3}>{t.settings.about.license}</Link>
 						<Link onClick={() => setShowTranslators(true)} aria-haspopup="dialog">{t.settings.about.translators}</Link>
-						<Link href={contributeTranslationLink[currentLanguage]}>{t.settings.about.translation}</Link>
+						<Link href={links.crowdin.contributeTranslation[currentLanguage]}>{t.settings.about.translation}</Link>
 					</div>
 					<Translators shown={[showTranslators, setShowTranslators]} />
 				</div>
@@ -87,19 +88,17 @@ export default function SettingsAbout() {
 					</>
 				)}
 			>
-				<Expander.ChildWrapper>
-					<AboutInformation />
-				</Expander.ChildWrapper>
+				<AboutInformation />
 			</Expander>
 		</>
 	);
 }
 
 async function checkForUpdates(currentVersion: string) {
-	const byApi = fetch("https://api.github.com/repos/otomad/OtomadHelper/releases/latest")
+	const byApi = fetch(links.api.versionTagGitHubApi)
 		.then(res => res.json())
 		.then(data => data.tag_name as string);
-	const byRaw = fetch("https://raw.githubusercontent.com/otomad/OtomadHelper/webview2/version.txt")
+	const byRaw = fetch(links.api.versionTagGitHubRaw)
 		.then(res => res.text())
 		.then(data => data.trim());
 	const tagName = await Promise.race([byApi, byRaw]);
@@ -166,7 +165,7 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 			title={t.settings.about.translators}
 			buttons={close => (
 				<>
-					<Button onClick={() => window.open(contributeTranslationLink[currentLanguage])}>{t.settings.about.translation}</Button>
+					<Button onClick={() => window.open(links.crowdin.contributeTranslation[currentLanguage])}>{t.settings.about.translation}</Button>
 					<Button autoFocus accent onClick={close}>{t.ok}</Button>
 				</>
 			)}
@@ -189,39 +188,71 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 	);
 }
 
-const StyledAboutInformation = styled(StyledTableBase)`
-	${styles.effects.text.body}
+const StyledAboutInformation = styled(ItemsView)`
+	.card {
+		block-size: 100%;
+		overflow: hidden;
+		color: ${c("foreground-color")};
+		// word-break: break-word; // Deprecated, behaviors same as below.
+		word-break: normal;
+		overflow-wrap: anywhere;
 
-	td:nth-child(2n + 2) {
-		color: ${c("fill-color-text-secondary")};
-	}
+		.base {
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+			justify-content: space-between;
+		}
 
-	* {
-		user-select: text;
+		.name {
+			${styles.effects.text.bodyStrong};
+		}
+
+		.version {
+			${styles.effects.text.bodyLarge};
+			margin-block-end: -0.25rem;
+			color: ${c("fill-color-text-secondary")};
+		}
+
+		.icon {
+			float: inline-end;
+			margin-block-start: 2px;
+			margin-inline-start: 4px;
+			color: ${c("fill-color-text-secondary")};
+			font-size: 16px;
+		}
 	}
 `;
 
+const $v = (name: string, version: string, link?: string) => ({ name, version, link });
 function AboutInformation() {
 	const { appName, version } = useAboutApp();
 	const data = [
-		[appName, "v" + version],
-		["React", "v" + React.version],
-	] as [string, string][];
+		$v(appName, "v" + version, links.otomadHelper.repository),
+		$v("React", "v" + React.version, links.react),
+	];
 
 	return (
-		<StyledAboutInformation $table>
-			{data.map(([key, value]) => (
-				<tr key={key}>
-					<td><samp>{key}</samp></td>
-					<td><samp>{value}</samp></td>
-				</tr>
+		<StyledAboutInformation
+			view="grid"
+			current={null}
+			className="monospace"
+			role="group"
+			lang="en"
+			translate="no"
+		>
+			{data.map(({ name, version, link }) => (
+				<Card width={200} key={name} as={Link} href={link}>
+					<p className="name"><Icon name="open" />{name}</p>
+					<p className="version">{version}</p>
+				</Card>
 			))}
 		</StyledAboutInformation>
 	);
 }
 
 function listFormatTranslators_static(translators: string[] | string, lang: string) {
-	if (typeof translators === "string" || isI18nItem(translators)) translators = translators.split("\n").toTrimmed();
+	if (typeof translators === "string" || isI18nItem(translators)) translators = translators.toString().split("\n").toTrimmed();
 	const formatted = new Intl.ListFormat(lang, { style: "narrow", type: "conjunction" }).format(translators);
 	return panguSpacing(formatted);
 }

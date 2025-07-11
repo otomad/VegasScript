@@ -168,6 +168,7 @@ export default [
 			"no-control-regex": "off",
 			"prefer-numeric-literals": "error",
 			"@stylistic/generator-star-spacing": ["error", { "before": true, "after": false }],
+			"prefer-rest-params": "off",
 			"import/order": ["warn", {
 				"alphabetize": { "order": "asc", "orderImportKind": "asc", "caseInsensitive": false },
 				"named": true,

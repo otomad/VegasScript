@@ -4,6 +4,9 @@ const StyledTabItemWrapper = styled.div`
 	}
 `;
 
+const tabItemHover = (css)`:is(:hover, ${StyledTabItemWrapper}:hover > *)`;
+const tabItemActive = (css)`:is(:active, ${StyledTabItemWrapper}:active > *)`;
+
 const StyledTabItem = styled.button`
 	position: relative;
 	display: flex;
@@ -20,7 +23,7 @@ const StyledTabItem = styled.button`
 		padding-block: 9px 11px;
 		padding-inline: 16px 12px;
 
-		&:hover,
+		&${tabItemHover},
 		&.selected {
 			background-color: ${c("fill-color-subtle-secondary")};
 
@@ -44,12 +47,12 @@ const StyledTabItem = styled.button`
 			}
 		}
 
-		&:not(.selected):active,
-		&.selected:not(:active):hover {
+		&:not(.selected)${tabItemActive},
+		&.selected:not(${tabItemActive})${tabItemHover} {
 			background-color: ${c("fill-color-subtle-tertiary")};
 		}
 
-		&:active > * {
+		&${tabItemActive} > * {
 			opacity: ${c("pressed-text-opacity")};
 		}
 	}

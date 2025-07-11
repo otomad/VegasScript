@@ -1,6 +1,6 @@
 import { BasicColorPalette, autoColorPalettes } from "helpers/basic-color-palette";
-import { contributeTranslationLink } from "helpers/crowdin-link";
 import { useInContextLocalization } from "helpers/jipt-activator";
+import links from "helpers/links";
 
 /** Expand the expanders in settings initially? (Do not set it to true in production!) */
 const DEV_EXPANDED = true;
@@ -82,7 +82,7 @@ export default function Settings() {
 				before={inContextLocalization[0] && <InfoBar status="warning">{t.descriptions.settings.language.enableInContextLocalization}</InfoBar>}
 			>
 				<Expander.Item title={t.descriptions.settings.translation} noDivider>
-					<Button hyperlink minWidthUnbounded extruded href={contributeTranslationLink[currentLanguage]}>{t.settings.about.translation}</Button>
+					<Button hyperlink minWidthUnbounded extruded href={links.crowdin.contributeTranslation[currentLanguage]}>{t.settings.about.translation}</Button>
 				</Expander.Item>
 				<ToggleSwitch
 					icon="logo/crowdin"
