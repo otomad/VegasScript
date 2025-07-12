@@ -877,9 +877,10 @@ export default function Grid() {
 					position="top"
 					shown={[fastFillShown, setFastFillShown]}
 					autoPadding="xy"
-					portal={false}
-					hideDelay={50}
+					portal={document.body}
 					offset={TOOLTIP_OFFSET}
+					autoFocus={false}
+					onMouseDown={e => e.preventDefault()}
 				>
 					<Flyout.Item icon="edit_lightning" title={t.track.grid.fastFill} style={{ paddingInlineStart: "12px" }} />
 					<div className="items">
@@ -971,7 +972,6 @@ function FastFillOptions({ value: [currentValue, setCurrentValue], options, getI
 	return options.map(({ id, value, unselected }) => (
 		<ToggleButton
 			key={id}
-			tabIndex={-1}
 			checked={[!(unselected || !(currentValue === value))]}
 			minWidthUnbounded
 			onPointerDown={() => { setCurrentValue(value); focus(); }}

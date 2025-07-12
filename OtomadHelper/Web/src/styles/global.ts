@@ -111,6 +111,7 @@ const GlobalStyle = createGlobalStyle<{
 	}
 
 	body {
+		position: relative;
 		height: 100dvh;
 		margin: 0;
 		padding: 0;

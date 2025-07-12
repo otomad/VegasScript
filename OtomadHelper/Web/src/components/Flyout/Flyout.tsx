@@ -99,7 +99,7 @@ function isValidAnchorName(anchorName: string) {
 }
 
 const DEFAULT_OFFSET = 11;
-export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", portal = PORTAL_CONTAINER, hideDelay = 0, target, onShown, onHidden, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
+export default function Flyout({ anchorName, position, shown: [shown, setShown] = NEVER_MIND, offset = DEFAULT_OFFSET, autoInert = false, autoPadding = "y", portal = PORTAL_CONTAINER, hideDelay = 0, target, autoFocus = true, onShown, onHidden, _commandBarAnchorName, _horizontalPosition, children, style, className, ...htmlAttrs }: FCP<{
 	/** Anchor name. */
 	anchorName: string;
 	/** Position. */
@@ -124,6 +124,8 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	hideDelay?: number;
 	/** (Optional) Target of the flyout. */
 	target?: MaybeRef<HTMLElement | null>;
+	/** Auto focus the first focusable element inside the flyout? @default true */
+	autoFocus?: boolean;
 	/** Occurs when shown. */
 	onShown?(): void;
 	/** Occurs when hidden. */
@@ -157,7 +159,7 @@ export default function Flyout({ anchorName, position, shown: [shown, setShown] 
 	useEffect(() => {
 		if (inProp) {
 			onShown?.();
-			if (flyoutEl.current)
+			if (flyoutEl.current && autoFocus)
 				setTimeout(() => findFirstFocusableElement(flyoutEl.current)?.focus(), 0);
 		} else {
 			onHidden?.();
