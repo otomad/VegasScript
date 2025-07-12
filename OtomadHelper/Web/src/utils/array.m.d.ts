@@ -510,7 +510,7 @@ declare interface Array<T> {
 	 * @param searchElement - The element to search for in the array.
 	 * @returns `true` if the array contains an element deeply equal to `searchElement`, otherwise `false`.
 	 */
-	includesDeep(searchElement: T): boolean;
+	includesDeep(searchElement: any): boolean;
 
 	/**
 	 * Toggle the item whether the array contains it. Using deep equality comparison.

@@ -1,6 +1,7 @@
 export default function Home() {
 	const [shown, setShown] = useState(false);
 	const [text, setText] = useState("foo");
+	const [number, setNumber] = useState(5);
 	const pitch = useState("C5");
 	const timecode = useState("00:00:03.000");
 	const options = ["foo", "bar", "baz", "hello", "world"];
@@ -12,6 +13,7 @@ export default function Home() {
 			<InfoBar status="accent" title="Info">This page is for testing components currently. The quick brown fox jumps over a lazy dog.</InfoBar>
 			<SettingsCardToggleSwitch title="Shown" icon="enabled" on={[shown, setShown]} />
 			<TextBox value={[text, setText]} />
+			<TextBox.Number value={[number, setNumber]} suffix="px" required pattern={/\d+/} />
 
 			<div>
 				<Segmented current={[text, setText]}>

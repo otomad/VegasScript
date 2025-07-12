@@ -366,7 +366,7 @@ export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, sele
 									{imageOverlay}
 									{checkbox}
 								</div>
-								{badge !== undefined && <Badge status="neutual">{badge}</Badge>}
+								{badge !== undefined && <Badge status="neutual" transitionOnAppear={false}>{badge}</Badge>}
 								<div className="selection" />
 							</>
 						) : (

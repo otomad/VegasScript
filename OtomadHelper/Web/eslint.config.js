@@ -186,7 +186,7 @@ export default [
 			"unicorn/consistent-existence-index-check": "error",
 			"unicorn/explicit-length-check": "error",
 			"unicorn/no-array-push-push": "error",
-			"unicorn/no-console-spaces": "error",
+			"unicorn/no-console-spaces": "warn",
 			"unicorn/no-document-cookie": "error",
 			"unicorn/prefer-string-replace-all": "error",
 			"unicorn/no-useless-length-check": "error",

@@ -45,7 +45,7 @@ const StyledAnimatedIcon = styled.div<{
 		}
 
 		.lottie {
-			${styles.mixins.square("1em")};
+			${styles.mixins.square("1em", false, true)};
 
 			&:not(.filled) {
 				:not(.luminance-mask *) {

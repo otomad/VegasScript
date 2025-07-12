@@ -82,9 +82,9 @@ const StyledTooltip = styled.div<{
 	}
 `;
 
-export default function Tooltip({ title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, unwrapped = true, children, ref }: FCP<{
+export default function Tooltip({ title: _title, placement, offset = 10, timeout = 500, disabled = false, applyAriaLabel = true, unwrapped = true, children, ref }: FCP<{
 	/** Tooltip content. */
-	title: ReactNode;
+	title: ReactNode | (() => ReactNode);
 	/** Tooltip placement. */
 	placement?: Placement;
 	/** Tooltip offset. */
@@ -99,6 +99,9 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 	unwrapped?: boolean;
 	ref?: ForwardedRef<"section">;
 }>) {
+	const getUpdatedTitle = useCallback(() => typeof _title === "function" ? _title() : _title, [_title]);
+	const [title, setTitle] = useState(getUpdatedTitle());
+	const updateTitle = useCallback(() => setTitle(getUpdatedTitle()), [getUpdatedTitle]);
 	const [shown, setShown] = useState(false);
 	const [contentsEl, setContentsEl] = useDomRefState<"div">(); // Use state instead of ref to make sure change it to rerender.
 	const tooltipEl = useDomRef<"div">();
@@ -114,9 +117,11 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 		while (dom && (getComputedStyle(dom).display === "contents" || dom.classList.contains("expander")))
 			dom = dom.firstElementChild;
 		return dom as HTMLElement | null;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [contentsEl]);
 
 	useEffect(() => {
+		updateTitle();
 		if (dom && title && applyAriaLabel) {
 			if (canToString(title)) dom.ariaLabel ||= title.toString();
 			if (isReactInstance(title, TooltipContent)) {
@@ -124,9 +129,10 @@ export default function Tooltip({ title, placement, offset = 10, timeout = 500, 
 				if (canToString(title.props.children)) dom.ariaDescription ||= title.props.children.toString();
 			}
 		}
-	}, [dom, title, applyAriaLabel]);
+	}, [dom, title, applyAriaLabel, updateTitle]);
 
 	const handleHover = (e: MouseEvent) => {
+		updateTitle();
 		clearTimeout(shownTimeout.current);
 		if (!dom || !isInPath(e, dom)) return;
 		shownTimeout.current = setTimeout(async () => {

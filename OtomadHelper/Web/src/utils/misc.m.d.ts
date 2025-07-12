@@ -141,3 +141,18 @@ declare interface DOMTokenList {
 	 */
 	containsAny(...tokens: string[]): boolean;
 }
+
+declare interface Console {
+	/**
+	 * Show image in console.
+	 * @see https://gist.github.com/mikamboo/96fcba65822cf088ce410a95dce9f5b5
+	 */
+	image(url: string, size?: number): Promise<void>;
+}
+
+declare interface HTMLInputElement {
+	/**
+	 * Select all text, scroll into view if needed, and focus the input element.
+	 */
+	selectAndFocus(): void;
+}

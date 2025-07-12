@@ -34,11 +34,12 @@ namespace Config {
 	export type TrackLegatoMode = typeof trackLegatoModes[number];
 	export type NormalizeTime = typeof normalizeTimes[number]["id"];
 	export type SystemBackdrop = typeof systemBackdrops[number]["name"];
+	export type PrveCustomStepSequences = Partial<Record<string, number[]>>;
 
 	const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 	const defaultPrve = {
 		isMultiple: false,
-		effects: [{ fx: "normal", initial: 0 }],
+		effects: [{ fx: "normal", initial: [0] }],
 		amounts: defaultPrveAmounts as Record<keyof typeof defaultPrveAmounts, number>,
 	};
 
@@ -51,6 +52,7 @@ namespace Config {
 			customStartTime: EMPTY_TIMECODE,
 			afterCompletion: {
 				removeSourceClips: false,
+				removeSourceClipsWithTracks: false,
 				selectSourceClips: true,
 				selectGeneratedClips: [] as true | SelectGeneratedClips[],
 			},
@@ -150,6 +152,7 @@ namespace Config {
 					...deepClone(defaultPrve),
 				},
 			},
+			prveCustomStepSequences: {} as PrveCustomStepSequences,
 			staff: {
 				enabled: false,
 			},

@@ -2,6 +2,7 @@ import PillButton from "./PillButton";
 
 const StyledFilter = styled(HorizontalScroll)`
 	display: flex;
+	flex-shrink: 0;
 	gap: 4px;
 	align-items: center;
 	margin-block: -4px;

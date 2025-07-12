@@ -1,5 +1,7 @@
 import ItemsViewItem, { GRID_VIEW_ITEM_HEIGHT, type OnItemsViewItemClickEventHandler } from "./ItemsViewItem";
 
+const isOtherOptionSymbol = Symbol("components.ItemsView.is_other_option");
+
 export /* @internal */ const StyledItemsView = styled.div`
 	:has(> &) {
 		container: list-view / inline-size;
@@ -112,25 +114,29 @@ export default function ItemsView<
 
 	const [current, setCurrent] = _current ?? [];
 
+	const allIds = (React.Children.toArray(children).map(child => {
+		if (!isReactInstance(child, ItemsViewItem, "weakest")) return undefined;
+		return child.props.id as T;
+	}) ?? []).toCompacted();
+
+	const isOther = multiple ? (current as T[]).every(id => !allIds.includesDeep(id)) : !allIds.includesDeep(current);
+
 	const isSelected = (id: T) => {
-		if (multiple)
+		if (id === isOtherOptionSymbol) return isOther;
+		else if (multiple)
 			if (Array.isArray(current)) return current.includesDeep(id);
 			else return false;
 		else return lodash.isEqual(current, id);
 	};
 
 	const handleClick = (id: T) => {
+		if (id === isOtherOptionSymbol) return;
 		setCurrent?.((
 			!multiple ? id : produce((draft: T[]) => {
 				draft.toggleDeep(id);
 			})
 		) as never);
 	};
-
-	const allIds = (React.Children.toArray(children).map(child => {
-		if (!isReactInstance(child, ItemsViewItem, "weakest")) return undefined;
-		return child.props.id as T;
-	}) ?? []).toCompacted();
 
 	const items = React.Children.map(children, child => {
 		if (!isReactInstance(child, ItemsViewItem, "weakest")) return child;
@@ -177,6 +183,7 @@ export default function ItemsView<
 					"--grid-template-width": view === "grid" ? styles.toValue(itemWidth) : undefined,
 				}}
 				inert={readOnly}
+				data-is-other={isOther}
 				aria-readonly={readOnly}
 				{...htmlAttrs}
 			>
@@ -191,3 +198,4 @@ export default function ItemsView<
 }
 
 ItemsView.Item = ItemsViewItem;
+ItemsView.other = isOtherOptionSymbol;

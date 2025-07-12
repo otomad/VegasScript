@@ -132,8 +132,8 @@ function _objectPickOrOmit<T>(isPick: boolean, object: T, predicate: ObjectPickO
  * @returns An array of objects repeated a specified number of times.
  */
 export function forMap<T>(length: number, callback: (index: number, length: number) => T, startIndex: number = 0, flat: boolean = false) {
-	const mapAction = (flat ? "flatMap" : "map") as "map";
-	return Array<void>(length).fill(undefined)[mapAction]((_, index) => callback(index + startIndex, length));
+	const result = Array.from({ length }, (_, index) => callback(index + startIndex, length));
+	return flat ? result.flat() : result;
 }
 
 /**

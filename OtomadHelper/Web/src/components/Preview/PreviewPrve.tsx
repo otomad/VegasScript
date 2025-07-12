@@ -13,8 +13,11 @@ const StyledPreviewPrve = styled.div<{
 	$effect: string;
 	/** Frame count. */
 	$frames?: number;
+	/** Static normal visual? */
+	$static?: boolean;
 }>`
 	${styles.mixins.square("100%")};
+	${styles.mixins.gridCenter()};
 	container: preview-prve / size;
 
 	img {
@@ -50,10 +53,15 @@ const StyledPreviewPrve = styled.div<{
 		animation-delay: calc((var(--i) + var(--adjust-order)) * -${MILLISECONDS_PER_FRAME}ms / var(--adjust-rate) + 1ms);
 	}
 
+	.icon {
+		font-size: 48px;
+	}
+
 	@layer components {
 		${({ $frames }) => $frames !== undefined && css`--frames: ${$frames};`};
 
-		${({ $effect }) => {
+		${({ $effect, $static }) => {
+			if ($static) return;
 			const stepChangeHueStep = getStepChangeHueStep($effect);
 			if (stepChangeHueStep !== null)
 				return css`
@@ -532,9 +540,18 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, isStepSeq
 		whirl: Tuple(prveWhirlImage, prveWhirlStaticImage),
 	}[effect];
 
+	const isStatic = step !== undefined && (step < 0 || frames !== undefined && step >= frames);
+
 	return (
-		<StyledPreviewPrve $effect={effect} $frames={frames} {...htmlAttrs}>
-			{webglFilters.includes(effect) ? isStepSequence ? undefined : <WebglFilter src={thumbnail} effect={effect} step={step} /> :
+		<StyledPreviewPrve
+			$effect={effect}
+			$frames={frames}
+			$static={isStatic}
+			{...htmlAttrs}
+		>
+			{step === -1 ? <img src={thumbnail} alt="" /> :
+			isStatic ? <Icon name="colored/question_circle" /> :
+			webglFilters.includes(effect) ? /* isStepSequence ? undefined : */ <WebglFilter src={thumbnail} effect={effect} step={step} /> :
 			forMap(imageCount, i => animatedImage !== undefined ?
 				<HoverToChangeImg key={i} animatedSrc={animatedImage[0]} staticSrc={animatedImage[1]} /> :
 				<img key={i} src={thumbnail} alt="" />)}
@@ -567,6 +584,38 @@ function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
 	return <img src={hover ? animatedSrc : staticSrc} alt="" />;
 }
 
+type WebglFilterInfo = Required<Parameters<typeof WebglFilter>[0]>;
+const WebglFilterBackupStore = createStore({
+	maxLength: 100,
+	data: [] as [WebglFilterInfo, string][],
+	getIndex(key: WebglFilterInfo) {
+		for (const [index, [k]] of WebglFilterBackupStore.data.entries())
+			if (lodash.isEqual(k, key)) {
+				WebglFilterBackupStore.data.moveItemIndex(index, -1);
+				return index;
+			}
+		return -1;
+	},
+	has(key: WebglFilterInfo) {
+		return WebglFilterBackupStore.getIndex(key) !== -1;
+	},
+	get(key: WebglFilterInfo) {
+		const index = WebglFilterBackupStore.getIndex(key);
+		return WebglFilterBackupStore.data[index]?.[1];
+	},
+	set(key: WebglFilterInfo, value: string) {
+		const index = WebglFilterBackupStore.getIndex(key);
+		if (!~index) WebglFilterBackupStore.data.push([key, value]);
+		else WebglFilterBackupStore.data[index] = [key, value];
+		WebglFilterBackupStore.recycle();
+	},
+	recycle() {
+		while (WebglFilterBackupStore.data.length > WebglFilterBackupStore.maxLength)
+			WebglFilterBackupStore.data.shift();
+	},
+});
+globals.WebglFilterBackupStore = WebglFilterBackupStore;
+
 // FIXME: WebglFilter not work in step sequence.
 function WebglFilter({ src, effect, step }: {
 	/** Image source path. */
@@ -589,6 +638,8 @@ function WebglFilter({ src, effect, step }: {
 	const animationId = useRef<number>(undefined);
 	const usingStaticUniformValue = !hover && step === undefined;
 	const displayUniformValue = usingStaticUniformValue ? staticUniformValue : uniformValue;
+	const backupStore = useSnapshot(WebglFilterBackupStore);
+	const staticUrl = useMemo(() => step !== undefined ? backupStore.get({ src, effect, step }) : undefined, [backupStore, effect, src, step]);
 
 	useAsyncMountEffect(async () => {
 		if (!canvas.current) return;
@@ -651,7 +702,13 @@ function WebglFilter({ src, effect, step }: {
 		if (!isMounted || !filter.current || !uniformName) return;
 		filter.current.uniform("1f", `${effect}_${uniformName}`, displayUniformValue);
 		filter.current.apply();
+		filter.current.gl.finish();
+		if (step !== undefined)
+			delay(200).then(() => {
+				const url = canvas.current?.toDataURL();
+				if (url) backupStore.set({ src, effect, step }, url);
+			});
 	}, [isMounted, effect, uniformName, displayUniformValue, canvas, step, src]);
 
-	return <canvas ref={canvas} />;
+	return staticUrl ? <img src={staticUrl} /> : <canvas ref={canvas} />;
 }

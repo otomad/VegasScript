@@ -3,8 +3,6 @@
 		const text = await this.text();
 		return new DOMParser().parseFromString(text, "text/xml");
 	};
-
-	makePrototypeKeysNonEnumerable(Response);
 }
 {
 	HTMLImageElement.prototype.waitForLoaded = function () {
@@ -13,15 +11,11 @@
 			this.onerror = e => reject(e);
 		});
 	};
-
-	makePrototypeKeysNonEnumerable(HTMLImageElement);
 }
 {
 	HTMLCanvasElement.prototype.toBlobURL = function () {
 		return new Promise<string>(resolve => this.toBlob(blob => resolve(blob! && URL.createObjectURL(blob))));
 	};
-
-	makePrototypeKeysNonEnumerable(HTMLCanvasElement);
 }
 {
 	defineGetterInPrototype(Element, "path", function () {
@@ -50,13 +44,36 @@
 	Element.prototype.querySelectorWithSelf = function (selector: string) {
 		return this.matches(selector) ? this : this.querySelector(selector);
 	};
-
-	makePrototypeKeysNonEnumerable(Element);
 }
 {
 	DOMTokenList.prototype.containsAny = function (...tokens) {
 		return tokens.some(token => this.contains(token));
 	};
-
-	makePrototypeKeysNonEnumerable(DOMTokenList);
+}
+{
+	console.image = function (url, size = 100) {
+		const image = new Image();
+		image.src = url;
+		return new Promise<void>((resolve, reject) => {
+			image.onload = function () {
+				const style = [
+					"font-size: 1px;",
+					"padding: " + image.height / 100 * size + "px " + image.width / 100 * size + "px;",
+					"background: url(" + url + ") no-repeat;",
+					"background-size: contain;",
+				].join(" ");
+				// eslint-disable-next-line unicorn/no-console-spaces
+				console.log("%c ", style);
+				// resolve();
+			};
+			image.onerror = reject;
+		});
+	};
+}
+{
+	HTMLInputElement.prototype.selectAndFocus = function () {
+		this.select();
+		this.scrollIntoViewIfNeeded();
+		this.focus();
+	};
 }

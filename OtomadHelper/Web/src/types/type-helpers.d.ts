@@ -124,7 +124,7 @@ declare global {
 	 *
 	 * @template TElement - HTML DOM element.
 	 */
-	type DomRef<TElement extends keyof ElementTagNameMap | Element> = RefObject<TElement extends string ? TagNameToElement<TElement> : TElement | null>;
+	type DomRef<TElement extends keyof ElementTagNameMap | Element> = RefObject<(TElement extends string ? TagNameToElement<TElement> : TElement) | null>;
 
 	/**
 	 * Get the type of a function based on the specified parameters and return value.
@@ -278,13 +278,13 @@ declare global {
 	 * type foo = WithWrapperType<string | number | bigint>; // Expect type: string | number | bigint | String | Number | BigInt;
 	 * ```
 	 */
-	type WithWrapperType<T> = T
-		| (T extends object ? Object : never)
-		| (T extends string ? String : never)
-		| (T extends number ? Number : never)
-		| (T extends boolean ? Boolean : never)
-		| (T extends symbol ? Symbol : never)
-		| (T extends bigint ? BigInt : never);
+	type WithWrapperType<T> = T |
+		(T extends object ? Object : never) |
+		(T extends string ? String : never) |
+		(T extends number ? Number : never) |
+		(T extends boolean ? Boolean : never) |
+		(T extends symbol ? Symbol : never) |
+		(T extends bigint ? BigInt : never);
 	/* eslint-enable @typescript-eslint/no-wrapper-object-types */
 
 	/**

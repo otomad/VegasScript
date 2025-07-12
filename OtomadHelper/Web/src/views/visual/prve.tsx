@@ -7,7 +7,7 @@ type PrveEffectType = Exclude<keyof LocaleIdentifiers["javascript"]["prve"]["eff
 
 const controlModes = ["general", "samePitch", "differentSyllables"] as const;
 const getControlModeIcon = (mode: string) => `prve_control_${new VariableName(mode).snake}` as DeclaredIcons;
-const prveEffect = (fx: string, initial: number = 0) => ({ fx, initial });
+const prveEffect = (fx: string, initial: number[] = []) => ({ fx, initial });
 const DEFAULT_EFFECT = "normal";
 const STEP_CHANGE_HUE = "stepChangeHue";
 const getWhirlInfo = () => withObject(t.prve.effects, fx => `${fx.whirl} = ${fx.pingpong} + ${fx.hFlip}`);
@@ -49,10 +49,6 @@ class PrveClass {
 	public get effectIds() { return this.effects.map(effect => effect.effect) ?? []; }
 	public static findClassEffects(klass: PrveClassType) { return PrveClass.findClass(klass)?.effectIds ?? []; }
 	public findEffectFrames(effect: PrveClassType) { return this.effects.find(_effect => _effect.effect === effect)?.frames ?? 1; }
-	public getStandardStepSequence(effect: PrveClassType, initialStep: number) {
-		const frames = this.findEffectFrames(effect);
-		return forMap(frames, i => floorMod(i, frames) + 1, initialStep);
-	}
 }
 
 /** Prve amounts option. */
@@ -81,7 +77,7 @@ export default function Prve() {
 			(effect, prevEffects) => {
 				if (effect === undefined) return prevEffects;
 				const addInitialStepToEffects = (effects: Iterable<string>) =>
-					Array.from(effects, fx => prevEffects.find(effect => effect.fx === fx) ?? prveEffect(fx, 0));
+					Array.from(effects, fx => prevEffects.find(effect => effect.fx === fx) ?? prveEffect(fx));
 				const isWhirl = effect === "whirl";
 				const selectEffects = isWhirl ? ["hFlip", "pingpong"] : effect === DEFAULT_EFFECT && isMultiple[0] ? [] : [effect];
 				if (!isMultiple[0]) return addInitialStepToEffects(selectEffects);
@@ -95,15 +91,21 @@ export default function Prve() {
 			},
 		);
 	};
-	const useInitialStep = (currentEffect: string) => useStateSelector(
+	const useInitialStep = (klass: string, currentEffect: string) => useStateSelector(
 		effects,
-		effects => effects.find(effect => effect.fx === currentEffect)?.initial ?? 0,
+		effects => {
+			if (currentEffect === DEFAULT_EFFECT) return [0];
+			const exist = effects.find(effect => effect.fx === currentEffect)?.initial;
+			const frames = PrveClass.findClass(klass)?.findEffectFrames(currentEffect) ?? 1;
+			const standard = getStepSequence(frames, 0);
+			return exist?.length ? exist : standard;
+		},
 		(initial, prevEffects) => {
 			const draft = [...prevEffects];
 			const effect = draft.find(effect => effect.fx === currentEffect);
 			if (effect !== undefined) effect.initial = initial;
 			else draft.push(prveEffect(currentEffect, initial));
-			return draft;
+			return draft.length <= 1 ? draft : draft.filter(({ fx }) => fx !== DEFAULT_EFFECT);
 		},
 	);
 
@@ -189,7 +191,7 @@ export default function Prve() {
 									const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) < 2;
 									return (
 										<SliderWithBox
-											value={invalidValue ? [0] : useStateSelector(useInitialStep(currentEffect), v => v + 1, v => v - 1)}
+											value={invalidValue ? [0] : useStateSelector(useInitialStep(klass, currentEffect), v => v + 1, v => v - 1)}
 											min={1}
 											max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)))}
 											decimalPlaces={0}
@@ -248,7 +250,7 @@ export default function Prve() {
 									</Expander.Item>
 								);
 							})()}
-							<InitialStep klass={klass} effect={currentEffect} initialStep={useInitialStep(currentEffect)} />
+							<InitialStep klass={klass} effect={currentEffect} initialStep={useInitialStep(klass, currentEffect)} />
 						</ExpanderRadio>
 					);
 				})}
@@ -275,11 +277,13 @@ const StyledInitialStep = styled(Expander.Item)`
 `;
 
 const STEP_SEQUENCE_ITEM_SIZE = 65;
+const STEP_SEQUENCE_BADGE_PADDING = 4 / 1.5;
 const StepSequence = styled.div`
+	z-index: 2;
 	display: flex;
 	gap: 4px;
-	padding: 7px;
 	block-size: ${STEP_SEQUENCE_ITEM_SIZE + 7 * 2}px;
+	padding: 7px;
 	contain: strict;
 	overflow-inline: auto;
 
@@ -295,13 +299,17 @@ const StepSequence = styled.div`
 			transition: none !important;
 		}
 
-		&::after {
-			${styles.mixins.gridCenter()};
-			${styles.effects.text.bodyLarge};
-			content: attr(data-frame);
+		.badge {
 			position: absolute;
-			inset: 0;
-			background-color: ${c("background-fill-color-smoke-default")};
+			inset-block-end: ${STEP_SEQUENCE_BADGE_PADDING}px;
+			inset-inline-start: ${STEP_SEQUENCE_BADGE_PADDING}px;
+			max-inline-size: calc(100% - ${STEP_SEQUENCE_BADGE_PADDING * 2}px);
+			zoom: 1.5;
+
+			.text {
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
 	}
 
@@ -312,52 +320,86 @@ const StepSequence = styled.div`
 		padding-inline-end: 0 !important;
 
 		.text-box {
-			margin-inline: 7px;
+			/* position: absolute; */
 			inline-size: calc(100% - 7px * 2);
 			max-inline-size: unset;
+			margin-inline: 7px;
 		}
 	}
 `;
 
-function InitialStep({ klass, effect, initialStep }: FCP<{
+const StyledCustomStepsIcon = styled.div`
+	${styles.mixins.gridCenter()};
+	${styles.mixins.square("100%")};
+
+	.icon {
+		font-size: 48px;
+	}
+`;
+const CustomStepsIcon = () => <StyledCustomStepsIcon><Icon name="colored/edit" /></StyledCustomStepsIcon>;
+
+const getStepSequence = (frames: number, initialStep: number) => forMap(frames, i => floorMod(i, frames) + 1, initialStep);
+function InitialStep({ klass, effect, initialStep: [initialStep, setInitialStep] = NEVER_MIND }: FCP<{
 	/** Current PRVE class. */
 	klass: string;
 	/** Current PRVE effect in this class. */
 	effect: string;
 	/** The initial step of the PRVE effect. */
-	initialStep: StateProperty<number>;
+	initialStep: StateProperty<number[]>;
 	children?: undefined;
 }>) {
+	initialStep ??= [];
 	const prveClass = PrveClass.findClass(klass);
 	const frames = prveClass?.findEffectFrames(effect) ?? 1;
-	const standardStepSequence = prveClass?.getStandardStepSequence(effect, initialStep[0] ?? 0);
+	const stepSequenceInputEl = useDomRef<"input">();
+	const isDefault = effect === DEFAULT_EFFECT;
+
+	const [customInitialStep, setCustomInitialStep] = useState(initialStep.join(","));
+	useEffect(() => { document.activeElement !== stepSequenceInputEl.current && setCustomInitialStep(initialStep.join(",")); }, [initialStep, stepSequenceInputEl]);
 
 	return (
 		<Expander.AequilateTextItems>
 			<StyledInitialStep title={t.prve.initialStep} icon="replay" role="region" className={ifColorScheme.forceMotion} ariaHiddenForText>
-				<ItemsView className="initial-step-items" view="grid" current={initialStep} itemWidth={100} aria-label={t.prve.initialStep}>
+				<ItemsView<number[]> className="initial-step-items" view="grid" current={[initialStep, setInitialStep]} itemWidth={100} aria-label={t.prve.initialStep}>
 					{forMap(frames, j => {
 						const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
+						const value = isDefault ? [0] : getStepSequence(frames, j);
 						return (
 							<ItemsView.Item
 								image={(
 									<PreviewPrve thumbnail={exampleThumbnail} effect={effect} frames={frames} step={j} style={{ "--i": i }} />
 								)}
-								key={j}
-								id={j}
-								badge={j + 1}
+								key={value.join()}
+								data-value={value}
+								data-index={j}
+								id={value}
+								badge={isDefault ? 0 : j + 1}
 								className="initial-step-item"
 								aria-label={t.descriptions.prve.stepAria({ step: j + 1, frames })}
 							/>
 						);
 					})}
+					{!isDefault && (
+						<ItemsView.Item
+							image={<CustomStepsIcon />}
+							id={ItemsView.other}
+							className="initial-step-item"
+							withBorder
+							aria-label={t.custom}
+							onClick={() => {
+								const savedCustom = configStore.visual.prveCustomStepSequences[effect];
+								if (savedCustom) setInitialStep?.(savedCustom);
+								delay(0).then(() => stepSequenceInputEl.current?.selectAndFocus());
+							}}
+						/>
+					)}
 				</ItemsView>
 			</StyledInitialStep>
-			{standardStepSequence && (
-				<Expander.Item title={t.prve.stepSequence} icon="placeholder">
+			{initialStep.length > 0 && (
+				<Expander.Item title={t.prve.stepSequence} icon="arrow_step_in">
 					<StepSequence>
-						{standardStepSequence.map(frame => (
-							<div key={frame} className="step-sequence-item" data-frame={frame}>
+						{initialStep.map((frame, i) => (
+							<div key={i} className="step-sequence-item" data-frame={frame}>
 								<PreviewPrve
 									thumbnail={exampleThumbnail}
 									effect={effect}
@@ -366,13 +408,58 @@ function InitialStep({ klass, effect, initialStep }: FCP<{
 									style={{ "--i": floorMod(frame - 2, frames) }}
 									isStepSequence
 								/>
+								<Badge status="neutual" transitionOnAppear={false}>{frame}</Badge>
 							</div>
 						))}
 					</StepSequence>
-					<TextBox value={[standardStepSequence.join(",")]} className="monospace" />
+					<StepSequenceInput
+						ref={stepSequenceInputEl}
+						value={[customInitialStep, setCustomInitialStep]}
+						disabled={isDefault}
+						effect={effect}
+						onValidChange={setInitialStep}
+					/>
 				</Expander.Item>
 			)}
 		</Expander.AequilateTextItems>
+	);
+}
+
+const stepSequencePattern = /^-?\d+(,-?\d+)*$/;
+function StepSequenceInput({ value: [value, setValue], disabled, effect, ref, onValidChange }: {
+	value: StatePropertyNonNull<string>;
+	disabled?: boolean;
+	effect: string;
+	ref?: DomRef<"input">;
+	onValidChange?: SetState<number[]>;
+}) {
+	function parseValue(text: string) {
+		if (!text.match(stepSequencePattern)) return null;
+		return text.split(",").map(Number);
+	}
+
+	useEffect(() => {
+		const result = parseValue(value);
+		result && onValidChange?.(result);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [value]);
+
+	const onChanging: FormEventHandler<HTMLInputElement> = e => {
+		const result = parseValue(e.currentTarget.value);
+		result && (configStore.visual.prveCustomStepSequences[effect] = result);
+	};
+
+	return (
+		<TextBox
+			inputRef={ref}
+			value={[value, setValue]}
+			className="monospace"
+			pattern={stepSequencePattern}
+			required
+			disabled={disabled}
+			onChanging={onChanging}
+			mouseDownTriggerOnChanging={false}
+		/>
 	);
 }
 

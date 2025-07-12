@@ -56,6 +56,7 @@ export default {
 			afterCompletion: {
 				_: "After completion",
 				removeSourceClips: "Remove source track clips",
+				removeSourceClipsWithTracks: "Remove source track clips with their corresponding tracks",
 				selectSourceClips: "Select source track clips",
 				selectGeneratedClips: "Select all clips generated",
 			},

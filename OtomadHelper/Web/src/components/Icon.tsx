@@ -1,6 +1,6 @@
 import "virtual:svg-icons-register";
 
-const squared = styles.mixins.square("1em");
+const squared = styles.mixins.square("1em", false, true);
 const StyledIcon = styled.i<{
 	/** Keep the color of the icon itself? */
 	$filled?: boolean;
@@ -56,6 +56,8 @@ export default function Icon({ name, filled, shadow, className, ref, ...htmlAttr
 
 	const symbolId = getIconSymbolId(name);
 	const ariaLabel = getIconAriaLabel(name);
+
+	if (filled === undefined && name.startsWith("colored/")) filled = true;
 
 	return (
 		<StyledIcon

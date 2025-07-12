@@ -173,22 +173,6 @@ export /* @internal */ const StyledTextBox = styled.div`
 		}
 	}
 
-	.spinner-icon {
-		position: relative;
-		margin-inline-start: -6px;
-		padding-inline-end: 6px;
-	}
-
-	.prefix,
-	.suffix,
-	.positive-sign,
-	.spinner-icon {
-		${styles.mixins.hideIfEmpty()};
-		${styles.mixins.gridCenter()};
-		margin-block-end: 1px;
-		white-space: nowrap;
-	}
-
 	&:hover {
 		background-color: ${c("fill-color-control-secondary")};
 	}
@@ -200,6 +184,65 @@ export /* @internal */ const StyledTextBox = styled.div`
 
 		.stripes .focus-stripe {
 			scale: 1;
+		}
+	}
+
+	.prefix,
+	.suffix,
+	.positive-sign,
+	.warn-icon,
+	.spinner-icon {
+		${styles.mixins.hideIfEmpty()};
+		${styles.mixins.gridCenter()};
+		margin-block-end: 1px;
+		white-space: nowrap;
+	}
+
+	.spinner-icon {
+		position: relative;
+		margin-inline-start: -6px;
+		padding-inline-end: 6px;
+	}
+
+	.warn-icon {
+		position: relative;
+		display: none;
+		block-size: auto;
+		inline-size: 0;
+		margin-inline-end: 0;
+		color: ${c("fill-color-system-critical")};
+		scale: 0;
+		transition-behavior: allow-discrete;
+
+		// Expand the trigger area of the tooltip.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			inset-inline: -14px;
+		}
+	}
+
+	&:has(input:invalid) {
+		.stripes .focus-stripe {
+			background-color: ${c("fill-color-system-critical")};
+		}
+
+		.suffix {
+			padding-inline-end: 7px;
+		}
+
+		.warn-icon {
+			display: flex;
+			inline-size: 1em;
+			margin-inline-end: 14px;
+			scale: 1;
+
+			@starting-style {
+				inline-size: 0;
+				margin-inline-end: 0;
+				scale: 0;
+			}
 		}
 	}
 
@@ -275,7 +318,7 @@ export /* @internal */ const StyledTextBox = styled.div`
 	}
 `;
 
-export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, id, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, inputAttrs, customFlyout, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, "aria-description": ariaDescription, onChange, onChanging, onInput, onKeyDown, ref, inputRef, ...htmlAttrs }: FCP<{
+export default function TextBox({ value: [value, _setValue], placeholder, disabled, readOnly, id, prefix, suffix, _spinner: spinner, _showPositiveSign: showPositiveSign, customFlyout, pattern, required, mouseDownTriggerOnChanging = true, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, "aria-description": ariaDescription, onChange, onChanging, onInput, onKeyDown, ref, inputRef, ...htmlAttrs }: FCP<{
 	/** The value of the input box. */
 	value: StateProperty<string>;
 	/** Content placeholder. */
@@ -290,16 +333,22 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 	_spinner?(inputId: string): ReactNode;
 	/** @private Show the positive sign? */
 	_showPositiveSign?: boolean;
-	/** Set the attributes for the input element. */
-	inputAttrs?: FCP<{}, "input">;
+	/** Set the attributes for the input element. @deprecated */
+	// inputAttrs?: FCP<{}, "input">;
 	/** Ref to the input element. */
 	inputRef?: MiscRef<HTMLInputElement>;
 	/** Add your own flyout inside the textbox, must be absolute or fixed position. */
 	customFlyout?: ReactNode;
+	/** Custom input allowed characters pattern. */
+	pattern?: RegExp;
+	/** Required to input any text. */
+	required?: boolean;
+	/** Trigger onChanging event while onMouseDown? @default true */
+	mouseDownTriggerOnChanging?: boolean;
 	/** Text change event. Only occurs after pasting text or after the input box is out of focus. */
 	onChange?: BaseEventHandler<HTMLInputElement>;
 	/** Text changing event. Occurs any time the text changes. */
-	onChanging?: BaseEventHandler<HTMLInputElement>;
+	onChanging?: FormEventHandler<HTMLInputElement>;
 	/** Text keyboard input event. */
 	onInput?(newText: string, el: HTMLInputElement, ...event: Parameters<FormEventHandler<HTMLInputElement>>): boolean | string | void;
 	/** Keyboard press event. */
@@ -370,13 +419,18 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 					aria-label={ariaLabel}
 					aria-labelledby={ariaLabelledBy}
 					autoComplete="off"
+					title=""
+					pattern={pattern?.source}
+					required={required}
 					onInput={handleInput}
 					onPaste={handleChange}
 					onKeyDown={handleKeyDown}
-					onMouseDown={onChanging}
-					{...inputAttrs}
+					onMouseDown={mouseDownTriggerOnChanging ? onChanging : undefined}
 				/>
 				<label className="suffix" htmlFor={inputId}>{suffix}</label>
+				<Tooltip title={() => inputEl.current?.validationMessage} placement="y">
+					<Icon name="error_circle" className="warn-icon" />
+				</Tooltip>
 				{spinner?.(inputId)}
 			</div>
 			<div className="stripes">

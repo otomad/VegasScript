@@ -20,6 +20,7 @@ words:
   - arctan
   - autofit
   - automator
+  - autospace
   - backdoors
   - backface
   - bcp
@@ -353,3 +354,4 @@ flagWords:
   - Disabledable -> CanBeDisabled
   - formated -> formatted
   - perfix -> prefix
+  - licence -> license

@@ -37,12 +37,17 @@ export default function Source() {
 		trackGroup, collapseTrackGroup, trackName, consonant,
 		secretBoxLimitToSelected, secretBoxForTrack, secretBoxForMarker, secretBoxForBarOrBeat, secretBoxForBarOrBeatPeriod, secretBoxForBarOrBeatPreparation,
 	} = useSelectConfig(c => c.source);
-	const { removeSourceClips, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = useSelectConfig(c => c.source.afterCompletion);
+	const { removeSourceClips, removeSourceClipsWithTracks, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = useSelectConfig(c => c.source.afterCompletion);
 	const { enabled: [ytpEnabled] } = useSelectConfig(c => c.ytp);
 	const secretBoxEnabled = secretBoxForTrack[0] || secretBoxForMarker[0] || secretBoxForBarOrBeat[0];
 	/** @deprecated */ const manualEnabled = false;
 
 	mutexSwitches(removeSourceClips, selectSourceClips);
+	mutexSwitches(removeSourceClipsWithTracks, selectSourceClips);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(() => { removeSourceClipsWithTracks[0] && removeSourceClips[1](true); }, [removeSourceClipsWithTracks[0]]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(() => { !removeSourceClips[0] && removeSourceClipsWithTracks[1](false); }, [removeSourceClips[0]]);
 
 	const selectGeneratedClips = useStateSelector(
 		_selectGeneratedClips,
@@ -86,6 +91,7 @@ export default function Source() {
 			<Subheader>{t.subheaders.advanced}</Subheader>
 			<Expander title={t.source.afterCompletion} icon="post_processing">
 				<ToggleSwitch on={removeSourceClips} lock={lockRemoveOrSelectSourceClips} icon="delete">{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
+				<ToggleSwitch on={removeSourceClipsWithTracks} lock={lockRemoveOrSelectSourceClips} icon="delete_lines">{t.source.afterCompletion.removeSourceClipsWithTracks}</ToggleSwitch>
 				<ToggleSwitch on={selectSourceClips} lock={lockRemoveOrSelectSourceClips} icon="select_all">{t.source.afterCompletion.selectSourceClips}</ToggleSwitch>
 				<ItemsView view="tile" multiple current={selectGeneratedClips} selectAll={{ title: t.source.afterCompletion.selectGeneratedClips }}>
 					{selectGeneratedClipsType.map(({ id, name, icon }) =>
