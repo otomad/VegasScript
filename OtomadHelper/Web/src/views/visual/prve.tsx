@@ -2,8 +2,9 @@ import exampleThumbnail from "assets/images/ヨハネの氷.png";
 import defaultPrveAmounts from "helpers/defaultPrveAmounts";
 import type { LocaleIdentifiers } from "locales/types";
 
-type PrveClassType = Exclude<keyof LocaleIdentifiers["javascript"]["prve"]["classes"], "_"> | (string & {});
+type PrveClassType = Exclude<keyof LocaleIdentifiers["javascript"]["prve"]["classes"], "_">;
 type PrveEffectType = Exclude<keyof LocaleIdentifiers["javascript"]["prve"]["effects"], "_"> | (string & {});
+type CustomEffectRotationMode = "normal" | "rotate" | "rotateCustomSequence";
 
 const controlModes = ["general", "samePitch", "differentSyllables"] as const;
 const getControlModeIcon = (mode: string) => `prve_control_${new VariableName(mode).snake}` as DeclaredIcons;
@@ -45,10 +46,10 @@ class PrveClass {
 		this.findEffectFrames = this.findEffectFrames.bind(this);
 	}
 
-	public static findClass(klass: PrveClassType) { return PrveClass.all.find(_class => _class.class === klass); }
+	public static findClass(klass: PrveClassType | (string & {})) { return PrveClass.all.find(prveClass => prveClass.class === klass); }
 	public get effectIds() { return this.effects.map(effect => effect.effect) ?? []; }
 	public static findClassEffects(klass: PrveClassType) { return PrveClass.findClass(klass)?.effectIds ?? []; }
-	public findEffectFrames(effect: PrveClassType) { return this.effects.find(_effect => _effect.effect === effect)?.frames ?? 1; }
+	public findEffectFrames(effect: PrveClassType | (string & {})) { return this.effects.find(_effect => _effect.effect === effect)?.frames ?? 1; }
 }
 
 /** Prve amounts option. */
@@ -60,10 +61,15 @@ export default function Prve() {
 	const isGeneralCurrent = useMemo(() => controlMode === "general", [controlMode]);
 	const { autoCollapsePrveClasses } = useSnapshot(configStore.settings);
 	const { control, isMultiple, effects } = useSelectConfig(c => c.visual.prve[controlMode]);
-	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation } = useSelectConfig(c => c.visual.prve[controlMode].amounts);
+	const { compression, slant, puyo, pendulum, gaussianBlur, radialBlur, rotation, initialAngle, rotateCustomSequence } = useSelectConfig(c => c.visual.prve[controlMode].amounts);
 	const selectionMode = useSelectionMode(isMultiple);
 	const effectLength = effects[0].length;
 	const shouldHideSelectionBadge = effectLength <= 0 || effectLength === 1 && (effects[0][0].fx === DEFAULT_EFFECT || !isMultiple[0]);
+	const rotationStep = useStateSelector(rotation, angle => angle === 0 ? 0 : 360 / angle, step => step === 0 ? 0 : Math.round(360 / step));
+	const setCurrentEffectRotation = (mode: CustomEffectRotationMode) => {
+		selectPrve("rotation")[1]!(mode === "normal" ? "normal" : "rotate");
+		rotateCustomSequence[1](mode === "rotateCustomSequence");
+	};
 	const selectPrve = (klass: PrveClassType): StateProperty<PrveEffectType> => {
 		const classEffects = PrveClass.findClassEffects(klass);
 		const flipEffects = PrveClass.findClassEffects("flip");
@@ -96,21 +102,23 @@ export default function Prve() {
 		effects => {
 			if (currentEffect === DEFAULT_EFFECT) return [0];
 			const exist = effects.find(effect => effect.fx === currentEffect)?.initial;
-			const frames = PrveClass.findClass(klass)?.findEffectFrames(currentEffect) ?? 1;
-			const standard = getStepSequence(frames, 0);
-			return exist?.length ? exist : standard;
+			const standard = (() => {
+				if (klass === "rotation") return getAngleSequence(rotation[0], initialAngle[0]);
+				const frames = PrveClass.findClass(klass)?.findEffectFrames(currentEffect) ?? 1;
+				return getStepSequence(frames, 0);
+			})();
+			return klass === "rotation" && !rotateCustomSequence[0] ? standard :
+				exist?.length ? exist : standard;
 		},
 		(initial, prevEffects) => {
 			const draft = [...prevEffects];
+			// if (klass === "rotation") currentEffect = "rotateCustomSequence";
 			const effect = draft.find(effect => effect.fx === currentEffect);
 			if (effect !== undefined) effect.initial = initial;
 			else draft.push(prveEffect(currentEffect, initial));
 			return draft.length <= 1 ? draft : draft.filter(({ fx }) => fx !== DEFAULT_EFFECT);
 		},
 	);
-
-	const rotationStep = useStateSelector(rotation, angle => angle === 0 ? 0 : 360 / angle, step => step === 0 ? 0 : Math.round(360 / step));
-	const setIsCurrentEffectRotation = (yes: boolean) => selectPrve("rotation")[1]!(yes ? "rotate" : "normal");
 
 	return (
 		<div className="container">
@@ -147,14 +155,14 @@ export default function Prve() {
 							icon={icon}
 							items={[DEFAULT_EFFECT, "ccwRotate", "cwRotate", "turned"]}
 							value={[
-								currentEffect === "rotate" ?
+								currentEffect === "rotate" && !rotateCustomSequence[0] ?
 									rotation[0] === -90 ? "ccwRotate" :
 									rotation[0] === 90 ? "cwRotate" :
-									rotation[0] === 180 || rotation[0] === -180 ? "turned" :
+									Math.abs(rotation[0]) === 180 ? "turned" :
 									null! : currentEffect,
 								(rotate: string) => {
 									if (rotate.in("ccwRotate", "cwRotate", "turned")) {
-										setIsCurrentEffectRotation(true);
+										setCurrentEffectRotation("rotate");
 										rotation[1](rotate === "ccwRotate" ? -90 : rotate === "cwRotate" ? 90 : 180);
 									} else currentEffectState[1]!(rotate);
 								},
@@ -163,7 +171,10 @@ export default function Prve() {
 							idField
 							nameField={getEffectName}
 							imageField={effect => <PreviewPrve key={effect} thumbnail={exampleThumbnail} effect={effect} frames={effect === "turned" ? 2 : 4} />}
-							checkInfoCondition={effect => effect === undefined || effect === DEFAULT_EFFECT ? "" : effect === null ? rotation[0] + t.units.degree : getEffectName(effect)}
+							checkInfoCondition={effect =>
+								effect === undefined || effect === DEFAULT_EFFECT ? "" :
+								effect === null ? `${t.prve.effects.rotateCustomAngle}${t.colon}${rotation[0]}${t.units.degree}` :
+								rotateCustomSequence[0] ? t.prve.effects.rotateCustomSequence : getEffectName(effect)}
 							alwaysShowCheckInfo
 						>
 							<Expander.Item title={t.prve.amounts.rotationAngle} icon="angle">
@@ -174,7 +185,7 @@ export default function Prve() {
 									decimalPlaces={0}
 									defaultValue={0}
 									suffix={t.units.degree}
-									onChanging={value => setIsCurrentEffectRotation(value !== 0)}
+									onChanging={value => setCurrentEffectRotation(value !== 0 ? "rotate" : "normal")}
 								/>
 							</Expander.Item>
 							<Expander.Item title={t.prve.amounts.rotationStep} icon="turntable">
@@ -183,26 +194,31 @@ export default function Prve() {
 									min={-360}
 									max={360}
 									defaultValue={0}
-									onChanging={value => setIsCurrentEffectRotation(value !== 0)}
+									onChanging={value => setCurrentEffectRotation(value !== 0 ? "rotate" : "normal")}
 								/>
 							</Expander.Item>
-							<Expander.Item title={t.prve.initialStep} icon="replay">
+							<Expander.Item title={t({ context: "angle" }).prve.initialStep} icon="replay">
 								{(() => {
 									const invalidValue = rotationStep[0] === undefined || Math.abs(rotationStep[0]) < 2;
 									return (
 										<SliderWithBox
-											value={invalidValue ? [0] : useStateSelector(useInitialStep(klass, currentEffect), v => v + 1, v => v - 1)}
-											min={1}
-											max={Math.max(1, Math.floor(Math.abs(rotationStep[0] ?? 1)))}
+											value={invalidValue ? [0] : initialAngle}
+											min={-360}
+											max={360}
 											decimalPlaces={0}
 											defaultValue={0}
-											disabled={invalidValue || currentEffect === "normal"}
-											// Disable smooth display value for the initial step, or there will be jitter when the max value changes.
-											onChanging={() => setIsCurrentEffectRotation(true)}
+											disabled={invalidValue}
+											onChanging={() => setCurrentEffectRotation("rotate")}
 										/>
 									);
 								})()}
 							</Expander.Item>
+							<InitialStep
+								klass={klass}
+								effect={currentEffect}
+								initialStep={useInitialStep(klass, currentEffect)}
+								onCurrentEffectRotationModeChange={setCurrentEffectRotation}
+							/>
 						</ExpanderRadio>
 					);
 					else return (
@@ -338,65 +354,79 @@ const StyledCustomStepsIcon = styled.div`
 `;
 const CustomStepsIcon = () => <StyledCustomStepsIcon><Icon name="colored/edit" /></StyledCustomStepsIcon>;
 
-const getStepSequence = (frames: number, initialStep: number) => forMap(frames, i => floorMod(i, frames) + 1, initialStep);
-function InitialStep({ klass, effect, initialStep: [initialStep, setInitialStep] = NEVER_MIND }: FCP<{
+const customInitialStepClasses = ["rotation"] as const;
+function getStepSequence(frames: number, initialStep: number) { return forMap(frames, i => floorMod(i, frames) + 1, initialStep); }
+function getAngleSequence(angle: number, initialAngle: number) { return angle === 0 ? [initialAngle] : forMap(Math.floor(360 / Math.abs(angle)), i => initialAngle + angle * i); }
+function InitialStep({ klass, effect, initialStep: [initialStep, setInitialStep] = NEVER_MIND, onCurrentEffectRotationModeChange }: FCP<{
 	/** Current PRVE class. */
 	klass: string;
 	/** Current PRVE effect in this class. */
 	effect: string;
 	/** The initial step of the PRVE effect. */
-	initialStep: StateProperty<number[]>;
+	initialStep?: StateProperty<number[]>;
 	children?: undefined;
+	/** Occurs when current effect rotation mode changed. (Rotation PRVE class effects only.) */
+	onCurrentEffectRotationModeChange?(mode: CustomEffectRotationMode): void;
 }>) {
 	initialStep ??= [];
+	const isCustomInitialStepClass = customInitialStepClasses.includes(klass);
 	const prveClass = PrveClass.findClass(klass);
 	const frames = prveClass?.findEffectFrames(effect) ?? 1;
 	const stepSequenceInputEl = useDomRef<"input">();
 	const isDefault = effect === DEFAULT_EFFECT;
+	const tc = t({ context: isCustomInitialStepClass ? "angle" : undefined });
 
-	const [customInitialStep, setCustomInitialStep] = useState(initialStep.join(","));
-	useEffect(() => { document.activeElement !== stepSequenceInputEl.current && setCustomInitialStep(initialStep.join(",")); }, [initialStep, stepSequenceInputEl]);
+	const [customStepSequence, setCustomStepSequence] = useState(initialStep.join(","));
+	const isEditingStepSequence = useCallback(() => document.activeElement === stepSequenceInputEl.current, [stepSequenceInputEl]);
+	useAsyncEffect(async () => {
+		await delay(0);
+		if (document.activeElement !== stepSequenceInputEl.current)
+			setCustomStepSequence(initialStep.join(","));
+	}, [initialStep, isEditingStepSequence]);
 
 	return (
 		<Expander.AequilateTextItems>
-			<StyledInitialStep title={t.prve.initialStep} icon="replay" role="region" className={ifColorScheme.forceMotion} ariaHiddenForText>
-				<ItemsView<number[]> className="initial-step-items" view="grid" current={[initialStep, setInitialStep]} itemWidth={100} aria-label={t.prve.initialStep}>
-					{forMap(frames, j => {
-						const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
-						const value = isDefault ? [0] : getStepSequence(frames, j);
-						return (
+			{!isCustomInitialStepClass && (
+				<StyledInitialStep title={tc.prve.initialStep} icon="replay" role="region" className={ifColorScheme.forceMotion} ariaHiddenForText>
+					<ItemsView<number[]> className="initial-step-items" view="grid" current={[initialStep, setInitialStep]} itemWidth={100} aria-label={t.prve.initialStep}>
+						{forMap(frames, j => {
+							const i = (j + frames - 1) % frames; // Change the order from `0 1 2 3` to `3 0 1 2`.
+							const value = isDefault ? [0] : getStepSequence(frames, j);
+							return (
+								<ItemsView.Item
+									image={(
+										<PreviewPrve thumbnail={exampleThumbnail} effect={effect} frames={frames} step={j + 1} style={{ "--i": i }} />
+									)}
+									key={value.join()}
+									data-value={value}
+									data-index={j}
+									id={value}
+									badge={isDefault ? 0 : j + 1}
+									className="initial-step-item"
+									aria-label={t.descriptions.prve.stepAria({ step: j + 1, frames })}
+								/>
+							);
+						})}
+						{!isDefault && (
 							<ItemsView.Item
-								image={(
-									<PreviewPrve thumbnail={exampleThumbnail} effect={effect} frames={frames} step={j} style={{ "--i": i }} />
-								)}
-								key={value.join()}
-								data-value={value}
-								data-index={j}
-								id={value}
-								badge={isDefault ? 0 : j + 1}
+								image={<CustomStepsIcon />}
+								id={ItemsView.other}
 								className="initial-step-item"
-								aria-label={t.descriptions.prve.stepAria({ step: j + 1, frames })}
+								withBorder
+								tooltip={t.descriptions.prve.customStepSequence}
+								aria-label={t.custom}
+								onClick={() => {
+									const savedCustom = configStore.visual.prveCustomStepSequences[effect];
+									if (savedCustom) setInitialStep?.(savedCustom);
+									delay(0).then(() => stepSequenceInputEl.current?.selectAndFocus());
+								}}
 							/>
-						);
-					})}
-					{!isDefault && (
-						<ItemsView.Item
-							image={<CustomStepsIcon />}
-							id={ItemsView.other}
-							className="initial-step-item"
-							withBorder
-							aria-label={t.custom}
-							onClick={() => {
-								const savedCustom = configStore.visual.prveCustomStepSequences[effect];
-								if (savedCustom) setInitialStep?.(savedCustom);
-								delay(0).then(() => stepSequenceInputEl.current?.selectAndFocus());
-							}}
-						/>
-					)}
-				</ItemsView>
-			</StyledInitialStep>
-			{initialStep.length > 0 && (
-				<Expander.Item title={t.prve.stepSequence} icon="arrow_step_in">
+						)}
+					</ItemsView>
+				</StyledInitialStep>
+			)}
+			{(initialStep.length > 0 || isCustomInitialStepClass) && (
+				<Expander.Item title={tc.prve.stepSequence} icon="arrow_step_in">
 					<StepSequence>
 						{initialStep.map((frame, i) => (
 							<div key={i} className="step-sequence-item" data-frame={frame}>
@@ -404,20 +434,21 @@ function InitialStep({ klass, effect, initialStep: [initialStep, setInitialStep]
 									thumbnail={exampleThumbnail}
 									effect={effect}
 									frames={frames}
-									step={frame - 1}
+									step={frame}
 									style={{ "--i": floorMod(frame - 2, frames) }}
-									isStepSequence
+									isDegree={isCustomInitialStepClass}
 								/>
-								<Badge status="neutual" transitionOnAppear={false}>{frame}</Badge>
+								<Badge status="neutual" transitionOnAppear={false}>{frame}{isCustomInitialStepClass ? t.units.degree : ""}</Badge>
 							</div>
 						))}
 					</StepSequence>
 					<StepSequenceInput
 						ref={stepSequenceInputEl}
-						value={[customInitialStep, setCustomInitialStep]}
+						value={[customStepSequence, setCustomStepSequence]}
 						disabled={isDefault}
 						effect={effect}
 						onValidChange={setInitialStep}
+						onInputChange={() => onCurrentEffectRotationModeChange?.("rotateCustomSequence")}
 					/>
 				</Expander.Item>
 			)}
@@ -426,12 +457,13 @@ function InitialStep({ klass, effect, initialStep: [initialStep, setInitialStep]
 }
 
 const stepSequencePattern = /^-?\d+(,-?\d+)*$/;
-function StepSequenceInput({ value: [value, setValue], disabled, effect, ref, onValidChange }: {
+function StepSequenceInput({ value: [value, setValue], disabled, effect, ref, onValidChange, onInputChange }: {
 	value: StatePropertyNonNull<string>;
 	disabled?: boolean;
 	effect: string;
 	ref?: DomRef<"input">;
 	onValidChange?: SetState<number[]>;
+	onInputChange?(): void;
 }) {
 	function parseValue(text: string) {
 		if (!text.match(stepSequencePattern)) return null;
@@ -446,7 +478,10 @@ function StepSequenceInput({ value: [value, setValue], disabled, effect, ref, on
 
 	const onChanging: FormEventHandler<HTMLInputElement> = e => {
 		const result = parseValue(e.currentTarget.value);
-		result && (configStore.visual.prveCustomStepSequences[effect] = result);
+		if (result) {
+			onInputChange?.();
+			configStore.visual.prveCustomStepSequences[effect] = result;
+		}
 	};
 
 	return (

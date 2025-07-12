@@ -99,7 +99,7 @@ export default function Tooltip({ title: _title, placement, offset = 10, timeout
 	unwrapped?: boolean;
 	ref?: ForwardedRef<"section">;
 }>) {
-	const getUpdatedTitle = useCallback(() => typeof _title === "function" ? _title() : _title, [_title]);
+	const getUpdatedTitle = useCallback(() => isI18nItem(_title) ? _title.toString() : typeof _title === "function" ? _title() : _title, [_title]);
 	const [title, setTitle] = useState(getUpdatedTitle());
 	const updateTitle = useCallback(() => setTitle(getUpdatedTitle()), [getUpdatedTitle]);
 	const [shown, setShown] = useState(false);
@@ -223,7 +223,7 @@ function TooltipContent({ image, title, children, ...htmlAttrs }: FCP<{
 	);
 }
 
-type TooltipProps = Parameters<typeof Tooltip>[0];
+export type TooltipProps = PropsOf<typeof Tooltip>;
 
 function TooltipWith(withProps: Partial<TooltipProps>) {
 	// eslint-disable-next-line react/display-name

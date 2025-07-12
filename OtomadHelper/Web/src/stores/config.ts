@@ -40,7 +40,7 @@ namespace Config {
 	const defaultPrve = {
 		isMultiple: false,
 		effects: [{ fx: "normal", initial: [0] }],
-		amounts: defaultPrveAmounts as Record<keyof typeof defaultPrveAmounts, number>,
+		amounts: defaultPrveAmounts,
 	};
 
 	export const configStore = createStore({

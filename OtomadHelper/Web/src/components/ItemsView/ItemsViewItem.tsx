@@ -1,4 +1,5 @@
 import { styledExpanderItemText } from "components/Expander/ExpanderItem";
+import type { TooltipProps } from "hoc/Tooltip";
 
 export const GRID_VIEW_ITEM_HEIGHT = 112;
 
@@ -265,7 +266,7 @@ const ItemsViewItemStateContext = createContext<{
 
 export type OnItemsViewItemClickEventHandler<T> = (id: T, selected: CheckState, e: React.MouseEvent<HTMLElement>) => void;
 
-export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, dirBasedIcon, badge, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, selected = "unchecked", details, actions, withBorder = false, topAlignIcon, baseAttrs, disableCheckmarkTransition, imageOverlay, selectionColor, dirBasedIcon, badge, tooltip, _view: view = undefined!, _multiple: multiple, children, className, onSelectedChange, onClick, ...htmlAttrs }: FCP<{
 	/** Image. */
 	image?: string | ReactNode;
 	/** Icon. */
@@ -301,6 +302,8 @@ export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, sele
 	dirBasedIcon?: DirBasedIcon;
 	/** Show badge on the item. */
 	badge?: BadgeValue;
+	/** Custom tooltip. */
+	tooltip?: TooltipProps | string;
 	/** @private View mode: list, tile, grid. */
 	_view?: ItemView;
 	/** @private Multiple selection mode? */
@@ -315,6 +318,7 @@ export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, sele
 		setSelected = selected[1] as never;
 		selected = selected[0] ? "checked" : "unchecked";
 	}
+	if (typeof tooltip === "string" || isI18nItem(tooltip)) tooltip = { title: String(tooltip), placement: "y" };
 
 	const ariaId = useId();
 	const textPart = (children || details) && (
@@ -343,53 +347,55 @@ export /* @internal */ default function ItemsViewItem<T>({ image, icon, id, sele
 
 	return (
 		<ItemsViewItemStateContext value={{ hover }}>
-			<EventInjector ref={el} onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
-				<StyledItemsViewItem
-					$view={view}
-					$withBorder={withBorder}
-					$selectionColor={selectionColor}
-					$dirBasedIcon={dirBasedIcon}
-					className={[className, view, { selected: selected !== "unchecked" }]}
-					tabIndex={0}
-					role={multiple ? "checkbox" : "radio"}
-					aria-checked={checkStateToAriaChecked(selected)}
-					aria-labelledby={`${ariaId}-title`}
-					aria-describedby={`${ariaId}-details`}
-					onClick={e => { onClick?.(id, selected, e); setSelected?.(selected => !selected); }}
-					{...htmlAttrs}
-				>
-					<div className="base" {...baseAttrs}>
-						{view === "grid" ? (
-							<>
-								<div className="image-wrapper">
-									{typeof image === "string" ? <DefaultImage src={image} /> : image}
-									{imageOverlay}
-									{checkbox}
-								</div>
-								{badge !== undefined && <Badge status="neutual" transitionOnAppear={false}>{badge}</Badge>}
-								<div className="selection" />
-							</>
-						) : (
-							<>
-								{checkbox}
-								{(image || icon) && (
-									<div className={["image-wrapper", { topAlignIcon }]}>
-										{typeof image === "string" ? <img src={image} alt="" /> : iconOrElement}
+			<Tooltip disabled={!!tooltip} {...tooltip!}>
+				<EventInjector ref={el} onAnimationStart={e => handleAnimation(e, true)} onAnimationCancel={e => handleAnimation(e, false)}>
+					<StyledItemsViewItem
+						$view={view}
+						$withBorder={withBorder}
+						$selectionColor={selectionColor}
+						$dirBasedIcon={dirBasedIcon}
+						className={[className, view, { selected: selected !== "unchecked" }]}
+						tabIndex={0}
+						role={multiple ? "checkbox" : "radio"}
+						aria-checked={checkStateToAriaChecked(selected)}
+						aria-labelledby={`${ariaId}-title`}
+						aria-describedby={`${ariaId}-details`}
+						onClick={e => { onClick?.(id, selected, e); setSelected?.(selected => !selected); }}
+						{...htmlAttrs}
+					>
+						<div className="base" {...baseAttrs}>
+							{view === "grid" ? (
+								<>
+									<div className="image-wrapper">
+										{typeof image === "string" ? <DefaultImage src={image} /> : image}
+										{imageOverlay}
+										{checkbox}
 									</div>
-								)}
-								{textPart}
-								{actions}
-							</>
-						)}
-					</div>
-					{view === "grid" && (iconOrElement || textPart) && (
-						<div className="text-part">
-							{iconOrElement}
-							{textPart}
+									{badge !== undefined && <Badge status="neutual" transitionOnAppear={false}>{badge}</Badge>}
+									<div className="selection" />
+								</>
+							) : (
+								<>
+									{checkbox}
+									{(image || icon) && (
+										<div className={["image-wrapper", { topAlignIcon }]}>
+											{typeof image === "string" ? <img src={image} alt="" /> : iconOrElement}
+										</div>
+									)}
+									{textPart}
+									{actions}
+								</>
+							)}
 						</div>
-					)}
-				</StyledItemsViewItem>
-			</EventInjector>
+						{view === "grid" && (iconOrElement || textPart) && (
+							<div className="text-part">
+								{iconOrElement}
+								{textPart}
+							</div>
+						)}
+					</StyledItemsViewItem>
+				</EventInjector>
+			</Tooltip>
 		</ItemsViewItemStateContext>
 	);
 }

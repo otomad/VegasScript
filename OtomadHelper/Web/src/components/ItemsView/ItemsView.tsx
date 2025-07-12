@@ -119,7 +119,7 @@ export default function ItemsView<
 		return child.props.id as T;
 	}) ?? []).toCompacted();
 
-	const isOther = multiple ? (current as T[]).every(id => !allIds.includesDeep(id)) : !allIds.includesDeep(current);
+	const isOther = multiple ? (current as T[] ?? []).every(id => !allIds.includesDeep(id)) : !allIds.includesDeep(current);
 
 	const isSelected = (id: T) => {
 		if (id === isOtherOptionSymbol) return isOther;

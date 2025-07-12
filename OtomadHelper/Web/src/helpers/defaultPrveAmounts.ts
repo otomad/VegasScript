@@ -1,4 +1,4 @@
-const defaultPrveAmounts = Object.freeze({
+const defaultPrveAmounts = {
 	compression: 0.8,
 	slant: 0.7,
 	puyo: 0.625,
@@ -6,6 +6,8 @@ const defaultPrveAmounts = Object.freeze({
 	gaussianBlur: 0.1,
 	radialBlur: 0.8,
 	rotation: -90,
-});
+	initialAngle: 0,
+	rotateCustomSequence: false,
+};
 
-export default defaultPrveAmounts;
+export default Object.freeze(defaultPrveAmounts);

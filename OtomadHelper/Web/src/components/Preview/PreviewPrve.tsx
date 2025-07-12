@@ -120,12 +120,12 @@ const StyledPreviewPrve = styled.div<{
 					img {
 						width: 100cqh;
 						height: 100cqw;
-						transform: translate(calc((100cqw - 100cqh) / 2), calc((100cqw - 100cqh) / -2)) rotate(-90deg);
+						rotate: -90deg;
 						animation: ${keyframes`
-							0%, 100% { transform: translate(calc((100cqw - 100cqh) / 2), calc((100cqw - 100cqh) / -2)) rotate(-90deg); width: 100cqh; height: 100cqw; }
-							25% { transform: rotate(-180deg); width: 100%; height: 100%; }
-							50% { transform: translate(calc((100cqw - 100cqh) / 2), calc((100cqw - 100cqh) / -2)) rotate(-270deg); width: 100cqh; height: 100cqw; }
-							75% { transform: rotate(0deg); width: 100%; height: 100%; }
+							0%, 100% { rotate: -90deg; width: 100cqh; height: 100cqw; }
+							25% { rotate: -180deg; width: 100%; height: 100%; }
+							50% { rotate: -270deg; width: 100cqh; height: 100cqw; }
+							75% { rotate: 0deg; width: 100%; height: 100%; }
 						`};
 					}
 				`,
@@ -133,12 +133,12 @@ const StyledPreviewPrve = styled.div<{
 					img {
 						width: 100cqh;
 						height: 100cqw;
-						transform: translate(calc((100cqw - 100cqh) / 2), calc((100cqw - 100cqh) / -2)) rotate(90deg);
+						rotate: 90deg;
 						animation: ${keyframes`
-							0%, 100% { transform: translate(calc((100cqw - 100cqh) / 2), calc((100cqw - 100cqh) / -2)) rotate(90deg); width: 100cqh; height: 100cqw; }
-							25% { transform: rotate(180deg); width: 100%; height: 100%; }
-							50% { transform: translate(calc((100cqw - 100cqh) / 2), calc((100cqw - 100cqh) / -2)) rotate(270deg); width: 100cqh; height: 100cqw; }
-							75% { transform: rotate(0deg); width: 100%; height: 100%; }
+							0%, 100% { rotate: 90deg; width: 100cqh; height: 100cqw; }
+							25% { rotate: 180deg; width: 100%; height: 100%; }
+							50% { rotate: 270deg; width: 100cqh; height: 100cqw; }
+							75% { rotate: 0deg; width: 100%; height: 100%; }
 						`};
 					}
 				`,
@@ -504,7 +504,7 @@ const StyledPreviewPrve = styled.div<{
 	}
 `;
 
-export default function PreviewPrve({ thumbnail, effect, frames, step, isStepSequence, ...htmlAttrs }: FCP<{
+export default function PreviewPrve({ thumbnail, effect, frames, step, isDegree, ...htmlAttrs }: FCP<{
 	/** Thumbnail. */
 	thumbnail: string;
 	/** Effect identifier. */
@@ -513,8 +513,8 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, isStepSeq
 	frames?: number;
 	/** The step for displaying initial step. */
 	step?: number;
-	/** Is step sequence? */
-	isStepSequence?: boolean;
+	/** Use degree angle instead of step. */
+	isDegree?: boolean;
 }, "div">) {
 	const imageCount = {
 		hMirror: 2,
@@ -540,7 +540,7 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, isStepSeq
 		whirl: Tuple(prveWhirlImage, prveWhirlStaticImage),
 	}[effect];
 
-	const isStatic = step !== undefined && (step < 0 || frames !== undefined && step >= frames);
+	const isStatic = step !== undefined && (step <= 0 || frames !== undefined && step > frames || isDegree);
 
 	return (
 		<StyledPreviewPrve
@@ -549,7 +549,8 @@ export default function PreviewPrve({ thumbnail, effect, frames, step, isStepSeq
 			$static={isStatic}
 			{...htmlAttrs}
 		>
-			{step === -1 ? <img src={thumbnail} alt="" /> :
+			{step === 0 ? <img src={thumbnail} alt="" /> :
+			isDegree ? <img src={thumbnail} alt="" style={{ rotate: (step ?? 0) + "deg" }} /> :
 			isStatic ? <Icon name="colored/question_circle" /> :
 			webglFilters.includes(effect) ? /* isStepSequence ? undefined : */ <WebglFilter src={thumbnail} effect={effect} step={step} /> :
 			forMap(imageCount, i => animatedImage !== undefined ?
@@ -584,39 +585,6 @@ function HoverToChangeImg({ staticSrc, animatedSrc }: FCP<{
 	return <img src={hover ? animatedSrc : staticSrc} alt="" />;
 }
 
-type WebglFilterInfo = Required<Parameters<typeof WebglFilter>[0]>;
-const WebglFilterBackupStore = createStore({
-	maxLength: 100,
-	data: [] as [WebglFilterInfo, string][],
-	getIndex(key: WebglFilterInfo) {
-		for (const [index, [k]] of WebglFilterBackupStore.data.entries())
-			if (lodash.isEqual(k, key)) {
-				WebglFilterBackupStore.data.moveItemIndex(index, -1);
-				return index;
-			}
-		return -1;
-	},
-	has(key: WebglFilterInfo) {
-		return WebglFilterBackupStore.getIndex(key) !== -1;
-	},
-	get(key: WebglFilterInfo) {
-		const index = WebglFilterBackupStore.getIndex(key);
-		return WebglFilterBackupStore.data[index]?.[1];
-	},
-	set(key: WebglFilterInfo, value: string) {
-		const index = WebglFilterBackupStore.getIndex(key);
-		if (!~index) WebglFilterBackupStore.data.push([key, value]);
-		else WebglFilterBackupStore.data[index] = [key, value];
-		WebglFilterBackupStore.recycle();
-	},
-	recycle() {
-		while (WebglFilterBackupStore.data.length > WebglFilterBackupStore.maxLength)
-			WebglFilterBackupStore.data.shift();
-	},
-});
-globals.WebglFilterBackupStore = WebglFilterBackupStore;
-
-// FIXME: WebglFilter not work in step sequence.
 function WebglFilter({ src, effect, step }: {
 	/** Image source path. */
 	src: string;
@@ -638,8 +606,6 @@ function WebglFilter({ src, effect, step }: {
 	const animationId = useRef<number>(undefined);
 	const usingStaticUniformValue = !hover && step === undefined;
 	const displayUniformValue = usingStaticUniformValue ? staticUniformValue : uniformValue;
-	const backupStore = useSnapshot(WebglFilterBackupStore);
-	const staticUrl = useMemo(() => step !== undefined ? backupStore.get({ src, effect, step }) : undefined, [backupStore, effect, src, step]);
 
 	useAsyncMountEffect(async () => {
 		if (!canvas.current) return;
@@ -677,7 +643,7 @@ function WebglFilter({ src, effect, step }: {
 			}
 			const keyframeLength = uniformKeyframes.length ?? 0;
 			if (keyframeLength === 0) return;
-			const keyframe = uniformKeyframes[step ?? currentKeyframe.current];
+			const keyframe = uniformKeyframes[step !== undefined ? step - 1 : currentKeyframe.current];
 			if (step !== undefined) {
 				setUniformValue(keyframe[0]);
 				return;
@@ -703,12 +669,7 @@ function WebglFilter({ src, effect, step }: {
 		filter.current.uniform("1f", `${effect}_${uniformName}`, displayUniformValue);
 		filter.current.apply();
 		filter.current.gl.finish();
-		if (step !== undefined)
-			delay(200).then(() => {
-				const url = canvas.current?.toDataURL();
-				if (url) backupStore.set({ src, effect, step }, url);
-			});
 	}, [isMounted, effect, uniformName, displayUniformValue, canvas, step, src]);
 
-	return staticUrl ? <img src={staticUrl} /> : <canvas ref={canvas} />;
+	return <canvas ref={canvas} />;
 }

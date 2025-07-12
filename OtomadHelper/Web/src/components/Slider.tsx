@@ -276,7 +276,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 	useEffect(() => void onDisplayValueChanged?.(displayValue), [displayValue, onDisplayValueChanged]);
 
 	return (
-		<StyledSliderWrapper onAuxClick={resetToDefault} onMouseDown={e => e.preventDefault()}>
+		<StyledSliderWrapper onAuxClick={resetToDefault}>
 			{hasValue(displayValue) && !onDisplayValueChanged && <output htmlFor={id} aria-hidden>{panguSpacing(displayValue)}</output>}
 			<StyledSlider
 				tabIndex={disabled ? -1 : 0}

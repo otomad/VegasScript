@@ -10,16 +10,17 @@ const StyledExpanderAequilateTextItems = styled.div`
 
 		> * {
 			padding-block: ${expanderItemPadding[0]}px;
+			transition: ${fallbackTransitions}, padding-inline 0s, border 0s;
 		}
 
 		> .leading {
-			padding-inline: ${expanderItemWithIconPaddingInlineStart}px 16px;
 			min-block-size: 48px;
+			padding-inline: ${expanderItemWithIconPaddingInlineStart}px 16px;
 		}
 
 		> .trailing {
-			padding-inline-end: ${expanderItemPadding[1]}px;
 			inline-size: 100%;
+			padding-inline-end: ${expanderItemPadding[1]}px;
 
 			> * {
 				inline-size: 100%;
@@ -28,6 +29,23 @@ const StyledExpanderAequilateTextItems = styled.div`
 
 		&:not(:last-child) > * {
 			border-block-end: 1px solid ${c("stroke-color-divider-stroke-default")};
+		}
+	}
+
+	@container (width < 622px) {
+		grid-template-columns: auto;
+
+		> .expander-item {
+			> .leading {
+				min-block-size: 41px !important;
+				padding-block-end: 0;
+				border-block-end-width: 0 !important;
+			}
+
+			> .trailing {
+				padding-block-start: 0;
+				padding-inline: 45px;
+			}
 		}
 	}
 `;
