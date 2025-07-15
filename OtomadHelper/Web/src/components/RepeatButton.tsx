@@ -21,7 +21,7 @@ export default function RepeatButton({ children, onClick, onRelease, ...htmlAttr
 		const startTime = Date.now();
 		repeatTimeout.current = setInterval(() => {
 			if (Date.now() - startTime > 350)
-				onClick?.(e);
+				onClick?.(Object.assign(e, { repeat: true }));
 		}, 50);
 	}, [onClick]);
 

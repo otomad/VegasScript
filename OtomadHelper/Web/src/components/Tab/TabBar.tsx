@@ -9,14 +9,8 @@ type TabBarMovement = "previous" | "next" | "appear" | "disappear" | "none";
 const Indicator = styled.div.attrs(({ $vertical }) => ({
 	className: $vertical ? "vertical" : "horizontal",
 }))<{
-	/** Position (a tuple of distances from the container in the upper and lower directions). */
-	// $position?: TwoD;
-	/** Starting position. */
-	// $appearingPosition?: TwoD;
 	/** Vertical tabs? */
 	$vertical?: boolean;
-	/** The tab bar movement. */
-	// $movement?: TabBarMovement;
 }>(({ $vertical }) => {
 	const start = $vertical ? "inset-block-start" : "left", end = $vertical ? "inset-block-end" : "right";
 	return css`
@@ -53,7 +47,6 @@ const Indicator = styled.div.attrs(({ $vertical }) => ({
 const StyledTabBar = styled(HorizontalScroll).attrs({
 	container: "nav",
 })`
-	${styles.mixins.square("100%")};
 	scroll-padding: 0;
 
 	> .scroll-target {
@@ -83,9 +76,10 @@ const StyledTabBar = styled(HorizontalScroll).attrs({
 
 	&.horizontal {
 		${styles.mixins.noScrollbar()};
-		width: 100%;
-		margin: -4px;
-		padding: 4px;
+		container: horizontal-tab / scroll-state size;
+		display: flex;
+		block-size: 50px;
+		inline-size: 100%;
 		overflow-x: auto;
 
 		> .scroll-target {
@@ -162,6 +156,7 @@ export default function TabBar<T extends string = string>({ current: [current, s
 
 	return (
 		<StyledTabBar enabled={!vertical} role="tablist" className={[vertical ? "vertical" : "horizontal", { disablePressIndicatorStyle }]} {...htmlAttrs}>
+			{!vertical && <Flipper arrow="left" />}
 			<div className="scroll-target">
 				<div className="items">
 					{React.Children.map(children, child => {
@@ -195,6 +190,7 @@ export default function TabBar<T extends string = string>({ current: [current, s
 					$vertical={vertical}
 				/>
 			</div>
+			{!vertical && <Flipper arrow="right" />}
 		</StyledTabBar>
 	);
 }
