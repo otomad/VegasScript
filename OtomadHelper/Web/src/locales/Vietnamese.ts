@@ -31,7 +31,7 @@ export default {
 			staff_full: "Tái hiện khuông nhạc",
 			pixelScaling: "Tỷ lệ pixel",
 			parameters: "Thông số",
-			grid: "Bố cục lưới",
+			grid_full: "Grid Layout",
 			box3d: "Bố cục hộp 3D",
 			gradient: "Track đa sắc",
 			track: "Các track",
@@ -258,6 +258,7 @@ export default {
 			stack: "Xếp chồng",
 			timeUnremapping: "Thời gian dai dẳng",
 			resampleImitatively: "Resample bắt chước",
+			preRender: {},
 			transition: {
 				alignment: {},
 			},
@@ -268,7 +269,6 @@ export default {
 				transformOfx: "TransformOFX",
 			},
 			articulations: {
-				_: "Cách chơi",
 				applyCustomPreset: "Áp dụng preset tùy chỉnh",
 				glissando: {
 					_: "Glisssando",
@@ -364,18 +364,13 @@ export default {
 					cover: "Trải ra",
 					contain: "Chứa",
 				},
-				mirrorEdges: {
-					_: "Cạnh phản chiếu",
+				mirrorEdges: "Cạnh phản chiếu",
+				parity: {
 					unflipped: "Chưa lật",
-					hFlip: {
-						even: "Cột chẵn",
-						odd: "Cột lẻ",
-					},
-					vFlip: {
-						even: "Hàng chẵn",
-						odd: "Hàng lẻ",
-					},
-					checkerboard: {},
+					evenColumns: "Cột chẵn",
+					oddColumns: "Cột lẻ",
+					evenRows: "Hàng chẵn",
+					oddRows: "Hàng lẻ",
 				},
 				padding: "Đệm",
 				column: "Cột",
@@ -394,17 +389,18 @@ export default {
 				},
 			},
 			gradient: {
+				groups: {},
 				effects: {
 					rainbow: "Màu cầu vồng",
-					graduallySaturated: "Dần dần bão hòa",
-					graduallyContrasted: "Tương phản dần dần",
+					graSaturated: "Dần dần bão hòa",
+					graContrasted: "Tương phản dần dần",
 					threshold: "Biến đổi ngưỡng",
-					alternatelyChromatic: "Đa sắc khác",
-					alternatelyNegative: "Âm bản khác",
+					altChromatic: "Đa sắc khác",
 				},
 				view: {
 					overlay: "Lớp phủ",
 				},
+				gridIntegration: {},
 			},
 			applyToSelectedTracks: "Áp dùng vào các track đã chọn",
 			deactivate: "Vô hiệu hoá",
@@ -554,7 +550,6 @@ export default {
 			audioEvent: "{{count}} track event audio đã chọn",
 		},
 		prve: {
-			initialStep: "Giá trị ban đầu",
 			control: {
 				general: "Tổng quan",
 				general_full: "Điểu khiển tổng quan",
@@ -598,10 +593,6 @@ export default {
 				luminInvert: "Đảo ngược độ sáng",
 				negativeFade: "Crossfade âm",
 				negativeLuma: "Luma âm mờ dần",
-				rotInvertHue: "Đảo ngược xoay, Ưu tiên màu",
-				rotInvertLumin: "Đảo ngược xoay, Ưu tiên độ sáng",
-				altInvertHue: "Đảo màu xen kẽ, Ưu tiên màu",
-				altInvertLumin: "Đảo màu xen kẽ, Ưu tiên độ sáng",
 				hueInvert: "Đảo ngược màu",
 				chromatic: "Đa sắc và đơn sắc",
 				chromaticFade: "Crossfade đa sắc và đơn sắc",
@@ -644,7 +635,7 @@ export default {
 				documentation: "Tài liệu",
 				translation: "Đóng góp bản dịch",
 				feedback: "Góp ý",
-				changeLog: "Nhật ký thay đổi",
+				changelog: "Nhật ký thay đổi",
 				license: "Giấy phép",
 				version: "Phiên bản",
 				author: "Tác giả",
@@ -688,7 +679,7 @@ export default {
 			preference: {
 				_: "Tuỳ chỉnh",
 				autoSwitchSourceFrom: "Tự động chuyển nguồn nguyên liệu từ",
-				autoCollapsePrveClasses: "Tự động thu gọn các tùy chọn $t(titles.prve, lowercase)",
+				autoCollapsePrveClasses: "Tự động thu gọn các tùy chọn $t(titles.prve)",
 			},
 			config: {
 				hideUsageTips: "Ẩn mẹo sử dụng",
@@ -701,11 +692,8 @@ export default {
 		},
 		descriptions: {
 			unsupportedBrowser: "Rất tiếc, chúng tôi không hỗ trợ trình duyệt {{browser}} cũ của bạn, vui lòng cập nhật!",
-			condition: "Chỉ định thời điểm áp dụng thiết lập này",
-			curve: "Chỉ định đường cong nội suy của loại keyframe",
 			source: {
 				trim: "Điều chỉnh thời gian điểm vào hoặc ra của nguồn nguyên liệu được chỉ định",
-				startTime: "Chỉ định thời điểm bắt đầu tạo từ dự án",
 				preferredTrack: {
 					_: "Cho phép bạn chỉ định một track hiện có để tạo (trừ đa track)",
 					fillingInstructions: "Nếu giá trị là 0 thì tạo ra trên tất cả các track;\nNếu dương, thì được tạo ra bên dưới track thứ n;\nNếu âm, thì được tạo bên dưới track thứ n tính từ cuối.\nNếu bất kỳ track ưa thích nào được chỉ định là Âm thanh hoặc Hình ảnh, thì tùy chọn này sẽ bị ghi đè.",
@@ -716,9 +704,8 @@ export default {
 				trackGroup: {
 					_: "Nhóm các track bằng track score",
 				},
-				trackName: {
-					_: "Chỉ định tên cho track đã tạo hoặc nhóm track",
-				},
+				trackName: {},
+				multisource: {},
 				secretBox: {
 					_: "Ngẫu nhiên hóa với điểm vào của nguồn.\nĐiều này có thể dẫn đến việc các clip nguồn được chọn ngẫu nhiên có các cao độ cơ bản khác nhau, khiến nó chỉ hữu ích khi tạo video hài hước nhằm mục đích giải trí và hiếm khi được sử dụng để tạo video chất lượng cao.",
 					limitToSelected: "Chuyển đổi ngẫu nhiên giữa nhiều nguồn đã chọn thay vì sử dụng hoàn toàn ngẫu nhiên điểm vào",
@@ -733,15 +720,12 @@ export default {
 				},
 				consonant: {
 					_: "Để tránh phụ âm bị kéo dãn hoặc chậm trễ, bạn có thể tách phần phụ âm và nguyên âm của cùng một nguồn âm thanh hoặc video để có thể áp dụng tối ưu hóa đặc biệt cho phần phụ âm của nguồn đó.\nNếu chọn ít nhất hai đoạn âm thanh hoặc video, đoạn đầu tiên được coi là phần phụ âm đầu, đoạn thứ hai được coi là phần nguyên âm và đoạn thứ ba (nếu có) được coi là phần phụ âm cuối.",
-					ytpEnabled: "Tính năng YTP đã được bật và tính năng này hiện không khả dụng.",
-					secretBoxEnabled: "Tính năng hộp bí mật đã được bật và hiện tại tính năng này không khả dụng.",
 					manualEnabled: "Ở chế độ Sentence Mixing, tính năng này được bật tự động.",
 				},
+				linearMap: {},
 			},
 			score: {
 				trim: "Chặn phạm vi thời gian tạo ra của bản nhạc",
-				encoding: "Chỉ định mã hóa văn bản để sử dụng khi đọc tệp",
-				tempo: "Chỉ định nhịp mỗi phút",
 				constrain: "Kiểm soát độ dài đầu ra của các nốt nhạc từ bản nhạc",
 				trackOrChannel: "Chọn giữa việc sử dụng các track MIDI hoặc các channel MIDI",
 				ytpEnabled: "Tính năng YTP được bật, không phụ thuộc vào bản nhạc nên mọi cài đặt ở đây đều không có hiệu lực.",
@@ -790,12 +774,11 @@ export default {
 					_: "Mô phỏng hành vi resampling trong Visual, khiến độ dãn nở cong khi cao độ tăng",
 					auto: "Điều này sẽ phụ thuộc vào việc resampling có được bật trong tab Âm thanh hay không để đảm bảo hình ảnh được đồng bộ với âm thanh",
 				},
+				preRender: {},
 				transition: {},
-				transformMethod: "Chỉ định thứ tự ưu tiên của các thuộc tính mục tiêu để áp dụng keyframe chuyển đổi",
 				articulations: {
 					glissando: {
 						_: "Tạo ra hiệu ứng khi phát các kỹ thuật uốn cao độ, trượt hoặc glissandi.",
-						swirlAmount: "Chỉ định lượng biên độ xoắn xoáy",
 					},
 					appoggiatura: {
 						_: "Tạo ra hiệu ứng khi chơi appoggiatura.\nKhi có một đến hai nốt móc đơn hoặc ngắn hơn liên tiếp, chúng được coi là nốt appoggiatura.",
@@ -833,7 +816,6 @@ export default {
 					resample: "Điều chỉnh độ dãn để thay đổi cao độ đồng bộ, khiến độ dãn cong khi cao độ tăng, thể hiện phong cách máy ghi âm băng cổ điển",
 					preserveFormant: "Duy trì đặc điểm tông giọng trong khi tuning",
 					basePitch: {
-						_: "Chỉ định cao độ cơ bản của clip âm thanh",
 						cent: "Ổn định cao độ tuning",
 						based: "Nếu bạn đã thay đổi cao độ trong thuộc tính âm thanh hoặc plugin hiệu ứng, các điều chỉnh sẽ tiếp tục dựa trên các giá trị đó thay vì đặt lại chúng",
 					},
@@ -874,7 +856,10 @@ export default {
 					deleteTracks: "Do hạn chế về mặt kỹ thuật, không thể di chuyển trực tiếp các track đã chọn. Hiện tại, nó chỉ có thể tạo track mới và di chuyển các clip tự động, nhưng không thể di chuyển track motion, hiệu ứng hoặc bất kỳ thứ gì khác. Bạn sẽ phải tự di chuyển chúng sau. Bạn có thể quyết định xem bạn có muốn xóa track gốc hay không. Các track mới thêm vào không bị ảnh hưởng.",
 					useLongerSide: "Sử dụng cạnh dài thay vì cạnh ngắn làm chiều dài cạnh của khối lập phương nếu nguồn là hình chữ nhật, giúp khối lập phương tự nhiên hơn",
 				},
-				gradient: "Cung cấp cho các track video hiệu ứng màu gradient trong bố cục của bạn",
+				gradient: {
+					_: "Cung cấp cho các track video hiệu ứng màu gradient trong bố cục của bạn",
+					gridIntegration: {},
+				},
 				legato: {
 					_: "Lấp vào khoảng trống giữa các track clip",
 					increaseSpacing: "Phân khoảng cách giữa mỗi clip",
@@ -898,8 +883,6 @@ export default {
 				presetTemplate: "Chọn preset trong trình tạo Tiêu đề và Văn bản (VEGAS Pro) để làm bản mẫu cho phần lời",
 				karaoke: {
 					_: "Xác định màu, trong chế độ Karaoke để mô tả tiến độ của phần lời",
-					futureFill: "Chỉ định màu chữ cho phần chưa hát đến",
-					pastFill: "Chỉ định màu chữ cho phần đã hát đến",
 				},
 				pitchNotation: {
 					_: "Biểu diễn cao độ của nốt thành dạng văn bản",
@@ -910,7 +893,6 @@ export default {
 				_: "Phương thức Shupelunker là phương thức tạo sinh YTPMV/OtoMAD xoay quanh lý thuyết về biến âm cao độ truyền thống. Đại khái: sử dụng trực tiếp cao độ nguyên bản của tư liệu gốc sao cho trùng khớp với bài nhạc thông qua việc chỉnh sửa kỹ lưỡng. Cần phải chiết lấy đoạn từ tư liệu gốc sao cho trùng khớp hẳn với độ dài đích và sắp xếp theo đúng điệu nhạc để tạo ra hiệu ứng âm thanh tương tự như việc dùng LaunchPad. Vì cao độ của tư liệu không đổi, nên nó phải rất ăn khớp với điệu nhạc, do đó cần thiết phải lưu trữ nhiều tư liệu hơn. Tính chất của phương thức này: nhờ vào việc tinh chỉnh phân mảng và chuyển đổi nhanh, không những giữ lại được tính chất gốc của tư liệu âm thanh mà còn tạo ra cảm giác “hồi hộp” như hợp xướng ca, vô cùng phù hợp cho những bài nhạc bao hàm nhiều nhịp điệu và biến thiên nhiều.\nĐối lại, sử dụng phương thức Tartar nếu như cao độ của tư liệu gốc không ứng với giai điệu. Phương thức này cũng không làm sửa đổi cao đọ, và việc làm khớp sẽ thông qua sự điều tiết giai điệu cực độ. Ví dụ: phân mảng clip tư liệu, kéo dãn hoặc tua ngược, ép buộc tư liệu gốc phải hòa hợp với bài nhạc. Cảm hứng từ tính chất của dòng nhạc DnB, phương thức tạo ra một hiệu ứng “cơ học” cả về hình ảnh và âm thanh thông qua tinh chỉnh phân mảng tần suất cao. Mặc dù sản phẩm sau tạo sinh nghe vô nghĩa, nhưng phương thức này có thể tạo ra một giai điệu đặc biệt qua việc sắp xếp chính xác.",
 				affix: "Cần phải đặt tên để xác định cao độ cơ bản của các clip. Hãy chỉ định việc thông tin về cao độ nên được gán thành tiền hay hậu tố trong tên clip",
 				unallocated: {
-					_: "Chỉ định cách lấp đầy các phần trống nếu như tư liệu gốc không có đủ các nốt",
 					octaves: "Lấp đấy bằng các clip có quãng tám tiệm cận nhất. Ưu tiên cao nhất, và hữu dụng với các tư liệu có giọng hát căn đúng theo các nốt",
 					fillUp: "Lấp đầy các nốt trưởng cao hơn bằng các nốt trưởng lân cận thấp hơn, nhưng các nốt trưởng thấp nhất sẽ được lấp đầy bằng nốt trưởng lân cận cao nhất. Ưu tiên cao hơn “Lấp đầy sau”",
 					fillDown: "Lấp đầy các nốt trưởng thấp hơn hơn bằng các nốt trưởng lân cận cao hơn, nhưng các nốt trưởng cao nhất sẽ được lấp đầy bằng nốt trưởng lân cận thấp nhất",
@@ -922,8 +904,6 @@ export default {
 			ytp: {
 				_: "Youtube Poop (YTP) là thể loại sử dụng nhiều hiệu ứng chỉnh sửa để tạo ra những video hợp tuyển, trào phúng, đả phá, sử dụng nhiều nguồn video khác nhau.\nYTP có thể được coi như trường phái Tân-Dada của thời đại số. Tư liệu video thông qua chỉnh sửa, trùng lặp, biến thiên về tốc độ, tua ngược, v..v. mà trở thành một tạo phẩm hết sức “phi lý”, dụ ý: nhại lại phong thái chỉnh sửa nghiệp dư, thiếu kỹ thuật để châm biếm phong thái nghiêm túc, tiêu chuẩn hóa của văn hóa video phổ thông. Ví dụ: hành động của các nhân vật liên tục tuần hoàn lại, lời thoại trong video bị cắt xén tạo ra những lời thoại khác, hoặc bất chợt có những SFX chèn vào, tạo ra cảm giác nghe-nhìn đầy phi lý và hài hước.\nYTP là hình thái phản nghịch lại văn phong biểu đạt truyền thống và thách thức những quan niệm cố hữu của người xem về thế nào mới là có “ý nghĩa”. Văn hóa phổ thông, đại chúng qua kỹ thuật chỉnh sửa, như được tháo dỡ ra thành những “rác thải điện tử”. Những tác phẩm YTP tuân theo một tôn chỉ: cuồng loạn là nghệ thuật. Những đoạn video phi lý được lặp lại tuần hoàn, lời thoại được cắt xén… tạo ra một hình thức nghệ thuật hậu-hiện đại độc đáo. Mặc dù khả năng sáng tạo của YTP thấp, giá trị về nghệ thuật của YTP nằm ở chỗ nó phản ánh được bản chất của truyền thông - đặc biệt, nhấn mạnh và làm nổi bật sự dễ bị xói mòn kỹ thuật của truyền thông số hóa. Mặc dù có thể coi như một meme, nhưng YTP thực chất là một loại hình nghệ thuật thể nghiệm tái định nghĩa lại lằn ranh giữa giải trí và chỉ trích.",
 				constrain: "Thiết đặt độ dài của clip",
-				clips: "Xác định số clip sẽ tạo",
-				effects: "Chỉ định hiệu ứng YTP",
 			},
 			mosh: {
 				normal: "Datamosh là một kĩ thuật làm biến dạng video để tạo hiệu ứng glitch.",

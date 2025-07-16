@@ -31,7 +31,8 @@ export default {
 			staff_full: "五线谱可视化",
 			pixelScaling: "像素硬边缘放大",
 			parameters: "参数",
-			grid: "网格布局",
+			grid: "网格",
+			grid_full: "网格布局",
 			box3d: "三维方盒布局",
 			gradient: "渐变轨道",
 			track: "轨道",
@@ -53,6 +54,7 @@ export default {
 			afterCompletion: {
 				_: "完成后",
 				removeSourceClips: "删除源轨道剪辑",
+				removeSourceClipsWithTracks: "删除源轨道剪辑及其所在轨道",
 				selectSourceClips: "选中源轨道剪辑",
 				selectGeneratedClips: "选中生成的所有剪辑",
 			},
@@ -81,6 +83,7 @@ export default {
 				unnamed: "未命名",
 				voicebank: "或虚拟歌姬名",
 			},
+			multisource: "特殊多素材作用",
 			secretBox: {
 				_: "素材盲盒",
 				limitToSelected: "限制在所选素材",
@@ -93,6 +96,8 @@ export default {
 				},
 			},
 			consonant: "辅音时间",
+			takeTurns: "依次轮流",
+			linearMap: "线性映射输出",
 		},
 		on: "开",
 		off: "关",
@@ -224,6 +229,7 @@ export default {
 			},
 			instrument: "乐器",
 			drumKit: "鼓组",
+			parser: "解析引擎",
 			musicalTrack: "音轨",
 			channel: "通道",
 		},
@@ -269,6 +275,14 @@ export default {
 			stack: "堆积",
 			timeUnremapping: "持续时间流",
 			resampleImitatively: "模拟重采样调速",
+			preRender: {
+				_: "预渲染",
+				instant: "即时（关）",
+				media: "作渲染的媒体",
+				timeline: "作嵌套时间轴",
+				specifyClipsFolder: "指定渲染片段文件夹",
+				acidTag: "标注ACID音高标记",
+			},
 			transition: {
 				_: "过渡",
 				alignment: {
@@ -372,6 +386,8 @@ export default {
 				square: "平方",
 				fixedColumns: "固定列数",
 				fixedRows: "固定行数",
+				column_full: "网格列数",
+				row_full: "网格行数",
 				min: "最小值",
 				max: "最大值",
 				transpose: "转置",
@@ -394,23 +410,23 @@ export default {
 					cover: "裁切",
 					contain: "遮幅",
 				},
-				mirrorEdges: {
-					_: "镜像边缘",
+				mirrorEdges: "镜像边缘",
+				parity: {
+					_: "奇偶校验图案",
 					unflipped: "不翻转",
-					hFlip: {
-						even: "偶数列",
-						odd: "奇数列",
-					},
-					vFlip: {
-						even: "偶数行",
-						odd: "奇数行",
-					},
-					checkerboard: {
-						_: "棋盘风格",
-						odd: "奇偶交错位",
-						even: "奇偶同位",
-					},
+					allFlipped: "全翻转",
+					evenColumns: "偶列",
+					oddColumns: "奇列",
+					evenRows: "偶行",
+					oddRows: "奇行",
+					evenChecker: "偶棋盘格",
+					oddChecker: "奇棋盘格",
+					evenDots: "偶点阵",
+					oddDots: "奇点阵",
+					evenGridlines: "偶格线",
+					oddGridlines: "奇格线",
 				},
+				paritySpare: "奇偶校验图案*（备用{{number}}）*",
 				padding: "边距",
 				operationRecord: "操作记录",
 				operationRecord_short: "操作记录",
@@ -432,16 +448,27 @@ export default {
 				},
 			},
 			gradient: {
+				groups: {
+					gradually: "逐渐",
+					alternately: "交替",
+				},
 				effects: {
 					rainbow: "彩虹色",
-					graduallySaturated: "逐渐饱和",
-					graduallyContrasted: "逐渐对比",
+					graSaturated: "逐渐饱和",
+					graContrasted: "逐渐对比",
 					threshold: "阈值变化",
-					alternatelyChromatic: "彩灰交替",
-					alternatelyNegative: "正负交替",
+					altChromatic: "彩灰交替",
+					altNegative: "正负交替",
+					altLuminInvert: "辉度正负交替",
+					altHueInvert: "色相正负交替",
+					rotInvert: "轮流反转",
 				},
 				view: {
 					overlay: "叠加",
+				},
+				gridIntegration: {
+					_: "网格布局集成",
+					autoLineLength: "生成时自动设置",
 				},
 			},
 			applyToSelectedTracks: "应用于所选轨道",
@@ -592,7 +619,10 @@ export default {
 			audioEvent: "已选中{{count}}段音频轨道剪辑",
 		},
 		prve: {
-			initialStep: "初始值",
+			initialStep: "初始步",
+			initialStep_angle: "初始角",
+			stepSequence: "步序列",
+			stepSequence_angle: "角序列",
 			control: {
 				general: "常规",
 				general_full: "常规控制",
@@ -627,6 +657,8 @@ export default {
 				ccwRotate: "逆时针旋转",
 				cwRotate: "顺时针旋转",
 				turned: "倒转",
+				rotateCustomAngle: "以自定义旋转角度旋转",
+				rotateCustomSequence: "以自定义角度序列旋转",
 				zoomOutIn: "缩小后放大",
 				hMirror: "水平镜像",
 				vMirror: "垂直镜像",
@@ -682,7 +714,7 @@ export default {
 				documentation: "说明文档",
 				translation: "贡献翻译",
 				feedback: "反馈建议",
-				changeLog: "更新日志",
+				changelog: "更新日志",
 				license: "许可协议",
 				version: "版本",
 				author: "作者",
@@ -764,6 +796,9 @@ export default {
 				trackName: {
 					_: "为生成的轨道或轨道组命名",
 				},
+				multisource: {
+					ytpEnabled: "YTP功能启用时不可配置这些功能。",
+				},
 				secretBox: {
 					_: "随机化素材入点。\n这可能会导致随机选取的素材片段具有不同的原始音高，因此只能用来做成搞笑视频供娱乐，几乎不能做成高品质视频。",
 					limitToSelected: "仅在所选的多素材之间随机切换，而不是使用完全随机的入点",
@@ -778,9 +813,12 @@ export default {
 				},
 				consonant: {
 					_: "为防止辅音被拉伸或延迟，可以将同一音视频素材的辅音与元音部分分割开，以便于为素材的辅音部分应用特殊优化。\n若至少选中两段音频剪辑或视频剪辑，则第一段被视为首辅音部分，第二段被视为元音部分，第三段（如果有）被视为尾辅音部分。",
-					ytpEnabled: "YTP功能启用时不支持本功能。",
-					secretBoxEnabled: "盲盒功能启用时不支持本功能。",
 					manualEnabled: "人力模式下已自动启用本功能。",
+				},
+				takeTurns: "选中多个素材，每次产生音符时都会轮流应用这些素材",
+				linearMap: {
+					_: "选中多个素材，它们将按顺序映射到可用音轨（多余的素材或音轨会被剔除）",
+					descending: "反转音轨的顺序来映射（注意不是所选素材的顺序）",
 				},
 			},
 			score: {
@@ -790,6 +828,7 @@ export default {
 				constrain: "控制乐曲中的音符输出长度",
 				trackOrChannel: "选择使用MIDI音轨还是MIDI通道",
 				ytpEnabled: "YTP功能已启用，但它不依赖于乐曲，因此该处的所有设置均不起任何作用。",
+				parser: "指定乐曲的解析引擎，不同解析器的效果品质各有千秋",
 			},
 			stream: {
 				stretch: {
@@ -834,6 +873,14 @@ export default {
 				resampleImitatively: {
 					_: "在画面中模仿重采样音频的行为，使拉伸值随着音高的升高而缩短",
 					auto: "这将取决于是否在音频中启用重采样音频功能以确保画面与音频同步",
+				},
+				preRender: {
+					_: "对素材应用太多的效果可能会导致生成时卡死，为此你可能需要预渲染素材来深度应用效果",
+					instant: "不预渲染，这将复制效果到生成的每段剪辑上",
+					media: "渲染为单个媒体文件",
+					media_audio: "渲染为单个媒体文件，稍后可以标注ACID音高标记",
+					timeline: "渲染为嵌套时间轴（单个VEGAS Pro项目文件）",
+					acidTag: "这将允许在剪辑上显示当前音高音名",
 				},
 				transition: {
 					_: "交叠生成的序列剪辑以添加转场过渡",
@@ -934,7 +981,14 @@ export default {
 					deleteTracks: "由于技术限制，无法直接移动所选轨道。目前只能新建轨道并将原剪辑自动迁移过去，但轨道运动、效果等其它内容暂时无法迁移。你必须稍后自行迁移。你可以自由决定是否删除原先的轨道。对于新增轨道则不受影响。",
 					useLongerSide: "如果素材是矩形，则使用长边而不是短边作为立方体的棱长，可能会使立方体更自然",
 				},
-				gradient: "使视频轨道在布局中具有渐变样式的颜色效果",
+				gradient: {
+					_: "使视频轨道在布局中具有渐变样式的颜色效果",
+					gridIntegration: {
+						_: "与网格布局结合应用时的配置",
+						autoLineLength: "**开启**后，如果同时开启了**网格布局**，则在**生成模式**下会自动利用在网格布局参数中设定的一些其它参数。若在**即时应用模式**下则不会起任何作用，你需要手动设定其它参数。",
+						enabled: "开启后将会优化与网格布局的协同工作，关闭后则会忽略任意布局。",
+					},
+				},
 				legato: {
 					_: "填补轨道剪辑中的间隙",
 					increaseSpacing: "划分各剪辑间的间距",
@@ -1025,6 +1079,7 @@ export default {
 					differentSyllables: "对不同音节的连续事件分别控制（人力模式）",
 				},
 				stepAria: "第{{step}}步，共{{frames}}步",
+				customStepSequence: "自定义步序列",
 				forceStretch: "正在使用的$t(titles.prve, { 'count': {{count}} })中包含时间类的效果，这会导致在这些效果下拉伸将被强制设定为“$t(stream.stretch.flexingAndExtending)”，而不受你的设置控制",
 			},
 			pixelScaling: {
@@ -1094,8 +1149,8 @@ export default {
 			breadcrumb: "面包屑",
 			commandBar: "命令栏",
 			checkboxGroup: "复选框组",
-			reorderHandle: "拖拽以排序",
 			timesOperator: "乘以",
+			reorderHandle: "拖拽以排序",
 		},
 		preset: "预设",
 	},

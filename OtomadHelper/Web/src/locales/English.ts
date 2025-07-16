@@ -899,7 +899,7 @@ export default {
 					auto: "This will depend on whether resampling is enabled in Audio to ensure that the visual is sync with the audio",
 				},
 				preRender: {
-					_: "Applying too many effects to the sources may cause it to get stuck during generation, and for this you may need to pre-render the sources to apply the effects in depth",
+					_: "Applying too many effects to the sources may cause it to get stuck during generation, and for this you may need to pre-render the sources to apply the effects deeply",
 					instant: "Does not perform pre-rendering, that will copy the effects onto every generated clip",
 					media: "Renders as a single media file",
 					media_audio: "Renders as a single media file, and later annotate ACID pitch tag",
