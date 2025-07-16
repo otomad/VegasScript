@@ -284,7 +284,7 @@ export default {
 				pictureInPicture: "画中画",
 				transformOfx: "变换效果插件",
 			},
-			playingTechniques: {
+			articulations: {
 				_: "演奏技法",
 				applyCustomPreset: "应用自定义预设",
 				glissando: {
@@ -842,7 +842,7 @@ export default {
 					crossfadeInfo: "默认插入交叉淡化过渡，你可以稍后自行替换为其它转场。",
 				},
 				transformMethod: "指定要应用变换关键帧的目标属性的优先级顺序",
-				playingTechniques: {
+				articulations: {
 					glissando: {
 						_: "在演奏弯音或滑音时产生效果。",
 						swirlAmount: "指定漩涡扭动幅度的大小",

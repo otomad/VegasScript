@@ -34,16 +34,16 @@ export default function Source() {
 	const {
 		sourceFrom, trimStart, trimEnd, startTime, customStartTime,
 		belowAdjustmentTracks, preferredTrack: [preferredTrack, setPreferredTrack],
-		trackGroup, collapseTrackGroup, trackName, consonant,
+		trackGroup, collapseTrackGroup, trackName, secretBox, consonant, takeTurns, linearMap, linearMapDescending,
 		secretBoxLimitToSelected, secretBoxForTrack, secretBoxForMarker, secretBoxForBarOrBeat, secretBoxForBarOrBeatPeriod, secretBoxForBarOrBeatPreparation,
 	} = useSelectConfig(c => c.source);
 	const { removeSourceClips, removeSourceClipsWithTracks, selectSourceClips, selectGeneratedClips: _selectGeneratedClips } = useSelectConfig(c => c.source.afterCompletion);
 	const { enabled: [ytpEnabled] } = useSelectConfig(c => c.ytp);
-	const secretBoxEnabled = secretBoxForTrack[0] || secretBoxForMarker[0] || secretBoxForBarOrBeat[0];
 	/** @deprecated */ const manualEnabled = false;
 
 	mutexSwitches(removeSourceClips, selectSourceClips);
 	mutexSwitches(removeSourceClipsWithTracks, selectSourceClips);
+	mutexSwitches(secretBox, consonant, takeTurns, linearMap);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => { removeSourceClipsWithTracks[0] && removeSourceClips[1](true); }, [removeSourceClipsWithTracks[0]]);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,38 +135,53 @@ export default function Source() {
 				detailsField="additional"
 			/>
 
-			<Expander
-				title={t.source.secretBox}
-				details={t.descriptions.source.secretBox}
-				selectInfo={ytpEnabled && t.descriptions.source.secretBox.ytpEnabled}
-				disabled={ytpEnabled}
-				icon="dice"
-				checkInfo={secretBoxEnabled ? t.on : t.off}
-				alwaysShowCheckInfo
-			>
-				<ToggleSwitch on={secretBoxLimitToSelected} details={t.descriptions.source.secretBox.limitToSelected} icon="video_clip_multiple_checkmark">{t.source.secretBox.limitToSelected}</ToggleSwitch>
-				<ToggleSwitch on={secretBoxForTrack} details={t.descriptions.source.secretBox.track} icon="layer">{t.source.secretBox.track}</ToggleSwitch>
-				<ToggleSwitch on={secretBoxForMarker} details={t.descriptions.source.secretBox.marker} icon="marker">{t.source.secretBox.marker}</ToggleSwitch>
-				<ToggleSwitch on={secretBoxForBarOrBeat} details={t.descriptions.source.secretBox.barOrBeat} icon="music_bar">{t.source.secretBox.barOrBeat}</ToggleSwitch>
-				<Attrs disabled={!secretBoxForBarOrBeat[0]}>
-					<Expander.Item title={t.source.secretBox.barOrBeat.period} details={t.descriptions.source.secretBox.barOrBeat.period} icon="timer">
-						<TextBox.NumberUnit value={secretBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={1} />
-					</Expander.Item>
-					<Expander.Item title={t.source.secretBox.barOrBeat.preparation} details={t.descriptions.source.secretBox.barOrBeat.preparation} icon="hourglass">
-						<TextBox.NumberUnit value={secretBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={0} />
-					</Expander.Item>
-				</Attrs>
-			</Expander>
-
-			<SettingsCardToggleSwitch
-				title={t.source.consonant}
-				details={t.descriptions.source.consonant}
-				icon="consonant"
-				on={consonant}
-				lock={ytpEnabled || secretBoxEnabled ? false : manualEnabled ? true : null}
-				selectInfo={withObject(t.descriptions.source.consonant, t => ytpEnabled ? t.ytpEnabled : secretBoxEnabled ? t.secretBoxEnabled : manualEnabled ? t.manualEnabled : undefined)}
-				selectValid={!(ytpEnabled || secretBoxEnabled)}
-			/>
+			<Subheader>{t.source.multisource}</Subheader>
+			{ytpEnabled && <InfoBar status="warning" title={t.descriptions.source.multisource.ytpEnabled} button={<EmptyMessage.YtpDisabled.Buttons />} />}
+			<Attrs disabled={ytpEnabled ? true : undefined} compactUndefined>
+				<SettingsCardToggleSwitch
+					title={t.source.secretBox}
+					details={t.descriptions.source.secretBox}
+					selectInfo={ytpEnabled && t.descriptions.source.secretBox.ytpEnabled}
+					icon="dice"
+					on={secretBox}
+				>
+					<ToggleSwitch on={secretBoxLimitToSelected} details={t.descriptions.source.secretBox.limitToSelected} icon="video_clip_multiple_checkmark">{t.source.secretBox.limitToSelected}</ToggleSwitch>
+					<ToggleSwitch on={secretBoxForTrack} details={t.descriptions.source.secretBox.track} icon="layer">{t.source.secretBox.track}</ToggleSwitch>
+					<ToggleSwitch on={secretBoxForMarker} details={t.descriptions.source.secretBox.marker} icon="marker">{t.source.secretBox.marker}</ToggleSwitch>
+					<ToggleSwitch on={secretBoxForBarOrBeat} details={t.descriptions.source.secretBox.barOrBeat} icon="music_bar">{t.source.secretBox.barOrBeat}</ToggleSwitch>
+					<Attrs disabled={!secretBoxForBarOrBeat[0]}>
+						<Expander.Item title={t.source.secretBox.barOrBeat.period} details={t.descriptions.source.secretBox.barOrBeat.period} icon="timer">
+							<TextBox.NumberUnit value={secretBoxForBarOrBeatPeriod} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={1} />
+						</Expander.Item>
+						<Expander.Item title={t.source.secretBox.barOrBeat.preparation} details={t.descriptions.source.secretBox.barOrBeat.preparation} icon="hourglass">
+							<TextBox.NumberUnit value={secretBoxForBarOrBeatPreparation} units={barOrBeatUnitTypes} unitNames={count => barOrBeatUnitNames(count)} decimalPlaces={0} min={0} />
+						</Expander.Item>
+					</Attrs>
+				</SettingsCardToggleSwitch>
+				<SettingsCardToggleSwitch
+					title={t.source.consonant}
+					details={t.descriptions.source.consonant}
+					icon="consonant"
+					on={consonant}
+					lock={manualEnabled ? true : null}
+					selectInfo={manualEnabled ? t.descriptions.source.consonant.manualEnabled : undefined}
+					selectValid={manualEnabled}
+				/>
+				<SettingsCardToggleSwitch
+					title={t.source.takeTurns}
+					details={t.descriptions.source.takeTurns}
+					icon="take_turns"
+					on={takeTurns}
+				/>
+				<SettingsCardToggleSwitch
+					title={t.source.linearMap}
+					details={t.descriptions.source.linearMap}
+					icon="launchpad"
+					on={linearMap}
+				>
+					<ToggleSwitch on={linearMapDescending} details={t.descriptions.source.linearMap.descending} icon="descending">{t.descending}</ToggleSwitch>
+				</SettingsCardToggleSwitch>
+			</Attrs>
 
 			<DragToImport>{t.titles.source}</DragToImport>
 		</div>

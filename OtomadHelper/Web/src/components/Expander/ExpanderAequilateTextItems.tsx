@@ -49,5 +49,6 @@ const StyledExpanderAequilateTextItems = styled.div`
 		}
 	}
 `;
+// TODO: CSS row-rule.
 
 export /* @internal */ default StyledExpanderAequilateTextItems;

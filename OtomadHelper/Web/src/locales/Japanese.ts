@@ -284,7 +284,7 @@ export default {
 				pictureInPicture: "Picture in Picture",
 				transformOfx: "TransformOFX",
 			},
-			playingTechniques: {
+			articulations: {
 				_: "プレーの技術",
 				applyCustomPreset: "カスタムプリセットを適用する",
 				glissando: {
@@ -842,7 +842,7 @@ export default {
 					crossfadeInfo: "クロスフェードトランジションはデフォルトで挿入されますが、後で他のトランジションに置き換えることができます。",
 				},
 				transformMethod: "変換キーフレームを適用するためのターゲットプロパティの優先順位を指定します",
-				playingTechniques: {
+				articulations: {
 					glissando: {
 						_: "ピッチベンド、スライド、またはglissandiを再生するときにエフェクトを生成します。",
 						swirlAmount: "旋回ツイスト振幅の大きさを指定します",

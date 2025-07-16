@@ -284,7 +284,7 @@ export default {
 				pictureInPicture: "crwdns2762:0crwdne2762:0",
 				transformOfx: "crwdns1820:0crwdne1820:0",
 			},
-			playingTechniques: {
+			articulations: {
 				_: "crwdns2764:0crwdne2764:0",
 				applyCustomPreset: "crwdns2804:0crwdne2804:0",
 				glissando: {
@@ -842,7 +842,7 @@ export default {
 					crossfadeInfo: "crwdns4028:0crwdne4028:0",
 				},
 				transformMethod: "crwdns2904:0crwdne2904:0",
-				playingTechniques: {
+				articulations: {
 					glissando: {
 						_: "crwdns2972:0crwdne2972:0",
 						swirlAmount: "crwdns2780:0crwdne2780:0",

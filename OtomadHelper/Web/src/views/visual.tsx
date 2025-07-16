@@ -32,6 +32,11 @@ export /* @internal */ const truncates = [
 export /* @internal */ const transformMethods = [
 	"panCrop", "pictureInPicture", "transformOfx",
 ] as const;
+export /* @internal */ const preRenders = [
+	{ id: "instant", icon: "flash" },
+	{ id: "media", icon: "media_forward" },
+	{ id: "timeline", icon: "timeline_forward" },
+] as const;
 
 /** @deprecated */
 const tracks = [t.source.preferredTrack.newTrack, "1: Lead"];
@@ -88,6 +93,7 @@ export default function Visual() {
 						<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line_horizontal" />
 					</SettingsCard>
 				</TooltipPartial>
+				<ExpanderStreamPreRender stream="visual" />
 				<EmptyMessage.YtpDisabled>
 					<TooltipPartial title={<Tooltip.Content image={stretchImage} />}>
 						<ExpanderRadio
@@ -215,39 +221,39 @@ export default function Visual() {
 						<ToggleSwitch on={enablePixelScaling} />
 					</SettingsCard>
 
-					<Subheader>{t.stream.playingTechniques}</Subheader>
+					<Subheader>{t.stream.articulations}</Subheader>
 					<SettingsCardToggleSwitch
-						title={t.stream.playingTechniques.glissando}
-						details={t.descriptions.stream.playingTechniques.glissando}
+						title={t.stream.articulations.glissando}
+						details={t.descriptions.stream.articulations.glissando}
 						icon="slide_note"
 						on={glissando}
 					>
 						<Expander.Item icon="sparkle" title={t.titles.effect}>
 							<Segmented current={glissandoEffect}>
-								<Segmented.Item icon="swirl" id="swirl">{t.stream.playingTechniques.glissando.swirl}</Segmented.Item>
-								<Segmented.Item icon="wave" id="wave">{t.stream.playingTechniques.glissando.wave}</Segmented.Item>
-								<Segmented.Item icon="tv" id="tv">{t.stream.playingTechniques.glissando.tv}</Segmented.Item>
-								<Segmented.Item icon="pingpong" id="pingpong">{t.stream.playingTechniques.glissando.pingpong}</Segmented.Item>
+								<Segmented.Item icon="swirl" id="swirl">{t.stream.articulations.glissando.swirl}</Segmented.Item>
+								<Segmented.Item icon="wave" id="wave">{t.stream.articulations.glissando.wave}</Segmented.Item>
+								<Segmented.Item icon="tv" id="tv">{t.stream.articulations.glissando.tv}</Segmented.Item>
+								<Segmented.Item icon="pingpong" id="pingpong">{t.stream.articulations.glissando.pingpong}</Segmented.Item>
 							</Segmented>
 						</Expander.Item>
-						<Expander.Item title={t.stream.playingTechniques.glissando.swirlAmount} details={t.descriptions.stream.playingTechniques.glissando.swirlAmount}>
+						<Expander.Item title={t.stream.articulations.glissando.swirlAmount} details={t.descriptions.stream.articulations.glissando.swirlAmount}>
 							<TextBox.Number value={glissandoAmount} min={-24} max={24} suffix={t.units.semitone} positiveSign />
 						</Expander.Item>
 					</SettingsCardToggleSwitch>
 					<SettingsCardToggleSwitch
-						title={t.stream.playingTechniques.appoggiatura}
-						details={t.descriptions.stream.playingTechniques.appoggiatura}
+						title={t.stream.articulations.appoggiatura}
+						details={t.descriptions.stream.articulations.appoggiatura}
 						icon="appoggiatura"
 						on={appoggiatura}
 					/>
 					<SettingsCardToggleSwitch
-						title={t.stream.playingTechniques.arpeggio}
-						details={t.descriptions.stream.playingTechniques.arpeggio}
+						title={t.stream.articulations.arpeggio}
+						details={t.descriptions.stream.articulations.arpeggio}
 						icon="score"
 						on={arpeggio}
 					>
-						<ToggleSwitch icon="invert_color" on={arpeggioNegative} details={t.descriptions.stream.playingTechniques.arpeggio.negative}>{t.prve.effects.negative}</ToggleSwitch>
-						<Expander.Item icon="preset" title={t.stream.playingTechniques.applyCustomPreset}>
+						<ToggleSwitch icon="invert_color" on={arpeggioNegative} details={t.descriptions.stream.articulations.arpeggio.negative}>{t.prve.effects.negative}</ToggleSwitch>
+						<Expander.Item icon="preset" title={t.stream.articulations.applyCustomPreset}>
 							<Button>{t.unselected}</Button>
 						</Expander.Item>
 					</SettingsCardToggleSwitch>
@@ -270,7 +276,7 @@ export default function Visual() {
 						idField
 						nameField
 					>
-						<Expander.ChildWrapper>
+						<Expander.ChildWrapper $tilePadding="tile view">
 							<Button icon="add">{t.stream.preset.add}</Button>
 						</Expander.ChildWrapper>
 					</ExpanderRadio>

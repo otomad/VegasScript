@@ -426,7 +426,7 @@ function InitialStep({ klass, effect, initialStep: [initialStep, setInitialStep]
 				</StyledInitialStep>
 			)}
 			{(initialStep.length > 0 || isCustomInitialStepClass) && (
-				<Expander.Item title={tc.prve.stepSequence} icon="arrow_step_in">
+				<Expander.Item title={tc.prve.stepSequence} icon="flow">
 					<StepSequence>
 						{initialStep.map((frame, i) => (
 							<div key={i} className="step-sequence-item" data-frame={frame}>

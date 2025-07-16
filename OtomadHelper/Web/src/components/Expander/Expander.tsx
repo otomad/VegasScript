@@ -30,9 +30,13 @@ const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when sc
 	}
 
 	${ifProp("$childrenDisabled", css`
-		& > .base > .trailing > .trailing-icon > * {
-			color: ${c("fill-color-text-disabled")};
-			translate: 0 !important;
+		& > .base > .trailing > .trailing-icon {
+			background-color: transparent !important;
+
+			> * {
+				color: ${c("fill-color-text-disabled")};
+				translate: 0 !important;
+			}
 		}
 	`)}
 
@@ -100,6 +104,8 @@ const ExpanderChild = styled.div`
 const ExpanderChildWrapper = styled.div<{
 	/** Remove the top split line and top padding from the expand child. */
 	$noDivider?: boolean;
+	/** Override padding inline with presets. */
+	$tilePadding?: "tile view" | "button to item";
 }>`
 	padding: ${expanderItemPadding[0]}px ${expanderItemPadding[1]}px;
 
@@ -115,6 +121,12 @@ const ExpanderChildWrapper = styled.div<{
 		padding-block-start: 0;
 		border-block-start-width: 0 !important;
 	`)}
+
+	${({ $tilePadding }) => $tilePadding === "tile view" ? css`
+		padding-inline: 35px;
+	` : $tilePadding === "button to item" ? css`
+		padding-inline: 40px;
+	` : undefined}
 `;
 
 export default function Expander({ icon, title, details, actions, expanded = false, children, checkInfo, alwaysShowCheckInfo, clipChildren, childrenDisabled, childRole, selectInfo, selectValid, disabled, className, role, trailingGap, dirBasedIcon, onClickWhenChildrenDisabled, onToggle, ref }: FCP<Override<PropsOf<typeof SettingsCard>, {

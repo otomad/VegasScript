@@ -38,6 +38,7 @@ const buildInPresets = ["normal", "fadeOut"];
 
 const TooltipPartial = Tooltip.with({ placement: "y" });
 
+// #region Styles
 const PrelistenActions = styled(StackPanel)`
 	position: relative;
 	display: flex;
@@ -75,6 +76,7 @@ const TuningMethodEvaluation = styled.ul`
 		}
 	}
 `;
+// #endregion
 
 export default function Audio() {
 	const {
@@ -149,6 +151,7 @@ export default function Audio() {
 				>
 					<ThreeStageSwitch current={loop} indetText={t.unset} indetIcon="line_horizontal" />
 				</SettingsCard>
+				<ExpanderStreamPreRender stream="audio" />
 				<EmptyMessage.YtpDisabled>
 					<ExpanderRadio
 						title={t.stream.stretch}
@@ -360,7 +363,7 @@ export default function Audio() {
 						idField
 						nameField
 					>
-						<Expander.ChildWrapper>
+						<Expander.ChildWrapper $tilePadding="tile view">
 							<Button icon="add">{t.stream.preset.add}</Button>
 						</Expander.ChildWrapper>
 					</ExpanderRadio>

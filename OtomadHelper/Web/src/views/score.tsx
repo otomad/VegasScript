@@ -22,6 +22,7 @@ const tracks = [
 	{ channel: 10, name: "Drums", noteCount: 150, beginNote: "A3", pan: t.score.pan.center, isDrumKit: true, inst: "Piano" },
 ];
 
+// #region Styles
 const TrackToolbar = styled.div`
 	justify-content: space-between;
 	margin-inline: 16px;
@@ -101,6 +102,7 @@ const MultipleSelectTrackItemsContainer = styled.div`
 		opacity: 0;
 	}
 `;
+// #endregion
 
 export default function Score() {
 	const {
@@ -109,8 +111,15 @@ export default function Score() {
 		selectedTrack: [selectedTrack, setSelectedTrack], multipleSelectTrackItems: [selectTrackItems, _setSelectTrackItems],
 	} = useSelectConfig(c => c.score);
 	const { enabled: [ytpEnabled] } = useSelectConfig(c => c.ytp);
+	console.log("​ ​ Score ​ selectTrackItems​", selectTrackItems);
 
 	const setSelectTrackItems = (recipe: (draft: typeof selectTrackItems) => void) => _setSelectTrackItems(produce(recipe));
+
+	const getAllMultipleSelectTrackItemSet = (index: number | typeof tracks[number]) => {
+		const all = new Set(allMultipleSelectTrackItemSet), track = typeof index === "number" ? tracks[index] : index;
+		if (track && !track.isDrumKit) all.delete("sonar");
+		return all;
+	};
 
 	const [isMultiple, setIsMultiple] = useStateSelector(
 		[selectedTrack, setSelectedTrack],
@@ -119,7 +128,7 @@ export default function Score() {
 			if (isMultiple && typeof selectedTrack === "number") {
 				const items = {} as typeof selectTrackItems;
 				for (const index of tracks.keys())
-					items[index] = index === selectedTrack ? new Set(allMultipleSelectTrackItemSet) : new Set();
+					items[index] = index === selectedTrack ? new Set(getAllMultipleSelectTrackItemSet(index)) : new Set();
 				_setSelectTrackItems(items);
 				return [selectedTrack];
 			} else if (!isMultiple && typeof selectedTrack !== "number")
@@ -136,7 +145,8 @@ export default function Score() {
 		});
 	});
 
-	const indeterminatenesses = typeof selectedTrack === "number" ? [] : selectedTrack.filter(index => !selectTrackItems[index]?.isSupersetOf(allMultipleSelectTrackItemSet));
+	const indeterminatenesses = typeof selectedTrack === "number" ? [] : selectedTrack.filter(index =>
+		!selectTrackItems[index]?.isSupersetOf(getAllMultipleSelectTrackItemSet(index)));
 	function handleTrackItemsClick(index: number, item: typeof multipleSelectTrackItems[number]) {
 		setSelectTrackItems(tracks => {
 			tracks[index]?.toggle(item);
@@ -152,7 +162,7 @@ export default function Score() {
 		const index = _index as number;
 		setSelectTrackItems(items => {
 			if (selected !== "unchecked") items[index].clear();
-			else items[index].adds(...multipleSelectTrackItems);
+			else items[index].adds(...getAllMultipleSelectTrackItemSet(index));
 		});
 	}
 
@@ -168,13 +178,13 @@ export default function Score() {
 					setSelectTrackItems(items => Object.values(items).forEach(item => item.clear()));
 				} else if (checkState === "checked") {
 					setSelected(allSelection.slice());
-					setSelectTrackItems(items => Object.values(items).forEach(item => item.adds(...multipleSelectTrackItems)));
+					setSelectTrackItems(items => Object.entries(items).forEach(([index, set]) => set.adds(...getAllMultipleSelectTrackItemSet(+index))));
 				}
 			},
 			() => {
 				const selectedDraft: typeof selected = [];
 				setSelectTrackItems(items => Object.entries(items).forEach(([index, set]) => {
-					multipleSelectTrackItems.forEach(item => set.toggle(item));
+					getAllMultipleSelectTrackItemSet(+index).forEach(item => set.toggle(item));
 					if (set.size > 0) selectedDraft.push(+index);
 				}));
 				setSelected(selectedDraft);
@@ -240,6 +250,9 @@ export default function Score() {
 					<TimecodeBox value={constrainNoteLengthValue} disabled={constrainNoteLengthType[0] === "none"} />
 				</Expander.ChildWrapper>
 			</ExpanderRadio>
+			<SettingsCard title={t.score.parser} details={t.descriptions.score.parser} icon="engine">
+				<ComboBox />
+			</SettingsCard>
 			<SettingsCard
 				title={t.score.trackOrChannel}
 				details={t.descriptions.score.trackOrChannel}
@@ -295,7 +308,7 @@ export default function Score() {
 								actions={(
 									<CssTransition in={isMultiple} unmountOnExit>
 										<MultipleSelectTrackItemsContainer>
-											{multipleSelectTrackItems.map(item => (
+											{Array.from(getAllMultipleSelectTrackItemSet(track), item => !track.isDrumKit && item === "sonar" ? undefined : (
 												<Tooltip key={item} placement="y" title={t.titles[item]}>
 													<ToggleButton
 														icon={redirectIcon(item)}

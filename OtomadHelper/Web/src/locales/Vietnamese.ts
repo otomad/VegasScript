@@ -267,7 +267,7 @@ export default {
 				pictureInPicture: "Hình trong Hình (PiP)",
 				transformOfx: "TransformOFX",
 			},
-			playingTechniques: {
+			articulations: {
 				_: "Cách chơi",
 				applyCustomPreset: "Áp dụng preset tùy chỉnh",
 				glissando: {
@@ -792,7 +792,7 @@ export default {
 				},
 				transition: {},
 				transformMethod: "Chỉ định thứ tự ưu tiên của các thuộc tính mục tiêu để áp dụng keyframe chuyển đổi",
-				playingTechniques: {
+				articulations: {
 					glissando: {
 						_: "Tạo ra hiệu ứng khi phát các kỹ thuật uốn cao độ, trượt hoặc glissandi.",
 						swirlAmount: "Chỉ định lượng biên độ xoắn xoáy",

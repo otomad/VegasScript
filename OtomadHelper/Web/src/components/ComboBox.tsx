@@ -59,7 +59,8 @@ const StyledComboBox = styled(StyledButton)`
 	}
 `;
 
-export default function ComboBox<T extends string | number>({ ids, options, icons, current: [current, setCurrent], disabled, ...htmlAttrs }: FCP<{
+export default function ComboBox(props: FCP<{}, "select">): React.JSX.Element;
+export default function ComboBox<T extends string | number>(props: FCP<{
 	/** The identifiers for each option of the combo box. */
 	ids: readonly T[];
 	/** The display texts for each option of the combo box. */
@@ -68,11 +69,17 @@ export default function ComboBox<T extends string | number>({ ids, options, icon
 	icons?: readonly DeclaredIcons[];
 	/** The selected option of the combo box. */
 	current: StateProperty<T>;
+}, "select">): React.JSX.Element;
+export default function ComboBox<T extends string | number>({ ids = [], options = [], icons = [], current: [current, setCurrent] = NEVER_MIND, disabled, ...htmlAttrs }: FCP<{
+	ids?: readonly T[];
+	options?: readonly Readable[];
+	icons?: readonly DeclaredIcons[];
+	current?: StateProperty<T>;
 }, "select">) {
 	const [iconSvgs, setIconSvgs] = useState<string[]>();
-	const hasIcons = !!icons?.length;
+	const hasIcons = icons.length > 0;
 	const currentOption = options[ids.indexOf(current!)] ?? `<${current}>`;
-	const currentIcon = icons?.[ids.indexOf(current!)];
+	const currentIcon = icons[ids.indexOf(current!)];
 	disabled = useContext(InteractionStateContext).disabled || disabled;
 
 	useEffect(() => {

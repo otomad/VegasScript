@@ -7,7 +7,7 @@ import type { systemBackdrops } from "views/settings";
 import type { barOrBeatUnitTypes, selectGeneratedClipsType, sourceFromEnums, startTimes, trackNames } from "views/source";
 import type { trackLegatoModes } from "views/track";
 import type { arrayTypes, directionTypes, fitTypes, parityTypes } from "views/track/grid";
-import type { legatos, stretches, transformMethods, truncates } from "views/visual";
+import type { legatos, preRenders, stretches, transformMethods, truncates } from "views/visual";
 
 namespace Config {
 	export type StartTime = typeof startTimes[number]["id"];
@@ -35,6 +35,7 @@ namespace Config {
 	export type NormalizeTime = typeof normalizeTimes[number]["id"];
 	export type SystemBackdrop = typeof systemBackdrops[number]["name"];
 	export type PrveCustomStepSequences = Partial<Record<string, number[]>>;
+	export type PreRenderAs = typeof preRenders[number]["id"];
 
 	const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 	const defaultPrve = {
@@ -61,6 +62,7 @@ namespace Config {
 			trackGroup: true,
 			collapseTrackGroup: true,
 			trackName: "track" as TrackNameType,
+			secretBox: false,
 			secretBoxLimitToSelected: false,
 			secretBoxForTrack: false,
 			secretBoxForMarker: false,
@@ -68,6 +70,9 @@ namespace Config {
 			secretBoxForBarOrBeatPeriod: [4, "bar"] as Unit<BarOrBeatUnit>,
 			secretBoxForBarOrBeatPreparation: [0, "bar"] as Unit<BarOrBeatUnit>,
 			consonant: false,
+			takeTurns: false,
+			linearMap: false,
+			linearMapDescending: false,
 		},
 		score: {
 			format: "midi",
@@ -103,6 +108,8 @@ namespace Config {
 			alternativeForExceedTheRange: "plugin",
 			resample: false,
 			preserveFormant: false,
+			preRender: "instant" as PreRenderAs,
+			preRenderAcidTag: false,
 			basePitch: "C5",
 			cent: 0,
 			basePitchBased: true,
@@ -137,6 +144,7 @@ namespace Config {
 			transition: false,
 			transitionAlignment: 0,
 			transitionDuration: EMPTY_TIMECODE,
+			preRender: "instant" as PreRenderAs,
 			transformMethod: ["panCrop", "pictureInPicture", "transformOfx"] as TransformMethod[],
 			prve: {
 				general: {

@@ -58,7 +58,7 @@ export default function Tools() {
 				title={t.tools.exportScore}
 				details={t.descriptions.tools.exportScore}
 				type="button"
-				icon="score_share"
+				icon="score_forward"
 			/>
 
 			<Subheader>{t.tools.converters}</Subheader>
