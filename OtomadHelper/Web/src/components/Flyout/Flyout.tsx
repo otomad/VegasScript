@@ -1,7 +1,7 @@
 import FlyoutItem from "./FlyoutItem";
 
 const COMMAND_BAR_ITEM_FLYOUT_WIDTH = "300px";
-const PORTAL_CONTAINER = "main";
+const PORTAL_CONTAINER = `main > :is(${CONTAINER_CLASSNAMES})`;
 
 const PADDING = "4px";
 const StyledFlyout = styled.div`
@@ -10,7 +10,7 @@ const StyledFlyout = styled.div`
 	z-index: 2;
 	/* justify-self: anchor-center; */
 	max-width: 100dvw;
-	max-height: calc(100% - var(--offset)); // See: https://stackoverflow.com/a/79692163/19553213
+	max-height: calc(100cqh - anchor-size(var(--constrain) height) - var(--offset)); // See: https://stackoverflow.com/a/79692163/19553213
 	overflow-block: auto;
 	transition: ${fallbackTransitions}, inset 0s;
 	position-try-fallbacks: flip-block, flip-inline;
@@ -74,9 +74,9 @@ const StyledFlyout = styled.div`
 	}
 
 	hr {
+		inline-size: 100%;
 		margin-block: 1px;
 		margin-block-end: 4px;
-		inline-size: 100%;
 		border: none;
 		border-block-start: 1px solid ${c("stroke-color-divider-stroke-default")};
 	}

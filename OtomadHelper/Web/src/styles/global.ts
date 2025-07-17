@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle<{
 	::after {
 		--cjk-font-family: "Microsoft YaHei UI";
 		box-sizing: border-box;
+		overscroll-behavior: none;
 		scroll-behavior: smooth;
 		// Kick out the \`system-ui\`.
 		font-family: "Yozora Sans", Inter, "Segoe UI Variable", "Segoe UI", var(--cjk-font-family), "Microsoft YaHei UI", sans-serif;

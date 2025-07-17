@@ -6,6 +6,7 @@ const NAV_ITEMS_ASSUMED_COUNT = 20;
 const NAV_ITEMS_BOTTOM_ASSUMED_COUNT = 3;
 const TITLE_ANCHOR_NAME = "--navigation-view-title";
 const hasUnsupportedBrowserInfoBar = `body:has(.${nameof.kebab({ UnsupportedBrowserInfoBar })}) &`;
+export const CONTAINER_CLASSNAMES = ".container, .container-preview";
 
 export const styledContainer = css`
 	display: flex;
@@ -25,13 +26,13 @@ const NavButton = styled(Button).attrs({
 
 const StyledTopLeftButtons = styled.div`
 	z-index: 10;
+	block-size: ${navButtonSize.height}px;
 	margin-block: 4px 1px;
 	margin-inline: 9px 5px;
-	block-size: ${navButtonSize.height}px;
 
 	&.vertical {
-		margin-inline-start: 5px;
 		block-size: ${navButtonSize.height * 2}px;
+		margin-inline-start: 5px;
 
 		${NavButton} {
 			inline-size: 52px;
@@ -126,10 +127,10 @@ const StyledNavigationView = styled.div<{
 
 	> .left {
 		flex-shrink: 0;
-		padding-block-end: 4px;
 		block-size: 100%;
 		inline-size: 320px;
 		max-inline-size: calc(100dvw / var(--zoom, 1));
+		padding-block-end: 4px;
 
 		@media (horizontal-viewport-segments >= 2) {
 			inline-size: calc((env(viewport-segment-left 1 0) - env(viewport-segment-left 0 0)) / var(--zoom, 1));
@@ -215,9 +216,9 @@ const StyledNavigationView = styled.div<{
 				scrollbar-gutter: stable;
 
 				> * {
-					margin: 0 auto;
 					inline-size: 100%;
 					max-inline-size: 1000px;
+					margin: 0 auto;
 				}
 			}
 		}
@@ -419,7 +420,7 @@ const StyledNavigationView = styled.div<{
 `;
 
 const StyledPage = styled.main`
-	container: page / inline-size;
+	container: page / scroll-state size;
 	position: relative;
 	display: flex;
 	block-size: 100%;

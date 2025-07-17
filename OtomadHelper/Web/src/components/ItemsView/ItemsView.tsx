@@ -3,7 +3,7 @@ import ItemsViewItem, { GRID_VIEW_ITEM_HEIGHT, type OnItemsViewItemClickEventHan
 const isOtherOptionSymbol = Symbol("components.ItemsView.is_other_option");
 
 export /* @internal */ const StyledItemsView = styled.div`
-	:has(> &) {
+	:has(> &):not(${CONTAINER_CLASSNAMES}) {
 		container: list-view / inline-size;
 	}
 

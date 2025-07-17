@@ -22,7 +22,7 @@ export default function Gradient() {
 	const verticalDirection = direction[0].startsWith("tb");
 
 	return (
-		<div className="container" style={{ marginBlockStart: 0 }}>
+		<div className="container" style={{ marginBlockStart: 0, blockSize: "max-content" }}>
 			<CommandBar.Group>
 				<CommandBar position="right">
 					<CommandBar.Item icon={order} caption={t[order]} details={t.descriptions.track.descending} onClick={() => setDescending(desc => !desc)} />
