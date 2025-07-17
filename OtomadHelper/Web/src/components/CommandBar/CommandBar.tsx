@@ -11,8 +11,8 @@ const StyledCommandBar = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
-	padding: 4px;
 	block-size: 100%;
+	padding: 4px;
 	background-color: ${c("background-fill-color-acrylic-background-command-bar")};
 	border: 1px solid ${c("stroke-color-surface-stroke-flyout")};
 	border-radius: 6px;
@@ -57,8 +57,7 @@ const StyledCommandBar = styled.div`
 		margin-inline-end: 1px;
 	}
 
-	.sticky &,
-	&.sticky {
+	@container page-scroll scroll-state(scrollable: top) {
 		background-color: ${c("background-fill-color-acrylic-background-default")};
 		box-shadow: 0 8px 16px ${c("shadows-flyout")};
 	}
@@ -66,10 +65,10 @@ const StyledCommandBar = styled.div`
 	hr {
 		display: inline-block;
 		align-self: stretch;
-		margin-block: 4px;
-		margin-inline: 1px;
 		block-size: auto;
 		inline-size: 1px;
+		margin-block: 4px;
+		margin-inline: 1px;
 		border: none;
 		border-inline-start: 1px solid ${c("stroke-color-divider-stroke-default")};
 	}

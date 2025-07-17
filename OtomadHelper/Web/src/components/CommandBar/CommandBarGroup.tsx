@@ -16,10 +16,8 @@ const StyledCommandBarGroup = styled(StackPanel)`
 
 export /* @internal */ default function CommandBarGroup({ children }: FCP) {
 	return (
-		<StickyPerceptibility method="scroll">
-			<StyledCommandBarGroup $sticky>
-				{children}
-			</StyledCommandBarGroup>
-		</StickyPerceptibility>
+		<StyledCommandBarGroup $sticky>
+			{children}
+		</StyledCommandBarGroup>
 	);
 }

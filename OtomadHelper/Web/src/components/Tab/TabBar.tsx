@@ -162,11 +162,12 @@ export default function TabBar<T extends string = string>({ current: [current, s
 					{React.Children.map(children, child => {
 						if (!isReactInstance(child, TabItem)) return child;
 						const id = child.props.id as T;
+						const { onClick } = child.props;
 						return React.cloneElement(child, {
 							collapsed,
 							_vertical: vertical,
 							selected: current === id,
-							onClick: () => setCurrent?.(id),
+							onClick: e => { setCurrent?.(id); onClick?.(e); },
 						});
 					})}
 				</div>

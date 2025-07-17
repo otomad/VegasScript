@@ -47,10 +47,18 @@ const ExpanderParent = styled(SettingsCard)<{ // BUG: After auto resize, when sc
 		`;
 		return $expanded && css`
 			${sharpBottom};
-
+			container: expander-parent / scroll-state;
 			position: sticky;
 			top: -1px;
 			z-index: 5;
+
+			${ifColorScheme.reduceTransparency} {
+				top: 0;
+			}
+
+			${ifColorScheme.contrast} & {
+				top: 0;
+			}
 
 			> .base {
 				${sharpBottom};
@@ -175,34 +183,32 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 
 	return (
 		<div className="expander">
-			<StickyPerceptibility method="intersection">
-				<ExpanderParent
-					{...settingsCardProps}
-					ref={ref}
-					type={childrenDisabled ? onClickWhenChildrenDisabled ? "button" : "container-but-button" : "expander"}
-					trailingIcon="chevron_down"
-					ariaIdRef={ariaId}
-					aria-controls={withAriaId("-child")}
-					aria-expanded={internalExpanded}
-					$expanded={internalExpanded}
-					$childrenDisabled={childrenDisabled}
-					_lockContentSize={lockExpanderParentContentSize}
-					onClick={handleClick}
-				>
-					{actions}
-					{checkInfo != null && (
-						<CssTransition
-							in={!internalExpanded || alwaysShowCheckInfo}
-							onEntered={() => resetLockExpanderParentContentSize()}
-							onExited={() => resetLockExpanderParentContentSize()}
-							hiddenOnExit
-							requestAnimationFrame
-						>
-							<output className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</output>
-						</CssTransition>
-					)}
-				</ExpanderParent>
-			</StickyPerceptibility>
+			<ExpanderParent
+				{...settingsCardProps}
+				ref={ref}
+				type={childrenDisabled ? onClickWhenChildrenDisabled ? "button" : "container-but-button" : "expander"}
+				trailingIcon="chevron_down"
+				ariaIdRef={ariaId}
+				aria-controls={withAriaId("-child")}
+				aria-expanded={internalExpanded}
+				$expanded={internalExpanded}
+				$childrenDisabled={childrenDisabled}
+				_lockContentSize={lockExpanderParentContentSize}
+				onClick={handleClick}
+			>
+				{actions}
+				{checkInfo != null && (
+					<CssTransition
+						in={!internalExpanded || alwaysShowCheckInfo}
+						onEntered={() => resetLockExpanderParentContentSize()}
+						onExited={() => resetLockExpanderParentContentSize()}
+						hiddenOnExit
+						requestAnimationFrame
+					>
+						<output className={["check-info", TRAILING_EXEMPTION]}>{checkInfo}</output>
+					</CssTransition>
+				)}
+			</ExpanderParent>
 			<CssTransition in={internalExpanded} unmountOnExit transitionEndProperty={["height", "block-size"]} requestAnimationFrame>
 				<ExpanderChild
 					disabled={disabled || childrenDisabled}

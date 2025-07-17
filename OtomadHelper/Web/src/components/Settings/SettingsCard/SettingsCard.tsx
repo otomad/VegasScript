@@ -53,7 +53,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 
 	button&:not(.container) {
-		&.sticky {
+		@container expander-parent scroll-state(stuck: top) {
 			> .base {
 				background-color: ${c("background-fill-color-expander-sticky-background-default")};
 			}
@@ -80,10 +80,10 @@ const StyledSettingsCard = styled(StyledCard)<{
 		${isPressed("&:has(.trailing .toggle-switch-base:not(:active, .pressing, .pressed))")} {
 			> .base {
 				background-color: ${c("fill-color-control-tertiary")};
-			}
 
-			&.sticky > .base {
-				background-color: ${c("background-fill-color-expander-sticky-background-tertiary")};
+				@container expander-parent scroll-state(stuck: top) {
+					background-color: ${c("background-fill-color-expander-sticky-background-tertiary")};
+				}
 			}
 
 			> .base > .leading > .icon,

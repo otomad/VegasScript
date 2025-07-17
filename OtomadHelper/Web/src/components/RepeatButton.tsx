@@ -1,20 +1,21 @@
 // const wrapKeyCode = (code: string, action: (e: Any) => void) => (e: KeyboardEvent) => e.code === code && action(e);
 
 export default function RepeatButton({ children, onClick, onRelease, ...htmlAttrs }: FCP<{
-	/** Mouse release button event. */
+	/** Pointer release button event. */
 	onRelease?: BaseEventHandler;
 }, "button">) {
 	const repeatTimeout = useRef<Timeout>(undefined);
 	const clearRepeatInterval = () => clearInterval(repeatTimeout.current);
 	const [pressed, setPressed] = useState(false);
 
-	const handleRelease = useCallback<MouseEventHandler & KeyboardEventHandler>(e => {
+	const handleRelease = useCallback<PointerEventHandler & KeyboardEventHandler>(e => {
 		clearRepeatInterval();
 		setPressed(false);
 		onRelease?.(e);
 	}, [onRelease]);
 
-	const handlePress = useCallback<MouseEventHandler<HTMLButtonElement>>(e => {
+	const handlePress = useCallback<PointerEventHandler<HTMLButtonElement>>(e => {
+		if (e.nativeEvent instanceof MouseEvent && e.button !== 0) return;
 		onClick?.(e);
 		clearRepeatInterval();
 		setPressed(true);
@@ -25,22 +26,23 @@ export default function RepeatButton({ children, onClick, onRelease, ...htmlAttr
 		}, 50);
 	}, [onClick]);
 
-	useEventListener(document, "mouseup", handleRelease as never);
+	useEventListener(document, "pointerup", handleRelease as never);
 
-	const [handleKeyDown, handleKeyUp] = useKeyDownOnce((e, isMouseDown) => {
+	const [handleKeyDown, handleKeyUp] = useKeyDownOnce((e, isPointerDown) => {
 		if (e.code === "Space") {
 			e.preventDefault();
-			((isMouseDown ? handlePress : handleRelease) as BaseEventHandler)(e);
+			((isPointerDown ? handlePress : handleRelease) as BaseEventHandler)(e);
 		}
 	});
 
 	return (
 		<button
 			type="button"
-			onMouseDown={handlePress}
-			onMouseUp={handleRelease}
+			onPointerDown={handlePress}
+			onPointerUp={handleRelease}
 			onKeyDown={handleKeyDown}
 			onKeyUp={handleKeyUp}
+			onContextMenu={e => e.preventDefault()}
 			data-pressed={pressed}
 			{...htmlAttrs}
 		>

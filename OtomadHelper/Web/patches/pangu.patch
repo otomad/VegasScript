@@ -16,7 +16,7 @@ index 3466bbadfb74e01ada397f81866e6b972f24ad68..e3d15dac971be0181ab979436549c11f
      "pack:chrome": "npm run build:browser && cp -rf ./dist/browser/pangu.min.js ./browser_extensions/chrome/vendors/pangu/pangu.min.js && cd ./browser_extensions/chrome/ && zip -q -r -0 ../paranoid-auto-spacing.zip . && zip -j ../paranoid-auto-spacing.zip ~/Dropbox/Projects/paranoid-auto-spacing/key.pem",
      "pack:firefox": "node ./browser_extensions/firefox/pack.js",
 diff --git a/src/shared/core.js b/src/shared/core.js
-index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf44e28218e 100644
+index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..d3334148d4edd05f14b2501ac8e664c11bf48b08 100644
 --- a/src/shared/core.js
 +++ b/src/shared/core.js
 @@ -1,3 +1,18 @@
@@ -54,11 +54,13 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf4
  
  // ANS is short for Alphabets, Numbers, and Symbols.
  //
-@@ -26,57 +48,58 @@ const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u
+@@ -26,57 +48,60 @@ const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u
  //
  // some S below does not include all symbols
  
 -const ANY_CJK = new RegExp(`[${CJK}]`);
++// `*` is removed from S because it is used as a marking symbol for Markdown bold and italic.
++
 +const ANY_CJK = new RegExp(`[${CJK}]`, 'u');
  
  // the symbol part only includes ~ ! ; : , . ? but . only matches one character
@@ -96,8 +98,8 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf4
  // the symbol part only includes + - * / = & | < >
 -const CJK_OPERATOR_ANS = new RegExp(`([${CJK}])([\\+\\-\\*\\/=&\\|<>])([A-Za-z0-9])`, 'g');
 -const ANS_OPERATOR_CJK = new RegExp(`([A-Za-z0-9])([\\+\\-\\*\\/=&\\|<>])([${CJK}])`, 'g');
-+const CJK_OPERATOR_ANS = $r(`([${CJK}])([\\+\\-\\*\\/=&\\|<>]|${SM})([A-Za-z0-9])`);
-+const ANS_OPERATOR_CJK = $r(`([A-Za-z0-9])([\\+\\-\\*\\/=&\\|<>]|${SM})([${CJK}])`);
++const CJK_OPERATOR_ANS = $r(`([${CJK}])([\\+\\-\\/=&\\|<>]|${SM})([A-Za-z0-9])`);
++const ANS_OPERATOR_CJK = $r(`([A-Za-z0-9])([\\+\\-\\/=&\\|<>]|${SM})([${CJK}])`);
  
  const FIX_SLASH_AS = /([/]) ([a-z\-_\./]+)/g;
  const FIX_SLASH_AS_SLASH = /([/\.])([A-Za-z\-_\./]+) ([/])/g;
@@ -121,8 +123,8 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf4
  
 -const CJK_ANS = new RegExp(`([${CJK}])([A-Za-z\u0370-\u03ff0-9@\\$%\\^&\\*\\-\\+\\\\=\\|/\u00a1-\u00ff\u2150-\u218f\u2700—\u27bf])`, 'g');
 -const ANS_CJK = new RegExp(`([A-Za-z\u0370-\u03ff0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?\u00a1-\u00ff\u2150-\u218f\u2700—\u27bf])([${CJK}])`, 'g');
-+const CJK_ANS = $r(`([${CJK}])([A-Za-zͰ-Ͽ0-9@\\$%\\^&\\*\\-\\+\\\\=\\|/¡-ÿ⅐-\u218f✀—➿]|${SM})`);
-+const ANS_CJK = $r(`([A-Za-zͰ-Ͽ0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?¡-ÿ⅐-\u218f✀—➿]|${SM})([${CJK}])`);
++const CJK_ANS = $r(`([${CJK}])([A-Za-zͰ-Ͽ0-9@\\$%\\^&\\-\\+\\\\=\\|/¡-ÿ⅐-\u218f✀—➿]|${SM})`);
++const ANS_CJK = $r(`([A-Za-zͰ-Ͽ0-9~\\$%\\^&\\-\\+\\\\=\\|/!;:,\\.\\?¡-ÿ⅐-\u218f✀—➿]|${SM})([${CJK}])`);
  
  const S_A = /(%)([A-Za-z])/g;
  
@@ -139,7 +141,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf4
      return symbols
        .replace(/~/g, '～')
        .replace(/!/g, '！')
-@@ -87,7 +110,7 @@ class Pangu {
+@@ -87,7 +112,7 @@ class Pangu {
        .replace(/\?/g, '？');
    }
  
@@ -148,7 +150,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf4
      if (typeof text !== 'string') {
        console.warn(`spacing(text) only accepts string but got ${typeof text}`); // eslint-disable-line no-console
        return text;
-@@ -125,38 +148,38 @@ class Pangu {
+@@ -125,38 +150,38 @@ class Pangu {
        return `${cjk}${fullwidthSymbols}`;
      });
  
@@ -203,7 +205,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf4
  
      newText = newText.replace(S_A, '$1 $2');
  
-@@ -168,7 +191,7 @@ class Pangu {
+@@ -168,7 +193,7 @@ class Pangu {
      return newText;
    }
  
@@ -212,7 +214,7 @@ index 8b2b4ea7ec42a5618519a8a5559b5943b40f6fb0..6c1ec986a3ab90b6c80a333d596cfdf4
      let newText;
      try {
        newText = this.spacing(text);
-@@ -179,7 +202,7 @@ class Pangu {
+@@ -179,7 +204,7 @@ class Pangu {
      callback(null, newText);
    }
  

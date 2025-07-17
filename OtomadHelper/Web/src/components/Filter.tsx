@@ -1,6 +1,8 @@
 import PillButton from "./PillButton";
 
 const StyledFilter = styled(HorizontalScroll)`
+	${styles.mixins.noScrollbar()};
+	container: filter / scroll-state inline-size;
 	display: flex;
 	flex-shrink: 0;
 	gap: 4px;
@@ -10,6 +12,12 @@ const StyledFilter = styled(HorizontalScroll)`
 	padding-block: 8px;
 	padding-inline: 24px;
 	overflow: auto visible;
+
+	.pills {
+		display: inherit;
+		gap: inherit;
+		align-items: inherit;
+	}
 `;
 
 export default function Filter<T extends PropertyKey>({ current: [current, setCurrent], children, ...htmlAttrs }: FCP<{
@@ -18,14 +26,18 @@ export default function Filter<T extends PropertyKey>({ current: [current, setCu
 }, "div">) {
 	return (
 		<StyledFilter role="radiogroup" {...htmlAttrs}>
-			{React.Children.map(children, child => {
-				if (!isReactInstance(child, PillButton)) return child;
-				const id = child.props.id as T;
-				return React.cloneElement(child, {
-					selected: current === id,
-					onClick: () => setCurrent?.(id),
-				});
-			})}
+			<Flipper arrow="left" />
+			<div className="pills">
+				{React.Children.map(children, child => {
+					if (!isReactInstance(child, PillButton)) return child;
+					const id = child.props.id as T;
+					return React.cloneElement(child, {
+						selected: current === id,
+						onClick: () => setCurrent?.(id),
+					});
+				})}
+			</div>
+			<Flipper arrow="right" />
 		</StyledFilter>
 	);
 }

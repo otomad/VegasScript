@@ -337,6 +337,7 @@ const StyledNavigationView = styled.div<{
 		}
 
 		.page-content {
+			container: page-scroll / scroll-state;
 			block-size: 100%;
 			overflow: hidden auto;
 			overscroll-behavior: contain;
@@ -395,7 +396,7 @@ const StyledNavigationView = styled.div<{
 				}
 			}
 
-			> .exit > .container > * {
+			> :is(.exit, .exit-done) > .container > * {
 				animation: none !important;
 			}
 		}
@@ -420,7 +421,7 @@ const StyledNavigationView = styled.div<{
 `;
 
 const StyledPage = styled.main`
-	container: page / scroll-state size;
+	container: page / size;
 	position: relative;
 	display: flex;
 	block-size: 100%;
@@ -483,7 +484,7 @@ const StyledPage = styled.main`
 	// #endregion
 `;
 
-function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent, currentNavTab, navItems, navItemsId, flyout, isCompact }: FCP<{
+function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent, currentNavTab, navItems, navItemsId, flyout, isCompact, onRequestHide }: FCP<{
 	paneDisplayMode: PaneDisplayMode;
 	isFlyoutShown: boolean;
 	customContent?: ReactNode;
@@ -492,6 +493,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	navItemsId?: string;
 	flyout: boolean;
 	isCompact: boolean;
+	onRequestHide(): void;
 }>) {
 	const [isNavItemsOverflowing, setIsNavItemsOverflowing] = useState(false);
 	const navItemsEl = useDomRef<"div">();
@@ -510,11 +512,12 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 				focusable={focusable}
 				badge={badge}
 				ariaCurrentWhenSelected="page"
+				onClick={onRequestHide}
 			>
 				{text}
 			</TabBar.Item>
 		);
-	}, [isFlyoutShown, focusable]);
+	}, [isFlyoutShown, focusable, onRequestHide]);
 
 	useEventListener(window, "resize", () => {
 		const navItems = navItemsEl.current;
@@ -534,6 +537,13 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 		});
 	}, []);
 
+	const [mainTabBar, bottomTabBar] = [false, true].map(isBottom => (
+		<TabBar key={`bottom-${isBottom}`} current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
+			{navItems.map((item, index) =>
+				isBottom === !!item.bottom && getNavItemNode(item, index))}
+		</TabBar>
+	));
+
 	return (
 		<div className={["left", paneDisplayMode, { flyout, covered }]} aria-hidden={paneDisplayMode === "minimal" || covered} aria-label={t.aria.navMenu}>
 			<TopLeftButtons shadow paneDisplayMode={isCompact ? "compact" : paneDisplayMode} />
@@ -545,18 +555,10 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 				onScroll={onNavItemsScroll}
 			>
 				{customContent}
-				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
-					{navItems.map((item, index) => {
-						if (!item.bottom) return getNavItemNode(item, index);
-					})}
-				</TabBar>
+				{mainTabBar}
 			</div>
 			<div className="nav-items-bottom">
-				<TabBar current={currentNavTab} collapsed={paneDisplayMode === "compact"} vertical>
-					{navItems.map((item, index) => {
-						if (item.bottom) return getNavItemNode(item, index);
-					})}
-				</TabBar>
+				{bottomTabBar}
 			</div>
 		</div>
 	);
@@ -702,6 +704,7 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 						customContent={customContent}
 						flyout={isFlyout}
 						isCompact={paneDisplayMode === "compact"}
+						onRequestHide={hideFlyoutNavMenu}
 					/>
 				);
 			})}

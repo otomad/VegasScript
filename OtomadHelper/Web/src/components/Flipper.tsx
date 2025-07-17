@@ -57,6 +57,10 @@ const StyledFlipperWrapper = styled.div`
 		padding-inline-start: 0;
 	}
 
+	.filter > & {
+		padding-inline: 0;
+	}
+
 	@container not scroll-state(scrollable: left) {
 		&.left {
 			--state: disabled;
@@ -105,17 +109,12 @@ export default function Flipper({ arrow, delta = 40, children: _children, ...htm
 		}
 	};
 
-	const handleClick: MouseEventHandler<HTMLButtonElement> = e => {
-		const repeat = "repeat" in e && !!e.repeat;
+	const handleClick: MouseEventHandler<HTMLButtonElement> = _e => {
+		// const repeat = "repeat" in e && !!e.repeat;
 		const container = getScrollParent(wrapperEl.current);
 		if (!container) return;
-		const _delta = delta * (repeat ? 2 : 1);
-		HorizontalScroll.applyScroll.get(container)?.(_delta * (arrow === "left" ? -1 : arrow === "right" ? 1 : 0));
-		// container.scrollBy({
-		// 	left: _delta * (arrow === "left" ? -1 : arrow === "right" ? 1 : 0),
-		// 	top: _delta * (arrow === "top" ? -1 : arrow === "bottom" ? 1 : 0),
-		// 	// behavior: repeat ? "instant" : "smooth",
-		// });
+		// const _delta = delta * (repeat ? 2 : 1);
+		HorizontalScroll.applyScroll.get(container)?.(delta * (arrow === "left" ? -1 : arrow === "right" ? 1 : 0));
 	};
 
 	return (
