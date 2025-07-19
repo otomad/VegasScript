@@ -274,7 +274,6 @@ export default {
 			autoPan: "crwdns1812:0crwdne1812:0",
 			stack: "crwdns3254:0crwdne3254:0",
 			timeUnremapping: "crwdns3918:0crwdne3918:0",
-			resampleImitatively: "crwdns3018:0crwdne3018:0",
 			preRender: {
 				_: "crwdns4168:0crwdne4168:0",
 				instant: "crwdns4170:0crwdne4170:0",
@@ -326,6 +325,8 @@ export default {
 					classic: "crwdns2274:0crwdne2274:0",
 					scaleless: "crwdns2276:0crwdne2276:0",
 					acid: "crwdns3712:0crwdne3712:0",
+					oscillator: "crwdns4350:0crwdne4350:0",
+					oscillator_full: "crwdns4352:0crwdne4352:0",
 				},
 				stretchAttributes: {
 					_: "crwdns2278:0crwdne2278:0",
@@ -363,6 +364,7 @@ export default {
 					volumeForBasePitch: "crwdns3930:0crwdne3930:0",
 					adjustAudioToBasePitch: "crwdns1852:0crwdne1852:0",
 				},
+				imitative: "crwdns4354:0crwdne4354:0",
 			},
 			mapping: {
 				_: "crwdns2232:0crwdne2232:0",
@@ -870,12 +872,8 @@ export default {
 				autoPan: "crwdns2046:0crwdne2046:0",
 				stack: "crwdns3310:0crwdne3310:0",
 				timeUnremapping: "crwdns3920:0crwdne3920:0",
-				resampleImitatively: {
-					_: "crwdns3926:0crwdne3926:0",
-					auto: "crwdns3040:0crwdne3040:0",
-				},
 				preRender: {
-					_: "crwdns4300:0crwdne4300:0",
+					_: "crwdns4356:0crwdne4356:0",
 					instant: "crwdns4302:0crwdne4302:0",
 					media: "crwdns4304:0crwdne4304:0",
 					media_audio: "crwdns4306:0crwdne4306:0",
@@ -912,6 +910,7 @@ export default {
 						scaleless: "crwdns3224:0crwdne3224:0",
 						unset: "crwdns3778:0crwdne3778:0",
 						acid: "crwdns3964:0crwdne3964:0",
+						oscillator: "crwdns4358:0crwdne4358:0",
 						evaluates: {
 							fast: "crwdns3782:0crwdne3782:0",
 							changeRate: "crwdns3784:0crwdne3784:0",
@@ -937,6 +936,12 @@ export default {
 					prelisten: {
 						_: "crwdns2482:0crwdne2482:0",
 						adjustAudioToBasePitch: "crwdns2484:0crwdne2484:0",
+					},
+					imitative: {
+						_: "crwdns4360:0crwdne4360:0",
+						auto: "crwdns4362:0crwdne4362:0",
+						resample: "crwdns4364:0crwdne4364:0",
+						oscillator: "crwdns4366:0crwdne4366:0",
 					},
 				},
 				effects: {

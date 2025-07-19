@@ -168,13 +168,13 @@ export default function Visual() {
 						title={t.stream.tuning.imitative}
 						details={t.descriptions.stream.tuning.imitative}
 						// selectInfo={resampleImitatively[0] === "auto" && t.descriptions.stream.resampleImitatively.auto}
-						icon="placeholder"
+						icon="tuning_image"
 					>
 						<InfoBar status="info">{t.descriptions.stream.tuning.imitative.auto}</InfoBar>
 						<Expander.Item icon="link_multiple" title={t.stream.tuning.resample} details={t.descriptions.stream.tuning.imitative.resample}>
 							<ThreeStageSwitch current={imitativeResample} />
 						</Expander.Item>
-						<Expander.Item icon="waveforms/triangle" title={t.stream.tuning.tuningMethod.oscillator} details={t.descriptions.stream.tuning.imitative.oscillator}>
+						<Expander.Item icon="waveforms/triangle" title={t({ context: "full" }).stream.tuning.tuningMethod.oscillator} details={t.descriptions.stream.tuning.imitative.oscillator}>
 							<ThreeStageSwitch current={imitativeOscillator} />
 						</Expander.Item>
 					</Expander>

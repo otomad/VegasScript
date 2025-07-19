@@ -257,7 +257,6 @@ export default {
 			autoPan: "Tự động chuyển hướng",
 			stack: "Xếp chồng",
 			timeUnremapping: "Thời gian dai dẳng",
-			resampleImitatively: "Resample bắt chước",
 			preRender: {},
 			transition: {
 				alignment: {},
@@ -679,7 +678,7 @@ export default {
 			preference: {
 				_: "Tuỳ chỉnh",
 				autoSwitchSourceFrom: "Tự động chuyển nguồn nguyên liệu từ",
-				autoCollapsePrveClasses: "Tự động thu gọn các tùy chọn $t(titles.prve)",
+				autoCollapsePrveClasses: "Tự động thu gọn các tùy chọn $t(titles.prve, lowercase)",
 			},
 			config: {
 				hideUsageTips: "Ẩn mẹo sử dụng",
@@ -770,10 +769,6 @@ export default {
 				autoPan: "Chuyển hướng âm thanh bằng cách sử dụng envelope automation",
 				stack: "Xếp chồng các clip chặt chẽ nhất có thể trên một track, thay vì đặt kết quả trên các track riêng biệt theo track bản nhạc",
 				timeUnremapping: "Đoạn clip sẽ không thiết lập lại điểm vào của nó khi nốt nhạc xuất hiện, nhưng sẽ tiếp tục phát, hữu ích nếu bạn chỉ muốn áp dụng hiệu ứng cho nguồn",
-				resampleImitatively: {
-					_: "Mô phỏng hành vi resampling trong Visual, khiến độ dãn nở cong khi cao độ tăng",
-					auto: "Điều này sẽ phụ thuộc vào việc resampling có được bật trong tab Âm thanh hay không để đảm bảo hình ảnh được đồng bộ với âm thanh",
-				},
 				preRender: {},
 				transition: {},
 				articulations: {
@@ -822,6 +817,9 @@ export default {
 					prelisten: {
 						_: "So sánh clip với cao độ cơ bản để điều chỉnh dễ dàng",
 						adjustAudioToBasePitch: "Ghép âm thanh của clip với cao độ cơ bản thay vì ngược lại, hữu ích cho các phong cách remix cũ",
+					},
+					imitative: {
+						resample: "Mô phỏng hành vi resampling trong Visual, khiến độ dãn nở cong khi cao độ tăng",
 					},
 				},
 				effects: {
@@ -965,7 +963,7 @@ export default {
 				},
 				preference: {
 					autoSwitchSourceFrom: "Thay đổi nguồn tự động dựa trên nội dung được chọn cuối cùng",
-					autoCollapsePrveClasses: "Thu gọn các tùy chọn $t(titles.prve) khác được mở rộng một cách tự động khi mở rộng một tùy chọn",
+					autoCollapsePrveClasses: "Thu gọn các tùy chọn $t(titles.prve, lowercase) khác được mở rộng một cách tự động khi mở rộng một tùy chọn",
 				},
 			},
 		},

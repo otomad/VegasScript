@@ -274,7 +274,6 @@ export default {
 			autoPan: "自动声像",
 			stack: "堆积",
 			timeUnremapping: "持续时间流",
-			resampleImitatively: "模拟重采样调速",
 			preRender: {
 				_: "预渲染",
 				instant: "即时（关）",
@@ -327,6 +326,7 @@ export default {
 					scaleless: "无音阶",
 					acid: "ACID",
 					oscillator: "振荡器",
+					oscillator_full: "人工振荡器",
 				},
 				stretchAttributes: {
 					_: "拉伸属性",
@@ -364,6 +364,7 @@ export default {
 					volumeForBasePitch: "预听标准音高时的音量",
 					adjustAudioToBasePitch: "调整音频到主音高",
 				},
+				imitative: "模拟调音方法",
 			},
 			mapping: {
 				_: "映射",
@@ -816,9 +817,9 @@ export default {
 					_: "为防止辅音被拉伸或延迟，可以将同一音视频素材的辅音与元音部分分割开，以便于为素材的辅音部分应用特殊优化。\n若至少选中两段音频剪辑或视频剪辑，则第一段被视为首辅音部分，第二段被视为元音部分，第三段（如果有）被视为尾辅音部分。",
 					manualEnabled: "人力模式下已自动启用本功能。",
 				},
-				takeTurns: "选中多个素材，每次产生音符时都会轮流应用这些素材",
+				takeTurns: "选中多项素材，每次产生音符时都会轮流应用这些素材",
 				linearMap: {
-					_: "选中多个素材，它们将按顺序映射到可用音轨（多余的素材或音轨会被剔除）",
+					_: "选中多项素材，它们将按顺序映射到可用音轨（多余的素材或音轨会被剔除）",
 					descending: "反转音轨的顺序来映射（注意不是所选素材的顺序）",
 				},
 			},
@@ -871,16 +872,12 @@ export default {
 				autoPan: "自动化控制音频的声像包络",
 				stack: "将剪辑尽可能紧密地堆积在一条轨道上，而不根据乐曲的音轨分轨放置",
 				timeUnremapping: "音符开时将不会重置剪辑的入点时间，而是继续播放，适用于如仅对素材应用效果",
-				resampleImitatively: {
-					_: "在画面中模仿重采样音频的行为，使拉伸值随着音高的升高而缩短",
-					auto: "这将取决于是否在音频中启用重采样音频功能以确保画面与音频同步",
-				},
 				preRender: {
-					_: "对素材应用太多的效果可能会导致生成时卡死，为此你可能需要预渲染素材来深度应用效果",
+					_: "生成前对素材应用太多的效果可能会导致生成时卡死，为此你可能需要预渲染素材来深度应用效果",
 					instant: "不预渲染，这将复制效果到生成的每段剪辑上",
-					media: "渲染为单个媒体文件",
-					media_audio: "渲染为单个媒体文件，稍后可以标注ACID音高标记",
-					timeline: "渲染为嵌套时间轴（单个VEGAS Pro项目文件）",
+					media: "渲染为单独媒体文件",
+					media_audio: "渲染为单独媒体文件，稍后可以标注ACID音高标记",
+					timeline: "渲染为嵌套时间轴（单独VEGAS Pro项目文件）",
 					acidTag: "这将允许在剪辑上显示当前音高音名",
 				},
 				transition: {
@@ -941,7 +938,10 @@ export default {
 						adjustAudioToBasePitch: "将剪辑的音频匹配到原始音高，而不是反过来，适用于旧式混音",
 					},
 					imitative: {
-						_: "将音频调音方法衍生的技术应用于画面处理",
+						_: "将音频调音方法的衍生技术应用于画面处理",
+						auto: "将这些属性设为自动意味着只有在音频配置中的相应属性启用后才会被启用。",
+						resample: "在画面中模仿重采样音频的行为，使拉伸值随着音高的升高而缩短",
+						oscillator: "在画面中模仿人工振荡器的行为以产生高频重复的画面",
 					},
 				},
 				effects: {
@@ -1066,7 +1066,7 @@ export default {
 				propertizer: "批量为所有选中剪辑设置属性（如规范化、拉伸）",
 				subtitles: "预先设定好“字幕和文字”的预设，然后在此处添加多行文本",
 				effector: "为所选剪辑应用效果",
-				fader: "以逐个渐入或渐出的方式调整所选剪辑的属性（如增益、音量、不透明度）",
+				fader: "以逐项渐入或渐出的方式调整所选剪辑的属性（如增益、音量、不透明度）",
 				exportScore: "将所选轨道中的剪辑导出为乐谱序列文件",
 				converters: {
 					tuningMethod: "为所选音频剪辑更换调音算法",
@@ -1135,7 +1135,7 @@ export default {
 			},
 			operationRecord: {
 				title: "暂无操作记录",
-				details: "你可以切换阵列模式到{{fixed}}来对每一个单元格进行更细致的调整",
+				details: "你可以切换阵列模式到{{fixed}}来对每一块单元格进行更细致的调整",
 			},
 		},
 		menu: {

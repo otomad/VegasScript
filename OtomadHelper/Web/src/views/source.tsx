@@ -90,8 +90,8 @@ export default function Source() {
 
 			<Subheader>{t.subheaders.advanced}</Subheader>
 			<Expander title={t.source.afterCompletion} icon="post_processing">
-				<ToggleSwitch on={removeSourceClips} lock={lockRemoveOrSelectSourceClips} icon="delete">{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
-				<ToggleSwitch on={removeSourceClipsWithTracks} lock={lockRemoveOrSelectSourceClips} icon="delete_lines">{t.source.afterCompletion.removeSourceClipsWithTracks}</ToggleSwitch>
+				<ToggleSwitch on={removeSourceClips} lock={lockRemoveOrSelectSourceClips} icon="delete_track_event">{t.source.afterCompletion.removeSourceClips}</ToggleSwitch>
+				<ToggleSwitch on={removeSourceClipsWithTracks} lock={lockRemoveOrSelectSourceClips} icon="delete_layer">{t.source.afterCompletion.removeSourceClipsWithTracks}</ToggleSwitch>
 				<ToggleSwitch on={selectSourceClips} lock={lockRemoveOrSelectSourceClips} icon="select_all">{t.source.afterCompletion.selectSourceClips}</ToggleSwitch>
 				<ItemsView view="tile" multiple current={selectGeneratedClips} selectAll={{ title: t.source.afterCompletion.selectGeneratedClips }}>
 					{selectGeneratedClipsType.map(({ id, name, icon }) =>

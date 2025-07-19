@@ -337,6 +337,7 @@ export default {
 					scaleless: "Scaleless",
 					acid: "ACID", // Indicate MAGIX ACID Pro.
 					oscillator: "Oscillator",
+					oscillator_full: "Manual Oscillator",
 				},
 				stretchAttributes: {
 					_: "Stretch attributes",
@@ -964,7 +965,7 @@ export default {
 						_: "Applies techniques inspired by audio tuning methods to visual processing",
 						auto: "Setting these properties to Auto means they will only be enabled when the corresponding property in the Audio configuration is enabled.",
 						resample: "Imitate the resampling behavior in the Visual, causing the stretch to flex as the pitch increases",
-						oscillator: "Imitate the Manual Oscillator behavior in the Visual to produce rapidly repetitive visuals.",
+						oscillator: "Imitate the Manual Oscillator behavior in the Visual to produce rapidly repetitive visuals",
 					},
 				},
 				effects: {
