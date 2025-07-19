@@ -137,7 +137,7 @@ export default function Source() {
 
 			<Subheader>{t.source.multisource}</Subheader>
 			{ytpEnabled && <InfoBar status="warning" title={t.descriptions.source.multisource.ytpEnabled} button={<EmptyMessage.YtpDisabled.Buttons />} />}
-			<Attrs disabled={ytpEnabled ? true : undefined} compactUndefined>
+			<Attrs disabled={ytpEnabled ? true : undefined}>
 				<SettingsCardToggleSwitch
 					title={t.source.secretBox}
 					details={t.descriptions.source.secretBox}

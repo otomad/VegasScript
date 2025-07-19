@@ -100,44 +100,6 @@ export const useLottieStatus = {
 	animation: (status: AvailableLottieStatus) => css`animation: ${getLottieStatusName(status)} 1s infinite;`,
 };
 
-enum TransitionGroupState {
-	appear = 0b001,
-	enter = 0b010,
-	exit = 0b100,
-
-	appearEnter = 0b011,
-	enterExit = 0b110,
-	all = 0b111,
-}
-
-/**
- * The state selector rule generated for the outrageous selector of React Transition Group.
- *
- * However, after trying to modify the source code with magic and adding an additional `enter-from` state,
- * I found it still not working well and I don't know the specific reason.
- *
- * @param states - The state of the transition group, including the bitwise AND value of `appear`, `enter`, and `exit`.
- * @param name - Optional transition group animation name, leave blank to indicate not included.
- * @returns The generated state selector.
- */
-export function tgs(states: TransitionGroupState = TransitionGroupState.all, name: string = "") {
-	if (name) name += "-";
-	const selectors: string[] = [];
-	if (states & TransitionGroupState.appear)
-		selectors.push(`&.${name}appear:not(.${name}appear-active)`);
-	if (states & TransitionGroupState.enter)
-		selectors.push(`&.${name}enter:not(.${name}enter-active)`);
-	if (states & TransitionGroupState.exit)
-		selectors.push(`&:is(.${name}exit-active, .${name}exit-done)`);
-	return selectors.join(", ");
-}
-tgs.appear = TransitionGroupState.appear;
-tgs.enter = TransitionGroupState.enter;
-tgs.exit = TransitionGroupState.exit;
-tgs.appearEnter = TransitionGroupState.appearEnter;
-tgs.enterExit = TransitionGroupState.enterExit;
-tgs.all = TransitionGroupState.all;
-
 /**
  * Gets the positioning value of the tooltip based on the given tooltip placement and offset value.
  * @param rect - Target element size rectangle.

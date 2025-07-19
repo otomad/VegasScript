@@ -20,7 +20,7 @@ export default function ExpanderStreamPreRender({ stream }: {
 			idField="id"
 			iconField="icon"
 			nameField={t.stream.preRender}
-			detailsField={t.descriptions.stream.preRender}
+			detailsField={t({ context: stream }).descriptions.stream.preRender}
 		>
 			{isAudio && <ToggleSwitch on={preRenderAcidTag} lock={preRenderAudio[0] === "media" ? null : false} icon="acid" details={t.descriptions.stream.preRender.acidTag}>{t.stream.preRender.acidTag}</ToggleSwitch>}
 			<Expander.ChildWrapper $tilePadding={isAudio ? "button to item" : "tile view"}>

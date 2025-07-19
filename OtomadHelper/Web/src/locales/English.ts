@@ -285,7 +285,6 @@ export default {
 			autoPan: "Auto pan",
 			stack: "Stack",
 			timeUnremapping: "Time unremapping", // Time un-remap-(p)ing is the antonym of time remapping.\nIf it is difficult‌ to translate, you can substitute‌ it with “Persistent timeflow”.
-			resampleImitatively: "Resample imitatively",
 			preRender: {
 				_: "Pre-render",
 				instant: "Instant (Off)",
@@ -337,6 +336,7 @@ export default {
 					classic: "Classic",
 					scaleless: "Scaleless",
 					acid: "ACID", // Indicate MAGIX ACID Pro.
+					oscillator: "Oscillator",
 				},
 				stretchAttributes: {
 					_: "Stretch attributes",
@@ -374,6 +374,7 @@ export default {
 					volumeForBasePitch: "Volume when prelistening base pitch",
 					adjustAudioToBasePitch: "Adjust audio to base pitch",
 				},
+				imitative: "Imitative tuning methods",
 			},
 			mapping: {
 				_: "Mapping",
@@ -894,12 +895,8 @@ export default {
 				autoPan: "Pans the audio using envelope automation",
 				stack: "Stacks the clips as tightly as possible on one track, rather than placing the results on separate tracks according to the score track",
 				timeUnremapping: "The clip will not reset its in point time when note on occurs, but will continue to play, useful if you only want to apply the effects to the source",
-				resampleImitatively: {
-					_: "Imitate the resampling behavior in the Visual, causing the stretch to flex as the pitch increases",
-					auto: "This will depend on whether resampling is enabled in Audio to ensure that the visual is sync with the audio",
-				},
 				preRender: {
-					_: "Applying too many effects to the sources may cause it to get stuck during generation, and for this you may need to pre-render the sources to apply the effects deeply",
+					_: "Applying too many effects to the sources before generation may cause it to get stuck during generation, and for this you may need to pre-render the sources to apply the effects deeply",
 					instant: "Does not perform pre-rendering, that will copy the effects onto every generated clip",
 					media: "Renders as a single media file",
 					media_audio: "Renders as a single media file, and later annotate ACID pitch tag",
@@ -936,6 +933,7 @@ export default {
 						scaleless: "Locks stretch and pitch, and changes the stretch to get the corresponding pitch regardless of the actual note pitch, just for fun",
 						unset: "Preserves the original tuning method of the clip unchanged or the default value, even if it is No Tuning",
 						acid: "Transposes the clip to fit the tempo if you are using ACIDized loops rendered by ACID Pro",
+						oscillator: "Use the Manual Oscillator Audio Effect Technology. It simulates a specific pitch by repeatedly playing a short sample rapidly over a specific period, generates a pulse sequence corresponds to the pitch and forms a continuous pitch by exploiting the perception fusion effect of the human ear on fast pulses.",
 						evaluates: {
 							fast: "Fast to generate",
 							changeRate: "Effective on playback rate change",
@@ -961,6 +959,12 @@ export default {
 					prelisten: {
 						_: "Compares the clip to the base pitch for easy adjustment",
 						adjustAudioToBasePitch: "Match the audio of the clip to the base pitch instead of the other way around, useful for older styles of remixes",
+					},
+					imitative: {
+						_: "Applies techniques inspired by audio tuning methods to visual processing",
+						auto: "Setting these properties to Auto means they will only be enabled when the corresponding property in the Audio configuration is enabled.",
+						resample: "Imitate the resampling behavior in the Visual, causing the stretch to flex as the pitch increases",
+						oscillator: "Imitate the Manual Oscillator behavior in the Visual to produce rapidly repetitive visuals.",
 					},
 				},
 				effects: {

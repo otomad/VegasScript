@@ -14,7 +14,7 @@
  * <input disabled />
  * ```
  */
-export default function Attrs({ compactUndefined = false, children, ...attrs }: FCP<{
+export default function Attrs({ compactUndefined = true, children, ...attrs }: FCP<{
 	/** If true, omit properties with undefined values; If false, properties with undefined values will also be passed to child components. */
 	compactUndefined?: boolean;
 }, "section"> & Record<string, Any>) {

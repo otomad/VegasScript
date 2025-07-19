@@ -32,6 +32,7 @@ export default [
 			"TransitionGroup",
 			"Transition",
 			["CSSTransition", "CssTransition"],
+			"tgs",
 		],
 		"react-i18next": [
 			"useTranslation",

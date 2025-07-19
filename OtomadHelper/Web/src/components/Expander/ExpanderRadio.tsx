@@ -1,6 +1,6 @@
 type FieldType<T> = string | ((item: T) => string | undefined) | true;
 
-export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, imageOverlayField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, itemsViewAttrs, hideCustom = true, before, transition, readOnly, title, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
+export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: _items, value: [value, setValue], checkInfoCondition = true, idField, nameField, iconField, imageField, detailsField, imageOverlayField, view = "radio", details: _details, itemWidth, radioGroup, itemsViewItemAttrs, itemsViewAttrs, hideCustom = true, before, transition, readOnly, title, checkInfo: staticCheckInfo, children, onItemClick, onItemContextMenu, ...settingsCardProps }: FCP<Override<PropsOf<typeof Expander>, {
 	/** List of options. */
 	items: readonly TItem[];
 	/** The identifier of the currently selected value. */
@@ -89,13 +89,13 @@ export default function ExpanderRadio<TItem, TKey extends PropertyKey>({ items: 
 	const items = _items as AnyObject[];
 	const filteredItems = useMemo(() => hideCustom === false ? items : items.filter(item =>
 		getItemField(item, "id") !== (typeof hideCustom === "string" ? hideCustom : "custom")), [_items, getItemField, hideCustom, items]);
-	const checkInfo = !checkInfoCondition ? undefined :
+	const checkInfo = staticCheckInfo || (!checkInfoCondition ? undefined :
 		typeof checkInfoCondition === "string" ? checkInfoCondition :
 		checkInfoCondition === true ? typeof idField === "string" && typeof nameField === "string" ?
 			items.find(item => item[idField] === value)?.[nameField] :
 			idField && isI18nItem(nameField) ? nameField[value as string] : value :
 		typeof checkInfoCondition === "function" ? checkInfoCondition(value, items) :
-		items.find(item => item[checkInfoCondition.id] === value)?.[checkInfoCondition.name];
+		items.find(item => item[checkInfoCondition.id] === value)?.[checkInfoCondition.name]);
 	const details = typeof _details === "function" ? _details(value, items) : _details;
 
 	return (

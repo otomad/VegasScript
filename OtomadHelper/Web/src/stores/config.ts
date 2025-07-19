@@ -1,6 +1,6 @@
 import defaultPrveAmounts from "helpers/defaultPrveAmounts";
 import { deepClone } from "valtio/utils";
-import type { beepEngines, normalizeTimes } from "views/audio";
+import type { beepEngines, normalizeTimes, tuningMethods } from "views/audio";
 import type { musicalNotationSystems } from "views/lyrics";
 import type { constrainNoteLengthTypes, encodings, multipleSelectTrackItems, tempoUsings, trackAndChannel } from "views/score";
 import type { systemBackdrops } from "views/settings";
@@ -36,6 +36,7 @@ namespace Config {
 	export type SystemBackdrop = typeof systemBackdrops[number]["name"];
 	export type PrveCustomStepSequences = Partial<Record<string, number[]>>;
 	export type PreRenderAs = typeof preRenders[number]["id"];
+	export type TuningMethod = typeof tuningMethods[number]["id"];
 
 	const EMPTY_TIMECODE = "00:00:00.000" as Timecode;
 	const defaultPrve = {
@@ -101,7 +102,7 @@ namespace Config {
 			timeUnremapping: false,
 			autoPan: true,
 			autoPanCurve: "linear" as CurveType,
-			tuningMethod: "elastic",
+			tuningMethod: "elastic" as TuningMethod,
 			tuningMethodAcid: false,
 			tuningMethodScaleless: false,
 			stretchAttribute: "efficient",
@@ -140,7 +141,8 @@ namespace Config {
 			multitrackForChords: false,
 			stack: false,
 			timeUnremapping: false,
-			resampleImitatively: "auto" as TrueFalseAuto,
+			imitativeResample: "auto" as TrueFalseAuto,
+			imitativeOscillator: "auto" as TrueFalseAuto,
 			transition: false,
 			transitionAlignment: 0,
 			transitionDuration: EMPTY_TIMECODE,
@@ -150,6 +152,7 @@ namespace Config {
 				general: {
 					control: true,
 					...deepClone(defaultPrve),
+					effects: [{ fx: "hFlip", initial: [1, 2] }],
 				},
 				samePitch: {
 					control: false,

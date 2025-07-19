@@ -111,7 +111,6 @@ export default function Score() {
 		selectedTrack: [selectedTrack, setSelectedTrack], multipleSelectTrackItems: [selectTrackItems, _setSelectTrackItems],
 	} = useSelectConfig(c => c.score);
 	const { enabled: [ytpEnabled] } = useSelectConfig(c => c.ytp);
-	console.log("​ ​ Score ​ selectTrackItems​", selectTrackItems);
 
 	const setSelectTrackItems = (recipe: (draft: typeof selectTrackItems) => void) => _setSelectTrackItems(produce(recipe));
 

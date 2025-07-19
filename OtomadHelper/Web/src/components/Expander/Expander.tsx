@@ -177,7 +177,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => onToggle?.(internalExpanded), [internalExpanded]);
-	useEffect(() => { if (disabled || childrenDisabled) _setInternalExpanded(false); }, [disabled, childrenDisabled]);
+	useEffect(() => { if (disabled || childrenDisabled) setInternalExpanded(false); }, [disabled, childrenDisabled]);
 	const ariaId = useRef<string>(null);
 	const withAriaId = (suffix: string) => !ariaId.current ? undefined : ariaId.current + suffix;
 
@@ -200,6 +200,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 				{checkInfo != null && (
 					<CssTransition
 						in={!internalExpanded || alwaysShowCheckInfo}
+						// disabled={alwaysShowCheckInfo}
 						onEntered={() => resetLockExpanderParentContentSize()}
 						onExited={() => resetLockExpanderParentContentSize()}
 						hiddenOnExit

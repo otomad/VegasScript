@@ -8,9 +8,10 @@ export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 	const deferredChildren = useDeferredValue(children);
 	const isStale = children !== deferredChildren || lockSize;
 
-	useEffect(() => {
+	useAsyncEffect(async () => {
 		const content = el.current;
 		if (!content || !content.offsetParent) return;
+		if (!isStale) await nextAnimationTick();
 		content.style.interpolateSize = isStale ? "numeric-only" : null!;
 		content.style.willChange = isStale ? "width, height" : null!;
 		if (specified === "height" || specified === "both")

@@ -326,6 +326,7 @@ export default {
 					classic: "古典",
 					scaleless: "无音阶",
 					acid: "ACID",
+					oscillator: "振荡器",
 				},
 				stretchAttributes: {
 					_: "拉伸属性",
@@ -912,6 +913,7 @@ export default {
 						scaleless: "锁定伸缩与音调，完全通过改变拉伸值来获取相应的音调，而不考虑音符的实际音高，仅供娱乐",
 						unset: "保持剪辑原始调音方法不变或保持默认值，即便它是不调音",
 						acid: "如果你正在使用由ACID Pro渲染的ACID化循环音乐片段，则剪辑将被转置以适应节奏",
+						oscillator: "使用人工振荡器音效技术。通过将短促的素材采样音效以特定周期高速重复播放，生成对应音高的脉冲序列，利用人耳对快速脉冲的感知融合效应形成连续音高来模拟特定音高。",
 						evaluates: {
 							fast: "生成很快",
 							changeRate: "改变回放速率时有效",
@@ -937,6 +939,9 @@ export default {
 					prelisten: {
 						_: "将剪辑与原始音高进行比较，以便调整",
 						adjustAudioToBasePitch: "将剪辑的音频匹配到原始音高，而不是反过来，适用于旧式混音",
+					},
+					imitative: {
+						_: "将音频调音方法衍生的技术应用于画面处理",
 					},
 				},
 				effects: {

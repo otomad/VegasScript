@@ -8,6 +8,7 @@ export /* @internal */ const tuningMethods = [
 	{ id: "pitchShift", icon: "plugin" },
 	{ id: "elastic", icon: "plus_minus" },
 	{ id: "classic", icon: "history" },
+	{ id: "oscillator", icon: "waveforms/triangle" },
 ] as const;
 
 export /* @internal */ const exceeds = [
@@ -23,10 +24,6 @@ export /* @internal */ const normalizeTimes = [
 	{ id: "once", icon: "checkmark_1" },
 	{ id: "always", icon: "checkmark_multiple" },
 ] as const;
-
-const getExceedsName = (id: string | undefined, tuningMethod: string) => !id ? "" : t.stream.tuning.alternativeForExceedTheRange[
-	id === "plugin" && tuningMethod === "pitchShift" ? "multiple" : id
-];
 
 export /* @internal */ const beepEngines = ["WebAudio"] as const;
 const beepWaveforms = ["sinusoid", "triangle", "square", "sawtooth"] as const satisfies OscillatorCommonType[];
@@ -91,6 +88,8 @@ export default function Audio() {
 	const activeParameterScheme = useSelectConfigArray(c => c.audio.activeParameterScheme);
 	const [stopPrelistenings, setStopPrelistenings] = useImmer<(() => void)[]>([]);
 	const isPrelistening = stopPrelistenings.length > 0;
+	const tuningMethodScalelessUnlocked = tuningMethod[0].in("unset", "elastic", "classic"), tuningMethodScalelessEnabled = tuningMethodScaleless[0] && tuningMethodScalelessUnlocked;
+	const alternativeForExceedTheRangeDisabled = !tuningMethod[0].in("elastic", "classic", "unset");
 
 	const { pushPage } = useSnapshot(pageStore);
 
@@ -252,9 +251,9 @@ export default function Audio() {
 						}}
 					>
 						<ToggleSwitch on={tuningMethodAcid} lock={tuningMethod[0] !== "noTuning" ? null : false} icon="acid" details={t.descriptions.stream.tuning.tuningMethod.acid}>{t.stream.tuning.tuningMethod.acid}</ToggleSwitch>
-						<ToggleSwitch on={tuningMethodScaleless} lock={tuningMethod[0].in("unset", "elastic", "classic") ? null : false} icon="scaleless" details={t.descriptions.stream.tuning.tuningMethod.scaleless}>{t.stream.tuning.tuningMethod.scaleless}</ToggleSwitch>
+						<ToggleSwitch on={tuningMethodScaleless} lock={tuningMethodScalelessUnlocked ? null : false} icon="scaleless" details={t.descriptions.stream.tuning.tuningMethod.scaleless}>{t.stream.tuning.tuningMethod.scaleless}</ToggleSwitch>
 					</ExpanderRadio>
-					<Attrs disabled={tuningMethod[0].in("noTuning", "scaleless")}>
+					<Attrs disabled={tuningMethod[0] === "noTuning" || tuningMethodScalelessEnabled || undefined}>
 						<ExpanderRadio
 							title={t.stream.tuning.stretchAttributes}
 							details={t.descriptions.stream.tuning.stretchAttributes}
@@ -265,27 +264,43 @@ export default function Audio() {
 							idField="id"
 							nameField={t.stream.tuning.stretchAttributes}
 						/>
-						<ExpanderRadio
-							title={t.stream.tuning.alternativeForExceedTheRange}
-							details={t.descriptions.stream.tuning.alternativeForExceedTheRange}
-							icon="tuning_warning"
-							items={exceeds}
-							value={alternativeForExceedTheRange}
-							view="list"
-							idField="id"
-							iconField="icon"
-							nameField={item => getExceedsName(item.id, tuningMethod[0])}
-							detailsField={item => (
-								<TransInterpolation
-									i18nKey={t => t.descriptions.stream.tuning.alternativeForExceedTheRange[item.id]}
-									formulaFor39={<MathFormulaFor39 />}
-									formulaFor24="±24"
-								/>
-							)}
-							checkInfoCondition={id => getExceedsName(id, tuningMethod[0])}
-						/>
-						<SettingsCardToggleSwitch title={t.stream.tuning.resample} details={t.descriptions.stream.tuning.resample} icon="link_multiple" on={resample} />
-						<SettingsCardToggleSwitch title={t.stream.tuning.preserveFormant} details={t.descriptions.stream.tuning.preserveFormant} icon="speech" on={preserveFormant} />
+						<Attrs disabled={tuningMethod[0] === "oscillator" || undefined}>
+							<ExpanderRadio
+								title={t.stream.tuning.alternativeForExceedTheRange}
+								details={t.descriptions.stream.tuning.alternativeForExceedTheRange}
+								icon="tuning_warning"
+								items={exceeds}
+								value={alternativeForExceedTheRange}
+								view="list"
+								idField="id"
+								iconField="icon"
+								nameField={({ id }) => t.stream.tuning.alternativeForExceedTheRange[id]}
+								detailsField={item => (
+									<TransInterpolation
+										i18nKey={t => t.descriptions.stream.tuning.alternativeForExceedTheRange[item.id]}
+										formulaFor39={<MathFormulaFor39 />}
+										formulaFor24="±24"
+									/>
+								)}
+								checkInfoCondition={id => t.stream.tuning.alternativeForExceedTheRange[id!]}
+								disabled={alternativeForExceedTheRangeDisabled}
+								checkInfo={alternativeForExceedTheRangeDisabled ? tuningMethod[0] === "pitchShift" ? t.stream.tuning.alternativeForExceedTheRange.multiple : t.stream.tuning.tuningMethod[tuningMethod[0]] : undefined}
+							/>
+							<SettingsCardToggleSwitch
+								title={t.stream.tuning.resample}
+								details={t.descriptions.stream.tuning.resample}
+								icon="link_multiple"
+								lock={tuningMethodScalelessEnabled ? true : tuningMethod[0] === "oscillator" ? false : null}
+								on={resample}
+							/>
+							<SettingsCardToggleSwitch
+								title={t.stream.tuning.preserveFormant}
+								details={t.descriptions.stream.tuning.preserveFormant}
+								icon="speech"
+								on={preserveFormant}
+								lock={tuningMethod[0].in("elastic", "unset") ? null : false}
+							/>
+						</Attrs>
 						<Expander
 							title={t.stream.tuning.basePitch}
 							details={t.descriptions.stream.tuning.basePitch}
@@ -343,6 +358,11 @@ export default function Audio() {
 							</Expander.Item>
 							<ToggleSwitch icon="remix_add" on={adjustAudioToBasePitch} details={t.descriptions.stream.tuning.prelisten.adjustAudioToBasePitch}>{t.stream.tuning.prelisten.adjustAudioToBasePitch}</ToggleSwitch>
 						</Expander>
+						<SettingsCard
+							title={t.stream.articulations.glissando}
+							details={t.descriptions.stream.articulations.glissando}
+							icon="slide_note"
+						/>
 					</Attrs>
 
 					<Subheader>{t.stream.mapping}</Subheader>

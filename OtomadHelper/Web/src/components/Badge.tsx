@@ -21,9 +21,9 @@ const StyledBadge = styled.div<{
 	--size: 16px;
 	display: inline-flex;
 	flex-shrink: 0;
-	padding: 0 3px;
 	block-size: var(--size);
 	min-inline-size: var(--size);
+	padding: 0 3px;
 	text-align: center;
 	background-color: ${c("fill-color-system-solid-neutral-background")};
 	scale: 1;
@@ -57,10 +57,10 @@ const StyledBadge = styled.div<{
 	}
 
 	&.beacon {
-		padding: 0;
 		block-size: 4px;
 		inline-size: 4px;
 		min-inline-size: unset;
+		padding: 0;
 	}
 
 	${ifColorScheme.contrast} & {
