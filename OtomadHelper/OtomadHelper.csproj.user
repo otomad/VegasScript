@@ -35,6 +35,9 @@
     <EmbeddedResource Update="Strings\en-US.resw">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Update="Strings\zh-CN.resw">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Update="FodyWeavers.xsd">

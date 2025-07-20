@@ -127,7 +127,7 @@ const StyledTabItem = styled.button`
 `;
 
 const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [false] as never }: { hidden?: boolean; badge?: BadgeArgs }) =>
-	<Badge status={status ?? "accent"} hidden={hidden || layoutHidden}>{badge}</Badge>;
+	<Badge status={status ?? "accent"} hidden={hidden || layoutHidden} unmountOnExit={false}>{badge}</Badge>;
 
 export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, ariaCurrentWhenSelected, autoScrollIntoView = true, _vertical: vertical, ...htmlAttrs }: FCP<{
 	/** Icon. */

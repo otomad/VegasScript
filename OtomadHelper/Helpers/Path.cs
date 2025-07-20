@@ -50,7 +50,7 @@ public class Path :
 	/// <param name="paths">Content.</param>
 	/// <returns>A new path class.</returns>
 	[Obsolete("Use `new Path(...)` instead")]
-	public static Path Resolve(params string[] paths) => new(paths);
+	public static Path Resolve(params string[] paths) => [.. paths];
 
 	/// <summary>
 	/// Protocol string like: <c>http://</c>, <c>file:///</c>, etc.
@@ -59,17 +59,15 @@ public class Path :
 
 	private char sep = PathStatic.DirectorySeparatorChar;
 
-	private bool isWindows = true;
-
 	/// <summary>
 	/// Is the input a Windows format path?<br />
 	/// This will determine the delimiter form of the final generated path.<br />
 	/// Defaults to <c>true</c>.
 	/// </summary>
 	public bool IsWindows {
-		get => isWindows;
+		get => field;
 		set {
-			isWindows = value;
+			field = value;
 			sep = value ? PathStatic.DirectorySeparatorChar : PathStatic.AltDirectorySeparatorChar;
 		}
 	}
@@ -116,7 +114,7 @@ public class Path :
 	/// Make a clone of the current instance.
 	/// </summary>
 	/// <returns>Cloned new instance.</returns>
-	public Path Clone() => new(this);
+	public Path Clone() => [.. this];
 
 	/// <summary>
 	/// Get the full path text.
@@ -204,6 +202,21 @@ public class Path :
 	/// Determine whether the path is a directory?
 	/// </summary>
 	public bool IsDirectory => File.GetAttributes(FullPath).HasFlag(FileAttributes.Directory);
+
+	/// <summary>
+	/// Create the directory with current path if it is not exist.
+	/// </summary>
+	/// <returns>
+	/// Return <see langword="null" /> if create successfully, or return corresponding <see cref="Exception" /> instance if raise any exception.
+	/// </returns>
+	public Exception? CreateDirectory() {
+		try {
+			System.IO.Directory.CreateDirectory(FullPath);
+			return null;
+		} catch (Exception e) {
+			return e;
+		}
+	}
 	#endregion
 
 	#region Operator Overloading
@@ -222,11 +235,7 @@ public class Path :
 		return path1;
 	}
 
-	public static Path operator +(string _path1, Path path2) {
-		Path path1 = new(_path1);
-		path1.AddRange(path2);
-		return path1;
-	}
+	// NOTE: `string` + `Path` will be converted to `string` instead of `Path`!
 
 	public override bool Equals(object obj) => ReferenceEquals(this, obj) || obj is not null && obj is Path path && this == path;
 

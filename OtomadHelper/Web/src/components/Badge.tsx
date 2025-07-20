@@ -69,15 +69,17 @@ const StyledBadge = styled.div<{
 	}
 `;
 
-export default function Badge({ children, status = "info", colorOverride, hidden, transitionOnAppear = true, size, _requestAnimationFrame, className, ref, ...htmlAttrs }: FCP<{
-	/** The state of the badge, that is, the color. */
+export default function Badge({ children, status = "info", colorOverride, hidden, transitionOnAppear = true, unmountOnExit = true, size, _requestAnimationFrame, className, ref, ...htmlAttrs }: FCP<{
+	/** The state of the badge, that is, the color. @default "info" */
 	status?: Status;
 	/** Replace the default color of `status` prop with a different status color. */
 	colorOverride?: Status;
 	/** Hidden? */
 	hidden?: boolean;
-	/** Play transition when the badge is appeared? */
+	/** Play transition when the badge is appeared? @default true */
 	transitionOnAppear?: boolean;
+	/** Unmount the badge when hidden? @default true */
+	unmountOnExit?: boolean;
 	/** Badge size. */
 	size?: Numberish;
 	/** @internal */
@@ -88,7 +90,7 @@ export default function Badge({ children, status = "info", colorOverride, hidden
 	const iconName = `badge/${status.in("neutual", "accent") ? "info" : status}` as const;
 	const beacon = typeof children === "boolean";
 	return (
-		<CssTransition in={!hidden} unmountOnExit appear={transitionOnAppear} requestAnimationFrame={_requestAnimationFrame}>
+		<CssTransition in={!hidden} unmountOnExit={unmountOnExit} appear={transitionOnAppear} requestAnimationFrame={_requestAnimationFrame}>
 			<StyledBadge
 				ref={ref}
 				$status={colorOverride}

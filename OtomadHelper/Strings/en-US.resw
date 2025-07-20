@@ -73,6 +73,9 @@
 	<data name="ContentDialog.Button.LearnMore" xml:space="preserve">
 		<value>&amp;Learn more</value>
 	</data>
+	<data name="ContentDialog.Button.OpenPath" xml:space="preserve">
+		<value>Open &amp;path</value>
+	</data>
 	<data name="ContentDialog.Expander.ExpandDetails" xml:space="preserve">
 		<value>Expand details</value>
 	</data>

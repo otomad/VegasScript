@@ -1198,6 +1198,7 @@ export default {
 				cancel: "&Cancel", // Add “&” before a letter to indicate the access key.
 				close: "&Close", // Add “&” before a letter to indicate the access key.
 				learnMore: "&Learn more", // Add “&” before a letter to indicate the access key.
+				openPath: "Open &path", // Add “&” before a letter to indicate the access key.
 			},
 			expander: {
 				expandDetails: "Expand details",

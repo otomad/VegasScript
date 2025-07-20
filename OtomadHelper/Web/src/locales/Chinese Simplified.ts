@@ -1171,6 +1171,7 @@ export default {
 				cancel: "取消",
 				close: "关闭",
 				learnMore: "了解更多",
+				openPath: "打开路径",
 			},
 			expander: {
 				expandDetails: "展开详细信息",

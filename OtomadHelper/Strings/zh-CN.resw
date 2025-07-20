@@ -73,6 +73,9 @@
 	<data name="ContentDialog.Button.LearnMore" xml:space="preserve">
 		<value>了解更多</value>
 	</data>
+	<data name="ContentDialog.Button.OpenPath" xml:space="preserve">
+		<value>打开路径</value>
+	</data>
 	<data name="ContentDialog.Expander.ExpandDetails" xml:space="preserve">
 		<value>展开详细信息</value>
 	</data>
