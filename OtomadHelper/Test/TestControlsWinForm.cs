@@ -26,7 +26,7 @@ public partial class TestControlsWinForm : Form {
 	private void Button_Click(object sender, EventArgs e) {
 		if (sender is not Control control) return;
 		Point location = control.PointToScreen(Point.Empty);
-		(double dpiX, double dpiY) = this.GetDpi();
+		(double dpiX, double dpiY) = this.Dpi;
 		Rect rect = new(
 			x: location.X / dpiX,
 			y: location.Y / dpiY,

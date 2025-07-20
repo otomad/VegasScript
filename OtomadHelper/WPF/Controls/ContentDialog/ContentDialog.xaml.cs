@@ -102,7 +102,7 @@ public partial class ContentDialog : BackdropWindow {
 	private static Dictionary<string, ContentDialog> singletons = [];
 
 	private static void ValidateDialogResultType<TDialogResult>() {
-		if (!typeof(TDialogResult).IsNullable()) {
+		if (!typeof(TDialogResult).IsNullable) {
 			string typeName = typeof(TDialogResult).Name;
 			throw new TypeLoadException($"""The generic type "{typeName}" in method "{nameof(ContentDialog)}.{nameof(ShowDialog)}" is a value type, and it is not a nullable type. You have to replace the generic type from "{typeName}" to "{typeName}?".""");
 		}

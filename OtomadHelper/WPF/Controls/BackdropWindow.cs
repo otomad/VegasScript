@@ -94,7 +94,7 @@ public partial class BackdropWindow : Window {
 	public void MoveIntoScreen() {
 		Screen screen = Screen.FromHandle(Handle);
 		System.Drawing.Rectangle workingArea = screen.WorkingArea;
-		(double dpiX, double dpiY) = this.GetDpi();
+		(double dpiX, double dpiY) = this.Dpi;
 		double maxLeft = workingArea.Right / dpiX - Width,
 			maxTop = workingArea.Bottom / dpiY - Height,
 			minLeft = workingArea.Left / dpiX,
@@ -220,7 +220,7 @@ public partial class BackdropWindow : Window {
 	protected internal static bool GetWindowsAccentPalette(AccentPalette palette) {
 		using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\DWM")) {
 			if (key?.GetValue("AccentColor") is int value)
-				palette.Colorization = MediaColorFromAbgr(value);
+				palette.Colorization = Color.FromAbgr(value);
 			else return false; // Version lower than Windows Vista.
 		}
 

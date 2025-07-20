@@ -38,7 +38,6 @@ namespace OtomadHelper.Interop;
 /// </example>
 public class RegistryMonitor : IDisposable {
 	#region P/Invoke
-
 	[DllImport("advapi32.dll", SetLastError = true)]
 	private static extern int RegOpenKeyEx(IntPtr hKey, string subKey, uint options, int samDesired, out IntPtr phkResult);
 

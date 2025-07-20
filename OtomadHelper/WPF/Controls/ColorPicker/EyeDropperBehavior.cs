@@ -57,7 +57,7 @@ public class EyeDropperBehavior : Behavior<Button> {
 		if (!AssociatedObject.IsMouseCaptured) return;
 		DrawingPoint position = CursorPosition;
 		Visual source = PresentationSource.FromVisual(Preview) is not null ? Preview : Window;
-		Preview.MoveToMouse(position, source.GetDpi());
+		Preview.MoveToMouse(position, source.Dpi);
 		Color color = GetColorAt(position);
 		Preview.PointColor = color;
 	}

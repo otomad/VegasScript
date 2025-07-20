@@ -22,7 +22,7 @@ public struct SystemCursorConfig {
 			if (key?.GetValue("CursorType") is int type)
 				Type = (SystemCursorType)type;
 			if ((key?.GetValue("CursorColor") is int color) && (Type == SystemCursorType.ColoredSvg))
-				Color = MediaColorFromAbgr(color, false);
+				Color = Color.FromAbgr(color, false);
 			if (Type is SystemCursorType.BlackBmp or SystemCursorType.BlackSvg)
 				Color = Colors.Black;
 		}

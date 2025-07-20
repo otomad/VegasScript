@@ -103,7 +103,7 @@ public class BetterBridge {
 					else if (type == typeof(bool) && jsonType is JsonValueKind.True or JsonValueKind.False) continue;
 					else if ((type.Extends(typeof(IEnumerable)) || type.Extends(typeof(ITuple))) &&
 						jsonType is JsonValueKind.Array) continue;
-					else if (type.IsNumber() && jsonType is JsonValueKind.Number) continue;
+					else if (type.IsNumber && jsonType is JsonValueKind.Number) continue;
 					else return false;
 				}
 				return true;

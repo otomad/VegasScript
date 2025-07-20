@@ -91,7 +91,7 @@ public partial class BaseFlyout : BackdropWindow {
 	public void Flyout(Rect rect) {
 		Screen screen = Screen.FromHandle(Handle);
 		System.Drawing.Rectangle workingArea = screen.WorkingArea;
-		(_, double dpiY) = this.GetDpi();
+		(_, double dpiY) = this.Dpi;
 		double screenHeight = workingArea.Height / dpiY;
 		bool placeTop = rect.Top >= screenHeight - rect.Bottom;
 		double clientHeight = Content is FrameworkElement element ? element.ActualHeight : ActualHeight;

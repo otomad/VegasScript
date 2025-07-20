@@ -142,7 +142,7 @@ public sealed partial class Host : UserControl {
 
 	private void Host_DragEnter(object sender, DragEventArgs e) {
 		if (LoadingAnimationPicture.Visible) return; // The animation should not respond to drag events when initializing it.
-		string[] files = e.GetFileNames();
+		string[] files = e.FileNames;
 		if (files.Length < 1) return;
 		string fullPath = files[0];
 		Path path = new(fullPath);
@@ -253,7 +253,7 @@ public sealed partial class Host : UserControl {
 
 	public Rect ClientToScreenRect(Rect clientRect) {
 		Point location = PointToScreen(Point.Empty);
-		(double dpiX, double dpiY) = this.GetDpi();
+		(double dpiX, double dpiY) = this.Dpi;
 		return new(
 			x: location.X / dpiX + clientRect.X,
 			y: location.Y / dpiY + clientRect.Y,

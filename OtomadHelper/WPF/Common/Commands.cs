@@ -15,12 +15,12 @@ public static class Commands {
 	internal static readonly CommandBinding[] CommandBindings = [
 		Create(ApplicationCommands.Delete, static (RoutedEventArgs e, ref bool canExecute) => {
 			if (e.OriginalSource is not TextBox textBox) return null;
-			canExecute = textBox.IsEditable() && textBox.SelectionLength > 0;
+			canExecute = textBox.IsEditable && textBox.SelectionLength > 0;
 			return () => textBox.SelectedText = string.Empty;
 		}),
 		Create(ClearAll, static (RoutedEventArgs e, ref bool canExecute) => {
 			if (e.OriginalSource is not TextBox textBox) return null;
-			canExecute = textBox.IsEditable() && textBox.Text.Length > 0;
+			canExecute = textBox.IsEditable && textBox.Text.Length > 0;
 			return () => textBox.Clear();
 		}),
 	];

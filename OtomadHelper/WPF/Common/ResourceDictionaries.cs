@@ -10,11 +10,9 @@ public class NamedResourceDictionary : ResourceDictionary {
 	/// </summary>
 	public string Name {
 		get => !string.IsNullOrEmpty(name) ? name :
-			RootElement is NamedResourceDictionary resource ? resource.Name : name;
+			this.RootElement is NamedResourceDictionary resource ? resource.Name : name;
 		set => name = value;
 	}
-
-	public ResourceDictionary? RootElement => this.GetRootElement();
 }
 
 public class CustomControlResourceDictionary : ResourceDictionary {
