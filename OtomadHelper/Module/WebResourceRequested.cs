@@ -179,7 +179,7 @@ internal class ManagedStream(Stream s) : Stream {
 		if (root.GetAttributeCaseInsensitive("fill") is { } fill && fill != "none") {
 			root.SetAttribute("fill", expectedFill);
 			try {
-				Color fillColor = Color.FromHex_(expectedFill);
+				Color fillColor = Color.FromHex(expectedFill);
 				Color strokeColor = fillColor.IsColorLight ? Colors.Black : Colors.White;
 				if (root.GetAttributeCaseInsensitive("stroke") is not null)
 					root.SetAttribute("stroke", strokeColor.ToHex());

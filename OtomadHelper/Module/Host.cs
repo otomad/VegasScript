@@ -183,7 +183,10 @@ public sealed partial class Host : UserControl {
 		// it indicates that the target is a text box.
 		bool isTextBox = menuList.FirstOrDefault(item => item.Name == "paste") is { };
 		if (isTextBox) {
-			if (!isDevMode) RemoveMenuItems(["emoji", "inspectElement", "share", "webCapture"], [50221, 41120]);
+			if (!isDevMode) RemoveMenuItems(
+				names: ["emoji", "inspectElement", "share", "webCapture"],
+				commandIds: [50221, 41120]
+			);
 		} else {
 			if (!isDevMode) RemoveAllMenuItems();
 			string contextMenuJson = await webView.ExecuteScriptAsync("window.contextMenu");

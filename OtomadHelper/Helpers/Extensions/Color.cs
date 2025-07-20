@@ -94,8 +94,8 @@ public static partial class Extensions {
 		/// Convert a HEX color value (#RRGGBB[AA]) or HTML entity color to a <see cref="MediaColor" />.
 		/// </summary>
 		/// <exception cref="Exception">The input <paramref name="hex" /> is invalid or cannot be recognized by C#.</exception>
-		public static MediaColor FromHex_(string hex) => // TODO: name conflict.
-			DrawingColor.FromHex(hex).ToMediaColor();
+		public static MediaColor FromHex(string hex) =>
+			DrawingColor.FromHex_(hex).ToMediaColor();
 	}
 
 	extension(DrawingColor color) {
@@ -120,7 +120,7 @@ public static partial class Extensions {
 		/// Convert a HEX color value (#RRGGBB[AA]) or HTML entity color to a <see cref="DrawingColor" />.
 		/// </summary>
 		/// <exception cref="Exception">The input <paramref name="hex" /> is invalid or cannot be recognized by C#.</exception>
-		public static DrawingColor FromHex(string hex) {
+		public static DrawingColor FromHex_(string hex) { // TODO: name conflict.
 			if (hex.StartsWith("#")) {
 				if (hex.Length == 9) hex = "#" + hex.Substring(7, 2) + hex.Substring(1, 6);
 				else if (hex.Length == 5) hex = "#" + hex[4].Repeat(2) + hex[1].Repeat(2) + hex[2].Repeat(2) + hex[3].Repeat(2);
