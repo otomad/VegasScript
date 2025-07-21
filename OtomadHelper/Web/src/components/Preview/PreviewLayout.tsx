@@ -99,7 +99,7 @@ const StyledPreviewLayout = styled.div<{
 		}
 
 		&.lead::before {
-			animation-name: ${flippedKeyframes["Melody"]()};
+			animation-name: ${flippedKeyframes["Lead"]()};
 		}
 
 		&.bass::before {
