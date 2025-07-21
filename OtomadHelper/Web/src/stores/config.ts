@@ -310,7 +310,7 @@ namespace Config {
 			accentColor: "wallpaper",
 			backgroundColor: "windows",
 			uiScale: 100,
-			get uiScale1() { return this.uiScale / 100; },
+			get uiScale1() { return window.isWebView ? 1 : this.uiScale / 100; },
 			hideUseTips: false,
 			autoSwitchSourceFrom: true,
 			autoCollapsePrveClasses: true,
