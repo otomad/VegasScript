@@ -178,17 +178,13 @@ public static partial class Extensions {
 	/// </code>
 	/// </example>
 	/// </remarks>
-	public static async Task<TTarget> Then<TSource, TTarget>(this Task<TSource> task, Func<TSource, TTarget> then) =>
-		then(await task);
+	public static async Task<TTarget> Then<TSource, TTarget>(this Task<TSource> task, Func<TSource, TTarget> then) => then(await task);
 	/// <inheritdoc cref="Then{TSource, TTarget}(Task{TSource}, Func{TSource, TTarget})"/>
-	public static async Task Then<TSource>(this Task<TSource> task, Action<TSource> then) =>
-		then(await task);
+	public static async Task Then<TSource>(this Task<TSource> task, Action<TSource> then) => then(await task);
 	/// <inheritdoc cref="Then{TSource, TTarget}(Task{TSource}, Func{TSource, TTarget})"/>
-	public static async Task<TTarget> Then<TTarget>(this Task task, Func<TTarget> then) {
-		await task; return then(); }
+	public static async Task<TTarget> Then<TTarget>(this Task task, Func<TTarget> then) { await task; return then(); }
 	/// <inheritdoc cref="Then{TSource, TTarget}(Task{TSource}, Func{TSource, TTarget})"/>
-	public static async Task Then(this Task task, Action then) {
-		await task; then(); }
+	public static async Task Then(this Task task, Action then) { await task; then(); }
 	#endregion
 
 	extension(ResourceDictionary parent) {
@@ -290,6 +286,30 @@ public static partial class Extensions {
 			thread.Start();
 			thread.Join();
 		}
+	}
+
+	/// <summary>
+	/// Execute the specified function asynchronously in a new thread and return its result.
+	/// </summary>
+	/// <typeparam name="T">The type of function return value.</typeparam>
+	/// <param name="func">The function to be executed in the new thread.</param>
+	/// <returns>A <see cref="Task{TResult}"/>, represents the result of asynchronous operations.</returns>
+	/// <remarks>
+	/// This method will execute the <paramref name="func"/> in a new thread and return its result through a <see cref="TaskCompletionSource{TResult}"/>.
+	/// If the <paramref name="func"/> throws an exception, the exception will be passed to the returned task.
+	/// </remarks>
+	[Obsolete("Use Task.Run instead.")]
+	public static async Task<T> AsyncThread<T>(Func<T> func) {
+		TaskCompletionSource<T> tcs = new();
+		Thread thread = new(() => {
+			try {
+				tcs.SetResult(func());
+			} catch (Exception ex) {
+				tcs.SetException(ex);
+			}
+		});
+		thread.Start();
+		return await tcs.Task;
 	}
 
 	extension(double value) {

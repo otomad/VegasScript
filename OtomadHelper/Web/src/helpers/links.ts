@@ -1,3 +1,5 @@
+import crowdinBadgeApiLink from "./crowdin-badge-api-link";
+
 const Links = {
 	otomadHelper: {
 		documentation: fallbackWithLocale({
@@ -18,9 +20,10 @@ const Links = {
 			"zh-CN": "https://zh.crowdin.com/project/otomadhelper",
 			ja: "https://ja.crowdin.com/project/otomadhelper",
 		}),
+		badgeApi: crowdinBadgeApiLink,
 	},
 	gpl3: "https://www.gnu.org/licenses/gpl-3.0.html",
 	react: "https://github.com/facebook/react",
-};
+} as const;
 
 export default Links;

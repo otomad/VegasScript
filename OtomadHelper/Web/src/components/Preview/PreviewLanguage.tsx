@@ -1,3 +1,5 @@
+import links from "helpers/links";
+
 const TEXT_MARGIN = [10, 8] as const;
 
 const StyledPreviewLanguage = styled.div`
@@ -67,7 +69,7 @@ const StyledPreviewLanguage = styled.div`
 
 const approvalProgresses = atomWithStorageAndImmer("translationProgress", new Map<string, number>());
 approvalProgresses.onMount = setProgress => {
-	fetch("/api/crowdin")
+	fetch(import.meta.env.DEV ? "/api/crowdin" : links.crowdin.badgeApi)
 		.then(response => response.json())
 		.then(data => {
 			setProgress(draft => draft.set("en", 100));

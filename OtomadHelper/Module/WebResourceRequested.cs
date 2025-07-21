@@ -53,7 +53,7 @@ internal class ManagedStream(Stream s) : Stream {
 	internal static void Handler(WebView2 webView) {
 		const string HOST = RESOURCE_HOST + "*";
 		webView.CoreWebView2.AddWebResourceRequestedFilter(HOST, CoreWebView2WebResourceContext.All);
-		webView.CoreWebView2.WebResourceRequested += (sender, args) => {
+		webView.CoreWebView2.WebResourceRequested += (_, args) => {
 			CoreWebView2Environment webViewEnv = webView.CoreWebView2.Environment;
 			Uri uri = new(args.Request.Uri);
 			NameValueCollection query = HttpUtility.ParseQueryString(uri.Query);
@@ -71,9 +71,6 @@ internal class ManagedStream(Stream s) : Stream {
 							return;
 						case "fileicon":
 							Handler_Thumbnail(webView, args, path, true);
-							return;
-						case "api":
-							Handler_Api(webView, args, path);
 							return;
 						default:
 							break;
@@ -149,20 +146,6 @@ internal class ManagedStream(Stream s) : Stream {
 	}
 
 	private const string CROWDIN_API_URL = "https://badges.awesome-crowdin.com/stats-16002405-661336.json";
-
-	private static void Handler_Api(WebView2 webView, CoreWebView2WebResourceRequestedEventArgs args, string apiPath) {
-		switch (apiPath) {
-			case "crowdin":
-				if (GetHtmlBytes(CROWDIN_API_URL, webView.CoreWebView2.Settings.UserAgent) is not { } json) goto default;
-				MemoryStream memoryStream = new(json);
-				ManagedStream managedStream = new(memoryStream);
-				args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(managedStream, 200, "OK", GetHeader("json"));
-				break;
-			default:
-				args.Response = webView.CoreWebView2.Environment.CreateWebResourceResponse(null, 404, "Not Found", "");
-				break;
-		}
-	}
 
 	private static void Handler_SvgCursor(WebView2 webView, CoreWebView2WebResourceRequestedEventArgs args, string filePath, NameValueCollection query) {
 		const int BASE_SIZE = 32, MAX_SIZE = 128;

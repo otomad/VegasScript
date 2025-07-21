@@ -89,13 +89,6 @@ public static partial class Extensions {
 		/// this is usually not what we want. This overload method forces the conversion of <see cref="int" /> to <see cref="uint" /> for ease of use.
 		/// </remarks>
 		public static MediaColor FromAbgr(int value, bool includeAlpha = true) => FromAbgr(unchecked((uint)value), includeAlpha);
-
-		/// <summary>
-		/// Convert a HEX color value (#RRGGBB[AA]) or HTML entity color to a <see cref="MediaColor" />.
-		/// </summary>
-		/// <exception cref="Exception">The input <paramref name="hex" /> is invalid or cannot be recognized by C#.</exception>
-		public static MediaColor FromHex(string hex) =>
-			DrawingColor.FromHex_(hex).ToMediaColor();
 	}
 
 	extension(DrawingColor color) {
@@ -120,7 +113,7 @@ public static partial class Extensions {
 		/// Convert a HEX color value (#RRGGBB[AA]) or HTML entity color to a <see cref="DrawingColor" />.
 		/// </summary>
 		/// <exception cref="Exception">The input <paramref name="hex" /> is invalid or cannot be recognized by C#.</exception>
-		public static DrawingColor FromHex_(string hex) { // TODO: name conflict.
+		public static DrawingColor FromHex(string hex) { // TODO: name conflict.
 			if (hex.StartsWith("#")) {
 				if (hex.Length == 9) hex = "#" + hex.Substring(7, 2) + hex.Substring(1, 6);
 				else if (hex.Length == 5) hex = "#" + hex[4].Repeat(2) + hex[1].Repeat(2) + hex[2].Repeat(2) + hex[3].Repeat(2);
@@ -137,5 +130,19 @@ public static partial class Extensions {
 			Rgb255 rgb = color.Rgb.Byte255;
 			return MediaColor.FromArgb((byte)color.Alpha.A255, (byte)rgb.ConstrainedR, (byte)rgb.ConstrainedG, (byte)rgb.ConstrainedB);
 		}
+	}
+}
+
+// C# 14 static methods in extension member with same name will conflict with the static methods in the same class.
+// So I have to declare them in a separate partial class to avoid the conflict.
+// see: https://github.com/dotnet/csharplang/discussions/9537
+public static partial class Extensions_Conflict_1 {
+	extension(MediaColor color) {
+		/// <summary>
+		/// Convert a HEX color value (#RRGGBB[AA]) or HTML entity color to a <see cref="MediaColor" />.
+		/// </summary>
+		/// <exception cref="Exception">The input <paramref name="hex" /> is invalid or cannot be recognized by C#.</exception>
+		public static MediaColor FromHex(string hex) =>
+			DrawingColor.FromHex(hex).ToMediaColor();
 	}
 }

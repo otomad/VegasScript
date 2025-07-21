@@ -67,12 +67,16 @@ public class Module : ICustomCommandModule {
 	/// Occurs when the command is invoked.
 	/// </summary>
 	private void HandlePICmdInvoked(object sender, EventArgs args) {
-		if (!vegas.ActivateDockView(InternalName)) {
-			Dockable dock = new(this) {
-				AutoLoadCommand = customCommandModule,
-				PersistDockWindowState = true,
-			};
-			vegas.LoadDockView(dock);
+		try {
+			if (!vegas.ActivateDockView(InternalName)) {
+				Dockable dock = new(this) {
+					AutoLoadCommand = customCommandModule,
+					PersistDockWindowState = true,
+				};
+				vegas.LoadDockView(dock);
+			}
+		} catch (Exception e) {
+			ShowError(e);
 		}
 	}
 

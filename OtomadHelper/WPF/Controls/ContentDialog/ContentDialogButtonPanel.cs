@@ -6,7 +6,7 @@ namespace OtomadHelper.WPF.Controls;
 [DependencyProperty<double>("Spacing", DefaultValue = 8d)]
 internal partial class ContentDialogButtonPanel : Grid {
 	public ContentDialogButtonPanel() : base() {
-		LayoutUpdated += (sender, e) => UpdateChildren();
+		LayoutUpdated += (_, _) => UpdateChildren();
 	}
 
 	partial void OnSpacingChanged() {

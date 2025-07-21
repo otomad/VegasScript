@@ -69,7 +69,7 @@ public class ObservableObject : CommunityToolkit.Mvvm.ComponentModel.ObservableO
 	public delegate void NotifyPropertyChangeHandler<T>(T newValue, T? oldValue, string propertyName);
 
 	public void NotifyPropertyChanged<T>(string propertyName, NotifyPropertyChangeHandler<T> Handler, bool triggerEvenIfNoChange = false) {
-		PropertyChangedEventHandler OnPropertyChanged = (sender, _e) => {
+		PropertyChangedEventHandler OnPropertyChanged = (_, _e) => {
 			if (_e.PropertyName == propertyName) {
 				dynamic e = _e;
 				Handler(e.NewValue, e.OldValue, e.PropertyName);
@@ -81,7 +81,7 @@ public class ObservableObject : CommunityToolkit.Mvvm.ComponentModel.ObservableO
 	}
 
 	public void NotifyPropertyChanging<T>(string propertyName, NotifyPropertyChangeHandler<T> Handler) =>
-		PropertyChanging += (sender, _e) => {
+		PropertyChanging += (_, _e) => {
 			if (_e.PropertyName == propertyName) {
 				dynamic e = _e;
 				Handler(e.NewValue, e.OldValue, e.PropertyName);

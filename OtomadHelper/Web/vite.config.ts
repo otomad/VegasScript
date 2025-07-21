@@ -24,6 +24,7 @@ import minifyLottieJson from "./src/plugins/vite/minify-lottie-json";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
 import injectScript from "./src/plugins/vite/inject-script";
 import moment from "moment";
+import crowdinBadgeApiLink from "./src/helpers/crowdin-badge-api-link";
 
 const ENABLE_MINIFY = true;
 const NO_BUNDLE = false;
@@ -172,7 +173,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 		server: {
 			proxy: {
 				"/api/crowdin": {
-					target: "https://badges.awesome-crowdin.com/stats-16002405-661336.json",
+					target: crowdinBadgeApiLink,
 					changeOrigin: true,
 					secure: false,
 					rewrite: () => "",

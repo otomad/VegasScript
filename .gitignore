@@ -403,4 +403,7 @@ MigrationBackup/
 # JetBrains Rider
 *.sln.iml
 
+# Test
+OtomadHelper/Test/test.cs
+
 # End of https://www.toptal.com/developers/gitignore/api/csharp

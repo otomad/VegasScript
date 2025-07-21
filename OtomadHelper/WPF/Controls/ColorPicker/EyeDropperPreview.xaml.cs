@@ -26,7 +26,7 @@ public partial class EyeDropperPreview : Window {
 
 	public new void Hide() {
 		Storyboard hideAnimation = (Storyboard)Resources["Hide"];
-		hideAnimation.Completed += (sender, e) => base.Hide();
+		hideAnimation.Completed += (_, _) => base.Hide();
 		BeginStoryboard(hideAnimation);
 	}
 

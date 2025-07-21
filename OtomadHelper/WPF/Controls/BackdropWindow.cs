@@ -48,7 +48,7 @@ public partial class BackdropWindow : Window {
 		Background = Brushes.Transparent;
 		Loaded += Window_Loaded;
 		//Closing += Window_Closing;
-		IsVisibleChanged += (sender, e) => {
+		IsVisibleChanged += (_, e) => {
 			if ((bool)e.NewValue) RaiseEvent(new RoutedEventArgs(ShowingEvent));
 		};
 		OnCultureChanged(Culture);
@@ -125,7 +125,7 @@ public partial class BackdropWindow : Window {
 	protected internal Task<T> GetDialogResultTask<T>(Func<T> GetResult) {
 		bool isGottenDialogResultTask = false;
 		TaskCompletionSource<T> taskCompletionSource = new();
-		Closing += (sender, e) => {
+		Closing += (_, _) => {
 			if (isGottenDialogResultTask) return;
 			isGottenDialogResultTask = true;
 			taskCompletionSource.SetResult(GetResult());

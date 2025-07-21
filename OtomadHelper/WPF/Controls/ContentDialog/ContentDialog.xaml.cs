@@ -92,7 +92,7 @@ public partial class ContentDialog : BackdropWindow {
 				return default(TDialogResult);
 			}
 			singletons.Add(singletonId!, dialog);
-			dialog.Closed += (sender, e) => {
+			dialog.Closed += (_, _) => {
 				singletons.Remove(singletonId!);
 			};
 		}
@@ -171,7 +171,7 @@ public partial class ContentDialog : BackdropWindow {
 			Storyboard.SetTargetProperty(animation, new("Height"));
 			Storyboard storyboard = new();
 			storyboard.Children.Add(animation);
-			storyboard.Completed += (sender, e) => {
+			storyboard.Completed += (_, _) => {
 				SizeToContent = sizeToContent;
 				isExpansionRunning = false;
 				SetIsVerticalScrollBarShown(true);

@@ -35,11 +35,11 @@ public sealed partial class Host : UserControl {
 		Dock = DockStyle.Fill;
 		CheckForIllegalCrossThreadCalls = false;
 
-		DragDrop += (sender, e) => Host_DragLeave(isDrop: true);
-		DragLeave += (sender, e) => Host_DragLeave(isDrop: false);
+		DragDrop += (_, _) => Host_DragLeave(isDrop: true);
+		DragLeave += (_, _) => Host_DragLeave(isDrop: false);
 
 		SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-		SystemCursorConfig.CursorChanged += (sender, e) => PostSystemConfigToTheWeb();
+		SystemCursorConfig.CursorChanged += (_, _) => PostSystemConfigToTheWeb();
 
 #if VEGAS_ENV
 		BackColor = Skins.Colors.ButtonFace;
@@ -50,7 +50,7 @@ public sealed partial class Host : UserControl {
 	}
 
 	private async void CoreWebView2_LoadEnvironment() {
-		CoreWebView2EnvironmentOptions options = new("--enable-features=OverlayScrollbar,msEdgeFluentOverlayScrollbar,msOverlayScrollbarWinStyleAnimation"); // msWebView2BrowserHitTransparent
+		CoreWebView2EnvironmentOptions options = new("--enable-features=OverlayScrollbar,msEdgeFluentOverlayScrollbar,msOverlayScrollbarWinStyleAnimation --disable-web-security"); // msWebView2BrowserHitTransparent
 		CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(null, null, options);
 		await Browser.EnsureCoreWebView2Async(environment);
 		CoreWebView2Settings settings = Browser.CoreWebView2.Settings;
@@ -74,7 +74,7 @@ public sealed partial class Host : UserControl {
 		ManagedStream.Handler(Browser);
 		Browser.Source = new(ManagedStream.RESOURCE_HOST + "index.html"); // "http://www.sunchateau.com/free/ua.htm"
 		webView.NewWindowRequested += CoreWebView2_NewWindowRequested;
-		webView.DocumentTitleChanged += (sender, e) => DocumentTitleChanged?.Invoke(Browser.CoreWebView2.DocumentTitle);
+		webView.DocumentTitleChanged += (_, _) => DocumentTitleChanged?.Invoke(Browser.CoreWebView2.DocumentTitle);
 		webView.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
 		webView.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
 		webView.AddHostObjectToScript("bridge", new BetterBridge(new Bridge()));
@@ -244,7 +244,7 @@ public sealed partial class Host : UserControl {
 						menuItem.Children.AddRange(CreateContextMenuItems(item.items ?? [], menuUuid));
 						break;
 					default:
-						menuItem.CustomItemSelected += (sender, e) =>
+						menuItem.CustomItemSelected += (_, _) =>
 							PostWebMessage(new ContextMenuItemClickEventArgs(menuUuid, item.uuid));
 						break;
 				}

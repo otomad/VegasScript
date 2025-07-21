@@ -22,7 +22,7 @@ public partial class ColorTrackThumb : Thumb {
 	protected Canvas? Canvas { get; private set; }
 
 	public ColorTrackThumb() {
-		Loaded += (sender, e) => {
+		Loaded += (_, _) => {
 			Canvas = this.GetParent<Canvas>();
 
 			if (Canvas is not null) {
@@ -32,7 +32,7 @@ public partial class ColorTrackThumb : Thumb {
 				Canvas.PreviewMouseDown += Canvas_MouseDown;
 				Canvas.PreviewMouseMove += Canvas_MouseMove;
 				Canvas.PreviewMouseUp += Canvas_MouseUp;
-				Canvas.SizeChanged += (sender, e) => OnChange();
+				Canvas.SizeChanged += (_, _) => OnChange();
 			}
 		};
 	}

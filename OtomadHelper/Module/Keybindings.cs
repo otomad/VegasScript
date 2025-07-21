@@ -30,7 +30,13 @@ public class Keybindings(Module module) {
 		if (iconName is { })
 			command.IconFile = Module.SaveAndGetIconPath(iconName);
 		SetCommandName(command, () => t.Keybindings.Commands[typeName]);
-		command.Invoked += (sender, e) => TriggerKeybinding?.Invoke(command, new(type));
+		command.Invoked += (_, _) => {
+			try {
+				TriggerKeybinding?.Invoke(command, new(type));
+			} catch (Exception e) {
+				ShowError(e);
+			}
+		};
 		Parent.AddChild(command);
 		Commands.Add(type, command);
 	}

@@ -15,7 +15,7 @@ public partial class ConfirmDeleteFlyout : BaseFlyout {
 		ConfirmDeleteFlyoutViewModel viewModel = flyout.DataContext;
 		viewModel.Message = message;
 		dialogResult = flyout.GetDialogResultTask(() => flyout.DataContext.DialogResult);
-		flyout.Loaded += (sender, e) => flyout.Flyout(targetRect);
+		flyout.Loaded += (_, _) => flyout.Flyout(targetRect);
 		return flyout;
 	}
 }

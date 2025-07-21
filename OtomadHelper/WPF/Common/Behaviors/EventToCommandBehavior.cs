@@ -16,7 +16,7 @@ public partial class EventToCommandBehavior : Behavior<FrameworkElement> {
 	private readonly RoutedEventHandler handler;
 
 	public EventToCommandBehavior() {
-		handler = (sender, e) => {
+		handler = (_, e) => {
 			object? args = CommandParameter;
 
 			if (args is null && !string.IsNullOrWhiteSpace(EventArgsParameterPath))

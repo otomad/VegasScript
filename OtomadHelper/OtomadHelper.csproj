@@ -192,7 +192,7 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>-->
 		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 		<PackageReference Include="NAudio" Version="2.2.1" />
 		<PackageReference Include="PanguSpacing" Version="1.1.6" />

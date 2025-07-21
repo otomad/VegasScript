@@ -26,7 +26,7 @@ public partial class PitchPickerFlyout : BaseFlyout {
 		PitchPickerFlyout picker = new();
 		picker.SetPitchInitially(pitch);
 		//picker.Width = targetRect.Width + picker.ItemPadding * 2;
-		picker.Loaded += (sender, e) => picker.Center(targetRect, SetWidthType.Width);
+		picker.Loaded += (_, _) => picker.Center(targetRect, SetWidthType.Width);
 		dialogResult = picker.GetDialogResultTask(() => picker.DataContext.Pitch);
 		return picker;
 	}

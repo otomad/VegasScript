@@ -16,9 +16,9 @@ public class PitchPickerFlyoutListView : ListView {
 public partial class PitchPickerFlyoutListViewItem : ListViewItem {
 	public PitchPickerFlyoutListViewItem() {
 		// If user press the item and then drag it out, do not trigger the click event when mouse up.
-		PreviewMouseLeftButtonDown += (sender, e) => IsPressed = true;
-		MouseLeave += (sender, e) => IsPressed = false;
-		PreviewMouseLeftButtonUp += (sender, e) => {
+		PreviewMouseLeftButtonDown += (_, _) => IsPressed = true;
+		MouseLeave += (_, _) => IsPressed = false;
+		PreviewMouseLeftButtonUp += (_, _) => {
 			if (IsPressed) {
 				RaiseEvent(new RoutedEventArgs(ClickEvent));
 			}

@@ -1,4 +1,7 @@
 using System.Net;
+using System.Net.Http;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OtomadHelper.Helpers;
 
@@ -47,23 +50,21 @@ public static class Misc {
 	/// <param name="url">URL link.</param>
 	/// <param name="userAgent">Custom the navigator user agent.</param>
 	/// <returns>Web page source code content.</returns>
-	public static string? GetHtml(string url, string? userAgent = null) {
+	public async static Task<string?> GetHtml(string url, string? userAgent = null) {
+		userAgent ??= DEFAULT_USER_AGENT;
 		try {
-			byte[]? text = GetHtmlBytes(url, userAgent); // Get the web page source code.
-			return text is null ? null : Encoding.GetEncoding("UTF-8").GetString(text); // Convert the encoding.
+			HttpClient client = new();
+			return await client.GetStringAsync(url);
 		} catch (Exception) {
 			return null;
 		}
 	}
 
-	public static byte[]? GetHtmlBytes(string url, string? userAgent = null) {
+	public async static Task<byte[]?> GetHtmlBytes(string url, string? userAgent = null) {
 		userAgent ??= DEFAULT_USER_AGENT;
 		try {
-			if (url.StartsWith("https")) // Resolve an issue of WebClient cannot download content via HTTPS
-				ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true; // Always accept.
-			WebClient webClient = new();
-			webClient.Headers.Add("user-agent", userAgent);
-			return webClient.DownloadData(url); // Get the web page source code.
+			HttpClient client = new();
+			return await client.GetByteArrayAsync(url);
 		} catch (Exception) {
 			return null;
 		}

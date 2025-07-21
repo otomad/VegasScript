@@ -638,7 +638,7 @@ export function getCurrentState<T>(setter: SetState<T>) {
  * @throws {RangeError} If the fallback key does not exist in the object.
  * @returns A proxy of the original object that returns the fallback value for missing properties.
  */
-export function fallbackWith<T extends Record<PropertyKey, Any>>(target: T, fallbackKey: keyof T): T & Record<PropertyKey, T[keyof T]> {
+export function fallbackWith<const T extends Record<PropertyKey, Any>>(target: T, fallbackKey: keyof T): T & Record<PropertyKey, T[keyof T]> {
 	const errorMsgHeader = `Failed to execute "${fallbackWith.name}": `;
 	if (arguments.length !== fallbackWith.length) throw new TypeError(`${errorMsgHeader}${fallbackWith.length} argument required, but only ${arguments.length} present.`);
 	if (!isObject(target)) throw new TypeError(`${errorMsgHeader}parameter 1 is not of type "object".`);
@@ -669,7 +669,7 @@ export function fallbackWith<T extends Record<PropertyKey, Any>>(target: T, fall
  * @throws {RangeError} If `fallbackLocale` is not a valid locale identifier.
  * @returns A proxy object that provides locale-based property access with fallback logic.
  */
-export function fallbackWithLocale<T extends Record<Intl.UnicodeBCP47LocaleIdentifier, Any>>(target: T, fallbackLocale: keyof T = "en"): T & Record<Intl.UnicodeBCP47LocaleIdentifier, T[keyof T]> {
+export function fallbackWithLocale<const T extends Record<Intl.UnicodeBCP47LocaleIdentifier, Any>>(target: T, fallbackLocale: keyof T = "en"): T & Record<Intl.UnicodeBCP47LocaleIdentifier, T[keyof T]> {
 	const errorMsgHeader = `Failed to execute "${fallbackWithLocale.name}": `;
 	if (arguments.length !== fallbackWithLocale.length) throw new TypeError(`${errorMsgHeader}${fallbackWithLocale.length} argument required, but only ${arguments.length} present.`);
 	if (!isObject(target)) throw new TypeError(`${errorMsgHeader}parameter 1 is not of type "object".`);

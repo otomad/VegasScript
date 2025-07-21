@@ -116,7 +116,7 @@ public partial class ComboBoxFlyout : BaseFlyout {
 			parentStoryboard.Children.Add(heightAnimation);
 			parentStoryboard.Children.Add(topAnimation);
 			if (Completed != null)
-				parentStoryboard.Completed += (sender, e) => Completed();
+				parentStoryboard.Completed += (_, _) => Completed();
 			parentStoryboard.Begin(this);
 		} else {
 			TimeSpan beginTime = isExit ? default : TimeSpan.FromMilliseconds(300);
@@ -136,7 +136,7 @@ public partial class ComboBoxFlyout : BaseFlyout {
 			Storyboard childStoryboard = new();
 			childStoryboard.Children.Add(rectAnimation);
 			if (Completed != null)
-				childStoryboard.Completed += (sender, e) => Completed();
+				childStoryboard.Completed += (_, _) => Completed();
 			childStoryboard.Begin(ItemsControlWrapper);
 		}
 	}*/

@@ -55,7 +55,7 @@ public interface ITimer {
 
 		public WinForm(Action Callback, double ms) {
 			timer = new();
-			callback = (sender, e) => Callback();
+			callback = (_, _) => Callback();
 			timer.Tick += callback;
 			timer.Interval = (int)ms;
 		}
@@ -82,7 +82,7 @@ public interface ITimer {
 		}
 
 		public ITimer SingleShot() {
-			timer.Tick += (sender, e) => Stop();
+			timer.Tick += (_, _) => Stop();
 			Start();
 			return this;
 		}
@@ -111,7 +111,7 @@ public interface ITimer {
 
 		public WPF(Action Callback, double ms) {
 			timer = new();
-			callback = (sender, e) => Callback();
+			callback = (_, _) => Callback();
 			timer.Tick += callback;
 			timer.Interval = TimeSpan.FromMilliseconds(ms);
 		}
@@ -138,7 +138,7 @@ public interface ITimer {
 		}
 
 		public ITimer SingleShot() {
-			timer.Tick += (sender, e) => Stop();
+			timer.Tick += (_, _) => Stop();
 			Start();
 			return this;
 		}
@@ -167,7 +167,7 @@ public interface ITimer {
 
 		public Timer(Action Callback, double ms) {
 			timer = new();
-			callback = (sender, e) => Callback();
+			callback = (_, _) => Callback();
 			timer.Elapsed += callback;
 			timer.Interval = ms;
 			timer.AutoReset = true;
@@ -195,7 +195,7 @@ public interface ITimer {
 		}
 
 		public ITimer SingleShot() {
-			timer.Elapsed += (sender, e) => Stop();
+			timer.Elapsed += (_, _) => Stop();
 			Start();
 			return this;
 		}

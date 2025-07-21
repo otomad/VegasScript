@@ -12,14 +12,11 @@ namespace OtomadHelper.Interop;
 /// <see cref="Microsoft.Win32.RegistryKey"/> class. <see cref="RegistryMonitor"/> imports
 /// that function and encapsulates it in a convenient manner.
 /// </para>
-/// </remarks>
 /// <example>
 /// This sample shows how to monitor <c>HKEY_CURRENT_USER\Environment</c> for changes:
 /// <code>
-/// public class MonitorSample
-/// {
-///     static void Main()
-///     {
+/// public class MonitorSample {
+///     static void Main() {
 ///         RegistryMonitor monitor = new RegistryMonitor(RegistryHive.CurrentUser, "Environment");
 ///         monitor.RegChanged += new EventHandler(OnRegChanged);
 ///         monitor.Start();
@@ -29,13 +26,13 @@ namespace OtomadHelper.Interop;
 ///         monitor.Stop();
 ///     }
 ///
-///     private void OnRegChanged(object sender, EventArgs e)
-///     {
+///     private void OnRegChanged(object sender, EventArgs e) {
 ///         Console.WriteLine("registry key has changed");
 ///     }
 /// }
 /// </code>
 /// </example>
+/// </remarks>
 public class RegistryMonitor : IDisposable {
 	#region P/Invoke
 	[DllImport("advapi32.dll", SetLastError = true)]
@@ -65,22 +62,20 @@ public class RegistryMonitor : IDisposable {
 	[Flags]
 	public enum RegChangeNotifyFilters {
 		/// <summary>Notify the caller if a subkey is added or deleted.</summary>
-		Key = 1,
+		Key = 1 << 0,
 		/// <summary>Notify the caller of changes to the attributes of the key,
 		/// such as the security descriptor information.</summary>
-		Attribute = 2,
+		Attribute = 1 << 1,
 		/// <summary>Notify the caller of changes to a value of the key. This can
 		/// include adding or deleting a value, or changing an existing value.</summary>
-		Value = 4,
+		Value = 1 << 2,
 		/// <summary>Notify the caller of changes to the security descriptor
 		/// of the key.</summary>
-		Security = 8,
+		Security = 1 << 3,
 	}
-
 	#endregion
 
 	#region Event handling
-
 	/// <summary>
 	/// Occurs when the specified registry key has changed.
 	/// </summary>
@@ -125,11 +120,9 @@ public class RegistryMonitor : IDisposable {
 		ErrorEventHandler? handler = Error;
 		handler?.Invoke(this, new ErrorEventArgs(e));
 	}
-
 	#endregion
 
 	#region Private member variables
-
 	private IntPtr _registryHive;
 	private string _registrySubName = null!;
 	private readonly object _threadLock = new();
@@ -138,23 +131,20 @@ public class RegistryMonitor : IDisposable {
 	private readonly ManualResetEvent _eventTerminate = new(false);
 
 	private RegChangeNotifyFilters _regFilter = RegChangeNotifyFilters.Key | RegChangeNotifyFilters.Attribute | RegChangeNotifyFilters.Value | RegChangeNotifyFilters.Security;
-
 	#endregion
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RegistryMonitor"/> class.
 	/// </summary>
 	/// <param name="registryKey">The registry key to monitor.</param>
-	public RegistryMonitor(RegistryKey registryKey) {
-		InitRegistryKey(registryKey.Name);
-	}
+	public RegistryMonitor(RegistryKey registryKey) => InitRegistryKey(registryKey.Name);
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RegistryMonitor"/> class.
 	/// </summary>
 	/// <param name="name">The name.</param>
 	public RegistryMonitor(string name) {
-		if (name == null || name.Length == 0)
+		if (string.IsNullOrEmpty(name))
 			throw new ArgumentNullException("name");
 
 		InitRegistryKey(name);
@@ -165,9 +155,7 @@ public class RegistryMonitor : IDisposable {
 	/// </summary>
 	/// <param name="registryHive">The registry hive.</param>
 	/// <param name="subKey">The sub key.</param>
-	public RegistryMonitor(RegistryHive registryHive, string subKey) {
-		InitRegistryKey(registryHive, subKey);
-	}
+	public RegistryMonitor(RegistryHive registryHive, string subKey) => InitRegistryKey(registryHive, subKey);
 
 	/// <summary>
 	/// Disposes this object.
@@ -182,7 +170,7 @@ public class RegistryMonitor : IDisposable {
 	/// Gets or sets the <see cref="RegChangeNotifyFilter">RegChangeNotifyFilter</see>.
 	/// </summary>
 	public RegChangeNotifyFilters RegChangeNotifyFilter {
-		get { return _regFilter; }
+		get => _regFilter;
 		set {
 			lock (_threadLock) {
 				if (IsMonitoring)
@@ -194,87 +182,42 @@ public class RegistryMonitor : IDisposable {
 	}
 
 	#region Initialization
-
 	private void InitRegistryKey(RegistryHive hive, string name) {
-		switch (hive) {
-			case RegistryHive.ClassesRoot:
-				_registryHive = HKEY_CLASSES_ROOT;
-				break;
-
-			case RegistryHive.CurrentConfig:
-				_registryHive = HKEY_CURRENT_CONFIG;
-				break;
-
-			case RegistryHive.CurrentUser:
-				_registryHive = HKEY_CURRENT_USER;
-				break;
-
-			case RegistryHive.DynData:
-				_registryHive = HKEY_DYN_DATA;
-				break;
-
-			case RegistryHive.LocalMachine:
-				_registryHive = HKEY_LOCAL_MACHINE;
-				break;
-
-			case RegistryHive.PerformanceData:
-				_registryHive = HKEY_PERFORMANCE_DATA;
-				break;
-
-			case RegistryHive.Users:
-				_registryHive = HKEY_USERS;
-				break;
-
-			default:
-				throw new InvalidEnumArgumentException("hive", (int)hive, typeof(RegistryHive));
-		}
+		_registryHive = hive switch {
+			RegistryHive.ClassesRoot => HKEY_CLASSES_ROOT,
+			RegistryHive.CurrentConfig => HKEY_CURRENT_CONFIG,
+			RegistryHive.CurrentUser => HKEY_CURRENT_USER,
+			RegistryHive.DynData => HKEY_DYN_DATA,
+			RegistryHive.LocalMachine => HKEY_LOCAL_MACHINE,
+			RegistryHive.PerformanceData => HKEY_PERFORMANCE_DATA,
+			RegistryHive.Users => HKEY_USERS,
+			_ => throw new InvalidEnumArgumentException("hive", (int)hive, typeof(RegistryHive))
+		};
 		_registrySubName = name;
 	}
 
 	private void InitRegistryKey(string name) {
 		string[] nameParts = name.Split('\\');
 
-		switch (nameParts[0]) {
-			case "HKEY_CLASSES_ROOT":
-			case "HKCR":
-				_registryHive = HKEY_CLASSES_ROOT;
-				break;
-
-			case "HKEY_CURRENT_USER":
-			case "HKCU":
-				_registryHive = HKEY_CURRENT_USER;
-				break;
-
-			case "HKEY_LOCAL_MACHINE":
-			case "HKLM":
-				_registryHive = HKEY_LOCAL_MACHINE;
-				break;
-
-			case "HKEY_USERS":
-				_registryHive = HKEY_USERS;
-				break;
-
-			case "HKEY_CURRENT_CONFIG":
-				_registryHive = HKEY_CURRENT_CONFIG;
-				break;
-
-			default:
-				_registryHive = IntPtr.Zero;
-				throw new ArgumentException("The registry hive '" + nameParts[0] + "' is not supported", "value");
-		}
+		_registryHive = IntPtr.Zero;
+		_registryHive = nameParts[0] switch {
+			"HKEY_CLASSES_ROOT" or "HKCR" => HKEY_CLASSES_ROOT,
+			"HKEY_CURRENT_USER" or "HKCU" => HKEY_CURRENT_USER,
+			"HKEY_LOCAL_MACHINE" or "HKLM" => HKEY_LOCAL_MACHINE,
+			"HKEY_USERS" or "HKU" => HKEY_USERS,
+			"HKEY_CURRENT_CONFIG" or "HKCC" => HKEY_CURRENT_CONFIG,
+			_ => throw new ArgumentException($"The registry hive '{nameParts[0]}' is not supported", nameof(name))
+		};
 
 		_registrySubName = String.Join("\\", nameParts, 1, nameParts.Length - 1);
 	}
-
 	#endregion
 
 	/// <summary>
-	/// <b>true</b> if this <see cref="RegistryMonitor"/> object is currently monitoring;
-	/// otherwise, <b>false</b>.
+	/// <see langword="true" /> if this <see cref="RegistryMonitor"/> object is currently monitoring;
+	/// otherwise, <see langword="false" />.
 	/// </summary>
-	public bool IsMonitoring {
-		get { return _thread != null; }
-	}
+	public bool IsMonitoring => _thread is not null;
 
 	/// <summary>
 	/// Start monitoring.
@@ -302,7 +245,7 @@ public class RegistryMonitor : IDisposable {
 
 		lock (_threadLock) {
 			Thread? thread = _thread;
-			if (thread != null) {
+			if (thread is not null) {
 				_eventTerminate.Set();
 				thread.Join();
 			}
@@ -328,18 +271,17 @@ public class RegistryMonitor : IDisposable {
 			AutoResetEvent _eventNotify = new(false);
 			WaitHandle[] waitHandles = [_eventNotify, _eventTerminate];
 			while (!_eventTerminate.WaitOne(0, true)) {
-				result = RegNotifyChangeKeyValue(registryKey, true, _regFilter, _eventNotify.Handle, true);
+				// Replace the obsolete `_eventNotify.Handle` property with `_eventNotify.SafeWaitHandle`.
+				result = RegNotifyChangeKeyValue(registryKey, true, _regFilter, _eventNotify.SafeWaitHandle.DangerousGetHandle(), true);
 				if (result != 0)
 					throw new Win32Exception(result);
 
-				if (WaitHandle.WaitAny(waitHandles) == 0) {
+				if (WaitHandle.WaitAny(waitHandles) == 0)
 					OnRegChanged();
-				}
 			}
 		} finally {
-			if (registryKey != IntPtr.Zero) {
+			if (registryKey != IntPtr.Zero)
 				RegCloseKey(registryKey);
-			}
 		}
 	}
 }

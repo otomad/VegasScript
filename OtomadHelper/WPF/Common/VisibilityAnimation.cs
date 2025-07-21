@@ -127,7 +127,7 @@ public static partial class VisibilityAnimation {
 
 		// When animation completes, set the visibility value to the requested
 		// value (baseValue)
-		doubleAnimation.Completed += (sender, eventArgs) => {
+		doubleAnimation.Completed += (_, _) => {
 			if (visibility == Visibility.Visible) {
 				// In case we change into Visibility.Visible, the correct value
 				// is already set, so just update the animation started flag

@@ -17,7 +17,7 @@ public partial class BaseFlyout : BackdropWindow {
 		TitleBarType = TitleBarType.WindowChromeNoTitleBar;
 		WindowStartupLocation = WindowStartupLocation.Manual;
 		Topmost = true;
-		Deactivated += (sender, e) => this.Vanish();
+		Deactivated += (_, _) => this.Vanish();
 		Closing += BaseFlyout_Closing;
 	}
 
@@ -70,7 +70,7 @@ public partial class BaseFlyout : BackdropWindow {
 		Storyboard.SetTargetProperty(fadeInAnimation, new("Opacity"));
 		Storyboard storyboard = new();
 		storyboard.Children.Add(fadeInAnimation);
-		storyboard.Completed += (sender, e) => Close();
+		storyboard.Completed += (_, _) => Close();
 		storyboard.Begin(this);
 	}
 

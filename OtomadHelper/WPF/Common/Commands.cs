@@ -29,12 +29,12 @@ public static class Commands {
 	private static CommandBinding Create(ICommand command, CommandBindingHandler Handler) =>
 		new(
 			command: command,
-			executed: (sender, e) => {
+			executed: (_, e) => {
 				bool canExecute = false;
 				Action? execute = Handler(e, ref canExecute);
 				if (canExecute) execute?.Invoke();
 			},
-			canExecute: (sender, e) => {
+			canExecute: (_, e) => {
 				bool canExecute = e.CanExecute;
 				Handler(e, ref canExecute);
 				e.CanExecute = canExecute;
