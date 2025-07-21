@@ -115,6 +115,7 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+		<None Include="Test\test.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Assets\ToolbarIcons.Designer.cs">
@@ -155,6 +156,7 @@
 		<None Remove="API\**" />
 		<Compile Remove="obj\**" />
 		<Compile Remove="Helpers\DebounceThrottle.cs" />
+		<Compile Remove="Test\test.cs" />
 		<EmbeddedResource Remove="Assets\LoadingAnimation.webp" />
 		<EmbeddedResource Remove="Assets\LoadingAnimation_v4.apng" />
 		<EmbeddedResource Remove="Properties\Module\*.resx" />

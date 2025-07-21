@@ -37,8 +37,7 @@ public static partial class Extensions {
 		/// </summary>
 		/// <param name="type">Type.</param>
 		/// <returns>The type is a numeric type.</returns>
-		public bool IsNumber =>
-			NumericTypes.Contains(Nullable.GetUnderlyingType(type) ?? type);
+		public bool IsNumber => NumericTypes.Contains(Nullable.GetUnderlyingType(type) ?? type);
 
 		/// <summary>
 		/// Determines whether the current type extends (inherits from) the specified base type.
@@ -55,8 +54,7 @@ public static partial class Extensions {
 		/// <exception cref="ArgumentNullException">
 		/// If either <paramref name="type"/> or <paramref name="baseType"/> is <see langword="null"/>.
 		/// </exception>
-		public bool Extends(Type baseType) =>
-			baseType.IsAssignableFrom(type);
+		public bool Extends(Type baseType) => baseType.IsAssignableFrom(type);
 
 		/// <summary>
 		/// Determines whether the given type can be assigned to <see langword="null"/>.
@@ -278,16 +276,14 @@ public static partial class Extensions {
 		/// <summary>
 		/// Check the value if it is not <see cref="double.NaN" />, <see cref="double.PositiveInfinity" />, or <see cref="double.NegativeInfinity" />.
 		/// </summary>
-		public bool IsFinite =>
-			!(double.IsNaN(value) || double.IsInfinity(value));
+		public bool IsFinite => !(double.IsNaN(value) || double.IsInfinity(value));
 
 		/// <summary>
 		/// If the <paramref name="value" /> is not <see cref="double.NaN" />, <see cref="double.PositiveInfinity" />, or <see cref="double.NegativeInfinity" />,
 		/// return it, or return the default value.
 		/// </summary>
 		/// <param name="def">Default value.</param>
-		public double FiniteOrDefault(double def = default) =>
-			value.IsFinite ? value : def;
+		public double FiniteOrDefault(double def = default) => value.IsFinite ? value : def;
 	}
 
 	/// <inheritdoc cref="XmlElement.GetAttribute(string)" />

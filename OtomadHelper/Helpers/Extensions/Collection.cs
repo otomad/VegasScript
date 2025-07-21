@@ -332,4 +332,61 @@ public static partial class Extensions {
 		public bool HasKey(string key) =>
 			collection.AllKeys.Contains(key);
 	}
+
+	extension(byte[] bytes) {
+		/// <summary>
+		/// Writes the specified byte array <paramref name="data"/> into the current <see cref="byte"/> array starting at the given <paramref name="offset"/>.
+		/// </summary>
+		/// <param name="offset">The zero-based index in the current <see cref="byte"/> array at which to begin writing.</param>
+		/// <param name="data">The byte array to write. If <see langword="null"/>, the method returns <see langword="false"/>.</param>
+		/// <param name="littleEndian">If <see langword="true"/>, reverses the <paramref name="data"/> array before writing to ensure little-endian order.</param>
+		/// <returns><see langword="true"/> if the write operation was successful; otherwise, <see langword="false"/>.</returns>
+		public bool Write(int offset, byte[]? data, bool littleEndian = false) {
+			if (data is null) return false;
+			if (littleEndian) Array.Reverse(data);
+			for (int i = offset, j = 0; i < bytes.Length && j < data.Length; i++, j++)
+				bytes[i] = data[j];
+			return true;
+		}
+
+		/// <summary>
+		/// Writes the specified hexadecimal string <paramref name="hexString"/> into the current <see cref="byte"/> array starting at the given <paramref name="offset"/>.
+		/// </summary>
+		/// <param name="offset">The zero-based index in the current <see cref="byte"/> array at which to begin writing.</param>
+		/// <param name="hexString">The hexadecimal string to write. Spaces will be removed before processing. The string must contain only valid hexadecimal characters and have an even length.</param>
+		/// <param name="littleEndian">If <see langword="true"/>, reverses the byte array before writing to ensure little-endian order.</param>
+		/// <returns><see langword="true"/> if the write operation was successful; otherwise, <see langword="false"/>.</returns>
+		public bool Write(int offset, string hexString, bool littleEndian = false) {
+			hexString = hexString.Replace(" ", "");
+			if (hexString.Length % 2 == 1) return false;
+			if (Regex.Matches(hexString, @"[^0-9A-Fa-f]").Count != 0) return false;
+			byte[] data = new byte[hexString.Length / 2];
+			for (int i = 0; i < data.Length; i++)
+				data[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+
+			return bytes.Write(offset, data, littleEndian);
+		}
+
+		/// <summary>
+		/// Writes the specified number <paramref name="value"/> into the current <see cref="byte"/> array starting at the given <paramref name="offset"/>.
+		/// </summary>
+		/// <param name="offset">The zero-based index in the current <see cref="byte"/> array at which to begin writing.</param>
+		/// <param name="value">The number value. Must be a numeric (including <see cref="int"/>, <see cref="double"/>, etc.) type.</param>
+		/// <param name="bigEndian">If <see langword="true"/>, reverses the <paramref name="data"/> array before writing to ensure big-endian order.</param>
+		/// <returns><see langword="true"/> if the write operation was successful; otherwise, <see langword="false"/>.</returns>
+		/// <exception cref="NotImplementedException">Throws if the provided value is not a number type.</exception>
+		public bool Write<TNumber>(int offset, TNumber value, bool bigEndian = false) where TNumber : IComparable<TNumber> {
+			NotImplementedException NaNException = new($"{typeof(TNumber).Name} is not a number type");
+			if (!typeof(TNumber).IsNumber) throw NaNException;
+
+			byte[] data = BitConverter.GetBytes((dynamic)value);
+			return bytes.Write(offset, data, bigEndian);
+		}
+
+		/// <summary>
+		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
+		/// </summary>
+		/// <returns>The string representation in hex of the elements in the array.</returns>
+		public string ToHexString() => BitConverter.ToString(bytes).Replace("-", "");
+	}
 }
