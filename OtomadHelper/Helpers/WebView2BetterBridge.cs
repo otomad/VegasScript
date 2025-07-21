@@ -185,23 +185,6 @@ public class BetterBridge {
 			return "null";
 		}
 	}
-
-	[Obsolete("Use TupleConverterFactory instead.")]
-	public static ITuple JsonDeserializeTuple(string arrayJson, Type tupleType) {
-		// VEGAS environment (?) doesn't support JSON converters.
-		// So we can't use some like: <a href="https://github.com/arogozine/TupleAsJsonArray">TupleAsJsonArray</a>.
-		JsonNode? node = JsonNode.Parse(arrayJson);
-		if (node?.GetValueKind() != JsonValueKind.Array)
-			throw new ArrayTypeMismatchException("The specified JSON arg is not the array type");
-		JsonArray array = node.AsArray();
-		Type[] genericTupleArgs = tupleType.GetGenericArguments();
-		object[] arguments = new object[genericTupleArgs.Length];
-		for (int i = 0; i < genericTupleArgs.Length; i++) {
-			Type type = genericTupleArgs[i];
-			arguments[i] = array[i].Deserialize(type, jsonOptions)!;
-		}
-		return arguments.ToTuple(tupleType);
-	}
 }
 
 

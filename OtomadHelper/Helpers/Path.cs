@@ -45,14 +45,6 @@ public class Path :
 	}
 
 	/// <summary>
-	/// The input content is spliced one by one into a new path class.
-	/// </summary>
-	/// <param name="paths">Content.</param>
-	/// <returns>A new path class.</returns>
-	[Obsolete("Use `new Path(...)` instead")]
-	public static Path Resolve(params string[] paths) => [.. paths];
-
-	/// <summary>
 	/// Protocol string like: <c>http://</c>, <c>file:///</c>, etc.
 	/// </summary>
 	public string Protocol { get; set; } = "";

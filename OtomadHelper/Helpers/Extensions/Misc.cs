@@ -103,20 +103,6 @@ public static partial class Extensions {
 	}
 
 	/// <summary>
-	/// Swaps the values of two variables.
-	/// </summary>
-	/// <typeparam name="T">The type of the variables to be swapped.</typeparam>
-	/// <param name="left">The first variable.</param>
-	/// <param name="right">The second variable.</param>
-	[Obsolete("Using tuple to swap values.")]
-	[SuppressMessage("ReSharper", "SwapViaDeconstruction")]
-	public static void Swap<T>(ref T left, ref T right) {
-		T temp = left;
-		left = right;
-		right = temp;
-	}
-
-	/// <summary>
 	/// Converts the string representation of a number to its <typeparamref name="TNumber"/> number equivalent.
 	/// A return value indicates whether the operation succeeded.<br />
 	/// The difference from <see cref="int.TryParse(string, out int)"/> and others is that if the conversion fails,
@@ -286,30 +272,6 @@ public static partial class Extensions {
 			thread.Start();
 			thread.Join();
 		}
-	}
-
-	/// <summary>
-	/// Execute the specified function asynchronously in a new thread and return its result.
-	/// </summary>
-	/// <typeparam name="T">The type of function return value.</typeparam>
-	/// <param name="func">The function to be executed in the new thread.</param>
-	/// <returns>A <see cref="Task{TResult}"/>, represents the result of asynchronous operations.</returns>
-	/// <remarks>
-	/// This method will execute the <paramref name="func"/> in a new thread and return its result through a <see cref="TaskCompletionSource{TResult}"/>.
-	/// If the <paramref name="func"/> throws an exception, the exception will be passed to the returned task.
-	/// </remarks>
-	[Obsolete("Use Task.Run instead.")]
-	public static async Task<T> AsyncThread<T>(Func<T> func) {
-		TaskCompletionSource<T> tcs = new();
-		Thread thread = new(() => {
-			try {
-				tcs.SetResult(func());
-			} catch (Exception ex) {
-				tcs.SetException(ex);
-			}
-		});
-		thread.Start();
-		return await tcs.Task;
 	}
 
 	extension(double value) {
