@@ -7,7 +7,7 @@ export type ApplicationEvents = {
 	"host:consoleLog": [WebMessageEvents.ConsoleLog];
 	"host:contextMenuItemClickEventArgs": [WebMessageEvents.ContextMenuItemClickEventArgs];
 	"host:systemConfig": [WebMessageEvents.SystemConfig];
-	"host:triggerKeybinding": [WebMessageEvents.TriggerKeybinding];
+	"host:vegasCommandEvent": [WebMessageEvents.VegasCommandEvent];
 	"dev:showContextMenu": [e: MouseEvent, menu: typeof window["contextMenu"] & {}];
 	"app:toast": [message: string, status?: Status];
 	"app:hideOtherFlyouts": [exceptId?: string];
@@ -40,7 +40,7 @@ useListen.on("host:contextMenuItemClickEventArgs", ({ menuUuid, menuItemUuid }) 
 	}
 });
 
-useListen.on("host:triggerKeybinding", ({ event }) => {
+useListen.on("host:vegasCommandEvent", ({ event }) => {
 	let key: string = event;
 	if (event === "enableYtp" && !configStore.ytp.enabled) key = "disableYtp";
 	emit("app:toast", i18n.t(`csharp:keybindings.commands.${key}`));

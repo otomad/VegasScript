@@ -39,4 +39,8 @@ if (import.meta.env.DEV) {
 	globals.i18n = i18n;
 	globals.t = t;
 	// #endregion
+
+	// #region Event bus
+	globals.emit = emit;
+	// #endregion
 }

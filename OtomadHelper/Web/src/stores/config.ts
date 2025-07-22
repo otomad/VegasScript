@@ -331,6 +331,6 @@ declare global {
 }
 
 // If declare these
-useListenKeybinding.on("useTrackEventAsSource", () => configStore.source.sourceFrom = "trackEvent");
-useListenKeybinding.on("useProjectMediaAsSource", () => configStore.source.sourceFrom = "projectMedia");
-useListenKeybinding.on("enableYtp", () => configStore.ytp.enabled = !configStore.ytp.enabled);
+useListenVegasCommand.on("useTrackEventAsSource", () => configStore.source.sourceFrom = "trackEvent");
+useListenVegasCommand.on("useProjectMediaAsSource", () => configStore.source.sourceFrom = "projectMedia");
+useListenVegasCommand.on("enableYtp", () => configStore.ytp.enabled = !configStore.ytp.enabled);

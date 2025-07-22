@@ -85,12 +85,19 @@ export default function Badge({ children, status = "info", colorOverride, hidden
 	/** @internal */
 	_requestAnimationFrame?: boolean;
 }, "div">) {
+	"use no memo";
 	if (children === false) hidden = true;
 	colorOverride ??= status;
 	const iconName = `badge/${status.in("neutual", "accent") ? "info" : status}` as const;
 	const beacon = typeof children === "boolean";
 	return (
-		<CssTransition in={!hidden} unmountOnExit={unmountOnExit} appear={transitionOnAppear} requestAnimationFrame={_requestAnimationFrame}>
+		<CssTransition
+			in={!hidden}
+			unmountOnExit={unmountOnExit}
+			hiddenOnExit={!unmountOnExit}
+			appear={transitionOnAppear}
+			requestAnimationFrame={_requestAnimationFrame}
+		>
 			<StyledBadge
 				ref={ref}
 				$status={colorOverride}

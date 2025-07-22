@@ -24,7 +24,7 @@ type UseListenDelegateCallback = {
 	(type: "*", handler: (type: keyof ApplicationEvents, ...args: ApplicationEvents[keyof ApplicationEvents]) => void): void;
 };
 type UseListenDelegate<Callback = UseListenDelegateCallback> = Callback & { on: Callback };
-type UseListenKeybindingDelegateCallback = (type: WebMessageEvents.TriggerKeybinding["event"], handler: () => void) => void;
+type UseListenVegasCommandDelegateCallback = (type: WebMessageEvents.VegasCommandEvent["event"], handler: () => void) => void;
 
 const _useListenInternal = (type: string, handler: Function, useHook: boolean) => {
 	const callback = (typeOrArgs: string | unknown[], args: unknown[]) => {
@@ -59,9 +59,9 @@ export const useListen: UseListenDelegate = Object.assign(
 	{ on: (type: string, handler: Function) => _useListenInternal(type, handler, false) },
 );
 
-export const useListenKeybinding = Object.assign(
-	((type, handler) => { useListen("host:triggerKeybinding", ({ event }) => { if (event === type) handler(); }); }) as UseListenKeybindingDelegateCallback,
-	{ on: ((type, handler) => { useListen.on("host:triggerKeybinding", ({ event }) => { if (event === type) handler(); }); }) as UseListenKeybindingDelegateCallback },
+export const useListenVegasCommand = Object.assign(
+	((type, handler) => { useListen("host:vegasCommandEvent", ({ event }) => { if (event === type) handler(); }); }) as UseListenVegasCommandDelegateCallback,
+	{ on: ((type, handler) => { useListen.on("host:vegasCommandEvent", ({ event }) => { if (event === type) handler(); }); }) as UseListenVegasCommandDelegateCallback },
 );
 
 /**

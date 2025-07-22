@@ -27,8 +27,8 @@ declare global {
 			cursorFill: string;
 		}
 
-		export interface TriggerKeybinding {
-			event: VegasKeybindingEventType;
+		export interface VegasCommandEvent {
+			event: VegasCommandType;
 		}
 
 		export interface GridSpanItem {
@@ -47,7 +47,7 @@ declare global {
 		type GridUnitType = "auto" | "pixel" | "star";
 	}
 
-	type VegasKeybindingEventType = "useTrackEventAsSource" | "useProjectMediaAsSource" | "enableYtp" | "startGenerating";
+	type VegasCommandType = "useTrackEventAsSource" | "useProjectMediaAsSource" | "enableYtp" | "startGenerating";
 
 	var initialSystemConfig: WebMessageEvents.SystemConfig;
 }
