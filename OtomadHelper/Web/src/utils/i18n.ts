@@ -1,6 +1,7 @@
 import { IN_CONTEXT_LANGUAGE_CODE } from "helpers/jipt-activator";
 import type { TOptions as _TOptions } from "i18next";
 import type { AvailableLanguageTags } from "locales/all";
+import i18n from "locales/config";
 import type { LocaleWithDefaultValue } from "locales/types";
 const I18N_ITEM_SYMBOL = Symbol.for("react-i18next.i18n_item");
 const toPrimitives = [Symbol.toPrimitive, "toString", "toJSON", "valueOf"];

@@ -16,7 +16,7 @@ export default (): VitePlugin => {
 	return {
 		name: "vite-plugin-minify-lottie-json",
 		enforce: "pre",
-		apply: "build",
+		// apply: "build",
 
 		configResolved(resolvedConfig) {
 			config = resolvedConfig;
@@ -27,13 +27,13 @@ export default (): VitePlugin => {
 			if (!filePath) return;
 
 			const raw = await readFile(filePath, "utf-8");
-			if (config.command === "serve") return raw;
+			if (config.command === "serve") return "export default " + raw;
 
 			const json = JSON.parse(raw);
 			const promises = walk(json);
 			await Promise.all(promises);
 
-			return JSON.stringify(json);
+			return "export default " + JSON.stringify(json);
 		},
 	};
 };

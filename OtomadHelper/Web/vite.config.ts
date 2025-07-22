@@ -166,6 +166,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 		},
 		assetsInclude: [
 			"**/*.ani",
+			"**/*.mid",
 		],
 		define: {
 			// SC_DISABLE_SPEEDY: false, // Enable to speed up styled component, but make debugging more difficult;
@@ -183,5 +184,8 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 		// optimizeDeps: {
 		// 	exclude: ["@dnd-kit/core"],
 		// },
+		experimental: {
+			enableNativePlugin: true,
+		},
 	};
 });

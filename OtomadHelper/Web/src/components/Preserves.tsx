@@ -38,13 +38,13 @@ export default function Preserves({ spacing, children }: FCP<{
 	});
 }
 
-const SpacingBr = styled.br<{
+const SpacingBr = styled("x-br")<{ // WARN: <br> tag not work for override `display: block` since Chromium 138 (guess). So change it to <x-br>.
 	/** Paragraph spacing, or height of `<br>`. */
 	$spacing?: string;
 }>`
 	content: "";
 	display: block;
-	margin-block-start: ${styledProp("$spacing", "0.5em")};
+	margin-block-start: ${({ $spacing = "0.5em" }) => $spacing};
 `;
 
 export function Br({ repeat = 1, spacing, ...htmlAttrs }: FCP<{
