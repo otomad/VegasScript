@@ -151,7 +151,7 @@ const StyledNavigationView = styled.div<{
 		.nav-items {
 			flex-shrink: 1;
 			block-size: 100%;
-			overflow-y: auto;
+			overflow-block: auto;
 
 			&.overflowing {
 				border-block-end: 1px solid ${c("stroke-color-divider-stroke-default")};
@@ -160,7 +160,7 @@ const StyledNavigationView = styled.div<{
 
 		.nav-items,
 		.nav-items-bottom {
-			overflow-x: hidden;
+			overflow-inline: hidden;
 		}
 
 		&:is(.compact, .minimal):not(.flyout) .nav-items {
@@ -344,7 +344,7 @@ const StyledNavigationView = styled.div<{
 
 			&:has(> .enter, > .exit),
 			&:has(> main > .container-preview) {
-				overflow-y: hidden;
+				overflow-block: hidden;
 			}
 
 			> main {

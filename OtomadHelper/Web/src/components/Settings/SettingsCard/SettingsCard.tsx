@@ -156,9 +156,9 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 
 	> .base > .leading > .text {
-		min-height: 20px;
-		overflow-y: clip;
-		transition: ${fallbackTransitions}, height ${eases.easeOutMaterialEmphasized} 250ms;
+		min-block-size: 20px;
+		overflow-block: clip;
+		transition: ${fallbackTransitions}, block-size ${eases.easeOutMaterialEmphasized} 250ms;
 	}
 
 	&.secondary {

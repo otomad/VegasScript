@@ -23,7 +23,7 @@ const StyledContentDialog = styled.div`
 		flex-direction: column;
 		gap: 12px;
 		padding: 24px;
-		overflow-y: auto;
+		overflow-block: auto;
 
 		> * {
 			${styles.mixins.hideIfEmpty()};

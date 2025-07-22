@@ -17,7 +17,7 @@ const StyledToggleSwitchLabel = styled.button`
 	gap: ${TOGGLE_SWITCH_LABEL_GAP}px;
 	justify-content: space-between;
 	align-items: center;
-	overflow-x: clip;
+	overflow-inline: clip;
 	text-align: start;
 
 	:where(&) {
@@ -44,7 +44,7 @@ const StyledToggleSwitchLabel = styled.button`
 
 			span {
 				display: block;
-				overflow-y: clip;
+				overflow-block: clip;
 				white-space: nowrap;
 			}
 		}

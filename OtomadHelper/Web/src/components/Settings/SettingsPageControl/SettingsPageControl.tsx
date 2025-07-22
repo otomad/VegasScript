@@ -27,7 +27,8 @@ const StyledSettingsPageControl = styled.div<{
 		> .scroll-wrapper {
 			--scroll-mask-height: 1.75em;
 			max-block-size: ${PREVIEW_IMAGE_HEIGHT + 1}px;
-			overflow-y: auto;
+			overflow-block: auto;
+			overscroll-behavior-block: auto;
 			mask: linear-gradient(
 				to bottom,
 				rgb(0 0 0 / var(--scroll-start-mask-transparency)) 0%,

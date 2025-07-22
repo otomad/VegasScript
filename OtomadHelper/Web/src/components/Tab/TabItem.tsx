@@ -15,7 +15,7 @@ const StyledTabItem = styled.button`
 	inline-size: -webkit-fill-available;
 	inline-size: -moz-available;
 	inline-size: stretch;
-	overflow-x: hidden;
+	overflow-inline: hidden;
 	border-radius: 3px;
 
 	.tab-bar.vertical & {

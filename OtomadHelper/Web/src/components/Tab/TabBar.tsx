@@ -80,7 +80,7 @@ const StyledTabBar = styled(HorizontalScroll).attrs({
 		display: flex;
 		block-size: 50px;
 		inline-size: 100%;
-		overflow-x: auto;
+		overflow-inline: auto;
 
 		> .scroll-target {
 			width: min-content;
