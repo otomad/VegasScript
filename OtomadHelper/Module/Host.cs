@@ -324,7 +324,7 @@ public sealed partial class Host : UserControl {
 			case VegasCommandType.Reset:
 				if (MessageBox.Show("确定要重置所有设置吗？操作后不可撤销！", t.Keybindings.Commands.Reset, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.OK) return; // TODO: I18n.
 				await Browser.CoreWebView2.Profile.ClearBrowsingDataAsync();
-				Module.Current?.RestartDockView();
+				Dockable.Module.RestartDockView();
 				break;
 			default:
 				break;

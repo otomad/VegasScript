@@ -671,4 +671,8 @@ public static class PInvoke {
 		Flash = Redraw | HighBit,
 		RudeappActivated = WindowActivated | HighBit,
 	}
+
+	[DllImport("User32.dll")]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	public static extern bool IsWindowVisible(IntPtr hWnd);
 }

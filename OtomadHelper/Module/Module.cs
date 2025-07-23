@@ -24,7 +24,6 @@ public class Module : ICustomCommandModule {
 	internal const string DisplayName = "Otomad Helper";
 	private static string AssemblyName => ResourceHelper.AssemblyName; // Only available in Vegas environment, so private.
 	internal Keybindings Keybindings { get; }
-	internal static Module? Current { get; private set; }
 
 	internal static string CustomModulePath => Assembly.GetExecutingAssembly().Location;
 	internal string VegasAppDataPath => vegas.GetApplicationDataPath(Environment.SpecialFolder.LocalApplicationData);
@@ -33,7 +32,6 @@ public class Module : ICustomCommandModule {
 	public Module() {
 		Prior.Initialize();
 		Keybindings = new(this);
-		Current = this;
 	}
 
 	/// <summary>
@@ -90,7 +88,7 @@ public class Module : ICustomCommandModule {
 		try {
 			if (vegas.FindDockView(InternalName, out IDockView iDock) && iDock is DockableControl dock)
 				dock.Close();
-			ITimer.WinForm.Delay(250).Then(() => HandlePICmdInvoked());
+			ITimer.WinForm.Timeout(() => HandlePICmdInvoked(), 250);
 		} catch (Exception e) {
 			ShowError(e);
 		}
