@@ -77,6 +77,7 @@ const StyledTabBar = styled(HorizontalScroll).attrs({
 	&.horizontal {
 		${styles.mixins.noScrollbar()};
 		container: horizontal-tab / scroll-state size;
+		position: relative;
 		display: flex;
 		block-size: 50px;
 		inline-size: 100%;
@@ -106,7 +107,7 @@ export default function TabBar<T extends string = string>({ current: [current, s
 	const [_movement, setMovement] = useState<TabBarMovement>("disappear");
 	const [disablePressIndicatorStyle, setDisablePressIndicatorStyle] = useDelayState(false);
 	const [appearingPosition, setAppearingPosition] = useDelayState<TwoD>();
-	const { status: mainPageTransitionStatus } = useContext(MainPageTransitionContext);
+	// const { status: mainPageTransitionStatus } = useContext(MainPageTransitionContext);
 
 	/**
 	 * Update the tab indicator.
@@ -152,9 +153,9 @@ export default function TabBar<T extends string = string>({ current: [current, s
 	}, [position, uiScale1, _movement]);
 
 	useEffect(() => {
-		if (mainPageTransitionStatus !== "entered") return;
+		// if (mainPageTransitionStatus !== "entered") return;
 		update();
-	}, [current, children, mainPageTransitionStatus]);
+	}, [current, children/* , mainPageTransitionStatus */]);
 
 	return (
 		<StyledTabBar enabled={!vertical} role="tablist" className={[vertical ? "vertical" : "horizontal", { disablePressIndicatorStyle }]} {...htmlAttrs}>

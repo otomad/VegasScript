@@ -8,9 +8,9 @@ const StyledPillButton = styled.button.attrs({
 	flex-shrink: 0;
 	gap: 8px;
 	align-items: center;
+	min-block-size: 30px;
 	margin: 1px;
 	padding: 4px 11px;
-	min-block-size: 30px;
 	background-color: ${c("fill-color-control-quarternary")};
 	outline: 1px solid ${c("stroke-color-control-stroke-default")};
 
@@ -80,14 +80,22 @@ export /* @internal */ default function PillButton({ icon, id, selected, badge, 
 	badge?: Readable;
 }, "button">) {
 	const ariaId = useId();
+	const pillEl = useDomRef<"button">();
+
+	const scrollIntoView = (force = false) => {
+		if (selected || force)
+			pillEl.current?.scrollIntoView({ inline: "center", block: "nearest" });
+	};
+	useEffect(() => scrollIntoView(), [selected]);
+	useKeyboardFocus(pillEl, () => scrollIntoView(true));
 
 	return (
 		<StyledPillButton
+			ref={pillEl}
 			className={[className, { selected }]}
 			role="radio"
 			aria-checked={selected}
 			aria-labelledby={`${ariaId}-title`}
-			onFocus={e => e.currentTarget.scrollIntoViewIfNeeded()}
 			{...htmlAttrs}
 		>
 			{icon && <Icon name={icon} />}

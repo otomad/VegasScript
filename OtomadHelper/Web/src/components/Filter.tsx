@@ -5,17 +5,18 @@ const StyledFilter = styled(HorizontalScroll)`
 	container: filter / scroll-state inline-size;
 	display: flex;
 	flex-shrink: 0;
-	gap: 4px;
+	gap: 0;
 	align-items: center;
-	margin-block: -4px;
-	margin-inline: -24px;
-	padding-block: 8px;
-	padding-inline: 24px;
+	padding-block: 4px;
 	overflow: auto visible;
+
+	* {
+		flex-shrink: 0;
+	}
 
 	.pills {
 		display: inherit;
-		gap: inherit;
+		gap: 4px;
 		align-items: inherit;
 	}
 `;

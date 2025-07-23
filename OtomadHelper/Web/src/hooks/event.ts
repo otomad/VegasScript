@@ -190,7 +190,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * });
  * ```
  */
-export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: RefObject<E | null>, event: K | (string & {}), callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList | null): void;
+export function useEventListener<K extends keyof HTMLElementEventMap, E extends HTMLElement>(target: MaybeRef<E | null>, event: K | (string & {}), callback: (this: E, ev: HTMLElementEventMap[K]) => void, options?: Options, deps?: DependencyList | null): void;
 /**
  * A hook to add an event listener to the specified target element, with both addEventListener and removeEventListener in the lifecycle.
  *
@@ -363,4 +363,22 @@ export function useKeyDownOnce(callback: (e: KeyboardEvent, isMouseDown: boolean
 	}, deps);
 
 	return [onKeyDown, onKeyUp] as [onKeyDown: KeyboardEventHandler, onKeyUp: KeyboardEventHandler];
+}
+
+let lastFocusedByKeyboard = false;
+document.addEventListener("keydown", () => lastFocusedByKeyboard = true);
+document.addEventListener("pointerdown", () => lastFocusedByKeyboard = false);
+
+/**
+ * Attaches a focus event listener to the specified element that only triggers the handler
+ * if the element was last focused via keyboard interaction.
+ *
+ * @param element - A reference to the target HTMLElement or null.
+ * @param handler - The event handler to invoke when the element receives focus via keyboard.
+ */
+export function useKeyboardFocus(element: MaybeRef<HTMLElement | null>, handler: FocusEventHandler<HTMLElement>) {
+	useEventListener(element, "focus", e => {
+		if (!lastFocusedByKeyboard) return;
+		handler(e as never);
+	});
 }

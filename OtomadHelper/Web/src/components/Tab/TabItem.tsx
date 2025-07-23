@@ -151,25 +151,28 @@ export /* @internal */ default function TabItem({ icon, animatedIcon, children, 
 	/** @private Use the vertical NavigationView style? */
 	_vertical?: boolean;
 }, GenericElement>) {
-	const tabItemEl = useDomRef<"button">();
+	const tabItemWrapperEl = useDomRef<"div">(), tabItemEl = useDomRef<"button">();
 
-	const scrollIntoView = () => {
-		if (selected && autoScrollIntoView)
-			tabItemEl.current?.scrollIntoViewIfNeeded();
+	const scrollIntoView = (force = false) => {
+		if ((selected || force) && autoScrollIntoView)
+			if (vertical) tabItemWrapperEl.current?.scrollIntoViewIfNeeded();
+			else tabItemWrapperEl.current?.scrollIntoView({ inline: "center", block: "nearest" });
 	};
-
 	useEffect(() => scrollIntoView(), [selected]);
+	useKeyboardFocus(tabItemEl, () => scrollIntoView(true));
 
 	return (
 		<Tooltip placement="right" offset={5} disabled={!collapsed} title={children} applyAriaLabel={false}>
-			<StyledTabItemWrapper {...htmlAttrs}>
+			<StyledTabItemWrapper ref={tabItemWrapperEl} {...htmlAttrs}>
 				<StyledTabItem
-					type="button"
 					ref={tabItemEl}
+					type="button"
 					tabIndex={focusable ? 0 : -1}
 					role="tab"
 					aria-selected={selected}
 					aria-current={selected ? ariaCurrentWhenSelected : undefined}
+					// onKeyDown={({ code }) => code === "Tab" && scrollIntoView(true)}
+					// onClick={e => { onClick?.(e); scrollIntoView(); }}
 					{...htmlAttrs}
 					className={{ selected }}
 				>

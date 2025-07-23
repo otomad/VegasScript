@@ -46,7 +46,7 @@ const StyledFlipperWrapper = styled.div`
 	z-index: 2;
 	align-self: stretch;
 	block-size: 100%;
-	inline-size: 40px;
+	inline-size: var(--flipper-width);
 	padding: 4px;
 
 	&.left {
@@ -57,36 +57,63 @@ const StyledFlipperWrapper = styled.div`
 		padding-inline-start: 0;
 	}
 
-	.filter > & {
-		padding-inline: 0;
+	:has(> &) {
+		--flipper-width: 36px;
 	}
 
-	@container not scroll-state(scrollable: left) {
+	.filter:has(> &) {
+		--flipper-width: 32px;
+	}
+
+	.filter > & {
+		padding-inline: 0;
+
+		> ${StyledFlipper}::after {
+			inset-inline: 0;
+		}
+	}
+
+	@container not scroll-state(scrollable: left) { // left end
 		&.left {
 			--state: disabled;
 		}
 	}
 
-	@container not scroll-state(scrollable: right) {
+	@container not scroll-state(scrollable: right) { // right end
 		&.right {
 			--state: disabled;
 		}
 	}
 
-	@container not scroll-state(scrollable: top) {
+	@container not scroll-state(scrollable: top) { // top end
 		&.top {
 			--state: disabled;
 		}
 	}
 
-	@container not scroll-state(scrollable: bottom) {
+	@container not scroll-state(scrollable: bottom) { // bottom end
 		&.bottom {
 			--state: disabled;
 		}
 	}
 
-	@container scroll-state(scrollable: none) {
+	@container scroll-state(scrollable: none) { // container can accommodate it, scrollbar is hidden
 		display: none;
+	}
+
+	@container not scroll-state(scrollable: none) { // scrollable
+		&:is(.left, .top) + * {
+			animation: ${keyframes`
+				from {
+					clip-path: inset(0 calc(100% - 100cqw + var(--flipper-width) * 2) 0 0);
+				}
+
+				to {
+					clip-path: inset(0 0 0 calc(100% - 100cqw + var(--flipper-width) * 2));
+				}
+			`} 1s linear;
+			animation-timeline: scroll(inline nearest);
+		}
 	}
 `;
 
@@ -100,18 +127,9 @@ export default function Flipper({ arrow, delta = 40, children: _children, ...htm
 	const wrapperEl = useDomRef<"div">();
 	const direction = useMemo(() => arrow.in("left", "right") ? "x" : "y", [arrow]);
 
-	const getScrollParent = (container: Element | undefined | null) => {
-		while (container instanceof Element) {
-			const overflow = getComputedStyle(container)[direction === "x" ? "overflowX" : "overflowY"];
-			if (overflow.in("scroll", "auto", "overlay"))
-				return container;
-			container = container.parentElement;
-		}
-	};
-
 	const handleClick: MouseEventHandler<HTMLButtonElement> = _e => {
 		// const repeat = "repeat" in e && !!e.repeat;
-		const container = getScrollParent(wrapperEl.current);
+		const container = getScrollParent(wrapperEl.current, direction);
 		if (!container) return;
 		// const _delta = delta * (repeat ? 2 : 1);
 		HorizontalScroll.applyScroll.get(container)?.(delta * (arrow === "left" ? -1 : arrow === "right" ? 1 : 0));

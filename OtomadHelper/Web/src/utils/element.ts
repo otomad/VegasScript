@@ -445,3 +445,27 @@ export function mergeRefs(...refs: (MiscRef<Element | null> | undefined | null)[
 	mergedRef[MERGED_REF_SYMBOL] = true;
 	return mergedRef;
 }
+
+const scrollableOverflowValues = ["scroll", "auto", "overlay"];
+/**
+ * Finds the nearest scrollable ancestor of a given DOM element in the specified direction(s).
+ *
+ * @param element - The starting element whose scrollable parent is to be found.
+ * @param direction - The scroll direction(s) to consider: "x" (horizontal), "y" (vertical), or "xy" (both). Defaults to "xy".
+ * @returns The nearest ancestor element that is scrollable in the specified direction(s), or `null` if none is found.
+ */
+export function getScrollParent(element: Element | undefined | null, direction: "x" | "y" | "xy" = "xy") {
+	element = element?.parentElement;
+	while (element) {
+		const style = getComputedStyle(element);
+		const directionSet = Array.from(direction, dir => dir.toUpperCase() as "X" | "Y"); // ["X"], ["Y"], or ["X", "Y"]
+		if (
+			directionSet.some(dir => scrollableOverflowValues.includes(style[`overflow${dir}`])) /* ||
+			directionSet.some(dir => style[`overscrollBehavior${dir}`] !== "auto") ||
+			style.scrollbarGutter !== "auto" */
+		)
+			return element;
+		element = element.parentElement;
+	}
+	return null;
+}
