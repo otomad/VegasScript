@@ -317,9 +317,18 @@ public sealed partial class Host : UserControl {
 		Keybindings.Enabled = true;
 	}
 
-	private void Module_TriggerKeybinding(object sender, VegasKeybindingEventArgs e) {
+	private async void Module_TriggerKeybinding(object sender, VegasKeybindingEventArgs e) {
 		if (!Dockable.Shown) return;
 		PostWebMessage(new VegasCommandEvent { @event = e.Type });
+		switch (e.Type) {
+			case VegasCommandType.Reset:
+				if (MessageBox.Show("确定要重置所有设置吗？操作后不可撤销！", t.Keybindings.Commands.Reset, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.OK) return; // TODO: I18n.
+				await Browser.CoreWebView2.Profile.ClearBrowsingDataAsync();
+				Module.Current?.RestartDockView();
+				break;
+			default:
+				break;
+		}
 	}
 
 	private void Dockable_Closed(object sender, EventArgs e) {

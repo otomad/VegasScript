@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 using OtomadHelper.Assets;
+using OtomadHelper.Services;
 
 using ScriptPortal.Vegas;
 
@@ -23,6 +24,7 @@ public class Module : ICustomCommandModule {
 	internal const string DisplayName = "Otomad Helper";
 	private static string AssemblyName => ResourceHelper.AssemblyName; // Only available in Vegas environment, so private.
 	internal Keybindings Keybindings { get; }
+	internal static Module? Current { get; private set; }
 
 	internal static string CustomModulePath => Assembly.GetExecutingAssembly().Location;
 	internal string VegasAppDataPath => vegas.GetApplicationDataPath(Environment.SpecialFolder.LocalApplicationData);
@@ -31,6 +33,7 @@ public class Module : ICustomCommandModule {
 	public Module() {
 		Prior.Initialize();
 		Keybindings = new(this);
+		Current = this;
 	}
 
 	/// <summary>
@@ -66,7 +69,7 @@ public class Module : ICustomCommandModule {
 	/// <summary>
 	/// Occurs when the command is invoked.
 	/// </summary>
-	private void HandlePICmdInvoked(object sender, EventArgs args) {
+	private void HandlePICmdInvoked(object? sender = null, EventArgs? args = null) {
 		try {
 			if (!vegas.ActivateDockView(InternalName)) {
 				Dockable dock = new(this) {
@@ -75,6 +78,19 @@ public class Module : ICustomCommandModule {
 				};
 				vegas.LoadDockView(dock);
 			}
+		} catch (Exception e) {
+			ShowError(e);
+		}
+	}
+
+	/// <summary>
+	/// Close the dock view and restart it.
+	/// </summary>
+	public void RestartDockView() {
+		try {
+			if (vegas.FindDockView(InternalName, out IDockView iDock) && iDock is DockableControl dock)
+				dock.Close();
+			ITimer.WinForm.Delay(250).Then(() => HandlePICmdInvoked());
 		} catch (Exception e) {
 			ShowError(e);
 		}
