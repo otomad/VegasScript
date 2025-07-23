@@ -21,7 +21,7 @@ export /* @internal */ default function SettingsCardSelectInfo({ valid = true, c
 }, "p">) {
 	return children && (
 		<StyledSettingsCardSelectInfo {...htmlAttrs} className={["details", "select-info", { invalid: !valid }]}>
-			<Badge status={valid ? "success" : "error"} colorOverride={valid ? "asterisk" : "error"} />
+			<Badge status={valid ? "success" : "error"} colorOverride={valid ? "asterisk" : "error"} transitionOnAppear={false} />
 			<Preserves>{children}</Preserves>
 		</StyledSettingsCardSelectInfo>
 	);

@@ -10,7 +10,8 @@ export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
 
 	useAsyncEffect(async () => {
 		const content = el.current;
-		if (!content || !content.offsetParent) return;
+		// if (!content || !content.offsetParent) return;
+		if (!content || content.closest("main.page")?.classList.contains("enter-done") === false) return; // This line has better performance than the above line, as it avoids layout thrashing.
 		if (!isStale) await nextAnimationTick();
 		content.style.interpolateSize = isStale ? "numeric-only" : null!;
 		content.style.willChange = isStale ? "width, height" : null!;

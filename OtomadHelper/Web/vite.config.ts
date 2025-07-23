@@ -181,11 +181,14 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 				},
 			},
 		},
-		// optimizeDeps: {
-		// 	exclude: ["@dnd-kit/core"],
-		// },
-		experimental: {
-			enableNativePlugin: true,
+		optimizeDeps: {
+			exclude: [
+				// "@dnd-kit/core",
+				// "react-transition-group-fc",
+			],
 		},
+		// experimental: {
+		// 	enableNativePlugin: true,
+		// },
 	};
 });

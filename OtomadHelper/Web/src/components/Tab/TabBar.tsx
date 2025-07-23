@@ -106,13 +106,14 @@ export default function TabBar<T extends string = string>({ current: [current, s
 	const [_movement, setMovement] = useState<TabBarMovement>("disappear");
 	const [disablePressIndicatorStyle, setDisablePressIndicatorStyle] = useDelayState(false);
 	const [appearingPosition, setAppearingPosition] = useDelayState<TwoD>();
+	const { status: mainPageTransitionStatus } = useContext(MainPageTransitionContext);
 
 	/**
 	 * Update the tab indicator.
 	 */
 	const update = useCallback(() => {
 		const indicator = indicatorEl.current;
-		if (!indicator) return;
+		if (!indicator?.checkVisibility()) return;
 		let movement: TabBarMovement = "none";
 		setDisablePressIndicatorStyle(true, { keep: DELAY, allowInterrupt: true }).then(() => setDisablePressIndicatorStyle(false));
 		const entireRect = indicator.parentElement!.getBoundingClientRect();
@@ -151,8 +152,9 @@ export default function TabBar<T extends string = string>({ current: [current, s
 	}, [position, uiScale1, _movement]);
 
 	useEffect(() => {
+		if (mainPageTransitionStatus !== "entered") return;
 		update();
-	}, [current, children]);
+	}, [current, children, mainPageTransitionStatus]);
 
 	return (
 		<StyledTabBar enabled={!vertical} role="tablist" className={[vertical ? "vertical" : "horizontal", { disablePressIndicatorStyle }]} {...htmlAttrs}>

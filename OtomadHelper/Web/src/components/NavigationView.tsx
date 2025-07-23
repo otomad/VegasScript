@@ -1,3 +1,4 @@
+import type { TransitionUpdateStatus } from "react-transition-group-fc";
 import type { PageScroll } from "stores/page";
 
 const navButtonSize = { width: 44, height: 40 };
@@ -620,6 +621,8 @@ const usePaneDisplayMode = () => {
 	return paneDisplayMode;
 };
 
+export const MainPageTransitionContext = createContext({ status: "entered" as TransitionUpdateStatus });
+
 export default function NavigationView({ currentNav: [currentNav, setCurrentNav], navItems = [], titles, transitionName = "", children, customContent, canBack = true, onBack, commandBar, pageContentId, poppedScroll, ...htmlAttrs }: FCP<{
 	/** Current navigation page status parameters. */
 	currentNav: StateProperty<string[]>;
@@ -668,6 +671,7 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 		pageContent.scrollTo({ top: 0, left: 0, behavior: "instant" });
 	};
 	const navItemsId = useId();
+	const [mainPageTransitionStatus, setMainPageTransitionStatus] = useState<TransitionUpdateStatus>("entered");
 
 	const currentNavItem = useMemo(() =>
 		navItems.find(item => !("type" in item) && item.id === currentNavTab[0]) as NavItem,
@@ -758,13 +762,21 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 						</div>
 					</div>
 					<div className={["page-content", transitionName]} ref={pageContentEl} id={pageContentId}>
-						<SwitchTransition mode={transitionName === "jump" ? "out-in" : "out-in-preload"}>
-							<CssTransition key={pagePath} onEnter={scrollToTopOrPrevious} moreCoherentWhenCombo maxTimeout={1000}>
-								<StyledPage data-path={pagePath} aria-label={titles.last().name}>
-									{children}
-								</StyledPage>
-							</CssTransition>
-						</SwitchTransition>
+						<MainPageTransitionContext value={{ status: mainPageTransitionStatus }}>
+							<SwitchTransition mode={transitionName === "jump" ? "out-in" : "out-in-preload"}>
+								<CssTransition
+									key={pagePath}
+									onEnter={scrollToTopOrPrevious}
+									onUpdated={(_, status) => setMainPageTransitionStatus(status)}
+									moreCoherentWhenCombo
+									maxTimeout={1000}
+								>
+									<StyledPage data-path={pagePath} aria-label={titles.last().name}>
+										{children}
+									</StyledPage>
+								</CssTransition>
+							</SwitchTransition>
+						</MainPageTransitionContext>
 					</div>
 				</Attrs>
 			</div>
