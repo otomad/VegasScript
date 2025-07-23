@@ -6,6 +6,7 @@ public enum VegasCommandType {
 	UseProjectMediaAsSource,
 	EnableYtp,
 	StartGenerating,
+	Reset,
 
 	// 10001 ~ above for internal nonparametric command event types.
 }

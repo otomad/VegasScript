@@ -60,6 +60,7 @@ public class Keybindings(Module module) {
 		VegasCommandType.UseProjectMediaAsSource => nameof(ToolbarIcons.Media),
 		VegasCommandType.EnableYtp => nameof(ToolbarIcons.YTP),
 		VegasCommandType.StartGenerating => nameof(ToolbarIcons.CheckmarkCircle),
+		VegasCommandType.Reset => nameof(ToolbarIcons.ArrowReset),
 		_ => null,
 	};
 }

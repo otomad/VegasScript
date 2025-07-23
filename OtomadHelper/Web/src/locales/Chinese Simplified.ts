@@ -1249,6 +1249,7 @@ export default {
 				enableYtp: "启用YTP功能",
 				disableYtp: "禁用YTP功能",
 				startGenerating: "开始生成",
+				reset: "重置所有设置",
 			},
 		},
 		descriptions: {

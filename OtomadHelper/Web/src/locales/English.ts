@@ -1276,6 +1276,7 @@ export default {
 				enableYtp: "Enable YTP Feature",
 				disableYtp: "Disable YTP Feature",
 				startGenerating: "Start Generating",
+				reset: "Reset All Settings",
 			},
 		},
 		descriptions: {

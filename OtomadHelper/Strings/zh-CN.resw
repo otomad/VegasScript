@@ -233,6 +233,9 @@
 	<data name="Keybindings.Commands.StartGenerating" xml:space="preserve">
 		<value>开始生成</value>
 	</data>
+	<data name="Keybindings.Commands.Reset" xml:space="preserve">
+		<value>重置所有设置</value>
+	</data>
 	<data name="Descriptions.ColorPicker.EyeDropper" xml:space="preserve">
 		<value>从屏幕上拾取颜色</value>
 	</data>

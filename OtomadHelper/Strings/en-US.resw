@@ -233,6 +233,9 @@ Location:</value>
 	<data name="Keybindings.Commands.StartGenerating" xml:space="preserve">
 		<value>Start Generating</value>
 	</data>
+	<data name="Keybindings.Commands.Reset" xml:space="preserve">
+		<value>Reset All Settings</value>
+	</data>
 	<data name="Descriptions.ColorPicker.EyeDropper" xml:space="preserve">
 		<value>Pick a color from the screen</value>
 	</data>
