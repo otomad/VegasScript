@@ -89,6 +89,11 @@ import { enableMapSet } from "immer";
 	observer.observe(document.getElementById("root")!, { childList: true });
 	// #endregion
 
+	// #region Listen page focus event
+	window.addEventListener("focus", () => bridges.bridge.setPageFocus(true));
+	window.addEventListener("blur", () => bridges.bridge.setPageFocus(false));
+	// #endregion
+
 	// #region Enable Map and Set support for Immer
 	enableMapSet();
 	// #endregion

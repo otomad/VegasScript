@@ -4,20 +4,26 @@ namespace OtomadHelper.Bridges;
 
 public class Bridge {
 	/// <summary>
-	/// Sets the development mode flag for the application.
+	/// Set the development mode flag for the application.
 	/// </summary>
 	/// <param name="isDevMode">A boolean value indicating whether the application is in development mode.</param>
 	public void SetIsDevMode(bool isDevMode) => Host.isDevMode = isDevMode;
 
 	/// <summary>
-	/// Sets the culture for the application.
+	/// Set the culture for the application.
 	/// </summary>
 	/// <param name="culture">A <see cref="string"/> representing the culture to be set.<br />
 	/// The culture should be in the format "xx-XX" where xx is the language code and XX is the country/region code.</param>
 	public void SetCulture(string culture) => I18n.SetCulture = culture;
 
 	/// <summary>
-	/// Displays a message box with the specified title, body, buttons, and optional icon name.
+	/// Set whether the page is focused or not.
+	/// </summary>
+	/// <param name="focused">Got focused?</param>
+	public void SetPageFocus(bool focused) => Host.Focused = focused;
+
+	/// <summary>
+	/// Display a message box with the specified title, body, buttons, and optional icon name.
 	/// </summary>
 	/// <param name="title">The title of the message box.</param>
 	/// <param name="body">The content of the message box.</param>
@@ -32,7 +38,7 @@ public class Bridge {
 		// await bridges.bridge.showMessageBox("幸福倒计时", "Windows 11 即将更新！", [{ text: "OK", dialogResult: "ok", isDefault: true }, { text: "Cancel", dialogResult: "cancel" }], "info");
 
 	/// <summary>
-	/// Displays a combo box flyout with the specified options and initial selected item.
+	/// Display a combo box flyout with the specified options and initial selected item.
 	/// </summary>
 	/// <param name="rect">A tuple representing the screen coordinates (x, y, width, height) of the flyout's position.</param>
 	/// <param name="selected">The current selected item ID in the combo box.</param>
@@ -47,7 +53,7 @@ public class Bridge {
 	}
 
 	/// <summary>
-	/// Displays a pitch picker flyout with the specified initial pitch.
+	/// Display a pitch picker flyout with the specified initial pitch.
 	/// </summary>
 	/// <param name="rect">A tuple representing the screen coordinates (x, y, width, height) of the flyout's position.</param>
 	/// <param name="pitch">The initial pitch (note name and octave) selected in the pitch picker.</param>
@@ -60,7 +66,7 @@ public class Bridge {
 	}
 
 	/// <summary>
-	/// Displays a color picker window with the old hex color.
+	/// Display a color picker window with the old hex color.
 	/// </summary>
 	/// <param name="hex">Old hex color.</param>
 	/// <returns>A value tuple indicate if user click the ok and the new hex color.</returns>
@@ -70,7 +76,7 @@ public class Bridge {
 	}
 
 	/// <summary>
-	/// Displays a comfirm delete flyout with the hint text.
+	/// Display a comfirm delete flyout with the hint text.
 	/// </summary>
 	/// <param name="rect">A tuple representing the screen coordinates (x, y, width, height) of the target's position.</param>
 	/// <param name="message">Text like <b>"Are you sure you want to delete it?"</b>.</param>

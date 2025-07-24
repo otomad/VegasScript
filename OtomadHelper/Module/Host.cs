@@ -42,6 +42,8 @@ public sealed partial class Host : UserControl {
 		SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 		SystemCursorConfig.CursorChanged += (_, _) => PostSystemConfigToTheWeb();
 
+		BgTrackingChanged += Host_BgTrackingChanged;
+
 #if VEGAS_ENV
 		BackColor = Skins.Colors.ButtonFace;
 		ForeColor = Skins.Colors.ButtonText;
@@ -174,6 +176,26 @@ public sealed partial class Host : UserControl {
 	}
 
 	internal bool isDevMode = false;
+	/// <summary>
+	/// Is the page focused?
+	/// </summary>
+	internal new bool Focused { get; set { field = value; NotifyBgTrackingChanged(); } }
+	/// <summary>
+	/// Is host dockable not focused but visible?
+	/// </summary>
+	/// <remarks>
+	/// At this moment it would enable background tracking.
+	/// </remarks>
+	public bool BgTracking => !Focused &&
+#if VEGAS_ENV
+		Dockable.Visible;
+#else
+		true;
+#endif
+	private void NotifyBgTrackingChanged() {
+		BgTrackingChanged?.Invoke(this, BgTracking); // TODO: Optional debounce.
+	}
+	public event EventHandler<bool>? BgTrackingChanged;
 
 	private async void CoreWebView2_ContextMenuRequested(object sender, CoreWebView2ContextMenuRequestedEventArgs e) {
 		CoreWebView2 webView = Browser.CoreWebView2;
@@ -311,6 +333,9 @@ public sealed partial class Host : UserControl {
 	}
 
 	private void PostSystemConfigToTheWeb() => PostWebMessage(GetRefreshedSystemConfig());
+	private void Host_BgTrackingChanged(object sender, bool e) {
+		s = e;
+	}
 
 #if VEGAS_ENV
 	private void AddModuleKeybindings() {
@@ -337,8 +362,6 @@ public sealed partial class Host : UserControl {
 		Keybindings.Enabled = false;
 	}
 
-	private void Dockable_VisibleChanged(object sender, bool e) {
-		s = e;
-	}
+	private void Dockable_VisibleChanged(object sender, bool e) => NotifyBgTrackingChanged();
 #endif
 }
