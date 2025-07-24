@@ -258,6 +258,10 @@ public static class PInvoke {
 	public static extern IntPtr SetWindowLongPtr(IntPtr hwnd, WindowLongFlags nIndex, IntPtr dwNewLong);
 	[DllImport("user32.dll", SetLastError = true)]
 	public static extern IntPtr SetWindowLongPtr(IntPtr hwnd, WindowLongFlags nIndex, long dwNewLong);
+	[DllImport("user32.dll")]
+	public static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+	[DllImport("user32.dll")]
+	public static extern IntPtr CallWindowProc(long lpPrevWndFunc, IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 	[DllImport("user32.dll")]
 	public static extern IntPtr GetActiveWindow();
