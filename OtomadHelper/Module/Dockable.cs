@@ -1,7 +1,5 @@
 using System.Drawing;
-using System.Web.UI.WebControls;
 
-using OtomadHelper.Interop;
 using OtomadHelper.Models;
 using OtomadHelper.Services;
 
@@ -17,27 +15,19 @@ public sealed class Dockable : DockableControl {
 	public Dockable(Module module) : base(Module.InternalName) {
 		DisplayName = Module.DisplayName;
 		Module = module;
-		//visibleChangeTimer = new ITimer.WinForm(() => {
-		//	Visible = IsWindowVisible(ParentWindow.Handle);
-		//}, 1000);
 	}
 
 	public override DockWindowStyle DefaultDockWindowStyle => DockWindowStyle.Docked;
 	public override Size DefaultFloatingSize => new(800, 480);
 	public bool Shown { get; private set; } = false;
+
 	private VegasMediaSelectedChangeObserver? MediaSelectedChange;
-	//private readonly ITimer visibleChangeTimer;
-	public new bool Visible {
-		get => field;
-		set {
-			if (field == value) return;
-			field = value;
-			s = value;
-			VisibleChanged?.Invoke(this, value);
-		}
-	}
+
+	private bool DockableVisible { get; set { field = value; VisibleChanged?.Invoke(this, Visible); } } = true;
+	private bool VegasVisible { get; set { field = value; VisibleChanged?.Invoke(this, Visible); } } = true;
+	public new bool Visible => DockableVisible && VegasVisible;
 	public new event EventHandler<bool>? VisibleChanged;
-	private WindowSubclasser? visibleChangeSubclasser;
+	private WindowVisibilityMonitor? dockableVisibleMonitor, vegasVisibleMonitor;
 
 	public void Reload() {
 		DisposeHost();
@@ -54,8 +44,8 @@ public sealed class Dockable : DockableControl {
 		MediaSelectedChange = new(myVegas);
 		MediaSelectedChange.MediaSelectedChanged += OnMediaChanged;
 		vegas.TrackSelectionChanged += OnTrackChanged;
-		//visibleChangeTimer.Start();
-		ListenVisibleChange();
+		MonitorVisibilityChange();
+		vegas.AppInitialized += OnVegasAppInitialized;
 
 		base.OnLoad(e);
 	}
@@ -73,23 +63,28 @@ public sealed class Dockable : DockableControl {
 		DisposeHost();
 		Shown = false;
 
+		dockableVisibleMonitor?.StopMonitoring();
+		vegasVisibleMonitor?.StopMonitoring();
 		vegas.TrackEventStateChanged -= OnTrackEventChanged;
 		vegas.TrackEventCountChanged -= OnTrackEventChanged;
 		MediaSelectedChange?.Dispose();
 		vegas.TrackSelectionChanged -= OnTrackChanged;
+		vegas.AppInitialized -= OnVegasAppInitialized;
 
 		base.OnClosed(e);
 	}
 
-	private void ListenVisibleChange() {
-		visibleChangeSubclasser = new(ParentWindow.Handle, (IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) => {
-			UpdateVisible();
-			return IntPtr.Zero;
-		});
-		visibleChangeSubclasser.SubclassWindow();
+	private void MonitorVisibilityChange() {
+		dockableVisibleMonitor = new WindowVisibilityMonitor(ParentWindow.Handle);
+		dockableVisibleMonitor.VisibilityChanged += (_, visibility) => DockableVisible = visibility;
+		dockableVisibleMonitor.StartMonitoring();
 	}
 
-	internal void UpdateVisible() => Visible = IsWindowVisible(ParentWindow.Handle);
+	private void OnVegasAppInitialized(object sender, EventArgs e) {
+		vegasVisibleMonitor = new WindowVisibilityMonitor(vegas.MainWindow.Handle);
+		vegasVisibleMonitor.VisibilityChanged += (_, visibility) => VegasVisible = visibility;
+		vegasVisibleMonitor.StartMonitoring();
+	}
 
 	private void OnTrackEventChanged(object sender, EventArgs e) {
 		PostWebMessage(new ConsoleLog("TrackEventChanged"));

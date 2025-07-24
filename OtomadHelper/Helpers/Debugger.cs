@@ -26,6 +26,22 @@ internal static class Debugger {
 		}
 	}
 
+	/// <summary>
+	/// Show me the fucking content!
+	/// </summary>
+	/// <remarks>
+	/// 给老娘展示内容！
+	/// </remarks>
+	[Obsolete("This method can only be used for debugging and should not be used in release!")]
+	[SuppressMessage("Style", "IDE1006")]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	public static object? alert {
+		set {
+			object nullableValue = value ?? "null";
+			MessageBox.Show(nullableValue.ToString());
+		}
+	}
+
 	[Obsolete("This method can only be used for debugging and should not be used in release!")]
 	public static void DebugPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
 		s = e.NewValue;

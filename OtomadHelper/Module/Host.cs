@@ -28,6 +28,7 @@ public sealed partial class Host : UserControl {
 	public Host(Dockable dockable) {
 		Dockable = dockable;
 		Dockable.Closed += Dockable_Closed;
+		Dockable.VisibleChanged += Dockable_VisibleChanged;
 #else
 	public Host(object @null) {
 #endif
@@ -334,6 +335,10 @@ public sealed partial class Host : UserControl {
 	private void Dockable_Closed(object sender, EventArgs e) {
 		Keybindings.TriggerKeybinding -= Module_TriggerKeybinding;
 		Keybindings.Enabled = false;
+	}
+
+	private void Dockable_VisibleChanged(object sender, bool e) {
+		s = e;
 	}
 #endif
 }
