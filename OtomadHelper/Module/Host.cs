@@ -86,9 +86,9 @@ public sealed partial class Host : UserControl {
 		//Browser.ZoomFactor // TODO: Set UI zoom factor.
 		MessageSender.Host = this;
 		webMessageAcknowledgement.Received += OnReceiveAcknowledgement;
-#if DEBUG
-		webView.OpenDevToolsWindow();
-#endif
+//#if DEBUG
+		webView.OpenDevToolsWindow(); // WARN: Comment this line when released!
+//#endif
 		RevokeWebView2DragDropSwallow(this);
 	}
 

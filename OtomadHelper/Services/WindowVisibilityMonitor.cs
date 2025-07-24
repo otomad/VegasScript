@@ -15,9 +15,6 @@ public class WindowVisibilityMonitor : IDisposable {
 	[DllImport("user32.dll")]
 	private static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 
-	[DllImport("user32.dll")]
-	private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
-
 	private delegate void WinEventDelegate(
 		IntPtr hWinEventHook, uint eventType, IntPtr hwnd,
 		int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
@@ -38,8 +35,6 @@ public class WindowVisibilityMonitor : IDisposable {
 	}
 
 	public void StartMonitoring() {
-		GetWindowThreadProcessId(targetHwnd, out _);
-
 		hEventHook = SetWinEventHook(
 			Math.Min(EVENT_OBJECT_SHOW, EVENT_SYSTEM_MINIMIZESTART), // Minimum event listened
 			Math.Max(EVENT_OBJECT_STATECHANGE, EVENT_SYSTEM_MINIMIZEEND), // Maximum event listened

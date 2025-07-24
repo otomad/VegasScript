@@ -17,6 +17,8 @@ public sealed class Dockable : DockableControl {
 		Module = module;
 	}
 
+	private static bool isVegasAppInitialized = false;
+
 	public override DockWindowStyle DefaultDockWindowStyle => DockWindowStyle.Docked;
 	public override Size DefaultFloatingSize => new(800, 480);
 	public bool Shown { get; private set; } = false;
@@ -44,7 +46,7 @@ public sealed class Dockable : DockableControl {
 		MediaSelectedChange = new(myVegas);
 		MediaSelectedChange.MediaSelectedChanged += OnMediaChanged;
 		vegas.TrackSelectionChanged += OnTrackChanged;
-		MonitorVisibilityChange();
+		MonitorDockableVisibleChange();
 		vegas.AppInitialized += OnVegasAppInitialized;
 
 		base.OnLoad(e);
@@ -63,8 +65,8 @@ public sealed class Dockable : DockableControl {
 		DisposeHost();
 		Shown = false;
 
-		dockableVisibleMonitor?.StopMonitoring();
-		vegasVisibleMonitor?.StopMonitoring();
+		dockableVisibleMonitor?.Dispose();
+		vegasVisibleMonitor?.Dispose();
 		vegas.TrackEventStateChanged -= OnTrackEventChanged;
 		vegas.TrackEventCountChanged -= OnTrackEventChanged;
 		MediaSelectedChange?.Dispose();
@@ -74,16 +76,22 @@ public sealed class Dockable : DockableControl {
 		base.OnClosed(e);
 	}
 
-	private void MonitorVisibilityChange() {
+	private void MonitorDockableVisibleChange() {
 		dockableVisibleMonitor = new WindowVisibilityMonitor(ParentWindow.Handle);
 		dockableVisibleMonitor.VisibilityChanged += (_, visibility) => DockableVisible = visibility;
 		dockableVisibleMonitor.StartMonitoring();
+		if (isVegasAppInitialized) MonitorVegasMinimizeChange();
 	}
 
-	private void OnVegasAppInitialized(object sender, EventArgs e) {
+	private void MonitorVegasMinimizeChange() {
 		vegasVisibleMonitor = new WindowVisibilityMonitor(vegas.MainWindow.Handle);
 		vegasVisibleMonitor.VisibilityChanged += (_, visibility) => VegasVisible = visibility;
 		vegasVisibleMonitor.StartMonitoring();
+	}
+
+	private void OnVegasAppInitialized(object sender, EventArgs e) {
+		if (!isVegasAppInitialized) MonitorVegasMinimizeChange();
+		isVegasAppInitialized = true;
 	}
 
 	private void OnTrackEventChanged(object sender, EventArgs e) {
