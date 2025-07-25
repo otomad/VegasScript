@@ -69,7 +69,7 @@ const StyledPillButton = styled.button.attrs({
 	}
 `;
 
-export /* @internal */ default function PillButton({ icon, id, selected, badge, children, className, ...htmlAttrs }: FCP<{
+export /* @internal */ default function PillButton({ icon, id, selected, badge, autoScrollIntoView = true, children, className, onClick, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons;
 	/** Identifier. */
@@ -78,13 +78,15 @@ export /* @internal */ default function PillButton({ icon, id, selected, badge, 
 	selected?: boolean;
 	/** Badge. */
 	badge?: Readable;
+	/** Auto scroll into view while selected? @default true */
+	autoScrollIntoView?: boolean;
 }, "button">) {
 	const ariaId = useId();
 	const pillEl = useDomRef<"button">();
 
 	const scrollIntoView = (force = false) => {
-		if (selected || force)
-			pillEl.current?.scrollIntoView({ inline: "center", block: "nearest" });
+		if ((selected || force) && autoScrollIntoView)
+			scrollIntoViewAlt(pillEl);
 	};
 	useEffect(() => scrollIntoView(), [selected]);
 	useKeyboardFocus(pillEl, () => scrollIntoView(true));
@@ -96,6 +98,7 @@ export /* @internal */ default function PillButton({ icon, id, selected, badge, 
 			role="radio"
 			aria-checked={selected}
 			aria-labelledby={`${ariaId}-title`}
+			onClick={e => { onClick?.(e); scrollIntoView(true); }}
 			{...htmlAttrs}
 		>
 			{icon && <Icon name={icon} />}

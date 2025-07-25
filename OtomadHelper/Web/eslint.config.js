@@ -229,6 +229,7 @@ export default [
 			// 	"exampleCodeRegex": "```",
 			// }],
 			"jsdoc/require-returns-check": "off",
+			"jsdoc/empty-tags": "off",
 			"@typescript-eslint/no-unused-vars": ["warn", { // 非要使用未使用变量，前面加下划线。
 				"argsIgnorePattern": "^_",
 				"varsIgnorePattern": "^_",

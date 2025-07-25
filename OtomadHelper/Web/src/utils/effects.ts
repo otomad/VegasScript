@@ -3,6 +3,7 @@ const $popovers = () => document.getElementById("popovers") ?? document.body;
 /**
  * Make a focus diffusion effect around the target element.
  * @param element - Target HTML DOM element.
+ * @returns Empty promise.
  */
 export async function makeFocusDiffusionEffect(element: TargetType, { borderRadius }: {
 	/** Override the border-radius property for the focus ring. If not specified, it will auto inherit the value from the target element. */

@@ -129,7 +129,7 @@ const StyledTabItem = styled.button`
 const BadgeItem = ({ hidden: layoutHidden, badge: [badge, status, hidden] = [false] as never }: { hidden?: boolean; badge?: BadgeArgs }) =>
 	<Badge status={status ?? "accent"} hidden={hidden || layoutHidden} unmountOnExit={false}>{badge}</Badge>;
 
-export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, ariaCurrentWhenSelected, autoScrollIntoView = true, _vertical: vertical, ...htmlAttrs }: FCP<{
+export /* @internal */ default function TabItem({ icon, animatedIcon, children, selected = false, collapsed, id: _id, focusable = true, badge, ariaCurrentWhenSelected, autoScrollIntoView = true, _vertical: vertical, onClick, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons;
 	/** Animated icon. */
@@ -155,8 +155,7 @@ export /* @internal */ default function TabItem({ icon, animatedIcon, children, 
 
 	const scrollIntoView = (force = false) => {
 		if ((selected || force) && autoScrollIntoView)
-			if (vertical) tabItemWrapperEl.current?.scrollIntoViewIfNeeded();
-			else tabItemWrapperEl.current?.scrollIntoView({ inline: "center", block: "nearest" });
+			scrollIntoViewAlt(tabItemWrapperEl, !vertical);
 	};
 	useEffect(() => scrollIntoView(), [selected]);
 	useKeyboardFocus(tabItemEl, () => scrollIntoView(true));
@@ -171,8 +170,7 @@ export /* @internal */ default function TabItem({ icon, animatedIcon, children, 
 					role="tab"
 					aria-selected={selected}
 					aria-current={selected ? ariaCurrentWhenSelected : undefined}
-					// onKeyDown={({ code }) => code === "Tab" && scrollIntoView(true)}
-					// onClick={e => { onClick?.(e); scrollIntoView(); }}
+					onClick={e => { onClick?.(e); scrollIntoView(true); }}
 					{...htmlAttrs}
 					className={{ selected }}
 				>

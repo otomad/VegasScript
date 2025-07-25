@@ -117,7 +117,7 @@ const StyledFlipperWrapper = styled.div`
 	}
 `;
 
-export default function Flipper({ arrow, delta = 40, children: _children, ...htmlAttrs }: FCP<{
+export default function Flipper({ arrow, delta = 40, children: _children, tabIndex = -1, ...htmlAttrs }: FCP<{
 	/** Scroll position. */
 	arrow: "left" | "right";
 	/** Scroll increments. */
@@ -137,7 +137,7 @@ export default function Flipper({ arrow, delta = 40, children: _children, ...htm
 
 	return (
 		<StyledFlipperWrapper ref={wrapperEl} style={{ [arrow]: "0" }} className={arrow}>
-			<StyledFlipper onClick={handleClick} {...htmlAttrs}>
+			<StyledFlipper tabIndex={tabIndex} onClick={handleClick} {...htmlAttrs}>
 				<Icon name={`flipper/caret_${arrow}`} />
 			</StyledFlipper>
 		</StyledFlipperWrapper>

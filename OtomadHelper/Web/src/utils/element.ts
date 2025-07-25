@@ -462,3 +462,38 @@ export function getScrollParent(element: Element | undefined | null, direction: 
 	}
 	return null;
 }
+
+/**
+ * This is a special `scrollIntoView` function for horizontal tab bars and filters that require horizontal scrolling
+ * and contain flippers components.
+ *
+ * Because the `clip-path` property is used in the scroll container to match `scroll-state` container query, even if
+ * `scrollIntoViewIfNeeded` is used, part of it will still be masked (occluded by `clip-path`). Therefore, a special
+ * `scrollIntoView` function needs to be re-customized.
+ *
+ * @param element - The HTML DOM element that will be scroll into view.
+ * @param enableAlt - When false, it will directly call `scrollIntoViewIfNeeded` instead of this function.
+ */
+export function scrollIntoViewAlt(element: MaybeRef<HTMLElement | null>, enableAlt: boolean = true) {
+	element = toValue(element);
+	if (!element) return;
+	if (!enableAlt) {
+		element.scrollIntoViewIfNeeded();
+		return;
+	}
+	const scrollParent = getScrollParent(element);
+	if (!scrollParent) return;
+	const flipperWidth = parseFloat(getComputedStyle(scrollParent).getPropertyValue("--flipper-width"));
+	if (!flipperWidth || !scrollParent.querySelector(":scope > .flipper-wrapper")?.checkVisibility()) { // Not the target of consideration.
+		element.scrollIntoViewIfNeeded();
+		return;
+	}
+	if (scrollParent.scrollLeft > element.offsetLeft) {
+		scrollParent.scrollLeft = element.offsetLeft;
+		return;
+	}
+	const scrollClientWidth = scrollParent.clientWidth - flipperWidth * 2;
+	const elementOffsetRight = element.offsetLeft + element.offsetWidth;
+	if (scrollParent.scrollLeft + scrollClientWidth < elementOffsetRight)
+		scrollParent.scrollLeft = elementOffsetRight - scrollClientWidth;
+}

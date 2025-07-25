@@ -15,6 +15,7 @@ const StyledFilter = styled(HorizontalScroll)`
 	}
 
 	.pills {
+		position: relative;
 		display: inherit;
 		gap: 4px;
 		align-items: inherit;
