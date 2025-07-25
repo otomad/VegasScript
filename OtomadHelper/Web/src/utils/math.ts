@@ -127,20 +127,20 @@ export function floorMod(x: number, y: number) {
 /**
  * Sums up a list of numbers.
  * @param numbers - Numbers.
- * @return Sum in number type.
+ * @returns Sum in number type.
  */
 export function sum(...numbers: number[]): number;
 /**
  * Sums up a list of big integers.
  * @param bigints - Big integers.
- * @return Sum in big integer type.
+ * @returns Sum in big integer type.
  */
 export function sum(...bigints: bigint[]): bigint;
 /**
  * Sums up a list of mixed numbers and big integers.
  * @note Mixing numbers and big integers will return a number type.
  * @param numbers - Numbers or big integers.
- * @return Sum in number type.
+ * @returns Sum in number type.
  */
 export function sum(...numbers: (number | bigint)[]): number;
 export function sum(...numbers: (number | bigint)[]): number | bigint {

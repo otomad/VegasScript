@@ -64,7 +64,7 @@ declare interface Array<T> {
 
 	/**
 	 * Append the items to the end of the array only if they are not included.
-	 * @param item - Items that to be added.
+	 * @param items - Items that to be added.
 	 *
 	 * @example
 	 * ```javascript
@@ -208,7 +208,7 @@ declare interface Array<T> {
 	 * @remarks If the array is empty, it will return undefined. However, at the TypeScript type level, there is an implicit empty removal,
 	 * which is consistent with the type got when accessing elements directly using index values in `[]`. But if the type of the array
 	 * already contains undefined, it will not remove empty.
-	 * @return The last element of the array.
+	 * @returns The last element of the array.
 	 *
 	 * @example
 	 * ```javascript
@@ -222,7 +222,7 @@ declare interface Array<T> {
 	 * @remarks If the array is empty, it will return undefined. However, at the TypeScript type level, there is an implicit empty removal,
 	 * which is consistent with the type got when accessing elements directly using index values in `[]`. But if the type of the array
 	 * already contains undefined, it will not remove empty.
-	 * @return The first element of the array.
+	 * @returns The first element of the array.
 	 *
 	 * @example
 	 * ```javascript
@@ -357,8 +357,8 @@ declare interface Array<T> {
 
 	/**
 	 * Calls a defined callback asynchronous function on each element of an array, and returns an array promise that contains the results.
-	 * @param callbackfn An asynchronous function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
-	 * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+	 * @param callbackfn - An asynchronous function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
+	 * @param thisArg - An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
 	 *
 	 * @example
 	 * ```javascript
@@ -412,7 +412,6 @@ declare interface Array<T> {
 	/**
 	 * Returns the next item in the array relative to the current item, with optional offset and wrapping.
 	 *
-	 * @param array - The array to search within.
 	 * @param currentItem - The current item to find the next of.
 	 * @param offset - The number of positions to move forward (or backward if negative). Defaults to 1.
 	 * @param defaultIndex - The index to use if the current item is not found. Defaults to 0.
@@ -455,7 +454,6 @@ declare interface Array<T> {
 	 * - ~~If an array is provided as the nullish items, removes elements that are included in the nullish array.~~
 	 * - ~~If a function is provided as the predicate, removes elements for which the function returns `true`.~~
 	 *
-	 * @param array - The array to trim elements from the end.
 	 * @param predicate - **Optional.** ~~A function to test each element~~, or ~~an array of values to remove~~, or **undefined for default behavior**.
 	 *
 	 * @example
@@ -473,7 +471,6 @@ declare interface Array<T> {
 	 * - **If an array is provided as the nullish items, removes elements that are included in the nullish array.**
 	 * - ~~If a function is provided as the predicate, removes elements for which the function returns `true`.~~
 	 *
-	 * @param array - The array to trim elements from the end.
 	 * @param nullish - ~~Optional.~~ ~~A function to test each element~~, or **an array of values to remove**, or ~~undefined for default behavior~~.
 	 *
 	 * @example
@@ -491,7 +488,6 @@ declare interface Array<T> {
 	 * - ~~If an array is provided as the nullish items, removes elements that are included in the nullish array.~~
 	 * - **If a function is provided as the predicate, removes elements for which the function returns `true`.**
 	 *
-	 * @param array - The array to trim elements from the end.
 	 * @param predicate - ~~Optional.~~ **A function to test each element**, or ~~an array of values to remove~~, or ~~undefined for default behavior~~.
 	 *
 	 * @example
@@ -506,7 +502,6 @@ declare interface Array<T> {
 	/**
 	 * Determines whether an array includes a certain element, using deep equality comparison.
 	 *
-	 * @param array - The array to search within.
 	 * @param searchElement - The element to search for in the array.
 	 * @returns `true` if the array contains an element deeply equal to `searchElement`, otherwise `false`.
 	 */
@@ -526,8 +521,8 @@ declare interface Array<T> {
 
 	/**
 	 * Returns the index of the first occurrence of a value in an array, or -1 if it is not present. Using deep equality comparison.
-	 * @param searchElement The value to locate in the array.
-	 * @param fromIndex The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.
+	 * @param searchElement - The value to locate in the array.
+	 * @param fromIndex - The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.
 	 * @returns The index of the first occurrence of a value in an array, or -1 if it is not present. Using deep equality comparison.
 	 */
 	indexOfDeep(searchElement: T, fromIndex?: number): number;
@@ -538,7 +533,6 @@ declare interface Array<T> {
 	 * Modifies the original array by removing the item at `oldIndex` and inserting it at `newIndex`.
 	 * Supports negative indices, which count from the end of the array.
 	 *
-	 * @param array - The array to modify.
 	 * @param oldIndex - The index of the item to move. Negative values indicate an offset from the end.
 	 * @param newIndex - The index to move the item to. Negative values indicate an offset from the end.
 	 * @returns The modified array with the item moved.
@@ -623,7 +617,6 @@ declare interface Map<K, V> {
 	/**
 	 * Retrieves the entry for a given key from a Map as a tuple.
 	 *
-	 * @param map - The Map instance to search.
 	 * @param key - The key whose entry should be retrieved.
 	 * @returns A tuple containing the key and its corresponding value if the key exists in the map, otherwise `undefined`.
 	 */

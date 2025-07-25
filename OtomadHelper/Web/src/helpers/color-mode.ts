@@ -20,6 +20,8 @@ export const useActualColorScheme = () => useAtomValue(actualColorScheme);
  * Changes the color scheme of the website.
  * @param scheme - Whether to use the light color scheme or the dark color scheme.
  * If not specified, the color scheme will be automatically determined based on the user's system preferences.
+ * @param amoledDark - Enable AMOLED dark scheme (pure black scheme)? Only available when the actual color scheme is dark.
+ * @param contrast - Enable contrast scheme?
  * @param mode - The mode to use when changing the color scheme. Possible values are:
  * - `"initial"`: The color scheme will be updated immediately without any animation.
  * - `"auto"`: The color scheme will be updated based on the user's system preferences.

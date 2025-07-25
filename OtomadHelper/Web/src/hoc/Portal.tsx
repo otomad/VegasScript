@@ -2,6 +2,8 @@
  * `Portal` lets you render some children into a different part of the DOM.
  *
  * This is the JSX-ized encapsulation of the standard API `createPortal()`.
+ *
+ * @returns Portal.
  */
 export default function Portal({ container = "#popovers", children }: FCP<{
 	/**

@@ -17,6 +17,8 @@ const defaultClassName = {
  *
  * @see [How to detect CSS flex wrap event](https://stackoverflow.com/q/40012428)
  * @see [flex wrap layout](https://github.com/tkrotoff/flex-wrap-layout)
+ *
+ * @param ref - HTML DOM element.
  */
 export function useDetectWrappedElements(ref: RefObject<HTMLElement | null>, {
 	nextIsWrapped: nextIsWrappedClassName = defaultClassName.nextIsWrapped,
@@ -49,6 +51,8 @@ export function useDetectWrappedElements(ref: RefObject<HTMLElement | null>, {
 
 /**
  * @see [`jQuery.position()` equivalent is wrong](https://github.com/HubSpot/youmightnotneedjquery/issues/172)
+ * @param el - HTML DOM element.
+ * @returns Top position.
  */
 function getTopPosition(el: Element) {
 	const { top } = el.getBoundingClientRect();

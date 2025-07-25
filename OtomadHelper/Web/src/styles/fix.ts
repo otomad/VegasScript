@@ -1,3 +1,10 @@
+/*
+ * This global style is used to unify other styles introduced by third-party plugins.
+ *
+ * In this global style partial file, the selector class and id pattern will be ignored,
+ * this is because other plugins have inconsistent naming conventions.
+ */
+
 export default css`
 	/* stylelint-disable selector-id-pattern */
 	/* stylelint-disable selector-class-pattern */

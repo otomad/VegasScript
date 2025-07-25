@@ -21,6 +21,7 @@ export function useImperativeHandleRef<T>(forwardedRef: React.ForwardedRef<T> | 
 /**
  * If user click a button that inside another button, do not trigger outside button event.
  * @param handler - Mouse event handler.
+ * @returns onClick handler.
  */
 export function useOnNestedButtonClick(handler?: MouseEventHandler) {
 	return useCallback<MouseEventHandler>(e => {

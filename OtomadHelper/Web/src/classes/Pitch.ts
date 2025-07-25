@@ -1,5 +1,11 @@
+const noteNames = "C,C#,D,D#,E,F,F#,G,G#,A,A#,B".split(",");
+
+export function midiNoteToSPN(midiNoteNumber: number) {
+	return noteNames[midiNoteNumber % 12] + (midiNoteNumber / 12 | 0);
+}
+
 export default class Pitch {
-	static readonly #noteNames = "C,C#,D,D#,E,F,F#,G,G#,A,A#,B".split(",");
+	static readonly #noteNames = noteNames;
 	static readonly #centerC5 = Pitch.pitchMap("C", 5)!;
 	static readonly #centerA4 = Pitch.pitchMap("A", 4)!;
 

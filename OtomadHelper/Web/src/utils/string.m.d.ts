@@ -270,7 +270,6 @@ declare interface String {
 	 *
 	 * This is the JavaScript version of `str.center` function in Python.
 	 *
-	 * @param inputString - The original string to pad.
 	 * @param maxLength - The desired total length of the resulting string after padding.
 	 * @param fillString - The string to use for padding. Defaults to a space.
 	 * @param uneven - Determines where to place the extra padding character if the padding is uneven.
@@ -296,7 +295,6 @@ declare interface String {
 	 *
 	 * A "word" is defined as a sequence of non-whitespace (space, line break, tab, etc.) characters.
 	 *
-	 * @param string - The input string to process.
 	 * @param convert - A function that takes a word as input and returns the converted word.
 	 * @returns The input string with each word replaced by the result of the `convert` function.
 	 *

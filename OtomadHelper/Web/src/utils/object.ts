@@ -64,7 +64,7 @@ export function hasOwn<T extends object>(obj: T, key: PropertyKey): key is keyof
  *
  * @param target - The target object — what to apply the sources' properties to, which is returned after it is modified.
  * @param sources - The source object(s) — objects containing the properties you want to apply.
- * @return The target object.
+ * @returns The target object.
  */
 export function assign<TTarget extends object>(target: TTarget, ...sources: Partial<TTarget>[]): TTarget {
 	return Object.assign(target, ...sources);
@@ -348,7 +348,7 @@ export function useDomRefs<TElement extends keyof ElementTagNameMap | Element>()
  * @param value - The value to check.
  * @returns Returns `true` if `value` is object-like, else `false`.
  * @example
- *
+ * ```javascript
  * _.isObjectLike({});
  * // => true
  *
@@ -360,6 +360,7 @@ export function useDomRefs<TElement extends keyof ElementTagNameMap | Element>()
  *
  * _.isObjectLike(null);
  * // => false
+ * ```
  */
 export function isObject(value: unknown): value is object {
 	return value !== null && typeof value === "object";
@@ -439,7 +440,7 @@ export function asserts<T>(object: unknown): asserts object is T { }
  * Checks if `value` is undefined, null, or NaN.
  *
  * @category Lang
- * @param value The value to check.
+ * @param object - The value to check.
  * @returns Returns `true` if `value` is undefined, null, or NaN, else `false`.
  * @example
  *
@@ -517,7 +518,7 @@ export function defineGetterInPrototype<T>(constructor: new (...args: Any[]) => 
 /**
  * A no-operation function that returns undefined regardless of the arguments it receives.
  *
- * @return undefined
+ * @returns undefined
  */
 export const noop = lodash.noop;
 
@@ -563,6 +564,7 @@ export function mutexSwitches(...switches: (StateProperty<boolean> | StateProper
  *
  * @param object - A long name object.
  * @param getter - Rename that object to a short name, then get the result.
+ * @returns The return value from getter.
  *
  * @example
  * ```typescript
@@ -579,6 +581,8 @@ export function withObject<TObject, TReturn>(object: TObject, getter: (object: T
 
 /**
  * Check if a object is a state property.
+ * @param object - The value to check.
+ * @returns Is the object a state property?
  */
 export function isStateProperty<T>(object: unknown): object is StateProperty<T> {
 	return Array.isArray(object) && object.length === 2 && typeof object[1] === "function";
@@ -589,6 +593,9 @@ export function isStateProperty<T>(object: unknown): object is StateProperty<T> 
  * If so, it means that the "use" hooks can be called now.
  *
  * @warn This function use an unstable API, which may become invalid after a React update in the future.
+ * @warn Cannot use this function when enable React Compiler.
+ *
+ * @returns Can use hook here?
  */
 export function canUseHook() {
 	// React 18.0
@@ -611,18 +618,6 @@ export function canUseHook() {
 export /* @internal */ function type(object: Object | undefined | null, lowerCase: boolean = false) {
 	const type = object != null ? object.constructor.name : Object.prototype.toString.call(object).slice(8, -1);
 	return lowerCase ? type.toLowerCase() : type;
-}
-
-/**
- * @deprecated
- */
-export function getCurrentState<T>(setter: SetState<T>) {
-	return new Promise<T>(resolve => {
-		(setter as SetStateNarrow<T>)(prevState => {
-			resolve(prevState);
-			return prevState;
-		});
-	});
 }
 
 /**

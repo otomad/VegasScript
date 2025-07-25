@@ -35,6 +35,8 @@ const eventAttrToType = (eventName: string) => eventName.toLowerCase().replace(/
  * - To inject events where you need, without relaying on bubbling or capturing or some react details.
  * - To get native DOM event, not `React.Synthetic`.
  * - To work with DOM Tree, not `React.Tree`.
+ *
+ * @returns EventInjector.
  */
 export default function EventInjector({ children, ref, options, ...events }: FCP<{
 	children: ReactElement;
@@ -71,6 +73,8 @@ export default function EventInjector({ children, ref, options, ...events }: FCP
  * ```typescript
  * { passive: true }
  * ```
+ *
+ * @returns EventInjector.
  */
 EventInjector.Passive = function EventInjector_Passive({ options = { passive: true }, ...props }: PropsOf<typeof EventInjector>) {
 	return <EventInjector {...props} options={options} />;
@@ -80,6 +84,8 @@ EventInjector.Passive = function EventInjector_Passive({ options = { passive: tr
  * ```typescript
  * { passive: false }
  * ```
+ *
+ * @returns EventInjector.
  */
 EventInjector.Active = function EventInjector_Passive({ options = { passive: false }, ...props }: PropsOf<typeof EventInjector>) {
 	return <EventInjector {...props} options={options} />;

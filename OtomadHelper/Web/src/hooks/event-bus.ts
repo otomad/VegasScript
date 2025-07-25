@@ -8,7 +8,8 @@ const emitter = mitt<ApplicationEvents>();
  *
  * @template TKey - The type of event key.
  * @param type - The event type.
- * @param event - The event data.
+ * @param args - The event data.
+ * @returns Nothing.
  *
  * @example
  * ```typescript

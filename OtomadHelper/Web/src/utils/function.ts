@@ -30,6 +30,8 @@ export function areFunctionsGenerallyEqual(a: unknown, b: unknown) {
 
 /**
  * Check if a function is async.
+ * @param test - The function to test.
+ * @returns Is the function async?
  */
 export function isAsyncFunction(test: unknown): test is (...args: Any[]) => Promise<Any> {
 	return test instanceof Function && test.constructor.name === "AsyncFunction";

@@ -81,7 +81,6 @@ export async function replayAnimation(element: Element, ...className: string[]) 
 }
 
 /**
- * ### Reflow
  * Reset CSS animations.
  * @see https://stackoverflow.com/a/45036752/19553213
  * @see https://stackoverflow.com/questions/27637184
@@ -89,7 +88,7 @@ export async function replayAnimation(element: Element, ...className: string[]) 
  */
 export async function resetAnimation(element: HTMLElement) {
 	element.style.animation = "none";
-	// element.offsetHeight;
+	// element.offsetHeight; // Performing reflow is laggier than raf.
 	await nextAnimationTick();
 	element.style.animation = null!;
 }
@@ -165,7 +164,7 @@ export type AnimateSizeOptions = Partial<{
  * @returns A generator function that returns the animation async promise.
  * @deprecated
  */
-export async function *animateSizeGenerator(
+export async function* animateSizeGenerator(
 	element: MaybeRef<Element | undefined>,
 	{
 		startHeight,
@@ -417,8 +416,8 @@ export function stopTransition({ includesViewTransitions = false }: {
 /**
  * Add color-dependent view transition animations to the entire page.
  * @param changeFunc - A callback function that will change the page.
- * @param keyframes - Animation keyframes.
- * @param options - Animation options.
+ * @param animations - A tuple of animation keyframes and animation options.
+ * @param cursor - Set the cursor while transitioning.
  * @returns The destructor can be executed after the animation is completed.
  */
 export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions][], cursor?: Cursor) {

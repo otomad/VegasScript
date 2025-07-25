@@ -46,7 +46,6 @@ export default function RepeatButton({ children, onClick, onRelease, ...htmlAttr
 			data-pressed={pressed}
 			{...htmlAttrs}
 		>
-			{/* {...dataset({ pressed })} */}
 			{children}
 		</button>
 	);

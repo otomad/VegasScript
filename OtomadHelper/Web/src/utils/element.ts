@@ -4,14 +4,18 @@ type ReactElementType = string | React.JSXElementConstructor<Any>;
  * Determine whether a component is an instance of a certain component type.
  * @remarks It seems that the specified component type appears to require placement in a separate file,
  * rather than in the same file as where the function is invoked.
- * @param node - Component instance.
- * @param element - Component class or function component.
+ * @param instance - Component instance.
+ * @param component - Component class or function component.
+ * @param looseness - Specify how to determine the equality of the type of instance and the component.
+ * - `"strong"` - Check if they point to pointers to the same function.
+ * - `"weak"` - Check if their function content strings are same.
+ * - `"weakest"` - Check if their functions' name and argument count are same.
  * @returns Is its instance?
  */
-export function isReactInstance<T extends ReactElementType>(node: ReactNode, element: T, looseness: "strong" | "weak" | "weakest" = "strong"): node is ReactElementOf<T> {
-	return React.isValidElement(node) && isObject(node) && "type" in node && (node.type === element ||
-		looseness === "weak" ? areFunctionsApproxEqual(node.type, element) :
-		looseness === "weakest" ? areFunctionsGenerallyEqual(node.type, element) :
+export function isReactInstance<T extends ReactElementType>(instance: ReactNode, component: T, looseness: "strong" | "weak" | "weakest" = "strong"): instance is ReactElementOf<T> {
+	return React.isValidElement(instance) && isObject(instance) && "type" in instance && (instance.type === component ||
+		looseness === "weak" ? areFunctionsApproxEqual(instance.type, component) :
+		looseness === "weakest" ? areFunctionsGenerallyEqual(instance.type, component) :
 		false
 	);
 }
@@ -48,7 +52,7 @@ export function stopEvent(event?: Pick<Event, "preventDefault" | "stopPropagatio
 type AdditionalProps = AnyObject | ((props: AnyObject, element: ReactElement) => AnyObject);
 /**
  * Clones the provided children, replacing any refs with the provided nodeRef.
- * @remark Both render tree parent and declaration tree parent own the ref of child.
+ * @remarks Both render tree parent and declaration tree parent own the ref of child.
  * @param children - The ReactNode to clone and replace refs.
  * @param nodeRef - The RefObject to use as the new ref for any cloned elements with a ref.
  * @param additionalProps - Add additional custom props. You can also use a handler to return by getting the exist props, or keys.
@@ -207,27 +211,9 @@ export function getElementIndex(element: Element) {
 }
 
 /**
- * React default dataset (data-* attributes) will automatically convert a boolean value to a string.
- * So this function will convert the boolean values.
- * To make sure that add the attribute if the value is true and remove the attribute if the value is false.
- */
-export function dataset(dataset: Record<string, Readable | boolean | undefined | null> = {}) {
-	const entries = Object.entries(dataset);
-	const result: Record<string, Readable> = {};
-	for (const [camelKey, value] of entries) {
-		const key = "data-" + new VariableName(camelKey).kebab;
-		if (value === undefined || value === null || value === false)
-			continue;
-		else if (value === true)
-			result[key] = "";
-		else
-			result[key] = value;
-	}
-	return result;
-}
-
-/**
  * Create a new image from URL.
+ * @param url - Image URL.
+ * @returns A Promise that resolves with the result HTML image element.
  */
 export function createImageFromUrl(url: string) {
 	const image = new Image();
@@ -278,6 +264,7 @@ export function checkStateToAriaChecked(checkState: CheckState): React.AriaAttri
 /**
  * Returns a new array with all sub-array and sub-React-fragment React nodes concatenated into it recursively.
  * @param children - React children.
+ * @returns The flattened React children.
  */
 export function flattenReactChildren(children: ReactNode) {
 	const flattened: ReactNode[] = [];
@@ -298,6 +285,7 @@ export function flattenReactChildren(children: ReactNode) {
 
 /**
  * Makes the browser "ignore" user input events for the element?
+ * @param inert - Inert?
  */
 export function setRootInert(inert: boolean) {
 	const root = document.getElementById("root");
@@ -306,6 +294,9 @@ export function setRootInert(inert: boolean) {
 
 /**
  * Hook: Makes the browser "ignore" user input events for the element?
+ * @param inert - Inert?
+ * @param popover - If specified, the root will keep inert when the specified popover more than one.
+ * Useful when opening multiple popovers, close sub-popover will unexpectedly cancel inert even if the parent popovers aren't closed.
  */
 export function useRootInert(inert: boolean | null | undefined, popover?: string) {
 	useEffect(() => {
@@ -419,6 +410,8 @@ type MergedRef<T = Element | null> = React.RefCallback<T> & {
 
 /**
  * Checks if the given ref is returned by function `mergeRefs`.
+ * @param ref - The ref to check.
+ * @returns Is the specified ref a merged ref?
  */
 function isMergedRef<T>(ref: MiscRef<T>): ref is MergedRef<T> {
 	return typeof ref === "function" && MERGED_REF_SYMBOL in ref;

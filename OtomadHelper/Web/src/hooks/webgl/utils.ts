@@ -24,7 +24,7 @@ function addLineNumbersWithError(src: string, log = "") {
 /**
  * Error Callback
  * @callback ErrorCallback
- * @param {string} msg error message.
+ * @param {string} msg - error message.
  * @memberOf module:webgl-utils
  */
 interface ErrorCallback {
@@ -34,11 +34,11 @@ const error: ErrorCallback = console.error.bind(console);
 
 /**
  * Loads a shader.
- * @param {WebGLRenderingContext} gl The WebGLRenderingContext to use.
- * @param {string} shaderSource The shader source.
- * @param {number} shaderType The type of shader.
- * @param {ErrorCallback} errorCallback callback for errors.
- * @return {WebGLShader} The created shader.
+ * @param gl - The WebGLRenderingContext to use.
+ * @param shaderSource - The shader source.
+ * @param shaderType - The type of shader.
+ * @param errorCallback - callback for errors.
+ * @returns The created shader.
  */
 function loadShader(gl: WebGLRenderingContext, shaderSource: string, shaderType: number, errorCallback = error): WebGLShader | null {
 	// Create the shader object
@@ -66,11 +66,13 @@ function loadShader(gl: WebGLRenderingContext, shaderSource: string, shaderType:
 /**
  * Creates a program, attaches shaders, binds attrib locations, links the
  * program and calls useProgram.
- * @param {WebGLShader[]} shaders The shaders to attach
- * @param {string[]} [attribs] An array of attribs names. Locations will be assigned by index if not passed in
- * @param {number[]} [locations] The locations for the. A parallel array to attribs letting you assign locations.
- * @param {ErrorCallback} errorCallback callback for errors. By default it just prints an error to the console
+ * @param gl - The WebGLRenderingContext to use.
+ * @param shaders - The shaders to attach
+ * @param attribs - An array of attribs names. Locations will be assigned by index if not passed in
+ * @param locations - The locations for the. A parallel array to attribs letting you assign locations.
+ * @param errorCallback - callback for errors. By default it just prints an error to the console
  * on error. If you want something else pass an callback. It's passed an error message.
+ * @returns The WebGL program.
  * @memberOf module:webgl-utils
  */
 export function createProgram(gl: WebGLRenderingContext, shaders: WebGLShader[], attribs?: string[], locations?: number[], errorCallback = error) {
@@ -108,11 +110,11 @@ export function createProgram(gl: WebGLRenderingContext, shaders: WebGLShader[],
 
 /**
  * Loads a shader from a script tag.
- * @param {WebGLRenderingContext} gl The WebGLRenderingContext to use.
- * @param {string} scriptId The id of the script tag.
- * @param {number} shaderType The type of shader. If not passed in it will be derived from the type of the script tag.
- * @param {ErrorCallback} errorCallback callback for errors.
- * @return {WebGLShader} The created shader.
+ * @param gl - The WebGLRenderingContext to use.
+ * @param scriptId - The id of the script tag.
+ * @param shaderType - The type of shader. If not passed in it will be derived from the type of the script tag.
+ * @param errorCallback - callback for errors.
+ * @returns The created shader.
  */
 function createShaderFromScript(gl: WebGLRenderingContext, scriptId: string, shaderType?: number, errorCallback?: ErrorCallback): WebGLShader | null {
 	const shaderScript = document.getElementById(scriptId) as HTMLScriptElement | null;
@@ -140,14 +142,14 @@ const defaultShaderType = [
 /**
  * Creates a program from 2 script tags.
  *
- * @param {WebGLRenderingContext} gl The WebGLRenderingContext to use.
- * @param {string[]} shaderScriptIds Array of ids of the script tags for the shaders. The first is assumed to be the
+ * @param gl - The WebGLRenderingContext to use.
+ * @param shaderScriptIds - Array of ids of the script tags for the shaders. The first is assumed to be the
  * vertex shader, the second the fragment shader.
- * @param {string[]} [attribs] An array of attribs names. Locations will be assigned by index if not passed in
- * @param {number[]} [locations] The locations for the. A parallel array to attribs letting you assign locations.
- * @param {ErrorCallback} errorCallback callback for errors. By default it just prints an error to the console
+ * @param [attribs] - An array of attribs names. Locations will be assigned by index if not passed in
+ * @param [locations] - The locations for the. A parallel array to attribs letting you assign locations.
+ * @param errorCallback - callback for errors. By default it just prints an error to the console
  * on error. If you want something else pass an callback. It's passed an error message.
- * @return {WebGLProgram} The created program.
+ * @returns The created program.
  * @memberOf module:webgl-utils
  */
 export function createProgramFromScripts(gl: WebGLRenderingContext, shaderScriptIds: string[], attribs?: string[], locations?: number[], errorCallback?: ErrorCallback): WebGLProgram | null {
@@ -161,14 +163,14 @@ export function createProgramFromScripts(gl: WebGLRenderingContext, shaderScript
 /**
  * Creates a program from 2 sources.
  *
- * @param {WebGLRenderingContext} gl The WebGLRenderingContext to use.
- * @param {string[]} shaderSources Array of sources for the shaders. The first is assumed to be the vertex shader,
+ * @param gl - The WebGLRenderingContext to use.
+ * @param shaderSources - Array of sources for the shaders. The first is assumed to be the vertex shader,
  * the second the fragment shader.
- * @param {string[]} [attribs] An array of attribs names. Locations will be assigned by index if not passed in
- * @param {number[]} [locations] The locations for the. A parallel array to attribs letting you assign locations.
- * @param {ErrorCallback} errorCallback callback for errors. By default it just prints an error to the console
+ * @param [attribs] - An array of attribs names. Locations will be assigned by index if not passed in
+ * @param [locations] - The locations for the. A parallel array to attribs letting you assign locations.
+ * @param errorCallback - callback for errors. By default it just prints an error to the console
  * on error. If you want something else pass an callback. It's passed an error message.
- * @return {WebGLProgram} The created program.
+ * @returns The created program.
  * @memberOf module:webgl-utils
  */
 export function createProgramFromSources(gl: WebGLRenderingContext, shaderSources: string[], attribs?: string[], locations?: number[], errorCallback?: ErrorCallback): WebGLProgram | null {
@@ -181,10 +183,10 @@ export function createProgramFromSources(gl: WebGLRenderingContext, shaderSource
 
 /**
  * Resize a canvas to match the size its displayed.
- * @param {HTMLCanvasElement} canvas The canvas to resize.
- * @param {number} [multiplier] amount to multiply by.
+ * @param canvas - The canvas to resize.
+ * @param multiplier - amount to multiply by.
  * Pass in window.devicePixelRatio for native pixels.
- * @return {boolean} true if the canvas was resized.
+ * @returns true if the canvas was resized.
  * @memberOf module:webgl-utils
  */
 export function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement, multiplier: number = 1): boolean {

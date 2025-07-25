@@ -15,8 +15,8 @@ type UnionToTuple<T> = UnionToIntersection<T extends Any ? (t: T) => T : never> 
  * @deprecated
  *
  * @param oneProperty
- * * An object that only contains the only one variable.
- * * An arrow function that returns the descendant of an object.
+ * - An object that only contains the only one variable.
+ * - An arrow function that returns the descendant of an object.
  *
  * @returns The name of the only one variable.
  * Or `undefined` (for JavaScript) and `unknown` (for TypeScript) when the argument is invalid.

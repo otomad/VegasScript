@@ -158,6 +158,7 @@ export function getPosition(rect: MaybeRef<DOMRect | Element>, placement?: Place
  * @private
  * @param location - The coordinates of the element (only supported on tuple types).
  * @param size - The dimensions of the element (only supported for tuple types).
+ * @param outline - The outline border width to reduce.
  * @returns The new coordinates after moving into the page.
  */
 function moveIntoPage_tuple(location: TwoD, size: TwoD, outline: number = 0) {
@@ -176,6 +177,7 @@ function moveIntoPage_tuple(location: TwoD, size: TwoD, outline: number = 0) {
  * Detect element overflow. If the element exceeds the scope of the page, move it within the page.
  * @param location - Tuple type coordinates of the element.
  * @param size - Tuple type dimensions of the element.
+ * @param outline - The outline border width to reduce.
  * @returns The new coordinates after moving into the page.
  */
 export function moveIntoPage(location: MaybeRef<TwoD>, size?: MaybeRef<TwoD | DOMRect | undefined>, outline?: number): TwoD;
@@ -189,6 +191,7 @@ export function moveIntoPage(element: MaybeRef<HTMLElement>): { top: string; lef
  * Detect element overflow. If the element exceeds the scope of the page, move it within the page.
  * @param measureElement - The HTML DOM element to measure.
  * @param adjustElement - The HTML DOM element to reposition.
+ * @param outline - The outline border width to reduce.
  * @returns The new coordinate style declaration after moving into the page.
  */
 export function moveIntoPage(measureElement: MaybeRef<HTMLElement>, adjustElement?: MaybeRef<HTMLElement | undefined>, outline?: number): { top: string; left: string };
@@ -196,6 +199,7 @@ export function moveIntoPage(measureElement: MaybeRef<HTMLElement>, adjustElemen
  * Detect element overflow. If the element exceeds the scope of the page, move it within the page.
  * @param location - The coordinates of the element.
  * @param size - The dimensions of the element.
+ * @param outline - The outline border width to reduce.
  * @returns The new coordinates after moving into the page.
  */
 export function moveIntoPage(location: MaybeRef<TwoD | HTMLElement>, size?: MaybeRef<TwoD | DOMRect | HTMLElement | undefined>, outline: number = 0) {
@@ -329,6 +333,9 @@ export function convertCamelStylePropertyToKebab(camel: string) {
  * It represents `::-webkit-progress-value` pseudo-element for webkit and
  * `::-moz-progress-bar` pseudo-element for mozilla.
  *
+ * @param style - Styles for the filled-in portion of the bar of a `<progress>` element.
+ * @returns CSS declaration string.
+ *
  * @example
  * ```typescript
  * progressFinishedPart`
@@ -371,6 +378,7 @@ export const progressFinishedPart: typeof css<object> = (...style) => {
 	`);
 };
 
+/* eslint-disable jsdoc/check-param-names */
 /**
  * Returns the CSS transform string needed to convert an element's flow direction
  * from one orientation to another.
@@ -388,6 +396,7 @@ export const progressFinishedPart: typeof css<object> = (...style) => {
  * ```
  */
 export function transformFlowDirection(to: FlowDirection): string;
+/* eslint-enable jsdoc/check-param-names */
 /**
  * Returns the CSS transform string needed to convert an element's flow direction
  * from one orientation to another.
@@ -505,13 +514,13 @@ export function transformFlowDirection(from: FlowDirection, to?: FlowDirection) 
 	if (op & 0b100) op ^= (dirBits[to] >> 1 ^ dirBits[to]) & 0b1 ? 0b1 : 0b10;
 	// Generate transform string based on the opcode.
 	return [
-		"", // 000: 无变换
-		"scaleX(-1)", // 001: 水平翻转
-		"scaleY(-1)", // 010: 垂直翻转
-		"rotate(180deg)", // 011: 180度旋转
-		"rotate(90deg)", // 100: 90度旋转
-		"rotate(90deg) scaleX(-1)", // 101: 90度+水平翻转
-		"rotate(90deg) scaleY(-1)", // 110: 90度+垂直翻转
-		"rotate(-90deg)", // 111: -90度旋转
+		"", // 000: No Transformation
+		"scaleX(-1)", // 001: H Flip
+		"scaleY(-1)", // 010: V Flip
+		"rotate(180deg)", // 011: Rotate 180°
+		"rotate(90deg)", // 100: Rotate 90°
+		"rotate(90deg) scaleX(-1)", // 101: Rotate 90° + H Flip
+		"rotate(90deg) scaleY(-1)", // 110: Rotate 90° + V Flip
+		"rotate(-90deg)", // 111: Rotate -90°
 	][op];
 }

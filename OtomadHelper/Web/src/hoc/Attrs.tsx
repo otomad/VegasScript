@@ -13,6 +13,8 @@
  * <button disabled />
  * <input disabled />
  * ```
+ *
+ * @returns Attrs.
  */
 export default function Attrs({ compactUndefined = true, children, ...attrs }: FCP<{
 	/** If true, omit properties with undefined values; If false, properties with undefined values will also be passed to child components. */

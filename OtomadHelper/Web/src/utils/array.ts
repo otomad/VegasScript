@@ -310,7 +310,7 @@ export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, ca
 /**
  * Concatenates multiple iterables into a single generator.
  *
- * @typeParam T - The type of elements in the iterables.
+ * @template T - The type of elements in the iterables.
  * @param iterators - A list of iterables to concatenate.
  * @yields Elements from each iterable in the order they are provided.
  *
@@ -323,12 +323,16 @@ export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, ca
  * }
  * ```
  */
-export function *concatIter<T, U>(...iterators: (Iterable<T> | Iterator<U>)[]) {
+export function* concatIter<T, U>(...iterators: (Iterable<T> | Iterator<U>)[]) {
 	for (const it of iterators)
 		yield* it as Iterable<T | U>;
 }
 
-/** Creates a new tuple that is correctly recognized by TypeScript. */
+/**
+ * Creates a new tuple that is correctly recognized by TypeScript.
+ * @param args - Tuple arguments.
+ * @returns A tuple.
+ */
 export const Tuple = <T extends Any[]>(...args: T): T => args;
 
 /** Aren't you teaching me what to do? */

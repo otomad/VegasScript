@@ -6,6 +6,7 @@
  * @param name - The name of the store. This will be used as the key in the local storage.
  * @param initialObject - The initial object to be stored in the store.
  * If not provided, the store will be initialized with an empty object.
+ * @param options - Additional valtio store options.
  * @returns A valtio store instance that is persisted in the local storage.
  */
 export function createPersistStore<TState extends object>(name: string, initialObject: TState = {} as TState, options: PersistOptions<TState> = {}) {
@@ -23,7 +24,7 @@ interface PersistOptions<TState extends object> {
 	/**
 	 * Filter the persisted value.
 	 *
-	 * @params state The state's value
+	 * @param state - The state's value
 	 */
 	partialize?: (keyof TState)[] | ((state: TState) => object);
 }
@@ -69,6 +70,8 @@ export function useStoreState<TState extends object>(state: TState): StateProper
 
 /**
  * Check if the StateProperty is StatePropertyPremium.
+ * @param stateProperty - The state property object to check.
+ * @returns Is StateProperty StatePropertyPremium?
  */
 export function isStatePropertyPremium<T>(stateProperty?: StateProperty<T> | null): stateProperty is StatePropertyPremium<T> {
 	return !!stateProperty && "subscribe" in stateProperty;

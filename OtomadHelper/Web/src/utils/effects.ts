@@ -1,6 +1,13 @@
 const $popovers = () => document.getElementById("popovers") ?? document.body;
 
-export async function makeFocusDiffusionEffect(element: TargetType) {
+/**
+ * Make a focus diffusion effect around the target element.
+ * @param element - Target HTML DOM element.
+ */
+export async function makeFocusDiffusionEffect(element: TargetType, { borderRadius }: {
+	/** Override the border-radius property for the focus ring. If not specified, it will auto inherit the value from the target element. */
+	borderRadius?: CSSProperty.BorderRadius | null;
+}) {
 	const el = targetToElement(element), popovers = $popovers();
 	if (!el || !popovers) return;
 	const ring = document.createElement("div");
@@ -9,7 +16,7 @@ export async function makeFocusDiffusionEffect(element: TargetType) {
 	const rect = el.getBoundingClientRect();
 	for (const property of ["top", "left", "width", "height"] as const)
 		ring.style[property] = rect[property] + "px";
-	const { borderRadius } = getComputedStyle(ring);
+	if (borderRadius === undefined) ({ borderRadius } = getComputedStyle(ring));
 	if (borderRadius && borderRadius !== "0px") ring.style.borderRadius = borderRadius;
 	popovers.append(ring);
 	const duration = 500;

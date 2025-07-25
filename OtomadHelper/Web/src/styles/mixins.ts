@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-returns */
 import { type BorderRadiusPosition, setBorderRadius } from "./internal";
 
 type ResponsiveUnit = "v" | "dv" | "lv" | "sv" | "cq";
@@ -51,6 +52,7 @@ export default {
 	 * Equal in width and height.
 	 * @param size - Side length.
 	 * @param withSizeVar - Create a CSS custom property named `--size` to make it easier for other components to modify its size?
+	 * @param responsiveUnitOrLogicalProperties - Use `inline-size` and `block-size` properties instead of `width` and `height`?
 	 */
 	square: ((size: string, withSizeVar: boolean = false, responsiveUnitOrLogicalProperties?: ResponsiveUnit | true) =>
 		responsiveUnitOrLogicalProperties === true ?

@@ -60,7 +60,7 @@ declare global {
 	 * By default, all `Timeout` objects are "ref'ed", making it normally unnecessary
 	 * to call `timeout.ref()` unless `timeout.unref()` had been called previously.
 	 *
-	 * @return a reference to `timeout`
+	 * @returns a reference to `timeout`
 	 */
 	interface Timeout extends NodeJS.Timeout { }
 	/**

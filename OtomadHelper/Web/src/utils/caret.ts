@@ -17,8 +17,8 @@ export const Caret = {
 
 	/**
 	 * Set the index of the text cursor.
-	 * @param element HTML DOM element.
-	 * @param offset The index of the text cursor.
+	 * @param element - HTML DOM element.
+	 * @param offset - The index of the text cursor.
 	 */
 	set(element: MaybeRef<Element | null>, offset: number | undefined | null) {
 		if (offset == null) return;

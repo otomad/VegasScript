@@ -18,11 +18,11 @@ type GetNamedGroups<TGroupNames extends string | undefined> = Record<NonNull<TGr
  * @param replacer - New replacer callback. The arguments are:
  * ```typescript
  * [
- * 	matchedSubstring: string,
- * 	namedGroups: Record<TGroupNames, string>,
- * 	indexedGroups: string[],
- * 	offset: number,
- * 	wholeString: string,
+ *     matchedSubstring: string,
+ *     namedGroups: Record<TGroupNames, string>,
+ *     indexedGroups: string[],
+ *     offset: number,
+ *     wholeString: string,
  * ]
  * ```
  * @returns Compatible replacer callback.

@@ -220,6 +220,8 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
 	}, deps ?? undefined);
 }
 
+/* eslint-disable jsdoc/require-param */
+/* eslint-disable jsdoc/check-param-names */
 /**
  * Adds an event listener to the specified node for the specified multiple event types simultaneously.
  *
@@ -289,6 +291,8 @@ export function addEventListeners<K extends keyof HTMLElementEventMap, E extends
  * });
  * ```
  */
+/* eslint-enable jsdoc/require-param */
+/* eslint-enable jsdoc/check-param-names */
 export function addEventListeners<K extends keyof HTMLElementEventMap, E extends HTMLElement>(...args: [element: E, ...types: K[], listener: (this: E, ev: HTMLElementEventMap[K]) => void]): void {
 	const element = args[0];
 	const listener = args.last() as Parameters<typeof addEventListeners>[1];
@@ -325,6 +329,10 @@ export function useThrottleCallback<T extends AnyFunction>(callback: T, deps: De
 /**
  * A hook to quickly select all and invert selection.
  * @param allSelection - IDs of all available checkboxes.
+ * @returns A triple.
+ * - 0: The select all checkbox check state.
+ * - 1: Set the select all checkbox check state.
+ * - 2: Invert selection action.
  */
 export function useSelectAll<T>([selected, setSelected]: StateProperty<T[]>, allSelection: T[]) {
 	selected ??= [];
@@ -346,7 +354,9 @@ export function useSelectAll<T>([selected, setSelected]: StateProperty<T[]>, all
 
 /**
  * Make `keydown` event occur only once.
- * @param callback
+ * @param callback - The keydown and keyup event handler. The second parameter indicates is the current event mouse down.
+ * @param deps - An optional array of dependencies. If provided, the effect will be re-executed when any of the dependencies change.
+ * @returns A tuple of onKeyDown handler and onKeyUp handler.
  */
 export function useKeyDownOnce(callback: (e: KeyboardEvent, isMouseDown: boolean) => void, deps: DependencyList = []) {
 	const downedKey = useRef<Set<string>>(new Set<string>());

@@ -10,6 +10,7 @@ import reactRecommended from "eslint-plugin-react/configs/recommended.js";
 import reactRefresh from "eslint-plugin-react-refresh";
 import unicorn from "eslint-plugin-unicorn";
 import reactHooks from "eslint-plugin-react-hooks";
+import jsdoc from "eslint-plugin-jsdoc";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
@@ -17,6 +18,7 @@ export default [
 	...tseslint.configs.recommended,
 	reactRecommended,
 	importPlugin.flatConfigs.warnings,
+	jsdoc.configs["flat/recommended-typescript"],
 	stylistic.configs.customize({
 		indent: "tab",
 		quotes: "double",
@@ -51,6 +53,14 @@ export default [
 		settings: {
 			react: {
 				version: "detect",
+			},
+			jsdoc: {
+				tagNamePreference: {
+					arg: "param",
+					return: "returns",
+					typeParam: "template",
+					params: "param",
+				},
 			},
 		},
 		rules: {
@@ -167,7 +177,11 @@ export default [
 			"no-useless-assignment": "error",
 			"no-control-regex": "off",
 			"prefer-numeric-literals": "error",
-			"@stylistic/generator-star-spacing": ["error", { "before": true, "after": false }],
+			"@stylistic/generator-star-spacing": ["error", {
+				"before": false,
+				"after": true,
+				"method": { "before": true, "after": false },
+			}],
 			"prefer-rest-params": "off",
 			"import/order": ["warn", {
 				"alphabetize": { "order": "asc", "orderImportKind": "asc", "caseInsensitive": false },
@@ -190,6 +204,31 @@ export default [
 			"unicorn/no-document-cookie": "error",
 			"unicorn/prefer-string-replace-all": "error",
 			"unicorn/no-useless-length-check": "error",
+			"jsdoc/require-jsdoc": "off",
+			"jsdoc/tag-lines": "off",
+			"jsdoc/require-param": ["warn", {
+				"enableFixer": false,
+				"checkDestructuredRoots": false,
+			}],
+			"jsdoc/check-param-names": ["warn", {
+				"checkDestructured": false,
+				"allowExtraTrailingParamDocs": true,
+				"disableExtraPropertyReporting": true,
+			}],
+			"jsdoc/check-tag-names": ["error", {
+				"definedTags": ["note", "remarks", "memberOf", "category", "warn", "notdeprecated"],
+			}],
+			"jsdoc/require-hyphen-before-param-description": ["error", "always", { "tags": { "template": "always" } }],
+			"jsdoc/require-returns": ["warn", {
+				"checkGetters": false,
+				"exemptedBy": ["inheritdoc", "deprecated"],
+			}],
+			"jsdoc/require-asterisk-prefix": "error",
+			"jsdoc/no-multi-asterisks": ["error", { "allowWhitespace": true }],
+			// "jsdoc/check-examples": ["error", {
+			// 	"exampleCodeRegex": "```",
+			// }],
+			"jsdoc/require-returns-check": "off",
 			"@typescript-eslint/no-unused-vars": ["warn", { // 非要使用未使用变量，前面加下划线。
 				"argsIgnorePattern": "^_",
 				"varsIgnorePattern": "^_",
@@ -403,6 +442,12 @@ export default [
 			"@typescript-eslint/no-explicit-any": "off",
 			"@typescript-eslint/no-unused-vars": "off",
 			"no-var": "off", // 在 globalThis 中声明成员时必须要用 var（不能使用 let 或 const）！参见：https://stackoverflow.com/a/69429093/19553213
+		},
+	},
+	{
+		files: ["*.{js,jsx}"],
+		rules: {
+			"jsdoc/check-tag-names": "off",
 		},
 	},
 	{

@@ -35,6 +35,8 @@ export function useMediaQuery(query: string, { ssrInitial = false, noHook = fals
 	return matched;
 }
 
+/* eslint-disable jsdoc/require-param */
+/* eslint-disable jsdoc/require-returns */
 /**
  * System uses light theme.
  * ```css
@@ -85,3 +87,5 @@ useMediaQuery.reduceMotion = (options?: UseMediaQueryOptions) => useMediaQuery("
  * ```
  */
 useMediaQuery.reduceTransparency = (options?: UseMediaQueryOptions) => useMediaQuery("(prefers-reduced-transparency: reduce)", options);
+/* eslint-enable jsdoc/require-param */
+/* eslint-enable jsdoc/require-returns */
