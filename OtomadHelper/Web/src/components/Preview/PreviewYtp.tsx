@@ -1,8 +1,8 @@
-import ytpChangePitchImage from "assets/images/effects/ytp_change_pitch.jpg";
-import ytpChangeSpeedImage from "assets/images/effects/ytp_change_speed.png";
-import ytpChorusImage from "assets/images/effects/ytp_chorus.jpg";
-import ytpDelayImage from "assets/images/effects/ytp_delay.png";
-import ytpReverseImage from "assets/images/effects/ytp_reverse.png";
+import ytpChangePitchImage from "assets/images/effects/ytp_change_pitch.avif";
+import ytpChangeSpeedImage from "assets/images/effects/ytp_change_speed.avif";
+import ytpChorusImage from "assets/images/effects/ytp_chorus.avif";
+import ytpDelayImage from "assets/images/effects/ytp_delay.avif";
+import ytpReverseImage from "assets/images/effects/ytp_reverse.avif";
 import { MILLISECONDS_PER_FRAME } from "./PreviewPrve";
 
 const getDuration = (frames: number) => frames * MILLISECONDS_PER_FRAME + "ms";

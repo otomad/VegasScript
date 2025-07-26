@@ -6,7 +6,7 @@ import loopImage from "assets/images/tutorials/visual/loop.png";
 import staticVisualImage from "assets/images/tutorials/visual/static.png";
 import stretchImage from "assets/images/tutorials/visual/stretch.png";
 import truncateImage from "assets/images/tutorials/visual/truncate.png";
-import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import exampleThumbnail from "assets/images/ヨハネの氷.avif";
 import { usePrveInfo } from "./visual/prve";
 
 export /* @internal */ const stretches = [

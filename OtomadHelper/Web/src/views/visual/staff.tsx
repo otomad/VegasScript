@@ -1,5 +1,5 @@
 import cursor from "assets/cursors/treble_clef.svg?cursor";
-import tipsImage from "assets/images/tips/classical_music_mashup.jpg";
+import tipsImage from "assets/images/tips/classical_music_mashup.avif";
 
 export default function Staff() {
 	const {

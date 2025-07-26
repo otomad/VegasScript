@@ -1,4 +1,4 @@
-import tipsImage from "assets/images/tips/bathroom_mirror.jpg";
+import tipsImage from "assets/images/tips/bathroom_mirror.avif";
 
 export /* @internal */ const musicalNotationSystems = ["scientific", "helmholtz", "solfege", "numbered", "gongche", "gongshang", "lyulyu", "midiNumber", "frequency"] as const;
 

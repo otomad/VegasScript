@@ -1,5 +1,5 @@
 import cursor from "assets/cursors/pixelated_arrow.svg?cursor";
-import tipsImage from "assets/images/tips/sand_with_sword.png";
+import tipsImage from "assets/images/tips/sand_with_sword.avif";
 
 export default function PixelScaling() {
 	const {

@@ -1,4 +1,4 @@
-import tipsImage from "assets/images/tips/shuzo_of_shupelunker_tactics.jpg";
+import tipsImage from "assets/images/tips/shuzo_of_shupelunker_tactics.avif";
 
 const affixes = [
 	{ id: "prefix", symbol: "C5-⋯" },

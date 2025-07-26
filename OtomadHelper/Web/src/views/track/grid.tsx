@@ -1,5 +1,5 @@
 import contextMenuCur from "assets/cursors/context_menu.svg?cursor";
-import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import exampleThumbnail from "assets/images/ヨハネの氷.avif";
 import ApprovalsAppIcon from "assets/svg/approvals_app.svg?react";
 
 export /* @internal */ const arrayTypes = ["square", "fixed"] as const;

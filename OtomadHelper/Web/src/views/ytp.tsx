@@ -1,6 +1,6 @@
 import cursor from "assets/cursors/poo.svg?cursor";
-import tipsImage from "assets/images/tips/yoooo_a_boom.jpg";
-import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import tipsImage from "assets/images/tips/yoooo_a_boom.avif";
+import exampleThumbnail from "assets/images/ヨハネの氷.avif";
 
 type Stream = "audio" | "video" | "n/a";
 const $s = (mainStream: Stream, ...sideEffects: [stream: Stream, name: string, likely?: boolean][]) =>

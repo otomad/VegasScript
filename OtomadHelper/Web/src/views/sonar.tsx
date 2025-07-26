@@ -1,4 +1,4 @@
-import tipsImage from "assets/images/tips/shapes.png";
+import tipsImage from "assets/images/tips/shapes.avif";
 
 export default function Sonar() {
 	const {

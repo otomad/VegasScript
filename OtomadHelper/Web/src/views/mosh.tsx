@@ -1,5 +1,5 @@
 import glitchCursor from "assets/cursors/glitch_cursor.ani";
-import tipsImage from "assets/images/tips/datamoshing.jpg";
+import tipsImage from "assets/images/tips/datamoshing.avif";
 
 export default function Mosh() {
 	const tipsEl = useDomRef<"div">();

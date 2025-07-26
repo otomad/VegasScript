@@ -1,4 +1,4 @@
-import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import exampleThumbnail from "assets/images/ヨハネの氷.avif";
 import { directionTypes, getParityIcon, parityTypes as _parityTypes } from "./grid";
 
 const gradients = [

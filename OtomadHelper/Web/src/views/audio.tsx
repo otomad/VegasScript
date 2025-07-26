@@ -1,4 +1,4 @@
-import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import exampleThumbnail from "assets/images/ヨハネの氷.avif";
 import { legatos, stretches, truncates } from "./visual";
 const truncatesInAudio = truncates.filter(item => item.availableInAudio);
 

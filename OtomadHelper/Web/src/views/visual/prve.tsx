@@ -1,4 +1,4 @@
-import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import exampleThumbnail from "assets/images/ヨハネの氷.avif";
 import defaultPrveAmounts from "helpers/defaultPrveAmounts";
 import type { LocaleIdentifiers } from "locales/types";
 

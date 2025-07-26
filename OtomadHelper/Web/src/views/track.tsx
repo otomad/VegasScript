@@ -1,4 +1,4 @@
-import exampleThumbnail from "assets/images/ヨハネの氷.png";
+import exampleThumbnail from "assets/images/ヨハネの氷.avif";
 
 export /* @internal */ const trackLegatoModes = ["stacking", "stackingAllAfter", "stackingAllTracks", "limitStretch", "stretch", "lengthen", "increaseSpacing", "increaseSpacingAllTracks"] as const;
 
