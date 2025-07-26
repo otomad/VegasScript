@@ -241,6 +241,10 @@ const StyledItemsViewItem = styled.button<{
 			&,
 			& + * {
 				translate: ${-(18 + 16)}px;
+
+				&:dir(rtl) {
+					translate: ${18 + 16}px;
+				}
 			}
 		}
 

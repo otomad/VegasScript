@@ -127,8 +127,9 @@ type Trans = LocaleDictionary & typeof targetFunction;
  * @param container - Specify the container. Defaults to `<html>`.
  * @returns Is the horizontal writing direction of the current page written from right to left?
  */
-export function isRtl(container?: Element | null) {
+export function isRtl(container?: Element | null): boolean {
 	container ??= document.documentElement;
+	if (container === document.documentElement) return document.dir === "rtl"; // `getComputedStyle` has bad performance.
 	return getComputedStyle(container).direction === "rtl";
 }
 

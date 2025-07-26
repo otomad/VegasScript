@@ -48,7 +48,8 @@ export default function HorizontalScroll<TContainer extends AsTarget>({ enabled 
 		}
 		if (!isUpdating()) scrollTarget.current = scrollValue.current = el.current.scrollLeft;
 		const scrollRight = el.current.scrollWidth - el.current.clientWidth;
-		scrollTarget.current = clamp(scrollTarget.current + delta, 0, scrollRight);
+		scrollTarget.current = clamp(scrollTarget.current + delta, ...(!isRtl() ? [0, scrollRight] : [-scrollRight, 0.5]) as TwoD);
+		// CAUTION: I don't know why RTL max scroll left is 0.5 instead of 0, maybe it is a Chromium DPI bug.
 		update();
 	};
 

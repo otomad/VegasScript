@@ -101,6 +101,10 @@ const MultipleSelectTrackItemsContainer = styled.div`
 	${tgs()} {
 		translate: 34px;
 		opacity: 0;
+
+		&:dir(rtl) {
+			translate: -34px;
+		}
 	}
 `;
 // #endregion

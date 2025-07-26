@@ -79,10 +79,10 @@ const StyledToggleSwitchLabel = styled.button`
 	}
 
 	.flyout & {
+		inline-size: calc(100% - 4px * 2);
 		margin-inline: 4px;
 		padding-block: 8px;
 		padding-inline: 13px 12px;
-		inline-size: calc(100% - 4px * 2);
 		border-radius: 4px;
 
 		&:hover {
@@ -328,8 +328,8 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		const pointerMove = (e: PointerEvent) => {
 			if (Math.abs(e.clientX - clientX) > 2) isMoved = true; // anti-shake
 			let value = clamp(e.pageX - left - x, 0, max);
-			setLabelTranslate(value / max);
 			if (isRtl()) value = max - value;
+			setLabelTranslate(value / max);
 			setThumbLeft(value);
 			prevE = e;
 		};

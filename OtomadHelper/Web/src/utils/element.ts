@@ -481,19 +481,28 @@ export function scrollIntoViewAlt(element: MaybeRef<HTMLElement | null>, enableA
 		element.scrollIntoViewIfNeeded();
 		return;
 	}
-	const scrollParent = getScrollParent(element);
+	const scrollParent = getScrollParent(element) as HTMLElement | null;
 	if (!scrollParent) return;
 	const flipperWidth = parseFloat(getComputedStyle(scrollParent).getPropertyValue("--flipper-width"));
 	if (!flipperWidth || !scrollParent.querySelector(":scope > .flipper-wrapper")?.checkVisibility()) { // Not the target of consideration.
 		element.scrollIntoViewIfNeeded();
 		return;
 	}
-	if (scrollParent.scrollLeft > element.offsetLeft) {
-		scrollParent.scrollLeft = element.offsetLeft;
+	const rtl = isRtl();
+	const scrollLeft = { // Compatible with scrollLeft value in RTL layout.
+		get value() {
+			return !rtl ? scrollParent.scrollLeft : scrollParent.scrollWidth + scrollParent.scrollLeft - scrollParent.offsetWidth;
+		},
+		set value(value) {
+			scrollParent.scrollLeft = !rtl ? value : value + scrollParent.offsetWidth - scrollParent.scrollWidth;
+		},
+	};
+	if (scrollLeft.value > element.offsetLeft) {
+		scrollLeft.value = element.offsetLeft;
 		return;
 	}
 	const scrollClientWidth = scrollParent.clientWidth - flipperWidth * 2;
 	const elementOffsetRight = element.offsetLeft + element.offsetWidth;
-	if (scrollParent.scrollLeft + scrollClientWidth < elementOffsetRight)
-		scrollParent.scrollLeft = elementOffsetRight - scrollClientWidth;
+	if (scrollLeft.value + scrollClientWidth < elementOffsetRight)
+		scrollLeft.value = elementOffsetRight - scrollClientWidth;
 }

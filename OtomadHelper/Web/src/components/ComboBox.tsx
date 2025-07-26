@@ -56,6 +56,10 @@ const StyledComboBox = styled(StyledButton)`
 		&:active {
 			background-position-y: calc(50% + 2px);
 		}
+		
+		&:dir(rtl) {
+			background-position-x: 11px;
+		}
 	}
 `;
 

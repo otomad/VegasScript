@@ -12,6 +12,10 @@ const StyledFlipper = styled(RepeatButton)`
 
 	.icon {
 		font-size: 32px;
+
+		&:dir(rtl) {
+			scale: -1 1;
+		}
 	}
 
 	&::after {
@@ -73,25 +77,25 @@ const StyledFlipperWrapper = styled.div`
 		}
 	}
 
-	@container not scroll-state(scrollable: left) { // left end
+	@container not scroll-state(scrollable: inline-start) { // left end
 		&.left {
 			--state: disabled;
 		}
 	}
 
-	@container not scroll-state(scrollable: right) { // right end
+	@container not scroll-state(scrollable: inline-end) { // right end
 		&.right {
 			--state: disabled;
 		}
 	}
 
-	@container not scroll-state(scrollable: top) { // top end
+	@container not scroll-state(scrollable: block-start) { // top end
 		&.top {
 			--state: disabled;
 		}
 	}
 
-	@container not scroll-state(scrollable: bottom) { // bottom end
+	@container not scroll-state(scrollable: block-end) { // bottom end
 		&.bottom {
 			--state: disabled;
 		}
@@ -114,9 +118,20 @@ const StyledFlipperWrapper = styled.div`
 				}
 			`} 1s linear;
 			animation-timeline: scroll(inline nearest);
+
+			&:dir(rtl) {
+				animation-direction: reverse;
+			}
 		}
 	}
 `;
+
+const physicalToLogicalDirection = {
+	top: "insetBlockStart",
+	bottom: "insetBlockEnd",
+	left: "insetInlineStart",
+	right: "insetInlineEnd",
+} as const;
 
 export default function Flipper({ arrow, delta = 40, children: _children, tabIndex = -1, ...htmlAttrs }: FCP<{
 	/** Scroll position. */
@@ -133,11 +148,11 @@ export default function Flipper({ arrow, delta = 40, children: _children, tabInd
 		const container = getScrollParent(wrapperEl.current, direction);
 		if (!container) return;
 		// const _delta = delta * (repeat ? 2 : 1);
-		HorizontalScroll.applyScroll.get(container)?.(delta * (arrow === "left" ? -1 : arrow === "right" ? 1 : 0));
+		HorizontalScroll.applyScroll.get(container)?.(delta * (arrow === "left" ? -1 : arrow === "right" ? 1 : 0) * (isRtl() ? -1 : 1));
 	};
 
 	return (
-		<StyledFlipperWrapper ref={wrapperEl} style={{ [arrow]: "0" }} className={arrow}>
+		<StyledFlipperWrapper ref={wrapperEl} style={{ [physicalToLogicalDirection[arrow]]: "0" }} className={arrow}>
 			<StyledFlipper tabIndex={tabIndex} onClick={handleClick} {...htmlAttrs}>
 				<Icon name={`flipper/caret_${arrow}`} />
 			</StyledFlipper>
