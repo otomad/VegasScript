@@ -103,6 +103,7 @@ const StyledFlipperWrapper = styled.div`
 
 	@container not scroll-state(scrollable: none) { // scrollable
 		&:is(.left, .top) + * {
+			transition: none;
 			animation: ${keyframes`
 				from {
 					clip-path: inset(0 calc(100% - 100cqw + var(--flipper-width) * 2) 0 0);

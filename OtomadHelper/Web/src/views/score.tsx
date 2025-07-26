@@ -88,6 +88,7 @@ const TrackToolbar = styled.div`
 `;
 
 const MultipleSelectTrackItemsContainer = styled.div`
+	display: flex;
 	place-self: stretch;
 	margin-inline-start: auto;
 	transition: ${fallbackTransitions} !important;
