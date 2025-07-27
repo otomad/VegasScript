@@ -12,6 +12,9 @@ const MAX_COL_ROW = 100;
 const GAP = 6;
 const RULER_THICKNESS = 16;
 const ASTERISK = "∗";
+const PREVIEW_GRID_BORDER_RADIUS = 8;
+
+const /** @deprecated */ count = 26, /** @deprecated */ projectWidth = 1920, /** @deprecated */ projectHeight = 1080;
 
 const getGridUnitTypeName = (unit: WebMessageEvents.GridUnitType, count: number) => {
 	const tc = t({ context: "full", count });
@@ -53,6 +56,7 @@ const PreviewGrid = styled.div`
 	align-self: center;
 	width: min(100cqw, calc(100cqh / var(--project-height) * var(--project-width)));
 	height: min(100cqh, calc(100cqw / var(--project-width) * var(--project-height)));
+	border-radius: ${PREVIEW_GRID_BORDER_RADIUS}px;
 	backdrop-filter: none;
 	transition: ${fallbackTransitions}, --grid-template-count ${eases.easeOutMax} 250ms;
 
@@ -66,6 +70,11 @@ const PreviewGrid = styled.div`
 		grid-template-rows: repeat(var(--grid-template-count), 1fr);
 	}
 
+	&.square {
+		grid-template-rows: repeat(var(--grid-template-count), 1fr);
+		grid-template-columns: repeat(var(--grid-template-count), 1fr);
+	}
+
 	.padding-wrapper {
 		padding: var(--padding, 0);
 	}
@@ -75,6 +84,7 @@ const PreviewGrid = styled.div`
 		position: relative;
 		align-content: flex-end;
 		min-height: 0;
+		contain: strict;
 		object-fit: var(--fit);
 		overflow: hidden;
 		background-image: url("${exampleThumbnail}");
@@ -380,7 +390,6 @@ export default function Grid() {
 	// If there are 25 cells and the user wants to place them into two rows, then is the final number of columns presented 13 columns or 24 columns?
 	// Since the subsequent logical code has been written and not want to change, they are represented here as aliases.
 	const rows = columns, setRows = setColumns;
-	const count = 25, projectWidth = 1920, projectHeight = 1080;
 	/** The column or row count when the array mode is square. */
 	const radicand = Math.ceil(Math.sqrt(count));
 	// Flow direction or writing mode.
@@ -602,6 +611,13 @@ export default function Grid() {
 		}
 	}
 
+	function focusDiffusion(e: TargetType, corners: ReturnType<typeof findSpan>["corners"]) {
+		const borderRadius = Object.values(corners).every(corner => !corner) ? null :
+			(["topLeft", "topRight", "bottomRight", "bottomLeft"] as const)
+				.map(corner => corners[corner] ? PREVIEW_GRID_BORDER_RADIUS + "px" : 0).join(" ");
+		makeFocusDiffusionEffect(e, { borderRadius });
+	}
+
 	return (
 		<>
 			<StyledContainerPreview>
@@ -695,14 +711,19 @@ export default function Grid() {
 							gridTemplateRows,
 							anchorName: "--preview-grid",
 						}}
-						className={fixedRows ? "row" : "column"}
+						className={[fixedRows ? "row" : "column", { square }]}
 						role="figure"
 						aria-label={t.preview}
 						dir={rtlDirection ? "rtl" : "ltr"}
 					>
 						{forMap(count, i => {
-							let [colStart, colEnd, colSpan, rowStart, rowEnd, rowSpan, [blankCol, blankRow]] = findSpan(i);
-							if (verticalDirection) [colStart, colEnd, colSpan, blankCol, rowStart, rowEnd, rowSpan, blankRow] = [rowStart, rowEnd, rowSpan, blankRow, colStart, colEnd, colSpan, blankCol];
+							let { colStart, colEnd, colSpan, rowStart, rowEnd, rowSpan, blankCol, blankRow, corners } = findSpan(i);
+							if (verticalDirection)
+								[colStart, colEnd, colSpan, blankCol, rowStart, rowEnd, rowSpan, blankRow, corners.topRight, corners.bottomLeft] =
+								[rowStart, rowEnd, rowSpan, blankRow, colStart, colEnd, colSpan, blankCol, corners.bottomLeft, corners.topRight];
+							if (rtlDirection)
+								[corners.topLeft, corners.topRight, corners.bottomLeft, corners.bottomRight] =
+								[corners.topRight, corners.topLeft, corners.bottomRight, corners.bottomLeft];
 							const isSpanned = colSpan > 1 || rowSpan > 1;
 							const thisCell = [colStart - 1, rowStart - 1].shouldReversed(verticalDirection) as TwoD;
 							const blankCell = [blankCol, blankRow].shouldReversed(verticalDirection) as TwoD;
@@ -738,7 +759,7 @@ export default function Grid() {
 										data-column-end={colEnd}
 										data-row-start={rowStart}
 										data-row-end={rowEnd}
-										onMouseDown={e => e.button === 2 && makeFocusDiffusionEffect(e)}
+										onMouseDown={e => e.button === 2 && focusDiffusion(e, corners)}
 										onContextMenu={createContextMenu(([
 											...square ? [
 												{ label: t.descriptions.track.grid.squareCannotUseTheseFeatures({ fixed: fixedColumnsOrFixedRows }) },
@@ -1027,7 +1048,8 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 		nextIndex();
 	}
 	array.trimEnd([undefined!, -1]);
-	const array2d = Array.from({ length: Math.ceil(array.length / thisLineLength) }, (_, i) => array.slice(i * thisLineLength, (i + 1) * thisLineLength));
+	const maxCrossLineLength = Math.ceil(array.length / thisLineLength);
+	const array2d = Array.from({ length: maxCrossLineLength }, (_, i) => array.slice(i * thisLineLength, (i + 1) * thisLineLength));
 	// console.table(array2d);
 	const maxSameLineLength = Math.max(...array2d.map(i => i.findLastIndex(index => index !== undefined) + 1));
 	// Do not name it `lastCrossLineIndex`, other developers may mistake it for `previousCrossLineIndex`.
@@ -1036,12 +1058,29 @@ function gridSpanHelper(count: number, thisLineLength: number, spans: WebMessage
 		maxSameLineLength,
 		finalCrossLineIndex,
 		find(index: number) {
-			if (index >= count) return [];
+			if (index >= count) return {} as never;
 			const first = array.indexOf(index), last = array.lastIndexOf(index);
 			const sameLineStart = first % thisLineLength, sameLineEnd = last % thisLineLength, crossLineStart = first / thisLineLength | 0, crossLineEnd = last / thisLineLength | 0;
 			const sameLineSpan = sameLineEnd - sameLineStart + 1, crossLineSpan = crossLineEnd - crossLineStart + 1;
 			const blankEntry = indexToBlankMap[index];
-			return [sameLineStart + 1, sameLineEnd + 1, sameLineSpan, crossLineStart + 1, crossLineEnd + 1, crossLineSpan, blankEntry] as const;
+			const corners = {
+				topLeft: sameLineStart === 0 && crossLineStart === 0,
+				topRight: sameLineEnd === maxSameLineLength - 1 && crossLineStart === 0,
+				bottomLeft: sameLineStart === 0 && crossLineEnd === maxCrossLineLength - 1,
+				bottomRight: sameLineEnd === maxSameLineLength - 1 && crossLineEnd === maxCrossLineLength - 1,
+			};
+			return {
+				colStart: sameLineStart + 1,
+				colEnd: sameLineEnd + 1,
+				colSpan: sameLineSpan,
+				rowStart: crossLineStart + 1,
+				rowEnd: crossLineEnd + 1,
+				rowSpan: crossLineSpan,
+				blankCol: blankEntry[0],
+				blankRow: blankEntry[1],
+				blankCount: blankEntry[2],
+				corners,
+			};
 		},
 	};
 }
