@@ -10,8 +10,8 @@ export /* @internal */ const StyledCard = styled.div<{
 	transition: ${fallbackTransitions}, inline-size 0s;
 
 	> .base {
-		padding: ${settingsCardPadding[0]}px ${settingsCardPadding[1]}px;
 		block-size: 100%;
+		padding: ${settingsCardPadding[0]}px ${settingsCardPadding[1]}px;
 		border-radius: 2px;
 	}
 

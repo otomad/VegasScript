@@ -265,7 +265,6 @@
 
 /**
  * Map to an object via a constant array.
- * @remarks This JSDoc deliberately does not add "-" after the `@param` parameter, otherwise bugs will occur.
  * @param constArray - **Constant** string array.
  * @param callbackFn - Generate key value tuples as objects.
  * @returns The mapped object.

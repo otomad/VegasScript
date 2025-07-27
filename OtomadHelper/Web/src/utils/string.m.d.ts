@@ -253,9 +253,9 @@ declare interface String {
 	 * str = str.with(1, "a"); // "hallo world!"
 	 * ```
 	 *
-	 * @param index The index of the character to overwrite.
+	 * @param index - The index of the character to overwrite.
 	 * If the index is negative, then it replaces from the end of the string.
-	 * @param value The character to write into the copied string.
+	 * @param character - The character to write into the copied string.
 	 * @returns The copied string with the updated character.
 	 */
 	with(index: number, character: string): string;
@@ -280,6 +280,10 @@ declare interface String {
 
 	/**
 	 * Converts a string to title case, capitalizing the first letter of each word.
+	 *
+	 * @note It will just capitalize the first letter of each word brainlessly and will not follow the title case rules
+	 * in English grammar (such as only dealing with real words, etc.). If you want to get a more standard title case,
+	 * please visit [the website](https://titlecaseconverter.com/).
 	 *
 	 * @returns The input string with the first letter of each word capitalized.
 	 *

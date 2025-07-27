@@ -46,8 +46,8 @@ const StyledToast = styled.div<{
 		display: flex;
 		column-gap: 13px;
 		align-items: center;
-		padding: 13px 16px;
 		block-size: 100%;
+		padding: 13px 16px;
 		border: inherit;
 		border-width: 0;
 		border-radius: 4px;

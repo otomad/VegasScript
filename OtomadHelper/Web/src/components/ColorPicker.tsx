@@ -5,10 +5,10 @@ const PADDING = 3;
 const StyledColorButton = styled(StyledButton)`
 	--border-highlight-y-offset: 0 !important;
 	position: relative;
+	min-inline-size: 40px;
 	aspect-ratio: 1 / 1;
 	margin: ${-PADDING}px !important;
 	padding: ${PADDING}px;
-	min-inline-size: 40px;
 	outline: 1px solid transparent;
 
 	&,

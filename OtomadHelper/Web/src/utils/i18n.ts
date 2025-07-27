@@ -236,7 +236,7 @@ export function getValidLocale(locale: Intl.UnicodeBCP47LocaleIdentifier | Intl.
  * Otherwise, the locale is considered valid and existing.
  *
  * @param locale - The locale identifier as a string or `Intl.Locale` object.
- * @returns `true` if the locale is valid and exists; otherwise, `false`.
+ * @returns Is the locale valid and exists?
  */
 export function isValidLocale(locale: Intl.UnicodeBCP47LocaleIdentifier | Intl.Locale) {
 	return getValidLocale(locale) != null;

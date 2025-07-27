@@ -130,9 +130,9 @@ const PreviewGrid = styled.div`
 			bottom: var(--margin);
 			left: var(--margin);
 			display: inline-block;
-			padding: 0 3px;
 			block-size: var(--size);
 			min-inline-size: var(--size);
+			padding: 0 3px;
 			font-size: 10px;
 			text-align: center;
 			background-color: ${c("fill-color-system-solid-neutral-background", 75)};
@@ -363,8 +363,8 @@ const Multiply = styled.label.attrs({
 	"aria-label": t.aria.timesOperator,
 })`
 	${styles.mixins.flexCenter()};
-	padding-block-end: 3px;
 	inline-size: ${xWidth};
+	padding-block-end: 3px;
 
 	&.shadow {
 		visibility: hidden;
@@ -542,7 +542,12 @@ export default function Grid() {
 	}
 
 	function cleanUpInvalidOperationItems() {
-		/** Check if the `value` is undefined or it is less than or equal to `leq`? */
+		/**
+		 * Check if a given `value` is either undefined or it is less than or equal to a specified number `leq`?
+		 * @param value - The number to check, which may be `undefined`.
+		 * @param leq - The number to compare against.
+		 * @returns Is `value` undefined or less than or equal to `leq`?
+		 */
 		const undefOrLeq = (value: number | undefined, leq: number): value is number => value === undefined || value <= leq;
 		const keyPool = new SerializeKeyedSet<object>();
 		setSpans(produce(draft => {

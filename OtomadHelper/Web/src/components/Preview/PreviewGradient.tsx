@@ -71,7 +71,7 @@ const StyledPreviewGradient = styled.div<{
 		}
 	`}
 
-	// stylelint-disable-next-line no-duplicate-selectors
+	/* stylelint-disable no-duplicate-selectors */
 	img {
 		${({ $effect, $descending }) => {
 			const parity = $descending ? "odd" : "even";

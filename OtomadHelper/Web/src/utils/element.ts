@@ -168,7 +168,7 @@ export function isInPath(target: TargetType, ...args: (DetectInPathType | IsInPa
  * and its children will be part of the parent's formatting context.
  *
  * @param element - HTML DOM element.
- * @returns True if the specified element is a "contents" display type, otherwise false.
+ * @returns Is the specified element a "contents" display type?
  */
 export function isElementContents(element: Element | undefined | null) {
 	return !!(element && getComputedStyle(element).display === "contents");
@@ -182,7 +182,7 @@ export function isElementContents(element: Element | undefined | null) {
  * `display` CSS property is set to `none`, or the `visibility` CSS property is not set to `visible`.
  *
  * @param element - HTML DOM element to check for hidden status.
- * @returns True if the specified element is hidden, otherwise false.
+ * @returns Is the specified element is hidden?
  */
 export function isElementHidden(element: Element | undefined | null): element is undefined | null {
 	/*

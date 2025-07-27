@@ -8,7 +8,7 @@ const $popovers = () => document.getElementById("popovers") ?? document.body;
 export async function makeFocusDiffusionEffect(element: TargetType, { borderRadius }: {
 	/** Override the border-radius property for the focus ring. If not specified, it will auto inherit the value from the target element. */
 	borderRadius?: CSSProperty.BorderRadius | null;
-}) {
+} = {}) {
 	const el = targetToElement(element), popovers = $popovers();
 	if (!el || !popovers) return;
 	const ring = document.createElement("div");

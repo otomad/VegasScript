@@ -19,6 +19,7 @@ import { spacing } from "pangu";
 	};
 
 	String.prototype.interpose = function (separator = ",") {
+		// return this.replaceAll(/(?<=.)(?=.)/gu, separator);
 		return Array.from(this).join(separator);
 	};
 
@@ -66,7 +67,7 @@ import { spacing } from "pangu";
 	};
 
 	String.prototype.padBoth = function (maxLength: number, fillString = " ", uneven: "start" | "end" = "start"): string {
-		const padMethods = ["padStart" as const, "padEnd" as const];
+		const padMethods = ["padStart", "padEnd"] as const satisfies string[];
 		if (uneven === "start") padMethods.reverse();
 		return maxLength <= this.length ? this.valueOf() : this[padMethods[0]]((this.length + maxLength) / 2, fillString)[padMethods[1]](maxLength, fillString);
 	};
