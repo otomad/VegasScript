@@ -150,12 +150,22 @@ const StyledNavigationView = styled.div<{
 		}
 
 		.nav-items {
+			container: nav-items / scroll-state;
+			position: relative;
 			flex-shrink: 1;
 			block-size: 100%;
 			overflow-block: auto;
 
-			&.overflowing {
+			&::after {
+				content: "";
+				position: sticky;
+				inset-block-end: 0;
+				display: none;
 				border-block-end: 1px solid ${c("stroke-color-divider-stroke-default")};
+
+				@container not scroll-state(scrollable: none) {
+					display: block;
+				}
 			}
 		}
 
@@ -496,7 +506,6 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 	isCompact: boolean;
 	onRequestHide(): void;
 }>) {
-	const [isNavItemsOverflowing, setIsNavItemsOverflowing] = useState(false);
 	const navItemsEl = useDomRef<"div">();
 	const focusable = !flyout && paneDisplayMode === "minimal" ? false : isFlyoutShown === flyout;
 	const covered = !flyout && isFlyoutShown;
@@ -519,12 +528,6 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 			</TabBar.Item>
 		);
 	}, [isFlyoutShown, focusable, onRequestHide]);
-
-	useEventListener(window, "resize", () => {
-		const navItems = navItemsEl.current;
-		if (!navItems) return;
-		setIsNavItemsOverflowing(navItems.scrollHeight > navItems.offsetHeight);
-	}, { immediate: true });
 
 	const onNavItemsScroll = useCallback<UIEventHandler<HTMLDivElement>>(e => {
 		const currentElement = e.currentTarget;
@@ -551,7 +554,7 @@ function NavigationViewLeftPanel({ paneDisplayMode, isFlyoutShown, customContent
 			<div
 				ref={navItemsEl}
 				data-nav-items-id={navItemsId}
-				className={["nav-items", { overflowing: isNavItemsOverflowing }]}
+				className="nav-items"
 				tabIndex={-1}
 				onScroll={onNavItemsScroll}
 			>
