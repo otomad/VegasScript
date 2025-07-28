@@ -6,11 +6,11 @@ import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
 import importPlugin from "eslint-plugin-import";
 import reactRecommended from "eslint-plugin-react/configs/recommended.js";
+import jsdoc from "eslint-plugin-jsdoc";
 // plugins
 import reactRefresh from "eslint-plugin-react-refresh";
 import unicorn from "eslint-plugin-unicorn";
 import reactHooks from "eslint-plugin-react-hooks";
-import jsdoc from "eslint-plugin-jsdoc";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
