@@ -10,6 +10,8 @@ export /* @internal */ const constrainNoteLengthTypes = [
 	{ id: "none", icon: "prohibited" },
 	{ id: "max", icon: "less_or_equal" },
 	{ id: "fixed", icon: "equal" },
+	{ id: "percentage", icon: "percent" },
+	{ id: "fixedDecrement", icon: "line_horizontal" },
 ] as const;
 export /* @internal */ const multipleSelectTrackItems = Object.freeze(["audio", "visual", "sonar", "lyrics"] as const);
 const allMultipleSelectTrackItemSet = new Set(multipleSelectTrackItems);
@@ -111,10 +113,11 @@ const MultipleSelectTrackItemsContainer = styled.div`
 
 export default function Score() {
 	const {
-		format, encoding, constrainNoteLengthType, constrainNoteLengthValue, trimStart, trimEnd, tempoUsing, customTempo,
+		format, encoding, trimStart, trimEnd, tempoUsing, customTempo,
 		timeSignature: [timeSignature], trackOrChannel,
 		selectedTrack: [selectedTrack, setSelectedTrack], multipleSelectTrackItems: [selectTrackItems, _setSelectTrackItems],
 	} = useSelectConfig(c => c.score);
+	const { type: constrainNoteLengthType, min: constrainNoteLengthMin, ...constrainNoteLengthValues } = useSelectConfig(c => c.score.constrainNoteLength);
 	const { enabled: [ytpEnabled] } = useSelectConfig(c => c.ytp);
 
 	const setSelectTrackItems = (recipe: (draft: typeof selectTrackItems) => void) => _setSelectTrackItems(produce(recipe));
@@ -248,11 +251,26 @@ export default function Score() {
 				view="tile"
 				idField="id"
 				nameField={t.score.constrain}
+				detailsField={t.descriptions.score.constrain}
 				iconField="icon"
 			>
-				<Expander.ChildWrapper>
-					<TimecodeBox value={constrainNoteLengthValue} disabled={constrainNoteLengthType[0] === "none"} />
-				</Expander.ChildWrapper>
+				{constrainNoteLengthType[0] !== "none" && (
+					<Expander.Item
+						title={t.score.constrain[constrainNoteLengthType[0]]}
+						details={t.descriptions.score.constrain[constrainNoteLengthType[0]]}
+						icon={constrainNoteLengthTypes.find(i => i.id === constrainNoteLengthType[0])!.icon}
+						nowrap
+					>
+						{constrainNoteLengthType[0] === "percentage" ?
+							<TextBox.Number value={constrainNoteLengthValues[constrainNoteLengthType[0]]} suffix={t.units.percent} min={0} max={100} decimalPlaces={2} /> :
+							<TimecodeBox value={constrainNoteLengthValues[constrainNoteLengthType[0]]} />}
+					</Expander.Item>
+				)}
+				{constrainNoteLengthType[0].in("percentage", "fixedDecrement") && (
+					<Expander.Item title={t.score.constrain.min} details={t.descriptions.score.constrain.min} icon="greater_or_equal" nowrap>
+						<TimecodeBox value={constrainNoteLengthMin} />
+					</Expander.Item>
+				)}
 			</ExpanderRadio>
 			<SettingsCard title={t.score.parser} details={t.descriptions.score.parser} icon="engine">
 				<ComboBox />

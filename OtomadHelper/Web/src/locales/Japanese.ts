@@ -217,6 +217,9 @@ export default {
 				none: "拘束なし",
 				max: "最大長さ",
 				fixed: "固定長さ",
+				min: "最小長さ",
+				percentage: "割合",
+				fixedDecrement: "固定デクリメント",
 			},
 			trackOrChannel: "トラック / チャンネル",
 			noteCount: "ノート数",
@@ -779,7 +782,7 @@ export default {
 			},
 		},
 		descriptions: {
-			unsupportedBrowser: "申し訳ありませんが、レガシー {{browser}} ブラウザはサポートされていません。アップデートしてください！",
+			unsupportedBrowser: "申し訳ありませんが、古い {{browser}} ブラウザはサポートされていません。アップデートしてください！",
 			condition: "この設定を適用するタイミングを指定します",
 			curve: "キーフレームタイプの補間曲線を指定します。",
 			source: {
@@ -827,7 +830,15 @@ export default {
 				trim: "スコアの生成時間範囲をインターセプトします",
 				encoding: "ファイルの読み込み時に使用するテキストエンコーディングを指定します",
 				tempo: "1分あたりのビートを指定します",
-				constrain: "スコアからのノートの出力長さを制御します",
+				constrain: {
+					_: "スコアからのノートの出力長さを制御します",
+					none: "音符の長さをそのまま保持します",
+					max: "ノート長がこの値を超えないように、各ノート長の上限を設定します。",
+					fixed: "元の値に関係なく、各ノートの長さを固定定数に置き換えます。",
+					min: "各ノートの長さに下限を設定し、この値より短い長さでないことを確認します。 元の長さが短くない限り",
+					percentage: "各ノートの元の長さを比例してスケールダウンする",
+					fixedDecrement: "ポルタートスタイルを表示するために、各ノートの長さの終わりから固定値を減算します。",
+				},
 				trackOrChannel: "MIDI トラックまたは MIDI チャンネルを使用するかどうかを選択します",
 				ytpEnabled: "YTP機能が有効になっているため、スコアに依存しないので、ここでのすべての設定は効果がありません。",
 				parser: "異なるParserがスコアファイル間でさまざまなパフォーマンスを提供するため、スコアパーサーエンジンを指定します。",
@@ -1169,6 +1180,7 @@ export default {
 				cancel: "キャンセル",
 				close: "閉じる",
 				learnMore: "詳細(&L)",
+				openPath: "パスを開く(&P)",
 			},
 			expander: {
 				expandDetails: "詳細を展開",
@@ -1246,6 +1258,7 @@ export default {
 				enableYtp: "YTP機能を有効にする",
 				disableYtp: "YTP機能を無効にする",
 				startGenerating: "生成を開始",
+				reset: "すべての設定をリセット",
 			},
 		},
 		descriptions: {

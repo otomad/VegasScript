@@ -43,13 +43,13 @@ export /* @internal */ const styledExpanderItemContent = css`
 		flex-wrap: nowrap;
 		gap: inherit;
 		align-items: center;
-		min-width: fit-content;
-		max-width: 100%;
+		min-inline-size: fit-content;
+		max-inline-size: 100%;
 	}
 
 	.text {
 		flex: 1;
-		width: 100%;
+		inline-size: 100%;
 
 		.title {
 			hyphens: none;
@@ -94,6 +94,8 @@ const StyledExpanderItem = styled.div<{
 	$asSubtitle?: boolean;
 	/** Remove the top split line and top padding from the expand child. */
 	$noDivider?: boolean;
+	/** Do not wrap the action children to the second line if the text is too long? */
+	$nowrap?: boolean;
 }>`
 	${styledExpanderItemBase};
 	padding-inline-start: ${expanderItemWithIconPaddingInlineStart}px;
@@ -133,9 +135,18 @@ const StyledExpanderItem = styled.div<{
 		padding-block: 0;
 		border-block-start-width: 0 !important;
 	`)}
+
+	${ifProp("$nowrap", css`
+		flex-wrap: nowrap;
+
+		.leading {
+			flex-shrink: unset;
+			min-inline-size: unset;
+		}
+	`)}
 `;
 
-export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, noDivider, ariaHiddenForText, children, disabled = false, ...htmlAttrs }: FCP<{
+export /* @internal */ default function ExpanderItem({ icon, title, details, clickable, asSubtitle, noDivider, ariaHiddenForText, nowrap = false, children, disabled = false, ...htmlAttrs }: FCP<{
 	/** Icon. */
 	icon?: DeclaredIcons | ReactElement;
 	/** Title. */
@@ -150,6 +161,8 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 	noDivider?: boolean;
 	/** Remove text from aria tree? */
 	ariaHiddenForText?: boolean;
+	/** Do not wrap the action children to the second line if the text is too long? */
+	nowrap?: boolean;
 }, "div">) {
 	disabled = useContext(InteractionStateContext).disabled || disabled;
 	return (
@@ -157,6 +170,7 @@ export /* @internal */ default function ExpanderItem({ icon, title, details, cli
 			$clickable={clickable}
 			$asSubtitle={asSubtitle}
 			$noDivider={noDivider}
+			$nowrap={nowrap}
 			disabled={disabled}
 			aria-disabled={disabled || undefined}
 			{...htmlAttrs}

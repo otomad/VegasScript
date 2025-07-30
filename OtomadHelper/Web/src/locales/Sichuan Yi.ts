@@ -217,6 +217,9 @@ export default {
 				none: "crwdns1770:0crwdne1770:0",
 				max: "crwdns1772:0crwdne1772:0",
 				fixed: "crwdns1774:0crwdne1774:0",
+				min: "crwdns4368:0crwdne4368:0",
+				percentage: "crwdns4370:0crwdne4370:0",
+				fixedDecrement: "crwdns4372:0crwdne4372:0",
 			},
 			trackOrChannel: "crwdns3250:0crwdne3250:0",
 			noteCount: "crwdns2214:0crwdne2214:0",
@@ -779,7 +782,7 @@ export default {
 			},
 		},
 		descriptions: {
-			unsupportedBrowser: "crwdns3518:0{{browser}}crwdne3518:0",
+			unsupportedBrowser: "crwdns4374:0{{browser}}crwdne4374:0",
 			condition: "crwdns4278:0crwdne4278:0",
 			curve: "crwdns4280:0crwdne4280:0",
 			source: {
@@ -827,7 +830,15 @@ export default {
 				trim: "crwdns2378:0crwdne2378:0",
 				encoding: "crwdns4294:0crwdne4294:0",
 				tempo: "crwdns4296:0crwdne4296:0",
-				constrain: "crwdns2452:0crwdne2452:0",
+				constrain: {
+					_: "crwdns4376:0crwdne4376:0",
+					none: "crwdns4378:0crwdne4378:0",
+					max: "crwdns4380:0crwdne4380:0",
+					fixed: "crwdns4382:0crwdne4382:0",
+					min: "crwdns4384:0crwdne4384:0",
+					percentage: "crwdns4386:0crwdne4386:0",
+					fixedDecrement: "crwdns4388:0crwdne4388:0",
+				},
 				trackOrChannel: "crwdns3308:0crwdne3308:0",
 				ytpEnabled: "crwdns2696:0crwdne2696:0",
 				parser: "crwdns4298:0crwdne4298:0",
@@ -1171,6 +1182,7 @@ export default {
 				cancel: "crwdns2334:0crwdne2334:0",
 				close: "crwdns2336:0crwdne2336:0",
 				learnMore: "crwdns2608:0crwdne2608:0",
+				openPath: "crwdns4390:0crwdne4390:0",
 			},
 			expander: {
 				expandDetails: "crwdns2338:0crwdne2338:0",
@@ -1248,6 +1260,7 @@ export default {
 				enableYtp: "crwdns3136:0crwdne3136:0",
 				disableYtp: "crwdns3138:0crwdne3138:0",
 				startGenerating: "crwdns3140:0crwdne3140:0",
+				reset: "crwdns4392:0crwdne4392:0",
 			},
 		},
 		descriptions: {

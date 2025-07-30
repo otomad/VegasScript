@@ -690,7 +690,6 @@ export default {
 			},
 		},
 		descriptions: {
-			unsupportedBrowser: "Rất tiếc, chúng tôi không hỗ trợ trình duyệt {{browser}} cũ của bạn, vui lòng cập nhật!",
 			source: {
 				trim: "Điều chỉnh thời gian điểm vào hoặc ra của nguồn nguyên liệu được chỉ định",
 				preferredTrack: {
@@ -725,7 +724,9 @@ export default {
 			},
 			score: {
 				trim: "Chặn phạm vi thời gian tạo ra của bản nhạc",
-				constrain: "Kiểm soát độ dài đầu ra của các nốt nhạc từ bản nhạc",
+				constrain: {
+					_: "Kiểm soát độ dài đầu ra của các nốt nhạc từ bản nhạc",
+				},
 				trackOrChannel: "Chọn giữa việc sử dụng các track MIDI hoặc các channel MIDI",
 				ytpEnabled: "Tính năng YTP được bật, không phụ thuộc vào bản nhạc nên mọi cài đặt ở đây đều không có hiệu lực.",
 			},

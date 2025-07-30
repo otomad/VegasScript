@@ -73,6 +73,9 @@
 	<data name="ContentDialog.Button.LearnMore" xml:space="preserve">
 		<value>詳細(&amp;L)</value>
 	</data>
+	<data name="ContentDialog.Button.OpenPath" xml:space="preserve">
+		<value>パスを開く(&amp;P)</value>
+	</data>
 	<data name="ContentDialog.Expander.ExpandDetails" xml:space="preserve">
 		<value>詳細を展開</value>
 	</data>
@@ -229,6 +232,9 @@
 	</data>
 	<data name="Keybindings.Commands.StartGenerating" xml:space="preserve">
 		<value>生成を開始</value>
+	</data>
+	<data name="Keybindings.Commands.Reset" xml:space="preserve">
+		<value>すべての設定をリセット</value>
 	</data>
 	<data name="Descriptions.ColorPicker.EyeDropper" xml:space="preserve">
 		<value>画面から色を選択</value>

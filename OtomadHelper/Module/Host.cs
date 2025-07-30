@@ -181,10 +181,10 @@ public sealed partial class Host : UserControl {
 	/// </summary>
 	internal new bool Focused { get; set { field = value; NotifyBgTrackingChanged(); } }
 	/// <summary>
-	/// Is host dockable not focused but visible?
+	/// Is the dockable host not focused but visible?
 	/// </summary>
 	/// <remarks>
-	/// At this moment it would enable background tracking.
+	/// At this moment, it would enable background tracking.
 	/// </remarks>
 	public bool BgTracking => !Focused &&
 #if VEGAS_ENV
