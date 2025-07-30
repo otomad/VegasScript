@@ -114,6 +114,7 @@ namespace Config {
 			basePitch: "C5",
 			cent: 0,
 			basePitchBased: true,
+			glissando: true,
 			prelistenAttributes: {
 				engine: "WebAudio" as BeepEngine,
 				waveform: "sinusoid" as OscillatorCommonType,

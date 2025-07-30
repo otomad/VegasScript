@@ -81,7 +81,7 @@ export default function Audio() {
 		stretch, loop, normalize, truncate, legato, multitrackForChords, stack, timeUnremapping, autoPan, autoPanCurve,
 		tuningMethod, tuningMethodAcid, tuningMethodScaleless,
 		stretchAttribute, alternativeForExceedTheRange, resample, preserveFormant, currentPreset,
-		basePitch, basePitchBased, cent,
+		basePitch, basePitchBased, cent, glissando,
 	} = useSelectConfig(c => c.audio);
 	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = useSelectConfig(c => c.audio.prelistenAttributes);
 	const { createGroups } = useSelectConfig(c => c);
@@ -358,7 +358,8 @@ export default function Audio() {
 							</Expander.Item>
 							<ToggleSwitch icon="remix_add" on={adjustAudioToBasePitch} details={t.descriptions.stream.tuning.prelisten.adjustAudioToBasePitch}>{t.stream.tuning.prelisten.adjustAudioToBasePitch}</ToggleSwitch>
 						</Expander>
-						<SettingsCard
+						<SettingsCardToggleSwitch
+							on={glissando}
 							title={t.stream.articulations.glissando}
 							details={t.descriptions.stream.articulations.glissando}
 							icon="slide_note"
