@@ -47,13 +47,12 @@ export function useInContextLocalization() {
 				const targetLanguage = globalThis.jipt ? globalThis.jipt.target_language : localStorage.getItem("i18nextLng") ?? "en";
 				await i18n.changeLanguage(targetLanguage);
 			}
-		}, [
-			[{
-				opacity: [0, 1],
-			}, {
-				duration: 500,
-			}],
-		], "progress");
+		}, [[{
+			opacity: [0, 1],
+		}]], {
+			duration: 500,
+			cursor: "progress",
+		});
 	}
 
 	return [enabled, setEnabled] as StatePropertyNonNull<boolean>;

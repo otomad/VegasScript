@@ -77,3 +77,13 @@ CSS.registerProperty({
 	inherits: true,
 	initialValue: "1",
 });
+
+/**
+ * The blurriness property for view transition animation only.
+ */
+CSS.registerProperty({
+	name: "--view-transition-blurriness",
+	syntax: "<length>",
+	inherits: false,
+	initialValue: "0",
+});

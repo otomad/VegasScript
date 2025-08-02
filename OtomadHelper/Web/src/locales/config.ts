@@ -54,6 +54,7 @@ export function useLanguage() {
 		if (i18n.language === lng && document.documentElement.lang === lng)
 			return;
 		bridges.bridge.setCulture(i18n.t("metadata.culture", { lng }));
+		const TRANSITION_DURATION = 500;
 		startColorViewTransition(async () => {
 			await i18n.changeLanguage(lng);
 			const dir = i18n.dir();
@@ -62,11 +63,44 @@ export function useLanguage() {
 			devStore.rtl = dir === "rtl";
 		}, [
 			[{
-				clipPath: ["inset(0 0 100%)", "inset(0)"],
-			}, {
-				duration: 500,
+				clipPath: ["inset(0 0 calc(100% + 1rlh))", "inset(0)"],
 			}],
-		], "wait");
+			[{
+				clipPath: ["inset(0 0 0)", "inset(calc(100% + 1rlh) 0 0)"],
+			}, {
+				pseudoElement: "::view-transition-old(root)",
+			}],
+			[{
+				filter: ["", "grayscale(1)"],
+			}, {
+				pseudoElement: "::view-transition-old(root)",
+				easing: eases.easeOutSmooth,
+			}],
+			[{
+				filter: ["grayscale(1) blur(var(--view-transition-blurriness))", "grayscale(0) blur(var(--view-transition-blurriness))"],
+			}, {
+				pseudoElement: "::view-transition-new(root)",
+				easing: eases.easeInSmooth,
+			}],
+			[{
+				scale: ["", "1.05"],
+				transformOrigin: ["bottom", "bottom"],
+			}, {
+				pseudoElement: "::view-transition-old(root)",
+				easing: eases.easeInMax,
+			}],
+			[{
+				"--view-transition-blurriness": ["5px", ""],
+				scale: ["1.05", ""],
+				transformOrigin: ["top", "top"],
+			}, {
+				pseudoElement: "::view-transition-new(root)",
+				easing: eases.easeOutMax,
+			}],
+		], {
+			duration: TRANSITION_DURATION,
+			cursor: "wait",
+		});
 	}
 
 	return [language, changeLanguage] as StatePropertyNonNull<AvailableLanguageTags>;

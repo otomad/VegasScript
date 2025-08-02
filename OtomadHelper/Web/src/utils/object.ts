@@ -681,3 +681,37 @@ export function fallbackWithLocale<const T extends Record<Intl.UnicodeBCP47Local
 		},
 	});
 }
+
+/**
+ * Supplements the target object with properties from one or more source objects.
+ * Only properties that do not already exist or the property values are undefined in the target object are added.
+ * This function does not overwrite existing properties in the target.
+ *
+ * This function has the same function signature as `Object.assign`, but the operation is the opposite.
+ *
+ * @param target - The object to be supplemented.
+ * @param sources - One or more source objects whose properties will be added to the target.
+ * @returns The supplemented target object.
+ *
+ * @example
+ * ```typescript
+ * const bar = { a: true, c: true };
+ * {
+ *     const foo = { a: false, b: false };
+ *     Object.assign(foo, bar);
+ *     console.log(foo); // { a: true, b: false, c: true };
+ * }
+ * {
+ *     const foo = { a: false, b: false };
+ *     Object.supplement(foo, bar);
+ *     console.log(foo); // { a: false, b: false, c: true };
+ * }
+ * ```
+ */
+export const supplement: typeof Object["assign"] = (target: object, ...sources: object[]) => {
+	for (const source of sources)
+		for (const [key, value] of Object.entries(source))
+			if ((target as AnyObject)[key] === undefined)
+				(target as AnyObject)[key] = value;
+	return target;
+};

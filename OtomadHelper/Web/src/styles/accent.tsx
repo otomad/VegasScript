@@ -69,7 +69,7 @@ export default function DynamicAccentColor() {
 		resolveViewTransition.current = resolve;
 		const restoreTransitions = stopTransition();
 		try {
-			await startColorViewTransition(() => promise, [[{ opacity: [0, 1] }, { easing: eases.easeOutMax }]], "wait");
+			await startColorViewTransition(() => promise, [[{ opacity: [0, 1] }, { easing: eases.easeOutMax }]], { cursor: "wait" });
 		} finally {
 			restoreTransitions();
 			resolveViewTransition.current = undefined;

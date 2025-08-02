@@ -389,7 +389,7 @@ export function stopTransition({ includesViewTransitions = false }: {
 			transition: none !important;
 		}
 
-		${includesViewTransitions && css`
+		${includesViewTransitions ? css`
 			::view-transition-old(root),
 			::view-transition-new(root) {
 				mix-blend-mode: normal;
@@ -400,10 +400,12 @@ export function stopTransition({ includesViewTransitions = false }: {
 			::view-transition-old(*),
 			::view-transition-new(*),
 			::view-transition-old(::before),
+			::view-transition-new(::before),
+			::view-transition-old(::after),
 			::view-transition-new(::after) {
 				transition: none !important;
 			}
-		`}
+		` : ""}
 	`);
 	document.head.appendChild(style);
 
@@ -413,40 +415,50 @@ export function stopTransition({ includesViewTransitions = false }: {
 	};
 }
 
+type ColorViewTransitionAnimationOption = Override<KeyframeAnimationOptions, {
+	pseudoElement?: "::view-transition-new(root)" | "::view-transition-old(root)" | (string & {}) | null;
+}>;
+
+interface ColorViewTransitionAnimationFallbackDefaultOption extends ColorViewTransitionAnimationOption {
+	/** Set the cursor while transitioning. */
+	cursor?: Cursor;
+}
+
 /**
  * Add color-dependent view transition animations to the entire page.
  * @param changeFunc - A callback function that will change the page.
- * @param animations - A tuple of animation keyframes and animation options.
- * @param cursor - Set the cursor while transitioning.
+ * @param animations - An array of tuple of animation keyframes and the option for each animations.
+ * @param defaultOptions - Use fallback-default options to supplement all options for each animations.
+ * You can even set the cursor while transitioning.
  * @returns The destructor can be executed after the animation is completed.
  */
-export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions][], cursor?: Cursor) {
+export async function startColorViewTransition(changeFunc: () => MaybePromise<void | unknown>, animations: [keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: ColorViewTransitionAnimationOption][], defaultOptions: ColorViewTransitionAnimationFallbackDefaultOption = {}) {
 	if (!document.startViewTransition || isReduceMotion()) {
 		await changeFunc();
 		return;
 	}
+
+	defaultOptions.duration ??= 300;
+	defaultOptions.easing ??= eases.easeInOutSmooth;
+	defaultOptions.pseudoElement ??= "::view-transition-new(root)";
 
 	const restoreTransitions = stopTransition({ includesViewTransitions: true });
 	const previousReactTransitionGroupDisabled = reactTransitionGroupConfig.disabled;
 	reactTransitionGroupConfig.disabled = true;
 
 	try {
-		if (cursor) forceCursor(cursor);
+		if (defaultOptions.cursor) forceCursor(defaultOptions.cursor);
 		const transition = document.startViewTransition(changeFunc);
 		await transition.ready;
 
 		await animations.asyncMap(async ([keyframes, options]) => {
-			options ??= {};
-			options.duration ??= 300;
-			options.easing ??= eases.easeInOutSmooth;
-			options.pseudoElement ??= "::view-transition-new(root)";
-
+			options = supplement(options ?? {}, defaultOptions);
 			return await document.documentElement.animate(keyframes, options).finished;
 		});
 	} finally {
 		restoreTransitions();
 		reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
-		if (cursor) forceCursor(null);
+		if (defaultOptions.cursor) forceCursor(null);
 	}
 }
 
