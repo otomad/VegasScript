@@ -32,8 +32,7 @@ const StyledSettingsPageControl = styled.div<{
 			mask: linear-gradient(
 				to bottom,
 				rgb(0 0 0 / var(--scroll-start-mask-transparency)) 0%,
-				black var(--scroll-mask-height),
-				black calc(100% - var(--scroll-mask-height)),
+				black var(--scroll-mask-height) calc(100% - var(--scroll-mask-height)),
 				rgb(0 0 0 / var(--scroll-end-mask-transparency)) 100%
 			);
 			animation:

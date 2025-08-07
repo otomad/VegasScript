@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // noinspection ES6PreferShortImport
 
+// Note: Do not use gzip compression feature, DotNet will compress it when compiling to a DLL file.
+// Or it will unzip twice in runtime.
+
 import { resolve as _resolve } from "path";
 import react from "@vitejs/plugin-react";
 import license from "rollup-plugin-license";
