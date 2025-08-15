@@ -73,11 +73,11 @@ export function useOnFormKeyDown(element: RefObject<HTMLElement | null>, { handl
 				itemSelector = ".sortable-item";
 			}
 			const index = target?.indexIn(parent) ?? -1;
-			if (!~index || !parent || !target) return;
+			if (index === -1 || !parent || !target) return;
 			const items = [...parent.children].filter(element => element.matches(itemSelector) && !element.hasAttribute("disabled"));
 			const immediate = parent.children[index] as HTMLElement;
 			const indexInItems = items.indexOf(immediate);
-			if (!~indexInItems) return;
+			if (indexInItems === -1) return;
 			const itemEl = code === "Home" ? items[0] : code === "End" ? items[items.length - 1] :
 				getLayoutNeighbor(immediate, ({ ArrowLeft: "left", ArrowRight: "right", ArrowUp: "top", ArrowDown: "bottom" } as const)[code], items);
 			const focusEl = itemEl?.querySelectorWithSelf(focusSelector) as HTMLElement;

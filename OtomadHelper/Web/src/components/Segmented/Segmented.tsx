@@ -114,7 +114,7 @@ const StyledSegmented = styled.div<{
 		` : css`
 			inset-inline-start: calc((100% + ${2 * THUMB_BORDER_WIDTH}px) / ${$itemCount} * ${$selectedIndex});
 			width: calc((100% + ${2 * THUMB_BORDER_WIDTH}px) / ${$itemCount});
-			${!~$selectedIndex && css`opacity: 0;`}
+			${$selectedIndex === -1 && css`opacity: 0;`}
 		`}
 
 		${ifColorScheme.dark} &:not(:active, [disabled]) {
@@ -163,7 +163,7 @@ const StyledSegmented = styled.div<{
 		position: absolute;
 		top: 0;
 		pointer-events: none;
-		clip-path: inset(${({ $itemCount = 0, $selectedIndex = -1 }) => !$itemCount || !~$selectedIndex ? "0 100% 0 0" : !isRtl() ?
+		clip-path: inset(${({ $itemCount = 0, $selectedIndex = -1 }) => !$itemCount || $selectedIndex === -1 ? "0 100% 0 0" : !isRtl() ?
 			`0 calc((1 - (${$selectedIndex} + 1) / ${$itemCount}) * 100%) 0 calc(${$selectedIndex} / ${$itemCount} * 100%)` :
 			`0 calc(${$selectedIndex} / ${$itemCount} * 100%) 0 calc((1 - (${$selectedIndex} + 1) / ${$itemCount}) * 100%)`} round 4px);
 		transition: ${fallbackTransitions}, clip-path ${THUMB_TRANSITION_OPTION};

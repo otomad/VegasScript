@@ -44,7 +44,7 @@ export default class Pitch {
 
 	static pitchMap(noteName: string, octave: number) {
 		const noteNameIndex = Pitch.#noteNames.indexOf(noteName);
-		if (!~noteNameIndex) return null;
+		if (noteNameIndex === -1) return null;
 		const noteNumber = noteNameIndex + octave * 12;
 		return noteNumber;
 	}

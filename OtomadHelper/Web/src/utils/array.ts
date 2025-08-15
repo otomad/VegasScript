@@ -7,7 +7,7 @@
 		let successes = 0;
 		for (const item of items) {
 			const index = this.indexOf(item);
-			if (!~index) continue;
+			if (index === -1) continue;
 			this.splice(index, 1);
 			successes++;
 		}
@@ -45,7 +45,7 @@
 
 	Array.prototype.toggle = function (item, force) {
 		const index = this.indexOf(item);
-		if (!~index || force)
+		if (index === -1 || force)
 			this.push(item);
 		else
 			this.removeAt(index);
@@ -160,7 +160,7 @@
 	Array.prototype.nextItem = function (currentItem, offset = 1, defaultIndex = 0) {
 		if (this.length === 0) return undefined; // Prevent divided by 0.
 		let index = this.indexOf(currentItem);
-		if (!~index) // If current item is not in the array.
+		if (index === -1) // If current item is not in the array.
 			// Note that the default index may also exceed the index range of the array.
 			// But do not use `Array.prototype.at()`. For example, if the array length is 4, and the default index:
 			// input: -1, output: 3;
@@ -187,12 +187,12 @@
 	};
 
 	Array.prototype.includesDeep = function (searchElement) {
-		return !!~this.indexOfDeep(searchElement);
+		return this.indexOfDeep(searchElement) !== -1;
 	};
 
 	Array.prototype.toggleDeep = function (item, force) {
 		const index = this.indexOfDeep(item);
-		if (!~index || force)
+		if (index === -1 || force)
 			this.push(item);
 		else
 			this.removeAt(index);

@@ -83,7 +83,7 @@ export function SortableView<T extends BaseItem>({ items: itemsStateProperty, ov
 	const setActive = setStateInterceptor(_setActive, undefined, active => forceCursor(active ? (verticalDragOnly ? nsResizeDraggingCur : moveDraggingCur)({ theme }) : null));
 	const activeItem = useMemo(() => {
 		const index = items.findIndex(item => getItemId(item) === active?.id);
-		if (!~index) return null;
+		if (index === -1) return null;
 		return [states[index], index, items[index]] as const;
 	}, [active, items]);
 	const sensors = useSensors(

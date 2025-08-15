@@ -39,7 +39,7 @@ export default function Settings() {
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop, accentColor, backgroundColor,
 	} = useSelectConfig(c => c.settings);
 	const backgroundImages = useBackgroundImages();
-	const showBackgroundImage = !!~backgroundImages.backgroundImage[0];
+	const showBackgroundImage = backgroundImages.backgroundImage[0] !== -1;
 	const [displayUiScale, setDisplayUiScale] = useState<Readable | undefined>(uiScale[0]);
 
 	// Dev mode

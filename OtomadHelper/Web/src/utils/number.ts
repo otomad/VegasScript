@@ -52,7 +52,7 @@ export function normalizeNumber(num: WithWrapperType<number | bigint | string>) 
 		const move = (float: string, direct: number) => {
 			float += "";
 			let dot = float.indexOf(".");
-			if (!~dot) dot = float.length;
+			if (dot === -1) dot = float.length;
 			dot = direct > 0 ? dot + 1 : dot - 1;
 			float = float.replace(".", "");
 			if (dot === float.length) void 0;

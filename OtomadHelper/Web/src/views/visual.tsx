@@ -71,7 +71,7 @@ export default function Visual() {
 		const id = expanderItem.dataset.id!;
 		const { transformMethod } = configStore.visual;
 		const newIndex = transformMethod.indexOf(id as never);
-		if (!~newIndex) return;
+		if (newIndex === -1) return;
 		expanderItem.querySelector(".badge .text")!.textContent = String(newIndex + 1);
 	}, []);
 
