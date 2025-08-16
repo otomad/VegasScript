@@ -51,7 +51,6 @@
 		"colorjs.io": "^0.5.2",
 		"dedent": "^1.5.3",
 		"enum-plus": "^2.3.1",
-		"fast-average-color": "^9.5.0",
 		"fullwidth-quotes": "^1.0.1",
 		"i18next": "^25.3.0",
 		"i18next-browser-languagedetector": "^8.2.0",
@@ -63,6 +62,7 @@
 		"lodash-es": "^4.17.21",
 		"lottie-web": "^5.12.2",
 		"mitt": "^3.0.1",
+		"node-vibrant": "^4.0.3",
 		"pangu": "^4.0.7",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
@@ -165,5 +165,5 @@
 			"path": "@commitlint/cz-commitlint"
 		}
 	},
-	"packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
+	"packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
 }

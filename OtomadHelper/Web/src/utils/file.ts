@@ -56,7 +56,7 @@ export function dataToFile(dataUrl: string, fileName?: string) {
 }
 
 /**
- * Opens a file selection dialog and returns the selected file(s) as a File[] object.
+ * Opens a file selection dialog and returns the selected file(s) as a `File` object.
  *
  * @returns A single File object representing the selected file. If no file is selected, returns `null`.
  */
@@ -67,7 +67,7 @@ export async function openFile(options?: {
 	multiple?: false;
 }): Promise<File | null>;
 /**
- * Opens a file selection dialog and returns the selected file(s) as a File object.
+ * Opens a file selection dialog and returns the selected file(s) as a `File[]` object.
  *
  * @returns An array of File objects representing the selected files.
  */

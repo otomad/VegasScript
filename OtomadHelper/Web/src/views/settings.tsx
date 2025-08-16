@@ -23,6 +23,14 @@ const StyledColorPalette = styled(Expander.ChildWrapper).attrs({
 	border-block-start: none !important;
 `;
 
+/* const BackgroundImageItemStyle = createGlobalStyle`
+	.background-image-item:not(.sortable-overlay *, .dragging, .dropping) {
+		@starting-style {
+			scale: 0;
+		}
+	}
+`; */
+
 const TooltipPartial = Tooltip.with({ placement: "y" });
 
 export default function Settings() {
@@ -39,7 +47,6 @@ export default function Settings() {
 		backgroundImageOpacity, backgroundImageTint, backgroundImageBlur, systemBackdrop, accentColor, backgroundColor,
 	} = useSelectConfig(c => c.settings);
 	const backgroundImages = useBackgroundImages();
-	const showBackgroundImage = backgroundImages.backgroundImage[0] !== -1;
 	const [displayUiScale, setDisplayUiScale] = useState<Readable | undefined>(uiScale[0]);
 
 	// Dev mode
@@ -237,11 +244,12 @@ export default function Settings() {
 				title={t.settings.appearance.backgroundImage}
 				icon="wallpaper"
 				expanded={DEV_EXPANDED}
-				checkInfo={showBackgroundImage ? t.on : t.off}
+				checkInfo={backgroundImages.shown ? t.on : t.off}
 			>
 				<Expander.ChildWrapper>
 					<Button icon="open_file" onClick={addBackgroundImage}>{t.browse}</Button>
 				</Expander.ChildWrapper>
+				{/* <BackgroundImageItemStyle /> */}{/* Styled component is annoying. */}
 				<SortableView
 					items={[backgroundImages.items.map(({ key, ...o }) => ({ id: key, pin: key === -1 ? "top" : undefined, ...o }))]}
 					fullyDraggable
@@ -253,6 +261,7 @@ export default function Settings() {
 				>
 					{({ id: [id], url: [url], displayIndex: [displayIndex], color: [color] }) => (
 						<ItemsView.Item
+							className="background-image-item"
 							id={id}
 							key={id}
 							image={id === -1 ? <IconTile name="prohibited" size={48} /> : url}
@@ -267,7 +276,7 @@ export default function Settings() {
 						/>
 					)}
 				</SortableView>
-				{showBackgroundImage && (
+				{backgroundImages.shown && (
 					<>
 						<Expander.Item title={t.settings.appearance.backgroundImage.opacity} icon="fade">
 							<Slider

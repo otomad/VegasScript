@@ -334,7 +334,7 @@ public sealed partial class Host : UserControl {
 
 	private void PostSystemConfigToTheWeb() => PostWebMessage(GetRefreshedSystemConfig());
 	private void Host_BgTrackingChanged(object sender, bool e) {
-		s = e;
+
 	}
 
 #if VEGAS_ENV

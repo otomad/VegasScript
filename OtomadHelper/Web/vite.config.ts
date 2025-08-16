@@ -32,6 +32,7 @@ import crowdinBadgeApiLink from "./src/helpers/crowdin-badge-api-link";
 const ENABLE_MINIFY = true;
 const NO_BUNDLE = false;
 const ENABLE_QRCODE = false;
+const ENABLE_COMPILER = true;
 
 moment.updateLocale("en", {
 	longDateFormat: {
@@ -50,7 +51,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 			react({
 				babel: {
 					plugins: [
-						["babel-plugin-react-compiler", { target: "19" }],
+						...ENABLE_COMPILER ? [["babel-plugin-react-compiler", { target: "19" }]] : [],
 						[
 							"babel-plugin-styled-components",
 							{

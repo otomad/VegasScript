@@ -1,10 +1,11 @@
 import { arrayMove } from "@dnd-kit/sortable";
 import IndexedDBStore from "classes/IndexedDBStore";
-import { FastAverageColor } from "fast-average-color";
 import { startCircleViewTransition } from "helpers/color-mode";
+import { Vibrant, WorkerPipeline } from "node-vibrant/worker";
+import PipelineWorker from "node-vibrant/worker.worker?worker";
 
 const DATABASE_VERSION = 1;
-const fac = new FastAverageColor();
+Vibrant.use(new WorkerPipeline(PipelineWorker as never));
 
 interface BackgroundImageRow {
 	imageData: Blob;
@@ -17,6 +18,8 @@ export interface BackgroundImageRowWithMore extends BackgroundImageRow {
 	url: string;
 	key: number;
 }
+
+const DEFAULT_BACKGROUND_IMAGE_ROW: BackgroundImageRowWithMore = { imageData: null!, filename: "", url: "", key: -1, displayIndex: -1, color: "" };
 
 const keyToUrl = proxyMap<number, string>();
 const itemsAtom = atom<BackgroundImageRowWithMore[]>([]);
@@ -35,6 +38,7 @@ export function useBackgroundImages() {
 	const currentItem = useMemo(() => items.find(item => item.key === backgroundImage), [items, backgroundImage]);
 	const currentImage = useMemo(() => currentItem?.url ?? "", [currentItem]);
 	const currentDominantColor = useMemo(() => currentItem?.color || undefined, [currentItem]);
+	const shown = useMemo(() => backgroundImage !== -1, [backgroundImage]);
 
 	useAsyncMountEffect(async () => {
 		store.current = new IndexedDBStore<BackgroundImageRow>("ImagesDB", DATABASE_VERSION, "backgroundImages", {
@@ -54,7 +58,7 @@ export function useBackgroundImages() {
 			const url: string = await keyToUrl.emplace(key, async () => await fileToBlob(value.imageData));
 			return { ...value, url, key };
 		});
-		setItems([{ imageData: null!, filename: "", url: "", key: -1, displayIndex: -1, color: "" }, ...items]);
+		setItems([DEFAULT_BACKGROUND_IMAGE_ROW, ...items]);
 	}
 
 	async function reorderItems(getIndex: (oldIndex: number) => number | undefined) {
@@ -75,12 +79,13 @@ export function useBackgroundImages() {
 		const length = await store.current.length;
 		const imgResource = new Image();
 		imgResource.src = await fileToData(image);
-		const color = await fac.getColorAsync(imgResource);
+		const palette = await Vibrant.from(await fileToData(image)).getPalette();
+		const color = palette.Vibrant?.hex ?? "";
 		await store.current.add({
 			imageData: image,
 			filename: image.name,
 			displayIndex: length,
-			color: color.hex,
+			color,
 		});
 		await updateItems();
 	}
@@ -125,5 +130,8 @@ export function useBackgroundImages() {
 		backgroundImage: [backgroundImage, setBackgroundImage] as const,
 		currentImage,
 		currentDominantColor,
+		shown,
 	};
 }
+
+// BUG: 如果使用原生右键菜单，则“往后挪”会很卡。但是“往前挪”不卡，使用自定义右键菜单也不卡，原因未知。
