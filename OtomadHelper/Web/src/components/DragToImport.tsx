@@ -47,7 +47,7 @@ const StyledDragToImport = styled.div`
 					scale: 1.15;
 					filter: blur(2px);
 				}
-			`} 500ms ${eases.easeOutBackSmooth} calc(var(--i, 0) * (50ms / var(--length, 7) * 7)) backwards;
+			`} 500ms ${eases.easeOutBackSmooth} calc(--sibling-index-0() * (50ms / var(--length, 7) * 7)) backwards;
 			will-change: opacity, transform, filter;
 		}
 	}
@@ -65,10 +65,10 @@ const StyledDragToImport = styled.div`
 			animation: ${keyframes`
 				to {
 					scale: 0.25;
-					translate: calc(var(--i, 0) * -1 * var(--character-unit));
+					translate: calc(--sibling-index-0() * -1 * var(--character-unit));
 					filter: blur(5px);
 				}
-			`} 250ms ${eases.easeOutMax} calc(var(--i, 0) * (15ms / var(--length, 7) * 7)) forwards;
+			`} 250ms ${eases.easeOutMax} calc(--sibling-index-0() * (15ms / var(--length, 7) * 7)) forwards;
 		}
 
 		.icon {

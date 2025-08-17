@@ -24,6 +24,7 @@ const StyledPreviewLayout = styled.div<{
 
 	section {
 		${styles.mixins.square("100%", true)};
+		--i: sibling-index();
 		position: relative;
 		overflow: hidden;
 
@@ -67,6 +68,7 @@ const StyledPreviewLayout = styled.div<{
 
 		&.lead {
 			--size: 60%;
+			--i: 5;
 		}
 
 		&.bass {
@@ -145,10 +147,10 @@ export default function PreviewLayout({ thumbnail }: FCP<{
 		<StyledPreviewLayout $img={thumbnail}>
 			<section className="bass" />
 			<div className="tracks">
-				{forMap(4, i => <section key={i} style={{ "--i": i }} />, 1)}
+				{forMap(4, i => <section key={i} />, 1)}
 			</div>
 			<div className="lead-wrapper">
-				<section className="lead" style={{ "--i": 5 }} />
+				<section className="lead" />
 			</div>
 		</StyledPreviewLayout>
 	);

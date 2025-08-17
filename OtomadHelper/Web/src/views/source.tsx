@@ -44,9 +44,7 @@ export default function Source() {
 	mutexSwitches(removeSourceClips, selectSourceClips);
 	mutexSwitches(removeSourceClipsWithTracks, selectSourceClips);
 	mutexSwitches(secretBox, consonant, takeTurns, linearMap);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => { removeSourceClipsWithTracks[0] && removeSourceClips[1](true); }, [removeSourceClipsWithTracks[0]]);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => { !removeSourceClips[0] && removeSourceClipsWithTracks[1](false); }, [removeSourceClips[0]]);
 
 	const selectGeneratedClips = useStateSelector(

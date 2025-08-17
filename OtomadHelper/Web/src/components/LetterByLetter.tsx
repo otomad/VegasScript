@@ -14,8 +14,8 @@ export default function LetterByLetter({ as: As = "p", children = "", granularit
 
 	const characters = useMemo(() => {
 		const segmenter = new Intl.Segmenter(language, { granularity });
-		return [...segmenter.segment(children)].map(({ segment, index }, _, { length }) =>
-			<InlineBlock key={index} style={{ "--i": index, "--length": length }}>{segment}</InlineBlock>);
+		return [...segmenter.segment(children)].map(({ segment, index }) =>
+			<InlineBlock key={index}>{segment}</InlineBlock>);
 	}, [children, granularity, language]);
 
 	return (

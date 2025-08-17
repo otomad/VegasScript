@@ -117,7 +117,6 @@ export default function Tooltip({ title: _title, placement, offset = 10, timeout
 		while (dom && (getComputedStyle(dom).display === "contents" || dom.classList.contains("expander")))
 			dom = dom.firstElementChild;
 		return dom as HTMLElement | null;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [contentsEl]);
 
 	useEffect(() => {

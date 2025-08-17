@@ -473,7 +473,6 @@ function StepSequenceInput({ value: [value, setValue], disabled, effect, ref, on
 	useEffect(() => {
 		const result = parseValue(value);
 		result && onValidChange?.(result);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [value]);
 
 	const onChanging: FormEventHandler<HTMLInputElement> = e => {

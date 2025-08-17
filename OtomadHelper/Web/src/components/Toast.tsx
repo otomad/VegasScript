@@ -64,7 +64,7 @@ const StyledToast = styled.div<{
 				opacity: 0;
 				translate: 25px;
 			}
-		`} 500ms ${eases.easeOutMax} calc(var(--i, 0) * (100ms / var(--length, 7) * 7)) backwards;
+		`} 500ms ${eases.easeOutMax} calc(--sibling-index-0() * (100ms / sibling-count() * 7)) backwards;
 	}
 
 	.progress {
@@ -109,7 +109,7 @@ const StyledToast = styled.div<{
 			`} 650ms ${eases.easeInMaterialStandard} forwards;
 
 		.letter-by-letter span {
-			translate: calc(var(--i) * -0.5ex);
+			translate: calc(--sibling-index-0() * -0.5ex);
 			opacity: 0;
 			filter: blur(2px);
 		}

@@ -375,16 +375,14 @@ const StyledNavigationView = styled.div<{
 						block-size: 18px;
 					}
 
+					> * {
+						animation: ${({ $transitionName }) => $transitionName === "jump" ? floatUp : ""}
+							300ms calc(50ms * --sibling-index-0()) ${eases.easeOutMax} backwards;
+					}
+
 					.card.media-pool > .base {
 						padding: 2px;
 					}
-
-					${({ $transitionName }) => forMap(CONTENT_ITEMS_ASSUMED_COUNT, i => css`
-						> :nth-child(${i}) {
-							animation: ${$transitionName === "jump" ? floatUp : ""}
-								300ms ${50 * (i - 1)}ms ${eases.easeOutMax} backwards;
-						}
-					`, 1)}
 
 					> .contents > * {
 						animation: inherit;
@@ -692,7 +690,6 @@ export default function NavigationView({ currentNav: [currentNav, setCurrentNav]
 
 	const hideFlyoutNavMenu = () => { flyoutDisplayMode !== "minimal" && setFlyoutDisplayMode("minimal"); };
 	const windowWidth = useWindowWidth();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(hideFlyoutNavMenu, [currentNav, windowWidth]);
 
 	return (

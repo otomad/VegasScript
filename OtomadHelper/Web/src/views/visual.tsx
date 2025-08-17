@@ -59,9 +59,7 @@ export default function Visual() {
 	const { prveCheckInfo, isForceStretch, prveCount } = usePrveInfo();
 	const topPriorityTransformMethod = transformMethod[0][0];
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => { imitativeResample[0] === "true" && imitativeOscillator[0] === "true" && imitativeOscillator[1]("auto"); }, [imitativeResample[0]]);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => { imitativeResample[0] === "true" && imitativeOscillator[0] === "true" && imitativeResample[1]("auto"); }, [imitativeOscillator[0]]);
 
 	const { pushPage } = useSnapshot(pageStore);

@@ -1,7 +1,9 @@
 export function doesBrowserSupportACertainFeature() {
 	return [
-		CSS.supports("interpolate-size: allow-keywords"),
-	].every(Boolean);
+		"interpolate-size: allow-keywords",
+		"animation-delay: calc(sibling-index() * 250ms)",
+		"top: anchor(end)",
+	].every(conditionText => CSS.supports(conditionText));
 }
 
 export function getBrowserName() {

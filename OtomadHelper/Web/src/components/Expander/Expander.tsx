@@ -175,7 +175,6 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	};
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => onToggle?.(internalExpanded), [internalExpanded]);
 	useEffect(() => { if (disabled || childrenDisabled) setInternalExpanded(false); }, [disabled, childrenDisabled]);
 	const ariaId = useRef<string>(null);

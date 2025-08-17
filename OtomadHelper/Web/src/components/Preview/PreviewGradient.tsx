@@ -25,9 +25,16 @@ const StyledPreviewGradient = styled.div<{
 
 	img {
 		${styles.mixins.square("100%")};
+		--i: --sibling-index-0();
+		--j: --sibling-index-0();
+		--n: sibling-count();
 		flex: 1;
 		object-fit: cover;
 		transition: none;
+
+		&.descending {
+			--i: calc(sibling-count() - sibling-index());
+		}
 	}
 
 	${({ $square }) => $square ? css`
@@ -155,21 +162,17 @@ export default function PreviewGradient({ thumbnail, square, mirrorEdges, overla
 			$descending={descending}
 			$direction={direction}
 			{...htmlAttrs}
-			style={{ "--n": count }}
 		>
 			{forMap(count, i => (
 				<img
 					key={i}
 					src={thumbnail}
 					alt=""
-					style={{
-						"--i": descending ? count - i - 1 : i,
-						"--j": i,
-					}}
 					className={{
 						parity,
 						parityH: parity && matchParity(parity[0], ...getCell(i)),
 						parityV: parity && matchParity(parity[1], ...getCell(i)),
+						descending,
 					}}
 				/>
 			))}
