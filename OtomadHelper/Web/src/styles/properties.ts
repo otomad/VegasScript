@@ -87,3 +87,13 @@ CSS.registerProperty({
 	inherits: false,
 	initialValue: "0",
 });
+
+/**
+ * The gradient size property of pixel style for view transition animation only.
+ */
+CSS.registerProperty({
+	name: "--view-transition-pixel-gradient",
+	syntax: "<length>",
+	inherits: false,
+	initialValue: "calc(infinity * 1px)",
+});

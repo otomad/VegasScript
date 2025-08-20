@@ -204,7 +204,7 @@ const GlobalStyle = createGlobalStyle<{
 	}
 
 	// Color mode transition
-	&:not(.default-view-transition) {
+	:root:not(.default-view-transition) {
 		&::view-transition-old(root),
 		&::view-transition-new(root) {
 			mix-blend-mode: normal;

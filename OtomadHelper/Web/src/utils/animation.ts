@@ -316,7 +316,6 @@ export function simpleAnimateSize(specified: "width" | "height" = "height", dura
 
 	// Here we use a custom event to prevent the native CSS transition animation from interfering with the operation when it ends.
 	const ANIMATE_SIZE_END_EVENT = "animatesizeend";
-	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const currentAnimationThread = useRef<symbol>(undefined);
 
 	const onEnter = async (el: HTMLElement) => {
@@ -351,7 +350,48 @@ export function simpleAnimateSize(specified: "width" | "height" = "height", dura
 	return [onEnter, onExit, endListener] as const;
 }
 
-export const STOP_TRANSITION_ID = "stop-transition";
+// export const STOP_TRANSITION_ID = "stop-transition";
+
+/**
+ * Converts a styled components rule set which declared by ``` css`` ```
+ * or a CSS string into a single CSS string.
+ *
+ * - If the input is a styled components rule set (assumed to be an array), it joins all segments into one string.
+ * - If the input is already a string, it returns the string as-is.
+ *
+ * @remarks
+ * Styled components ``` css`` ``` util function will create an array that contains all segments of the CSS rule set.
+ * However, if the source css is `width: ${4}px`, and you simply explicitly convert it to string by ```String(css``)```
+ * or ```css``.toString()```, you will unexpectedly get `width: ,4,px` which is not you want.
+ * Actually you have to convert it correctly by ```css``.join("")```, so that you will get `width: 4px`.
+ *
+ * @param css - The CSS input, which can be a string or a styled components rule set.
+ * @returns The resulting single CSS string.
+ */
+function styledRuleSetToString(css: string | Styled.RuleSet<object>) {
+	return Array.isArray(css) ? css.join("") : css;
+}
+
+/**
+ * Adds a CSS style to the document using a new `CSSStyleSheet` instance and returns a cleanup function to remove it.
+ *
+ * @param css - The CSS string or a styled component rule set which declared by ``` css`` ``` that to be added to the document.
+ * @returns A function that, when called, removes the added stylesheet from `document.adoptedStyleSheets`.
+ *
+ * @example
+ * ```typescript
+ * const removeStyle = addStyle(css`.foo { color: red; }`);
+ * await doSomething();
+ * removeStyle();
+ * ```
+ */
+function addStyle(css: string | Styled.RuleSet<object>) {
+	css = styledRuleSetToString(css);
+	const sheet = new CSSStyleSheet();
+	sheet.replaceSync(css);
+	document.adoptedStyleSheets.push(sheet);
+	return () => { document.adoptedStyleSheets.removeAllItem(sheet); };
+}
 
 /**
  * Temporarily disables all CSS transitions on the page by injecting a `<style>` element
@@ -374,9 +414,7 @@ export function stopTransition({ includesViewTransitions = false }: {
 	/** Includes `view-transition-old` and `view-transition-new`? */
 	includesViewTransitions?: boolean;
 } = {}) {
-	const style = document.createElement("style");
-	style.id = STOP_TRANSITION_ID;
-	style.textContent = String(css`
+	return addStyle(css`
 		*,
 		::before,
 		::after,
@@ -407,12 +445,6 @@ export function stopTransition({ includesViewTransitions = false }: {
 			}
 		` : ""}
 	`);
-	document.head.appendChild(style);
-
-	return () => {
-		style.remove();
-		document.querySelectorAll(`style#${STOP_TRANSITION_ID}`).forEach(node => node.remove());
-	};
 }
 
 type ColorViewTransitionAnimationOption = Override<KeyframeAnimationOptions, {
@@ -422,6 +454,8 @@ type ColorViewTransitionAnimationOption = Override<KeyframeAnimationOptions, {
 interface ColorViewTransitionAnimationFallbackDefaultOption extends ColorViewTransitionAnimationOption {
 	/** Set the cursor while transitioning. */
 	cursor?: Cursor;
+	/** Append additional static CSS style during the whole transition duration. */
+	staticStyle?: string | RuleSet<object>;
 }
 
 /**
@@ -443,6 +477,8 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 	defaultOptions.pseudoElement ??= "::view-transition-new(root)";
 
 	const restoreTransitions = stopTransition({ includesViewTransitions: true });
+	const removeStyle = defaultOptions.staticStyle ? addStyle(defaultOptions.staticStyle) : undefined;
+	await nextAnimationTick();
 	const previousReactTransitionGroupDisabled = reactTransitionGroupConfig.disabled;
 	reactTransitionGroupConfig.disabled = true;
 
@@ -457,6 +493,7 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 		});
 	} finally {
 		restoreTransitions();
+		removeStyle?.();
 		reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
 		if (defaultOptions.cursor) forceCursor(null);
 	}

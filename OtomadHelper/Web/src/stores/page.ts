@@ -108,7 +108,6 @@ export const pageStore: PageState = createPersistStore("page", (() => {
 	}
 
 	function setPageInternal(nextPage: string[]) {
-		document.getElementById(STOP_TRANSITION_ID)?.remove();
 		const { page } = pageStore;
 		if (page.equals(nextPage)) return;
 		const transition = getTransition(page, nextPage);
