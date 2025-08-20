@@ -478,7 +478,6 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 
 	const restoreTransitions = stopTransition({ includesViewTransitions: true });
 	const removeStyle = defaultOptions.staticStyle ? addStyle(defaultOptions.staticStyle) : undefined;
-	await nextAnimationTick();
 	const previousReactTransitionGroupDisabled = reactTransitionGroupConfig.disabled;
 	reactTransitionGroupConfig.disabled = true;
 
