@@ -126,6 +126,4 @@ export function useLanguage() {
 	return [language, changeLanguage] as StatePropertyNonNull<AvailableLanguageTags>;
 }
 
-globals.css = css;
-
 export default i18n;
