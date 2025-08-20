@@ -101,7 +101,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 				{ src: "./src/priors/dpi.ts", type: "iife" },
 			]),
 			glsl({
-				compress: PROD,
+				minify: PROD,
 			}),
 			fragmentFiltersVirtualFile(),
 			svgCursor(),

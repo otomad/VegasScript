@@ -182,11 +182,11 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.40">
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.43">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Melanchall.DryWetMidi" Version="7.2.0" />
+		<PackageReference Include="Melanchall.DryWetMidi" Version="8.0.2" />
 		<!--<PackageReference Include="Costura.Fody" Version="5.7.0">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
@@ -194,11 +194,11 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>-->
 		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3405.78" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 		<PackageReference Include="NAudio" Version="2.2.1" />
 		<PackageReference Include="PanguSpacing" Version="1.1.6" />
-		<PackageReference Include="System.Text.Json" Version="9.0.4" />
-		<PackageReference Include="Wacton.Unicolour" Version="6.0.0" />
+		<PackageReference Include="System.Text.Json" Version="9.0.8" />
+		<PackageReference Include="Wacton.Unicolour" Version="6.2.0" />
 	</ItemGroup>
 </Project>

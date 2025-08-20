@@ -65,6 +65,8 @@ export default function Settings() {
 		return isAutoColor(color) ? getComputedStyle(document.documentElement).getPropertyValue(`--${kind}-color-${color}`) : color;
 	};
 
+	globals.move = (oldIndex: number, newIndex: number) => backgroundImages.reorder(backgroundImages.items[oldIndex + 1].key, newIndex); // DELETE: DEBUG ONLY.
+
 	return (
 		<div className="container">
 			<SettingsAbout />
@@ -259,7 +261,7 @@ export default function Settings() {
 					unfocusableForSortableItems
 					disableKeyboardSensor
 				>
-					{({ id: [id], url: [url], displayIndex: [displayIndex], color: [color] }) => (
+					{(_1, _2, { id, url, displayIndex, color }) => (
 						<ItemsView.Item
 							className="background-image-item"
 							id={id}

@@ -47,11 +47,11 @@ const addDatasets = (children: ReactNode, id: UniqueIdentifier, index: number, v
 
 const minimumDistanceActivationConstraint = { distance: 15 };
 
-export function SortableView<T extends BaseItem>({ items: itemsStateProperty, overlayEmits, fullyDraggable, view = "list", minDistance, unfocusableForSortableItems, disableKeyboardSensor, children, onReorder }: FCP<{
+export function SortableView<TItem extends BaseItem>({ items: itemsStateProperty, overlayEmits, fullyDraggable, view = "list", minDistance, unfocusableForSortableItems, disableKeyboardSensor, children, onReorder }: FCP<{
 	/** List items. The item must have `id` property in it. */
-	items: StateProperty<T[]>;
+	items: StateProperty<TItem[]>;
 	/** Rendered item. */
-	children(states: StatePropertiedObject<T>, index: number, item: T): ReactNode;
+	children(states: StatePropertiedObject<TItem>, index: number, item: TItem): ReactNode;
 	/** Sortable overlay drop animation side effects event handlers. */
 	overlayEmits?: SortableOverlayEmits;
 	/** Is there no drag handle and you can drag it the whole element? */
@@ -61,7 +61,7 @@ export function SortableView<T extends BaseItem>({ items: itemsStateProperty, ov
 	/** Should user move a little distance before moving the item? Aka static friction. */
 	minDistance?: boolean;
 	/** Occurs after user reorder an item. */
-	onReorder?(fromIndex: number, toIndex: number, items: T[]): MaybePromise<void>;
+	onReorder?(fromIndex: number, toIndex: number, items: TItem[]): MaybePromise<void>;
 	/** Apply tabIndex -1 to sortable items? */
 	unfocusableForSortableItems?: boolean;
 	/** Stop do sorting when press space bar key? */
@@ -71,7 +71,7 @@ export function SortableView<T extends BaseItem>({ items: itemsStateProperty, ov
 		itemsStateProperty = itemsStateProperty.useState();
 	let [items, setItems] = itemsStateProperty;
 	items ??= [];
-	const states = useStoreStateArray(itemsStateProperty[0] as never) as StatePropertiedObject<T>[];
+	const states = useStoreStateArray(itemsStateProperty[0] as never) as StatePropertiedObject<TItem>[];
 	const verticalDragOnly = view === "list";
 	const modifiers: Modifiers = [
 		verticalDragOnly && restrictToVerticalAxis,
