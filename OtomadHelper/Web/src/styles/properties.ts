@@ -92,7 +92,7 @@ CSS.registerProperty({
  * The gradient size property of pixel style for view transition animation only.
  */
 CSS.registerProperty({
-	name: "--view-transition-pixel-gradient",
+	name: "--view-transition-halftone-gradient",
 	syntax: "<length>",
 	inherits: false,
 	initialValue: "calc(infinity * 1px)",

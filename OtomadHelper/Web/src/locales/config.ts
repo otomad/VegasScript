@@ -55,7 +55,7 @@ export function useLanguage() {
 			return;
 		bridges.bridge.setCulture(i18n.t("metadata.culture", { lng }));
 		const TRANSITION_DURATION = 500;
-		const PIXEL_SIZE = 4;
+		const HALFTONE_SIZE = 4 * Math.SQRT1_2;
 		startColorViewTransition(async () => {
 			await i18n.changeLanguage(lng);
 			const dir = i18n.dir();
@@ -99,13 +99,13 @@ export function useLanguage() {
 				easing: eases.easeOutMax,
 			}],
 			[{
-				"--view-transition-pixel-gradient": ["0", `${PIXEL_SIZE * Math.SQRT1_2}px`],
+				"--view-transition-halftone-gradient": ["0", `${HALFTONE_SIZE}px`],
 			}, {
 				pseudoElement: "::view-transition-new(root)",
 				easing: "cubic-bezier(0, 0, 0.7, 1)",
 			}],
 			[{
-				"--view-transition-pixel-gradient": [`${PIXEL_SIZE * Math.SQRT1_2}px`, "0"],
+				"--view-transition-halftone-gradient": [`${HALFTONE_SIZE}px`, "0"],
 			}, {
 				pseudoElement: "::view-transition-old(root)",
 				easing: "cubic-bezier(0.3, 0, 1, 1)",
@@ -116,8 +116,11 @@ export function useLanguage() {
 			staticStyle: css`
 				:root::view-transition-old(root),
 				:root::view-transition-new(root) {
-					mask-image: radial-gradient(white var(--view-transition-pixel-gradient), transparent var(--view-transition-pixel-gradient));
-					mask-size: ${PIXEL_SIZE}px ${PIXEL_SIZE}px;
+					mask-image:
+						radial-gradient(white var(--view-transition-halftone-gradient), transparent var(--view-transition-halftone-gradient)),
+						radial-gradient(white var(--view-transition-halftone-gradient), transparent var(--view-transition-halftone-gradient));
+					mask-position: 0 0, ${HALFTONE_SIZE}px ${HALFTONE_SIZE}px;
+					mask-size: ${HALFTONE_SIZE * 2}px ${HALFTONE_SIZE * 2}px;
 				}
 			`,
 		});
