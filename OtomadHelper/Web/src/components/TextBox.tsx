@@ -139,10 +139,24 @@ export /* @internal */ const StyledTextBox = styled.div`
 		z-index: 1;
 		width: 100%;
 		padding: 6px 12px 7px;
+		color: ${c("foreground-color")};
+		caret-color: currentColor;
 		transition: ${fallbackTransitions}, padding-inline 0s;
 
 		&:focus {
 			box-shadow: none;
+		}
+
+		@supports (caret-animation: manual) {
+			caret-animation: manual;
+
+			&:focus {
+				animation: ${keyframes`
+					to {
+						caret-color: transparent;
+					}
+				`} 500ms infinite ${eases.easeInOutMax} alternate;
+			}
 		}
 
 		&::placeholder {
