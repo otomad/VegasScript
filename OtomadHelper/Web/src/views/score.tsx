@@ -273,7 +273,7 @@ export default function Score() {
 				)}
 			</ExpanderRadio>
 			<SettingsCard title={t.score.parser} details={t.descriptions.score.parser} icon="engine">
-				<ComboBox />
+				<ComboBox ids={["otomadHelper"]} options={["Otomad Helper"]} current={["otomadHelper"]} />
 			</SettingsCard>
 			<SettingsCard
 				title={t.score.trackOrChannel}

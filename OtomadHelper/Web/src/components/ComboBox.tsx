@@ -1,10 +1,20 @@
 import chevron from "assets/icons/chevron_down.svg?inline"; // TODO: DEV import only.
 import colors from "styles/colors";
 import { StyledButton } from "./Button";
+import { styledSimpleIndicator } from "./ItemsView/ItemsViewItem";
 import { inputInSettingsCardStyle } from "./TextBox";
 
 const themedChevron = colors["foreground-color"].slice(0, 2).map(color =>
 	chevron.replace("svg%20", `svg%20fill='${encodeURI(color)}'%20`));
+
+// Apply focus-visible ring style only if it is webview environment (as a button) or the customizable select element.
+// Not for default select element, or the focus ring will unexpectedly appear when mouse clicking without keyboard.
+// However w3c treat it as a feature for similar behavior of input element.
+const enabledFocusVisible = css`
+	&:focus-visible {
+		${styles.effects.focus(false, true)};
+	}
+`;
 
 const StyledComboBox = styled(StyledButton)`
 	padding: 4px 11px;
@@ -13,37 +23,40 @@ const StyledComboBox = styled(StyledButton)`
 
 	.content {
 		${styles.mixins.square("100%")};
-		display: flex;
-		gap: 8px;
-		align-items: center;
+
+		&,
+		.text {
+			display: flex;
+			gap: 8px;
+			align-items: center;
+		}
 
 		.text {
 			${styles.effects.text.body};
 			width: 100%;
 		}
+	}
 
-		.icon {
-			flex-shrink: 0;
-			font-size: 16px;
-		}
+	.icon {
+		flex-shrink: 0;
+		font-size: 16px;
 	}
 
 	&:active .content .icon.chevron {
 		translate: 0 2px;
 	}
 
+	// Override the base button style.
+	&::after {
+		content: none;
+	}
+
+	button& {
+		${enabledFocusVisible};
+	}
+
 	select& {
 		margin-inline: 1px;
-		background-image: url("${themedChevron[1]}");
-		background-repeat: no-repeat;
-		background-position: calc(100% - 11px) center;
-		background-size: 16px;
-		background-attachment: scroll;
-		appearance: none;
-
-		${ifColorScheme.light} & {
-			background-image: url("${themedChevron[0]}");
-		}
 
 		option {
 			background-color: ${c("background-color")};
@@ -53,12 +66,103 @@ const StyledComboBox = styled(StyledButton)`
 			color: ${c("fill-color-text-disabled")};
 		}
 
-		&:active {
-			background-position-y: calc(50% + 2px);
+		@supports not (appearance: base-select) {
+			background-image: url("${themedChevron[1]}");
+			background-repeat: no-repeat;
+			background-position: calc(100% - 11px) center;
+			background-size: 16px;
+			background-attachment: scroll;
+			appearance: none;
+
+			${ifColorScheme.light} & {
+				background-image: url("${themedChevron[0]}");
+			}
+
+			&:active {
+				background-position-y: calc(50% + 2px);
+			}
+
+			&:dir(rtl) {
+				background-position-x: 11px;
+			}
 		}
-		
-		&:dir(rtl) {
-			background-position-x: 11px;
+
+		@supports (appearance: base-select) {
+			${enabledFocusVisible};
+
+			&,
+			&::picker(select) {
+				appearance: base-select;
+			}
+
+			&::picker-icon {
+				display: none;
+			}
+
+			&::picker(select) {
+				position-area: block-end;
+				position-try: most-block-size flip-block;
+				inline-size: calc(anchor-size(self-inline) + 12px);
+				padding: 2px;
+				background-color: ${c("background-fill-color-acrylic-background-command-bar")};
+				border: none;
+				border-radius: 7px;
+				outline: 1px solid ${c("stroke-color-surface-stroke-flyout")};
+				box-shadow: 0 8px 16px ${c("shadows-flyout")};
+				opacity: 0;
+				backdrop-filter: blur(60px);
+				transition: ${fallbackTransitions};
+				transition-behavior: allow-discrete;
+
+				&:popover-open {
+					opacity: 1;
+
+					@starting-style {
+						opacity: 0;
+					}
+				}
+			}
+
+			option {
+				${styles.effects.text.body};
+				position: relative;
+				margin: 3px;
+				padding: 6px 12px;
+				background-color: transparent;
+				border-radius: 5px;
+
+				&::checkmark {
+					display: none;
+				}
+
+				${styledSimpleIndicator};
+
+				&::before {
+					block-size: ${100 * 32 / 66}%;
+				}
+
+				&:hover,
+				&:checked {
+					background-color: ${c("fill-color-subtle-secondary")};
+				}
+
+				&:not(:checked):active,
+				&:checked:not(:active):hover {
+					background-color: ${c("fill-color-subtle-tertiary")};
+				}
+
+				&:active {
+					color: ${c("fill-color-text-secondary")};
+
+					&::before {
+						scale: 1 0.625;
+					}
+				}
+
+				&:not(:checked)::before {
+					scale: 1 0;
+				}
+			}
 		}
 	}
 `;
@@ -124,7 +228,16 @@ export default function ComboBox<T extends string | number>({ ids = [], options 
 				onChange={e => setCurrent?.(e.currentTarget.value as T)}
 				{...htmlAttrs}
 			>
-				{ids.map((id, i) => <option key={id} value={id}>{options[i]}</option>)}
+				<button type="button" className="content">
+					<selectedcontent className="text" />
+					<Icon name="chevron_down" className="chevron" />
+				</button>
+				{ids.map((id, i) => (
+					<option key={id} value={id}>
+						{hasIcons && (icons[i] ? <Icon name={icons[i]} /> : <Icon shadow />)}
+						{options[i]}
+					</option>
+				))}
 			</StyledComboBox>
 		);
 }

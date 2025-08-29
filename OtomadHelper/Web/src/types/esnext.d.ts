@@ -54,6 +54,9 @@ declare global {
 	 * Fix: `cancelAnimationFrame` will accept `undefined` value.
 	 *
 	 * [MDN Reference](https://developer.mozilla.org/docs/Web/API/DedicatedWorkerGlobalScope/cancelAnimationFrame)
+	 *
+	 * @param handle - The ID value returned by a call to `requestAnimationFrame()`;
+	 * the call must have been made in the same worker.
 	 */
 	declare function cancelAnimationFrame(handle: number | undefined): void;
 

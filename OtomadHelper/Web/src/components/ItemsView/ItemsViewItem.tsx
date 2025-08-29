@@ -5,6 +5,22 @@ export const GRID_VIEW_ITEM_HEIGHT = 112;
 
 const isPressed = ":active:not(:has(button:active))";
 
+export /* @internal */ const styledSimpleIndicator = css`
+	&::before {
+		${styles.mixins.oval()};
+		content: "";
+		position: absolute;
+		inset-inline-start: 0;
+		block-size: ${100 / 3}%;
+		inline-size: 3px;
+		background-color: ${c("accent-color")};
+
+		@starting-style {
+			scale: 1 0;
+		}
+	}
+`;
+
 const StyledItemsViewItem = styled.button<{
 	/** View mode: list, tile, grid. */
 	$view: ItemView;
@@ -146,18 +162,10 @@ const StyledItemsViewItem = styled.button<{
 				transition: ${fallbackTransitions}, translate 0s;
 			}
 
-			&::before {
-				${styles.mixins.oval()};
-				content: "";
-				position: absolute;
-				inset-inline-start: 0;
-				block-size: ${100 / 3}%;
-				inline-size: 3px;
-				background-color: ${c("selection-color")};
+			${styledSimpleIndicator};
 
-				@starting-style {
-					scale: 1 0;
-				}
+			&::before {
+				background-color: ${c("selection-color")};
 			}
 		}
 

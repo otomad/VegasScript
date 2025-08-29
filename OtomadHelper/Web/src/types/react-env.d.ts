@@ -19,6 +19,7 @@ declare module "react/jsx-runtime" {
 		interface IntrinsicElements {
 			tt: IntrinsicElements["pre"];
 			xmp: IntrinsicElements["pre"];
+			selectedcontent: IntrinsicElements["section"];
 		}
 	}
 }
