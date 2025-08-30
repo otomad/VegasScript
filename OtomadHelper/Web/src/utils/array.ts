@@ -265,6 +265,8 @@
 
 /**
  * Map to an object via a constant array.
+ * @template T - The item type of the `constArray`, also the key type of the result object.
+ * @template U - The value type of the result object.
  * @param constArray - **Constant** string array.
  * @param callbackFn - Generate key value tuples as objects.
  * @returns The mapped object.
@@ -277,6 +279,7 @@ export function mapObjectConst<const T extends string, U>(constArray: readonly T
  * If the passed parameter is not an array, wrap it into an array that only one element,
  * otherwise return the array parameter itself.\
  * To ensure that the returned object is always an array.
+ * @template T - Maybe an array, or something else.
  * @param maybeArray - Maybe an array, or something else.
  * @returns The original array or an array containing only one original parameter.
  * @example
@@ -310,6 +313,7 @@ export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, ca
  * Concatenates multiple iterables into a single generator.
  *
  * @template T - The type of elements in the iterables.
+ * @template U - The type of elements in the iterables.
  * @param iterators - A list of iterables to concatenate.
  * @yields Elements from each iterable in the order they are provided.
  *

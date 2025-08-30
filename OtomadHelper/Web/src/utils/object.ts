@@ -32,11 +32,12 @@ export function entries<TKey extends string | number | symbol, TValue>(obj: { [s
  * @note
  * `Object.keys` will not get the symbol keys, this function will also contain the symbol keys.
  *
+ * @template T - The object type.
  * @param obj - An object.
  * @returns An array of strings representing the given object's own enumerable string-keyed property keys.
  */
-export function keys<TKey extends object>(obj: TKey) {
-	return Reflect.ownKeys(obj) as (keyof TKey)[];
+export function keys<T extends object>(obj: T) {
+	return Reflect.ownKeys(obj) as (keyof T)[];
 }
 
 /**
@@ -62,6 +63,7 @@ export function hasOwn<T extends object>(obj: T, key: PropertyKey): key is keyof
  * type of the target object with the types of each source objects, in fact, we only need to maintain the original type
  * of the target object.
  *
+ * @template TTarget - The target object type.
  * @param target - The target object — what to apply the sources' properties to, which is returned after it is modified.
  * @param sources - The source object(s) — objects containing the properties you want to apply.
  * @returns The target object.
@@ -138,6 +140,7 @@ export function forMap<T>(length: number, callback: (index: number, length: numb
 
 /**
  * Map an array from the given start value to the end value.
+ * @template T - The item type of array that will be returned.
  * @param start - Start value.
  * @param end - End value.
  * @param step - Step value.
@@ -220,6 +223,7 @@ export function useStateSelector<TOld, TNew>(
  * The function takes a single parameter, `ref`, which is the value to check. The function returns a boolean value
  * indicating whether the value is a `RefObject` or not.
  *
+ * @template T - The value type that wrapped by the ref.
  * @param ref - The value to check.
  * @returns Is the value a `RefObject`?
  *
@@ -244,6 +248,7 @@ export function isRefObject<T>(ref: unknown): ref is RefObject<T> {
  * `.current` property. Otherwise, it simply returns the input value as it is. This function is useful when you want to use
  * the actual value of a `RefObject` or any other value in your code, rather than the reference itself.
  *
+ * @template T - The value type that wrapped by the ref.
  * @param ref - The `RefObject` to convert.
  * @returns The actual value of the `RefObject`.
  *
@@ -290,6 +295,7 @@ export function useDomRef<TElement extends keyof ElementTagNameMap | Element>(in
  *
  * @remarks This will return a `StateProperty`, meaning that modifying the reference will also cause the component to re-render.
  *
+ * @template TElement - HTML DOM element tag name of object.
  * @param initialValue - The initial value of the reference. Usually to `null`.
  * @returns A tuple containing the current value of the reference and a function to update it.
  *
@@ -562,6 +568,8 @@ export function mutexSwitches(...switches: (StateProperty<boolean> | StateProper
 /**
  * Like JavaScript `with` syntax, but safer.
  *
+ * @template TObject - The source object type.
+ * @template TReturn - The type returned.
  * @param object - A long name object.
  * @param getter - Rename that object to a short name, then get the result.
  * @returns The return value from getter.
@@ -581,7 +589,8 @@ export function withObject<TObject, TReturn>(object: TObject, getter: (object: T
 
 /**
  * Check if a object is a state property.
- * @param object - The value to check.
+ * @template T - The type of the value that to be checked.
+ * @param object - The value to be checked.
  * @returns Is the object a state property?
  */
 export function isStateProperty<T>(object: unknown): object is StateProperty<T> {

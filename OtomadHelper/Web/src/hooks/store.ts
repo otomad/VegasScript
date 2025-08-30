@@ -33,6 +33,7 @@ interface PersistOptions<TState extends object> {
  * A hook that allows you to select a specific part of the store's state using a path function.
  * And then you can get or set the selected state property, just like use it in React `useState` hook.
  *
+ * @template TState - The store state type.
  * @param state - The store instance to select from.
  * @returns A proxy object that provides read and write access to the selected state property.
  */
@@ -70,6 +71,7 @@ export function useStoreState<TState extends object>(state: TState): StateProper
 
 /**
  * Check if the StateProperty is StatePropertyPremium.
+ * @template T - The state property type.
  * @param stateProperty - The state property object to check.
  * @returns Is StateProperty StatePropertyPremium?
  */

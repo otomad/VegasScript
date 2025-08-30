@@ -1,4 +1,4 @@
-import crowdinBadgeApiLink from "./crowdin-badge-api-link";
+import crowdinBadgeApiLink from "./links_crowdin-badge-api";
 
 const Links = {
 	otomadHelper: {

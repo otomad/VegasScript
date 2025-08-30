@@ -64,6 +64,7 @@ export default [
 					notes: "note",
 					warning: "warn",
 					throw: "throws",
+					yield: "yields",
 				},
 			},
 		},
@@ -208,12 +209,12 @@ export default [
 			"unicorn/no-document-cookie": "error",
 			"unicorn/prefer-string-replace-all": "error",
 			"unicorn/no-useless-length-check": "error",
-			"jsdoc/require-jsdoc": "warn",
+			"jsdoc/require-jsdoc": "off",
 			"jsdoc/tag-lines": "off",
 			"jsdoc/require-param": ["error", {
 				"enableFixer": false,
 				"checkDestructuredRoots": false,
-				"exemptedBy": ["inheritdoc", "deprecated"],
+				"exemptedBy": ["inheritdoc", "deprecated", "see"],
 			}],
 			"jsdoc/check-param-names": ["warn", {
 				"checkDestructured": false,
@@ -226,7 +227,7 @@ export default [
 			"jsdoc/require-hyphen-before-param-description": ["error", "always", { "tags": { "template": "always" } }],
 			"jsdoc/require-returns": ["warn", {
 				"checkGetters": false,
-				"exemptedBy": ["inheritdoc", "deprecated"],
+				"exemptedBy": ["inheritdoc", "deprecated", "see"],
 			}],
 			"jsdoc/require-asterisk-prefix": "error",
 			"jsdoc/no-multi-asterisks": ["error", { "allowWhitespace": true }],
@@ -237,12 +238,13 @@ export default [
 			"jsdoc/empty-tags": "off",
 			"jsdoc/require-template": ["error", {
 				"requireSeparateTemplates": true,
+				// "exemptedBy": ["inheritdoc", "deprecated", "see"],
 			}],
 			"jsdoc/require-throws": ["error", {
-				"exemptedBy": ["inheritdoc", "deprecated"],
+				"exemptedBy": ["inheritdoc", "deprecated", "see"],
 			}],
 			"jsdoc/require-yields": ["error", {
-				"exemptedBy": ["inheritdoc", "deprecated"],
+				"exemptedBy": ["inheritdoc", "deprecated", "see"],
 			}],
 			"@typescript-eslint/no-unused-vars": ["warn", { // 非要使用未使用变量，前面加下划线。
 				"argsIgnorePattern": "^_",

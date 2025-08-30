@@ -19,6 +19,7 @@ export const fallbackTransitions = "var(--fallback-transitions)" as typeof FALLB
  * @param cssVarName - The CSS property name of the color. Does not need to add "--" before it. It can also be `white` or `black`.
  * @param alpha - Alpha value, note that it is a percentage value rather than a decimal value between 0 and 1. If left blank, it indicates an opaque color.
  * @returns The custom property solid color called by `var()`, or the translucent color encapsulated by relative color function `rgba(from ...)`.
+ * @throws {RangeError} The `alpha` parameter value out of range [0, 100].
  */
 export function c(cssVarName: string & {} | "white" | "black" | ColorNames, alpha?: number | string) {
 	if (typeof alpha === "number" && (Number.isNaN(alpha) || alpha < 0 || alpha > 100) || alpha === "")

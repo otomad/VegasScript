@@ -11,6 +11,7 @@ export function useForceUpdate() {
 
 /**
  * Forward the ref from a local ref.
+ * @template T - The value type that wrapped by the ref.
  * @param forwardedRef - Forwarded ref argument from the `forwardRef` function.
  * @param localRef - Local `useDomRef` variable.
  */

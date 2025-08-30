@@ -53,6 +53,7 @@ export function useAsyncMountEffect(effect: EffectCallbackWithAsync) {
 /**
  * Hook to store the previous value of a state variable.
  *
+ * @template T - The type of the state variable.
  * @param value - The current value of the state variable.
  * @returns The previous value of the state variable, or `undefined` if it has not been set yet.
  */
@@ -176,6 +177,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * A hook to add an event listener to the specified target element, with both addEventListener and removeEventListener in the lifecycle.
  *
  * @template K - The type of the event to listen for, must be a key of `HTMLElementEventMap`.
+ * @template E - HTML DOM element type.
  *
  * @param target - The target HTML DOM element reference to listen for the event.
  * @param event - The type of the event to listen for. Must be a key of `HTMLElementEventMap`.
@@ -195,6 +197,7 @@ export function useEventListener<K extends keyof HTMLElementEventMap, E extends 
  * A hook to add an event listener to the specified target element, with both addEventListener and removeEventListener in the lifecycle.
  *
  * @template K - The type of the event to listen for, must be a key of `HTMLElementEventMap`.
+ * @template E - HTML DOM element type.
  *
  * @param target - The target element to listen for the event. Can be an `HTMLElement`, `Window`, `Document`, or `null`.
  * @param event - The type of the event to listen for. Must be a key of `HTMLElementEventMap`.
@@ -328,6 +331,7 @@ export function useThrottleCallback<T extends AnyFunction>(callback: T, deps: De
 
 /**
  * A hook to quickly select all and invert selection.
+ * @template T - The state property type.
  * @param allSelection - IDs of all available checkboxes.
  * @returns A triple.
  * - 0: The select all checkbox check state.

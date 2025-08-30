@@ -27,7 +27,7 @@ import minifyLottieJson from "./src/plugins/vite/minify-lottie-json";
 import { svgCursor, svgDataset } from "./src/plugins/vite/svg-cursor";
 import injectScript from "./src/plugins/vite/inject-script";
 import moment from "moment";
-import crowdinBadgeApiLink from "./src/helpers/crowdin-badge-api-link";
+import crowdinBadgeApiLink from "./src/helpers/links_crowdin-badge-api";
 
 const ENABLE_MINIFY = true;
 const NO_BUNDLE = false;

@@ -11,6 +11,7 @@ const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < 
 
 /**
  * Create a smooth responsive reference variable based on a numerical value, array, or point.
+ * @template T - Can be `number`, `number[]`, or `Point`.
  * @param current - Unsmooth current value.
  * @param speed - Smooth speed.
  * @param options - Other smooth value options.

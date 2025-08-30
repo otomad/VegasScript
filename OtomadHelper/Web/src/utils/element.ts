@@ -4,6 +4,7 @@ type ReactElementType = string | React.JSXElementConstructor<Any>;
  * Determine whether a component is an instance of a certain component type.
  * @remarks It seems that the specified component type appears to require placement in a separate file,
  * rather than in the same file as where the function is invoked.
+ * @template T - React element type.
  * @param instance - Component instance.
  * @param component - Component class or function component.
  * @param looseness - Specify how to determine the equality of the type of instance and the component.
@@ -31,6 +32,7 @@ export function isReactInstance<T extends ReactElementType>(instance: ReactNode,
  *
  * It is best to disqualify the `React.Fragment` when you are testing `React.isValidElement()`.
  *
+ * @template P - Asserts the props of the component.
  * @param object - The React Node to test.
  * @returns The React Node is a valid React Element and **not a React Fragment**?
  */
@@ -226,6 +228,7 @@ type WithAttrsProps<TTag> = Partial<(TTag extends keyof ElementTagNameMap ? FCP<
  * You can reuse the component with some same props or attrs.
  * @note You have to declare it at the top level of a module. You should not declare it in a function or component,
  * otherwise every time that component changes, this entire component will be rerendered.
+ * @template TTag - HTML element tag (like `"div"`) or React component constructor (like `MyComponent`).
  * @param tag - HTML element tag (like `"div"`) or React component constructor (like `MyComponent`).
  * @param withProps - Part of the props or attrs of the element.
  * @returns A new component containing the partial props or attrs.
@@ -410,6 +413,7 @@ type MergedRef<T = Element | null> = React.RefCallback<T> & {
 
 /**
  * Checks if the given ref is returned by function `mergeRefs`.
+ * @template T - The value type that wrapped by the ref.
  * @param ref - The ref to check.
  * @returns Is the specified ref a merged ref?
  */
