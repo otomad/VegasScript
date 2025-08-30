@@ -1,7 +1,5 @@
 // This component will show in the DEV mode only!
 
-import type { ContextMenuOutput } from "utils/context-menu";
-
 const StyledContextMenu = styled.menu`
 	position: fixed;
 	z-index: 70;

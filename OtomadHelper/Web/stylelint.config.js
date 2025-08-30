@@ -92,6 +92,7 @@ export default {
 		"no-invalid-double-slash-comments": null,
 		"number-max-precision": null,
 		"media-query-no-invalid": null, // 不支持 Styled Components 的 ${} 插值。
+		"nesting-selector-no-missing-scoping-root": null, // 不兼容 Styled Components。
 		// "alpha-value-notation": ["percentage", { "exceptProperties": "opacity" }],
 		// "property-disallowed-list": ["direction"],
 		"@stylistic/declaration-block-trailing-semicolon": "always",

@@ -1,4 +1,4 @@
-import ItemsViewItem, { GRID_VIEW_ITEM_HEIGHT, type OnItemsViewItemClickEventHandler } from "./ItemsViewItem";
+import ItemsViewItem from "./ItemsViewItem";
 
 const isOtherOptionSymbol = Symbol("components.ItemsView.is_other_option");
 

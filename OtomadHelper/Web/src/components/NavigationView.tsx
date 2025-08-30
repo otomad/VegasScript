@@ -1,8 +1,6 @@
 import type { TransitionUpdateStatus } from "react-transition-group-fc";
-import type { PageScroll } from "stores/page";
 
 const navButtonSize = { width: 44, height: 40 };
-const CONTENT_ITEMS_ASSUMED_COUNT = 20;
 const NAV_ITEMS_ASSUMED_COUNT = 20;
 const NAV_ITEMS_BOTTOM_ASSUMED_COUNT = 3;
 const TITLE_ANCHOR_NAME = "--navigation-view-title";

@@ -41,6 +41,7 @@ export function nextAnimationTick() {
  * @param callback - A function. React will immediately call this callback and flush any updates it
  * contains synchronously. It may also flush any pending updates, or Effects, or updates inside of
  * Effects. If an update suspends as a result of this flushSync call, the fallbacks may be re-shown.
+ * @returns The value that the callback returns.
  */
 export function flushSync<R>(callback: () => R): R;
 /**
@@ -496,26 +497,6 @@ export async function startColorViewTransition(changeFunc: () => MaybePromise<vo
 		reactTransitionGroupConfig.disabled = previousReactTransitionGroupDisabled;
 		if (defaultOptions.cursor) forceCursor(null);
 	}
-}
-
-export function forthBack_keyframes<Props extends object = object>(strings: TemplateStringsArray, ...interpolations: Array<Styled.Interpolation<Props>>) {
-	const forth = keyframes(strings, ...interpolations);
-
-	const backStrings = [...strings];
-	function reverseOffset(rule: string) {
-		const reg = (word: string) => new RegExp(`(?<=\\s|^)${word}(?=\\s*\\{)`, "gu");
-		return rule
-			.replaceAll(reg("from"), "t\0o")
-			.replaceAll(reg("to"), "fr\0om")
-			.replaceAll(reg("([\\d\\.]+)%"), (_, percent) => 100 - parseFloat(percent) + "%")
-			.replaceAll("\0", "");
-	}
-	backStrings.mapImmer(rule => reverseOffset(rule));
-	interpolations.mapImmer(rule => typeof rule === "string" ? reverseOffset(rule) : rule);
-
-	const back = keyframes(backStrings as unknown as TemplateStringsArray, ...interpolations);
-
-	return [forth, back] as const;
 }
 
 const setStyleTemporarilyQueue: Promise<void>[] = [];

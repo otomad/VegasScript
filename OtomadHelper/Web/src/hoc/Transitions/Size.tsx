@@ -1,6 +1,3 @@
-import type { TransitionProps } from "react-transition-group-fc";
-import type { AnimateSizeOptions, SameOrDifferent } from "utils/animation";
-
 /** @deprecated */
 export default function Size({ in: shown, specified, duration, easing, enterOptions, exitOptions, unmountOnExit = true, children, ...transitionAttrs }: FCP<{
 	/** Show the children? */

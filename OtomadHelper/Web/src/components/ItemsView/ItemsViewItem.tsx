@@ -1,5 +1,4 @@
 import { styledExpanderItemText } from "components/Expander/ExpanderItem";
-import type { TooltipProps } from "hoc/Tooltip";
 
 export const GRID_VIEW_ITEM_HEIGHT = 112;
 

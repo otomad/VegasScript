@@ -8,7 +8,7 @@ import { StyledItemsView } from "components/ItemsView/ItemsView";
 import ItemsViewItem from "components/ItemsView/ItemsViewItem";
 import { useTheme } from "styled-components";
 import SortableItem from "./SortableItem";
-import SortableOverlay, { type SortableOverlayEmits } from "./SortableOverlay";
+import SortableOverlay from "./SortableOverlay";
 
 const StyledSortableView = styled(StyledItemsView).attrs({
 	role: "application",

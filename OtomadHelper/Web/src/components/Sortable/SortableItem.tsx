@@ -4,7 +4,6 @@ import { CSS } from "@dnd-kit/utilities";
 import moveCur from "assets/cursors/move.svg?cursor";
 import nsResizeCur from "assets/cursors/ns_resize.svg?cursor";
 import { PRESSED_SORTABLE_ITEM_OPACITY } from "./SortableOverlay";
-import type { PinTo } from "./SortableView";
 
 const SortableItemContext = createContext({
 	attributes: {} as AnyObject,

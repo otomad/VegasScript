@@ -1,5 +1,3 @@
-import type { ContextMenuItemOutput } from "utils/context-menu";
-
 export type ApplicationEvents = {
 	// Define events that need to be used globally here.
 	[host: `host:${string}` & {}]: [AnyObject];

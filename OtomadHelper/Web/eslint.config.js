@@ -63,6 +63,7 @@ export default [
 					remark: "remarks",
 					notes: "note",
 					warning: "warn",
+					throw: "throws",
 				},
 			},
 		},
@@ -207,11 +208,12 @@ export default [
 			"unicorn/no-document-cookie": "error",
 			"unicorn/prefer-string-replace-all": "error",
 			"unicorn/no-useless-length-check": "error",
-			"jsdoc/require-jsdoc": "off",
+			"jsdoc/require-jsdoc": "warn",
 			"jsdoc/tag-lines": "off",
-			"jsdoc/require-param": ["warn", {
+			"jsdoc/require-param": ["error", {
 				"enableFixer": false,
 				"checkDestructuredRoots": false,
+				"exemptedBy": ["inheritdoc", "deprecated"],
 			}],
 			"jsdoc/check-param-names": ["warn", {
 				"checkDestructured": false,
@@ -233,6 +235,15 @@ export default [
 			// }],
 			"jsdoc/require-returns-check": "off",
 			"jsdoc/empty-tags": "off",
+			"jsdoc/require-template": ["error", {
+				"requireSeparateTemplates": true,
+			}],
+			"jsdoc/require-throws": ["error", {
+				"exemptedBy": ["inheritdoc", "deprecated"],
+			}],
+			"jsdoc/require-yields": ["error", {
+				"exemptedBy": ["inheritdoc", "deprecated"],
+			}],
 			"@typescript-eslint/no-unused-vars": ["warn", { // 非要使用未使用变量，前面加下划线。
 				"argsIgnorePattern": "^_",
 				"varsIgnorePattern": "^_",

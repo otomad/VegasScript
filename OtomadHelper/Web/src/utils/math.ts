@@ -9,7 +9,7 @@
  * @param min - The minimum value of the range. If not provided, the value will be compared with the maximum value.
  * @param max - The maximum value of the range. If not provided, the value will be compared with the minimum value.
  * @returns The clamped value within the specified range.
- * @throws If `min` is greater than `max`, an error is thrown with a message indicating the invalid range.
+ * @throws {RangeError} If `min` is greater than `max`, an error is thrown with a message indicating the invalid range.
  */
 export function clamp<TNumber extends number | bigint>(value: TNumber, min: TNumber, max: TNumber): TNumber;
 /**
@@ -33,7 +33,7 @@ export function clamp<TNumber extends number | bigint>(value: TNumber, min: TNum
 export function clamp<TNumber extends number | bigint>(value: TNumber, min: undefined, max: TNumber): TNumber;
 export function clamp<TNumber extends number | bigint>(value: TNumber, min?: TNumber, max?: TNumber) {
 	if (min !== undefined && max !== undefined && min > max)
-		throw new Error(`Invalid min or max value, the min value cannot greater than the max value, got range ${min} ~ ${max}`);
+		throw new RangeError(`Invalid min or max value, the min value cannot greater than the max value, got range ${min} ~ ${max}`);
 	if (min !== undefined && value < min) value = min;
 	if (max !== undefined && value > max) value = max;
 	return value;
