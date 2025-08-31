@@ -151,16 +151,16 @@ const StyledComboBox = styled(StyledButton)`
 					background-color: ${c("fill-color-subtle-tertiary")};
 				}
 
+				&:not(:checked)::before {
+					scale: 1 0;
+				}
+
 				&:active {
 					color: ${c("fill-color-text-secondary")};
 
 					&::before {
 						scale: 1 0.625;
 					}
-				}
-
-				&:not(:checked)::before {
-					scale: 1 0;
 				}
 			}
 		}
