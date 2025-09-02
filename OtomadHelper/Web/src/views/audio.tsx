@@ -86,28 +86,23 @@ export default function Audio() {
 	const { engine, waveform, duration: beepDuration, volume: beepVolume, adjustAudioToBasePitch } = useSelectConfig(c => c.audio.prelistenAttributes);
 	const { createGroups } = useSelectConfig(c => c);
 	const activeParameterScheme = useSelectConfigArray(c => c.audio.activeParameterScheme);
-	const [stopPrelistenings, setStopPrelistenings] = useImmer<(() => void)[]>([]);
-	const isPrelistening = stopPrelistenings.length > 0;
+	const [stopPrelistening, setStopPrelistening] = useState<() => void>();
 	const tuningMethodScalelessUnlocked = tuningMethod[0].in("unset", "elastic", "classic"), tuningMethodScalelessEnabled = tuningMethodScaleless[0] && tuningMethodScalelessUnlocked;
 	const alternativeForExceedTheRangeDisabled = !tuningMethod[0].in("elastic", "classic", "unset");
 
 	const { pushPage } = useSnapshot(pageStore);
 
 	function prelistenBasePitch() {
-		if (isPrelistening) {
+		if (stopPrelistening) {
 			stopPrelistening();
 			return;
 		}
 		if (engine[0] === "WebAudio") {
 			const { stop, promise } = beep(waveform[0],
 				(adjustAudioToBasePitch[0] ? new Pitch("C", 5) : new Pitch(basePitch[0])).frequency, beepDuration[0], beepVolume[0]);
-			setStopPrelistenings(draft => { draft.pushUniquely(stop); });
-			promise.then(() => setStopPrelistenings(draft => { draft.removeItem(stop); }));
+			setStopPrelistening(() => stop);
+			promise.then(() => setStopPrelistening(undefined));
 		} else return;
-	}
-	function stopPrelistening() {
-		stopPrelistenings.forEach(stop => stop());
-		setStopPrelistenings([]);
 	}
 
 	return (
@@ -328,7 +323,7 @@ export default function Audio() {
 								<PrelistenActions>
 									<Button onClick={prelistenBasePitch}>{t.stream.tuning.prelisten.basePitch}</Button>
 									<Button>{t.stream.tuning.prelisten.audio}</Button>
-									<Button icon="stop" className={["stop", { shown: isPrelistening }]} onClick={stopPrelistening}>{t.stream.tuning.prelisten.stop}</Button>
+									<Button icon="stop" className={["stop", { shown: stopPrelistening }]} onClick={stopPrelistening}>{t.stream.tuning.prelisten.stop}</Button>
 								</PrelistenActions>
 							)}
 						>

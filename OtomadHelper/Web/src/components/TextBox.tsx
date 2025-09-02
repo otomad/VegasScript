@@ -394,6 +394,7 @@ export default function TextBox({ value: [value, _setValue], placeholder, disabl
 		} else if (typeof handled === "string") {
 			newText = handled;
 			Caret.set(el, caret);
+			setTimeout(() => caret !== null && Caret.set(el, caret));
 		}
 		setValue(newText); // true or undefined
 		onChanging?.(e as never);

@@ -1,4 +1,4 @@
-const escapeWaveformType = (type: OscillatorCommonType) => type === "sinusoid" ? "sine" : type;
+const escapeWaveformType = (type: OscillatorCommonType): OscillatorType => type === "sinusoid" ? "sine" : type;
 
 /**
  * Plays a beep sound using the Web Audio API.
@@ -16,6 +16,7 @@ const escapeWaveformType = (type: OscillatorCommonType) => type === "sinusoid" ?
 export function beep(type: OscillatorCommonType, hz: number, ms: number, vol: number) {
 	const audioContext = new AudioContext();
 	const oscillator = audioContext.createOscillator();
+	const aborter = new AbortController();
 	oscillator.type = escapeWaveformType(type);
 	oscillator.frequency.setValueAtTime(hz, audioContext.currentTime);
 
@@ -25,9 +26,9 @@ export function beep(type: OscillatorCommonType, hz: number, ms: number, vol: nu
 	volume.connect(audioContext.destination);
 
 	oscillator.start();
-	const stop = () => oscillator.stop();
-	const promise = delay(ms).then(() => {
-		stop();
+	const stop = () => aborter.abort();
+	const promise = delay(ms, { signal: aborter.signal }).then(() => {
+		oscillator.stop();
 		return audioContext.close();
 	});
 

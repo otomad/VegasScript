@@ -15,11 +15,11 @@ export function useDelayState<T>(initialState?: T) {
 		clearTimeout(delayTimeoutId.current);
 		clearTimeout(keepTimeoutId.current);
 		if (options.delay)
-			await delay(options.delay, delayTimeoutId);
+			await delay(options.delay, { ref: delayTimeoutId });
 		delayTimeoutId.current = undefined;
 		setStateInternal(value as T);
 		if (options.keep)
-			await delay(options.keep, keepTimeoutId);
+			await delay(options.keep, { ref: keepTimeoutId });
 		keepTimeoutId.current = undefined;
 	};
 

@@ -38,7 +38,7 @@ export default class IndexedDBStore<T extends object> {
 	#database: IDBDatabase | null = null;
 
 	/**
-	 * Get the opened IndexedDB database instance.
+	 * Gets the opened IndexedDB database instance.
 	 *
 	 * @throws {ReferenceError} If the IndexedDB database hasn't been opened yet.
 	 * @returns The opened IndexedDB database instance.
@@ -49,14 +49,14 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Check if the IndexedDB database is opened.
+	 * Checks if the IndexedDB database is opened.
 	 */
 	get isDatabaseOpen() {
 		return this.#database !== null;
 	}
 
 	/**
-	 * Get the readwrite IndexedDB object store associated with the current instance.
+	 * Gets the readwrite IndexedDB object store associated with the current instance.
 	 *
 	 * @returns The readwrite IndexedDB object store associated with the current instance.
 	 */
@@ -67,7 +67,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Get the readonly IndexedDB object store associated with the current instance.
+	 * Gets the readonly IndexedDB object store associated with the current instance.
 	 *
 	 * @returns The readonly IndexedDB object store associated with the current instance.
 	 */
@@ -78,7 +78,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Construct a new IndexedDBStore instance.
+	 * Constructs a new IndexedDBStore instance.
 	 *
 	 * @param databaseName - The name of the IndexedDB database.
 	 * @param databaseVersion - The version of the IndexedDB database.
@@ -97,7 +97,7 @@ export default class IndexedDBStore<T extends object> {
 	) { }
 
 	/**
-	 * Open the IndexedDB database.
+	 * Opens the IndexedDB database.
 	 *
 	 * @remarks Require to be called before querying.
 	 *
@@ -125,7 +125,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Resolve an IndexedDB request and returns a Promise.
+	 * Resolves an IndexedDB request and returns a Promise.
 	 * @internal
 	 *
 	 * @template T - The type of the result of the IndexedDB request.
@@ -145,7 +145,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Add a new item to the IndexedDB object store.
+	 * Adds a new item to the IndexedDB object store.
 	 *
 	 * @remarks
 	 * If `put()` is used, any existing record with the id will be replaced.
@@ -165,14 +165,14 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Retrieve an item from the IndexedDB object store.
+	 * Retrieves an item from the IndexedDB object store.
 	 *
 	 * @param id - The key or key range of the item to retrieve.
 	 * @returns A Promise that resolves with the retrieved item or rejects with an error.
 	 */
 	get(id: IDBValidKey | IDBKeyRange): Promise<T>;
 	/**
-	 * Retrieve an item from the IndexedDB object store based on a specific key or key range.
+	 * Retrieves an item from the IndexedDB object store based on a specific key or key range.
 	 *
 	 * @template TKey - The type of the key to retrieve. It must be a key of the object stored in the IndexedDB store.
 	 * @param key - The key or name of the index to use for retrieving the item.
@@ -192,7 +192,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Set a new item or updates an existing item in the IndexedDB object store.
+	 * Sets a new item or updates an existing item in the IndexedDB object store.
 	 *
 	 * @remarks
 	 * If `put()` is used, any existing record with the ID will be replaced.
@@ -211,7 +211,7 @@ export default class IndexedDBStore<T extends object> {
 	 */
 	async set(item: T, id?: IDBValidKey): Promise<void>;
 	/**
-	 * Update a specific property of an existing record identified by its ID in the IndexedDB object store.
+	 * Updates a specific property of an existing record identified by its ID in the IndexedDB object store.
 	 *
 	 * @param key - The property of the record to update.
 	 * @param value - The new value to set for the specified property.
@@ -227,7 +227,7 @@ export default class IndexedDBStore<T extends object> {
 	 */
 	async set<TKey extends keyof T>(key: TKey, value: T[TKey], id: IDBValidKey): Promise<void>;
 	/**
-	 * Set or update data in the IndexedDB store.
+	 * Sets or updates data in the IndexedDB store.
 	 *
 	 * This method supports two modes of operation:
 	 * 1. Updating a specific property of an existing record identified by its ID.
@@ -265,7 +265,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Delete an item from the IndexedDB object store.
+	 * Deletes an item from the IndexedDB object store.
 	 *
 	 * @param id - The key or key range of the item to delete.
 	 * @returns A Promise that resolves when the item is deleted or rejects with an error.
@@ -308,7 +308,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterate over all key-value pairs in the IndexedDB object store.
+	 * Asynchronously iterates over all key-value pairs in the IndexedDB object store.
 	 *
 	 * @yields {[IDBValidKey, T]} - Yields the key-value pair for each item in the object store.
 	 *
@@ -324,7 +324,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterate over all keys in the IndexedDB object store.
+	 * Asynchronously iterates over all keys in the IndexedDB object store.
 	 *
 	 * @yields {IDBValidKey} - Yields the key for each item in the object store.
 	 *
@@ -345,7 +345,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterate over all values in the IndexedDB object store.
+	 * Asynchronously iterates over all values in the IndexedDB object store.
 	 *
 	 * @yields {T} - Yields the value for each item in the object store.
 	 *
@@ -361,8 +361,8 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Define the async iterator for the IndexedDBStore class.
-	 * Allow iterating over the values of the object store using the `for await...of` syntax.
+	 * Defines the async iterator for the IndexedDBStore class.
+	 * Allows iterating over the values of the object store using the `for await...of` syntax.
 	 *
 	 * @example
 	 * ```typescript
@@ -378,7 +378,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Retrieve all items from the IndexedDB object store.
+	 * Retrieves all items from the IndexedDB object store.
 	 *
 	 * @warn Use `for await...of` syntax for better performance.
 	 * @returns A Promise that resolves with an array of all items in the object store or rejects with an error.
@@ -393,7 +393,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Apply a callback function to each item in the IndexedDB object store and returns a new array with the results.
+	 * Applies a callback function to each item in the IndexedDB object store and returns a new array with the results.
 	 *
 	 * @template TOut - The type of the array elements returned by the callback function.
 	 * @param callbackfn - A function to apply to each item in the object store.
@@ -421,7 +421,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterate over the records in the IndexedDB object store, sorted by the specified key.
+	 * Asynchronously iterates over the records in the IndexedDB object store, sorted by the specified key.
 	 *
 	 * @template T - The type of the objects stored in the IndexedDB object store.
 	 * @param key - The key of the index to sort by. Must be a valid key of type `T` and a string.
@@ -451,7 +451,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterate over the records in the IndexedDB object store or index in a sorted order.
+	 * Asynchronously iterates over the records in the IndexedDB object store or index in a sorted order.
 	 *
 	 * @remarks It is suggested that you use `sortedBy()` for queries only,
 	 * and use `sortedCursor()` only if you need to modify or delete items.
@@ -488,7 +488,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Iterate over the entries in the IndexedDB store sorted by the specified key and applies a callback function to each entry.
+	 * Iterates over the entries in the IndexedDB store sorted by the specified key and applies a callback function to each entry.
 	 * Returns a promise that resolves to an array of transformed results.
 	 *
 	 * @template TOut - The type of the output elements after applying the callback function.
@@ -516,7 +516,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Retrieve the total number of records in the IndexedDB object store.
+	 * Retrieves the total number of records in the IndexedDB object store.
 	 *
 	 * @returns A promise that resolves to the number of records in the store.
 	 *

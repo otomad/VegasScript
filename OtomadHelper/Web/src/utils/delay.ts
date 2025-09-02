@@ -5,13 +5,22 @@
  * This will execute asynchronously and will not block the thread.
  *
  * @param ms - Milliseconds.
- * @param timeoutIdRef - Get the timeout ID and assign to a React ref object.
  * @returns Empty promise.
  */
-export function delay(ms: number, timeoutIdRef?: RefObject<Timeout | undefined | null>): Promise<void> {
+export function delay(ms: number, { ref, signal }: {
+	/** Get the timeout ID and assign to a React ref object. */
+	ref?: RefObject<Timeout | undefined | null>;
+	/** Get the abort controller signal that to cancel a delay. */
+	signal?: AbortSignal;
+} = {}): Promise<void> {
 	return new Promise(resolve => {
+		if (signal?.aborted) resolve();
 		const timeoutId = setTimeout(resolve, ms);
-		if (timeoutIdRef) timeoutIdRef.current = timeoutId;
+		if (ref) ref.current = timeoutId;
+		signal?.addEventListener("abort", () => {
+			clearTimeout(timeoutId);
+			resolve();
+		});
 	});
 }
 

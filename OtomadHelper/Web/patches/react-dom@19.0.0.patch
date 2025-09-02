@@ -1,5 +1,5 @@
 diff --git a/cjs/react-dom-client.development.js b/cjs/react-dom-client.development.js
-index 83ea1c6a783efe2e674eda4b681eb361f000d12d..65c25d8a2fef92f6f80e48e9af38f908d519a88d 100644
+index 83ea1c6a783efe2e674eda4b681eb361f000d12d..cccbc46b756cd9b0f193ccbf46b851112c335f60 100644
 --- a/cjs/react-dom-client.development.js
 +++ b/cjs/react-dom-client.development.js
 @@ -1387,7 +1387,13 @@
@@ -84,15 +84,19 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..65c25d8a2fef92f6f80e48e9af38f908
          )
            return (
              (prevDebugInfo = "" + newChild),
-@@ -16898,6 +16914,7 @@
+@@ -16898,6 +16914,11 @@
      }
      function noop$1() {}
      function setProp(domElement, tag, key, value, props, prevValue) {
 +      if (isI18nItem(value)) value = value.toString();
++      if (isI18nItem(prevValue)) {
++        prevValue = prevValue.toString();
++        if (value === prevValue) return;
++      }
        switch (key) {
          case "children":
            if ("string" === typeof value)
-@@ -19067,6 +19084,7 @@
+@@ -19067,6 +19088,7 @@
        textInstance.nodeValue = newText;
      }
      function removeChild(parentInstance, child) {
@@ -101,7 +105,7 @@ index 83ea1c6a783efe2e674eda4b681eb361f000d12d..65c25d8a2fef92f6f80e48e9af38f908
      }
      function removeChildFromContainer(container, child) {
 diff --git a/cjs/react-dom-client.production.js b/cjs/react-dom-client.production.js
-index af7283abaca3e5812ef71b03d9c999410baa1a80..e5b24632a97ee5050df45b72b05f68bcfbddc8d1 100644
+index af7283abaca3e5812ef71b03d9c999410baa1a80..e4e6bae54fb151e084cb66269fa8b3f1ccfd2a82 100644
 --- a/cjs/react-dom-client.production.js
 +++ b/cjs/react-dom-client.production.js
 @@ -909,7 +909,13 @@ function isAttributeNameSafe(attributeName) {
@@ -177,11 +181,15 @@ index af7283abaca3e5812ef71b03d9c999410baa1a80..e5b24632a97ee5050df45b72b05f68bc
              hostParent.removeChild(deletedFiber.stateNode);
            } catch (error) {
              captureCommitPhaseError(
-@@ -12347,6 +12361,7 @@ function checkForUnmatchedText(serverText, clientText) {
+@@ -12347,6 +12361,11 @@ function checkForUnmatchedText(serverText, clientText) {
  }
  function noop$1() {}
  function setProp(domElement, tag, key, value, props, prevValue) {
 +  if (isI18nItem(value)) value = value.toString();
++  if (isI18nItem(prevValue)) {
++    prevValue = prevValue.toString();
++    if (value === prevValue) return;
++  }
    switch (key) {
      case "children":
        "string" === typeof value

@@ -166,7 +166,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 		setLockExpanderParentContentSize(true);
 		await delay(0);
 		_setInternalExpanded(expanded);
-		await delay(251, lockExpanderParentContentSizeTimeoutId);
+		await delay(251, { ref: lockExpanderParentContentSizeTimeoutId });
 		setLockExpanderParentContentSize(false);
 	})();
 	const resetLockExpanderParentContentSize = () => {

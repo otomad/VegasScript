@@ -31,10 +31,10 @@ export default class Version {
 	/**
 	 * Parses a version string into an array of numbers.
 	 *
+	 * @private
 	 * @param versionString - The version string to parse.
 	 * @returns The parsed version as an array of numbers.
 	 * @throws {TypeError} If the string cannot be parsed as a version.
-	 * @internal
 	 */
 	private static parseVersion(versionString: string) {
 		let version = versionString.match(/(?<=v)\d(\.\d)*/i)?.[0];
@@ -46,9 +46,9 @@ export default class Version {
 	/**
 	 * Checks if the version array is valid.
 	 *
+	 * @private
 	 * @param version - The version array to validate.
 	 * @throws {TypeError} If the version is invalid.
-	 * @internal
 	 */
 	private static checkIsValidVersion(version: number[]) {
 		if (version.length === 0 || version.some(v => !Number.isFinite(v)))

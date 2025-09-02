@@ -538,6 +538,24 @@ declare interface Array<T> {
 	 * @returns The modified array with the item moved.
 	 */
 	moveItemIndex(oldIndex: number, newIndex: number): this;
+
+	/**
+	 * Get array elements by circular index.
+	 * @param index - The index value (supports positive and negative numbers and out-of-bounds loops).
+	 * @returns The array element corresponding to the index.
+	 *
+	 * @example
+	 * ```javascript
+	 * const arr = ["a", "b", "c", "d", "e"];
+	 *
+	 * console.log(arr.circularAt(2));  // "c" (positive index)
+	 * console.log(arr.circularAt(-2)); // "d" (negative index)
+	 * console.log(arr.circularAt(5));  // "a" (positive loop)
+	 * console.log(arr.circularAt(-6)); // "e" (negative loop)
+	 * console.log(arr.circularAt(10)); // "a" (multiple loops)
+	 * ```
+	 */
+	circularAt(index: number): T;
 }
 
 declare interface ReadonlyArray<T> extends Pick<Array<T>,

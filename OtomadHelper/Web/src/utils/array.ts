@@ -159,15 +159,13 @@
 
 	Array.prototype.nextItem = function (currentItem, offset = 1, defaultIndex = 0) {
 		if (this.length === 0) return undefined; // Prevent divided by 0.
-		let index = this.indexOf(currentItem);
-		if (index === -1) // If current item is not in the array.
-			// Note that the default index may also exceed the index range of the array.
-			// But do not use `Array.prototype.at()`. For example, if the array length is 4, and the default index:
-			// input: -1, output: 3;
-			// input: 4, output: 0; (← `Array.prototype.at()` won't support this)
-			return this[floorMod(defaultIndex, this.length)];
-		index = floorMod(index + offset, this.length);
-		return this[index];
+		const currentIndex = this.indexOf(currentItem);
+		// If current item is not in the array.
+		// Note that the default index may also exceed the index range of the array.
+		// But do not use `Array.prototype.at()`. For example, if the array length is 4, and the default index:
+		// input: -1, output: 3;
+		// input: 4, output: 0; (← `Array.prototype.at()` won't support this)
+		return this.circularAt(currentIndex === -1 ? defaultIndex : currentIndex + offset);
 	};
 
 	Array.prototype.shouldReversed = function (reverse = true) {
@@ -207,6 +205,10 @@
 		if (newIndex < 0) newIndex = this.length + newIndex;
 		this.splice(newIndex, 0, this.splice(oldIndex, 1)[0]);
 		return this;
+	};
+
+	Array.prototype.circularAt = function (index) {
+		return this.length === 0 ? undefined : this[floorMod(index, this.length)];
 	};
 
 	makePrototypeKeysNonEnumerable(Array);
