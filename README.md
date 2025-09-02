@@ -1,5 +1,3 @@
-<div lang="en">
-
 [![Cover](https://raw.githubusercontent.com/otomad/OtomadHelper/winform/cover.png)](#otomad-helper)
 <div align="center">
 	<h1>VegasScripts</h1>
@@ -190,5 +188,3 @@ Compilation note for Sony Vegas **(v13 and under)**:
 * Some scripts require additional DLLs, put them in a "DLL" folder in the "Script Menu" folder.
 	* (ie. C:\\Program Files\\VEGAS\\VEGAS Pro 22.0\\Script Menu\\DLL)
 * Make sure that the DLL files (such as `DLL\NAudio.dll`) are not blocked.
-
-</div>
