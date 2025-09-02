@@ -64,6 +64,7 @@ export default function Settings() {
 		const color = kind === "background" ? backgroundColor[0] : accentColor[0];
 		return isAutoColor(color) ? getComputedStyle(document.documentElement).getPropertyValue(`--${kind}-color-${color}`) : color;
 	};
+	const autoColorToIcon = (color: ValueOf<typeof autoColorPalettes>) => (color.in("wallpaper") ? color : `logo/${color}`) satisfies DeclaredIcons;
 
 	globals.move = (oldIndex: number, newIndex: number) => backgroundImages.reorder(backgroundImages.items[oldIndex + 1].key, newIndex); // DELETE: DEBUG ONLY.
 
@@ -171,7 +172,7 @@ export default function Settings() {
 									<ColorButton
 										color={color}
 										value={accentColor}
-										icon={color}
+										icon={autoColorToIcon(color)}
 										colorAlt={isAutoColor(color) ? `var(--accent-color-${color})` : undefined}
 										hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
 										selected={color === "windows" && accentColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
@@ -203,7 +204,7 @@ export default function Settings() {
 											key={color}
 											color={color}
 											value={backgroundColor}
-											icon={color}
+											icon={autoColorToIcon(color)}
 											colorAlt={isAutoColor(color) ? `var(--background-color-${color})` : undefined}
 											hidden={color === "wallpaper" && !backgroundImages.currentDominantColor}
 											selected={color === "windows" && backgroundColor[0] === "wallpaper" && !backgroundImages.currentDominantColor}
