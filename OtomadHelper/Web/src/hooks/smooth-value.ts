@@ -16,6 +16,7 @@ const isValueNotChanged = (cur: number, prev: number) => Math.abs(cur - prev) < 
  * @param speed - Smooth speed.
  * @param options - Other smooth value options.
  * @returns Smooth value state variable.
+ * @throws {RangeError} If the `speed` is out of the range (0 ~ 1].
  * @see [Reference: Parallax smooth movement.](https://codepen.io/nanonansen/pen/oRWmaY)
  */
 export function useSmoothValue<T extends SmoothValueAcceptType>(current: T, speed: number, options: SmoothValueOptions<T> = {}) {

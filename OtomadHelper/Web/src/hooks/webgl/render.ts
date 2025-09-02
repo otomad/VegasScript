@@ -16,7 +16,7 @@ export class WebGLFilter {
 	) { }
 
 	uniform(type: UniformType, name: string, v1: unknown, v2?: unknown, v3?: unknown, v4?: unknown) {
-		if (!this.program) throw new Error("program not ready");
+		if (!this.program) throw new ReferenceError("Program not ready");
 		const { gl } = this;
 		const uniformLocation = gl.getUniformLocation(this.program, name);
 		if (uniformLocation)
@@ -25,7 +25,7 @@ export class WebGLFilter {
 	}
 
 	apply() {
-		if (!this.program) throw new Error("program not ready");
+		if (!this.program) throw new ReferenceError("Program not ready");
 		const { gl, canvas } = this;
 		gl.viewport(0, 0, canvas.width, canvas.height); // Tell WebGL how to convert from clip space to pixels.
 		gl.clearColor(0, 0, 0, 0); // Clear the canvas.

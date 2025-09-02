@@ -66,6 +66,11 @@ export default [
 					throw: "throws",
 					yield: "yields",
 				},
+				structuredTags: {
+					throws: { required: ["type"] },
+					yields: { required: ["type"] },
+					next: { required: ["type"] },
+				},
 			},
 		},
 		rules: {
@@ -238,7 +243,7 @@ export default [
 			"jsdoc/empty-tags": "off",
 			"jsdoc/require-template": ["error", {
 				"requireSeparateTemplates": true,
-				// "exemptedBy": ["inheritdoc", "deprecated", "see"],
+				"exemptedBy": ["inheritdoc", "deprecated", "see"],
 			}],
 			"jsdoc/require-throws": ["error", {
 				"exemptedBy": ["inheritdoc", "deprecated", "see"],

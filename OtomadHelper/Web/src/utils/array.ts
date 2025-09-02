@@ -315,7 +315,7 @@ export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, ca
  * @template T - The type of elements in the iterables.
  * @template U - The type of elements in the iterables.
  * @param iterators - A list of iterables to concatenate.
- * @yields Elements from each iterable in the order they are provided.
+ * @yields {T | U} Elements from each iterable in the order they are provided.
  *
  * @example
  * ```typescript

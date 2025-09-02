@@ -6,8 +6,7 @@
  * @remarks
  * This class provides a high-level abstraction for working with IndexedDB, including methods for
  * adding, retrieving, updating, and deleting records, as well as iterating over records in various ways.
- * It supports both synchronous and asynchronous iteration, and includes utility methods for mapping
- * and sorting records.
+ * It supports asynchronous iteration, and includes utility methods for mapping and sorting records.
  *
  * The class is designed to be flexible and reusable, allowing you to define the schema of the object
  * store and interact with it using strongly-typed methods.
@@ -15,21 +14,21 @@
  * @example
  * ```typescript
  * interface User {
- *   id: number;
- *   name: string;
- *   email: string;
+ *     id: number;
+ *     name: string;
+ *     email: string;
  * }
  *
- * const userStore = new IndexedDBStore<User>('MyDatabase', 1, 'users', {
- *   keyPath: 'id',
- *   name: null,
- *   email: null,
+ * const userStore = new IndexedDBStore<User>("MyDatabase", 1, "users", {
+ *     keyPath: "id",
+ *     name: null,
+ *     email: null,
  * });
  *
  * await userStore.open();
- * await userStore.add({ id: 1, name: 'John Doe', email: 'john.doe@example.com' });
+ * await userStore.add({ id: 1, name: "John Doe", email: "john.doe@example.com" });
  * const user = await userStore.get(1);
- * console.log(user); // { id: 1, name: 'John Doe', email: 'john.doe@example.com' }
+ * console.log(user); // { id: 1, name: "John Doe", email: "john.doe@example.com" }
  * ```
  */
 export default class IndexedDBStore<T extends object> {
@@ -39,7 +38,7 @@ export default class IndexedDBStore<T extends object> {
 	#database: IDBDatabase | null = null;
 
 	/**
-	 * Gets the opened IndexedDB database instance.
+	 * Get the opened IndexedDB database instance.
 	 *
 	 * @throws {ReferenceError} If the IndexedDB database hasn't been opened yet.
 	 * @returns The opened IndexedDB database instance.
@@ -50,14 +49,14 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Checks if the IndexedDB database is opened.
+	 * Check if the IndexedDB database is opened.
 	 */
 	get isDatabaseOpen() {
 		return this.#database !== null;
 	}
 
 	/**
-	 * Gets the readwrite IndexedDB object store associated with the current instance.
+	 * Get the readwrite IndexedDB object store associated with the current instance.
 	 *
 	 * @returns The readwrite IndexedDB object store associated with the current instance.
 	 */
@@ -68,7 +67,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Gets the readonly IndexedDB object store associated with the current instance.
+	 * Get the readonly IndexedDB object store associated with the current instance.
 	 *
 	 * @returns The readonly IndexedDB object store associated with the current instance.
 	 */
@@ -79,7 +78,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Constructs a new IndexedDBStore instance.
+	 * Construct a new IndexedDBStore instance.
 	 *
 	 * @param databaseName - The name of the IndexedDB database.
 	 * @param databaseVersion - The version of the IndexedDB database.
@@ -98,7 +97,7 @@ export default class IndexedDBStore<T extends object> {
 	) { }
 
 	/**
-	 * Opens the IndexedDB database.
+	 * Open the IndexedDB database.
 	 *
 	 * @remarks Require to be called before querying.
 	 *
@@ -126,12 +125,13 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Resolves an IndexedDB request and returns a Promise.
+	 * Resolve an IndexedDB request and returns a Promise.
 	 * @internal
 	 *
 	 * @template T - The type of the result of the IndexedDB request.
 	 * @param request - The IndexedDB request to be resolved.
 	 * @returns A Promise that resolves with the result of the IndexedDB request or rejects with an error.
+	 * @throws {DOMException} If the IndexedDB operation fails.
 	 *
 	 * @remarks
 	 * This method is a utility function that wraps the IndexedDB request's event handlers into a Promise.
@@ -145,7 +145,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Adds a new item to the IndexedDB object store.
+	 * Add a new item to the IndexedDB object store.
 	 *
 	 * @remarks
 	 * If `put()` is used, any existing record with the id will be replaced.
@@ -165,14 +165,14 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Retrieves an item from the IndexedDB object store.
+	 * Retrieve an item from the IndexedDB object store.
 	 *
 	 * @param id - The key or key range of the item to retrieve.
 	 * @returns A Promise that resolves with the retrieved item or rejects with an error.
 	 */
 	get(id: IDBValidKey | IDBKeyRange): Promise<T>;
 	/**
-	 * Retrieves an item from the IndexedDB object store based on a specific key or key range.
+	 * Retrieve an item from the IndexedDB object store based on a specific key or key range.
 	 *
 	 * @template TKey - The type of the key to retrieve. It must be a key of the object stored in the IndexedDB store.
 	 * @param key - The key or name of the index to use for retrieving the item.
@@ -192,7 +192,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Sets a new item or updates an existing item in the IndexedDB object store.
+	 * Set a new item or updates an existing item in the IndexedDB object store.
 	 *
 	 * @remarks
 	 * If `put()` is used, any existing record with the ID will be replaced.
@@ -211,13 +211,13 @@ export default class IndexedDBStore<T extends object> {
 	 */
 	async set(item: T, id?: IDBValidKey): Promise<void>;
 	/**
-	 * Updating a specific property of an existing record identified by its ID in the IndexedDB object store.
+	 * Update a specific property of an existing record identified by its ID in the IndexedDB object store.
 	 *
 	 * @param key - The property of the record to update.
 	 * @param value - The new value to set for the specified property.
 	 * @param id - The ID of the record to update.
 	 *
-	 * @throws Will log an error if attempting to update a record by ID and the ID is not found in the store.
+	 * @throws {void} If attempting to update a record by ID and the ID is not found in the store.
 	 * @returns A Promise that resolves when the operation is complete or rejects with an error.
 	 *
 	 * @example
@@ -227,7 +227,7 @@ export default class IndexedDBStore<T extends object> {
 	 */
 	async set<TKey extends keyof T>(key: TKey, value: T[TKey], id: IDBValidKey): Promise<void>;
 	/**
-	 * Sets or updates data in the IndexedDB store.
+	 * Set or update data in the IndexedDB store.
 	 *
 	 * This method supports two modes of operation:
 	 * 1. Updating a specific property of an existing record identified by its ID.
@@ -237,15 +237,14 @@ export default class IndexedDBStore<T extends object> {
 	 * The arguments for the operation. The method determines the mode of operation
 	 * based on the number and types of arguments provided:
 	 * - If three arguments are provided: `[key, value, id]`
-	 *   - `key` - The property of the record to update.
-	 *   - `value` - The new value to set for the specified property.
-	 *   - `id` - The ID of the record to update.
+	 *   - `key`: The property of the record to update.
+	 *   - `value`: The new value to set for the specified property.
+	 *   - `id`: The ID of the record to update.
 	 * - If one or two arguments are provided: `[item, id?]`
-	 *   - `item` - The entire record to add or update in the store.
-	 *   - `id` (optional) - The ID of the record. If not provided, the store will
-	 *     generate an ID automatically.
+	 *   - `item`: The entire record to add or update in the store.
+	 *   - `id` (optional): The ID of the record. If not provided, the store will generate an ID automatically.
 	 *
-	 * @throws Will log an error if attempting to update a record by ID and the ID is not found in the store.
+	 * @throws {void} If attempting to update a record by ID and the ID is not found in the store.
 	 * @returns A promise that resolves when the operation is complete.
 	 */
 	async set(...args: unknown[]) {
@@ -258,7 +257,7 @@ export default class IndexedDBStore<T extends object> {
 					await IndexedDBStore.getResult(request);
 					return;
 				}
-			console.error(`Cannot find ID with ${id} in the store`);
+			console.error(new ReferenceError(`Cannot find ID with ${id} in the store`));
 		} else {
 			const [item, id] = args as [item: T, id?: IDBValidKey];
 			await IndexedDBStore.getResult(this.store.put(item, id));
@@ -266,7 +265,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Deletes an item from the IndexedDB object store.
+	 * Delete an item from the IndexedDB object store.
 	 *
 	 * @param id - The key or key range of the item to delete.
 	 * @returns A Promise that resolves when the item is deleted or rejects with an error.
@@ -289,14 +288,12 @@ export default class IndexedDBStore<T extends object> {
 	 * @remarks It is suggested that you use `entries()` for queries only,
 	 * and use `cursor()` only if you need to modify or delete items.
 	 *
-	 * @generator
-	 * @async
 	 * @yields {IDBCursor & { value: T }} The current cursor pointing to a record in the object store, with the record's value.
 	 * @throws {DOMException} If an error occurs while accessing the IndexedDB.
 	 *
 	 * @example
 	 * ```typescript
-	 * for await (const cursor of store.cursor)
+	 * for await (const cursor of store.cursor())
 	 *     console.log(cursor.key, cursor.value);
 	 * ```
 	 */
@@ -311,13 +308,13 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterates over all key-value pairs in the IndexedDB object store.
+	 * Asynchronously iterate over all key-value pairs in the IndexedDB object store.
 	 *
-	 * @yields {Generator<[IDBValidKey, T]>} - Yields the key-value pair for each item in the object store.
+	 * @yields {[IDBValidKey, T]} - Yields the key-value pair for each item in the object store.
 	 *
 	 * @example
 	 * ```typescript
-	 * for await (const [key, value] of store.cursor)
+	 * for await (const [key, value] of store.entries())
 	 *     console.log(key, value);
 	 * ```
 	 */
@@ -327,13 +324,13 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterates over all keys in the IndexedDB object store.
+	 * Asynchronously iterate over all keys in the IndexedDB object store.
 	 *
-	 * @yields {Generator<IDBValidKey>} - Yields the key for each item in the object store.
+	 * @yields {IDBValidKey} - Yields the key for each item in the object store.
 	 *
 	 * @example
 	 * ```typescript
-	 * for await (const key of store.cursor)
+	 * for await (const key of store.keys())
 	 *     console.log(key);
 	 * ```
 	 */
@@ -348,13 +345,13 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterates over all values in the IndexedDB object store.
+	 * Asynchronously iterate over all values in the IndexedDB object store.
 	 *
-	 * @yields {Generator<T>} - Yields the value for each item in the object store.
+	 * @yields {T} - Yields the value for each item in the object store.
 	 *
 	 * @example
 	 * ```typescript
-	 * for await (const value of store.cursor)
+	 * for await (const value of store.values())
 	 *     console.log(value);
 	 * ```
 	 */
@@ -364,8 +361,8 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Defines the async iterator for the IndexedDBStore class.
-	 * Allows iterating over the values of the object store using the `for await...of` syntax.
+	 * Define the async iterator for the IndexedDBStore class.
+	 * Allow iterating over the values of the object store using the `for await...of` syntax.
 	 *
 	 * @example
 	 * ```typescript
@@ -381,9 +378,9 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Retrieves all items from the IndexedDB object store.
+	 * Retrieve all items from the IndexedDB object store.
 	 *
-	 * @note Use `for await...of` syntax for better performance.
+	 * @warn Use `for await...of` syntax for better performance.
 	 * @returns A Promise that resolves with an array of all items in the object store or rejects with an error.
 	 *
 	 * @example
@@ -396,7 +393,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Applies a callback function to each item in the IndexedDB object store and returns a new array with the results.
+	 * Apply a callback function to each item in the IndexedDB object store and returns a new array with the results.
 	 *
 	 * @template TOut - The type of the array elements returned by the callback function.
 	 * @param callbackfn - A function to apply to each item in the object store.
@@ -409,7 +406,7 @@ export default class IndexedDBStore<T extends object> {
 	 *
 	 * @remarks
 	 * This method is asynchronous and uses the `for await...of` syntax to iterate over the object store's values.
-	 * It is useful for transforming or filtering the items in the object store.
+	 * It is useful for transforming the items in the object store.
 	 *
 	 * @example
 	 * ```typescript
@@ -424,7 +421,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterates over the records in the IndexedDB object store, sorted by the specified key.
+	 * Asynchronously iterate over the records in the IndexedDB object store, sorted by the specified key.
 	 *
 	 * @template T - The type of the objects stored in the IndexedDB object store.
 	 * @param key - The key of the index to sort by. Must be a valid key of type `T` and a string.
@@ -435,9 +432,9 @@ export default class IndexedDBStore<T extends object> {
 	 * - `"nextunique"`: Ascending order with unique values.
 	 * - `"prev"`: Descending order.
 	 * - `"prevunique"`: Descending order with unique values.
-	 * @yields A tuple containing the primary key and the value of each record in the store.
+	 * @yields {[IDBValidKey, T]} A tuple containing the primary key and the value of each record in the store.
 	 * The tuple is of the form `[IDBValidKey, T]`.
-	 * @throws Will throw an error if the IndexedDB operation fails.
+	 * @throws {DOMException} If the IndexedDB operation fails.
 	 *
 	 * @example
 	 * ```typescript
@@ -454,7 +451,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Asynchronously iterates over the records in the IndexedDB object store or index in a sorted order.
+	 * Asynchronously iterate over the records in the IndexedDB object store or index in a sorted order.
 	 *
 	 * @remarks It is suggested that you use `sortedBy()` for queries only,
 	 * and use `sortedCursor()` only if you need to modify or delete items.
@@ -467,9 +464,9 @@ export default class IndexedDBStore<T extends object> {
 	 * - `"prev"`: Descending order.
 	 * - `"nextunique"`: Ascending order with unique values.
 	 * - `"prevunique"`: Descending order with unique values.
-	 * @yields An `IDBCursor` object extended with a `value` property of type `T`
+	 * @yields {IDBCursor & { value: T }} An `IDBCursor` object extended with a `value` property of type `T`
 	 * representing the current record in the iteration.
-	 * @throws Will throw an error if the IndexedDB operation fails.
+	 * @throws {DOMException} If the IndexedDB operation fails.
 	 *
 	 * @example
 	 * ```typescript
@@ -491,7 +488,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Iterates over the entries in the IndexedDB store sorted by the specified key and applies a callback function to each entry.
+	 * Iterate over the entries in the IndexedDB store sorted by the specified key and applies a callback function to each entry.
 	 * Returns a promise that resolves to an array of transformed results.
 	 *
 	 * @template TOut - The type of the output elements after applying the callback function.
@@ -519,7 +516,7 @@ export default class IndexedDBStore<T extends object> {
 	}
 
 	/**
-	 * Retrieves the total number of records in the IndexedDB object store.
+	 * Retrieve the total number of records in the IndexedDB object store.
 	 *
 	 * @returns A promise that resolves to the number of records in the store.
 	 *

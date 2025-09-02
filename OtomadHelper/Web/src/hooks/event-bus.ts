@@ -96,6 +96,7 @@ export function listenOnce<TKey extends keyof ApplicationEvents>(type: TKey, han
  * @template TKey - The type of event key.
  * @param type - The event type.
  * @param handler - The event handler function.
+ * @throws {TypeError} If the received event doesn't have a timestamp property.
  */
 export function useListenAndReturnAck<TKey extends keyof ApplicationEvents>(type: TKey, handler: (...args: ApplicationEvents[TKey]) => Any) {
 	useListen(type as "host:dragOver", e => {

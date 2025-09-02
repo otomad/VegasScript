@@ -115,11 +115,12 @@ export function createProgram(gl: WebGLRenderingContext, shaders: WebGLShader[],
  * @param shaderType - The type of shader. If not passed in it will be derived from the type of the script tag.
  * @param errorCallback - callback for errors.
  * @returns The created shader.
+ * @throws {TypeError} If the script element or its shader type is invalid.
  */
 function createShaderFromScript(gl: WebGLRenderingContext, scriptId: string, shaderType?: number, errorCallback?: ErrorCallback): WebGLShader | null {
 	const shaderScript = document.getElementById(scriptId) as HTMLScriptElement | null;
 	if (!shaderScript)
-		throw "*** Error: unknown script element: " + scriptId;
+		throw new TypeError("Unknown script element: " + scriptId);
 
 	const shaderSource = shaderScript.text;
 
@@ -129,7 +130,7 @@ function createShaderFromScript(gl: WebGLRenderingContext, scriptId: string, sha
 		else if (shaderScript.type === "x-shader/x-fragment")
 			shaderType = gl.FRAGMENT_SHADER;
 	if (shaderType !== gl.VERTEX_SHADER && shaderType !== gl.FRAGMENT_SHADER)
-		throw "*** Error: unknown shader type";
+		throw new TypeError("Unknown shader type");
 
 	return loadShader(gl, shaderSource, shaderType, errorCallback);
 }
