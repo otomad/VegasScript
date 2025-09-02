@@ -240,8 +240,8 @@ importers:
         specifier: ^2.31.0
         version: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.23.0(jiti@2.5.1))(typescript@5.8.3))(eslint@9.23.0(jiti@2.5.1))
       eslint-plugin-jsdoc:
-        specifier: ^54.2.0
-        version: 54.2.0(eslint@9.23.0(jiti@2.5.1))
+        specifier: ^54.2.1
+        version: 54.2.1(eslint@9.23.0(jiti@2.5.1))
       eslint-plugin-react:
         specifier: ^7.37.3
         version: 7.37.3(eslint@9.23.0(jiti@2.5.1))
@@ -2767,8 +2767,8 @@ packages:
       '@typescript-eslint/parser':
         optional: true
 
-  eslint-plugin-jsdoc@54.2.0:
-    resolution: {integrity: sha512-3hDYfmkcKxlxkco5xfPFtGNiSdrYl6IePVMHS+DrGzwlpABuMiY7IeRMyFsp2K4ZnMuUX+nqTGMGOHq/oSXn6A==}
+  eslint-plugin-jsdoc@54.2.1:
+    resolution: {integrity: sha512-RHmDsuxbMXJ11HVHuJJ4nlWxN+LKykDaL2evNuODshslR4sRPJPiiGwih8lNpwyFwSe9Apc6zMMXHWq/7P2mPA==}
     engines: {node: '>=20.11.0'}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -8492,7 +8492,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-jsdoc@54.2.0(eslint@9.23.0(jiti@2.5.1)):
+  eslint-plugin-jsdoc@54.2.1(eslint@9.23.0(jiti@2.5.1)):
     dependencies:
       '@es-joy/jsdoccomment': 0.53.0
       are-docs-informative: 0.0.2

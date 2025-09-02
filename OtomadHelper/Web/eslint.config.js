@@ -214,7 +214,11 @@ export default [
 			"unicorn/no-document-cookie": "error",
 			"unicorn/prefer-string-replace-all": "error",
 			"unicorn/no-useless-length-check": "error",
-			"jsdoc/require-jsdoc": "off",
+			"jsdoc/require-jsdoc": ["off", {
+				contexts: ["TSDeclareFunction"],
+				exemptOverloadedImplementations: true,
+				skipInterveningOverloadedDeclarations: true,
+			}],
 			"jsdoc/tag-lines": "off",
 			"jsdoc/require-param": ["error", {
 				"enableFixer": false,
