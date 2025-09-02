@@ -213,6 +213,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 		const track = thumb.parentElement!.querySelector(".track")!;
 		const { left, width } = track.getBoundingClientRect();
 		const x = triggerByTrack ? thumbSize / 2 : e.clientX - left - thumb.offsetLeft * configStore.settings.uiScale1;
+		const aborter = new AbortController();
 		const pointerMove = lodash.debounce((e: PointerEvent) => {
 			const position = clamp(e.clientX - left - x, 0, width - thumbSize);
 			let value = clampValue(map(position, 0, width - thumbSize, min, max));
@@ -221,8 +222,7 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 			onChanging?.(value);
 		});
 		const pointerUp = () => {
-			thumb.removeEventListener("pointermove", pointerMove);
-			thumb.removeEventListener("pointerup", pointerUp);
+			aborter.abort();
 			thumb.releasePointerCapture(e.pointerId);
 			onChange?.(value!);
 			nextAnimationTick().then(() => {
@@ -230,8 +230,8 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 			});
 		};
 		thumb.setPointerCapture(e.pointerId);
-		thumb.addEventListener("pointermove", pointerMove);
-		thumb.addEventListener("pointerup", pointerUp);
+		thumb.addEventListener("pointermove", pointerMove, { signal: aborter.signal });
+		thumb.addEventListener("pointerup", pointerUp, { signal: aborter.signal });
 	}
 
 	const onTrackDown: PointerEventHandler = e => {
@@ -304,6 +304,8 @@ export default function Slider({ value: [value, setValue], min = 0, max = 100, a
 
 /**
  * Ignore `undefined`, `null`, `NaN`, and empty string.
+ * @param test - The value to test.
+ * @returns Is the tested value not `undefined`, `null`, `NaN`, or empty string?
  */
 function hasValue(test: Readable | undefined | null): test is Readable {
 	return !!test || test === 0 || test === 0n;

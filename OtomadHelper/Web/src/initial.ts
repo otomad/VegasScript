@@ -66,10 +66,10 @@ import { enableMapSet } from "immer";
 	// #region Fix no mouseup event responded when the mouse is moved outside the window
 	document.addEventListener("pointerenter", e => {
 		if (e.buttons === 0) {
-			document.dispatchEvent(new Event("mouseup"));
-			document.dispatchEvent(new Event("pointerup"));
-			window.dispatchEvent(new Event("mouseup"));
-			window.dispatchEvent(new Event("pointerup"));
+			document.dispatchEvent(new MouseEvent("mouseup"));
+			document.dispatchEvent(new PointerEvent("pointerup"));
+			window.dispatchEvent(new MouseEvent("mouseup"));
+			window.dispatchEvent(new PointerEvent("pointerup"));
 		}
 	});
 	// #endregion

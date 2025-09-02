@@ -324,6 +324,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 		const left = controlRect.left, max = controlRect.width - THUMB_PRESSED_WIDTH;
 		const x = e.pageX - left - thumb.offsetLeft;
 		const { clientX } = e;
+		const aborter = new AbortController();
 		let isMoved = false, prevE: PointerEvent | undefined;
 		const pointerMove = (e: PointerEvent) => {
 			if (Math.abs(e.clientX - clientX) > 2) isMoved = true; // anti-shake
@@ -334,8 +335,7 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			prevE = e;
 		};
 		const pointerUp = (e: PointerEvent) => {
-			thumb.removeEventListener("pointermove", pointerMove);
-			thumb.removeEventListener("pointerup", pointerUp);
+			aborter.abort();
 			thumb.releasePointerCapture(e.pointerId);
 			if (!(e instanceof MouseEvent) && prevE) e = prevE;
 			let isOn = e.pageX - x > left + max / 2;
@@ -350,8 +350,8 @@ export default function ToggleSwitch({ on: [_on, setOn], disabled: _disabled = f
 			});
 		};
 		thumb.setPointerCapture(e.pointerId);
-		thumb.addEventListener("pointermove", pointerMove);
-		thumb.addEventListener("pointerup", pointerUp);
+		thumb.addEventListener("pointermove", pointerMove, { signal: aborter.signal });
+		thumb.addEventListener("pointerup", pointerUp, { signal: aborter.signal });
 	}, [handleCheck, setIsPressing]);
 
 	const textEl = useDomRef<"div">();

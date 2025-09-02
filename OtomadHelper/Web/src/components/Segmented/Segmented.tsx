@@ -195,6 +195,7 @@ export default function Segmented<T extends string = string>({ current: [current
 		const thumb = e.currentTarget;
 		if (!thumb) return;
 		const track = thumb.parentElement as HTMLDivElement;
+		const aborter = new AbortController();
 		const pointerMove = (e: PointerEvent) => {
 			const { left: trackLeft, width: trackWidth } = track.getBoundingClientRect();
 			let index = Math.floor((e.clientX - trackLeft) / trackWidth * itemCount);
@@ -202,12 +203,8 @@ export default function Segmented<T extends string = string>({ current: [current
 			index = clamp(index, 0, itemCount - 1);
 			setCurrentByIndex(index);
 		};
-		const pointerUp = () => {
-			document.removeEventListener("pointermove", pointerMove);
-			document.removeEventListener("pointerup", pointerUp);
-		};
-		document.addEventListener("pointermove", pointerMove);
-		document.addEventListener("pointerup", pointerUp);
+		document.addEventListener("pointermove", pointerMove, { signal: aborter.signal });
+		document.addEventListener("pointerup", () => aborter.abort(), { signal: aborter.signal });
 	}, [children, itemCount, setCurrentByIndex]);
 
 	const handleArrowKeyDown = useDebounceCallback<KeyboardEventHandler<HTMLDivElement>>(({ code }) => {

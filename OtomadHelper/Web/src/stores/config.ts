@@ -257,7 +257,7 @@ namespace Config {
 			},
 		},
 		sonar: {
-			enabled: true,
+			enabled: false,
 			separateDrums: false,
 			differenceCompositeMode: false,
 			shadow: false,
