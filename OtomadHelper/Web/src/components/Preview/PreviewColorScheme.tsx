@@ -97,52 +97,12 @@ const StyledPreviewColorScheme = styled.div.attrs({
 		gap: 8px;
 	}
 
-	.toggle-switch-label {
-		min-height: unset;
-		padding: 0;
-
-		.right {
-			margin-inline-start: unset;
-		}
-	}
-
 	.corner > * {
 		position: absolute;
 
 		&:nth-child(1) {
-			bottom: -1px;
-			left: -32%;
-		}
-
-		&:nth-child(2) {
-			right: -36%;
-			bottom: -4px;
-		}
-
-		&:nth-child(3) {
-			top: -2px;
-			right: -36%;
-
-			& > .base {
-				gap: 10px;
-			}
-		}
-
-		&:nth-child(4) {
-			top: -4px;
-			left: -3px;
-			inline-size: 90px;
-
-			& > .base {
-				gap: 7px;
-				padding-block: 10px;
-			}
-
-			.button {
-				block-size: 21.5px;
-				min-block-size: unset;
-				min-inline-size: unset;
-			}
+			inset-block-end: 12px;
+			inset-inline-start: -26%;
 		}
 	}
 `;
@@ -194,18 +154,6 @@ function PreviewColorSchemeContent({ scheme, icon }: {
 			<Contents className="corner">
 				<Card>
 					<Slider value={[85]} />
-				</Card>
-				<Card>
-					<ToggleSwitch on={[true]} hideLabel />
-					<ToggleSwitch on={[false]} hideLabel />
-				</Card>
-				<Card>
-					<Checkbox value={[true]} plain />
-					<RadioButton id="true" value={["true"]} plain />
-				</Card>
-				<Card>
-					<Button accent />
-					<Button />
 				</Card>
 			</Contents>
 		</div>
