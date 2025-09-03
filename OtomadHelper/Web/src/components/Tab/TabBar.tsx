@@ -116,7 +116,7 @@ export default function TabBar<T extends string = string>({ current: [current, s
 		const indicator = indicatorEl.current;
 		if (!indicator?.checkVisibility()) return;
 		let movement: TabBarMovement = "none";
-		setDisablePressIndicatorStyle(true, { keep: DELAY, allowInterrupt: true }).then(() => setDisablePressIndicatorStyle(false));
+		// setDisablePressIndicatorStyle(true, { keep: DELAY, allowInterrupt: true }).then(() => setDisablePressIndicatorStyle(false));
 		const entireRect = indicator.parentElement!.getBoundingClientRect();
 		const entire1 = entireRect[vertical ? "top" : "left"],
 			entire2 = entireRect[vertical ? "bottom" : "right"],

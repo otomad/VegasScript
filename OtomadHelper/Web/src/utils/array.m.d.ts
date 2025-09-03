@@ -429,7 +429,7 @@ declare interface Array<T> {
 	 * array.nextItem("e", 1, 2); // "c"
 	 * ```
 	 */
-	nextItem(currentItem: T, offset?: number, defaultIndex?: number);
+	nextItem(currentItem: T, offset?: number, defaultIndex?: number): T;
 
 	/**
 	 * Returns the reversed array if the `reverse` flag is `true`.

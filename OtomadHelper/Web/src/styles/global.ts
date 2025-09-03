@@ -177,6 +177,13 @@ const GlobalStyle = createGlobalStyle<{
 		transition: ${fallbackTransitions}, color 0s;
 	}
 
+	// Prevent DevTools Ctrl+Shift+C to select an element inside the svg.
+	@layer base {
+		svg * {
+			pointer-events: none;
+		}
+	}
+
 	::selection {
 		color: ${c("fill-color-text-on-accent-selected-text")};
 		background-color: ${c("accent-color")};

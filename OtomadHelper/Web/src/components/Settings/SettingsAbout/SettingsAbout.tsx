@@ -1,82 +1,87 @@
-import ColoredLogo from "assets/svg/Otomad Helper Colored.svg?react";
-import MonoLogo from "assets/svg/Otomad Helper Mono.svg?react";
 import links from "helpers/links";
+import SettingsAboutLogo from "./SettingsAboutLogo";
 
 const StyledSettingsAbout = styled.div`
-	display: flex;
-	gap: 16px;
-	margin-bottom: 10px;
+	display: contents;
 
-	.logo {
-		display: none;
-		width: 150px;
-		height: auto;
-		content-visibility: auto;
+	.about-info {
+		${styles.effects.text.caption};
+		align-self: center;
+		inline-size: 80%;
+		color: ${c("fill-color-text-secondary")};
+		text-align: center;
+		text-wrap: pretty;
+	}
 
-		${ifColorScheme.light} &.light {
-			display: block;
+	.collaborators,
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		// row-gap: 5px; // WARN: BUG in column-rule-outset, it will unexpectedly offset.
+		justify-content: center;
+		column-rule: 1px solid ${c("fill-color-text-tertiary")};
+	}
+
+	.collaborators {
+		column-gap: 24px;
+		column-rule-outset: -4px;
+
+		.role {
+			${styles.effects.text.caption};
+			color: ${c("fill-color-text-secondary")};
 		}
 
-		${ifColorScheme.dark} &.dark {
-			display: block;
-			fill: currentColor;
+		.name {
+			${styles.effects.text.body};
 		}
 	}
 
-	.right {
-		display: flex;
-		flex-direction: column;
-		gap: 5px;
+	.links {
+		column-gap: 14px;
+		column-rule: 3px dotted ${c("accent-color", 40)};
+		column-rule-outset: -8px;
+	}
 
-		> div {
-			display: flex;
-			flex-wrap: wrap;
-			column-gap: 10px;
-
-			> * {
-				display: inline-block;
-			}
-		}
-
-		.pairs {
-			color: ${c("fill-color-text-secondary")};
-		}
+	> * {
+		margin-block-end: 6px;
 	}
 `;
 
 export default function SettingsAbout() {
 	"use no memo";
-	const pairs = new Map<string, string>([
+	const collaborators = new Map<string, string>([
 		[t.settings.about.author, t.settings.about.__author__],
 		[t.settings.about.originalAuthor, t.settings.about.__originalAuthor__],
 	]);
 	const currentLanguage = useCurrentLanguage();
 	const [hasTranslator, formattedTranslator] = listFormatTranslators(currentLanguage, currentLanguage);
-	if (hasTranslator) pairs.set(t.settings.about.translator, formattedTranslator);
+	if (hasTranslator) collaborators.set(t.settings.about.translator, formattedTranslator);
 	const { version } = useAboutApp();
 	const [showTranslators, setShowTranslators] = useState(false);
 
 	return (
 		<>
 			<StyledSettingsAbout>
-				<MonoLogo className="logo dark" aria-hidden />
-				<ColoredLogo className="logo light" aria-hidden />
-				<div className="right">
-					<p>{t.descriptions.settings.about}</p>
-					<div className="pairs">
-						{Array.from(pairs.entries(), ([key, value]) => <span key={key}>{key + t.colon + value}</span>)}
-					</div>
-					<div>
-						<Link href={links.otomadHelper.documentation[currentLanguage]}>{t.settings.about.documentation}</Link>
-						<Link href={links.otomadHelper.repository}>{t.settings.about.repositoryLink}</Link>
-						<Link href={links.otomadHelper.changelog}>{t.settings.about.changelog}</Link>
-						<Link href={links.otomadHelper.issues}>{t.settings.about.feedback}</Link>
-						<Link href={links.gpl3}>{t.settings.about.license}</Link>
-						<Link onClick={() => setShowTranslators(true)} aria-haspopup="dialog">{t.settings.about.translators}</Link>
-						<Link href={links.crowdin.contributeTranslation[currentLanguage]}>{t.settings.about.translation}</Link>
-					</div>
-					<Translators shown={[showTranslators, setShowTranslators]} />
+				<SettingsAboutLogo />
+				<div className="collaborators">
+					{Array.from(collaborators.entries(), ([key, value]) => (
+						<div key={key}>
+							<div className="role">{key}</div>
+							<div className="name">{value}</div>
+						</div>
+					))}
 				</div>
+				<p className="about-info">{t.descriptions.settings.about}</p>
+				<div className="links">
+					<Link href={links.otomadHelper.documentation[currentLanguage]}>{t.settings.about.documentation}</Link>
+					<Link href={links.otomadHelper.repository}>{t.settings.about.repositoryLink}</Link>
+					<Link href={links.otomadHelper.changelog}>{t.settings.about.changelog}</Link>
+					<Link href={links.otomadHelper.issues}>{t.settings.about.feedback}</Link>
+					<Link href={links.gpl3}>{t.settings.about.license}</Link>
+					<Link onClick={() => setShowTranslators(true)} aria-haspopup="dialog">{t.settings.about.translators}</Link>
+					<Link href={links.crowdin.contributeTranslation[currentLanguage]}>{t.settings.about.translation}</Link>
+				</div>
+				<Translators shown={[showTranslators, setShowTranslators]} />
 			</StyledSettingsAbout>
 			<Expander
 				title={t.settings.about.version}
@@ -143,10 +148,11 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 	const languages = useLanguageTags();
 
 	const availableLanguageNames = {
-		original: languages.mapObject(lang => [lang, t({ lng: lang }).metadata.name]),
+		original: languages.mapObject(lang => [lang, t({ lng: lang }).metadata.name.toString()]),
 		english: languages.mapObject(lang => [lang, getLocaleName(lang, "en")]),
 		current: languages.mapObject(lang => [lang, getLocaleName(lang, currentLanguage)]),
 	};
+	console.log("​ ​ availableLanguageNames​", availableLanguageNames);
 	const languageDisplayNames = keys(availableLanguageNames);
 	const [displayName, setDisplayName] = useState<typeof languageDisplayNames[number]>("original");
 	const nextDisplayName = useCallback(() => setDisplayName(name => {
