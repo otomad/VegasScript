@@ -270,4 +270,3 @@ export function getLocaleName(targetLocale: string | Intl.Locale, displayLocale:
 	// if (displayLocale === "yue") fallbackLocales.push("zh-Hant-HK");
 	return new Intl.DisplayNames(fallbackLocales, { type: "language" }).of(targetLocale)!;
 }
-globals.getLocaleName = getLocaleName;

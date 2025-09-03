@@ -152,7 +152,6 @@ function Translators({ shown: [shown, setShown] }: FCP<{
 		english: languages.mapObject(lang => [lang, getLocaleName(lang, "en")]),
 		current: languages.mapObject(lang => [lang, getLocaleName(lang, currentLanguage)]),
 	};
-	console.log("​ ​ availableLanguageNames​", availableLanguageNames);
 	const languageDisplayNames = keys(availableLanguageNames);
 	const [displayName, setDisplayName] = useState<typeof languageDisplayNames[number]>("original");
 	const nextDisplayName = useCallback(() => setDisplayName(name => {
