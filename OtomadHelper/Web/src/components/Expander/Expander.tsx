@@ -158,21 +158,7 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 	onToggle?(expanded: boolean): void;
 }>>) {
 	const settingsCardProps = { icon, title, details, selectInfo, selectValid, disabled, className, role, trailingGap, dirBasedIcon };
-	const lockExpanderParentContentSizeTimeoutId = useRef<Timeout>(undefined);
-	const [lockExpanderParentContentSize, setLockExpanderParentContentSize] = useState(false);
-	const [internalExpanded, _setInternalExpanded] = useState(expanded);
-	const setInternalExpanded: typeof _setInternalExpanded = expanded => void (async () => {
-		clearTimeout(lockExpanderParentContentSizeTimeoutId.current);
-		setLockExpanderParentContentSize(true);
-		await delay(0);
-		_setInternalExpanded(expanded);
-		await delay(251, { ref: lockExpanderParentContentSizeTimeoutId });
-		setLockExpanderParentContentSize(false);
-	})();
-	const resetLockExpanderParentContentSize = () => {
-		clearTimeout(lockExpanderParentContentSizeTimeoutId.current);
-		setLockExpanderParentContentSize(false);
-	};
+	const [internalExpanded, setInternalExpanded] = useState(expanded);
 	const handleClick = useOnNestedButtonClick(() => !childrenDisabled ? setInternalExpanded(expanded => !expanded) : onClickWhenChildrenDisabled?.());
 	useUpdateEffect(() => setInternalExpanded(expanded), [expanded]);
 	useEffect(() => onToggle?.(internalExpanded), [internalExpanded]);
@@ -192,7 +178,6 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 				aria-expanded={internalExpanded}
 				$expanded={internalExpanded}
 				$childrenDisabled={childrenDisabled}
-				_lockContentSize={lockExpanderParentContentSize}
 				onClick={handleClick}
 			>
 				{actions}
@@ -200,8 +185,6 @@ export default function Expander({ icon, title, details, actions, expanded = fal
 					<CssTransition
 						in={!internalExpanded || alwaysShowCheckInfo}
 						// disabled={alwaysShowCheckInfo}
-						onEntered={() => resetLockExpanderParentContentSize()}
-						onExited={() => resetLockExpanderParentContentSize()}
 						hiddenOnExit
 						requestAnimationFrame
 					>

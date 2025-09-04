@@ -1,26 +1,40 @@
-// FIXME: Too laggy.
-export default function DynamicAutoSize({ specified, lockSize, children }: FCP<{
+const DURATION = 250;
+
+export default function DynamicAutoSize({ specified, children }: FCP<{
 	/** Explicitly specify which direction needs to be animated. Defaults to height animation. */
 	specified?: "width" | "height" | "both";
 	/** Temporarily lock the content size? */
-	lockSize?: boolean;
+	// lockSize?: boolean;
 }, "section">) {
 	const el = useDomRef<"section">();
-	const deferredChildren = useDeferredValue(children);
-	const isStale = children !== deferredChildren || lockSize;
 
-	useAsyncEffect(async () => {
-		const content = el.current;
-		// if (!content || !content.offsetParent) return;
-		if (!content || content.closest("main.page")?.classList.contains("enter-done") === false) return; // This line has better performance than the above line, as it avoids layout thrashing.
-		if (!isStale) await nextAnimationTick();
-		content.style.interpolateSize = isStale ? "numeric-only" : null!;
-		content.style.willChange = isStale ? "width, height" : null!;
-		if (specified === "height" || specified === "both")
-			content.style.height = isStale ? content.offsetHeight + "px" : null!;
-		if (specified === "width" || specified === "both")
-			content.style.width = isStale ? content.offsetWidth + "px" : null!;
-	});
+	const size = useRef({ width: NaN, height: NaN });
+	const animating = useRef(false);
+	const pxify = (...numbers: number[]) => numbers.map(number => number + "px");
+	const validateSize = (size: number) => Number.isFinite(size) && size !== 0; // Special requirements: The use case will not be met at the moment when the size is 0.
 
-	return cloneRef(deferredChildren, el);
+	useEffect(() => {
+		if (!el.current) return;
+		const observer = new ResizeObserver(([{ contentRect: { width, height } }]) => {
+			width = Math.round(width); height = Math.round(height);
+			const { width: prevWidth, height: prevHeight } = size.current;
+			const enableWidth = specified?.in("width", "both"), enableHeight = specified?.in("height", "both");
+			size.current = { width, height };
+			if (!animating.current && el.current && (
+				prevWidth !== width && enableWidth && validateSize(prevWidth) && validateSize(width) ||
+				prevHeight !== height && enableHeight && validateSize(prevHeight) && validateSize(height))) {
+				animating.current = true;
+				el.current.animate({
+					...enableWidth && { width: pxify(prevWidth, width) },
+					...enableHeight && { height: pxify(prevHeight, height) },
+				}, { duration: DURATION, easing: eases.easeOutMax }).finished.then(() => {
+					animating.current = false;
+				});
+			}
+		});
+		observer.observe(el.current);
+		return () => observer.disconnect();
+	}, [specified]);
+
+	return cloneRef(children, el);
 }

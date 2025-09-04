@@ -175,7 +175,7 @@ const StyledSettingsCard = styled(StyledCard)<{
 	}
 `);
 
-export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, _lockContentSize, className, tabIndex, dirBasedIcon, ariaIdRef, ref, onClick, onFocus, ...htmlAttrs }: FCP<{
+export default function SettingsCard({ icon = "placeholder", title, details, selectInfo, selectValid = true, trailingIcon, disabled, children, type = "container", dragHandle, appearance = "primary", trailingGap, className, tabIndex, dirBasedIcon, ariaIdRef, ref, onClick, onFocus, ...htmlAttrs }: FCP<{
 	/** Icon. Use an empty string or Boolean type to indicate disabling. */
 	icon?: DeclaredIcons | "" | boolean | ReactElement;
 	/** Title. */
@@ -207,8 +207,6 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 	dirBasedIcon?: DirBasedIcon;
 	/** Pass settings card aria ID to the parent component. */
 	ariaIdRef?: RefObject<string | undefined | null>;
-	/** @private Temporarily lock the content size? */
-	_lockContentSize?: boolean;
 }, "div">) {
 	trailingIcon ??= type === "button" ? "chevron_right" :
 		type === "expander" ? "chevron_down" : undefined;
@@ -265,7 +263,7 @@ export default function SettingsCard({ icon = "placeholder", title, details, sel
 									</>
 								)}
 								{typeof icon === "object" ? icon : <Icon name={icon} />}
-								<Transitions.DynamicAutoSize specified="height" lockSize={_lockContentSize}>
+								<Transitions.DynamicAutoSize specified="height">
 									<div className="text">
 										<p className="title" id={`${ariaId}-title`} aria-hidden><Preserves>{title}</Preserves></p>
 										<p className="details" id={`${ariaId}-details`} aria-hidden><Preserves>{details}</Preserves></p>
