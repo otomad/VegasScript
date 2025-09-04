@@ -320,4 +320,9 @@ declare interface String {
 	 * ```
 	 */
 	areAllUpper(): boolean;
+
+	/**
+	 * Gets the real length (Unicode characters code length) of the string, without regard to surrogate pairs.
+	 */
+	readonly codeLength: number;
 }

@@ -490,7 +490,8 @@ export function makePrototypeKeysNonEnumerable(constructor: AnyConstructor) {
  * This function is used to add a getter property to the prototype of a constructor function.
  * The getter function will be called when accessing the property on instances of the constructor.
  *
- * @template T - The type of the instances of the constructor.
+ * @template TType - The type of the instances of the constructor.
+ * @template TKey - The getter property key name of the type.
  * @param constructor - The constructor function to which the getter property will be added.
  * @param protoKey - The name of the property to be added to the prototype.
  * @param getter - The function to be called when accessing the property.
@@ -513,7 +514,7 @@ export function makePrototypeKeysNonEnumerable(constructor: AnyConstructor) {
  * console.log(instance.value); // Output: 42
  * ```
  */
-export function defineGetterInPrototype<T>(constructor: new (...args: Any[]) => T, protoKey: string, getter: (this: T) => Any) {
+export function defineGetterInPrototype<TType, TKey extends keyof TType>(constructor: { prototype: TType }, protoKey: TKey, getter: (this: TType) => TType[TKey]) {
 	Object.defineProperty(constructor.prototype, protoKey, {
 		get: getter,
 		configurable: true,

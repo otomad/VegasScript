@@ -84,6 +84,10 @@ import { spacing } from "pangu";
 		return this.toLocaleUpperCase() === this.valueOf();
 	};
 
+	defineGetterInPrototype(String, "codeLength", function () {
+		return this[Symbol.iterator].length;
+	});
+
 	makePrototypeKeysNonEnumerable(String);
 }
 

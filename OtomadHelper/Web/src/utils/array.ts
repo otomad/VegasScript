@@ -265,6 +265,15 @@
 	makePrototypeKeysNonEnumerable(Map);
 }
 
+{
+	defineGetterInPrototype(Iterator, "length", function () {
+		let length = 0, _item: unknown;
+		for (_item of this)
+			++length;
+		return length;
+	});
+}
+
 /**
  * Map to an object via a constant array.
  * @template T - The item type of the `constArray`, also the key type of the result object.
@@ -312,10 +321,10 @@ export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, ca
 }
 
 /**
- * Concatenates multiple iterables into a single generator.
+ * Concatenates multiple iterables or iterators into a single generator.
  *
- * @template T - The type of elements in the iterables.
- * @template U - The type of elements in the iterables.
+ * @template TIterable - The type of elements in the iterables.
+ * @template TIterator - The type of elements in the iterators.
  * @param iterators - A list of iterables to concatenate.
  * @yields {T | U} Elements from each iterable in the order they are provided.
  *
@@ -328,9 +337,9 @@ export async function asyncIterMap<TIn, TOut>(asyncIter: AsyncGenerator<TIn>, ca
  * }
  * ```
  */
-export function* concatIter<T, U>(...iterators: (Iterable<T> | Iterator<U>)[]) {
+export function* concatIter<TIterable, TIterator>(...iterators: (Iterable<TIterable> | Iterator<TIterator>)[]) {
 	for (const it of iterators)
-		yield* it as Iterable<T | U>;
+		yield* it as Iterable<TIterable | TIterator>;
 }
 
 /**

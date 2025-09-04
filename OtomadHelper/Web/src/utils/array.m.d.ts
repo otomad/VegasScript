@@ -640,3 +640,12 @@ declare interface Map<K, V> {
 	 */
 	getEntry(key: K): [K, V] | undefined;
 }
+
+declare interface IteratorObject<T, TReturn, TNext> {
+	/**
+	 * Gets the length of the Iterator.
+	 *
+	 * @remarks This will a bit faster than `[...iterable].length`.
+	 */
+	readonly length: number;
+}
